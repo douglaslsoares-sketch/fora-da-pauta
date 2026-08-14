@@ -14,56 +14,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.terceironivel.org"),
-
   title: {
-    default: "Terceiro Nível",
-    template: "%s | Terceiro Nível",
+    default: "Fora da Pauta",
+    template: "%s | Fora da Pauta",
   },
-
   description:
-    "Conscientização e reflexão pública sobre temas que afetam a vida das pessoas, mas raramente recebem atenção proporcional à sua importância.",
-
-  keywords: [
-    "terceiro nível",
-    "conscientização",
-    "reflexão pública",
-    "cidadania",
-    "dívida pública",
-    "orçamento público",
-    "economia",
-    "política",
-    "temas fora da pauta",
-  ],
-
+    "Camisetas que colocam uma pergunta na rua e páginas que ajudam a entender a mensagem por trás de cada campanha.",
   icons: {
     icon: "/icon.png",
-  },
-
-  openGraph: {
-    title: "Terceiro Nível",
-    description:
-      "Perguntas que ajudam a observar o que está por trás dos temas que afetam o cotidiano das pessoas.",
-    url: "https://www.terceironivel.org",
-    siteName: "Terceiro Nível",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Terceiro Nível — Conscientização e reflexão pública",
-      },
-    ],
-    locale: "pt_BR",
-    type: "website",
-  },
-
-  twitter: {
-    card: "summary_large_image",
-    title: "Terceiro Nível",
-    description:
-      "Perguntas que ajudam a observar o que está por trás dos temas que afetam o cotidiano das pessoas.",
-    images: ["/og-image.png"],
   },
 };
 
@@ -77,7 +35,7 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full bg-[#eeeee9] font-sans">
         {children}
         <Analytics />
       </body>
