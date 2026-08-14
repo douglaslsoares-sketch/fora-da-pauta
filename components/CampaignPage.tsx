@@ -1,6 +1,7 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import type { Campaign } from "@/data/campanhas";
 import { ExpandableCard } from "@/components/ExpandableCard";
+import { ShareCard } from "@/components/ShareCard";
 import { StoreCard } from "@/components/StoreCard";
 
 type CampaignPageProps = {
@@ -37,6 +38,8 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
           {campaign.sections.map((section) => (
             <ExpandableCard key={section.title} {...section} />
           ))}
+          <ShareCard statement={campaign.statement} />
+
           <StoreCard storeUrl={campaign.storeUrl} />
         </section>
 
