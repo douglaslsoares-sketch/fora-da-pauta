@@ -4,6 +4,26 @@
   paragraphs: string[];
 };
 
+function renderParagraph(paragraph: string) {
+  const marker = "**sem redução de salário**";
+
+  if (!paragraph.includes(marker)) {
+    return paragraph;
+  }
+
+  const [before, after] = paragraph.split(marker);
+
+  return (
+    <>
+      {before}
+      <strong className="font-semibold text-black">
+        sem redução de salário
+      </strong>
+      {after}
+    </>
+  );
+}
+
 export function ExpandableCard({
   eyebrow,
   title,
@@ -33,30 +53,11 @@ export function ExpandableCard({
 
       <div className="border-t border-black/8 px-6 pb-8 pt-6 sm:px-8 sm:pb-9">
         <div className="space-y-5 text-[17px] leading-8 text-black/65 sm:text-lg">
-          {paragraphs.map((paragraph) => (
-            <p key={
-  paragraph.split("**sem redução de salário**").map((part, index) => (
-    <span key={index}>
-      {part}
-      {index === 0 && paragraph.includes("**sem redução de salário**") && (
-        <strong>sem redução de salário</strong>
-      )}
-    </span>
-  ))
-}>{
-  paragraph.split("**sem redução de salário**").map((part, index) => (
-    <span key={index}>
-      {part}
-      {index === 0 && paragraph.includes("**sem redução de salário**") && (
-        <strong>sem redução de salário</strong>
-      )}
-    </span>
-  ))
-}</p>
+          {paragraphs.map((paragraph, index) => (
+            <p key={index}>{renderParagraph(paragraph)}</p>
           ))}
         </div>
       </div>
     </details>
   );
 }
-

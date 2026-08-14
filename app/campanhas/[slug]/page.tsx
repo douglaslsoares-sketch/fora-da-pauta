@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CampaignPage } from "@/components/CampaignPage";
 import { campaigns, getCampaign } from "@/data/campanhas";
@@ -23,7 +23,7 @@ export async function generateMetadata({
 
   return {
     title: campaign.title,
-    description: campaign.summary,
+    description: campaign.statement,
   };
 }
 
