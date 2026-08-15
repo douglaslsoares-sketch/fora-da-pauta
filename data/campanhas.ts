@@ -41,7 +41,7 @@ export const campaigns: Campaign[] = [
         ],
       },
     ],
-    storeUrl: "",
+    storeUrl: "https://montink.com/terceiro-nivel",
   },
 ];
 
