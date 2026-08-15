@@ -11,6 +11,7 @@ export type Campaign = {
   statement: string;
   sections: CampaignSection[];
   storeUrl?: string;
+  shareImage?: string;
 };
 
 export const campaigns: Campaign[] = [
@@ -42,6 +43,7 @@ export const campaigns: Campaign[] = [
       },
     ],
     storeUrl: "https://montink.com/terceiro-nivel",
+    shareImage: "/campanhas/escala-6x1/compartilhar.png",
   },
 ];
 
