@@ -1,0 +1,106 @@
+{
+  "id": "ipca",
+  "titulo": "Inflação — IPCA",
+  "unidade": "%",
+  "metodologia": "IPCA acumulado em cada ano-calendário. A inflação acumulada de um período é calculada de forma composta, e não pela soma simples das taxas anuais.",
+  "fonte": {
+    "instituicao": "IBGE",
+    "pesquisa": "Índice Nacional de Preços ao Consumidor Amplo — IPCA",
+    "tabelaSidra": 1737,
+    "variavelSidra": 69,
+    "url": "https://sidra.ibge.gov.br/tabela/1737"
+  },
+  "anos": [
+    {
+      "ano": 2019,
+      "governo": "bolsonaro",
+      "valor": 4.31,
+      "tipo": "anual-fechado",
+      "origem": "SIDRA tabela 1737, variável 69"
+    },
+    {
+      "ano": 2020,
+      "governo": "bolsonaro",
+      "valor": 4.52,
+      "tipo": "anual-fechado",
+      "origem": "SIDRA tabela 1737, variável 69",
+      "contexto": "Pandemia de COVID-19"
+    },
+    {
+      "ano": 2021,
+      "governo": "bolsonaro",
+      "valor": 10.06,
+      "tipo": "anual-fechado",
+      "origem": "SIDRA tabela 1737, variável 69"
+    },
+    {
+      "ano": 2022,
+      "governo": "bolsonaro",
+      "valor": 5.79,
+      "tipo": "anual-fechado",
+      "origem": "SIDRA tabela 1737, variável 69"
+    },
+    {
+      "ano": 2023,
+      "governo": "lula",
+      "valor": 4.62,
+      "tipo": "anual-fechado",
+      "origem": "SIDRA tabela 1737, variável 69"
+    },
+    {
+      "ano": 2024,
+      "governo": "lula",
+      "valor": 4.83,
+      "tipo": "anual-fechado",
+      "origem": "SIDRA tabela 1737, variável 69"
+    },
+    {
+      "ano": 2025,
+      "governo": "lula",
+      "valor": 4.26,
+      "tipo": "anual-fechado",
+      "origem": "SIDRA tabela 1737, variável 69"
+    },
+    {
+      "ano": 2026,
+      "governo": "lula",
+      "valor": null,
+      "tipo": "ano-em-andamento",
+      "ultimoDado": {
+        "periodoCodigo": "202607",
+        "periodo": "julho 2026",
+        "valor": 3.44
+      },
+      "origem": "SIDRA tabela 1737, variável 69"
+    }
+  ],
+  "resumos": {
+    "bolsonaro": {
+      "periodo": "2019-2022",
+      "anosCompletos": 4,
+      "inflacaoAcumulada": 26.94,
+      "mediaAnual": 6.17
+    },
+    "lula": {
+      "periodo": "2023-2025",
+      "anosCompletos": 3,
+      "inflacaoAcumulada": 14.35,
+      "mediaAnual": 4.57,
+      "parcial": true
+    }
+  },
+  "comparacaoMesmaDuracao": {
+    "descricao": "Primeiros três anos completos de cada governo",
+    "bolsonaro": {
+      "periodo": "2019-2021",
+      "inflacaoAcumulada": 19.99,
+      "mediaAnual": 6.3
+    },
+    "lula": {
+      "periodo": "2023-2025",
+      "inflacaoAcumulada": 14.35,
+      "mediaAnual": 4.57
+    }
+  },
+  "atualizadoEm": "2026-08-21T17:24:19"
+}

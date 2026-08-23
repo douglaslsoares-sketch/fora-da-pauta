@@ -1,0 +1,52 @@
+{
+  "id": "pobreza",
+  "titulo": "População abaixo da linha de pobreza",
+  "unidade": "%",
+  "metodologia": "Proporção de pessoas com rendimento domiciliar per capita inferior à linha de US$ 6,85 PPC por dia, conforme critério utilizado pelo IBGE e Banco Mundial.",
+  "fonte": {
+    "instituicao": "IBGE",
+    "pesquisa": "Síntese de Indicadores Sociais",
+    "url": "https://www.ibge.gov.br/estatisticas/sociais/populacao/9221-sintese-de-indicadores-sociais.html"
+  },
+  "anos": [
+    {
+      "ano": 2019,
+      "governo": "bolsonaro",
+      "valor": 32.6,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2020,
+      "governo": "bolsonaro",
+      "valor": 31.1,
+      "tipo": "anual-fechado",
+      "contexto": "Pandemia de COVID-19"
+    },
+    {
+      "ano": 2021,
+      "governo": "bolsonaro",
+      "valor": 36.8,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2022,
+      "governo": "bolsonaro",
+      "valor": 31.6,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2023,
+      "governo": "lula",
+      "valor": 27.3,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2024,
+      "governo": "lula",
+      "valor": 23.1,
+      "tipo": "anual-fechado"
+    }
+  ],
+  "ultimoAnoDisponivel": 2024,
+  "atualizadoEm": "2026-08-21"
+}

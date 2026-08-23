@@ -1,0 +1,85 @@
+{
+  "id": "juros-nominais",
+  "titulo": "Juros nominais do setor público",
+  "unidade": "% do PIB",
+  "metodologia": "Juros nominais do setor público consolidado, acumulados em 12 meses, como proporção do PIB. Para anos fechados, usamos dezembro. Para 2026, mostramos o último mês oficial disponível.",
+  "fonte": {
+    "instituicao": "Banco Central do Brasil",
+    "serieSGS": 5760,
+    "url": "https://dadosabertos.bcb.gov.br/dataset/5760"
+  },
+  "anos": [
+    {
+      "ano": 2019,
+      "governo": "bolsonaro",
+      "valor": 4.97,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2019"
+    },
+    {
+      "ano": 2020,
+      "governo": "bolsonaro",
+      "valor": 4.11,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2020",
+      "contexto": "Pandemia de COVID-19"
+    },
+    {
+      "ano": 2021,
+      "governo": "bolsonaro",
+      "valor": 4.98,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2021"
+    },
+    {
+      "ano": 2022,
+      "governo": "bolsonaro",
+      "valor": 5.82,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2022"
+    },
+    {
+      "ano": 2023,
+      "governo": "lula",
+      "valor": 6.56,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2023"
+    },
+    {
+      "ano": 2024,
+      "governo": "lula",
+      "valor": 8.07,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2024"
+    },
+    {
+      "ano": 2025,
+      "governo": "lula",
+      "valor": 7.91,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2025"
+    },
+    {
+      "ano": 2026,
+      "governo": "lula",
+      "valor": null,
+      "tipo": "ano-em-andamento",
+      "ultimoDado": {
+        "periodo": "01/06/2026",
+        "valor": 8.8
+      }
+    }
+  ],
+  "comparacaoMesmaDuracao": {
+    "descricao": "Média dos juros nominais nos primeiros três anos completos de cada governo",
+    "bolsonaro": {
+      "periodo": "2019-2021",
+      "media": 4.69
+    },
+    "lula": {
+      "periodo": "2023-2025",
+      "media": 7.51
+    }
+  },
+  "atualizadoEm": "2026-08-23T07:38:10"
+}

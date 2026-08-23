@@ -1,0 +1,90 @@
+{
+  "id": "divida-bruta",
+  "titulo": "Dívida Bruta do Governo Geral",
+  "unidade": "% do PIB",
+  "metodologia": "Dívida Bruta do Governo Geral como proporção do PIB. Para anos fechados, mostramos a posição de dezembro. Para 2026, mostramos o último mês oficial disponível.",
+  "fonte": {
+    "instituicao": "Banco Central do Brasil",
+    "serieSGS": 13762,
+    "descricao": "Dívida Bruta do Governo Geral - % do PIB - metodologia utilizada a partir de 2008",
+    "url": "https://dadosabertos.bcb.gov.br/dataset/13762-divida-bruta-do-governo-geral--pib---metodologia-utilizada-a-partir-de-2008"
+  },
+  "anos": [
+    {
+      "ano": 2019,
+      "governo": "bolsonaro",
+      "valor": 74.44,
+      "tipo": "estoque-fim-do-ano",
+      "periodo": "01/12/2019"
+    },
+    {
+      "ano": 2020,
+      "governo": "bolsonaro",
+      "valor": 86.94,
+      "tipo": "estoque-fim-do-ano",
+      "periodo": "01/12/2020",
+      "contexto": "Pandemia de COVID-19"
+    },
+    {
+      "ano": 2021,
+      "governo": "bolsonaro",
+      "valor": 77.31,
+      "tipo": "estoque-fim-do-ano",
+      "periodo": "01/12/2021"
+    },
+    {
+      "ano": 2022,
+      "governo": "bolsonaro",
+      "valor": 71.68,
+      "tipo": "estoque-fim-do-ano",
+      "periodo": "01/12/2022"
+    },
+    {
+      "ano": 2023,
+      "governo": "lula",
+      "valor": 73.83,
+      "tipo": "estoque-fim-do-ano",
+      "periodo": "01/12/2023"
+    },
+    {
+      "ano": 2024,
+      "governo": "lula",
+      "valor": 76.27,
+      "tipo": "estoque-fim-do-ano",
+      "periodo": "01/12/2024"
+    },
+    {
+      "ano": 2025,
+      "governo": "lula",
+      "valor": 78.64,
+      "tipo": "estoque-fim-do-ano",
+      "periodo": "01/12/2025"
+    },
+    {
+      "ano": 2026,
+      "governo": "lula",
+      "valor": null,
+      "tipo": "ano-em-andamento",
+      "ultimoDado": {
+        "periodo": "01/06/2026",
+        "valor": 81.93
+      }
+    }
+  ],
+  "comparacaoMesmaDuracao": {
+    "descricao": "Variação em pontos percentuais entre o primeiro e o terceiro ano completo de cada governo",
+    "bolsonaro": {
+      "periodo": "2019-2021",
+      "inicio": 74.44,
+      "fim": 77.31,
+      "variacaoPontosPercentuais": 2.87
+    },
+    "lula": {
+      "periodo": "2023-2025",
+      "inicio": 73.83,
+      "fim": 78.64,
+      "variacaoPontosPercentuais": 4.81
+    }
+  },
+  "atualizadoEm": "2026-08-22T16:05:34"
+}

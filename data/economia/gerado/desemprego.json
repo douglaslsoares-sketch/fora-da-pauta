@@ -1,0 +1,94 @@
+{
+  "id": "desemprego",
+  "titulo": "Taxa de desocupação",
+  "unidade": "%",
+  "metodologia": "Taxa média anual de desocupação para os anos fechados. O dado de 2026 é apresentado separadamente como último trimestre oficial disponível e não é comparado diretamente com médias anuais.",
+  "fonte": {
+    "instituicao": "IBGE",
+    "pesquisa": "PNAD Contínua",
+    "tabelaSidraTrimestral": 4099,
+    "variavelSidra": 4099,
+    "url": "https://sidra.ibge.gov.br/tabela/4099"
+  },
+  "anos": [
+    {
+      "ano": 2019,
+      "governo": "bolsonaro",
+      "valor": 11.8,
+      "tipo": "media-anual-oficial"
+    },
+    {
+      "ano": 2020,
+      "governo": "bolsonaro",
+      "valor": 13.8,
+      "tipo": "media-anual-oficial",
+      "contexto": "Pandemia de COVID-19"
+    },
+    {
+      "ano": 2021,
+      "governo": "bolsonaro",
+      "valor": 13.2,
+      "tipo": "media-anual-oficial"
+    },
+    {
+      "ano": 2022,
+      "governo": "bolsonaro",
+      "valor": 9.3,
+      "tipo": "media-anual-oficial"
+    },
+    {
+      "ano": 2023,
+      "governo": "lula",
+      "valor": 7.8,
+      "tipo": "media-anual-oficial"
+    },
+    {
+      "ano": 2024,
+      "governo": "lula",
+      "valor": 6.6,
+      "tipo": "media-anual-oficial"
+    },
+    {
+      "ano": 2025,
+      "governo": "lula",
+      "valor": 5.6,
+      "tipo": "media-anual-oficial"
+    },
+    {
+      "ano": 2026,
+      "governo": "lula",
+      "valor": null,
+      "tipo": "ano-em-andamento",
+      "ultimoDado": {
+        "periodoCodigo": "202602",
+        "periodo": "2º trimestre 2026",
+        "valor": 5.4
+      }
+    }
+  ],
+  "resumos": {
+    "bolsonaro": {
+      "periodo": "2019-2022",
+      "anosCompletos": 4,
+      "mediaAnual": 12.03
+    },
+    "lula": {
+      "periodo": "2023-2025",
+      "anosCompletos": 3,
+      "mediaAnual": 6.67,
+      "parcial": true
+    }
+  },
+  "comparacaoMesmaDuracao": {
+    "descricao": "Primeiros três anos completos de cada governo",
+    "bolsonaro": {
+      "periodo": "2019-2021",
+      "mediaAnual": 12.93
+    },
+    "lula": {
+      "periodo": "2023-2025",
+      "mediaAnual": 6.67
+    }
+  },
+  "atualizadoEm": "2026-08-21T17:38:50"
+}

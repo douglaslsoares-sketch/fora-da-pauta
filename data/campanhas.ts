@@ -1,4 +1,4 @@
-﻿export type CampaignSection = {
+export type CampaignSection = {
   title: string;
   eyebrow?: string;
   paragraphs: string[];
@@ -45,7 +45,41 @@ export const campaigns: Campaign[] = [
     storeUrl: "https://montink.com/terceiro-nivel",
     shareImage: "/campanhas/escala-6x1/compartilhar.png",
   },
-];
+
+  {
+    slug: "compare-os-dados",
+    brand: "Fora da Pauta",
+    title: "Lula × Bolsonaro",
+    statement: "Compare os dados. Tire suas conclusões.",
+    sections: [
+      {
+        eyebrow: "A proposta",
+        title: "O que estamos comparando?",
+        paragraphs: [
+          "Esta página reúne indicadores econômicos e sociais de períodos dos governos Lula e Bolsonaro para facilitar uma comparação baseada em dados verificáveis.",
+          "O objetivo não é escolher um vencedor por você. É apresentar os números, explicar o que cada indicador mede e permitir que você tire suas próprias conclusões.",
+        ],
+      },
+      {
+        eyebrow: "Como ler",
+        title: "Os números precisam de contexto",
+        paragraphs: [
+          "Um mesmo indicador pode ser influenciado por fatores internos e externos. Por isso, números isolados não explicam, sozinhos, o desempenho de um governo.",
+          "Sempre que possível, a comparação deve informar o período considerado, a fonte, a metodologia e acontecimentos relevantes que possam ter influenciado os resultados.",
+          "Os mesmos critérios de seleção e apresentação dos dados devem ser aplicados aos dois governos.",
+        ],
+      },
+      {
+        eyebrow: "Transparência",
+        title: "De onde vêm os dados?",
+        paragraphs: [
+          "Cada indicador apresentado nesta campanha deve estar acompanhado de sua fonte e do período de referência.",
+          "A prioridade é utilizar bases oficiais, estudos acadêmicos e instituições com metodologia identificável. Quando houver diferenças entre fontes ou formas distintas de medir o mesmo fenômeno, isso deve ser indicado claramente.",
+        ],
+      },
+    ],
+    shareImage: "/campanhas/compare-os-dados/compartilhar.png",
+  },];
 
 export function getCampaign(slug: string) {
   return campaigns.find((campaign) => campaign.slug === slug);

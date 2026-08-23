@@ -1,0 +1,67 @@
+{
+  "id": "investimento",
+  "titulo": "Taxa de investimento",
+  "unidade": "% do PIB",
+  "metodologia": "Taxa de investimento medida pela Formação Bruta de Capital Fixo (FBCF) como proporção do Produto Interno Bruto.",
+  "fonte": {
+    "instituicao": "IBGE",
+    "pesquisa": "Contas Nacionais Trimestrais",
+    "url": "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9300-contas-nacionais-trimestrais.html"
+  },
+  "anos": [
+    {
+      "ano": 2019,
+      "governo": "bolsonaro",
+      "valor": 15.5,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2020,
+      "governo": "bolsonaro",
+      "valor": 16.6,
+      "tipo": "anual-fechado",
+      "contexto": "Pandemia de COVID-19"
+    },
+    {
+      "ano": 2021,
+      "governo": "bolsonaro",
+      "valor": 17.9,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2022,
+      "governo": "bolsonaro",
+      "valor": 17.8,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2023,
+      "governo": "lula",
+      "valor": 16.4,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2024,
+      "governo": "lula",
+      "valor": 16.9,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2025,
+      "governo": "lula",
+      "valor": 16.8,
+      "tipo": "anual-fechado"
+    }
+  ],
+  "comparacaoMesmaDuracao": {
+    "bolsonaro": {
+      "periodo": "2019-2021",
+      "media": 16.7
+    },
+    "lula": {
+      "periodo": "2023-2025",
+      "media": 16.7
+    }
+  },
+  "ultimoAnoDisponivel": 2025
+}

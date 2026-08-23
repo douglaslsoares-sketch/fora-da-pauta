@@ -1,0 +1,101 @@
+{
+  "id": "resultado-primario",
+  "titulo": "Resultado primário do setor público",
+  "unidade": "% do PIB",
+  "metodologia": "Resultado primário do setor público consolidado, acumulado em 12 meses, como proporção do PIB. Para anos fechados, usamos dezembro. Na série original do Banco Central, valores positivos representam déficit e valores negativos representam superávit. Neste painel, o sinal é invertido para tornar a leitura intuitiva: positivo representa superávit e negativo representa déficit.",
+  "fonte": {
+    "instituicao": "Banco Central do Brasil",
+    "serieSGS": 5793,
+    "url": "https://dadosabertos.bcb.gov.br/dataset/5793"
+  },
+  "anos": [
+    {
+      "ano": 2019,
+      "governo": "bolsonaro",
+      "valor": -0.84,
+      "valorOriginalBCB": 0.84,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2019",
+      "situacao": "deficit"
+    },
+    {
+      "ano": 2020,
+      "governo": "bolsonaro",
+      "valor": -9.24,
+      "valorOriginalBCB": 9.24,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2020",
+      "situacao": "deficit",
+      "contexto": "Pandemia de COVID-19"
+    },
+    {
+      "ano": 2021,
+      "governo": "bolsonaro",
+      "valor": 0.72,
+      "valorOriginalBCB": -0.72,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2021",
+      "situacao": "superavit"
+    },
+    {
+      "ano": 2022,
+      "governo": "bolsonaro",
+      "valor": 1.25,
+      "valorOriginalBCB": -1.25,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2022",
+      "situacao": "superavit"
+    },
+    {
+      "ano": 2023,
+      "governo": "lula",
+      "valor": -2.28,
+      "valorOriginalBCB": 2.28,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2023",
+      "situacao": "deficit"
+    },
+    {
+      "ano": 2024,
+      "governo": "lula",
+      "valor": -0.4,
+      "valorOriginalBCB": 0.4,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2024",
+      "situacao": "deficit"
+    },
+    {
+      "ano": 2025,
+      "governo": "lula",
+      "valor": -0.43,
+      "valorOriginalBCB": 0.43,
+      "tipo": "anual-fechado",
+      "periodo": "01/12/2025",
+      "situacao": "deficit"
+    },
+    {
+      "ano": 2026,
+      "governo": "lula",
+      "valor": null,
+      "tipo": "ano-em-andamento",
+      "ultimoDado": {
+        "periodo": "01/06/2026",
+        "valor": -1.19,
+        "valorOriginalBCB": 1.19,
+        "situacao": "deficit"
+      }
+    }
+  ],
+  "comparacaoMesmaDuracao": {
+    "descricao": "Média do saldo primário nos primeiros três anos completos de cada governo",
+    "bolsonaro": {
+      "periodo": "2019-2021",
+      "media": -3.12
+    },
+    "lula": {
+      "periodo": "2023-2025",
+      "media": -1.04
+    }
+  },
+  "atualizadoEm": "2026-08-22T19:03:50"
+}

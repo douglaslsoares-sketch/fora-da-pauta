@@ -1,0 +1,110 @@
+{
+  "id": "pib",
+  "titulo": "Crescimento real do PIB",
+  "unidade": "%",
+  "metodologia": "Variação anual em volume do Produto Interno Bruto. O acumulado de cada governo é calculado de forma composta, e não pela soma das taxas anuais.",
+  "fontes": [
+    {
+      "instituicao": "IBGE",
+      "pesquisa": "Sistema de Contas Nacionais",
+      "tabelaSidra": 6784,
+      "variavelSidra": 9810,
+      "url": "https://sidra.ibge.gov.br/tabela/6784"
+    },
+    {
+      "instituicao": "IBGE",
+      "pesquisa": "Sistema de Contas Nacionais Trimestrais",
+      "url": "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9300-contas-nacionais-trimestrais.html"
+    }
+  ],
+  "anos": [
+    {
+      "ano": 2019,
+      "governo": "bolsonaro",
+      "valor": 1.3,
+      "tipo": "anual-fechado",
+      "origem": "SIDRA tabela 6784, variável 9810"
+    },
+    {
+      "ano": 2020,
+      "governo": "bolsonaro",
+      "valor": -3.3,
+      "tipo": "anual-fechado",
+      "origem": "SIDRA tabela 6784, variável 9810",
+      "contexto": "Pandemia de COVID-19"
+    },
+    {
+      "ano": 2021,
+      "governo": "bolsonaro",
+      "valor": 4.8,
+      "tipo": "anual-fechado",
+      "origem": "SIDRA tabela 6784, variável 9810"
+    },
+    {
+      "ano": 2022,
+      "governo": "bolsonaro",
+      "valor": 3.0,
+      "tipo": "anual-fechado",
+      "origem": "SIDRA tabela 6784, variável 9810"
+    },
+    {
+      "ano": 2023,
+      "governo": "lula",
+      "valor": 3.2,
+      "tipo": "anual-fechado",
+      "origem": "SIDRA tabela 6784, variável 9810"
+    },
+    {
+      "ano": 2024,
+      "governo": "lula",
+      "valor": 3.4,
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Contas Nacionais Trimestrais"
+    },
+    {
+      "ano": 2025,
+      "governo": "lula",
+      "valor": 2.3,
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Contas Nacionais Trimestrais"
+    },
+    {
+      "ano": 2026,
+      "governo": "lula",
+      "valor": null,
+      "tipo": "ano-em-andamento",
+      "ultimoDado": {
+        "periodo": "1º trimestre de 2026",
+        "valorMesmoTrimestreAnoAnterior": 1.8,
+        "valorTrimestreAnterior": 1.1,
+        "acumuladoQuatroTrimestres": 2.0
+      },
+      "origem": "IBGE - Contas Nacionais Trimestrais"
+    }
+  ],
+  "acumulados": {
+    "bolsonaro": {
+      "periodo": "2019-2022",
+      "anosCompletos": 4,
+      "valor": 5.7
+    },
+    "lula": {
+      "periodo": "2023-2025",
+      "anosCompletos": 3,
+      "valor": 9.2,
+      "parcial": true
+    }
+  },
+  "comparacaoMesmaDuracao": {
+    "descricao": "Primeiros três anos completos de cada governo",
+    "bolsonaro": {
+      "periodo": "2019-2021",
+      "valor": 2.7
+    },
+    "lula": {
+      "periodo": "2023-2025",
+      "valor": 9.2
+    }
+  },
+  "atualizadoEm": "2026-08-21T17:52:07"
+}

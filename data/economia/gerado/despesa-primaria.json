@@ -1,0 +1,67 @@
+{
+  "id": "despesa-primaria",
+  "titulo": "Despesa primária do Governo Central",
+  "unidade": "% do PIB",
+  "metodologia": "Despesa total primária do Governo Central apurada pelo critério de valor pago, como proporção do PIB, conforme a série histórica do Resultado do Tesouro Nacional.",
+  "fonte": {
+    "instituicao": "Tesouro Nacional",
+    "pesquisa": "Resultado do Tesouro Nacional - Série Histórica",
+    "tabela": "2.5-A"
+  },
+  "anos": [
+    {
+      "ano": 2019,
+      "governo": "bolsonaro",
+      "valor": 19.52,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2020,
+      "governo": "bolsonaro",
+      "valor": 25.58,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2021,
+      "governo": "bolsonaro",
+      "valor": 17.9,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2022,
+      "governo": "bolsonaro",
+      "valor": 17.93,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2023,
+      "governo": "lula",
+      "valor": 19.45,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2024,
+      "governo": "lula",
+      "valor": 18.72,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2025,
+      "governo": "lula",
+      "valor": 18.78,
+      "tipo": "anual-fechado"
+    }
+  ],
+  "comparacaoMesmaDuracao": {
+    "descricao": "Média da despesa primária nos primeiros três anos completos de cada governo",
+    "bolsonaro": {
+      "periodo": "2019-2021",
+      "media": 21.0
+    },
+    "lula": {
+      "periodo": "2023-2025",
+      "media": 18.98
+    }
+  },
+  "ultimoAnoDisponivel": 2025
+}

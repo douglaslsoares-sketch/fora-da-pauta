@@ -1,0 +1,65 @@
+{
+  "id": "mortalidade-infantil",
+  "titulo": "Mortalidade infantil",
+  "unidade": "por mil",
+  "metodologia": "Probabilidade de morte entre o nascimento e a idade exata de 1 ano, por mil, segundo as Tábuas Completas de Mortalidade do IBGE.",
+  "fonte": {
+    "instituicao": "IBGE",
+    "pesquisa": "Tábuas Completas de Mortalidade",
+    "sexo": "Ambos os sexos"
+  },
+  "anos": [
+    {
+      "ano": 2019,
+      "governo": "bolsonaro",
+      "valor": 11.94,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2020,
+      "governo": "bolsonaro",
+      "valor": 11.56,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2021,
+      "governo": "bolsonaro",
+      "valor": 11.2,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2022,
+      "governo": "bolsonaro",
+      "valor": 12.84,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2023,
+      "governo": "lula",
+      "valor": 12.47,
+      "tipo": "anual-fechado"
+    },
+    {
+      "ano": 2024,
+      "governo": "lula",
+      "valor": 12.26,
+      "tipo": "anual-fechado"
+    }
+  ],
+  "evolucaoDadosDisponiveis": {
+    "bolsonaro": {
+      "periodo": "2019–2022",
+      "inicio": 11.94,
+      "fim": 12.84,
+      "variacaoPorMil": 0.9
+    },
+    "lula": {
+      "periodo": "2023–2024",
+      "inicio": 12.47,
+      "fim": 12.26,
+      "variacaoPorMil": -0.21
+    }
+  },
+  "ultimoAnoDisponivel": 2024,
+  "atualizadoEm": "2026-08-23T08:27:31"
+}
