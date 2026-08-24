@@ -1,4 +1,5 @@
-﻿import pib from "@/data/economia/gerado/pib.json";
+import type { ReactNode } from "react";
+import pib from "@/data/economia/gerado/pib.json";
 import ipca from "@/data/economia/gerado/ipca.json";
 import desemprego from "@/data/economia/gerado/desemprego.json";
 import renda from "@/data/economia/gerado/renda.json";
@@ -56,6 +57,24 @@ function formatarPeriodo(periodo: string) {
   const ano = data[3];
 
   return `${meses[mes - 1]} de ${ano}`;
+}
+
+function EmPortuguesSimples({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <div className="mt-4 rounded-2xl bg-[#f4f4ef] px-5 py-4">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-black/35">
+        Em portugu?s simples
+      </p>
+
+      <p className="mt-2 text-sm leading-6 text-black/60">
+        {children}
+      </p>
+    </div>
+  );
 }
 
 function YearSeries({
@@ -748,6 +767,12 @@ export function EconomicIndicators() {
             </span>
           </div>
 
+          <EmPortuguesSimples>
+            Mede quanto da economia é destinado a investimentos como
+            máquinas, equipamentos e construções que ajudam a manter
+            ou ampliar a capacidade de produção do país.
+          </EmPortuguesSimples>
+
           <div className="mt-7 space-y-4">
             <div className="rounded-2xl bg-[#f4f4ef] p-5">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -890,6 +915,12 @@ export function EconomicIndicators() {
             </span>
           </div>
 
+          <EmPortuguesSimples>
+            Compara o tamanho da dívida pública com o tamanho da economia.
+            Por exemplo, uma dívida de 80% do PIB significa que a dívida
+            equivale a cerca de 80% do valor produzido pela economia em um ano.
+          </EmPortuguesSimples>
+
           <YearSeries anos={divida.anos} />
 
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
@@ -976,6 +1007,12 @@ export function EconomicIndicators() {
               Fonte: Banco Central
             </span>
           </div>
+
+          <EmPortuguesSimples>
+            É o saldo entre receitas e despesas do setor público antes
+            dos juros da dívida. Número positivo indica superávit;
+            número negativo indica déficit.
+          </EmPortuguesSimples>
 
           <YearSeries
             anos={resultadoPrimario.anos}
@@ -1075,6 +1112,11 @@ export function EconomicIndicators() {
             </span>
           </div>
 
+          <EmPortuguesSimples>
+            Mostra quanto o setor público gasta com juros da dívida
+            em relação ao tamanho da economia.
+          </EmPortuguesSimples>
+
           <YearSeries anos={juros.anos} />
 
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
@@ -1166,6 +1208,11 @@ export function EconomicIndicators() {
               Fonte: Receita Federal
             </span>
           </div>
+
+          <EmPortuguesSimples>
+            Mostra quanto o governo arrecada em tributos em comparação
+            com o tamanho da economia brasileira.
+          </EmPortuguesSimples>
 
           <div className="mt-7 space-y-4">
             <div className="rounded-2xl bg-[#f4f4ef] p-5">
@@ -1277,6 +1324,11 @@ export function EconomicIndicators() {
               Fonte: Tesouro Nacional
             </span>
           </div>
+
+          <EmPortuguesSimples>
+            Mostra quanto o Governo Central gasta, sem contar os juros
+            da dívida, em relação ao tamanho da economia.
+          </EmPortuguesSimples>
 
           <div className="mt-7 space-y-4">
             <div className="rounded-2xl bg-[#f4f4ef] p-5">
