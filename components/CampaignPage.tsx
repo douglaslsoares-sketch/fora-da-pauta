@@ -1,7 +1,8 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import type { Campaign } from "@/data/campanhas";
 import { ExpandableCard } from "@/components/ExpandableCard";
 import { ShareCard } from "@/components/ShareCard";
+import { CandidatesCard } from "@/components/CandidatesCard";
 import { StoreCard } from "@/components/StoreCard";
 import { EconomicIndicators } from "@/components/EconomicIndicators";
 
@@ -39,6 +40,9 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
           {campaign.sections.map((section) => (
             <ExpandableCard key={section.title} {...section} />
           ))}
+          {campaign.pautaId ? (
+            <CandidatesCard href={`/campanhas/${campaign.slug}/candidatos`} />
+          ) : null}
           {campaign.slug === "compare-os-dados" ? (
             <EconomicIndicators />
           ) : null}

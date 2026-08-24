@@ -1,4 +1,4 @@
-export type CampaignSection = {
+﻿export type CampaignSection = {
   title: string;
   eyebrow?: string;
   paragraphs: string[];
@@ -12,6 +12,7 @@ export type Campaign = {
   sections: CampaignSection[];
   storeUrl?: string;
   shareImage?: string;
+  pautaId?: string;
 };
 
 export const campaigns: Campaign[] = [
@@ -44,6 +45,7 @@ export const campaigns: Campaign[] = [
     ],
     storeUrl: "https://montink.com/terceiro-nivel",
     shareImage: "/campanhas/escala-6x1/compartilhar.png",
+    pautaId: "fim-escala-6x1",
   },
 
   {
@@ -79,9 +81,9 @@ export const campaigns: Campaign[] = [
       },
     ],
     shareImage: "/campanhas/compare-os-dados/compartilhar.png",
-  },];
+  },
+];
 
 export function getCampaign(slug: string) {
   return campaigns.find((campaign) => campaign.slug === slug);
 }
-

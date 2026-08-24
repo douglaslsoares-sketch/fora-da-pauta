@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
   --background: #eeeee9;
@@ -34,4 +34,28 @@ summary::-webkit-details-marker {
 ::selection {
   background: #151515;
   color: #ffffff;
+}
+
+/* Filtros da página de candidatos */
+.candidate-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.candidate-filters select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.candidate-filters-button {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+@media (max-width: 520px) {
+  .candidate-filters {
+    grid-template-columns: 1fr;
+  }
 }
