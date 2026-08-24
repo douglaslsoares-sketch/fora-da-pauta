@@ -1,4 +1,4 @@
-﻿export type CampaignSection = {
+export type CampaignSection = {
   title: string;
   eyebrow?: string;
   paragraphs: string[];
@@ -80,6 +80,7 @@ export const campaigns: Campaign[] = [
         ],
       },
     ],
+    storeUrl: "https://montink.com/fora-da-pauta/?cat=lula-x-bolsonaro-compare-os-dados",
     shareImage: "/campanhas/compare-os-dados/compartilhar.png",
   },
 ];
