@@ -43,7 +43,7 @@ export const campaigns: Campaign[] = [
         ],
       },
     ],
-    storeUrl: "https://montink.com/terceiro-nivel",
+    storeUrl: "https://montink.com/fora-da-pauta/?cat=o-fim-da-escala-6x1",
     shareImage: "/campanhas/escala-6x1/compartilhar.png",
     pautaId: "fim-escala-6x1",
   },
