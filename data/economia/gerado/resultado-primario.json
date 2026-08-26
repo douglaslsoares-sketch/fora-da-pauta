@@ -2,10 +2,11 @@
   "id": "resultado-primario",
   "titulo": "Resultado primário do setor público",
   "unidade": "% do PIB",
-  "metodologia": "Resultado primário do setor público consolidado, acumulado em 12 meses, como proporção do PIB. Para anos fechados, usamos dezembro. Na série original do Banco Central, valores positivos representam déficit e valores negativos representam superávit. Neste painel, o sinal é invertido para tornar a leitura intuitiva: positivo representa superávit e negativo representa déficit.",
+  "metodologia": "Resultado primário do setor público consolidado, acumulado em 12 meses, como proporção do PIB. Para anos fechados, usamos dezembro, quando o acumulado de 12 meses corresponde ao ano-calendário. Na série original do Banco Central, valores positivos representam déficit e valores negativos representam superávit. Neste painel, o sinal é invertido: positivo representa superávit e negativo representa déficit.",
   "fonte": {
     "instituicao": "Banco Central do Brasil",
     "serieSGS": 5793,
+    "descricao": "NFSP sem desvalorização cambial - resultado primário - setor público consolidado - % do PIB - fluxo acumulado em 12 meses",
     "url": "https://dadosabertos.bcb.gov.br/dataset/5793"
   },
   "anos": [
@@ -16,7 +17,8 @@
       "valorOriginalBCB": 0.84,
       "tipo": "anual-fechado",
       "periodo": "01/12/2019",
-      "situacao": "deficit"
+      "situacao": "deficit",
+      "origem": "Banco Central SGS 5793"
     },
     {
       "ano": 2020,
@@ -26,6 +28,7 @@
       "tipo": "anual-fechado",
       "periodo": "01/12/2020",
       "situacao": "deficit",
+      "origem": "Banco Central SGS 5793",
       "contexto": "Pandemia de COVID-19"
     },
     {
@@ -35,7 +38,8 @@
       "valorOriginalBCB": -0.72,
       "tipo": "anual-fechado",
       "periodo": "01/12/2021",
-      "situacao": "superavit"
+      "situacao": "superavit",
+      "origem": "Banco Central SGS 5793"
     },
     {
       "ano": 2022,
@@ -44,7 +48,8 @@
       "valorOriginalBCB": -1.25,
       "tipo": "anual-fechado",
       "periodo": "01/12/2022",
-      "situacao": "superavit"
+      "situacao": "superavit",
+      "origem": "Banco Central SGS 5793"
     },
     {
       "ano": 2023,
@@ -53,7 +58,8 @@
       "valorOriginalBCB": 2.28,
       "tipo": "anual-fechado",
       "periodo": "01/12/2023",
-      "situacao": "deficit"
+      "situacao": "deficit",
+      "origem": "Banco Central SGS 5793"
     },
     {
       "ano": 2024,
@@ -62,7 +68,8 @@
       "valorOriginalBCB": 0.4,
       "tipo": "anual-fechado",
       "periodo": "01/12/2024",
-      "situacao": "deficit"
+      "situacao": "deficit",
+      "origem": "Banco Central SGS 5793"
     },
     {
       "ano": 2025,
@@ -71,7 +78,8 @@
       "valorOriginalBCB": 0.43,
       "tipo": "anual-fechado",
       "periodo": "01/12/2025",
-      "situacao": "deficit"
+      "situacao": "deficit",
+      "origem": "Banco Central SGS 5793"
     },
     {
       "ano": 2026,
@@ -97,5 +105,6 @@
       "media": -1.04
     }
   },
-  "atualizadoEm": "2026-08-22T19:03:50"
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-24T17:26:07"
 }

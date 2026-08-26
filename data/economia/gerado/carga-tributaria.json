@@ -2,48 +2,57 @@
   "id": "carga-tributaria",
   "titulo": "Carga tributária",
   "unidade": "% do PIB",
-  "metodologia": "Total da receita tributária como proporção do PIB, conforme a série histórica publicada pela Receita Federal.",
+  "metodologia": "Total da receita tributária como proporção do PIB, conforme a série histórica oficial publicada pela Receita Federal.",
   "fonte": {
     "instituicao": "Receita Federal",
     "pesquisa": "Carga Tributária no Brasil 2024",
-    "tabela": "TRIB 01-B"
+    "tabela": "TRIB 01-B",
+    "arquivo": "Tabelas da publicação",
+    "url": "https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/estudos/carga-tributaria/tabelas-carga-tributaria-no-brasil-2024/@@download/file"
   },
   "anos": [
     {
       "ano": 2019,
       "governo": "bolsonaro",
       "valor": 30.44,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Receita Federal - Carga Tributária no Brasil, Tabela TRIB 01-B"
     },
     {
       "ano": 2020,
       "governo": "bolsonaro",
       "valor": 28.99,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Receita Federal - Carga Tributária no Brasil, Tabela TRIB 01-B",
+      "contexto": "Pandemia de COVID-19"
     },
     {
       "ano": 2021,
       "governo": "bolsonaro",
       "valor": 30.75,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Receita Federal - Carga Tributária no Brasil, Tabela TRIB 01-B"
     },
     {
       "ano": 2022,
       "governo": "bolsonaro",
       "valor": 31.19,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Receita Federal - Carga Tributária no Brasil, Tabela TRIB 01-B"
     },
     {
       "ano": 2023,
       "governo": "lula",
       "valor": 30.22,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Receita Federal - Carga Tributária no Brasil, Tabela TRIB 01-B"
     },
     {
       "ano": 2024,
       "governo": "lula",
       "valor": 32.2,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Receita Federal - Carga Tributária no Brasil, Tabela TRIB 01-B"
     }
   ],
   "comparacao": {
@@ -56,5 +65,7 @@
       "media": 31.21
     }
   },
-  "ultimoAnoDisponivel": 2024
+  "ultimoAnoDisponivel": 2024,
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-24T17:25:36"
 }

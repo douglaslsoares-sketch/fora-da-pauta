@@ -2,50 +2,60 @@
   "id": "extrema-pobreza",
   "titulo": "População em extrema pobreza",
   "unidade": "%",
-  "metodologia": "Proporção de pessoas com rendimento domiciliar per capita inferior à linha de extrema pobreza de US$ 2,15 PPC por dia, utilizada pelo IBGE com base nos parâmetros do Banco Mundial.",
+  "metodologia": "Proporção de pessoas com rendimento domiciliar per capita inferior à linha de extrema pobreza de US$ 2,15 PPC 2017 por dia, utilizada pelo IBGE com base nos parâmetros do Banco Mundial.",
   "fonte": {
     "instituicao": "IBGE",
     "pesquisa": "Síntese de Indicadores Sociais",
-    "url": "https://www.ibge.gov.br/estatisticas/sociais/populacao/9221-sintese-de-indicadores-sociais.html"
+    "tabela": "2.18",
+    "linha": "Menos de US$ 2,15 PPC 2017",
+    "url": "https://ftp.ibge.gov.br/Indicadores_Sociais/Sintese_de_Indicadores_Sociais/Sintese_de_Indicadores_Sociais_2025/Tabelas/xls/2_Distribuicao_Renda_xls.zip"
   },
   "anos": [
     {
       "ano": 2019,
       "governo": "bolsonaro",
       "valor": 7.4,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Síntese de Indicadores Sociais, Tabela 2.18"
     },
     {
       "ano": 2020,
       "governo": "bolsonaro",
       "valor": 6.1,
       "tipo": "anual-fechado",
+      "origem": "IBGE - Síntese de Indicadores Sociais, Tabela 2.18",
       "contexto": "Pandemia de COVID-19"
     },
     {
       "ano": 2021,
       "governo": "bolsonaro",
       "valor": 9.0,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Síntese de Indicadores Sociais, Tabela 2.18"
     },
     {
       "ano": 2022,
       "governo": "bolsonaro",
       "valor": 5.9,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Síntese de Indicadores Sociais, Tabela 2.18"
     },
     {
       "ano": 2023,
       "governo": "lula",
       "valor": 4.4,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Síntese de Indicadores Sociais, Tabela 2.18"
     },
     {
       "ano": 2024,
       "governo": "lula",
       "valor": 3.5,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Síntese de Indicadores Sociais, Tabela 2.18"
     }
   ],
-  "ultimoAnoDisponivel": 2024
+  "ultimoAnoDisponivel": 2024,
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-24T17:25:43"
 }

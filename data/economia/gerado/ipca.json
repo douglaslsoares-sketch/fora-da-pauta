@@ -2,12 +2,13 @@
   "id": "ipca",
   "titulo": "Inflação — IPCA",
   "unidade": "%",
-  "metodologia": "IPCA acumulado em cada ano-calendário. A inflação acumulada de um período é calculada de forma composta, e não pela soma simples das taxas anuais.",
+  "metodologia": "IPCA acumulado em cada ano-calendário. Para anos fechados, usamos o valor acumulado no ano em dezembro. Para o ano em andamento, mostramos o acumulado no ano até o último mês oficial disponível. A inflação acumulada de um período é calculada de forma composta, e não pela soma simples das taxas anuais.",
   "fonte": {
     "instituicao": "IBGE",
     "pesquisa": "Índice Nacional de Preços ao Consumidor Amplo — IPCA",
     "tabelaSidra": 1737,
     "variavelSidra": 69,
+    "descricaoVariavel": "IPCA - Variação acumulada no ano",
     "url": "https://sidra.ibge.gov.br/tabela/1737"
   },
   "anos": [
@@ -16,14 +17,14 @@
       "governo": "bolsonaro",
       "valor": 4.31,
       "tipo": "anual-fechado",
-      "origem": "SIDRA tabela 1737, variável 69"
+      "origem": "IBGE SIDRA tabela 1737, variável 69"
     },
     {
       "ano": 2020,
       "governo": "bolsonaro",
       "valor": 4.52,
       "tipo": "anual-fechado",
-      "origem": "SIDRA tabela 1737, variável 69",
+      "origem": "IBGE SIDRA tabela 1737, variável 69",
       "contexto": "Pandemia de COVID-19"
     },
     {
@@ -31,35 +32,35 @@
       "governo": "bolsonaro",
       "valor": 10.06,
       "tipo": "anual-fechado",
-      "origem": "SIDRA tabela 1737, variável 69"
+      "origem": "IBGE SIDRA tabela 1737, variável 69"
     },
     {
       "ano": 2022,
       "governo": "bolsonaro",
       "valor": 5.79,
       "tipo": "anual-fechado",
-      "origem": "SIDRA tabela 1737, variável 69"
+      "origem": "IBGE SIDRA tabela 1737, variável 69"
     },
     {
       "ano": 2023,
       "governo": "lula",
       "valor": 4.62,
       "tipo": "anual-fechado",
-      "origem": "SIDRA tabela 1737, variável 69"
+      "origem": "IBGE SIDRA tabela 1737, variável 69"
     },
     {
       "ano": 2024,
       "governo": "lula",
       "valor": 4.83,
       "tipo": "anual-fechado",
-      "origem": "SIDRA tabela 1737, variável 69"
+      "origem": "IBGE SIDRA tabela 1737, variável 69"
     },
     {
       "ano": 2025,
       "governo": "lula",
       "valor": 4.26,
       "tipo": "anual-fechado",
-      "origem": "SIDRA tabela 1737, variável 69"
+      "origem": "IBGE SIDRA tabela 1737, variável 69"
     },
     {
       "ano": 2026,
@@ -71,7 +72,7 @@
         "periodo": "julho 2026",
         "valor": 3.44
       },
-      "origem": "SIDRA tabela 1737, variável 69"
+      "origem": "IBGE SIDRA tabela 1737, variável 69"
     }
   ],
   "resumos": {
@@ -102,5 +103,6 @@
       "mediaAnual": 4.57
     }
   },
-  "atualizadoEm": "2026-08-21T17:24:19"
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-24T17:25:44"
 }

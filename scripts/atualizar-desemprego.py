@@ -1,4 +1,4 @@
-﻿import json
+import json
 import urllib.request
 from datetime import datetime
 from pathlib import Path
@@ -6,22 +6,25 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "economia" / "gerado" / "desemprego.json"
 
-# Médias anuais oficiais já publicadas pelo IBGE.
-# Depois podemos automatizar também essa camada por uma série anual específica.
-ANOS = [
-    {"ano": 2019, "governo": "bolsonaro", "valor": 11.8},
-    {"ano": 2020, "governo": "bolsonaro", "valor": 13.8},
-    {"ano": 2021, "governo": "bolsonaro", "valor": 13.2},
-    {"ano": 2022, "governo": "bolsonaro", "valor": 9.3},
-    {"ano": 2023, "governo": "lula", "valor": 7.8},
-    {"ano": 2024, "governo": "lula", "valor": 6.6},
-    {"ano": 2025, "governo": "lula", "valor": 5.6},
-]
+TABELA_ANUAL = 4562
+TABELA_TRIMESTRAL = 4099
+VARIAVEL = 4099
 
-SIDRA_CORRENTE = (
+ANO_INICIAL = 2019
+ANO_CORRENTE = datetime.now().year
+
+URL_ANUAL = (
     "https://apisidra.ibge.gov.br/values/"
-    "t/4099/n1/all/v/4099/p/last%201?formato=json"
+    f"t/{TABELA_ANUAL}/n1/1/v/{VARIAVEL}/p/all"
+    "?formato=json"
 )
+
+URL_TRIMESTRAL = (
+    "https://apisidra.ibge.gov.br/values/"
+    f"t/{TABELA_TRIMESTRAL}/n1/1/v/{VARIAVEL}/p/all"
+    "?formato=json"
+)
+
 
 def baixar_json(url):
     req = urllib.request.Request(
@@ -29,8 +32,14 @@ def baixar_json(url):
         headers={"User-Agent": "ForaDaPauta/1.0"}
     )
 
-    with urllib.request.urlopen(req, timeout=30) as response:
-        return json.loads(response.read().decode("utf-8"))
+    with urllib.request.urlopen(req, timeout=60) as response:
+        return json.loads(
+            response.read().decode("utf-8")
+        )
+
+
+def numero(valor):
+    return float(str(valor).replace(",", "."))
 
 
 def media(itens):
@@ -43,43 +52,236 @@ def media(itens):
     )
 
 
-print("Consultando último dado trimestral de desemprego no SIDRA...")
+def carregar_anterior():
+    if not OUT.exists():
+        return {}
 
-dados = baixar_json(SIDRA_CORRENTE)
+    with OUT.open("r", encoding="utf-8") as f:
+        dados = json.load(f)
 
-if len(dados) < 2:
-    raise RuntimeError("SIDRA retornou dados insuficientes.")
+    return {
+        item["ano"]: item["valor"]
+        for item in dados.get("anos", [])
+        if item.get("valor") is not None
+    }
 
-linha = dados[1]
 
-ultimo_dado = {
-    "periodoCodigo": linha["D3C"],
-    "periodo": linha["D3N"],
-    "valor": float(linha["V"])
-}
+print("Atualizando desemprego...")
+print()
+
+anterior = carregar_anterior()
+
+
+#
+# SÉRIE ANUAL OFICIAL
+#
+
+print("Consultando série anual oficial no SIDRA...")
+
+dados_anuais = baixar_json(URL_ANUAL)
+
+if len(dados_anuais) < 2:
+    raise RuntimeError(
+        "SIDRA retornou série anual vazia."
+    )
+
+serie_anual = {}
+
+for linha in dados_anuais[1:]:
+    bruto = str(linha.get("V", "")).strip()
+
+    if bruto in ("", "..", "...", "-"):
+        continue
+
+    #
+    # No agregado 4562:
+    # D2 = Ano
+    # D3 = Variável
+    #
+    try:
+        ano = int(linha["D3N"])
+    except (KeyError, ValueError):
+        continue
+
+    if ano < ANO_INICIAL:
+        continue
+
+    if str(linha.get("D2C")) != str(VARIAVEL):
+        continue
+
+    serie_anual[ano] = numero(bruto)
+
+
+if not serie_anual:
+    raise RuntimeError(
+        "Nenhum ano válido encontrado na série anual."
+    )
+
+ultimo_ano_anual = max(serie_anual)
+
+
+#
+# MONTA ANOS FECHADOS
+#
 
 anos = []
 
-for item in ANOS:
+for ano in sorted(serie_anual):
+    valor = serie_anual[ano]
+
     registro = {
-        "ano": item["ano"],
-        "governo": item["governo"],
-        "valor": item["valor"],
-        "tipo": "media-anual-oficial"
+        "ano": ano,
+        "governo": (
+            "bolsonaro"
+            if ano <= 2022
+            else "lula"
+        ),
+        "valor": valor,
+        "tipo": "media-anual-oficial",
+        "origem": (
+            "IBGE SIDRA tabela 4562, "
+            "variável 4099"
+        )
     }
 
-    if item["ano"] == 2020:
+    if ano == 2020:
         registro["contexto"] = "Pandemia de COVID-19"
 
     anos.append(registro)
 
-anos.append({
-    "ano": 2026,
-    "governo": "lula",
-    "valor": None,
-    "tipo": "ano-em-andamento",
-    "ultimoDado": ultimo_dado
-})
+
+#
+# REVISÕES HISTÓRICAS
+#
+
+print()
+print("Comparando série anual com a versão anterior...")
+
+revisoes = []
+
+for item in anos:
+    antigo = anterior.get(item["ano"])
+
+    if (
+        antigo is not None
+        and abs(antigo - item["valor"]) > 0.000001
+    ):
+        revisoes.append({
+            "ano": item["ano"],
+            "valorAnterior": antigo,
+            "valorNovo": item["valor"]
+        })
+
+        print(
+            f"REVISAO: {item['ano']}: "
+            f"{antigo} -> {item['valor']}"
+        )
+
+if not revisoes:
+    print("Nenhuma revisão histórica detectada.")
+
+
+#
+# ÚLTIMO TRIMESTRE OFICIAL
+#
+
+print()
+print("Consultando último dado trimestral no SIDRA...")
+
+dados_trimestrais = baixar_json(URL_TRIMESTRAL)
+
+trimestres = []
+
+for linha in dados_trimestrais[1:]:
+    bruto = str(linha.get("V", "")).strip()
+
+    if bruto in ("", "..", "...", "-"):
+        continue
+
+    periodo_codigo = str(linha.get("D3C", ""))
+
+    if len(periodo_codigo) != 6:
+        continue
+
+    try:
+        ano_periodo = int(periodo_codigo[:4])
+    except ValueError:
+        continue
+
+    if ano_periodo < 2019 or ano_periodo > ANO_CORRENTE:
+        continue
+
+    trimestres.append({
+        "periodoCodigo": periodo_codigo,
+        "periodo": linha["D3N"],
+        "ano": ano_periodo,
+        "valor": numero(bruto)
+    })
+
+trimestres.sort(
+    key=lambda item: item["periodoCodigo"]
+)
+
+trimestres_correntes = [
+    item
+    for item in trimestres
+    if item["ano"] == ANO_CORRENTE
+]
+
+ultimo_dado = (
+    trimestres_correntes[-1]
+    if trimestres_correntes
+    else None
+)
+
+trimestres_bolsonaro = [
+    item
+    for item in trimestres
+    if 2019 <= item["ano"] <= 2022
+]
+
+trimestres_lula = [
+    item
+    for item in trimestres
+    if item["ano"] >= 2023
+]
+
+media_periodo_bolsonaro = round(
+    sum(item["valor"] for item in trimestres_bolsonaro)
+    / len(trimestres_bolsonaro),
+    2
+)
+
+media_periodo_lula = round(
+    sum(item["valor"] for item in trimestres_lula)
+    / len(trimestres_lula),
+    2
+)
+
+#
+# ANO EM ANDAMENTO
+#
+# Só criamos a linha parcial se o ano corrente ainda
+# não possuir uma média anual oficial.
+#
+
+if ANO_CORRENTE not in serie_anual:
+    anos.append({
+        "ano": ANO_CORRENTE,
+        "governo": "lula",
+        "valor": None,
+        "tipo": "ano-em-andamento",
+        "ultimoDado": ultimo_dado,
+        "origem": (
+            "IBGE SIDRA tabela 4099, "
+            "variável 4099"
+        )
+    })
+
+
+#
+# RESUMOS
+#
 
 bolsonaro = [
     item for item in anos
@@ -103,38 +305,80 @@ lula_3 = [
     if item["ano"] in (2023, 2024, 2025)
 ]
 
+if len(bolsonaro_3) != 3:
+    raise RuntimeError(
+        "Comparação Bolsonaro incompleta."
+    )
+
+if len(lula_3) != 3:
+    raise RuntimeError(
+        "Comparação Lula incompleta."
+    )
+
+
 documento = {
     "id": "desemprego",
     "titulo": "Taxa de desocupação",
     "unidade": "%",
     "metodologia": (
-        "Taxa média anual de desocupação para os anos fechados. "
-        "O dado de 2026 é apresentado separadamente como último trimestre "
-        "oficial disponível e não é comparado diretamente com médias anuais."
+        "Taxa média anual de desocupação das pessoas de "
+        "14 anos ou mais para os anos fechados, segundo "
+        "a PNAD Contínua anual do IBGE. Para o ano em "
+        "andamento, o último trimestre oficial disponível "
+        "é mostrado separadamente e não é tratado como "
+        "média anual."
     ),
-    "fonte": {
-        "instituicao": "IBGE",
-        "pesquisa": "PNAD Contínua",
-        "tabelaSidraTrimestral": 4099,
-        "variavelSidra": 4099,
-        "url": "https://sidra.ibge.gov.br/tabela/4099"
-    },
+    "fontes": [
+        {
+            "instituicao": "IBGE",
+            "pesquisa": "PNAD Contínua anual",
+            "tabelaSidra": TABELA_ANUAL,
+            "variavelSidra": VARIAVEL,
+            "url": "https://sidra.ibge.gov.br/tabela/4562"
+        },
+        {
+            "instituicao": "IBGE",
+            "pesquisa": "PNAD Contínua trimestral",
+            "tabelaSidra": TABELA_TRIMESTRAL,
+            "variavelSidra": VARIAVEL,
+            "url": "https://sidra.ibge.gov.br/tabela/4099"
+        }
+    ],
     "anos": anos,
     "resumos": {
         "bolsonaro": {
             "periodo": "2019-2022",
-            "anosCompletos": 4,
+            "anosCompletos": len(bolsonaro),
             "mediaAnual": media(bolsonaro)
         },
         "lula": {
-            "periodo": "2023-2025",
-            "anosCompletos": 3,
+            "periodo": f"2023-{ultimo_ano_anual}",
+            "anosCompletos": len(lula),
             "mediaAnual": media(lula),
             "parcial": True
         }
     },
+    "comparacaoPeriodoDisponivel": {
+        "descricao": "Media de desemprego no periodo disponivel",
+        "bolsonaro": {
+            "periodo": "2019-2022",
+            "media": media_periodo_bolsonaro,
+        },
+        "lula": {
+            "periodo": "2023-2026",
+            "media": media_periodo_lula,
+            "parcial": True,
+            "ate": (
+                ultimo_dado["periodo"]
+                if ultimo_dado
+                else None
+            ),
+        },
+    },
     "comparacaoMesmaDuracao": {
-        "descricao": "Primeiros três anos completos de cada governo",
+        "descricao": (
+            "Primeiros três anos completos de cada governo"
+        ),
         "bolsonaro": {
             "periodo": "2019-2021",
             "mediaAnual": media(bolsonaro_3)
@@ -144,10 +388,13 @@ documento = {
             "mediaAnual": media(lula_3)
         }
     },
-    "atualizadoEm": datetime.now().isoformat(timespec="seconds")
+    "ultimoAnoAnualDisponivel": ultimo_ano_anual,
+    "revisoesDetectadas": revisoes,
+    "atualizadoEm": datetime.now().isoformat(
+        timespec="seconds"
+    )
 }
 
-OUT.parent.mkdir(parents=True, exist_ok=True)
 
 tmp = OUT.with_suffix(".json.tmp")
 
@@ -162,18 +409,19 @@ with tmp.open("w", encoding="utf-8") as f:
 with tmp.open("r", encoding="utf-8") as f:
     teste = json.load(f)
 
-if len(teste["anos"]) != 8:
+if len(teste["anos"]) < 8:
     raise RuntimeError(
-        f"Quantidade inesperada de anos: {len(teste['anos'])}"
+        f"Quantidade inesperada de anos: "
+        f"{len(teste['anos'])}"
     )
 
 tmp.replace(OUT)
 
-print()
-print("Desemprego atualizado com sucesso.")
 
 print()
-print("Série anual:")
+print("Desemprego atualizado com sucesso.")
+print()
+
 for item in anos:
     print(item["ano"], item["valor"])
 
@@ -185,33 +433,34 @@ print(
 )
 
 print(
-    "Lula 2023-2025 média:",
+    f"Lula 2023-{ultimo_ano_anual} média:",
     documento["resumos"]["lula"]["mediaAnual"],
     "%"
 )
 
 print()
-print("Comparação de três anos:")
-
 print(
-    "Bolsonaro 2019-2021:",
-    documento["comparacaoMesmaDuracao"]["bolsonaro"]["mediaAnual"],
+    "Mesma duração Bolsonaro:",
+    documento["comparacaoMesmaDuracao"]
+    ["bolsonaro"]["mediaAnual"],
     "%"
 )
 
 print(
-    "Lula 2023-2025:",
-    documento["comparacaoMesmaDuracao"]["lula"]["mediaAnual"],
+    "Mesma duração Lula:",
+    documento["comparacaoMesmaDuracao"]
+    ["lula"]["mediaAnual"],
     "%"
 )
 
-print()
-print(
-    "Último dado:",
-    ultimo_dado["periodo"],
-    ultimo_dado["valor"],
-    "%"
-)
+if ultimo_dado:
+    print()
+    print(
+        "Último dado:",
+        ultimo_dado["periodo"],
+        ultimo_dado["valor"],
+        "%"
+    )
 
 print()
 print("Arquivo:", OUT)

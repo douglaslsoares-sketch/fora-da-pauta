@@ -7,48 +7,74 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "economia" / "gerado" / "juros.json"
 
+SERIE_SGS = 5760
+ANO_INICIAL = 2019
+ANO_CORRENTE = datetime.now().year
+
 BASE_URL = (
     "https://api.bcb.gov.br/dados/serie/"
-    "bcdata.sgs.5760/dados"
+    f"bcdata.sgs.{SERIE_SGS}/dados"
 )
 
-PARAMS = {
-    "formato": "json",
-    "dataInicial": "01/01/2019",
-    "dataFinal": "31/12/2026",
-}
 
 def baixar():
-    query = urllib.parse.urlencode(PARAMS)
-    url = BASE_URL + "?" + query
+    params = {
+        "formato": "json",
+        "dataInicial": f"01/01/{ANO_INICIAL}",
+        "dataFinal": f"31/12/{ANO_CORRENTE}",
+    }
+
+    url = BASE_URL + "?" + urllib.parse.urlencode(params)
 
     req = urllib.request.Request(
         url,
         headers={
-            "User-Agent": "Mozilla/5.0",
+            "User-Agent": "ForaDaPauta/1.0",
             "Accept": "application/json",
         },
     )
 
     with urllib.request.urlopen(req, timeout=30) as response:
-        return json.loads(
-            response.read().decode("utf-8")
-        )
+        return json.loads(response.read().decode("utf-8"))
+
 
 def numero(valor):
     return float(str(valor).replace(",", "."))
 
+
 def media(valores):
     if not valores:
         return None
+
     return round(sum(valores) / len(valores), 2)
 
-print("Consultando juros nominais no Banco Central...")
+
+def carregar_anterior():
+    if not OUT.exists():
+        return {}
+
+    with OUT.open("r", encoding="utf-8") as f:
+        dados = json.load(f)
+
+    return {
+        item["ano"]: item["valor"]
+        for item in dados.get("anos", [])
+        if item.get("valor") is not None
+    }
+
+
+print("Atualizando juros nominais do setor público...")
+print()
+
+anterior = carregar_anterior()
 
 dados = baixar()
 
 if not dados:
-    raise RuntimeError("Banco Central retornou serie vazia.")
+    raise RuntimeError(
+        "Banco Central retornou série vazia."
+    )
+
 
 por_ano = {}
 
@@ -59,7 +85,7 @@ for item in dados:
     dia, mes, ano = data.split("/")
     ano = int(ano)
 
-    if ano < 2019 or ano > 2026:
+    if ano < ANO_INICIAL or ano > ANO_CORRENTE:
         continue
 
     por_ano.setdefault(ano, []).append({
@@ -68,19 +94,25 @@ for item in dados:
         "valor": valor,
     })
 
+
+#
+# ANOS FECHADOS
+#
+
 anos = []
 
-for ano in range(2019, 2026):
+for ano in range(ANO_INICIAL, ANO_CORRENTE):
     meses = por_ano.get(ano, [])
 
     dezembro = [
-        x for x in meses
-        if x["mes"] == 12
+        item
+        for item in meses
+        if item["mes"] == 12
     ]
 
     if not dezembro:
         raise RuntimeError(
-            f"Dezembro de {ano} nao encontrado."
+            f"Dezembro de {ano} não encontrado."
         )
 
     dado = dezembro[-1]
@@ -95,6 +127,7 @@ for ano in range(2019, 2026):
         "valor": dado["valor"],
         "tipo": "anual-fechado",
         "periodo": dado["data"],
+        "origem": f"Banco Central SGS {SERIE_SGS}",
     }
 
     if ano == 2020:
@@ -102,34 +135,92 @@ for ano in range(2019, 2026):
 
     anos.append(registro)
 
-meses_2026 = sorted(
-    por_ano.get(2026, []),
-    key=lambda x: x["mes"]
+
+#
+# REVISÕES
+#
+
+print("Comparando com a versão anterior...")
+
+revisoes = []
+
+for item in anos:
+    antigo = anterior.get(item["ano"])
+
+    if (
+        antigo is not None
+        and abs(antigo - item["valor"]) > 0.000001
+    ):
+        revisoes.append({
+            "ano": item["ano"],
+            "valorAnterior": antigo,
+            "valorNovo": item["valor"],
+        })
+
+        print(
+            f"REVISAO: {item['ano']}: "
+            f"{antigo} -> {item['valor']}"
+        )
+
+if not revisoes:
+    print("Nenhuma revisão histórica detectada.")
+
+
+#
+# ANO CORRENTE
+#
+
+meses_correntes = sorted(
+    por_ano.get(ANO_CORRENTE, []),
+    key=lambda item: item["mes"]
 )
 
-ultimo_2026 = meses_2026[-1] if meses_2026 else None
+ultimo_dado = (
+    meses_correntes[-1]
+    if meses_correntes
+    else None
+)
 
-if ultimo_2026:
-    anos.append({
-        "ano": 2026,
-        "governo": "lula",
-        "valor": None,
-        "tipo": "ano-em-andamento",
-        "ultimoDado": {
-            "periodo": ultimo_2026["data"],
-            "valor": ultimo_2026["valor"],
-        },
-    })
+anos.append({
+    "ano": ANO_CORRENTE,
+    "governo": "lula",
+    "valor": None,
+    "tipo": "ano-em-andamento",
+    "ultimoDado": (
+        {
+            "periodo": ultimo_dado["data"],
+            "valor": ultimo_dado["valor"],
+        }
+        if ultimo_dado
+        else None
+    ),
+})
+
+
+#
+# COMPARAÇÃO
+#
 
 bolsonaro_3 = [
-    x for x in anos
-    if x["ano"] in (2019, 2020, 2021)
+    item for item in anos
+    if item["ano"] in (2019, 2020, 2021)
 ]
 
 lula_3 = [
-    x for x in anos
-    if x["ano"] in (2023, 2024, 2025)
+    item for item in anos
+    if item["ano"] in (2023, 2024, 2025)
 ]
+
+if len(bolsonaro_3) != 3:
+    raise RuntimeError(
+        "Comparação Bolsonaro incompleta."
+    )
+
+if len(lula_3) != 3:
+    raise RuntimeError(
+        "Comparação Lula incompleta."
+    )
+
 
 documento = {
     "id": "juros-nominais",
@@ -138,12 +229,18 @@ documento = {
     "metodologia": (
         "Juros nominais do setor público consolidado, "
         "acumulados em 12 meses, como proporção do PIB. "
-        "Para anos fechados, usamos dezembro. "
-        "Para 2026, mostramos o último mês oficial disponível."
+        "Para anos fechados, usamos dezembro, quando o "
+        "acumulado de 12 meses corresponde ao ano-calendário. "
+        "Para o ano em andamento, mostramos o último mês "
+        "oficial disponível."
     ),
     "fonte": {
         "instituicao": "Banco Central do Brasil",
-        "serieSGS": 5760,
+        "serieSGS": SERIE_SGS,
+        "descricao": (
+            "Juros nominais - total - setor público "
+            "consolidado - acumulado em 12 meses - % do PIB"
+        ),
         "url": (
             "https://dadosabertos.bcb.gov.br/dataset/5760"
         ),
@@ -157,22 +254,22 @@ documento = {
         "bolsonaro": {
             "periodo": "2019-2021",
             "media": media(
-                [x["valor"] for x in bolsonaro_3]
+                [item["valor"] for item in bolsonaro_3]
             ),
         },
         "lula": {
             "periodo": "2023-2025",
             "media": media(
-                [x["valor"] for x in lula_3]
+                [item["valor"] for item in lula_3]
             ),
         },
     },
+    "revisoesDetectadas": revisoes,
     "atualizadoEm": datetime.now().isoformat(
         timespec="seconds"
     ),
 }
 
-OUT.parent.mkdir(parents=True, exist_ok=True)
 
 tmp = OUT.with_suffix(".json.tmp")
 
@@ -185,37 +282,45 @@ with tmp.open("w", encoding="utf-8") as f:
     )
 
 with tmp.open("r", encoding="utf-8") as f:
-    json.load(f)
+    teste = json.load(f)
+
+if len(teste["anos"]) < 8:
+    raise RuntimeError(
+        f"Quantidade inesperada de anos: "
+        f"{len(teste['anos'])}"
+    )
 
 tmp.replace(OUT)
 
-print()
-print("Juros nominais atualizados com sucesso.")
 
 print()
-print("Serie:")
+print("Juros nominais atualizados com sucesso.")
+print()
+
 for item in anos:
     print(item["ano"], item["valor"])
 
 print()
 print(
-    "Bolsonaro 2019-2021 media:",
+    "Bolsonaro 2019-2021 média:",
     documento["comparacaoMesmaDuracao"]
-    ["bolsonaro"]["media"]
+    ["bolsonaro"]["media"],
+    "%"
 )
 
 print(
-    "Lula 2023-2025 media:",
+    "Lula 2023-2025 média:",
     documento["comparacaoMesmaDuracao"]
-    ["lula"]["media"]
+    ["lula"]["media"],
+    "%"
 )
 
-if ultimo_2026:
+if ultimo_dado:
     print()
     print(
-        "2026 ultimo dado:",
-        ultimo_2026["data"],
-        ultimo_2026["valor"],
+        f"{ANO_CORRENTE} último dado:",
+        ultimo_dado["data"],
+        ultimo_dado["valor"],
         "% do PIB"
     )
 

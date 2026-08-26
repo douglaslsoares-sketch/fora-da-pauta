@@ -2,10 +2,11 @@
   "id": "juros-nominais",
   "titulo": "Juros nominais do setor público",
   "unidade": "% do PIB",
-  "metodologia": "Juros nominais do setor público consolidado, acumulados em 12 meses, como proporção do PIB. Para anos fechados, usamos dezembro. Para 2026, mostramos o último mês oficial disponível.",
+  "metodologia": "Juros nominais do setor público consolidado, acumulados em 12 meses, como proporção do PIB. Para anos fechados, usamos dezembro, quando o acumulado de 12 meses corresponde ao ano-calendário. Para o ano em andamento, mostramos o último mês oficial disponível.",
   "fonte": {
     "instituicao": "Banco Central do Brasil",
     "serieSGS": 5760,
+    "descricao": "Juros nominais - total - setor público consolidado - acumulado em 12 meses - % do PIB",
     "url": "https://dadosabertos.bcb.gov.br/dataset/5760"
   },
   "anos": [
@@ -14,7 +15,8 @@
       "governo": "bolsonaro",
       "valor": 4.97,
       "tipo": "anual-fechado",
-      "periodo": "01/12/2019"
+      "periodo": "01/12/2019",
+      "origem": "Banco Central SGS 5760"
     },
     {
       "ano": 2020,
@@ -22,6 +24,7 @@
       "valor": 4.11,
       "tipo": "anual-fechado",
       "periodo": "01/12/2020",
+      "origem": "Banco Central SGS 5760",
       "contexto": "Pandemia de COVID-19"
     },
     {
@@ -29,35 +32,40 @@
       "governo": "bolsonaro",
       "valor": 4.98,
       "tipo": "anual-fechado",
-      "periodo": "01/12/2021"
+      "periodo": "01/12/2021",
+      "origem": "Banco Central SGS 5760"
     },
     {
       "ano": 2022,
       "governo": "bolsonaro",
       "valor": 5.82,
       "tipo": "anual-fechado",
-      "periodo": "01/12/2022"
+      "periodo": "01/12/2022",
+      "origem": "Banco Central SGS 5760"
     },
     {
       "ano": 2023,
       "governo": "lula",
       "valor": 6.56,
       "tipo": "anual-fechado",
-      "periodo": "01/12/2023"
+      "periodo": "01/12/2023",
+      "origem": "Banco Central SGS 5760"
     },
     {
       "ano": 2024,
       "governo": "lula",
       "valor": 8.07,
       "tipo": "anual-fechado",
-      "periodo": "01/12/2024"
+      "periodo": "01/12/2024",
+      "origem": "Banco Central SGS 5760"
     },
     {
       "ano": 2025,
       "governo": "lula",
       "valor": 7.91,
       "tipo": "anual-fechado",
-      "periodo": "01/12/2025"
+      "periodo": "01/12/2025",
+      "origem": "Banco Central SGS 5760"
     },
     {
       "ano": 2026,
@@ -81,5 +89,6 @@
       "media": 7.51
     }
   },
-  "atualizadoEm": "2026-08-23T07:38:10"
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-24T17:25:51"
 }

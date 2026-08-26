@@ -6,50 +6,59 @@
   "fonte": {
     "instituicao": "Tesouro Nacional",
     "pesquisa": "Resultado do Tesouro Nacional - Série Histórica",
-    "tabela": "2.5-A"
+    "tabela": "2.5-A",
+    "url": "https://www.tesourotransparente.gov.br/ckan/dataset/ab56485b-9c40-4efb-8563-9ce3e1973c4b/resource/527ccdb1-3059-42f3-bf23-b5e3ab4c6dc6/download/seriehistoricamai26.xlsx"
   },
   "anos": [
     {
       "ano": 2019,
       "governo": "bolsonaro",
       "valor": 19.52,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Tesouro Nacional - Resultado do Tesouro Nacional, Série Histórica, tabela 2.5-A"
     },
     {
       "ano": 2020,
       "governo": "bolsonaro",
       "valor": 25.58,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Tesouro Nacional - Resultado do Tesouro Nacional, Série Histórica, tabela 2.5-A",
+      "contexto": "Pandemia de COVID-19"
     },
     {
       "ano": 2021,
       "governo": "bolsonaro",
       "valor": 17.9,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Tesouro Nacional - Resultado do Tesouro Nacional, Série Histórica, tabela 2.5-A"
     },
     {
       "ano": 2022,
       "governo": "bolsonaro",
       "valor": 17.93,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Tesouro Nacional - Resultado do Tesouro Nacional, Série Histórica, tabela 2.5-A"
     },
     {
       "ano": 2023,
       "governo": "lula",
       "valor": 19.45,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Tesouro Nacional - Resultado do Tesouro Nacional, Série Histórica, tabela 2.5-A"
     },
     {
       "ano": 2024,
       "governo": "lula",
       "valor": 18.72,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Tesouro Nacional - Resultado do Tesouro Nacional, Série Histórica, tabela 2.5-A"
     },
     {
       "ano": 2025,
       "governo": "lula",
       "valor": 18.78,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "Tesouro Nacional - Resultado do Tesouro Nacional, Série Histórica, tabela 2.5-A"
     }
   ],
   "comparacaoMesmaDuracao": {
@@ -63,5 +72,7 @@
       "media": 18.98
     }
   },
-  "ultimoAnoDisponivel": 2025
+  "ultimoAnoDisponivel": 2025,
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-24T17:25:40"
 }

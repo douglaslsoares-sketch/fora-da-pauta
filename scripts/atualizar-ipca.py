@@ -6,30 +6,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "economia" / "gerado" / "ipca.json"
 
-# Dezembro de cada ano = IPCA acumulado naquele ano.
-PERIODOS_ANUAIS = [
-    "201912",
-    "202012",
-    "202112",
-    "202212",
-    "202312",
-    "202412",
-    "202512",
-]
+TABELA = 1737
+VAR_ACUMULADO_ANO = 69
 
-SIDRA_ANUAL = (
-    "https://apisidra.ibge.gov.br/values/"
-    "t/1737/n1/all/v/69/p/"
-    + ",".join(PERIODOS_ANUAIS)
-    + "?formato=json"
-)
+ANO_INICIAL = 2019
+ANO_CORRENTE = datetime.now().year
 
-# Em 2026, buscamos todos os meses e usamos
-# automaticamente o último mês oficial disponível.
-SIDRA_2026 = (
-    "https://apisidra.ibge.gov.br/values/"
-    "t/1737/n1/all/v/69/p/202601-202612?formato=json"
-)
 
 def baixar_json(url):
     req = urllib.request.Request(
@@ -60,28 +42,80 @@ def media_anual(itens):
     )
 
 
+def carregar_anterior():
+    if not OUT.exists():
+        return {}
+
+    with OUT.open("r", encoding="utf-8") as f:
+        dados = json.load(f)
+
+    return {
+        item["ano"]: item["valor"]
+        for item in dados.get("anos", [])
+        if item.get("valor") is not None
+    }
+
+
+print("Atualizando IPCA...")
+print()
+
+anterior = carregar_anterior()
+
+#
+# ANOS FECHADOS
+#
+
+periodos_anuais = [
+    f"{ano}12"
+    for ano in range(ANO_INICIAL, ANO_CORRENTE)
+]
+
+url_anual = (
+    "https://apisidra.ibge.gov.br/values/"
+    f"t/{TABELA}/n1/all/"
+    f"v/{VAR_ACUMULADO_ANO}/p/"
+    + ",".join(periodos_anuais)
+    + "?formato=json"
+)
+
 print("Consultando IPCA anual no SIDRA...")
 
-dados = baixar_json(SIDRA_ANUAL)
+dados = baixar_json(url_anual)
 
-if len(dados) != 8:
+if len(dados) < 2:
     raise RuntimeError(
-        f"Quantidade inesperada na série anual: {len(dados)}"
+        "SIDRA retornou dados anuais insuficientes."
     )
 
 anos = []
 
 for linha in dados[1:]:
-    periodo = linha["D3C"]
+    bruto = str(linha.get("V", "")).strip()
+
+    if bruto in ("", "..", "...", "-"):
+        continue
+
+    periodo = str(linha["D3C"])
     ano = int(periodo[:4])
-    valor = float(linha["V"])
+
+    try:
+        valor = float(bruto.replace(",", "."))
+    except ValueError:
+        continue
 
     item = {
         "ano": ano,
-        "governo": "bolsonaro" if ano <= 2022 else "lula",
+        "governo": (
+            "bolsonaro"
+            if ano <= 2022
+            else "lula"
+        ),
         "valor": valor,
         "tipo": "anual-fechado",
-        "origem": "SIDRA tabela 1737, variável 69"
+        "origem": (
+            "IBGE SIDRA tabela 1737, "
+            "variável 69"
+        )
     }
 
     if ano == 2020:
@@ -89,70 +123,126 @@ for linha in dados[1:]:
 
     anos.append(item)
 
+anos.sort(key=lambda item: item["ano"])
 
-print("Consultando último IPCA acumulado disponível de 2026...")
 
-dados_2026 = baixar_json(SIDRA_2026)
+#
+# REVISÕES HISTÓRICAS
+#
 
-disponiveis_2026 = []
+print()
+print("Comparando com a versão anterior...")
 
-for linha in dados_2026[1:]:
-    valor = str(linha.get("V", "")).strip()
+revisoes = []
 
-    try:
-        numero = float(valor)
-    except (TypeError, ValueError):
+for item in anos:
+    antigo = anterior.get(item["ano"])
+
+    if (
+        antigo is not None
+        and abs(antigo - item["valor"]) > 0.000001
+    ):
+        revisoes.append({
+            "ano": item["ano"],
+            "valorAnterior": antigo,
+            "valorNovo": item["valor"]
+        })
+
+        print(
+            f"REVISAO: {item['ano']}: "
+            f"{antigo} -> {item['valor']}"
+        )
+
+if not revisoes:
+    print("Nenhuma revisão histórica detectada.")
+
+
+#
+# ANO CORRENTE
+#
+
+url_corrente = (
+    "https://apisidra.ibge.gov.br/values/"
+    f"t/{TABELA}/n1/all/"
+    f"v/{VAR_ACUMULADO_ANO}/"
+    f"p/{ANO_CORRENTE}01-{ANO_CORRENTE}12"
+    "?formato=json"
+)
+
+print()
+print(
+    f"Consultando último IPCA acumulado no ano de "
+    f"{ANO_CORRENTE}..."
+)
+
+dados_correntes = baixar_json(url_corrente)
+
+disponiveis = []
+
+for linha in dados_correntes[1:]:
+    bruto = str(linha.get("V", "")).strip()
+
+    if bruto in ("", "..", "...", "-"):
         continue
 
-    disponiveis_2026.append({
-        "periodoCodigo": linha["D3C"],
+    try:
+        valor = float(bruto.replace(",", "."))
+    except ValueError:
+        continue
+
+    disponiveis.append({
+        "periodoCodigo": str(linha["D3C"]),
         "periodo": linha["D3N"],
-        "valor": numero
+        "valor": valor
     })
 
-ultimo_2026 = None
+ultimo_dado = None
 
-if disponiveis_2026:
-    ultimo_2026 = sorted(
-        disponiveis_2026,
-        key=lambda x: x["periodoCodigo"]
+if disponiveis:
+    ultimo_dado = sorted(
+        disponiveis,
+        key=lambda item: item["periodoCodigo"]
     )[-1]
 
-
 anos.append({
-    "ano": 2026,
+    "ano": ANO_CORRENTE,
     "governo": "lula",
     "valor": None,
     "tipo": "ano-em-andamento",
-    "ultimoDado": ultimo_2026,
-    "origem": "SIDRA tabela 1737, variável 69"
+    "ultimoDado": ultimo_dado,
+    "origem": (
+        "IBGE SIDRA tabela 1737, "
+        "variável 69"
+    )
 })
 
-anos.sort(key=lambda x: x["ano"])
+
+#
+# RESUMOS
+#
 
 bolsonaro = [
-    x for x in anos
-    if x["governo"] == "bolsonaro"
-    and x["valor"] is not None
+    item for item in anos
+    if item["governo"] == "bolsonaro"
+    and item["valor"] is not None
 ]
 
 lula = [
-    x for x in anos
-    if x["governo"] == "lula"
-    and x["valor"] is not None
+    item for item in anos
+    if item["governo"] == "lula"
+    and item["valor"] is not None
 ]
 
-# Comparação de duração equivalente:
-# primeiros três anos de cada governo.
 bolsonaro_3 = [
-    x for x in bolsonaro
-    if x["ano"] in (2019, 2020, 2021)
+    item for item in bolsonaro
+    if item["ano"] in (2019, 2020, 2021)
 ]
 
 lula_3 = [
-    x for x in lula
-    if x["ano"] in (2023, 2024, 2025)
+    item for item in lula
+    if item["ano"] in (2023, 2024, 2025)
 ]
+
 
 documento = {
     "id": "ipca",
@@ -160,49 +250,70 @@ documento = {
     "unidade": "%",
     "metodologia": (
         "IPCA acumulado em cada ano-calendário. "
-        "A inflação acumulada de um período é calculada de forma "
-        "composta, e não pela soma simples das taxas anuais."
+        "Para anos fechados, usamos o valor acumulado "
+        "no ano em dezembro. Para o ano em andamento, "
+        "mostramos o acumulado no ano até o último mês "
+        "oficial disponível. A inflação acumulada de um "
+        "período é calculada de forma composta, e não "
+        "pela soma simples das taxas anuais."
     ),
     "fonte": {
         "instituicao": "IBGE",
-        "pesquisa": "Índice Nacional de Preços ao Consumidor Amplo — IPCA",
-        "tabelaSidra": 1737,
-        "variavelSidra": 69,
+        "pesquisa": (
+            "Índice Nacional de Preços ao Consumidor "
+            "Amplo — IPCA"
+        ),
+        "tabelaSidra": TABELA,
+        "variavelSidra": VAR_ACUMULADO_ANO,
+        "descricaoVariavel": (
+            "IPCA - Variação acumulada no ano"
+        ),
         "url": "https://sidra.ibge.gov.br/tabela/1737"
     },
     "anos": anos,
     "resumos": {
         "bolsonaro": {
             "periodo": "2019-2022",
-            "anosCompletos": 4,
-            "inflacaoAcumulada": acumulado_composto(bolsonaro),
-            "mediaAnual": media_anual(bolsonaro)
+            "anosCompletos": len(bolsonaro),
+            "inflacaoAcumulada":
+                acumulado_composto(bolsonaro),
+            "mediaAnual":
+                media_anual(bolsonaro)
         },
         "lula": {
             "periodo": "2023-2025",
-            "anosCompletos": 3,
-            "inflacaoAcumulada": acumulado_composto(lula),
-            "mediaAnual": media_anual(lula),
+            "anosCompletos": len(lula),
+            "inflacaoAcumulada":
+                acumulado_composto(lula),
+            "mediaAnual":
+                media_anual(lula),
             "parcial": True
         }
     },
     "comparacaoMesmaDuracao": {
-        "descricao": "Primeiros três anos completos de cada governo",
+        "descricao":
+            "Primeiros três anos completos de cada governo",
         "bolsonaro": {
             "periodo": "2019-2021",
-            "inflacaoAcumulada": acumulado_composto(bolsonaro_3),
-            "mediaAnual": media_anual(bolsonaro_3)
+            "inflacaoAcumulada":
+                acumulado_composto(bolsonaro_3),
+            "mediaAnual":
+                media_anual(bolsonaro_3)
         },
         "lula": {
             "periodo": "2023-2025",
-            "inflacaoAcumulada": acumulado_composto(lula_3),
-            "mediaAnual": media_anual(lula_3)
+            "inflacaoAcumulada":
+                acumulado_composto(lula_3),
+            "mediaAnual":
+                media_anual(lula_3)
         }
     },
-    "atualizadoEm": datetime.now().isoformat(timespec="seconds")
+    "revisoesDetectadas": revisoes,
+    "atualizadoEm": datetime.now().isoformat(
+        timespec="seconds"
+    )
 }
 
-OUT.parent.mkdir(parents=True, exist_ok=True)
 
 tmp = OUT.with_suffix(".json.tmp")
 
@@ -217,54 +328,28 @@ with tmp.open("w", encoding="utf-8") as f:
 with tmp.open("r", encoding="utf-8") as f:
     teste = json.load(f)
 
-if len(teste["anos"]) != 8:
+if len(teste["anos"]) < 8:
     raise RuntimeError(
-        f"Quantidade inesperada de anos: {len(teste['anos'])}"
+        f"Quantidade inesperada de anos: "
+        f"{len(teste['anos'])}"
     )
 
 tmp.replace(OUT)
 
 print()
 print("IPCA atualizado com sucesso.")
-
 print()
-print("Série anual:")
+
 for item in anos:
     print(item["ano"], item["valor"])
 
 print()
-print(
-    "Bolsonaro 2019-2022 acumulado:",
-    documento["resumos"]["bolsonaro"]["inflacaoAcumulada"],
-    "%"
-)
-print(
-    "Lula 2023-2025 acumulado:",
-    documento["resumos"]["lula"]["inflacaoAcumulada"],
-    "%"
-)
 
-print()
-print("Comparação de três anos:")
-print(
-    "Bolsonaro 2019-2021:",
-    documento["comparacaoMesmaDuracao"]["bolsonaro"]["inflacaoAcumulada"],
-    "%"
-)
-print(
-    "Lula 2023-2025:",
-    documento["comparacaoMesmaDuracao"]["lula"]["inflacaoAcumulada"],
-    "%"
-)
-
-if ultimo_2026:
-    print()
+if ultimo_dado:
     print(
-        "2026 até",
-        ultimo_2026["periodo"],
-        ":",
-        ultimo_2026["valor"],
-        "%"
+        f"{ANO_CORRENTE} até "
+        f"{ultimo_dado['periodo']}: "
+        f"{ultimo_dado['valor']} %"
     )
 
 print()

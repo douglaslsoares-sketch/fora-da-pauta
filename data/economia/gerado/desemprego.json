@@ -2,57 +2,73 @@
   "id": "desemprego",
   "titulo": "Taxa de desocupação",
   "unidade": "%",
-  "metodologia": "Taxa média anual de desocupação para os anos fechados. O dado de 2026 é apresentado separadamente como último trimestre oficial disponível e não é comparado diretamente com médias anuais.",
-  "fonte": {
-    "instituicao": "IBGE",
-    "pesquisa": "PNAD Contínua",
-    "tabelaSidraTrimestral": 4099,
-    "variavelSidra": 4099,
-    "url": "https://sidra.ibge.gov.br/tabela/4099"
-  },
+  "metodologia": "Taxa média anual de desocupação das pessoas de 14 anos ou mais para os anos fechados, segundo a PNAD Contínua anual do IBGE. Para o ano em andamento, o último trimestre oficial disponível é mostrado separadamente e não é tratado como média anual.",
+  "fontes": [
+    {
+      "instituicao": "IBGE",
+      "pesquisa": "PNAD Contínua anual",
+      "tabelaSidra": 4562,
+      "variavelSidra": 4099,
+      "url": "https://sidra.ibge.gov.br/tabela/4562"
+    },
+    {
+      "instituicao": "IBGE",
+      "pesquisa": "PNAD Contínua trimestral",
+      "tabelaSidra": 4099,
+      "variavelSidra": 4099,
+      "url": "https://sidra.ibge.gov.br/tabela/4099"
+    }
+  ],
   "anos": [
     {
       "ano": 2019,
       "governo": "bolsonaro",
       "valor": 11.8,
-      "tipo": "media-anual-oficial"
+      "tipo": "media-anual-oficial",
+      "origem": "IBGE SIDRA tabela 4562, variável 4099"
     },
     {
       "ano": 2020,
       "governo": "bolsonaro",
-      "valor": 13.8,
+      "valor": 13.7,
       "tipo": "media-anual-oficial",
+      "origem": "IBGE SIDRA tabela 4562, variável 4099",
       "contexto": "Pandemia de COVID-19"
     },
     {
       "ano": 2021,
       "governo": "bolsonaro",
-      "valor": 13.2,
-      "tipo": "media-anual-oficial"
+      "valor": 14.0,
+      "tipo": "media-anual-oficial",
+      "origem": "IBGE SIDRA tabela 4562, variável 4099"
     },
     {
       "ano": 2022,
       "governo": "bolsonaro",
-      "valor": 9.3,
-      "tipo": "media-anual-oficial"
+      "valor": 9.6,
+      "tipo": "media-anual-oficial",
+      "origem": "IBGE SIDRA tabela 4562, variável 4099"
     },
     {
       "ano": 2023,
       "governo": "lula",
-      "valor": 7.8,
-      "tipo": "media-anual-oficial"
+      "valor": 7.7,
+      "tipo": "media-anual-oficial",
+      "origem": "IBGE SIDRA tabela 4562, variável 4099"
     },
     {
       "ano": 2024,
       "governo": "lula",
       "valor": 6.6,
-      "tipo": "media-anual-oficial"
+      "tipo": "media-anual-oficial",
+      "origem": "IBGE SIDRA tabela 4562, variável 4099"
     },
     {
       "ano": 2025,
       "governo": "lula",
       "valor": 5.6,
-      "tipo": "media-anual-oficial"
+      "tipo": "media-anual-oficial",
+      "origem": "IBGE SIDRA tabela 4562, variável 4099"
     },
     {
       "ano": 2026,
@@ -62,33 +78,50 @@
       "ultimoDado": {
         "periodoCodigo": "202602",
         "periodo": "2º trimestre 2026",
+        "ano": 2026,
         "valor": 5.4
-      }
+      },
+      "origem": "IBGE SIDRA tabela 4099, variável 4099"
     }
   ],
   "resumos": {
     "bolsonaro": {
       "periodo": "2019-2022",
       "anosCompletos": 4,
-      "mediaAnual": 12.03
+      "mediaAnual": 12.28
     },
     "lula": {
       "periodo": "2023-2025",
       "anosCompletos": 3,
-      "mediaAnual": 6.67,
+      "mediaAnual": 6.63,
       "parcial": true
+    }
+  },
+  "comparacaoPeriodoDisponivel": {
+    "descricao": "Media de desemprego no periodo disponivel",
+    "bolsonaro": {
+      "periodo": "2019-2022",
+      "media": 12.06
+    },
+    "lula": {
+      "periodo": "2023-2026",
+      "media": 6.74,
+      "parcial": true,
+      "ate": "2º trimestre 2026"
     }
   },
   "comparacaoMesmaDuracao": {
     "descricao": "Primeiros três anos completos de cada governo",
     "bolsonaro": {
       "periodo": "2019-2021",
-      "mediaAnual": 12.93
+      "mediaAnual": 13.17
     },
     "lula": {
       "periodo": "2023-2025",
-      "mediaAnual": 6.67
+      "mediaAnual": 6.63
     }
   },
-  "atualizadoEm": "2026-08-21T17:38:50"
+  "ultimoAnoAnualDisponivel": 2025,
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-25T09:45:46"
 }

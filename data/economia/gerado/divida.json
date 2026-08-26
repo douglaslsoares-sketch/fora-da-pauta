@@ -2,7 +2,7 @@
   "id": "divida-bruta",
   "titulo": "Dívida Bruta do Governo Geral",
   "unidade": "% do PIB",
-  "metodologia": "Dívida Bruta do Governo Geral como proporção do PIB. Para anos fechados, mostramos a posição de dezembro. Para 2026, mostramos o último mês oficial disponível.",
+  "metodologia": "Dívida Bruta do Governo Geral como proporção do PIB. Como se trata de um estoque, para anos fechados mostramos a posição de dezembro. Para o ano em andamento, mostramos o último mês oficial disponível.",
   "fonte": {
     "instituicao": "Banco Central do Brasil",
     "serieSGS": 13762,
@@ -15,7 +15,8 @@
       "governo": "bolsonaro",
       "valor": 74.44,
       "tipo": "estoque-fim-do-ano",
-      "periodo": "01/12/2019"
+      "periodo": "01/12/2019",
+      "origem": "Banco Central SGS 13762"
     },
     {
       "ano": 2020,
@@ -23,6 +24,7 @@
       "valor": 86.94,
       "tipo": "estoque-fim-do-ano",
       "periodo": "01/12/2020",
+      "origem": "Banco Central SGS 13762",
       "contexto": "Pandemia de COVID-19"
     },
     {
@@ -30,35 +32,40 @@
       "governo": "bolsonaro",
       "valor": 77.31,
       "tipo": "estoque-fim-do-ano",
-      "periodo": "01/12/2021"
+      "periodo": "01/12/2021",
+      "origem": "Banco Central SGS 13762"
     },
     {
       "ano": 2022,
       "governo": "bolsonaro",
       "valor": 71.68,
       "tipo": "estoque-fim-do-ano",
-      "periodo": "01/12/2022"
+      "periodo": "01/12/2022",
+      "origem": "Banco Central SGS 13762"
     },
     {
       "ano": 2023,
       "governo": "lula",
       "valor": 73.83,
       "tipo": "estoque-fim-do-ano",
-      "periodo": "01/12/2023"
+      "periodo": "01/12/2023",
+      "origem": "Banco Central SGS 13762"
     },
     {
       "ano": 2024,
       "governo": "lula",
       "valor": 76.27,
       "tipo": "estoque-fim-do-ano",
-      "periodo": "01/12/2024"
+      "periodo": "01/12/2024",
+      "origem": "Banco Central SGS 13762"
     },
     {
       "ano": 2025,
       "governo": "lula",
       "valor": 78.64,
       "tipo": "estoque-fim-do-ano",
-      "periodo": "01/12/2025"
+      "periodo": "01/12/2025",
+      "origem": "Banco Central SGS 13762"
     },
     {
       "ano": 2026,
@@ -86,5 +93,6 @@
       "variacaoPontosPercentuais": 4.81
     }
   },
-  "atualizadoEm": "2026-08-22T16:05:34"
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-24T17:25:41"
 }

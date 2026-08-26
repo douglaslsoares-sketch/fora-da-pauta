@@ -2,35 +2,37 @@
   "id": "pib",
   "titulo": "Crescimento real do PIB",
   "unidade": "%",
-  "metodologia": "Variação anual em volume do Produto Interno Bruto. O acumulado de cada governo é calculado de forma composta, e não pela soma das taxas anuais.",
+  "metodologia": "Variação anual em volume do Produto Interno Bruto. Os anos fechados são obtidos da taxa acumulada ao longo do ano, no quarto trimestre, das Contas Nacionais Trimestrais do IBGE. O acumulado de cada período é calculado de forma composta, e não pela soma das taxas anuais.",
   "fontes": [
     {
       "instituicao": "IBGE",
-      "pesquisa": "Sistema de Contas Nacionais",
-      "tabelaSidra": 6784,
-      "variavelSidra": 9810,
-      "url": "https://sidra.ibge.gov.br/tabela/6784"
-    },
-    {
-      "instituicao": "IBGE",
       "pesquisa": "Sistema de Contas Nacionais Trimestrais",
-      "url": "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9300-contas-nacionais-trimestrais.html"
+      "tabelaSidra": 5932,
+      "classificacaoSidra": 11255,
+      "categoriaPIB": 90707,
+      "variaveisSidra": {
+        "mesmoTrimestreAnoAnterior": 6561,
+        "acumuladoQuatroTrimestres": 6562,
+        "acumuladoAno": 6563,
+        "trimestreAnterior": 6564
+      },
+      "url": "https://sidra.ibge.gov.br/tabela/5932"
     }
   ],
   "anos": [
     {
       "ano": 2019,
       "governo": "bolsonaro",
-      "valor": 1.3,
+      "valor": 1.2,
       "tipo": "anual-fechado",
-      "origem": "SIDRA tabela 6784, variável 9810"
+      "origem": "IBGE SIDRA tabela 5932, variável 6563, PIB a preços de mercado"
     },
     {
       "ano": 2020,
       "governo": "bolsonaro",
       "valor": -3.3,
       "tipo": "anual-fechado",
-      "origem": "SIDRA tabela 6784, variável 9810",
+      "origem": "IBGE SIDRA tabela 5932, variável 6563, PIB a preços de mercado",
       "contexto": "Pandemia de COVID-19"
     },
     {
@@ -38,35 +40,35 @@
       "governo": "bolsonaro",
       "valor": 4.8,
       "tipo": "anual-fechado",
-      "origem": "SIDRA tabela 6784, variável 9810"
+      "origem": "IBGE SIDRA tabela 5932, variável 6563, PIB a preços de mercado"
     },
     {
       "ano": 2022,
       "governo": "bolsonaro",
       "valor": 3.0,
       "tipo": "anual-fechado",
-      "origem": "SIDRA tabela 6784, variável 9810"
+      "origem": "IBGE SIDRA tabela 5932, variável 6563, PIB a preços de mercado"
     },
     {
       "ano": 2023,
       "governo": "lula",
       "valor": 3.2,
       "tipo": "anual-fechado",
-      "origem": "SIDRA tabela 6784, variável 9810"
+      "origem": "IBGE SIDRA tabela 5932, variável 6563, PIB a preços de mercado"
     },
     {
       "ano": 2024,
       "governo": "lula",
       "valor": 3.4,
       "tipo": "anual-fechado",
-      "origem": "IBGE - Contas Nacionais Trimestrais"
+      "origem": "IBGE SIDRA tabela 5932, variável 6563, PIB a preços de mercado"
     },
     {
       "ano": 2025,
       "governo": "lula",
       "valor": 2.3,
       "tipo": "anual-fechado",
-      "origem": "IBGE - Contas Nacionais Trimestrais"
+      "origem": "IBGE SIDRA tabela 5932, variável 6563, PIB a preços de mercado"
     },
     {
       "ano": 2026,
@@ -74,19 +76,21 @@
       "valor": null,
       "tipo": "ano-em-andamento",
       "ultimoDado": {
+        "periodoCodigo": "202601",
         "periodo": "1º trimestre de 2026",
         "valorMesmoTrimestreAnoAnterior": 1.8,
         "valorTrimestreAnterior": 1.1,
+        "acumuladoAno": 1.8,
         "acumuladoQuatroTrimestres": 2.0
       },
-      "origem": "IBGE - Contas Nacionais Trimestrais"
+      "origem": "IBGE SIDRA tabela 5932, PIB a preços de mercado"
     }
   ],
   "acumulados": {
     "bolsonaro": {
       "periodo": "2019-2022",
       "anosCompletos": 4,
-      "valor": 5.7
+      "valor": 5.6
     },
     "lula": {
       "periodo": "2023-2025",
@@ -99,12 +103,14 @@
     "descricao": "Primeiros três anos completos de cada governo",
     "bolsonaro": {
       "periodo": "2019-2021",
-      "valor": 2.7
+      "valor": 2.6
     },
     "lula": {
       "periodo": "2023-2025",
       "valor": 9.2
     }
   },
-  "atualizadoEm": "2026-08-21T17:52:07"
+  "ultimoAnoAnualDisponivel": 2025,
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-24T17:26:04"
 }

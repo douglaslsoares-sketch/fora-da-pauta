@@ -45,3 +45,5 @@ next-env.d.ts
 data/eleicoes/bruto/
 data/eleicoes/camara/
 data/eleicoes/camara/
+components/*.backup-*
+components/*.bak

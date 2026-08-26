@@ -2,48 +2,91 @@
   "id": "mortalidade-infantil",
   "titulo": "Mortalidade infantil",
   "unidade": "por mil",
-  "metodologia": "Probabilidade de morte entre o nascimento e a idade exata de 1 ano, por mil, segundo as Tábuas Completas de Mortalidade do IBGE.",
+  "metodologia": "Probabilidade de morte entre o nascimento e a idade exata de 1 ano, por mil, segundo as Tábuas Completas de Mortalidade do IBGE, para ambos os sexos.",
   "fonte": {
     "instituicao": "IBGE",
     "pesquisa": "Tábuas Completas de Mortalidade",
-    "sexo": "Ambos os sexos"
+    "sexo": "Ambos os sexos",
+    "arquivosPorAno": {
+      "2019": {
+        "formato": "xls",
+        "url": "https://ftp.ibge.gov.br/Tabuas_Completas_de_Mortalidade/Tabuas_Completas_de_Mortalidade_2019/xls/ambos_os_sexos.xls"
+      },
+      "2020": {
+        "formato": "xls",
+        "url": "https://ftp.ibge.gov.br/Tabuas_Completas_de_Mortalidade/Tabuas_Completas_de_Mortalidade_2020/xls/ambos_os_sexos.xls"
+      },
+      "2021": {
+        "formato": "xlsx",
+        "url": "https://ftp.ibge.gov.br/Tabuas_Completas_de_Mortalidade/Tabuas_Completas_de_Mortalidade_2021/xlsx/ambos_os_sexos.xlsx"
+      },
+      "2022": {
+        "formato": "xlsx",
+        "url": "https://ftp.ibge.gov.br/Tabuas_Completas_de_Mortalidade/Tabuas_Completas_de_Mortalidade_2022/xlsx/ambos_os_sexos.xlsx"
+      },
+      "2023": {
+        "formato": "xlsx",
+        "url": "https://ftp.ibge.gov.br/Tabuas_Completas_de_Mortalidade/Tabuas_Completas_de_Mortalidade_2023/xlsx/ambos_os_sexos.xlsx"
+      },
+      "2024": {
+        "formato": "xlsx",
+        "url": "https://ftp.ibge.gov.br/Tabuas_Completas_de_Mortalidade/Tabuas_Completas_de_Mortalidade_2024/xlsx/ambos_os_sexos.xlsx"
+      }
+    }
   },
   "anos": [
     {
       "ano": 2019,
       "governo": "bolsonaro",
       "valor": 11.94,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Tábuas Completas de Mortalidade, ambos os sexos"
     },
     {
       "ano": 2020,
       "governo": "bolsonaro",
       "valor": 11.56,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Tábuas Completas de Mortalidade, ambos os sexos",
+      "contexto": "Pandemia de COVID-19"
     },
     {
       "ano": 2021,
       "governo": "bolsonaro",
       "valor": 11.2,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Tábuas Completas de Mortalidade, ambos os sexos"
     },
     {
       "ano": 2022,
       "governo": "bolsonaro",
       "valor": 12.84,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Tábuas Completas de Mortalidade, ambos os sexos"
     },
     {
       "ano": 2023,
       "governo": "lula",
       "valor": 12.47,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Tábuas Completas de Mortalidade, ambos os sexos"
     },
     {
       "ano": 2024,
       "governo": "lula",
       "valor": 12.26,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Tábuas Completas de Mortalidade, ambos os sexos"
+    }
+  ],
+  "anosSemDado": [
+    {
+      "ano": 2025,
+      "motivo": "Tábua Completa de Mortalidade ainda não publicada pelo IBGE."
+    },
+    {
+      "ano": 2026,
+      "motivo": "Tábua Completa de Mortalidade ainda não publicada pelo IBGE."
     }
   ],
   "evolucaoDadosDisponiveis": {
@@ -61,5 +104,6 @@
     }
   },
   "ultimoAnoDisponivel": 2024,
-  "atualizadoEm": "2026-08-23T08:27:31"
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-24T17:25:57"
 }

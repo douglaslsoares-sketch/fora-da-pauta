@@ -2,211 +2,73 @@
   "id": "renda-real-trabalho",
   "titulo": "Renda real do trabalho",
   "unidade": "R$",
-  "metodologia": "Rendimento medio mensal real efetivamente recebido em todos os trabalhos. Para anos fechados, usamos a media simples dos quatro trimestres da serie trimestral do IBGE. Valores reais ja corrigem o efeito da inflacao.",
-  "fonte": {
-    "instituicao": "IBGE",
-    "pesquisa": "PNAD Continua",
-    "tabelaSidra": 6469,
-    "variavelSidra": 5935,
-    "url": "https://sidra.ibge.gov.br/tabela/6469"
-  },
+  "metodologia": "Rendimento médio mensal real das pessoas de 14 anos ou mais ocupadas, com rendimento de trabalho, efetivamente recebido em todos os trabalhos. Para anos fechados, usamos diretamente a PNAD Contínua anual do IBGE, incorporando revisões históricas. Para o ano em andamento, mostramos separadamente o último trimestre oficial disponível.",
+  "fontes": [
+    {
+      "instituicao": "IBGE",
+      "pesquisa": "PNAD Contínua anual",
+      "tabelaSidra": 4566,
+      "variavelSidra": 5935,
+      "url": "https://sidra.ibge.gov.br/tabela/4566"
+    },
+    {
+      "instituicao": "IBGE",
+      "pesquisa": "PNAD Contínua trimestral",
+      "tabelaSidra": 6469,
+      "variavelSidra": 5935,
+      "url": "https://sidra.ibge.gov.br/tabela/6469"
+    }
+  ],
   "anos": [
     {
       "ano": 2019,
       "governo": "bolsonaro",
-      "valor": 3462,
-      "tipo": "media-anual",
-      "trimestres": [
-        {
-          "periodoCodigo": "201901",
-          "periodo": "1º trimestre 2019",
-          "valor": 3695.0
-        },
-        {
-          "periodoCodigo": "201902",
-          "periodo": "2º trimestre 2019",
-          "valor": 3327.0
-        },
-        {
-          "periodoCodigo": "201903",
-          "periodo": "3º trimestre 2019",
-          "valor": 3344.0
-        },
-        {
-          "periodoCodigo": "201904",
-          "periodo": "4º trimestre 2019",
-          "valor": 3484.0
-        }
-      ]
+      "valor": 3326,
+      "tipo": "media-anual-oficial-revisada",
+      "origem": "IBGE SIDRA tabela 4566, variável 5935, PNAD Contínua anual"
     },
     {
       "ano": 2020,
       "governo": "bolsonaro",
-      "valor": 3460,
-      "tipo": "media-anual",
-      "trimestres": [
-        {
-          "periodoCodigo": "202001",
-          "periodo": "1º trimestre 2020",
-          "valor": 3718.0
-        },
-        {
-          "periodoCodigo": "202002",
-          "periodo": "2º trimestre 2020",
-          "valor": 3276.0
-        },
-        {
-          "periodoCodigo": "202003",
-          "periodo": "3º trimestre 2020",
-          "valor": 3400.0
-        },
-        {
-          "periodoCodigo": "202004",
-          "periodo": "4º trimestre 2020",
-          "valor": 3444.0
-        }
-      ],
+      "valor": 3281,
+      "tipo": "media-anual-oficial-revisada",
+      "origem": "IBGE SIDRA tabela 4566, variável 5935, PNAD Contínua anual",
       "contexto": "Pandemia de COVID-19"
     },
     {
       "ano": 2021,
       "governo": "bolsonaro",
-      "valor": 3316,
-      "tipo": "media-anual",
-      "trimestres": [
-        {
-          "periodoCodigo": "202101",
-          "periodo": "1º trimestre 2021",
-          "valor": 3620.0
-        },
-        {
-          "periodoCodigo": "202102",
-          "periodo": "2º trimestre 2021",
-          "valor": 3306.0
-        },
-        {
-          "periodoCodigo": "202103",
-          "periodo": "3º trimestre 2021",
-          "valor": 3188.0
-        },
-        {
-          "periodoCodigo": "202104",
-          "periodo": "4º trimestre 2021",
-          "valor": 3148.0
-        }
-      ]
+      "valor": 3168,
+      "tipo": "media-anual-oficial-revisada",
+      "origem": "IBGE SIDRA tabela 4566, variável 5935, PNAD Contínua anual"
     },
     {
       "ano": 2022,
       "governo": "bolsonaro",
-      "valor": 3316,
-      "tipo": "media-anual",
-      "trimestres": [
-        {
-          "periodoCodigo": "202201",
-          "periodo": "1º trimestre 2022",
-          "valor": 3392.0
-        },
-        {
-          "periodoCodigo": "202202",
-          "periodo": "2º trimestre 2022",
-          "valor": 3170.0
-        },
-        {
-          "periodoCodigo": "202203",
-          "periodo": "3º trimestre 2022",
-          "valor": 3266.0
-        },
-        {
-          "periodoCodigo": "202204",
-          "periodo": "4º trimestre 2022",
-          "valor": 3438.0
-        }
-      ]
+      "valor": 3150,
+      "tipo": "media-anual-oficial-revisada",
+      "origem": "IBGE SIDRA tabela 4566, variável 5935, PNAD Contínua anual"
     },
     {
       "ano": 2023,
       "governo": "lula",
-      "valor": 3482,
-      "tipo": "media-anual",
-      "trimestres": [
-        {
-          "periodoCodigo": "202301",
-          "periodo": "1º trimestre 2023",
-          "valor": 3629.0
-        },
-        {
-          "periodoCodigo": "202302",
-          "periodo": "2º trimestre 2023",
-          "valor": 3351.0
-        },
-        {
-          "periodoCodigo": "202303",
-          "periodo": "3º trimestre 2023",
-          "valor": 3420.0
-        },
-        {
-          "periodoCodigo": "202304",
-          "periodo": "4º trimestre 2023",
-          "valor": 3526.0
-        }
-      ]
+      "valor": 3371,
+      "tipo": "media-anual-oficial-revisada",
+      "origem": "IBGE SIDRA tabela 4566, variável 5935, PNAD Contínua anual"
     },
     {
       "ano": 2024,
       "governo": "lula",
-      "valor": 3647,
-      "tipo": "media-anual",
-      "trimestres": [
-        {
-          "periodoCodigo": "202401",
-          "periodo": "1º trimestre 2024",
-          "valor": 3780.0
-        },
-        {
-          "periodoCodigo": "202402",
-          "periodo": "2º trimestre 2024",
-          "valor": 3553.0
-        },
-        {
-          "periodoCodigo": "202403",
-          "periodo": "3º trimestre 2024",
-          "valor": 3560.0
-        },
-        {
-          "periodoCodigo": "202404",
-          "periodo": "4º trimestre 2024",
-          "valor": 3694.0
-        }
-      ]
+      "valor": 3492,
+      "tipo": "media-anual-oficial-revisada",
+      "origem": "IBGE SIDRA tabela 4566, variável 5935, PNAD Contínua anual"
     },
     {
       "ano": 2025,
       "governo": "lula",
-      "valor": 3780,
-      "tipo": "media-anual",
-      "trimestres": [
-        {
-          "periodoCodigo": "202501",
-          "periodo": "1º trimestre 2025",
-          "valor": 3929.0
-        },
-        {
-          "periodoCodigo": "202502",
-          "periodo": "2º trimestre 2025",
-          "valor": 3655.0
-        },
-        {
-          "periodoCodigo": "202503",
-          "periodo": "3º trimestre 2025",
-          "valor": 3680.0
-        },
-        {
-          "periodoCodigo": "202504",
-          "periodo": "4º trimestre 2025",
-          "valor": 3857.0
-        }
-      ]
+      "valor": 3694,
+      "tipo": "media-anual-oficial-revisada",
+      "origem": "IBGE SIDRA tabela 4566, variável 5935, PNAD Contínua anual"
     },
     {
       "ano": 2026,
@@ -216,33 +78,50 @@
       "ultimoDado": {
         "periodoCodigo": "202602",
         "periodo": "2º trimestre 2026",
-        "valor": 3770.0
+        "ano": 2026,
+        "valor": 3770
       }
     }
   ],
   "resumos": {
     "bolsonaro": {
       "periodo": "2019-2022",
-      "mediaDoPeriodo": 3388
+      "mediaDoPeriodo": 3231
     },
     "lula": {
       "periodo": "2023-2025",
-      "mediaDoPeriodo": 3636,
+      "mediaDoPeriodo": 3519,
       "parcial": true
     }
   },
+  "comparacaoPeriodoDisponivel": {
+    "descricao": "Renda real no periodo disponivel",
+    "bolsonaro": {
+      "periodo": "2019-2022",
+      "mediaDoPeriodo": 3388,
+      "variacaoNoPeriodo": -7.0
+    },
+    "lula": {
+      "periodo": "2023-2026",
+      "mediaDoPeriodo": 3680,
+      "variacaoNoPeriodo": 3.9,
+      "parcial": true,
+      "ate": "2º trimestre 2026"
+    }
+  },
   "comparacaoMesmaDuracao": {
-    "descricao": "Primeiros tres anos completos de cada governo",
+    "descricao": "Primeiros três anos completos de cada governo",
     "bolsonaro": {
       "periodo": "2019-2021",
-      "mediaDoPeriodo": 3413,
-      "variacaoNoPeriodo": -4.2
+      "mediaDoPeriodo": 3258,
+      "variacaoNoPeriodo": -4.8
     },
     "lula": {
       "periodo": "2023-2025",
-      "mediaDoPeriodo": 3636,
-      "variacaoNoPeriodo": 8.6
+      "mediaDoPeriodo": 3519,
+      "variacaoNoPeriodo": 9.6
     }
   },
-  "atualizadoEm": "2026-08-21T23:35:10"
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-25T10:00:06"
 }

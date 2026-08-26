@@ -2,57 +2,91 @@
   "id": "investimento",
   "titulo": "Taxa de investimento",
   "unidade": "% do PIB",
-  "metodologia": "Taxa de investimento medida pela Formação Bruta de Capital Fixo (FBCF) como proporção do Produto Interno Bruto.",
+  "metodologia": "Taxa de investimento calculada como a Formação Bruta de Capital Fixo dividida pelo Produto Interno Bruto, ambos em valores correntes anuais das Contas Nacionais Trimestrais do IBGE.",
   "fonte": {
     "instituicao": "IBGE",
     "pesquisa": "Contas Nacionais Trimestrais",
-    "url": "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9300-contas-nacionais-trimestrais.html"
+    "arquivo": "Tabelas Completas",
+    "aba": "Valores Correntes",
+    "url": "https://ftp.ibge.gov.br/Contas_Nacionais/Contas_Nacionais_Trimestrais/Tabelas_Completas/Tab_Compl_CNT.zip"
   },
   "anos": [
     {
       "ano": 2019,
       "governo": "bolsonaro",
       "valor": 15.5,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Contas Nacionais Trimestrais, Tabelas Completas, aba Valores Correntes"
     },
     {
       "ano": 2020,
       "governo": "bolsonaro",
       "valor": 16.6,
       "tipo": "anual-fechado",
+      "origem": "IBGE - Contas Nacionais Trimestrais, Tabelas Completas, aba Valores Correntes",
       "contexto": "Pandemia de COVID-19"
     },
     {
       "ano": 2021,
       "governo": "bolsonaro",
       "valor": 17.9,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Contas Nacionais Trimestrais, Tabelas Completas, aba Valores Correntes"
     },
     {
       "ano": 2022,
       "governo": "bolsonaro",
       "valor": 17.8,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Contas Nacionais Trimestrais, Tabelas Completas, aba Valores Correntes"
     },
     {
       "ano": 2023,
       "governo": "lula",
       "valor": 16.4,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Contas Nacionais Trimestrais, Tabelas Completas, aba Valores Correntes"
     },
     {
       "ano": 2024,
       "governo": "lula",
       "valor": 16.9,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Contas Nacionais Trimestrais, Tabelas Completas, aba Valores Correntes"
     },
     {
       "ano": 2025,
       "governo": "lula",
       "valor": 16.8,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE - Contas Nacionais Trimestrais, Tabelas Completas, aba Valores Correntes"
+    },
+    {
+      "ano": 2026,
+      "governo": "lula",
+      "valor": null,
+      "tipo": "ano-em-andamento",
+      "ultimoDado": {
+        "periodoCodigo": "2026.I",
+        "periodo": "1º trimestre 2026",
+        "valor": 16.46
+      },
+      "origem": "IBGE - Contas Nacionais Trimestrais, Tabelas Completas, aba Valores Correntes"
     }
   ],
+  "comparacaoPeriodoDisponivel": {
+    "descricao": "Media da taxa de investimento no periodo disponivel",
+    "bolsonaro": {
+      "periodo": "2019-2022",
+      "media": 16.9
+    },
+    "lula": {
+      "periodo": "2023-2026",
+      "media": 16.7,
+      "parcial": true,
+      "ate": "2026.I"
+    }
+  },
   "comparacaoMesmaDuracao": {
     "bolsonaro": {
       "periodo": "2019-2021",
@@ -63,5 +97,7 @@
       "media": 16.7
     }
   },
-  "ultimoAnoDisponivel": 2025
+  "ultimoAnoDisponivel": 2025,
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-25T10:47:13"
 }

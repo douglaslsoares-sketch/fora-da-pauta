@@ -2,12 +2,14 @@
   "id": "analfabetismo",
   "titulo": "Taxa de analfabetismo",
   "unidade": "%",
-  "metodologia": "Taxa de analfabetismo das pessoas de 15 anos ou mais de idade no Brasil, segundo a PNAD Contínua Educação. A pesquisa não possui observações para 2020 e 2021 nesta série.",
+  "metodologia": "Taxa de analfabetismo das pessoas de 15 anos ou mais de idade no Brasil, segundo a PNAD Contínua Educação. Anos sem observação são mantidos explicitamente como ausentes e não são interpolados.",
   "fonte": {
     "instituicao": "IBGE",
     "pesquisa": "PNAD Contínua Educação",
     "tabelaSidra": 7113,
     "variavelSidra": 10267,
+    "sexoCodigo": 6794,
+    "sexo": "Total",
     "grupoIdadeCodigo": 2795,
     "grupoIdade": "15 anos ou mais",
     "url": "https://sidra.ibge.gov.br/tabela/7113"
@@ -17,31 +19,36 @@
       "ano": 2019,
       "governo": "bolsonaro",
       "valor": 6.1,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE SIDRA tabela 7113, variável 10267"
     },
     {
       "ano": 2022,
       "governo": "bolsonaro",
       "valor": 5.6,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE SIDRA tabela 7113, variável 10267"
     },
     {
       "ano": 2023,
       "governo": "lula",
       "valor": 5.4,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE SIDRA tabela 7113, variável 10267"
     },
     {
       "ano": 2024,
       "governo": "lula",
       "valor": 5.3,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE SIDRA tabela 7113, variável 10267"
     },
     {
       "ano": 2025,
       "governo": "lula",
       "valor": 4.9,
-      "tipo": "anual-fechado"
+      "tipo": "anual-fechado",
+      "origem": "IBGE SIDRA tabela 7113, variável 10267"
     }
   ],
   "anosSemDado": [
@@ -69,5 +76,6 @@
     }
   },
   "ultimoAnoDisponivel": 2025,
-  "atualizadoEm": "2026-08-23T08:12:19"
+  "revisoesDetectadas": [],
+  "atualizadoEm": "2026-08-24T17:25:35"
 }
