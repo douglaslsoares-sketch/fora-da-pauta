@@ -1723,7 +1723,7 @@ export function EconomicIndicators() {
             </div>
           </div>
 
-          
+
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40">
               Evolução no período com dados
@@ -1928,7 +1928,7 @@ export function EconomicIndicators() {
             </div>
           </div>
 
-          
+
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40">
               Média da despesa primária · mesma duração
@@ -2115,7 +2115,7 @@ export function EconomicIndicators() {
             </div>
           </div>
 
-          
+
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40">
               Evolução no período com dados
@@ -2325,7 +2325,7 @@ export function EconomicIndicators() {
             </div>
           </div>
 
-          
+
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40">
               Evolução no período com dados
