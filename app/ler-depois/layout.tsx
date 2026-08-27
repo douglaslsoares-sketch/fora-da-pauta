@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   icons: {
-    icon: "/fora-da-pauta-ler-depois-192.png",
-    apple: "/fora-da-pauta-ler-depois-180.png",
+    icon: "/ler-depois-192.png",
+    apple: "/ler-depois-180.png",
   },
 
   appleWebApp: {
     capable: true,
-    title: "Ler depois",
+    title: "Fora da Pauta",
     statusBarStyle: "default",
   },
 };

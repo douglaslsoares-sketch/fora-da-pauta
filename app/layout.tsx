@@ -23,12 +23,12 @@ export const metadata: Metadata = {
     "Camisetas que colocam uma pergunta na rua e páginas que ajudam a entender a mensagem por trás de cada campanha.",
   icons: {
     icon: "/icon.png",
-    apple: "/fora-da-pauta-ler-depois-180.png",
+    apple: "/ler-depois-180.png",
   },
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
-    title: "Ler depois",
+    title: "Fora da Pauta",
     statusBarStyle: "default",
   },
 };
