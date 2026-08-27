@@ -106,6 +106,10 @@ export default function LerDepoisFlutuante() {
     setInstalado,
   ] = useState(false);
 
+  const [
+    mostrarOrientacaoPosInstalacao,
+    setMostrarOrientacaoPosInstalacao,
+  ] = useState(false);
   useEffect(() => {
     const atualizarQuantidade = () => {
       setQuantidade(
@@ -179,6 +183,8 @@ export default function LerDepoisFlutuante() {
     const confirmarInstalacao = () => {
       setInstallPrompt(null);
       setInstalado(true);
+      setPainelAberto(false);
+      setMostrarOrientacaoPosInstalacao(true);
     };
 
     window.addEventListener(
@@ -533,6 +539,59 @@ export default function LerDepoisFlutuante() {
                 Fechar
               </button>
             </div>
+          </section>
+        </div>
+      )}
+      {mostrarOrientacaoPosInstalacao && (
+        <div
+          className="fixed inset-0 z-[80] flex items-end bg-black/45 sm:items-center sm:justify-center"
+          role="presentation"
+        >
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="instalacao-concluida-titulo"
+            className="w-full rounded-t-[28px] bg-[#eeeee9] px-6 pb-8 pt-7 shadow-2xl sm:max-w-md sm:rounded-[28px]"
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
+              Ler depois
+            </p>
+
+            <h2
+              id="instalacao-concluida-titulo"
+              className="mt-2 text-2xl font-semibold tracking-[-0.04em]"
+            >
+              Instalação concluída
+            </h2>
+
+            <p className="mt-5 text-sm leading-6 text-black/65">
+              Para encontrar o aplicativo, abra a lista de
+              aplicativos do celular e procure por{" "}
+              <strong>Fora da Pauta</strong>.
+            </p>
+
+            <p className="mt-3 text-sm leading-6 text-black/65">
+              O ícone tem a inscrição{" "}
+              <strong>LER DEPOIS</strong>. Em alguns aparelhos,
+              ele aparece entre os aplicativos instalados mais
+              recentemente.
+            </p>
+
+            <p className="mt-3 text-sm leading-6 text-black/65">
+              Para colocá-lo na tela inicial, toque e segure o
+              ícone e escolha{" "}
+              <strong>Adicionar à tela inicial</strong>.
+            </p>
+
+            <button
+              type="button"
+              onClick={() =>
+                setMostrarOrientacaoPosInstalacao(false)
+              }
+              className="mt-6 rounded-full bg-black px-5 py-3 text-sm font-semibold text-white"
+            >
+              Entendi
+            </button>
           </section>
         </div>
       )}
