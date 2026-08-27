@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
+import LerDepoisFlutuante from "../components/LerDepoisFlutuante";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,6 +23,13 @@ export const metadata: Metadata = {
     "Camisetas que colocam uma pergunta na rua e páginas que ajudam a entender a mensagem por trás de cada campanha.",
   icons: {
     icon: "/icon.png",
+    apple: "/fora-da-pauta-ler-depois-180.png",
+  },
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "FORA DA PAUTA - Ler depois",
+    statusBarStyle: "default",
   },
 };
 
@@ -37,6 +45,7 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-[#eeeee9] font-sans">
         {children}
+        <LerDepoisFlutuante />
         <Analytics />
       </body>
     </html>

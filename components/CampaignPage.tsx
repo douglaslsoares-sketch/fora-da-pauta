@@ -12,7 +12,10 @@ type CampaignPageProps = {
 
 export function CampaignPage({ campaign }: CampaignPageProps) {
   return (
-    <main className="min-h-screen bg-[#eeeee9] text-[#151515]">
+    <main
+      className="min-h-screen bg-[#eeeee9] text-[#151515]"
+      data-share-statement={campaign.statement}
+    >
       <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-5 pb-12 pt-8 sm:px-8 sm:pb-16 sm:pt-12">
         <header className="mb-14 flex items-center justify-between gap-6 sm:mb-20">
           <Link

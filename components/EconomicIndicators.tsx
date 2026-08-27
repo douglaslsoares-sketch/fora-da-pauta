@@ -346,19 +346,85 @@ export function EconomicIndicators() {
             </span>
           </div>
 
-          <YearSeries anos={pib.anos} mostrarSinalPositivo />
+          <div className="mt-7 space-y-4">
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">Bolsonaro</p>
+                <p className="text-xs text-black/40">2019–2022</p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {pib.anos
+                  .filter((item) => item.governo === "bolsonaro")
+                  .map((item) => {
+                    const valor = item.valor;
+
+                    return (
+                      <div key={item.ano} className="min-w-0">
+                        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                          {item.ano}
+                        </p>
+
+                        <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                          {valor !== null && valor > 0 ? "+" : ""}
+                          {pct(valor)}
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                2020: pandemia de COVID-19.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">Lula</p>
+                <p className="text-xs text-black/40">2023–2026</p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {pib.anos
+                  .filter((item) => item.governo === "lula")
+                  .map((item) => {
+                    const valor =
+                      item.ano === 2026
+                        ? pib2026?.ultimoDado
+                            ?.valorMesmoTrimestreAnoAnterior ?? null
+                        : item.valor;
+
+                    return (
+                      <div key={item.ano} className="min-w-0">
+                        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                          {item.ano}
+                        </p>
+
+                        <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                          {valor !== null && valor > 0 ? "+" : ""}
+                          {pct(valor)}
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
+
+              {pib2026?.ultimoDado ? (
+                <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                  2026: até{" "}
+                  {formatarPeriodo(pib2026.ultimoDado.periodo)}.
+                </p>
+              ) : null}
+            </div>
+          </div>
 
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40">
               Crescimento acumulado no período
             </p>
 
-            <div
-              className="mt-4 grid gap-4"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   Bolsonaro · 2019–2022
@@ -376,7 +442,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   Lula · 2023–2026
                 </p>
@@ -440,7 +506,70 @@ export function EconomicIndicators() {
             </span>
           </div>
 
-          <YearSeries anos={ipca.anos} />
+          <div className="mt-7 space-y-4">
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">Bolsonaro</p>
+                <p className="text-xs text-black/40">2019–2022</p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {ipca.anos
+                  .filter((item) => item.governo === "bolsonaro")
+                  .map((item) => (
+                    <div key={item.ano} className="min-w-0">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                        {pct(item.valor, 1)}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                2020: pandemia de COVID-19.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">Lula</p>
+                <p className="text-xs text-black/40">2023–2026</p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {ipca.anos
+                  .filter((item) => item.governo === "lula")
+                  .map((item) => {
+                    const valor =
+                      item.ano === 2026
+                        ? ipca2026?.ultimoDado?.valor ?? null
+                        : item.valor;
+
+                    return (
+                      <div key={item.ano} className="min-w-0">
+                        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                          {item.ano}
+                        </p>
+
+                        <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                          {pct(valor, 1)}
+                        </p>
+                      </div>
+                    );
+                  })}
+              </div>
+
+              {ipca2026?.ultimoDado ? (
+                <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                  2026: acumulado até julho de 2026.
+                </p>
+              ) : null}
+            </div>
+          </div>
 
 
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
@@ -448,12 +577,7 @@ export function EconomicIndicators() {
               Inflação acumulada no período
             </p>
 
-            <div
-              className="mt-4 grid gap-4"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   Bolsonaro · 2019–2022
@@ -472,7 +596,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   Lula · 2023–2026
                 </p>
@@ -520,7 +644,70 @@ export function EconomicIndicators() {
               cada grupo no IPCA.
             </p>
 
-            <div className="mt-6 overflow-hidden rounded-2xl border border-black/8">
+            <div className="mt-6 space-y-3 sm:hidden">
+                {ipcaSetores.grupos.map((grupo) => (
+                  <div
+                    key={grupo.codigo}
+                    className="rounded-2xl border border-black/8 p-4"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <p className="min-w-0 text-sm font-semibold leading-5">
+                        {grupo.nome}
+                      </p>
+
+                      <div className="shrink-0 text-right">
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-black/35">
+                          Peso no IPCA
+                        </p>
+
+                        <p className="mt-1 text-sm font-semibold">
+                          {pct(grupo.pesoAtual, 2)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-2 gap-4 border-t border-black/8 pt-4">
+                      <div>
+                        <p className="text-xs text-black/40">
+                          Bolsonaro
+                        </p>
+
+                        <p className="text-[10px] text-black/35">
+                          2019?2021
+                        </p>
+
+                        <p className="mt-1 text-xl font-semibold">
+                          {pct(
+                            grupo.comparacaoMesmaDuracao
+                              .bolsonaro.valor,
+                            2,
+                          )}
+                        </p>
+                      </div>
+
+                      <div className="border-l border-black/8 pl-4">
+                        <p className="text-xs text-black/40">
+                          Lula
+                        </p>
+
+                        <p className="text-[10px] text-black/35">
+                          2023?2025
+                        </p>
+
+                        <p className="mt-1 text-xl font-semibold">
+                          {pct(
+                            grupo.comparacaoMesmaDuracao
+                              .lula.valor,
+                            2,
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 hidden overflow-hidden rounded-2xl border border-black/8 sm:block">
               <div
                 className="grid items-end border-b border-black/8 bg-[#f6f6f1] px-4 py-3"
                 style={{
@@ -645,19 +832,80 @@ export function EconomicIndicators() {
             </span>
           </div>
 
-          <YearSeries anos={desemprego.anos} />
+          <div className="mt-7 space-y-4">
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">Bolsonaro</p>
+                <p className="text-xs text-black/40">2019–2022</p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {desemprego.anos
+                  .filter((item) => item.governo === "bolsonaro")
+                  .map((item) => (
+                    <div key={item.ano} className="min-w-0">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                        {pct(
+                          valorDoPeriodo(
+                            desemprego.anos,
+                            item.ano,
+                          ),
+                          1,
+                        )}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                2020: pandemia de COVID-19.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">Lula</p>
+                <p className="text-xs text-black/40">2023–2026</p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {desemprego.anos
+                  .filter((item) => item.governo === "lula")
+                  .map((item) => (
+                    <div key={item.ano} className="min-w-0">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                        {pct(
+                          valorDoPeriodo(
+                            desemprego.anos,
+                            item.ano,
+                          ),
+                          1,
+                        )}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                2026: até o 2º trimestre de 2026.
+              </p>
+            </div>
+          </div>
 
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40">
               {"M\u00e9dia de desemprego no per\u00edodo"}
             </p>
 
-            <div
-              className="mt-4 grid gap-4"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   {"Bolsonaro \u00b7 2019\u20132022"}
@@ -676,7 +924,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   {"Lula \u00b7 2023\u20132026"}
                 </p>
@@ -733,19 +981,78 @@ export function EconomicIndicators() {
             </span>
           </div>
 
-          <YearSeries anos={renda.anos} formato="moeda" />
+          <div className="mt-7 space-y-4">
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">Bolsonaro</p>
+                <p className="text-xs text-black/40">2019–2022</p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {renda.anos
+                  .filter((item) => item.governo === "bolsonaro")
+                  .map((item) => (
+                    <div key={item.ano} className="min-w-0">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-xl font-semibold tracking-[-0.04em] sm:text-2xl">
+                        {brl(
+                          valorDoPeriodo(
+                            renda.anos,
+                            item.ano,
+                          ),
+                        )}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                2020: pandemia de COVID-19.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">Lula</p>
+                <p className="text-xs text-black/40">2023–2026</p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {renda.anos
+                  .filter((item) => item.governo === "lula")
+                  .map((item) => (
+                    <div key={item.ano} className="min-w-0">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-xl font-semibold tracking-[-0.04em] sm:text-2xl">
+                        {brl(
+                          valorDoPeriodo(
+                            renda.anos,
+                            item.ano,
+                          ),
+                        )}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                2026: até o 2º trimestre de 2026.
+              </p>
+            </div>
+          </div>
 
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40">
               {"M\u00e9dia da renda real no per\u00edodo"}
             </p>
 
-            <div
-              className="mt-4 grid gap-4"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   {"Bolsonaro \u00b7 2019\u20132022"}
@@ -763,7 +1070,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   {"Lula \u00b7 2023\u20132026"}
                 </p>
@@ -789,12 +1096,7 @@ export function EconomicIndicators() {
                 Mudança entre o início do período e o dado mais recente disponível.
               </p>
 
-              <div
-                className="mt-4 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                }}
-              >
+              <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
                   <p className="text-sm text-black/45">
                     Bolsonaro · 2019–2022
@@ -808,7 +1110,7 @@ export function EconomicIndicators() {
                   </p>
                 </div>
 
-                <div>
+                <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                   <p className="text-sm text-black/45">
                     Lula · 2023–2026
                   </p>
@@ -863,66 +1165,81 @@ export function EconomicIndicators() {
           </div>
 
           <div className="mt-7 space-y-4">
-            <div className="rounded-2xl bg-[#f4f4ef] p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-semibold">Bolsonaro</p>
-                <p className="text-xs text-black/40">2019–2022</p>
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Bolsonaro
+                </p>
+
+                <p className="text-xs text-black/40">
+                  2019–2022
+                </p>
               </div>
 
-              <div
-                className="mt-5 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                }}
-              >
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
                 {pobreza.anos
-                  .filter((item) => item.governo === "bolsonaro")
+                  .filter(
+                    (item) =>
+                      item.governo === "bolsonaro",
+                  )
                   .map((item) => (
-                    <div key={item.ano}>
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
                       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                         {item.ano}
                       </p>
 
-                      <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
                         {pct(item.valor)}
                       </p>
-
-                      {"contexto" in item && item.contexto ? (
-                        <p className="mt-2 text-[11px] leading-4 text-black/40">
-                          {item.contexto}
-                        </p>
-                      ) : null}
                     </div>
                   ))}
               </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                2020: pandemia de COVID-19.
+              </p>
             </div>
 
-            <div className="rounded-2xl bg-[#f4f4ef] p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-semibold">Lula</p>
-                <p className="text-xs text-black/40">2023–2024</p>
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Lula
+                </p>
+
+                <p className="text-xs text-black/40">
+                  2023–{pobreza.ultimoAnoDisponivel}
+                </p>
               </div>
 
-              <div
-                className="mt-5 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                }}
-              >
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6">
                 {pobreza.anos
-                  .filter((item) => item.governo === "lula")
+                  .filter(
+                    (item) =>
+                      item.governo === "lula",
+                  )
                   .map((item) => (
-                    <div key={item.ano}>
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
                       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                         {item.ano}
                       </p>
 
-                      <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
                         {pct(item.valor)}
                       </p>
                     </div>
                   ))}
               </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                Série oficial disponível até{" "}
+                {pobreza.ultimoAnoDisponivel}.
+              </p>
             </div>
           </div>
 
@@ -931,12 +1248,7 @@ export function EconomicIndicators() {
               Evolução no período com dados
             </p>
 
-            <div
-              className="mt-4 grid gap-5"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   Bolsonaro · 2019–2022
@@ -972,7 +1284,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   Lula · 2023–{pobreza.ultimoAnoDisponivel}
                 </p>
@@ -1063,66 +1375,81 @@ export function EconomicIndicators() {
           </div>
 
           <div className="mt-7 space-y-4">
-            <div className="rounded-2xl bg-[#f4f4ef] p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-semibold">Bolsonaro</p>
-                <p className="text-xs text-black/40">2019–2022</p>
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Bolsonaro
+                </p>
+
+                <p className="text-xs text-black/40">
+                  2019–2022
+                </p>
               </div>
 
-              <div
-                className="mt-5 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                }}
-              >
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
                 {extremaPobreza.anos
-                  .filter((item) => item.governo === "bolsonaro")
+                  .filter(
+                    (item) =>
+                      item.governo === "bolsonaro",
+                  )
                   .map((item) => (
-                    <div key={item.ano}>
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
                       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                         {item.ano}
                       </p>
 
-                      <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
                         {pct(item.valor)}
                       </p>
-
-                      {"contexto" in item && item.contexto ? (
-                        <p className="mt-2 text-[11px] leading-4 text-black/40">
-                          {item.contexto}
-                        </p>
-                      ) : null}
                     </div>
                   ))}
               </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                2020: pandemia de COVID-19.
+              </p>
             </div>
 
-            <div className="rounded-2xl bg-[#f4f4ef] p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-semibold">Lula</p>
-                <p className="text-xs text-black/40">2023–2024</p>
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Lula
+                </p>
+
+                <p className="text-xs text-black/40">
+                  2023–{extremaPobreza.ultimoAnoDisponivel}
+                </p>
               </div>
 
-              <div
-                className="mt-5 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                }}
-              >
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6">
                 {extremaPobreza.anos
-                  .filter((item) => item.governo === "lula")
+                  .filter(
+                    (item) =>
+                      item.governo === "lula",
+                  )
                   .map((item) => (
-                    <div key={item.ano}>
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
                       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                         {item.ano}
                       </p>
 
-                      <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
                         {pct(item.valor)}
                       </p>
                     </div>
                   ))}
               </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                Série oficial disponível até{" "}
+                {extremaPobreza.ultimoAnoDisponivel}.
+              </p>
             </div>
           </div>
 
@@ -1131,12 +1458,7 @@ export function EconomicIndicators() {
               Evolução no período com dados
             </p>
 
-            <div
-              className="mt-4 grid gap-5"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   Bolsonaro · 2019–2022
@@ -1172,7 +1494,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   Lula · 2023–{extremaPobreza.ultimoAnoDisponivel}
                 </p>
@@ -1265,19 +1587,102 @@ export function EconomicIndicators() {
             ou ampliar a capacidade de produção do país.
           </EmPortuguesSimples>
 
-          <YearSeries anos={investimento.anos} />
+          <div className="mt-7 space-y-4">
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Bolsonaro
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2019\u20132022"}
+                </p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {investimento.anos
+                  .filter(
+                    (item) =>
+                      item.governo === "bolsonaro",
+                  )
+                  .map((item) => (
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                        {pct(
+                          valorDoPeriodo(
+                            investimento.anos,
+                            item.ano,
+                          ),
+                          1,
+                        )}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                2020: pandemia de COVID-19.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Lula
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2023\u20132026"}
+                </p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {investimento.anos
+                  .filter(
+                    (item) =>
+                      item.governo === "lula",
+                  )
+                  .map((item) => (
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                        {pct(
+                          valorDoPeriodo(
+                            investimento.anos,
+                            item.ano,
+                          ),
+                          1,
+                        )}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                {"2026: at\u00e9 o 1\u00ba trimestre de 2026."}
+              </p>
+            </div>
+          </div>
 
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40">
               {"M\u00e9dia da taxa de investimento no per\u00edodo"}
             </p>
 
-            <div
-              className="mt-4 grid gap-4"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   {"Bolsonaro \u00b7 2019\u20132022"}
@@ -1295,7 +1700,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   {"Lula \u00b7 2023\u20132026"}
                 </p>
@@ -1357,7 +1762,95 @@ export function EconomicIndicators() {
             equivale a cerca de 80% do valor produzido pela economia em um ano.
           </EmPortuguesSimples>
 
-          <YearSeries anos={divida.anos} />
+          <div className="mt-7 space-y-4">
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Bolsonaro
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2019\u20132022"}
+                </p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {divida.anos
+                  .filter(
+                    (item) =>
+                      item.governo === "bolsonaro",
+                  )
+                  .map((item) => (
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                        {pct(
+                          valorDoPeriodo(
+                            divida.anos,
+                            item.ano,
+                          ),
+                          1,
+                        )}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                2020: pandemia de COVID-19.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Lula
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2023\u20132026"}
+                </p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {divida.anos
+                  .filter(
+                    (item) =>
+                      item.governo === "lula",
+                  )
+                  .map((item) => (
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                        {pct(
+                          valorDoPeriodo(
+                            divida.anos,
+                            item.ano,
+                          ),
+                          1,
+                        )}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                {"2026: at\u00e9 junho de 2026."}
+              </p>
+            </div>
+          </div>
 
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40">
@@ -1369,12 +1862,7 @@ export function EconomicIndicators() {
               e o dado final disponível de cada período.
             </p>
 
-            <div
-              className="mt-4 grid gap-4"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   Bolsonaro · 2019–2022
@@ -1395,7 +1883,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   Lula · 2023–2026
                 </p>
@@ -1463,22 +1951,118 @@ export function EconomicIndicators() {
             número negativo indica déficit.
           </EmPortuguesSimples>
 
-          <YearSeries
-            anos={resultadoPrimario.anos}
-            mostrarSinalPositivo
-          />
+          <div className="mt-7 space-y-4">
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Bolsonaro
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2019\u20132022"}
+                </p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {resultadoPrimario.anos
+                  .filter(
+                    (item) =>
+                      item.governo === "bolsonaro",
+                  )
+                  .map((item) => (
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                        {(() => {
+                          const valor =
+                            valorDoPeriodo(
+                              resultadoPrimario.anos,
+                              item.ano,
+                            );
+
+                          if (valor === null) {
+                            return "?";
+                          }
+
+                          return `${valor > 0 ? "+" : ""}${valor
+                            .toFixed(1)
+                            .replace(".", ",")}%`;
+                        })()}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                2020: pandemia de COVID-19.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Lula
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2023\u20132026"}
+                </p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {resultadoPrimario.anos
+                  .filter(
+                    (item) =>
+                      item.governo === "lula",
+                  )
+                  .map((item) => (
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                        {(() => {
+                          const valor =
+                            valorDoPeriodo(
+                              resultadoPrimario.anos,
+                              item.ano,
+                            );
+
+                          if (valor === null) {
+                            return "?";
+                          }
+
+                          return `${valor > 0 ? "+" : ""}${valor
+                            .toFixed(1)
+                            .replace(".", ",")}%`;
+                        })()}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                {"2026: at\u00e9 junho de 2026."}
+              </p>
+            </div>
+          </div>
 
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40">
               Média do resultado primário no período
             </p>
 
-            <div
-              className="mt-4 grid gap-4"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   Bolsonaro · 2019–2022
@@ -1499,7 +2083,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   Lula · 2023–2026
                 </p>
@@ -1566,19 +2150,102 @@ export function EconomicIndicators() {
             em relação ao tamanho da economia.
           </EmPortuguesSimples>
 
-          <YearSeries anos={juros.anos} />
+          <div className="mt-7 space-y-4">
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Bolsonaro
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2019\u20132022"}
+                </p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {juros.anos
+                  .filter(
+                    (item) =>
+                      item.governo === "bolsonaro",
+                  )
+                  .map((item) => (
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                        {pct(
+                          valorDoPeriodo(
+                            juros.anos,
+                            item.ano,
+                          ),
+                          1,
+                        )}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                2020: pandemia de COVID-19.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Lula
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2023\u20132026"}
+                </p>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                {juros.anos
+                  .filter(
+                    (item) =>
+                      item.governo === "lula",
+                  )
+                  .map((item) => (
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
+                        {item.ano}
+                      </p>
+
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
+                        {pct(
+                          valorDoPeriodo(
+                            juros.anos,
+                            item.ano,
+                          ),
+                          1,
+                        )}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                {"2026: at\u00e9 junho de 2026."}
+              </p>
+            </div>
+          </div>
 
           <div className="mt-6 rounded-2xl border border-black/8 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40">
               Média dos juros no período
             </p>
 
-            <div
-              className="mt-4 grid gap-4"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   Bolsonaro · 2019–2022
@@ -1599,7 +2266,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   Lula · 2023–2026
                 </p>
@@ -1666,60 +2333,43 @@ export function EconomicIndicators() {
           </EmPortuguesSimples>
 
           <div className="mt-7 space-y-4">
-            <div className="rounded-2xl bg-[#f4f4ef] p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-semibold">Bolsonaro</p>
-                <p className="text-xs text-black/40">2019–2022</p>
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Bolsonaro
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2019\u20132022"}
+                </p>
               </div>
 
-              <div
-                className="mt-5 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                }}
-              >
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
                 {cargaTributaria.anos
-                  .filter((item) => item.governo === "bolsonaro")
+                  .filter(
+                    (item) =>
+                      item.governo === "bolsonaro",
+                  )
                   .map((item) => (
-                    <div key={item.ano}>
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
                       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                         {item.ano}
                       </p>
 
-                      <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
                         {pct(item.valor, 2)}
                       </p>
                     </div>
                   ))}
               </div>
-            </div>
 
-            <div className="rounded-2xl bg-[#f4f4ef] p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-semibold">Lula</p>
-                <p className="text-xs text-black/40">2023–2024</p>
-              </div>
-
-              <div
-                className="mt-5 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                }}
-              >
-                {cargaTributaria.anos
-                  .filter((item) => item.governo === "lula")
-                  .map((item) => (
-                    <div key={item.ano}>
-                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
-                        {item.ano}
-                      </p>
-
-                      <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
-                        {pct(item.valor, 2)}
-                      </p>
-                    </div>
-                  ))}
-              </div>
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                {"S\u00e9rie oficial dispon\u00edvel at\u00e9 "}
+                {cargaTributaria.ultimoAnoDisponivel}.
+              </p>
             </div>
           </div>
 
@@ -1729,12 +2379,7 @@ export function EconomicIndicators() {
               Evolução no período com dados
             </p>
 
-            <div
-              className="mt-4 grid gap-5"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   Bolsonaro · 2019–2022
@@ -1770,7 +2415,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   Lula · 2023–{cargaTributaria.ultimoAnoDisponivel}
                 </p>
@@ -1865,66 +2510,80 @@ export function EconomicIndicators() {
           </EmPortuguesSimples>
 
           <div className="mt-7 space-y-4">
-            <div className="rounded-2xl bg-[#f4f4ef] p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-semibold">Bolsonaro</p>
-                <p className="text-xs text-black/40">2019–2022</p>
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Bolsonaro
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2019\u20132022"}
+                </p>
               </div>
 
-              <div
-                className="mt-5 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                }}
-              >
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
                 {despesaPrimaria.anos
-                  .filter((item) => item.governo === "bolsonaro")
+                  .filter(
+                    (item) =>
+                      item.governo === "bolsonaro",
+                  )
                   .map((item) => (
-                    <div key={item.ano}>
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
                       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                         {item.ano}
                       </p>
 
-                      <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
                         {pct(item.valor, 2)}
                       </p>
-
-                      {item.ano === 2020 ? (
-                        <p className="mt-2 text-[11px] leading-4 text-black/40">
-                          Pandemia de COVID-19
-                        </p>
-                      ) : null}
                     </div>
                   ))}
               </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                {"2020: pandemia de COVID-19."}
+              </p>
             </div>
 
-            <div className="rounded-2xl bg-[#f4f4ef] p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-semibold">Lula</p>
-                <p className="text-xs text-black/40">2023–2025</p>
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Lula
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2023\u20132025"}
+                </p>
               </div>
 
-              <div
-                className="mt-5 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-                }}
-              >
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3">
                 {despesaPrimaria.anos
-                  .filter((item) => item.governo === "lula")
+                  .filter(
+                    (item) =>
+                      item.governo === "lula",
+                  )
                   .map((item) => (
-                    <div key={item.ano}>
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
                       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                         {item.ano}
                       </p>
 
-                      <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
                         {pct(item.valor, 2)}
                       </p>
                     </div>
                   ))}
               </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                {"S\u00e9rie oficial dispon\u00edvel at\u00e9 2025."}
+              </p>
             </div>
           </div>
 
@@ -1938,12 +2597,7 @@ export function EconomicIndicators() {
               Primeiros três anos completos de cada governo.
             </p>
 
-            <div
-              className="mt-4 grid gap-5"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   Bolsonaro · 2019–2021
@@ -1962,7 +2616,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   Lula · 2023–2025
                 </p>
@@ -2022,23 +2676,24 @@ export function EconomicIndicators() {
           </div>
 
           <div className="mt-7 space-y-4">
-            <div className="rounded-2xl bg-[#f4f4ef] p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-semibold">Bolsonaro</p>
-                <p className="text-xs text-black/40">2019–2022</p>
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Bolsonaro
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2019\u20132022"}
+                </p>
               </div>
 
-              <div
-                className="mt-5 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                }}
-              >
-                <div>
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+                <div className="min-w-0">
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                     2019
                   </p>
-                  <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+
+                  <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
                     {pct(
                       analfabetismo.anos.find(
                         (item) => item.ano === 2019
@@ -2047,35 +2702,40 @@ export function EconomicIndicators() {
                   </p>
                 </div>
 
-                <div>
+                <div className="min-w-0">
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                     2020
                   </p>
+
                   <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-black/25">
-                    —
+                    {"\u2014"}
                   </p>
-                  <p className="mt-2 text-[11px] leading-4 text-black/40">
+
+                  <p className="mt-1 text-[11px] leading-4 text-black/40">
                     sem dado
                   </p>
                 </div>
 
-                <div>
+                <div className="min-w-0">
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                     2021
                   </p>
+
                   <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-black/25">
-                    —
+                    {"\u2014"}
                   </p>
-                  <p className="mt-2 text-[11px] leading-4 text-black/40">
+
+                  <p className="mt-1 text-[11px] leading-4 text-black/40">
                     sem dado
                   </p>
                 </div>
 
-                <div>
+                <div className="min-w-0">
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                     2022
                   </p>
-                  <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+
+                  <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
                     {pct(
                       analfabetismo.anos.find(
                         (item) => item.ano === 2022
@@ -2084,34 +2744,50 @@ export function EconomicIndicators() {
                   </p>
                 </div>
               </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                {"Sem observa\u00e7\u00f5es anuais em 2020 e 2021."}
+              </p>
             </div>
 
-            <div className="rounded-2xl bg-[#f4f4ef] p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-semibold">Lula</p>
-                <p className="text-xs text-black/40">2023–2025</p>
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Lula
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2023\u2013"}
+                  {analfabetismo.ultimoAnoDisponivel}
+                </p>
               </div>
 
-              <div
-                className="mt-5 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-                }}
-              >
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3">
                 {analfabetismo.anos
-                  .filter((item) => item.governo === "lula")
+                  .filter(
+                    (item) =>
+                      item.governo === "lula",
+                  )
                   .map((item) => (
-                    <div key={item.ano}>
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
                       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                         {item.ano}
                       </p>
 
-                      <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
                         {pct(item.valor)}
                       </p>
                     </div>
                   ))}
               </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                {"S\u00e9rie oficial dispon\u00edvel at\u00e9 "}
+                {analfabetismo.ultimoAnoDisponivel}.
+              </p>
             </div>
           </div>
 
@@ -2121,12 +2797,7 @@ export function EconomicIndicators() {
               Evolução no período com dados
             </p>
 
-            <div
-              className="mt-4 grid gap-5"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   Bolsonaro · 2019–2022
@@ -2166,7 +2837,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   Lula · 2023–{analfabetismo.ultimoAnoDisponivel}
                 </p>
@@ -2256,27 +2927,33 @@ export function EconomicIndicators() {
           </div>
 
           <div className="mt-7 space-y-4">
-            <div className="rounded-2xl bg-[#f4f4ef] p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-semibold">Bolsonaro</p>
-                <p className="text-xs text-black/40">2019–2022</p>
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Bolsonaro
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2019\u20132022"}
+                </p>
               </div>
 
-              <div
-                className="mt-5 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                }}
-              >
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
                 {mortalidadeInfantil.anos
-                  .filter((item) => item.governo === "bolsonaro")
+                  .filter(
+                    (item) =>
+                      item.governo === "bolsonaro",
+                  )
                   .map((item) => (
-                    <div key={item.ano}>
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
                       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                         {item.ano}
                       </p>
 
-                      <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
                         {item.valor
                           .toFixed(2)
                           .replace(".", ",")}
@@ -2290,27 +2967,34 @@ export function EconomicIndicators() {
               </div>
             </div>
 
-            <div className="rounded-2xl bg-[#f4f4ef] p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-sm font-semibold">Lula</p>
-                <p className="text-xs text-black/40">2023–2024</p>
+            <div className="rounded-2xl bg-[#f4f4ef] p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-sm font-semibold">
+                  Lula
+                </p>
+
+                <p className="text-xs text-black/40">
+                  {"2023\u2013"}
+                  {mortalidadeInfantil.ultimoAnoDisponivel}
+                </p>
               </div>
 
-              <div
-                className="mt-5 grid gap-4"
-                style={{
-                  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                }}
-              >
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-6">
                 {mortalidadeInfantil.anos
-                  .filter((item) => item.governo === "lula")
+                  .filter(
+                    (item) =>
+                      item.governo === "lula",
+                  )
                   .map((item) => (
-                    <div key={item.ano}>
+                    <div
+                      key={item.ano}
+                      className="min-w-0"
+                    >
                       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
                         {item.ano}
                       </p>
 
-                      <p className="mt-2 text-2xl font-semibold tracking-[-0.04em]">
+                      <p className="mt-2 whitespace-nowrap text-2xl font-semibold tracking-[-0.04em]">
                         {item.valor
                           .toFixed(2)
                           .replace(".", ",")}
@@ -2322,6 +3006,11 @@ export function EconomicIndicators() {
                     </div>
                   ))}
               </div>
+
+              <p className="mt-5 border-t border-black/8 pt-4 text-xs leading-5 text-black/45">
+                {"S\u00e9rie oficial dispon\u00edvel at\u00e9 "}
+                {mortalidadeInfantil.ultimoAnoDisponivel}.
+              </p>
             </div>
           </div>
 
@@ -2331,12 +3020,7 @@ export function EconomicIndicators() {
               Evolução no período com dados
             </p>
 
-            <div
-              className="mt-4 grid gap-5"
-              style={{
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-sm text-black/45">
                   Bolsonaro · 2019–2022
@@ -2367,7 +3051,7 @@ export function EconomicIndicators() {
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-black/8 pt-5 sm:border-t-0 sm:pt-0">
                 <p className="text-sm text-black/45">
                   Lula · 2023–{mortalidadeInfantil.ultimoAnoDisponivel}
                 </p>

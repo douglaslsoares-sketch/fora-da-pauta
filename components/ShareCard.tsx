@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useState } from "react";
+import { criarMensagemDeCompartilhamento } from "./shareMessage";
 
 type ShareCardProps = {
   statement: string;
@@ -10,15 +11,22 @@ export function ShareCard({ statement }: ShareCardProps) {
   const [copied, setCopied] = useState(false);
 
   async function copyMessage() {
-    const message = `${statement}
+    const message =
+      criarMensagemDeCompartilhamento(
+        statement,
+        window.location.href,
+      );
 
-Entenda a proposta e conheça os argumentos:
-${window.location.href}`;
-
-    await navigator.clipboard.writeText(message);
+    await navigator.clipboard.writeText(
+      message,
+    );
 
     setCopied(true);
-    window.setTimeout(() => setCopied(false), 2000);
+
+    window.setTimeout(
+      () => setCopied(false),
+      2000,
+    );
   }
 
   return (
