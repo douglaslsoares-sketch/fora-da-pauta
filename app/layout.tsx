@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
-    title: "FORA DA PAUTA - Ler depois",
+    title: "Ler depois",
     statusBarStyle: "default",
   },
 };

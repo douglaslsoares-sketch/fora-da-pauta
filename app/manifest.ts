@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/ler-depois",
-    name: "FORA DA PAUTA - Ler depois",
+    name: "Ler depois",
     short_name: "Ler depois",
     description:
       "Guarde páginas do Fora da Pauta para ler depois.",
