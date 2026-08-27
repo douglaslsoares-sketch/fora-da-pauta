@@ -10,6 +10,13 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/ler-depois",
     scope: "/",
     display: "standalone",
+    related_applications: [
+      {
+        platform: "webapp",
+        url: "/manifest.webmanifest",
+      },
+    ],
+    prefer_related_applications: false,
     background_color: "#eeeee9",
     theme_color: "#eeeee9",
     icons: [

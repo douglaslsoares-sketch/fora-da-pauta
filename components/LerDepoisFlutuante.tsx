@@ -30,6 +30,9 @@ const STORAGE_KEY =
 
 const STORAGE_EVENT =
   "fora-da-pauta:ler-depois-alterado";
+const INSTALL_PENDING_KEY =
+  "fora-da-pauta:instalacao-pendente";
+
 
 function lerPaginasSalvas(): PaginaSalva[] {
   try {
@@ -181,6 +184,14 @@ export default function LerDepoisFlutuante() {
     };
 
     const confirmarInstalacao = () => {
+      try {
+        window.sessionStorage.removeItem(
+          INSTALL_PENDING_KEY,
+        );
+      } catch {
+        // Continua normalmente.
+      }
+
       setInstallPrompt(null);
       setInstalado(true);
       setPainelAberto(false);
@@ -206,6 +217,125 @@ export default function LerDepoisFlutuante() {
       window.removeEventListener(
         "appinstalled",
         confirmarInstalacao,
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelado = false;
+
+    const verificar =
+      async () => {
+        let pendente = false;
+
+        try {
+          pendente =
+            window.sessionStorage.getItem(
+              INSTALL_PENDING_KEY,
+            ) === "1";
+        } catch {
+          return;
+        }
+
+        if (!pendente) {
+          return;
+        }
+
+        const navegador =
+          navigator as Navigator & {
+            getInstalledRelatedApps?: () =>
+              Promise<
+                Array<{
+                  platform?: string;
+                  url?: string;
+                  id?: string;
+                }>
+              >;
+          };
+
+        if (
+          typeof navegador.getInstalledRelatedApps !==
+          "function"
+        ) {
+          return;
+        }
+
+        try {
+          const aplicativos =
+            await navegador.getInstalledRelatedApps();
+
+          if (
+            cancelado ||
+            aplicativos.length === 0
+          ) {
+            return;
+          }
+
+          try {
+            window.sessionStorage.removeItem(
+              INSTALL_PENDING_KEY,
+            );
+          } catch {
+            // Continua normalmente.
+          }
+
+          setInstallPrompt(null);
+          setInstalado(true);
+          setPainelAberto(false);
+          setMostrarOrientacaoPosInstalacao(true);
+        } catch {
+          // O navegador pode não oferecer essa API.
+        }
+      };
+
+    const verificarComAtraso = () => {
+      window.setTimeout(
+        verificar,
+        300,
+      );
+
+      window.setTimeout(
+        verificar,
+        1800,
+      );
+
+      window.setTimeout(
+        verificar,
+        4500,
+      );
+    };
+
+    const aoVoltarParaPagina = () => {
+      if (
+        document.visibilityState === "visible"
+      ) {
+        verificarComAtraso();
+      }
+    };
+
+    window.addEventListener(
+      "focus",
+      verificarComAtraso,
+    );
+
+    document.addEventListener(
+      "visibilitychange",
+      aoVoltarParaPagina,
+    );
+
+    verificarComAtraso();
+
+    return () => {
+      cancelado = true;
+
+      window.removeEventListener(
+        "focus",
+        verificarComAtraso,
+      );
+
+      document.removeEventListener(
+        "visibilitychange",
+        aoVoltarParaPagina,
       );
     };
   }, []);
@@ -350,6 +480,15 @@ export default function LerDepoisFlutuante() {
       return;
     }
 
+    try {
+      window.sessionStorage.setItem(
+        INSTALL_PENDING_KEY,
+        "1",
+      );
+    } catch {
+      // Continua normalmente.
+    }
+
     if (installPrompt) {
       try {
         const resultado =
@@ -360,9 +499,31 @@ export default function LerDepoisFlutuante() {
         if (
           resultado?.outcome === "accepted"
         ) {
+          try {
+            window.sessionStorage.removeItem(
+              INSTALL_PENDING_KEY,
+            );
+          } catch {
+            // Continua normalmente.
+          }
+
           setMensagem(
             "Ler depois instalado.",
           );
+
+          setPainelAberto(false);
+          setInstalado(true);
+          setMostrarOrientacaoPosInstalacao(true);
+
+          return;
+        }
+
+        try {
+          window.sessionStorage.removeItem(
+            INSTALL_PENDING_KEY,
+          );
+        } catch {
+          // Continua normalmente.
         }
 
         return;
