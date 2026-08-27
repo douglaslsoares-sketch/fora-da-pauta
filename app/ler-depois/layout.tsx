@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  manifest: "/manifest-ler-depois.webmanifest",
-
   icons: {
     icon: "/fora-da-pauta-ler-depois-192.png",
     apple: "/fora-da-pauta-ler-depois-180.png",

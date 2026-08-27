@@ -17,12 +17,6 @@ const STORAGE_KEY =
 const STORAGE_EVENT =
   "fora-da-pauta:ler-depois-alterado";
 
-const INSTALL_HINT_KEY =
-  "fora-da-pauta:mostrar-instalacao";
-
-const INSTALL_EVENT =
-  "fora-da-pauta:mostrar-instalacao";
-
 function lerPaginasSalvas(): PaginaSalva[] {
   try {
     const bruto =
@@ -94,60 +88,77 @@ export default function ListaLerDepois() {
     setMostrarInstalacao,
   ] = useState(false);
 
+  const [
+    tipoInstalacao,
+    setTipoInstalacao,
+  ] = useState<
+    "ios" | "mac-safari" | "android" | "generico"
+  >("generico");
+
   useEffect(() => {
     setPaginas(
       lerPaginasSalvas(),
     );
 
-    const mostrar = () => {
-      setMostrarInstalacao(true);
+    const parametros =
+      new URLSearchParams(
+        window.location.search,
+      );
 
-      try {
-        window.sessionStorage.removeItem(
-          INSTALL_HINT_KEY,
-        );
-      } catch {
-        // Nada a fazer.
-      }
-    };
-
-    try {
-      const parametros =
-        new URLSearchParams(
-          window.location.search,
-        );
-
-      const pediuInstalacao =
-        parametros.get("instalar") === "1";
-
-      const veioDaSessao =
-        window.sessionStorage.getItem(
-          INSTALL_HINT_KEY,
-        ) === "1";
-
-      if (
-        pediuInstalacao ||
-        veioDaSessao
-      ) {
-        mostrar();
-      }
-    } catch {
-      // Nada a fazer.
+    if (
+      parametros.get("instalar") !== "1"
+    ) {
+      return;
     }
 
-    window.addEventListener(
-      INSTALL_EVENT,
-      mostrar,
-    );
+    const userAgent =
+      navigator.userAgent;
 
-    return () => {
-      window.removeEventListener(
-        INSTALL_EVENT,
-        mostrar,
+    const plataforma =
+      navigator.platform ?? "";
+
+    const ehIOS =
+      /iPad|iPhone|iPod/i.test(
+        userAgent,
+      ) ||
+      (
+        plataforma === "MacIntel" &&
+        navigator.maxTouchPoints > 1
       );
-    };
-  }, []);
 
+    const ehAndroid =
+      /Android/i.test(userAgent);
+
+    const ehSafari =
+      /Safari/i.test(userAgent) &&
+      !/Chrome|CriOS|Edg|OPR|Firefox|FxiOS/i.test(
+        userAgent,
+      );
+
+    const ehMac =
+      /Mac/i.test(plataforma);
+
+    if (ehIOS) {
+      setTipoInstalacao("ios");
+    } else if (
+      ehMac &&
+      ehSafari
+    ) {
+      setTipoInstalacao(
+        "mac-safari",
+      );
+    } else if (ehAndroid) {
+      setTipoInstalacao(
+        "android",
+      );
+    } else {
+      setTipoInstalacao(
+        "generico",
+      );
+    }
+
+    setMostrarInstalacao(true);
+  }, []);
   function removerPagina(url: string) {
     const atualizadas =
       paginas.filter(
@@ -184,27 +195,68 @@ export default function ListaLerDepois() {
       {mostrarInstalacao && (
         <section className="mt-6 rounded-[24px] border border-black/10 bg-white p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40">
-            Tela inicial
+            Instalar Ler depois
           </p>
 
           <h2 className="mt-2 text-xl font-semibold tracking-[-0.03em]">
-            Criar o ícone Ler depois
+            Adicionar à tela inicial
           </h2>
 
-          <p className="mt-3 text-sm leading-6 text-black/60">
-            Abra o menu de compartilhamento do navegador e escolha{" "}
-            <strong>
-              Adicionar à Tela de Início
-            </strong>
-            . Se o navegador mostrar{" "}
-            <strong>
-              Instalar app
-            </strong>
-            , essa opção também pode ser usada.
-          </p>
+          {tipoInstalacao === "ios" && (
+            <p className="mt-3 text-sm leading-6 text-black/60">
+              Toque em{" "}
+              <strong>Compartilhar</strong>
+              {" "}e depois em{" "}
+              <strong>
+                Adicionar à Tela de Início
+              </strong>
+              .
+            </p>
+          )}
+
+          {tipoInstalacao === "mac-safari" && (
+            <p className="mt-3 text-sm leading-6 text-black/60">
+              No Safari, abra{" "}
+              <strong>Arquivo</strong>
+              {" "}e escolha{" "}
+              <strong>
+                Adicionar ao Dock
+              </strong>
+              .
+            </p>
+          )}
+
+          {tipoInstalacao === "android" && (
+            <p className="mt-3 text-sm leading-6 text-black/60">
+              Abra o menu do navegador e escolha{" "}
+              <strong>
+                Instalar app
+              </strong>
+              {" "}ou{" "}
+              <strong>
+                Adicionar à tela inicial
+              </strong>
+              .
+            </p>
+          )}
+
+          {tipoInstalacao === "generico" && (
+            <p className="mt-3 text-sm leading-6 text-black/60">
+              Abra o menu do navegador e procure por{" "}
+              <strong>
+                Instalar
+              </strong>
+              {" "}ou{" "}
+              <strong>
+                Adicionar à tela inicial
+              </strong>
+              .
+            </p>
+          )}
 
           <p className="mt-3 text-xs leading-5 text-black/45">
-            O atalho abrirá diretamente esta lista do Fora da Pauta.
+            Depois de instalado, o ícone
+            Ler depois abrirá diretamente esta lista.
           </p>
 
           <button
@@ -218,7 +270,6 @@ export default function ListaLerDepois() {
           </button>
         </section>
       )}
-
       <section className="mt-7">
         <div className="flex items-center justify-between gap-4">
           <p className="text-sm font-semibold">

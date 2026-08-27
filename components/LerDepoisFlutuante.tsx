@@ -31,12 +31,6 @@ const STORAGE_KEY =
 const STORAGE_EVENT =
   "fora-da-pauta:ler-depois-alterado";
 
-const INSTALL_HINT_KEY =
-  "fora-da-pauta:mostrar-instalacao";
-
-const INSTALL_EVENT =
-  "fora-da-pauta:mostrar-instalacao";
-
 function lerPaginasSalvas(): PaginaSalva[] {
   try {
     const bruto =
@@ -350,10 +344,6 @@ export default function LerDepoisFlutuante() {
       return;
     }
 
-    /*
-     * Android / Chrome:
-     * abre diretamente o diálogo nativo de instalação.
-     */
     if (installPrompt) {
       try {
         const resultado =
@@ -362,8 +352,7 @@ export default function LerDepoisFlutuante() {
         setInstallPrompt(null);
 
         if (
-          resultado &&
-          resultado.outcome === "accepted"
+          resultado?.outcome === "accepted"
         ) {
           setMensagem(
             "Ler depois instalado.",
@@ -376,34 +365,12 @@ export default function LerDepoisFlutuante() {
       }
     }
 
-    /*
-     * Plano B para navegadores que não oferecem
-     * o diálogo programático, como o Safari/iOS.
-     */
-    try {
-      window.sessionStorage.setItem(
-        INSTALL_HINT_KEY,
-        "1",
-      );
-    } catch {
-      // Continua normalmente.
-    }
-
     setPainelAberto(false);
-
-    if (pathname === "/ler-depois") {
-      window.dispatchEvent(
-        new Event(INSTALL_EVENT),
-      );
-
-      return;
-    }
 
     window.location.assign(
       "/ler-depois?instalar=1",
     );
   }
-
   return (
     <>
       <button
