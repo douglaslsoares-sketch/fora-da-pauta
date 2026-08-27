@@ -112,10 +112,22 @@ export default function ListaLerDepois() {
     };
 
     try {
-      if (
+      const parametros =
+        new URLSearchParams(
+          window.location.search,
+        );
+
+      const pediuInstalacao =
+        parametros.get("instalar") === "1";
+
+      const veioDaSessao =
         window.sessionStorage.getItem(
           INSTALL_HINT_KEY,
-        ) === "1"
+        ) === "1";
+
+      if (
+        pediuInstalacao ||
+        veioDaSessao
       ) {
         mostrar();
       }
