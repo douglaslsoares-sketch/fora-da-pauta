@@ -1,6 +1,7 @@
-﻿export * from "./tipos";
+export * from "./tipos";
 export * from "./pautas";
 export * from "./candidaturas";
+export * from "./reeleicao";
 
 export { posicionamentos as posicionamentosManuais } from "./posicionamentos";
 export { posicionamentosGerados } from "./posicionamentos-pec221-gerados";

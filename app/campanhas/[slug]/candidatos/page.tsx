@@ -1,17 +1,20 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { campaigns, getCampaign } from "@/data/campanhas";
-import { candidaturas, posicionamentos } from "@/data/eleicoes";
+import { candidaturas, obterSituacaoReeleicao, posicionamentos } from "@/data/eleicoes";
 import ultimaAtualizacao from "@/data/eleicoes/ultima-atualizacao.json";
+
+type FiltrosCandidatos = {
+  uf?: string;
+  cargo?: string;
+  posicao?: string;
+  partido?: string;
+  reeleicao?: string;
+};
 
 type PageProps = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{
-    uf?: string;
-    cargo?: string;
-    posicao?: string;
-    partido?: string;
-  }>;
+  searchParams: Promise<FiltrosCandidatos>;
 };
 
 const nomesDosCargos: Record<string, string> = {
@@ -30,6 +33,37 @@ const nomesDasPosicoes: Record<string, string> = {
   "sem-posicao-publica": "Sem posição pública localizada",
 };
 
+function hrefComFiltroDeReeleicao(
+  slug: string,
+  filtros: FiltrosCandidatos,
+  reeleicao?: string
+) {
+  const params = new URLSearchParams();
+
+  if (filtros.uf) {
+    params.set("uf", filtros.uf);
+  }
+
+  if (filtros.cargo) {
+    params.set("cargo", filtros.cargo);
+  }
+
+  if (filtros.posicao) {
+    params.set("posicao", filtros.posicao);
+  }
+
+  if (filtros.partido) {
+    params.set("partido", filtros.partido);
+  }
+
+  if (reeleicao) {
+    params.set("reeleicao", reeleicao);
+  }
+
+  const query = params.toString();
+
+  return `/campanhas/${slug}/candidatos${query ? `?${query}` : ""}`;
+}
 export function generateStaticParams() {
   return campaigns.map((campaign) => ({
     slug: campaign.slug,
@@ -93,6 +127,13 @@ export default async function CandidatosDaPautaPage({
     if (
       filtros.partido &&
       candidatura.siglaPartido !== filtros.partido
+    ) {
+      return false;
+    }
+
+    if (
+      filtros.reeleicao &&
+      obterSituacaoReeleicao(candidatura) !== filtros.reeleicao
     ) {
       return false;
     }
@@ -190,6 +231,66 @@ export default async function CandidatosDaPautaPage({
           </button>
         </form>
 
+        <div className="mb-8">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-black/40">
+            Situação nesta eleição
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href={hrefComFiltroDeReeleicao(
+                campaign.slug,
+                filtros
+              )}
+              scroll={false}
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                !filtros.reeleicao
+                  ? "bg-black text-white"
+                  : "bg-white text-black/60 hover:text-black"
+              }`}
+            >
+              Todos
+            </Link>
+
+            <Link
+              href={hrefComFiltroDeReeleicao(
+                campaign.slug,
+                filtros,
+                "reeleicao"
+              )}
+              scroll={false}
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                filtros.reeleicao === "reeleicao"
+                  ? "bg-black text-white"
+                  : "bg-white text-black/60 hover:text-black"
+              }`}
+            >
+              Reeleição
+            </Link>
+
+            <Link
+              href={hrefComFiltroDeReeleicao(
+                campaign.slug,
+                filtros,
+                "nao-concorre-a-reeleicao"
+              )}
+              scroll={false}
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                filtros.reeleicao === "nao-concorre-a-reeleicao"
+                  ? "bg-black text-white"
+                  : "bg-white text-black/60 hover:text-black"
+              }`}
+            >
+              Não concorre à reeleição
+            </Link>
+          </div>
+
+          <p className="mt-3 text-xs leading-5 text-black/40">
+            Reeleição significa que a pessoa ocupa atualmente o mesmo cargo
+            que está disputando em 2026.
+          </p>
+        </div>
+
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <p className="text-sm text-black/45">
             {filtrados.length} posicionamento
@@ -228,6 +329,12 @@ export default async function CandidatosDaPautaPage({
                     {candidatura.siglaPartido} · {candidatura.uf} ·{" "}
                     {nomesDosCargos[candidatura.cargo]}
                   </p>
+
+                  {obterSituacaoReeleicao(candidatura) === "reeleicao" ? (
+                    <span className="mt-3 inline-flex rounded-full border border-black/10 bg-[#f2f2ef] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-black/65">
+                      Reeleição
+                    </span>
+                  ) : null}
                 </div>
 
                 <span className="h-fit rounded-full bg-[#efefe9] px-4 py-2 text-sm font-semibold">
