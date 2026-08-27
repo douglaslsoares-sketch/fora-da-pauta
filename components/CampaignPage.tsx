@@ -1,6 +1,7 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import type { Campaign } from "@/data/campanhas";
 import { ExpandableCard } from "@/components/ExpandableCard";
+import { CampaignComparison } from "@/components/CampaignComparison";
 import { ShareCard } from "@/components/ShareCard";
 import { CandidatesCard } from "@/components/CandidatesCard";
 import { StoreCard } from "@/components/StoreCard";
@@ -40,6 +41,9 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
         </section>
 
         <section className="space-y-4" aria-label="Conteúdo da campanha">
+          {campaign.comparison ? (
+            <CampaignComparison comparison={campaign.comparison} />
+          ) : null}
           {campaign.sections.map((section) => (
             <ExpandableCard key={section.title} {...section} />
           ))}

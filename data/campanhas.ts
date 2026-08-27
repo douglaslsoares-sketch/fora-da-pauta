@@ -2,6 +2,28 @@ export type CampaignSection = {
   title: string;
   eyebrow?: string;
   paragraphs: string[];
+  references?: CampaignReference[];
+};
+
+export type CampaignReference = {
+  label: string;
+  url: string;
+};
+
+export type CampaignComparison = {
+  eyebrow?: string;
+  title: string;
+  left: {
+    label: string;
+    lines: string[];
+  };
+  connector: string;
+  right: {
+    label: string;
+    lines: string[];
+    emphasis?: string;
+  };
+  summary?: string;
 };
 
 export type Campaign = {
@@ -9,6 +31,7 @@ export type Campaign = {
   brand: string;
   title: string;
   statement: string;
+  comparison?: CampaignComparison;
   sections: CampaignSection[];
   storeUrl?: string;
   shareImage?: string;
@@ -20,26 +43,100 @@ export const campaigns: Campaign[] = [
     slug: "escala-6x1",
     brand: "Fora da Pauta",
     title: "Fim da escala 6x1",
-    statement: "Vote em candidatos que defendem o fim da escala 6x1.",
+    statement:
+      "Entenda o que muda da escala 6x1 para a 5x2 — e veja quem defende essa mudança.",
+    comparison: {
+      eyebrow: "Entenda rapidamente",
+      title: "O que você prefere?",
+      left: {
+        label: "6x1",
+        lines: [
+          "6 dias de trabalho",
+          "1 dia de folga",
+        ],
+      },
+      connector: "OU",
+      right: {
+        label: "5x2",
+        lines: [
+          "5 dias de trabalho",
+          "2 dias de folga",
+        ],
+        emphasis: "COM O MESMO SALÁRIO",
+      },
+      summary:
+        "Em termos simples: um dia a menos de trabalho por semana e um dia a mais de folga, mantendo o salário.",
+    },
     sections: [
       {
-        eyebrow: "A mensagem",
-        title: "Por quê?",
+        eyebrow: "Em linguagem simples",
+        title: "O que está sendo proposto?",
         paragraphs: [
-          "A escala 6x1 organiza a rotina em seis dias de trabalho para um dia de descanso. Esta campanha defende a substituição por uma jornada 5x2, com cinco dias de trabalho e dois de descanso, **sem redução de salário**.",
-          "A proposta busca ampliar o tempo disponível para descanso, convivência familiar, estudo, lazer e vida pessoal — colocando qualidade de vida e dignidade no centro da discussão sobre trabalho.",
+          "Hoje, a legislação permite jornada de até 44 horas semanais. A escala 6x1 significa trabalhar seis dias e descansar um.",
+          "A PEC 221/2019, aprovada pela Câmara dos Deputados, propõe jornada máxima de 40 horas semanais distribuídas em cinco dias, com dois dias de descanso e **sem redução de salário**.",
+          "Na prática, a proposta troca a lógica de seis dias de trabalho e um de folga por cinco dias de trabalho e dois de folga.",
+        ],
+        references: [
+          {
+            label: "Câmara dos Deputados — texto aprovado",
+            url: "https://www.camara.leg.br/noticias/1277141-camara-aprova-em-dois-turnos-fim-da-escala-6x1-com-jornada-maxima-de-40-horas-semanais",
+          },
+        ],
+      },
+      {
+        eyebrow: "Argumentos favoráveis",
+        title: "Por que há quem defenda a mudança?",
+        paragraphs: [
+          "Quem defende o fim da escala 6x1 argumenta que dois dias de descanso por semana podem dar ao trabalhador mais tempo para descansar, conviver com a família, estudar, cuidar da saúde e resolver assuntos da vida cotidiana.",
+          "A ideia é buscar um equilíbrio melhor entre trabalho e vida pessoal sem reduzir o salário por causa da diminuição da jornada.",
+          "O argumento central é simples: o tempo fora do trabalho também faz parte da qualidade de vida.",
+        ],
+      },
+      {
+        eyebrow: "O outro lado do debate",
+        title: "Quais são as preocupações?",
+        paragraphs: [
+          "Empresas e setores que funcionam todos os dias podem precisar reorganizar turnos, contratar mais pessoas ou absorver custos maiores. O impacto pode ser diferente conforme o setor, o tamanho da empresa e a forma de implementação.",
+          "Por isso, parte do debate envolve o período de transição, a reorganização das escalas e regras para atividades que precisam funcionar continuamente.",
+          "Discutir a mudança também significa discutir como ela pode ser aplicada sem ignorar as necessidades de trabalhadores, empresas e serviços.",
         ],
       },
       {
         eyebrow: "Para aprofundar",
         title: "Evidências",
         paragraphs: [
-          "A proposta de substituir a escala 6x1 pela 5x2, sem redução salarial, parte da ideia de que trabalhar cinco dias e ter dois dias de descanso pode melhorar a qualidade de vida sem necessariamente significar menor produtividade.",
-          "Experiências com redução da jornada de trabalho em diferentes países e empresas têm encontrado resultados como melhora no bem-estar, redução de estresse e esgotamento, maior satisfação profissional e manutenção — e, em alguns casos, aumento — da produtividade.",
-          "Isso acontece porque produtividade não depende apenas do número de dias ou horas trabalhadas. Descanso adequado pode contribuir para maior concentração, menor absenteísmo, menor rotatividade e melhor desempenho durante o período efetivamente trabalhado.",
-          "Há também argumentos contrários à mudança. Setores que funcionam durante muitos dias da semana alertam para aumento de custos, necessidade de novas contratações e dificuldades na reorganização das escalas. Esses impactos podem variar bastante conforme o setor e o tamanho da empresa.",
-          "Por isso, o debate sobre o fim da escala 6x1 envolve não apenas quantos dias se trabalha, mas como organizar uma jornada que preserve a atividade econômica e, ao mesmo tempo, proporcione ao trabalhador mais tempo para descanso, família, lazer e vida pessoal.",
-          "A proposta defendida nesta campanha é clara: escala 5x2, com dois dias de descanso e sem redução de salário.",
+          "Pesquisas sobre redução do tempo de trabalho indicam que jornadas menores podem favorecer o equilíbrio entre trabalho e vida pessoal, o bem-estar e, em determinadas condições, a produtividade. Os resultados não são iguais em todos os setores e dependem de como o trabalho é reorganizado.",
+          "Um grande estudo internacional publicado em 2025 sobre experiências de semana de quatro dias, sem redução salarial, encontrou redução de esgotamento, maior satisfação no trabalho e melhora na saúde dos participantes.",
+          "Esse modelo de quatro dias não é igual à proposta brasileira de cinco dias e 40 horas. Por isso, esses estudos ajudam a entender possíveis efeitos da redução de jornada, mas não provam, sozinhos, qual será o resultado da PEC no Brasil.",
+        ],
+        references: [
+          {
+            label: "OIT — tempo de trabalho, equilíbrio e produtividade",
+            url: "https://www.ilo.org/resource/news/flexible-working-hours-can-benefit-work-life-balance-businesses-and",
+          },
+          {
+            label: "Nature Human Behaviour — estudo sobre semana de quatro dias",
+            url: "https://www.nature.com/articles/d41586-025-02295-2",
+          },
+        ],
+      },
+      {
+        eyebrow: "Tramitação",
+        title: "Onde a proposta está agora?",
+        paragraphs: [
+          "A Câmara dos Deputados aprovou a PEC 221/2019 em dois turnos em 27 de maio de 2026.",
+          "Situação consultada em 27 de agosto de 2026: a proposta está na Comissão de Constituição, Justiça e Cidadania do Senado, sob relatoria do senador Omar Aziz. O texto ainda pode receber alterações durante a tramitação.",
+          "Portanto, a mudança ainda não está em vigor.",
+        ],
+        references: [
+          {
+            label: "Senado Federal — tramitação da PEC 221/2019",
+            url: "https://www25.senado.leg.br/web/atividade/materias/-/materia/174386",
+          },
+          {
+            label: "Câmara dos Deputados — aprovação em dois turnos",
+            url: "https://www.camara.leg.br/noticias/1277141-camara-aprova-em-dois-turnos-fim-da-escala-6x1-com-jornada-maxima-de-40-horas-semanais",
+          },
         ],
       },
     ],
@@ -47,7 +144,6 @@ export const campaigns: Campaign[] = [
     shareImage: "/campanhas/escala-6x1/compartilhar.png",
     pautaId: "fim-escala-6x1",
   },
-
   {
     slug: "compare-os-dados",
     brand: "Fora da Pauta",

@@ -1,7 +1,11 @@
-﻿type ExpandableCardProps = {
+type ExpandableCardProps = {
   eyebrow?: string;
   title: string;
   paragraphs: string[];
+  references?: {
+    label: string;
+    url: string;
+  }[];
 };
 
 function renderParagraph(paragraph: string) {
@@ -28,6 +32,7 @@ export function ExpandableCard({
   eyebrow,
   title,
   paragraphs,
+  references,
 }: ExpandableCardProps) {
   return (
     <details className="group overflow-hidden rounded-[30px] border border-black/10 bg-white shadow-[0_18px_60px_rgba(0,0,0,0.06)] open:shadow-[0_24px_80px_rgba(0,0,0,0.09)]">
@@ -57,6 +62,28 @@ export function ExpandableCard({
             <p key={index}>{renderParagraph(paragraph)}</p>
           ))}
         </div>
+
+        {references?.length ? (
+          <div className="mt-7 border-t border-black/10 pt-5">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-black/40">
+              Fontes
+            </p>
+
+            <div className="space-y-2">
+              {references.map((reference) => (
+                <a
+                  key={reference.url}
+                  href={reference.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block text-sm font-medium leading-6 text-black/60 underline decoration-black/20 underline-offset-4 transition-colors hover:text-black"
+                >
+                  {reference.label} ↗
+                </a>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
     </details>
   );
