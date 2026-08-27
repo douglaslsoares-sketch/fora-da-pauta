@@ -185,7 +185,6 @@ export default function LerDepoisFlutuante() {
 
         if (estaInstalado) {
           setInstallPrompt(null);
-          setPainelAberto(false);
 
           if (
             !orientacaoDeInstalacaoJaFoiMostrada()
