@@ -145,6 +145,19 @@ export default function LerDepoisFlutuante() {
   }, []);
 
   useEffect(() => {
+    if (
+      "serviceWorker" in navigator
+    ) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .catch(() => {
+          // A aplicação continua funcionando
+          // normalmente sem o Service Worker.
+        });
+    }
+  }, []);
+
+  useEffect(() => {
     const navigatorComStandalone =
       navigator as Navigator & {
         standalone?: boolean;
@@ -329,33 +342,6 @@ export default function LerDepoisFlutuante() {
   }
 
   async function adicionarATelaInicial() {
-    /*
-     * A instalação precisa acontecer a partir da própria
-     * página /ler-depois, que possui manifesto e identidade
-     * instalável exclusivos.
-     *
-     * Em outra página do Fora da Pauta, primeiro fazemos
-     * uma navegação completa para /ler-depois.
-     */
-    if (pathname !== "/ler-depois") {
-      try {
-        window.sessionStorage.setItem(
-          INSTALL_HINT_KEY,
-          "1",
-        );
-      } catch {
-        // Continua normalmente.
-      }
-
-      setPainelAberto(false);
-
-      window.location.assign(
-        "/ler-depois?instalar=1",
-      );
-
-      return;
-    }
-
     if (instalado) {
       setMensagem(
         "O Ler depois já está instalado neste aparelho.",
@@ -365,15 +351,24 @@ export default function LerDepoisFlutuante() {
     }
 
     /*
-     * Chrome/Edge:
-     * se o navegador disponibilizou o prompt da PWA
-     * exclusiva do Ler depois, usamos esse prompt.
+     * Android / Chrome:
+     * abre diretamente o diálogo nativo de instalação.
      */
     if (installPrompt) {
       try {
-        await installPrompt.prompt();
+        const resultado =
+          await installPrompt.prompt();
 
         setInstallPrompt(null);
+
+        if (
+          resultado &&
+          resultado.outcome === "accepted"
+        ) {
+          setMensagem(
+            "Ler depois instalado.",
+          );
+        }
 
         return;
       } catch {
@@ -382,8 +377,8 @@ export default function LerDepoisFlutuante() {
     }
 
     /*
-     * Safari/iOS e navegadores sem beforeinstallprompt:
-     * mostra as instruções manuais já existentes.
+     * Plano B para navegadores que não oferecem
+     * o diálogo programático, como o Safari/iOS.
      */
     try {
       window.sessionStorage.setItem(
@@ -394,11 +389,19 @@ export default function LerDepoisFlutuante() {
       // Continua normalmente.
     }
 
-    window.dispatchEvent(
-      new Event(INSTALL_EVENT),
-    );
-
     setPainelAberto(false);
+
+    if (pathname === "/ler-depois") {
+      window.dispatchEvent(
+        new Event(INSTALL_EVENT),
+      );
+
+      return;
+    }
+
+    window.location.assign(
+      "/ler-depois?instalar=1",
+    );
   }
 
   return (
