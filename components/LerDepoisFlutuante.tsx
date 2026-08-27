@@ -9,6 +9,14 @@ import {
   useRouter,
 } from "next/navigation";
 import { criarMensagemDeCompartilhamento } from "./shareMessage";
+import {
+  LER_DEPOIS_INSTALACAO_EVENT,
+  consultarSeLerDepoisEstaInstalado,
+  desmarcarLerDepoisComoInstalado,
+  marcarLerDepoisComoInstalado,
+  marcarOrientacaoDeInstalacaoComoMostrada,
+  orientacaoDeInstalacaoJaFoiMostrada,
+} from "../lib/estadoInstalacaoLerDepois";
 
 type PaginaSalva = {
   url: string;
@@ -159,24 +167,42 @@ export default function LerDepoisFlutuante() {
   }, []);
 
   useEffect(() => {
-    const navigatorComStandalone =
-      navigator as Navigator & {
-        standalone?: boolean;
+    let cancelado = false;
+
+    const atualizarEstadoInstalacao =
+      async () => {
+        const estaInstalado =
+          await consultarSeLerDepoisEstaInstalado();
+
+        if (cancelado) {
+          return;
+        }
+
+        setInstalado(
+          estaInstalado,
+        );
+
+        if (estaInstalado) {
+          setInstallPrompt(null);
+          setPainelAberto(false);
+
+          if (
+            !orientacaoDeInstalacaoJaFoiMostrada()
+          ) {
+            setMostrarOrientacaoPosInstalacao(
+              true,
+            );
+          }
+        }
       };
-
-    const estaInstalado =
-      window.matchMedia(
-        "(display-mode: standalone)",
-      ).matches ||
-      navigatorComStandalone.standalone ===
-        true;
-
-    setInstalado(estaInstalado);
 
     const prepararInstalacao = (
       event: Event,
     ) => {
       event.preventDefault();
+
+      desmarcarLerDepoisComoInstalado();
+      setInstalado(false);
 
       setInstallPrompt(
         event as InstallPromptEvent,
@@ -192,10 +218,32 @@ export default function LerDepoisFlutuante() {
         // Continua normalmente.
       }
 
+      marcarLerDepoisComoInstalado();
+
       setInstallPrompt(null);
       setInstalado(true);
       setPainelAberto(false);
-      setMostrarOrientacaoPosInstalacao(true);
+
+      if (
+        !orientacaoDeInstalacaoJaFoiMostrada()
+      ) {
+        setMostrarOrientacaoPosInstalacao(
+          true,
+        );
+      }
+    };
+
+    const aoAlterarInstalacao = () => {
+      void atualizarEstadoInstalacao();
+    };
+
+    const aoVoltarParaPagina = () => {
+      if (
+        document.visibilityState ===
+        "visible"
+      ) {
+        void atualizarEstadoInstalacao();
+      }
     };
 
     window.addEventListener(
@@ -208,7 +256,26 @@ export default function LerDepoisFlutuante() {
       confirmarInstalacao,
     );
 
+    window.addEventListener(
+      LER_DEPOIS_INSTALACAO_EVENT,
+      aoAlterarInstalacao,
+    );
+
+    window.addEventListener(
+      "focus",
+      aoAlterarInstalacao,
+    );
+
+    document.addEventListener(
+      "visibilitychange",
+      aoVoltarParaPagina,
+    );
+
+    void atualizarEstadoInstalacao();
+
     return () => {
+      cancelado = true;
+
       window.removeEventListener(
         "beforeinstallprompt",
         prepararInstalacao,
@@ -218,119 +285,15 @@ export default function LerDepoisFlutuante() {
         "appinstalled",
         confirmarInstalacao,
       );
-    };
-  }, []);
 
-  useEffect(() => {
-    let cancelado = false;
-
-    const verificar =
-      async () => {
-        let pendente = false;
-
-        try {
-          pendente =
-            window.sessionStorage.getItem(
-              INSTALL_PENDING_KEY,
-            ) === "1";
-        } catch {
-          return;
-        }
-
-        if (!pendente) {
-          return;
-        }
-
-        const navegador =
-          navigator as Navigator & {
-            getInstalledRelatedApps?: () =>
-              Promise<
-                Array<{
-                  platform?: string;
-                  url?: string;
-                  id?: string;
-                }>
-              >;
-          };
-
-        if (
-          typeof navegador.getInstalledRelatedApps !==
-          "function"
-        ) {
-          return;
-        }
-
-        try {
-          const aplicativos =
-            await navegador.getInstalledRelatedApps();
-
-          if (
-            cancelado ||
-            aplicativos.length === 0
-          ) {
-            return;
-          }
-
-          try {
-            window.sessionStorage.removeItem(
-              INSTALL_PENDING_KEY,
-            );
-          } catch {
-            // Continua normalmente.
-          }
-
-          setInstallPrompt(null);
-          setInstalado(true);
-          setPainelAberto(false);
-          setMostrarOrientacaoPosInstalacao(true);
-        } catch {
-          // O navegador pode não oferecer essa API.
-        }
-      };
-
-    const verificarComAtraso = () => {
-      window.setTimeout(
-        verificar,
-        300,
+      window.removeEventListener(
+        LER_DEPOIS_INSTALACAO_EVENT,
+        aoAlterarInstalacao,
       );
-
-      window.setTimeout(
-        verificar,
-        1800,
-      );
-
-      window.setTimeout(
-        verificar,
-        4500,
-      );
-    };
-
-    const aoVoltarParaPagina = () => {
-      if (
-        document.visibilityState === "visible"
-      ) {
-        verificarComAtraso();
-      }
-    };
-
-    window.addEventListener(
-      "focus",
-      verificarComAtraso,
-    );
-
-    document.addEventListener(
-      "visibilitychange",
-      aoVoltarParaPagina,
-    );
-
-    verificarComAtraso();
-
-    return () => {
-      cancelado = true;
 
       window.removeEventListener(
         "focus",
-        verificarComAtraso,
+        aoAlterarInstalacao,
       );
 
       document.removeEventListener(
@@ -339,7 +302,6 @@ export default function LerDepoisFlutuante() {
       );
     };
   }, []);
-
   function salvarPaginaAtual() {
     if (pathname === "/ler-depois") {
       setMensagem(
@@ -511,9 +473,18 @@ export default function LerDepoisFlutuante() {
             "Ler depois instalado.",
           );
 
+          marcarLerDepoisComoInstalado();
+
           setPainelAberto(false);
           setInstalado(true);
-          setMostrarOrientacaoPosInstalacao(true);
+
+          if (
+            !orientacaoDeInstalacaoJaFoiMostrada()
+          ) {
+            setMostrarOrientacaoPosInstalacao(
+              true,
+            );
+          }
 
           return;
         }
@@ -540,40 +511,69 @@ export default function LerDepoisFlutuante() {
   }
   return (
     <>
-      <button
-        type="button"
-        onClick={abrirPainel}
-        aria-label="Guardar para ler depois"
-        className="fixed right-4 z-50 inline-flex items-center gap-2 rounded-full bg-black px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 sm:hidden"
-        style={{
-          bottom:
-            "calc(env(safe-area-inset-bottom) + 1rem)",
-        }}
-      >
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          className="h-4 w-4"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
+      {!instalado && (
+        <button
+          type="button"
+          onClick={abrirPainel}
+          aria-label="Guardar para ler depois"
+          className="fixed right-4 z-50 inline-flex items-center gap-2 rounded-full bg-black px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 sm:hidden"
+          style={{
+            bottom:
+              "calc(env(safe-area-inset-bottom) + 1rem)",
+          }}
         >
-          <path
-            d="M7 4.75A1.75 1.75 0 0 1 8.75 3h6.5A1.75 1.75 0 0 1 17 4.75V21l-5-3.25L7 21V4.75Z"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+          >
+            <path
+              d="M7 4.75A1.75 1.75 0 0 1 8.75 3h6.5A1.75 1.75 0 0 1 17 4.75V21l-5-3.25L7 21V4.75Z"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
 
-        <span>Ler depois</span>
+          <span>Ler depois</span>
 
-        {quantidade > 0 && (
-          <span className="flex min-w-5 items-center justify-center rounded-full bg-white px-1.5 py-0.5 text-[10px] font-bold text-black">
-            {quantidade}
-          </span>
+          {quantidade > 0 && (
+            <span className="flex min-w-5 items-center justify-center rounded-full bg-white px-1.5 py-0.5 text-[10px] font-bold text-black">
+              {quantidade}
+            </span>
+          )}
+        </button>
+      )}
+
+      {instalado &&
+        pathname !== "/ler-depois" && (
+          <div className="mx-auto flex w-full max-w-3xl justify-end px-4 pb-6 pt-4 sm:hidden">
+            <button
+              type="button"
+              onClick={abrirPainel}
+              className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2.5 text-sm font-semibold text-black/65"
+            >
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+              >
+                <path
+                  d="M7 4.75A1.75 1.75 0 0 1 8.75 3h6.5A1.75 1.75 0 0 1 17 4.75V21l-5-3.25L7 21V4.75Z"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+
+              Guardar para ler depois
+            </button>
+          </div>
         )}
-      </button>
-
       {painelAberto && (
         <div className="fixed inset-0 z-[70] sm:hidden">
           <button
@@ -678,18 +678,17 @@ export default function LerDepoisFlutuante() {
                 </div>
               )}
 
-              <button
-                type="button"
-                onClick={
-                  adicionarATelaInicial
-                }
-                className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-black"
-              >
-                {instalado
-                  ? "Ler depois instalado"
-                  : "Adicionar à tela inicial"}
-              </button>
-
+              {!instalado && (
+                <button
+                  type="button"
+                  onClick={
+                    adicionarATelaInicial
+                  }
+                  className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-black"
+                >
+                  Adicionar à tela inicial
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() =>
@@ -746,9 +745,12 @@ export default function LerDepoisFlutuante() {
 
             <button
               type="button"
-              onClick={() =>
-                setMostrarOrientacaoPosInstalacao(false)
-              }
+              onClick={() => {
+                marcarOrientacaoDeInstalacaoComoMostrada();
+                setMostrarOrientacaoPosInstalacao(
+                  false,
+                );
+              }}
               className="mt-6 rounded-full bg-black px-5 py-3 text-sm font-semibold text-white"
             >
               Entendi

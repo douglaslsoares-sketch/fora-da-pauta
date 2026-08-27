@@ -4,6 +4,11 @@ import {
   useEffect,
   useState,
 } from "react";
+import {
+  LER_DEPOIS_INSTALACAO_EVENT,
+  consultarSeLerDepoisEstaInstalado,
+  marcarLerDepoisComoInstalado,
+} from "../lib/estadoInstalacaoLerDepois";
 
 type PaginaSalva = {
   url: string;
@@ -96,6 +101,8 @@ export default function ListaLerDepois() {
   >("generico");
 
   useEffect(() => {
+    let cancelado = false;
+
     setPaginas(
       lerPaginasSalvas(),
     );
@@ -105,11 +112,9 @@ export default function ListaLerDepois() {
         window.location.search,
       );
 
-    if (
-      parametros.get("instalar") !== "1"
-    ) {
-      return;
-    }
+    const solicitouInstalacao =
+      parametros.get("instalar") ===
+      "1";
 
     const userAgent =
       navigator.userAgent;
@@ -157,7 +162,69 @@ export default function ListaLerDepois() {
       );
     }
 
-    setMostrarInstalacao(true);
+    const atualizarEstadoInstalacao =
+      async () => {
+        const estaInstalado =
+          await consultarSeLerDepoisEstaInstalado();
+
+        if (cancelado) {
+          return;
+        }
+
+        setMostrarInstalacao(
+          solicitouInstalacao &&
+            !estaInstalado,
+        );
+      };
+
+    const aoAlterarInstalacao = () => {
+      void atualizarEstadoInstalacao();
+    };
+
+    const aoVoltarParaPagina = () => {
+      if (
+        document.visibilityState ===
+        "visible"
+      ) {
+        void atualizarEstadoInstalacao();
+      }
+    };
+
+    window.addEventListener(
+      LER_DEPOIS_INSTALACAO_EVENT,
+      aoAlterarInstalacao,
+    );
+
+    window.addEventListener(
+      "focus",
+      aoAlterarInstalacao,
+    );
+
+    document.addEventListener(
+      "visibilitychange",
+      aoVoltarParaPagina,
+    );
+
+    void atualizarEstadoInstalacao();
+
+    return () => {
+      cancelado = true;
+
+      window.removeEventListener(
+        LER_DEPOIS_INSTALACAO_EVENT,
+        aoAlterarInstalacao,
+      );
+
+      window.removeEventListener(
+        "focus",
+        aoAlterarInstalacao,
+      );
+
+      document.removeEventListener(
+        "visibilitychange",
+        aoVoltarParaPagina,
+      );
+    };
   }, []);
   function removerPagina(url: string) {
     const atualizadas =
@@ -259,15 +326,35 @@ export default function ListaLerDepois() {
             Ler depois abrirá diretamente esta lista.
           </p>
 
-          <button
-            type="button"
-            onClick={() =>
-              setMostrarInstalacao(false)
-            }
-            className="mt-4 rounded-full bg-black px-4 py-2 text-xs font-semibold text-white"
-          >
-            Entendi
-          </button>
+          <p className="mt-4 text-xs leading-5 text-black/45">
+            Se o navegador não reconhecer a instalação automaticamente,
+            volte a esta página e confirme abaixo.
+          </p>
+
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                marcarLerDepoisComoInstalado();
+                setMostrarInstalacao(
+                  false,
+                );
+              }}
+              className="rounded-full bg-black px-4 py-2 text-xs font-semibold text-white"
+            >
+              Já instalei
+            </button>
+
+            <button
+              type="button"
+              onClick={() =>
+                setMostrarInstalacao(false)
+              }
+              className="px-3 py-2 text-xs font-semibold text-black/45"
+            >
+              Fechar
+            </button>
+          </div>
         </section>
       )}
       <section className="mt-7">
@@ -296,7 +383,7 @@ export default function ListaLerDepois() {
             <p className="text-sm leading-6 text-black/55">
               Ao encontrar algo que queira guardar, toque no botão{" "}
               <strong>
-                Ler depois
+                Guardar para ler depois
               </strong>{" "}
               no canto inferior da tela.
             </p>
