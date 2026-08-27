@@ -329,6 +329,33 @@ export default function LerDepoisFlutuante() {
   }
 
   async function adicionarATelaInicial() {
+    /*
+     * A instalação precisa acontecer a partir da própria
+     * página /ler-depois, que possui manifesto e identidade
+     * instalável exclusivos.
+     *
+     * Em outra página do Fora da Pauta, primeiro fazemos
+     * uma navegação completa para /ler-depois.
+     */
+    if (pathname !== "/ler-depois") {
+      try {
+        window.sessionStorage.setItem(
+          INSTALL_HINT_KEY,
+          "1",
+        );
+      } catch {
+        // Continua normalmente.
+      }
+
+      setPainelAberto(false);
+
+      window.location.assign(
+        "/ler-depois?instalar=1",
+      );
+
+      return;
+    }
+
     if (instalado) {
       setMensagem(
         "O Ler depois já está instalado neste aparelho.",
@@ -337,6 +364,11 @@ export default function LerDepoisFlutuante() {
       return;
     }
 
+    /*
+     * Chrome/Edge:
+     * se o navegador disponibilizou o prompt da PWA
+     * exclusiva do Ler depois, usamos esse prompt.
+     */
     if (installPrompt) {
       try {
         await installPrompt.prompt();
@@ -349,6 +381,10 @@ export default function LerDepoisFlutuante() {
       }
     }
 
+    /*
+     * Safari/iOS e navegadores sem beforeinstallprompt:
+     * mostra as instruções manuais já existentes.
+     */
     try {
       window.sessionStorage.setItem(
         INSTALL_HINT_KEY,
@@ -363,10 +399,6 @@ export default function LerDepoisFlutuante() {
     );
 
     setPainelAberto(false);
-
-    if (pathname !== "/ler-depois") {
-      router.push("/ler-depois");
-    }
   }
 
   return (

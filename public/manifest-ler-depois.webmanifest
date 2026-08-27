@@ -1,0 +1,26 @@
+{
+  "id": "/ler-depois",
+  "name": "FORA DA PAUTA - Ler depois",
+  "short_name": "Ler depois",
+  "description": "Páginas do Fora da Pauta guardadas para ler depois.",
+  "start_url": "/ler-depois?origem=atalho",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#eeeee9",
+  "theme_color": "#eeeee9",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/fora-da-pauta-ler-depois-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/fora-da-pauta-ler-depois-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
