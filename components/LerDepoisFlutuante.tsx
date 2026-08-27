@@ -2,6 +2,7 @@
 
 import {
   useEffect,
+  useRef,
   useState,
 } from "react";
 import {
@@ -302,7 +303,94 @@ export default function LerDepoisFlutuante() {
       );
     };
   }, []);
-  function salvarPaginaAtual() {
+  const [
+    mostrarBotaoLerDepois,
+    setMostrarBotaoLerDepois,
+  ] = useState(false);
+
+  const pathnameAvaliadoRef =
+    useRef<string | null>(null);
+
+  useEffect(() => {
+    if (
+      pathnameAvaliadoRef.current ===
+      pathname
+    ) {
+      return;
+    }
+
+    pathnameAvaliadoRef.current =
+      pathname;
+
+    if (pathname === "/ler-depois") {
+      setMostrarBotaoLerDepois(false);
+      return;
+    }
+
+    try {
+      const chave =
+        "fora-da-pauta:paginas-visitadas:v1";
+
+      const bruto =
+        window.localStorage.getItem(
+          chave,
+        );
+
+      const valor =
+        bruto
+          ? JSON.parse(bruto)
+          : [];
+
+      const paginasVisitadas =
+        Array.isArray(valor)
+          ? valor.filter(
+              (item): item is string =>
+                typeof item === "string",
+            )
+          : [];
+
+      const paginaJaSalva =
+        lerPaginasSalvas().some(
+          (pagina) => {
+            try {
+              return (
+                new URL(pagina.url).pathname ===
+                pathname
+              );
+            } catch {
+              return false;
+            }
+          },
+        );
+
+      const jaVisitou =
+        paginasVisitadas.includes(
+          pathname,
+        ) || paginaJaSalva;
+
+      setMostrarBotaoLerDepois(
+        !jaVisitou,
+      );
+
+      if (
+        !paginasVisitadas.includes(
+          pathname,
+        )
+      ) {
+        window.localStorage.setItem(
+          chave,
+          JSON.stringify([
+            ...paginasVisitadas,
+            pathname,
+          ]),
+        );
+      }
+    } catch {
+      setMostrarBotaoLerDepois(true);
+    }
+  }, [pathname]);
+
+  function salvarPaginaAtual(estaInstalado = instalado) {
     if (pathname === "/ler-depois") {
       setMensagem(
         "Esta é a sua lista de páginas guardadas.",
@@ -355,7 +443,9 @@ export default function LerDepoisFlutuante() {
       );
 
       setMensagem(
-        "Página guardada neste celular.",
+        estaInstalado
+          ? "Página guardada para ler depois no aplicativo Ler depois."
+          : "Página guardada neste celular.",
       );
     } catch {
       setMensagem(
@@ -364,8 +454,20 @@ export default function LerDepoisFlutuante() {
     }
   }
 
-  function abrirPainel() {
-    salvarPaginaAtual();
+  async function abrirPainel() {
+    setMostrarBotaoLerDepois(false);
+
+    const estaInstalado =
+      instalado ||
+      await consultarSeLerDepoisEstaInstalado();
+
+    if (estaInstalado && !instalado) {
+      setInstalado(true);
+    }
+
+    salvarPaginaAtual(
+      estaInstalado,
+    );
     setCompartilhamentoAberto(false);
     setCopied(false);
     setPainelAberto(true);
@@ -511,7 +613,7 @@ export default function LerDepoisFlutuante() {
   }
   return (
     <>
-      {!instalado && (
+      {mostrarBotaoLerDepois && (
         <button
           type="button"
           onClick={abrirPainel}
@@ -547,33 +649,6 @@ export default function LerDepoisFlutuante() {
         </button>
       )}
 
-      {instalado &&
-        pathname !== "/ler-depois" && (
-          <div className="mx-auto flex w-full max-w-3xl justify-end px-4 pb-6 pt-4 sm:hidden">
-            <button
-              type="button"
-              onClick={abrirPainel}
-              className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2.5 text-sm font-semibold text-black/65"
-            >
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                className="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-              >
-                <path
-                  d="M7 4.75A1.75 1.75 0 0 1 8.75 3h6.5A1.75 1.75 0 0 1 17 4.75V21l-5-3.25L7 21V4.75Z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-
-              Guardar para ler depois
-            </button>
-          </div>
-        )}
       {painelAberto && (
         <div className="fixed inset-0 z-[70] sm:hidden">
           <button
