@@ -330,6 +330,15 @@ export default async function CandidatosDaPautaPage({
                     {nomesDosCargos[candidatura.cargo]}
                   </p>
 
+                  <Link
+                    href={`/eleicoes-2026/candidatos/${encodeURIComponent(
+                      candidatura.id
+                    )}`}
+                    className="mt-3 inline-flex items-center rounded-full border border-black/10 bg-[#f5f5f1] px-3 py-1.5 text-xs font-semibold text-black/65 transition hover:border-black/25 hover:text-black"
+                  >
+                    Ficha do candidato →
+                  </Link>
+
                   {obterSituacaoReeleicao(candidatura) === "reeleicao" ? (
                     <span className="mt-3 inline-flex rounded-full border border-black/10 bg-[#f2f2ef] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-black/65">
                       Reeleição
