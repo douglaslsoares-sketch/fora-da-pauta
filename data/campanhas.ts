@@ -139,7 +139,7 @@ export const campaigns: Campaign[] = [
         ],
       },
     ],
-    storeUrl: "https://montink.com/fora-da-pauta/?cat=o-fim-da-escala-6x1",
+    storeUrl: "https://montink.com/fora-da-pauta/?cat=fim-da-escala-6x1",
     shareImage: "/campanhas/escala-6x1/compartilhar.png",
     pautaId: "fim-escala-6x1",
   },
@@ -175,7 +175,7 @@ export const campaigns: Campaign[] = [
         ],
       },
     ],
-    storeUrl: "https://montink.com/fora-da-pauta/?cat=lula-x-bolsonaro-compare-os-dados",
+    storeUrl: "https://montink.com/fora-da-pauta/?cat=fim-da-escala-6x1",
     shareImage: "/campanhas/compare-os-dados/compartilhar.png",
   },
 ];
