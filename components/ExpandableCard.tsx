@@ -9,21 +9,29 @@ type ExpandableCardProps = {
 };
 
 function renderParagraph(paragraph: string) {
-  const marker = "**sem redução de salário**";
-
-  if (!paragraph.includes(marker)) {
-    return paragraph;
-  }
-
-  const [before, after] = paragraph.split(marker);
+  const partes =
+    paragraph.split(/(\*\*.+?\*\*)/g);
 
   return (
     <>
-      {before}
-      <strong className="font-semibold text-black">
-        sem redução de salário
-      </strong>
-      {after}
+      {partes.map((parte, index) => {
+        const ehNegrito =
+          parte.startsWith("**") &&
+          parte.endsWith("**");
+
+        if (!ehNegrito) {
+          return parte;
+        }
+
+        return (
+          <strong
+            key={index}
+            className="font-semibold text-black"
+          >
+            {parte.slice(2, -2)}
+          </strong>
+        );
+      })}
     </>
   );
 }

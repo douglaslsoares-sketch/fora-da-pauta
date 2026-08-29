@@ -18,15 +18,6 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
       data-share-statement={campaign.statement}
     >
       <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-5 pb-12 pt-8 sm:px-8 sm:pb-16 sm:pt-12">
-        <header className="mb-14 flex items-center justify-between gap-6 sm:mb-20">
-          <Link
-            href="/"
-            className="text-sm font-semibold uppercase tracking-[0.22em] text-black/70"
-          >
-            {campaign.brand}
-          </Link>
-          <span className="h-2.5 w-2.5 rounded-full bg-black" aria-hidden="true" />
-        </header>
 
         <section className="mb-12 sm:mb-16">
           <p className="mb-5 text-xs font-semibold uppercase tracking-[0.24em] text-black/40">

@@ -6,13 +6,13 @@ export type Estampa = {
   campanhaSlug: string;
 };
 
-export const estampas: Estampa[] = [
+export const todasAsEstampas: Estampa[] = [
   {
     id: "vote-fim-escala-6x1",
     titulo:
       "Vote em candidatos que defendem o fim da escala 6x1",
     descricao:
-      "Entenda a mensagem, confira os argumentos e veja quem defende essa mudança.",
+      "Entenda a mensagem e veja quem defende essa mudança.",
     imagem:
       "/estampas/estampa-vote-fim-escala-6x1.png",
     campanhaSlug: "escala-6x1",
@@ -38,3 +38,18 @@ export const estampas: Estampa[] = [
     campanhaSlug: "escala-6x1",
   },
 ];
+
+/*
+ * TESTE DE CAMPO
+ *
+ * Por enquanto, a página principal mostra somente
+ * a estampa usada no primeiro teste de rua.
+ *
+ * As demais continuam cadastradas acima e podem
+ * ser reativadas depois sem reconstruir a base.
+ */
+export const estampas =
+  todasAsEstampas.filter(
+    (estampa) =>
+      estampa.id === "vote-fim-escala-6x1",
+  );

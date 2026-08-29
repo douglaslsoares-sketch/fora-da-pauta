@@ -44,10 +44,10 @@ export const campaigns: Campaign[] = [
     brand: "Fora da Pauta",
     title: "Fim da escala 6x1",
     statement:
-      "Entenda o que muda da escala 6x1 para a 5x2 — e veja quem defende essa mudança.",
+      "A proposta é trocar a escala 6x1 pela 5x2, sem redução de salário. Veja o que muda e quem apoia essa mudança.",
     comparison: {
       eyebrow: "Entenda rapidamente",
-      title: "O que você prefere?",
+      title: "6x1 ou 5x2: qual é a diferença?",
       left: {
         label: "6x1",
         lines: [
@@ -72,9 +72,9 @@ export const campaigns: Campaign[] = [
         eyebrow: "Em linguagem simples",
         title: "O que está sendo proposto?",
         paragraphs: [
-          "Hoje, a legislação permite jornada de até 44 horas semanais. A escala 6x1 significa trabalhar seis dias e descansar um.",
-          "A PEC 221/2019, aprovada pela Câmara dos Deputados, propõe jornada máxima de 40 horas semanais distribuídas em cinco dias, com dois dias de descanso e **sem redução de salário**.",
-          "Na prática, a proposta troca a lógica de seis dias de trabalho e um de folga por cinco dias de trabalho e dois de folga.",
+          "Hoje, a Constituição permite uma jornada de até 44 horas por semana. Na escala 6x1, a pessoa trabalha seis dias e folga um.",
+          "A Câmara dos Deputados aprovou uma proposta para reduzir a jornada máxima para 40 horas por semana, com cinco dias de trabalho e dois de descanso.",
+          "A mudança é **sem redução de salário**. A proposta agora precisa ser analisada pelo Senado.",
         ],
         references: [
           {
@@ -87,29 +87,28 @@ export const campaigns: Campaign[] = [
         eyebrow: "Argumentos favoráveis",
         title: "Por que há quem defenda a mudança?",
         paragraphs: [
-          "Quem defende o fim da escala 6x1 argumenta que dois dias de descanso por semana podem dar ao trabalhador mais tempo para descansar, conviver com a família, estudar, cuidar da saúde e resolver assuntos da vida cotidiana.",
-          "A ideia é buscar um equilíbrio melhor entre trabalho e vida pessoal sem reduzir o salário por causa da diminuição da jornada.",
-          "O argumento central é simples: o tempo fora do trabalho também faz parte da qualidade de vida.",
+          "Quem defende o fim da escala 6x1 diz que dois dias de folga fazem diferença na vida de quem trabalha.",
+          "É mais tempo para **descansar, ficar com a família, estudar, cuidar da saúde e resolver as coisas do dia a dia**.",
+          "A ideia é simples: **trabalhar um dia a menos por semana, ter um dia a mais de folga e manter o salário**.",
         ],
       },
       {
         eyebrow: "O outro lado do debate",
         title: "Quais são as preocupações?",
         paragraphs: [
-          "Empresas e setores que funcionam todos os dias podem precisar reorganizar turnos, contratar mais pessoas ou absorver custos maiores. O impacto pode ser diferente conforme o setor, o tamanho da empresa e a forma de implementação.",
-          "Por isso, parte do debate envolve o período de transição, a reorganização das escalas e regras para atividades que precisam funcionar continuamente.",
-          "Discutir a mudança também significa discutir como ela pode ser aplicada sem ignorar as necessidades de trabalhadores, empresas e serviços.",
+          "Empresas e serviços que funcionam todos os dias podem precisar mudar turnos, contratar mais gente ou ter custos maiores.",
+          "O impacto pode ser diferente de um setor para outro e também conforme o tamanho da empresa.",
+          "Por isso, a discussão não é só sobre reduzir a jornada. Também é sobre **como fazer essa mudança funcionar na prática**.",
         ],
       },
       {
-        eyebrow: "Para aprofundar",
+        eyebrow: "O que dizem os estudos",
         title: "Evidências",
         paragraphs: [
-          "Pesquisas sobre redução do tempo de trabalho indicam que jornadas menores podem favorecer o equilíbrio entre trabalho e vida pessoal, o bem-estar e, em determinadas condições, a produtividade. Os resultados não são iguais em todos os setores e dependem de como o trabalho é reorganizado.",
-          "Um grande estudo internacional publicado em 2025 sobre experiências de semana de quatro dias, sem redução salarial, encontrou redução de esgotamento, maior satisfação no trabalho e melhora na saúde dos participantes.",
-          "Esse modelo de quatro dias não é igual à proposta brasileira de cinco dias e 40 horas. Por isso, esses estudos ajudam a entender possíveis efeitos da redução de jornada, mas não provam, sozinhos, qual será o resultado da PEC no Brasil.",
-        ],
-        references: [
+          "Estudos indicam que trabalhar menos horas pode trazer **mais bem-estar e melhor equilíbrio entre trabalho e vida pessoal**.",
+          "Um grande estudo internacional publicado em 2025 acompanhou trabalhadores que passaram para uma semana de quatro dias, sem redução de salário. Houve **menos esgotamento, maior satisfação com o trabalho e melhora na saúde física e mental**.",
+          "Mas é importante fazer uma diferença: esse estudo analisou **quatro dias de trabalho**, enquanto a proposta brasileira prevê cinco dias e até 40 horas semanais. Por isso, ele ajuda a entender o que pode acontecer quando se reduz o tempo de trabalho, **mas não prova qual será o resultado no Brasil**.",
+        ],        references: [
           {
             label: "OIT — tempo de trabalho, equilíbrio e produtividade",
             url: "https://www.ilo.org/resource/news/flexible-working-hours-can-benefit-work-life-balance-businesses-and",
@@ -124,9 +123,9 @@ export const campaigns: Campaign[] = [
         eyebrow: "Tramitação",
         title: "Onde a proposta está agora?",
         paragraphs: [
-          "A Câmara dos Deputados aprovou a PEC 221/2019 em dois turnos em 27 de maio de 2026.",
-          "Situação consultada em 27 de agosto de 2026: a proposta está na Comissão de Constituição, Justiça e Cidadania do Senado, sob relatoria do senador Omar Aziz. O texto ainda pode receber alterações durante a tramitação.",
-          "Portanto, a mudança ainda não está em vigor.",
+          "A Câmara dos Deputados já aprovou a proposta. Agora ela está no Senado.",
+          "Na Comissão de Constituição e Justiça (CCJ), o relator Omar Aziz apresentou parecer **favorável à aprovação** e manteve o texto aprovado pela Câmara.",
+          "O próximo passo é a votação na CCJ. Depois, a proposta ainda precisa passar pelo Plenário do Senado. **A mudança ainda não está em vigor**.",
         ],
         references: [
           {

@@ -162,11 +162,17 @@ export default async function CandidatosDaPautaPage({
             sobre esta pauta?
           </h1>
 
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-black/60">
-            Aqui aparecem somente candidaturas para as quais localizamos
-            evidência pública verificável sobre esta pauta. Partido ou
-            orientação ideológica, isoladamente, não determinam a classificação.
-          </p>
+          <div className="mt-7 max-w-2xl space-y-3 text-lg leading-8 text-black/60">
+            <p>
+              Aqui você pode ver quais candidatos já se posicionaram
+              publicamente sobre o fim da escala 6x1.
+            </p>
+
+            <p>
+              A classificação é feita pelo que cada candidato declarou
+              ou fez publicamente — não pelo partido.
+            </p>
+          </div>
         </header>
 
         <form
@@ -293,9 +299,8 @@ export default async function CandidatosDaPautaPage({
 
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <p className="text-sm text-black/45">
-            {filtrados.length} posicionamento
-            {filtrados.length === 1 ? "" : "s"} documentado
-            {filtrados.length === 1 ? "" : "s"}
+            {filtrados.length} candidato
+            {filtrados.length === 1 ? "" : "s"} com posição documentada
           </p>
 
           <p className="text-xs text-black/35">
