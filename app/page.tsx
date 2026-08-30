@@ -101,13 +101,14 @@ export default function Home() {
       </span>
     </div>
 
-    <div className="relative aspect-[4/3] overflow-hidden bg-black sm:aspect-[16/10]">
+    <div className="w-full overflow-hidden bg-black">
   <Image
     src="/edicoes/edicao-01-fim-da-escala-6x1-matriz.png"
     alt="Edição 01 — Fim da escala 6x1"
-    fill
+    width={1536}
+    height={1024}
     priority
-    className="object-cover"
+    className="h-auto w-full"
     sizes="(max-width: 1024px) 100vw, 1100px"
   />
 </div>
