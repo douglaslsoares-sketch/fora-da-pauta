@@ -7,7 +7,7 @@ export default function Home() {
 
       {/* HERO */}
       <section className="bg-black text-white">
-        <div className="mx-auto flex min-h-[82svh] w-full max-w-6xl flex-col px-5 pb-10 pt-6 sm:px-8 sm:pb-14 sm:pt-8 lg:px-10">
+        <div className="mx-auto flex min-h-[86svh] w-full max-w-6xl flex-col px-5 pb-14 pt-6 sm:px-8 sm:pb-16 sm:pt-8 lg:px-10">
 
           <header className="flex items-start justify-between">
             <Link
@@ -47,7 +47,7 @@ export default function Home() {
               clara, direta e com espaço para você formar a própria opinião.
             </p>
 
-            <div className="mt-9">
+            <div className="mt-7 pb-7 sm:mt-8 sm:pb-8">
               <Link
                 href="/campanhas/escala-6x1"
                 className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#f2c94c] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#f6d66d]"
@@ -113,9 +113,9 @@ export default function Home() {
   />
 </div>
 
-    <div className="py-7 sm:py-9">
+    <div className="py-7 sm:py-9 lg:py-6">
       <h3 className="max-w-2xl text-[2.35rem] font-semibold leading-[0.98] tracking-[-0.055em] sm:text-5xl">
-        O que muda com o fim da escala 6x1?
+        Entenda o que está em discussão.
       </h3>
 
       <p className="mt-5 max-w-2xl text-[17px] leading-8 text-black/60 sm:text-lg">
@@ -150,7 +150,7 @@ export default function Home() {
       </section>
 
       {/* COMO FUNCIONA */}
-      <section className="border-t border-black/10 px-5 py-16 sm:px-8 sm:py-20 lg:px-10">
+      <section className="border-t border-black/10 px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
         <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[0.8fr_1.2fr]">
 
           <div>
