@@ -5,6 +5,7 @@ import type { Campaign } from "@/data/campanhas";
 import { ExpandableCard } from "@/components/ExpandableCard";
 import { CampaignComparison } from "@/components/CampaignComparison";
 import { ShareCard } from "@/components/ShareCard";
+import { TelegramUpdatesCard } from "@/components/TelegramUpdatesCard";
 import { CandidatesCard } from "@/components/CandidatesCard";
 import { StoreCard } from "@/components/StoreCard";
 import { EconomicIndicators } from "@/components/EconomicIndicators";
@@ -123,6 +124,8 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
             {campaign.slug === "compare-os-dados" ? (
               <EconomicIndicators />
             ) : null}
+
+            <TelegramUpdatesCard />
 
             <ShareCard statement={campaign.statement} />
 
