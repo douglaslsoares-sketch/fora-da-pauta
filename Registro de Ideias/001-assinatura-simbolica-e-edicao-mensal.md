@@ -1,120 +1,90 @@
-# Ideia 001 — Contribuição voluntária e edição mensal
+# Ideia 001 — Sustentação voluntária e edição mensal
 
 ## Visão
 
-O Fora da Pauta poderá adotar uma forma simples, acessível e
-voluntária de contribuição financeira para ajudar na manutenção
-do projeto.
+O Fora da Pauta deve permanecer aberto e acessível a todas as
+pessoas.
 
-A contribuição não deverá ser condição para acessar o conteúdo.
+A sustentação financeira do projeto poderá ser feita por meio de
+uma assinatura voluntária de baixo valor.
 
-## Valor pensado
+## Valor
 
 **R$ 10 por ano.**
 
-## Natureza da contribuição
+A cobrança será recorrente anualmente.
 
-A contribuição será voluntária.
+A pessoa poderá cancelar a assinatura a qualquer momento.
 
-As edições continuarão abertas para leitura mesmo para quem
-não contribuir financeiramente.
+O site deverá oferecer uma forma simples e acessível de realizar
+esse cancelamento.
 
-A proposta é permitir que muitas pessoas ajudem com um valor
-pequeno, criando uma forma distribuída de sustentação do projeto.
+## Princípio fundamental
 
-Princípio:
+**A assinatura não compra acesso ao Fora da Pauta.**
 
-**acesso aberto + contribuição voluntária + sustentação distribuída.**
+Mesmo sem assinatura, qualquer pessoa poderá participar
+integralmente do projeto e acessar seu conteúdo.
 
-## Cobrança recorrente
+Não haverá conteúdo exclusivo, acesso privilegiado ou limitação
+de participação para quem não contribuir financeiramente.
 
-A contribuição funcionará como uma assinatura anual recorrente.
+A assinatura é uma forma voluntária de ajudar na sustentação do
+projeto.
 
-A página de apoio deverá informar claramente:
+## Por que um valor baixo?
 
-- valor de R$ 10 por ano;
-- que a cobrança é anual;
-- que a renovação é automática;
-- que a pessoa pode cancelar quando quiser;
-- que o conteúdo continua aberto mesmo sem contribuição.
+O valor de R$ 10 por ano foi pensado deliberadamente para permitir
+que toda e qualquer pessoa possa contribuir, inclusive pessoas de
+menor renda.
 
-A renovação deverá continuar até que o apoiador decida cancelá-la.
+O objetivo é evitar que a condição econômica se transforme em
+barreira para participar do projeto.
 
-Como prática de transparência, deverá ser avaliado o envio de
-um aviso antes de cada renovação anual.
+O Fora da Pauta deve continuar acessível especialmente às pessoas
+menos favorecidas.
 
-## Cancelamento
+Portanto:
 
-Como a renovação será automática, o cancelamento deverá ser
-igualmente simples e acessível.
+**Assinar é uma forma de contribuir, não uma condição para
+participar.**
 
-A página de apoio ou a área de gerenciamento deverá apresentar
-uma opção clara como:
+## Comunicação
 
-**Gerenciar assinatura**
+Na comunicação com o público, priorizar expressões como:
 
-e permitir:
+- Apoie o Fora da Pauta;
+- Contribua com o projeto;
+- Assinatura voluntária.
 
-**Cancelar assinatura**
+Deixar sempre explícito que:
 
-ou
-
-**Cancelar renovação automática**
-
-A pessoa não deverá precisar:
-
-- enviar e-mail para pedir cancelamento;
-- entrar em contato com atendimento;
-- justificar a decisão;
-- enfrentar etapas desnecessárias.
-
-Quando tecnicamente possível, a área deverá permitir também:
-
-- consultar o status da assinatura;
-- visualizar a próxima data de renovação;
-- atualizar a forma de pagamento;
-- cancelar a renovação automática.
-
-Depois do cancelamento da renovação, não deverão ocorrer novas
-cobranças após o período já pago.
-
-A facilidade de cancelamento faz parte do compromisso de
-transparência do Fora da Pauta.
+- o valor é R$ 10 por ano;
+- a contribuição é voluntária;
+- ela ajuda na manutenção e continuidade do projeto;
+- não é necessário assinar para acessar ou participar;
+- a assinatura pode ser cancelada a qualquer momento.
 
 ## Compromisso editorial
 
-O Fora da Pauta deverá publicar regularmente uma nova edição.
+O objetivo é publicar uma nova edição todos os meses.
 
-A referência inicialmente pensada é:
+Cada edição terá um único tema principal.
 
-**1 nova edição por mês.**
+Estrutura:
 
-Cada edição deverá trabalhar:
+**1 edição por mês = 1 novo tema por edição.**
 
-- um único tema principal;
-- um novo tema em relação à edição anterior;
-- conteúdo desenvolvido especificamente em torno daquele tema.
+## Aplicação nas edições
 
-Princípio editorial:
+Ao final de cada edição poderá existir uma área de apoio ao projeto.
 
-**1 edição = 1 tema.**
-
-## Chamada para apoio
-
-No final de cada edição deverá existir um caminho para quem quiser
-ajudar financeiramente o projeto.
-
-Exemplo de mensagem:
-
-**Gostou do Fora da Pauta? Ajude a manter o projeto.**
-
-Contribuição voluntária: R$ 10 por ano.
-
-Renovação anual. Cancele quando quiser.
+Essa área deverá explicar, antes de oferecer a assinatura, que o
+Fora da Pauta continua integralmente aberto também para quem não
+contribuir.
 
 ## Status
 
-Ideia com potencial de implementação futura.
+Princípio aprovado.
 
-O mecanismo de apoio poderá ser implementado independentemente
-das funções sociais mais complexas da plataforma.
+Implementação da área de apoio deve ser incorporada às edições.

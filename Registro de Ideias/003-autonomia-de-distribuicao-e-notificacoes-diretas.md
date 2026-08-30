@@ -236,3 +236,50 @@ o início:
 - link para apoio voluntário;
 - acesso ao gerenciamento da contribuição;
 - experiência simples, sem exigir conta apenas para acompanhar.
+
+## Complemento — aplicação dentro de cada edição
+
+O mecanismo de relacionamento direto com o leitor deve estar
+presente na própria página de cada edição.
+
+A pessoa que receber uma edição por compartilhamento não deverá
+precisar acessar a página inicial para continuar acompanhando o
+Fora da Pauta.
+
+Dentro da própria edição haverá uma chamada como:
+
+**Receba a próxima edição**
+
+A pessoa poderá escolher o meio pelo qual deseja ser avisada
+quando uma nova edição for publicada.
+
+Canais inicialmente previstos:
+
+- e-mail;
+- WhatsApp;
+- Telegram.
+
+O cadastro para receber novas edições deve ser simples e não deve
+ser confundido com o cadastro futuro necessário para comentar ou
+participar da rede social.
+
+A pessoa deverá informar somente os dados necessários para o canal
+de comunicação escolhido.
+
+## Ciclo de distribuição pretendido
+
+1. Uma pessoa compartilha uma edição diretamente.
+2. Outra pessoa recebe e acessa essa edição.
+3. Ela conhece o conteúdo sem precisar criar conta.
+4. Na própria edição, pode optar por receber as próximas.
+5. O Fora da Pauta passa a avisá-la diretamente quando houver nova
+   edição.
+6. Essa pessoa também poderá compartilhar a nova edição com outras
+   pessoas.
+
+Esse mecanismo deve permitir o crescimento do projeto sem
+dependência estrutural de redes sociais de terceiros.
+
+O compartilhamento direto e a comunicação direta com quem desejar
+acompanhar o projeto formam o núcleo inicial da estratégia de
+distribuição.
