@@ -1,4 +1,6 @@
-import type { CampaignComparison as CampaignComparisonData } from "@/data/campanhas";
+import type {
+  CampaignComparison as CampaignComparisonData,
+} from "@/data/campanhas";
 
 type CampaignComparisonProps = {
   comparison: CampaignComparisonData;
@@ -8,20 +10,20 @@ export function CampaignComparison({
   comparison,
 }: CampaignComparisonProps) {
   return (
-    <section className="overflow-hidden rounded-[30px] border border-black/10 bg-white px-6 py-7 shadow-[0_18px_60px_rgba(0,0,0,0.06)] sm:px-8 sm:py-8">
+    <section className="border-t border-black/15 py-8 sm:py-10">
       {comparison.eyebrow ? (
-        <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
+        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
           {comparison.eyebrow}
         </p>
       ) : null}
 
-      <h2 className="text-2xl font-semibold tracking-[-0.035em] sm:text-3xl">
+      <h2 className="max-w-2xl text-3xl font-semibold leading-[1.05] tracking-[-0.045em] sm:text-4xl">
         {comparison.title}
       </h2>
 
-      <div className="mt-7 grid gap-4 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
-        <div className="rounded-[24px] bg-[#f2f2ef] px-5 py-6 text-center">
-          <p className="text-5xl font-semibold tracking-[-0.06em] sm:text-6xl">
+      <div className="mt-8 grid border-y border-black/15 sm:grid-cols-[1fr_auto_1fr] sm:items-stretch">
+        <div className="py-7 text-center sm:px-6 sm:py-9">
+          <p className="text-6xl font-semibold tracking-[-0.065em]">
             {comparison.left.label}
           </p>
 
@@ -32,12 +34,14 @@ export function CampaignComparison({
           </div>
         </div>
 
-        <p className="text-center text-sm font-bold uppercase tracking-[0.18em] text-black/40">
-          {comparison.connector}
-        </p>
+        <div className="grid place-items-center border-y border-black/10 py-3 sm:border-x sm:border-y-0 sm:px-5">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-black/35">
+            {comparison.connector}
+          </p>
+        </div>
 
-        <div className="rounded-[24px] bg-[#f2f2ef] px-5 py-6 text-center">
-          <p className="text-5xl font-semibold tracking-[-0.06em] sm:text-6xl">
+        <div className="py-7 text-center sm:px-6 sm:py-9">
+          <p className="text-6xl font-semibold tracking-[-0.065em]">
             {comparison.right.label}
           </p>
 
@@ -48,15 +52,17 @@ export function CampaignComparison({
           </div>
 
           {comparison.right.emphasis ? (
-            <p className="mt-4 text-sm font-bold uppercase tracking-[0.08em]">
-              {comparison.right.emphasis}
-            </p>
+            <div className="mt-5">
+              <span className="inline-block border-b-[3px] border-[#f2c94c] pb-1 text-xs font-bold uppercase tracking-[0.08em]">
+                {comparison.right.emphasis}
+              </span>
+            </div>
           ) : null}
         </div>
       </div>
 
       {comparison.summary ? (
-        <p className="mt-6 border-t border-black/10 pt-5 text-[17px] leading-7 text-black/65">
+        <p className="mt-6 max-w-2xl text-[17px] leading-8 text-black/60">
           {comparison.summary}
         </p>
       ) : null}

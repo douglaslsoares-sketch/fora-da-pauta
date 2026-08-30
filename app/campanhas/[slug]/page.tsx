@@ -1,6 +1,6 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+
 import { CampaignPage } from "@/components/CampaignPage";
 import { campaigns, getCampaign } from "@/data/campanhas";
 
@@ -9,7 +9,9 @@ type CampaignRouteProps = {
 };
 
 export function generateStaticParams() {
-  return campaigns.map((campaign) => ({ slug: campaign.slug }));
+  return campaigns.map((campaign) => ({
+    slug: campaign.slug,
+  }));
 }
 
 export async function generateMetadata({
@@ -22,7 +24,9 @@ export async function generateMetadata({
     return {};
   }
 
-  const pageUrl = `https://www.foradapauta.org/campanhas/${campaign.slug}`;
+  const pageUrl =
+    `https://www.foradapauta.org/campanhas/${campaign.slug}`;
+
   const imageUrl = campaign.shareImage
     ? `https://www.foradapauta.org${campaign.shareImage}`
     : undefined;
@@ -63,7 +67,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function CampaignRoute({ params }: CampaignRouteProps) {
+export default async function CampaignRoute({
+  params,
+}: CampaignRouteProps) {
   const { slug } = await params;
   const campaign = getCampaign(slug);
 
@@ -71,18 +77,5 @@ export default async function CampaignRoute({ params }: CampaignRouteProps) {
     notFound();
   }
 
-  return (
-    <>
-      <div className="mx-auto w-full max-w-4xl px-5 pt-6 sm:px-8">
-        <Link
-          href="/"
-          className="inline-flex items-center text-xs font-semibold uppercase tracking-[0.18em] text-black/45"
-        >
-          ← Fora da Pauta
-        </Link>
-      </div>
-
-      <CampaignPage campaign={campaign} />
-    </>
-  );
+  return <CampaignPage campaign={campaign} />;
 }
