@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,6 +19,13 @@ type CampaignPageProps = {
 export function CampaignPage({ campaign }: CampaignPageProps) {
   const ehEdicao01 =
     campaign.slug === "fim-escala-6x1";
+
+  async function copiarLinkDaCampanha() {
+    const url =
+      "https://www.foradapauta.org/campanhas/fim-escala-6x1";
+
+    await navigator.clipboard.writeText(url);
+  }
 
   return (
     <main
@@ -129,10 +138,102 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
 
             <ShareCard statement={campaign.statement} />
 
+      {ehEdicao01 ? (
+        <section className="mt-8 border-t border-black/10 pt-8">
+          <div className="w-full">
+            <div className="mb-8">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
+                Compartilhe
+              </p>
+
+              <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-[1.05] tracking-[-0.045em] sm:text-4xl">
+                Leve esta mensagem para as suas redes
+              </h2>
+
+              <p className="mt-5 max-w-2xl text-base leading-7 text-black/55">
+                Escolha o formato mais adequado, baixe a imagem e publique junto
+                com o link desta campanha.
+              </p>
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                {
+                  titulo: "Instagram e Facebook",
+                  descricao: "Post quadrado para feed.",
+                  imagem:
+                    "/edicoes/redes-sociais/edicao-01/edicao-01-6x1-feed-instagram-facebook.png",
+                },
+                {
+                  titulo: "Status do WhatsApp",
+                  descricao: "Formato vertical para Status.",
+                  imagem:
+                    "/edicoes/redes-sociais/edicao-01/edicao-01-6x1-status-whatsapp.png",
+                },
+                {
+                  titulo: "Stories",
+                  descricao: "Formato vertical para Stories.",
+                  imagem:
+                    "/edicoes/redes-sociais/edicao-01/edicao-01-story-6x1-informativo.png",
+                },
+                {
+                  titulo: "Formato horizontal",
+                  descricao: "Para publicações e compartilhamentos horizontais.",
+                  imagem:
+                    "/edicoes/redes-sociais/edicao-01/edicao-01-horizontal-6x1-informativo.png",
+                },
+              ].map((peca) => (
+                <article
+                  key={peca.imagem}
+                  className="overflow-hidden rounded-2xl border border-black/10 bg-white"
+                >
+                  <div className="flex min-h-[180px] items-center justify-center bg-black p-3">
+                    <img
+                      src={peca.imagem}
+                      alt={peca.titulo}
+                      className="max-h-[260px] w-auto max-w-full object-contain"
+                    />
+                  </div>
+
+                  <div className="p-4">
+                    <h3 className="text-base font-semibold text-black">
+                      {peca.titulo}
+                    </h3>
+
+                    <p className="mt-1 text-sm leading-5 text-black/55">
+                      {peca.descricao}
+                    </p>
+
+                    <div className="mt-4 flex flex-col gap-2">
+                      <a
+                        href={peca.imagem}
+                        download
+                        className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-black/80"
+                      >
+                        Baixar imagem
+                      </a>
+
+                      <button
+                        type="button"
+                        onClick={copiarLinkDaCampanha}
+                        className="inline-flex items-center justify-center rounded-full border border-black/15 px-4 py-2.5 text-sm font-semibold text-black transition hover:bg-black/5"
+                      >
+                        Copiar link
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
             <StoreCard storeUrl={campaign.storeUrl} />
           </div>
         </div>
       </section>
+
 
       {/* VOLTAR PARA TODAS AS EDIÇÕES */}
       <section className="border-t border-black/10 px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
@@ -165,6 +266,7 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
           </p>
         </div>
       </footer>
-    </main>
+          
+</main>
   );
 }
