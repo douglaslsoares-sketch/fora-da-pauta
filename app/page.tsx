@@ -103,7 +103,7 @@ export default function Home() {
 
     <div className="w-full overflow-hidden bg-black">
   <Image
-    src="/edicoes/edicao-01-fim-da-escala-6x1-matriz.png"
+    src="/edicoes/edicao-01-6x1-nova-identidade.png"
     alt="Edição 01 — Fim da escala 6x1"
     width={1536}
     height={1024}
