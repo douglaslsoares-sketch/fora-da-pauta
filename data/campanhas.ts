@@ -40,7 +40,7 @@ export type Campaign = {
 
 export const campaigns: Campaign[] = [
   {
-    slug: "escala-6x1",
+    slug: "fim-escala-6x1",
     brand: "Fora da Pauta",
     title: "Fim da escala 6x1",
     statement:

@@ -16,7 +16,7 @@ type CampaignPageProps = {
 
 export function CampaignPage({ campaign }: CampaignPageProps) {
   const ehEdicao01 =
-    campaign.slug === "escala-6x1";
+    campaign.slug === "fim-escala-6x1";
 
   return (
     <main

@@ -49,7 +49,7 @@ export default function Home() {
 
             <div className="mt-7 pb-7 sm:mt-8 sm:pb-8">
               <Link
-                href="/campanhas/escala-6x1"
+                href="/campanhas/fim-escala-6x1"
                 className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#f2c94c] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#f6d66d]"
               >
                 Ver edição atual
@@ -86,7 +86,7 @@ export default function Home() {
           </div>
 
           <Link
-  href="/campanhas/escala-6x1"
+  href="/campanhas/fim-escala-6x1"
   className="group block"
 >
   <div className="border-t border-black/15 pt-5">
