@@ -11,6 +11,57 @@ export function ShareCard({
   statement,
 }: ShareCardProps) {
   const [copied, setCopied] = useState(false);
+  const [erro, setErro] = useState(false);
+
+  async function copiarComFallback(
+    texto: string,
+  ) {
+    if (
+      navigator.clipboard &&
+      window.isSecureContext
+    ) {
+      try {
+        await navigator.clipboard.writeText(
+          texto,
+        );
+
+        return true;
+      } catch {
+        // Tenta o metodo alternativo abaixo.
+      }
+    }
+
+    const textarea =
+      document.createElement("textarea");
+
+    textarea.value = texto;
+    textarea.setAttribute(
+      "readonly",
+      "",
+    );
+
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    textarea.style.top = "0";
+
+    document.body.appendChild(textarea);
+
+    textarea.focus();
+    textarea.select();
+
+    let sucesso = false;
+
+    try {
+      sucesso =
+        document.execCommand("copy");
+    } finally {
+      document.body.removeChild(
+        textarea,
+      );
+    }
+
+    return sucesso;
+  }
 
   async function copyMessage() {
     const message =
@@ -19,7 +70,16 @@ export function ShareCard({
         window.location.href,
       );
 
-    await navigator.clipboard.writeText(message);
+    setErro(false);
+
+    const sucesso =
+      await copiarComFallback(message);
+
+    if (!sucesso) {
+      setCopied(false);
+      setErro(true);
+      return;
+    }
 
     setCopied(true);
 
@@ -68,6 +128,15 @@ export function ShareCard({
             ? "Mensagem copiada ✓"
             : "Copiar mensagem"}
         </button>
+
+        {erro ? (
+          <p
+            className="mt-3 text-sm leading-6 text-black/50"
+            aria-live="polite"
+          >
+            Não foi possível copiar automaticamente neste navegador.
+          </p>
+        ) : null}
       </div>
     </details>
   );

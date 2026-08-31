@@ -140,7 +140,7 @@ export const campaigns: Campaign[] = [
       },
     ],
     storeUrl: "https://montink.com/fora-da-pauta/?cat=fim-da-escala-6x1",
-    shareImage: "/campanhas/escala-6x1/compartilhar.png",
+    shareImage: "/edicoes/edicao-01-fim-da-escala-6x1-matriz.png",
     pautaId: "fim-escala-6x1",
   },
   {
