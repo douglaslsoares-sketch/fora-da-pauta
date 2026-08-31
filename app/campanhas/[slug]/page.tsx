@@ -31,19 +31,31 @@ export async function generateMetadata({
     ? `https://www.foradapauta.org${campaign.shareImage}`
     : undefined;
 
+  const ehEdicao01 =
+    campaign.slug === "fim-escala-6x1";
+
+  const socialTitle =
+    ehEdicao01
+      ? "Você trabalha 6 dias para descansar 1?"
+      : campaign.title;
+
   const socialDescription =
-    `${campaign.statement} Entenda a mensagem. Confira os argumentos.`;
+    ehEdicao01
+      ? "Entenda como funciona a escala 6x1, o que está em debate e quais são as propostas de mudança."
+      : `${campaign.statement} Entenda a mensagem. Confira os argumentos.`;
 
   return {
     title: `${campaign.title} | Fora da Pauta`,
-    description: campaign.statement,
+    description: ehEdicao01
+      ? socialDescription
+      : campaign.statement,
 
     alternates: {
       canonical: pageUrl,
     },
 
     openGraph: {
-      title: campaign.title,
+      title: socialTitle,
       description: socialDescription,
       url: pageUrl,
       siteName: "Fora da Pauta",
@@ -60,7 +72,7 @@ export async function generateMetadata({
 
     twitter: {
       card: "summary_large_image",
-      title: campaign.title,
+      title: socialTitle,
       description: socialDescription,
       images: imageUrl ? [imageUrl] : [],
     },
