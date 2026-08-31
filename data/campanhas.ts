@@ -140,7 +140,7 @@ export const campaigns: Campaign[] = [
       },
     ],
     storeUrl: "https://montink.com/fora-da-pauta/?cat=fim-da-escala-6x1",
-    shareImage: "/edicoes/edicao-01-fim-da-escala-6x1-matriz.png",
+    shareImage: "/edicoes/edicao-01-compartilhar-whatsapp.png",
     pautaId: "fim-escala-6x1",
   },
   {
@@ -176,7 +176,7 @@ export const campaigns: Campaign[] = [
       },
     ],
     storeUrl: "https://montink.com/fora-da-pauta/?cat=lula-x-bolsonaro-compare-os-dados",
-    shareImage: "/campanhas/compare-os-dados/compartilhar.png",
+    shareImage: "/edicoes/edicao-01-compartilhar-whatsapp.png",
   },
 ];
 
