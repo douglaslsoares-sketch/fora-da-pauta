@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
-import LerDepoisFlutuante from "../components/LerDepoisFlutuante";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -39,7 +37,6 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-[#eeeee9] font-sans">
         {children}
-        <LerDepoisFlutuante />
         <Analytics />
       </body>
     </html>

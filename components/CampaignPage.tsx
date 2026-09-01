@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -38,7 +38,7 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
           <header className="flex items-start justify-between gap-6">
             <Link
               href="/"
-              aria-label="Voltar para a pÃ¡gina inicial do Fora da Pauta"
+              aria-label="Voltar para a página inicial do Fora da Pauta"
               className="block"
             >
               <Image
@@ -52,13 +52,13 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
             </Link>
 
             <p className="pt-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-white/45 sm:text-[11px]">
-              {ehEdicao01 ? "EdiÃ§Ã£o 01" : "EdiÃ§Ã£o"}
+              {ehEdicao01 ? "Edição 01" : "Edição"}
             </p>
           </header>
 
           <div className="mt-16 border-t border-white/15 pt-5 sm:mt-20">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/45">
-              Tema desta ediÃ§Ã£o
+              Tema desta edição
             </p>
 
             <h1 className="mt-5 max-w-4xl text-[clamp(3rem,9vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.065em]">
@@ -79,7 +79,7 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
             <div className="overflow-hidden bg-black">
               <Image
                 src="/edicoes/edicao-01-6x1-nova-identidade.png"
-                alt="EdiÃ§Ã£o 01 â€” Fim da escala 6x1"
+                alt="Edição 01 — Fim da escala 6x1"
                 width={1536}
                 height={1024}
                 priority
@@ -96,22 +96,22 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
         <div className="mx-auto w-full max-w-3xl">
           <div className="mb-10 border-t border-black/15 pt-5 sm:mb-12">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-              Entenda a ediÃ§Ã£o
+              Entenda a edição
             </p>
 
             <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-[1.05] tracking-[-0.045em] sm:text-4xl">
-              VÃ¡ alÃ©m da frase.
+              Vá além da frase.
             </h2>
 
             <p className="mt-5 max-w-2xl text-lg leading-8 text-black/55">
-              Veja o que estÃ¡ sendo proposto, os argumentos do debate,
-              as evidÃªncias disponÃ­veis e em que ponto estÃ¡ a discussÃ£o.
+              Veja o que está sendo proposto, os argumentos do debate,
+              as evidências disponíveis e em que ponto está a discussão.
             </p>
           </div>
 
           <div
             className="space-y-4"
-            aria-label="ConteÃºdo da ediÃ§Ã£o"
+            aria-label="Conteúdo da edição"
           >
             {campaign.comparison ? (
               <CampaignComparison comparison={campaign.comparison} />
@@ -178,7 +178,7 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
                 },
                 {
                   titulo: "Formato horizontal",
-                  descricao: "Para publicaÃ§Ãµes e compartilhamentos horizontais.",
+                  descricao: "Para publicações e compartilhamentos horizontais.",
                   imagem:
                     "/edicoes/redes-sociais/edicao-01/edicao-01-horizontal-6x1-informativo.png",
                 },
@@ -243,7 +243,7 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
             className="inline-flex items-center gap-3 text-sm font-semibold"
           >
             <span aria-hidden="true">â†</span>
-            Ver todas as ediÃ§Ãµes
+            Ver todas as edições
           </Link>
         </div>
       </section>
@@ -260,9 +260,9 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
           />
 
           <p className="text-right text-[10px] uppercase tracking-[0.2em] text-white/35">
-            Uma ediÃ§Ã£o por vez.
+            Uma edição por vez.
             <br />
-            Um tema por ediÃ§Ã£o.
+            Um tema por edição.
           </p>
         </div>
       </footer>
