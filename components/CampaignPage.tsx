@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -229,20 +229,20 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
         </section>
       ) : null}
 
-            <StoreCard storeUrl={campaign.storeUrl} />
+            <StoreCard storeUrl="https://montink.com/fora-da-pauta" />
           </div>
         </div>
       </section>
 
 
-      {/* VOLTAR PARA TODAS AS EDIÃ‡Ã•ES */}
+      {/* VOLTAR PARA TODAS AS EDIÇÕES */}
       <section className="border-t border-black/10 px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
         <div className="mx-auto w-full max-w-3xl">
           <Link
             href="/"
             className="inline-flex items-center gap-3 text-sm font-semibold"
           >
-            <span aria-hidden="true">â†</span>
+            <span aria-hidden="true">←</span>
             Ver todas as edições
           </Link>
         </div>
@@ -270,3 +270,4 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
 </main>
   );
 }
+

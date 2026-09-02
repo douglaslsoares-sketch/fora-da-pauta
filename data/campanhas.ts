@@ -1,4 +1,4 @@
-export type CampaignSection = {
+﻿export type CampaignSection = {
   title: string;
   eyebrow?: string;
   paragraphs: string[];
@@ -72,7 +72,7 @@ export const campaigns: Campaign[] = [
         eyebrow: "Em linguagem simples",
         title: "O que está sendo proposto?",
         paragraphs: [
-          "Hoje, a Constituição permite uma jornada de até 44 horas por semana. Na escala 6x1, a pessoa trabalha seis dias e folga um.",
+          "Hoje, a Constituição estabelece o limite de até 44 horas por semana. Na escala 6x1, a pessoa trabalha seis dias e folga um.",
           "A Câmara dos Deputados aprovou uma proposta para reduzir a jornada máxima para 40 horas por semana, com cinco dias de trabalho e dois de descanso.",
           "A mudança é **sem redução de salário**. A proposta agora precisa ser analisada pelo Senado.",
         ],
