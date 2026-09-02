@@ -1,10 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import {
+  buscarHistoricoPolitico,
   candidaturas,
-  posicionamentos,
+  obterSituacaoReeleicao,
 } from "@/data/eleicoes";
+
+import { obterCargoAtualConhecido } from "@/data/eleicoes/reeleicao";
 
 import {
   buscarPatrimonio2022PorCandidaturaId,
@@ -26,40 +30,40 @@ const nomesDosCargos: Record<string, string> = {
   "deputado-distrital": "Deputado Distrital",
 };
 
-const nomesDasPosicoes: Record<string, string> = {
-  favoravel: "Favorável",
-  contrario: "Contrário",
-  parcial: "Posição parcial",
-  "sem-posicao-publica":
-    "Sem posição pública localizada",
-};
-
-function nomeDaEvidencia(tipo: string) {
-  if (tipo === "voto-nominal") {
-    return "Voto nominal";
+function formatarPeriodoPolitico(
+  periodo?: string,
+) {
+  if (!periodo) {
+    return null;
   }
 
-  if (tipo === "declaracao-publica") {
-    return "Declaração pública";
+  if (
+    /^\d{4}-\d{2}-\d{2}$/.test(periodo)
+  ) {
+    const [ano, mes, dia] =
+      periodo
+        .split("-")
+        .map(Number);
+
+    return new Intl.DateTimeFormat(
+      "pt-BR",
+      {
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC",
+      },
+    ).format(
+      new Date(
+        Date.UTC(
+          ano,
+          mes - 1,
+          dia,
+        ),
+      ),
+    );
   }
 
-  if (tipo === "entrevista") {
-    return "Entrevista";
-  }
-
-  if (tipo === "emenda") {
-    return "Emenda";
-  }
-
-  if (tipo === "programa-eleitoral") {
-    return "Programa eleitoral";
-  }
-
-  if (tipo === "documento-oficial") {
-    return "Documento oficial";
-  }
-
-  return "Outra evidência";
+  return periodo;
 }
 
 export default async function FichaDoCandidatoPage({
@@ -76,11 +80,20 @@ export default async function FichaDoCandidatoPage({
     notFound();
   }
 
-  const registros =
-    posicionamentos.filter(
-      (item) =>
-        item.candidaturaId === candidatura.id,
+  const historicoPolitico =
+    buscarHistoricoPolitico(
+      candidatura.id,
     );
+
+  const situacaoReeleicao =
+    obterSituacaoReeleicao(candidatura);
+
+  const cargoAtualConhecido =
+    obterCargoAtualConhecido(candidatura.id);
+
+  const foto =
+    `/candidatos/2026/${candidatura.id}.jpg`;
+
 
   const patrimonio2026 =
     buscarPatrimonio2026PorCandidaturaId(
@@ -161,23 +174,54 @@ export default async function FichaDoCandidatoPage({
             Ficha do candidato
           </p>
 
-          <h1 className="text-[clamp(2.7rem,8vw,5.4rem)] font-semibold leading-[0.92] tracking-[-0.055em]">
-            {candidatura.nomeUrna}
-          </h1>
+          <div className="flex items-start gap-5">
+            <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[24px] bg-white sm:h-32 sm:w-32">
+              {foto ? (
+                <Image
+                  src={foto}
+                  alt={`Foto oficial de ${candidatura.nomeUrna}`}
+                  fill
+                  sizes="128px"
+                  className="object-cover"
+                  priority
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-3xl font-semibold text-black/20">
+                  {candidatura.nomeUrna
+                    .trim()
+                    .charAt(0)
+                    .toUpperCase()}
+                </div>
+              )}
+            </div>
 
-          <p className="mt-5 text-lg leading-8 text-black/60">
-            {candidatura.siglaPartido}
-            {" · "}
-            {candidatura.uf}
-            {" · "}
-            {nomesDosCargos[candidatura.cargo] ??
-              candidatura.cargo}
-          </p>
+            <div className="min-w-0 flex-1">
+              <h1 className="text-[2.4rem] font-semibold leading-[0.95] tracking-[-0.05em] sm:text-6xl">
+                {candidatura.nomeUrna}
+              </h1>
 
-          <p className="mt-3 text-sm text-black/45">
-            Situação no TSE:{" "}
-            {candidatura.situacaoTse}
-          </p>
+              <p className="mt-4 text-base leading-7 text-black/60 sm:text-lg">
+                {candidatura.siglaPartido}
+                {" · "}
+                {nomesDosCargos[candidatura.cargo] ??
+                  candidatura.cargo}
+                {" · "}
+                {candidatura.uf === "BR"
+                  ? "Brasil"
+                  : candidatura.uf}
+              </p>
+
+              {situacaoReeleicao === "reeleicao" ? (
+                <span className="mt-4 inline-flex rounded-full bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em]">
+                  REELEIÇÃO
+                </span>
+              ) : situacaoReeleicao === "nao-concorre-a-reeleicao" ? (
+                <span className="mt-4 inline-flex rounded-full bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em]">
+                  CONCORRE A OUTRO CARGO
+                </span>
+              ) : null}
+            </div>
+          </div>
         </header>
 
         <section className="mb-6 rounded-[28px] bg-white p-6 sm:p-8">
@@ -206,7 +250,7 @@ export default async function FichaDoCandidatoPage({
 
             <div>
               <dt className="text-xs uppercase tracking-[0.12em] text-black/35">
-                Cargo
+                Candidatura em 2026
               </dt>
               <dd className="mt-1 font-semibold">
                 {nomesDosCargos[
@@ -215,12 +259,28 @@ export default async function FichaDoCandidatoPage({
               </dd>
             </div>
 
+            {cargoAtualConhecido ? (
+              <div>
+                <dt className="text-xs uppercase tracking-[0.12em] text-black/35">
+                  Cargo atual
+                </dt>
+                <dd className="mt-1 font-semibold">
+                  {nomesDosCargos[cargoAtualConhecido] ??
+                    cargoAtualConhecido}
+                </dd>
+              </div>
+            ) : null}
+
             <div>
               <dt className="text-xs uppercase tracking-[0.12em] text-black/35">
-                Estado
+                {candidatura.uf === "BR"
+                  ? "Abrangência"
+                  : "Estado"}
               </dt>
               <dd className="mt-1 font-semibold">
-                {candidatura.uf}
+                {candidatura.uf === "BR"
+                  ? "Brasil"
+                  : candidatura.uf}
               </dd>
             </div>
           </dl>
@@ -235,134 +295,76 @@ export default async function FichaDoCandidatoPage({
           </a>
         </section>
 
-        <section className="mb-6 rounded-[28px] bg-white p-6 sm:p-8">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/40">
-                Posições documentadas
-              </p>
-
-              <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">
-                O que sabemos até agora
-              </h2>
-            </div>
-
-            <span className="text-sm text-black/40">
-              {registros.length} registro
-              {registros.length === 1
-                ? ""
-                : "s"}
-            </span>
-          </div>
-
-          {registros.length === 0 ? (
-            <p className="mt-6 leading-7 text-black/55">
-              Ainda não localizamos posicionamentos
-              públicos verificáveis deste candidato nas
-              pautas cadastradas pelo Fora da Pauta.
+        {historicoPolitico &&
+        historicoPolitico.trajetoria.length > 0 ? (
+          <section className="mb-6 rounded-[28px] bg-white p-6 sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/40">
+              Atuação política
             </p>
-          ) : (
-            <div className="mt-7 space-y-5">
-              {registros.map(
-                (posicionamento) => (
-                  <article
-                    key={posicionamento.id}
-                    className="rounded-2xl bg-[#f5f5f1] p-5"
-                  >
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <span className="rounded-full bg-white px-3 py-1.5 text-sm font-semibold">
-                        {nomesDasPosicoes[
-                          posicionamento.posicao
-                        ] ??
-                          posicionamento.posicao}
-                      </span>
-                    </div>
 
-                    <p className="mt-4 leading-7 text-black/65">
-                      {posicionamento.resumo}
-                    </p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">
+              Histórico de atuação
+            </h2>
 
-                    {posicionamento.evidencias
-                      ?.length ? (
-                      <div className="mt-5 space-y-3 border-t border-black/8 pt-5">
-                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
-                          Evidências
+            <p className="mt-3 text-sm leading-6 text-black/50">
+              Registros públicos da atuação política, apresentados do mais recente para o mais antigo.
+            </p>
+
+            <div className="mt-6 space-y-3">
+              {[...historicoPolitico.trajetoria]
+                .sort((a, b) =>
+                  (b.periodo ?? "").localeCompare(a.periodo ?? "")
+                )
+                .map((item, index) => {
+                  const periodo =
+                    formatarPeriodoPolitico(
+                      item.periodo,
+                    );
+
+                  const descricaoEhGenerica =
+                    item.descricao
+                      ?.toLowerCase()
+                      .startsWith(
+                        "exercicio parlamentar na camara",
+                      );
+
+                  return (
+                    <div
+                      key={`${item.titulo}-${item.periodo ?? "sem-periodo"}-${index}`}
+                      className="rounded-2xl bg-[#f5f5f1] p-4"
+                    >
+                      <p className="font-semibold">
+                        {item.titulo}
+                      </p>
+
+                      {periodo ? (
+                        <p className="mt-1 text-sm text-black/45">
+                          {periodo}
                         </p>
+                      ) : null}
 
-                        {posicionamento.evidencias.map(
-                          (
-                            evidencia,
-                            index,
-                          ) => (
-                            <div
-                              key={`${evidencia.titulo}-${index}`}
-                              className="rounded-xl bg-white p-4"
-                            >
-                              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/40">
-                                {nomeDaEvidencia(
-                                  evidencia.tipo,
-                                )}
-                              </p>
+                      {item.descricao &&
+                      !descricaoEhGenerica ? (
+                        <p className="mt-3 text-sm leading-6 text-black/60">
+                          {item.descricao}
+                        </p>
+                      ) : null}
 
-                              <p className="mt-2 font-semibold">
-                                {
-                                  evidencia.titulo
-                                }
-                              </p>
-
-                              {evidencia.descricao ? (
-                                <p className="mt-2 text-sm leading-6 text-black/60">
-                                  {
-                                    evidencia.descricao
-                                  }
-                                </p>
-                              ) : null}
-
-                              <a
-                                href={
-                                  evidencia.fonte
-                                    .url
-                                }
-                                target="_blank"
-                                rel="noreferrer"
-                                className="mt-3 inline-block text-sm font-medium underline decoration-black/20 underline-offset-4 hover:decoration-black"
-                              >
-                                Ver fonte —{" "}
-                                {
-                                  evidencia.fonte
-                                    .veiculoOuInstituicao
-                                }
-                              </a>
-                            </div>
-                          ),
-                        )}
-                      </div>
-                    ) : (
-                      <div className="mt-5 space-y-2 border-t border-black/8 pt-5">
-                        {posicionamento.fontes.map(
-                          (fonte) => (
-                            <a
-                              key={fonte.url}
-                              href={fonte.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="block text-sm font-medium underline decoration-black/20 underline-offset-4 hover:decoration-black"
-                            >
-                              {fonte.titulo} —{" "}
-                              {
-                                fonte.veiculoOuInstituicao
-                              }
-                            </a>
-                          ),
-                        )}
-                      </div>
-                    )}
-                  </article>
-                ),
+                      <a
+                        href={item.fonte.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-3 inline-block text-xs font-medium text-black/45 underline decoration-black/20 underline-offset-4"
+                      >
+                        Fonte: Câmara dos Deputados
+                      </a>
+                    </div>
+                  );
+                },
               )}
             </div>
-          )}
-        </section>
+          </section>
+        ) : null}
 
         <section className="grid gap-4 sm:grid-cols-2">
           <article className="rounded-[28px] bg-white p-6">
