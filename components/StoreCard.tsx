@@ -1,4 +1,4 @@
-type StoreCardProps = {
+﻿type StoreCardProps = {
   storeUrl?: string;
 };
 
@@ -17,7 +17,7 @@ export function StoreCard({
         </h2>
 
         <p className="mt-4 max-w-lg text-base leading-7 text-white/60">
-          Acesse a loja da campanha e veja a camiseta desta mensagem.
+          Acesse a loja e veja a camiseta do projeto Fora da Pauta.
         </p>
       </div>
 

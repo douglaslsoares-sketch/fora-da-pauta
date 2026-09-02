@@ -1,3 +1,4 @@
+﻿import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { campaigns, getCampaign } from "@/data/campanhas";
@@ -325,30 +326,39 @@ export default async function CandidatosDaPautaPage({
               className="rounded-[28px] border border-black/8 bg-white p-6 sm:p-8"
             >
               <div className="flex flex-wrap justify-between gap-5">
-                <div>
-                  <p className="text-2xl font-semibold tracking-[-0.03em]">
-                    {candidatura.nomeUrna}
-                  </p>
+                <div className="flex min-w-0 items-start gap-4">
+                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-[#f1f1ed] sm:h-20 sm:w-20">
+                    <Image
+                      src={`/candidatos/2026/${candidatura.id}.jpg`}
+                      alt={`Foto oficial de ${candidatura.nomeUrna}`}
+                      fill
+                      sizes="80px"
+                      className="object-cover"
+                    />
+                  </div>
+
+                  <div className="min-w-0">
+                    <p className="text-2xl font-semibold tracking-[-0.03em]">
+                      {candidatura.nomeUrna}
+                    </p>
 
                   <p className="mt-2 text-sm text-black/45">
                     {candidatura.siglaPartido} · {candidatura.uf} ·{" "}
                     {nomesDosCargos[candidatura.cargo]}
                   </p>
 
-                  <Link
-                    href={`/eleicoes-2026/candidatos/${encodeURIComponent(
-                      candidatura.id
-                    )}`}
-                    className="mt-3 inline-flex items-center rounded-full border border-black/10 bg-[#f5f5f1] px-3 py-1.5 text-xs font-semibold text-black/65 transition hover:border-black/25 hover:text-black"
-                  >
-                    Ficha do candidato →
-                  </Link>
 
                   {obterSituacaoReeleicao(candidatura) === "reeleicao" ? (
                     <span className="mt-3 inline-flex rounded-full border border-black/10 bg-[#f2f2ef] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-black/65">
                       Reeleição
                     </span>
+                  ) : obterSituacaoReeleicao(candidatura) ===
+                    "nao-concorre-a-reeleicao" ? (
+                    <span className="mt-3 inline-flex rounded-full border border-black/10 bg-[#f2f2ef] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-black/65">
+                      Concorre a outro cargo
+                    </span>
                   ) : null}
+                  </div>
                 </div>
 
                 <span className="h-fit rounded-full bg-[#efefe9] px-4 py-2 text-sm font-semibold">
