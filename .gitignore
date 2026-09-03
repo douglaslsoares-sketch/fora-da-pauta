@@ -47,3 +47,6 @@ data/eleicoes/camara/
 data/eleicoes/camara/
 components/*.backup-*
 components/*.bak
+
+# Prisma Client gerado automaticamente
+/generated/prisma

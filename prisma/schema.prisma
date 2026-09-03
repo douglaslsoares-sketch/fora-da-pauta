@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model PessoaPolitica {
+  id                 String    @id
+  nomeCompleto       String
+  nomePublico        String?
+  fotoUrl            String?
+  fotoFonteTitulo    String?
+  fotoFonteUrl       String?
+  fotoDataReferencia DateTime? @db.Date
+  criadoEm           DateTime  @default(now())
+  atualizadoEm       DateTime  @updatedAt
+
+  candidaturas            Candidatura[]
+  eventos                 EventoPolitico[]
+  declaracoesPatrimoniais DeclaracaoPatrimonial[]
+
+  @@index([nomeCompleto])
+  @@index([nomePublico])
+}
+
+model Candidatura {
+  id                String    @id
+  pessoaPoliticaId  String
+  eleicao           Int
+  nomeCompleto      String?
+  nomeUrna          String?
+  numero            Int?
+  cargo             String
+  uf                String?
+  partido           String?
+  siglaPartido      String?
+  federacao         String?
+  situacao          String?
+  situacaoTse       String?
+  fonteOficial      String?
+  ultimaVerificacao DateTime? @db.Date
+  criadoEm          DateTime  @default(now())
+  atualizadoEm      DateTime  @updatedAt
+
+  pessoa                PessoaPolitica         @relation(fields: [pessoaPoliticaId], references: [id], onDelete: Cascade)
+  declaracaoPatrimonial DeclaracaoPatrimonial?
+
+  @@index([pessoaPoliticaId])
+  @@index([eleicao])
+  @@index([cargo])
+  @@index([uf])
+  @@index([siglaPartido])
+}
+
+model EventoPolitico {
+  id               String   @id @default(cuid())
+  pessoaPoliticaId String
+  chaveOrigem      String?  @unique
+  tipo             String
+  dataOrdenacao    String?
+  periodo          String?
+  titulo           String
+  descricao        String?
+  fonteTitulo      String?
+  fonteUrl         String?
+  dados            Json?
+  criadoEm         DateTime @default(now())
+  atualizadoEm     DateTime @updatedAt
+
+  pessoa PessoaPolitica @relation(fields: [pessoaPoliticaId], references: [id], onDelete: Cascade)
+
+  @@index([pessoaPoliticaId])
+  @@index([tipo])
+  @@index([dataOrdenacao])
+}
+
+model DeclaracaoPatrimonial {
+  id               String    @id @default(cuid())
+  pessoaPoliticaId String
+  candidaturaId    String    @unique
+  eleicao          Int
+  valorTotal       Decimal   @db.Decimal(18, 2)
+  fonteTitulo      String?
+  fonteUrl         String?
+  verificadoEm     DateTime? @db.Date
+  criadoEm         DateTime  @default(now())
+  atualizadoEm     DateTime  @updatedAt
+
+  pessoa      PessoaPolitica   @relation(fields: [pessoaPoliticaId], references: [id], onDelete: Cascade)
+  candidatura Candidatura      @relation(fields: [candidaturaId], references: [id], onDelete: Cascade)
+  bens        BemPatrimonial[]
+
+  @@index([pessoaPoliticaId])
+  @@index([eleicao])
+}
+
+model BemPatrimonial {
+  id           String   @id @default(cuid())
+  declaracaoId String
+  tipo         String?
+  descricao    String
+  valor        Decimal  @db.Decimal(18, 2)
+  ordem        Int?
+  criadoEm     DateTime @default(now())
+
+  declaracao DeclaracaoPatrimonial @relation(fields: [declaracaoId], references: [id], onDelete: Cascade)
+
+  @@index([declaracaoId])
+}
