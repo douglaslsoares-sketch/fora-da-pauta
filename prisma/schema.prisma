@@ -60,6 +60,7 @@ model EventoPolitico {
   pessoaPoliticaId String
   chaveOrigem      String?  @unique
   tipo             String
+  categoria        String
   dataOrdenacao    String?
   periodo          String?
   titulo           String
@@ -83,6 +84,7 @@ model DeclaracaoPatrimonial {
   candidaturaId    String    @unique
   eleicao          Int
   valorTotal       Decimal   @db.Decimal(18, 2)
+  quantidadeDeBens Int?
   fonteTitulo      String?
   fonteUrl         String?
   verificadoEm     DateTime? @db.Date
@@ -100,6 +102,7 @@ model DeclaracaoPatrimonial {
 model BemPatrimonial {
   id           String   @id @default(cuid())
   declaracaoId String
+  tipoCodigo   String?
   tipo         String?
   descricao    String
   valor        Decimal  @db.Decimal(18, 2)
