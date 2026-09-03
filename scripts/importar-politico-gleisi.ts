@@ -548,6 +548,7 @@ function montarCarga() {
   }> = [];
 
   const bens: Array<{
+    id: string;
     candidaturaId: string;
     eleicao: number;
     tipoCodigo: string | null;
@@ -677,6 +678,9 @@ function montarCarga() {
         origem.bens[indice];
 
       bens.push({
+        id:
+          `bem:${candidaturaId}:${indice + 1}`,
+
         candidaturaId,
 
         eleicao:
@@ -1116,6 +1120,9 @@ async function aplicarCarga(
               data:
                 bensDaDeclaracao.map(
                   (bem) => ({
+                    id:
+                      bem.id,
+
                     declaracaoId:
                       registro.id,
 
