@@ -36,9 +36,42 @@ export type Campaign = {
   storeUrl?: string;
   shareImage?: string;
   pautaId?: string;
+
+  /**
+   * Data editorial de publicação no formato YYYY-MM-DD.
+   * A home usa este campo para ordenar da edição mais recente para a mais antiga.
+   */
+  publishedAt?: string;
+
+  /**
+   * Imagem usada como capa do card na grade da página inicial.
+   */
+  coverImage?: string;
 };
 
 export const campaigns: Campaign[] = [
+  {
+    slug: "seus-interesses",
+    brand: "Fora da Pauta",
+    title: "O que você faria se fosse presidente?",
+    statement:
+      "Fale do seu jeito. Veja o que os candidatos já disseram sobre isso.",
+    sections: [
+      {
+        eyebrow: "Seus interesses",
+        title: "O que é importante para você?",
+        paragraphs: [
+          "A proposta desta edição é permitir que você fale livremente sobre o que gostaria de mudar na sua vida, na sua cidade ou no país.",
+          "A partir do que você disser, o Fora da Pauta buscará registros públicos relacionados aos temas mencionados e mostrará o que candidatos já disseram, fizeram ou votaram sobre eles.",
+          "As informações serão apresentadas com fontes para que você possa consultar os registros e tirar suas próprias conclusões.",
+        ],
+      },
+    ],
+    publishedAt: "2026-09-07",
+    coverImage: "/edicoes/edicao-02-seus-interesses-capa-grade.png",
+    pautaId: "seus-interesses",
+  },
+
   {
     slug: "fim-escala-6x1",
     brand: "Fora da Pauta",
@@ -183,3 +216,4 @@ export const campaigns: Campaign[] = [
 export function getCampaign(slug: string) {
   return campaigns.find((campaign) => campaign.slug === slug);
 }
+
