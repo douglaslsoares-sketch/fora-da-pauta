@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import { TelegramUpdatesCard } from "@/components/TelegramUpdatesCard";
 import { CandidatesCard } from "@/components/CandidatesCard";
 import { StoreCard } from "@/components/StoreCard";
 import { EconomicIndicators } from "@/components/EconomicIndicators";
+import { SeusInteressesExperience } from "@/components/SeusInteressesExperience";
 
 type CampaignPageProps = {
   campaign: Campaign;
@@ -19,6 +20,9 @@ type CampaignPageProps = {
 export function CampaignPage({ campaign }: CampaignPageProps) {
   const ehEdicao01 =
     campaign.slug === "fim-escala-6x1";
+
+  const ehSeusInteresses =
+    campaign.slug === "seus-interesses";
 
   async function copiarLinkDaCampanha() {
     const url =
@@ -94,20 +98,26 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
       {/* CONTEÃšDO */}
       <section className="px-5 pb-16 pt-12 sm:px-8 sm:pb-24 sm:pt-16 lg:px-10">
         <div className="mx-auto w-full max-w-3xl">
-          <div className="mb-10 border-t border-black/15 pt-5 sm:mb-12">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-              Entenda a edição
-            </p>
+          {ehSeusInteresses ? (
+            <div className="mb-10 sm:mb-12">
+              <SeusInteressesExperience />
+            </div>
+          ) : (
+            <div className="mb-10 border-t border-black/15 pt-5 sm:mb-12">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
+                Entenda a edição
+              </p>
 
-            <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-[1.05] tracking-[-0.045em] sm:text-4xl">
-              Vá além da frase.
-            </h2>
+              <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-[1.05] tracking-[-0.045em] sm:text-4xl">
+                Vá além da frase.
+              </h2>
 
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-black/55">
-              Veja o que está sendo proposto, os argumentos do debate,
-              as evidências disponíveis e em que ponto está a discussão.
-            </p>
-          </div>
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-black/55">
+                Veja o que está sendo proposto, os argumentos do debate,
+                as evidências disponíveis e em que ponto está a discussão.
+              </p>
+            </div>
+          )}
 
           <div
             className="space-y-4"
@@ -124,7 +134,7 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
               />
             ))}
 
-            {campaign.pautaId ? (
+            {campaign.pautaId && !ehSeusInteresses ? (
               <CandidatesCard
                 href={`/campanhas/${campaign.slug}/candidatos`}
               />
