@@ -301,7 +301,45 @@ A decisão política, eleitoral ou pessoal pertence ao cidadão.
 
 ---
 
-## 18. Princípios editoriais centrais
+## 18. Acessibilidade e leitura em áudio
+
+O Fora da Pauta deve buscar tornar seus conteúdos editoriais acessíveis
+também por meio de leitura em áudio.
+
+> **Todo conteúdo editorial textual do Fora da Pauta deve, sempre que
+> tecnicamente possível, oferecer leitura em áudio sincronizada com o
+> texto, preservando ao mesmo tempo a possibilidade de leitura convencional.**
+
+A leitura em áudio não deve substituir o texto.
+
+Ela constitui uma forma adicional de acesso ao mesmo conteúdo.
+
+Durante a reprodução, o trecho correspondente do texto deve ser
+identificado visualmente, permitindo que a pessoa acompanhe a leitura
+pela tela.
+
+Essa funcionalidade deve ser adotada como padrão para:
+
+- edições;
+- matérias;
+- explicações;
+- fichas de candidatos;
+- históricos e cronologias;
+- Linha Editorial;
+- metodologias;
+- demais conteúdos editoriais textuais do projeto.
+
+Elementos puramente funcionais da interface, como menus, filtros,
+botões, comandos de navegação e controles, não precisam integrar a
+narração do conteúdo editorial.
+
+A reprodução deve depender de uma ação do usuário.
+
+O Fora da Pauta não deve iniciar automaticamente a leitura em áudio.
+
+---
+
+## 19. Princípios editoriais centrais
 
 > **O Fora da Pauta não é acusatório nem promocional. É documental.**
 
@@ -315,3 +353,4 @@ A decisão política, eleitoral ou pessoal pertence ao cidadão.
 Esses princípios devem orientar pesquisas, edições, campanhas,
 fichas, ferramentas de inteligência artificial, bases de dados,
 atualizações e demais conteúdos produzidos pelo Fora da Pauta.
+
