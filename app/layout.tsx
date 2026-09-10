@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import { EditorialPrinciplesBar } from "@/components/EditorialPrinciplesBar";
 import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
     template: "%s | Fora da Pauta",
   },
   description:
-    "Camisetas que colocam uma pergunta na rua e páginas que ajudam a entender a mensagem por trás de cada campanha.",
+    "Informação, documentos, evidências e fontes verificáveis para ajudar cada pessoa a formar sua própria avaliação.",
   icons: {
     icon: "/icon.png",
   },
