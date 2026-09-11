@@ -8,7 +8,7 @@ import { MarkdownDocument } from "@/components/MarkdownDocument";
 export const metadata: Metadata = {
   title: "Linha Editorial",
   description:
-    "Conheça os princípios editoriais que orientam o trabalho do Fora da Pauta.",
+    "Conheça os princípios de informação, documentação, participação cidadã, acompanhamento do poder público, sustentabilidade e acesso que orientam o Fora da Pauta.",
 };
 
 export default async function LinhaEditorialPage() {
@@ -34,9 +34,10 @@ export default async function LinhaEditorialPage() {
             Linha Editorial
           </h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
-            Os princípios que orientam pesquisa, documentação,
-            atualização e apresentação das informações no Fora da Pauta.
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
+            Os princípios que orientam pesquisa, documentação, participação
+            cidadã, acompanhamento do poder público, sustentabilidade,
+            acesso e apresentação das informações no Fora da Pauta.
           </p>
         </div>
       </header>
