@@ -371,8 +371,7 @@ export default function Home() {
 
           <div className="mt-8 border-l-4 border-[#FFC400] pl-5">
             <p className="font-semibold leading-7">
-              A resposta será publicada abaixo, junto com outras dúvidas
-              apresentadas.
+              Quando houver interesse público, a pergunta e a resposta também poderão ser publicadas abaixo.
             </p>
           </div>
 
