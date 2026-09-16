@@ -1,450 +1,454 @@
+import Image from "next/image";
 import Link from "next/link";
 
-import {
-  PreLaunchExperience,
-} from "@/components/PreLaunchExperience";
-
-import {
-  PublicQuestionsExperience,
-} from "@/components/PublicQuestionsExperience";
-
-import {
-  PreLaunchShareCard,
-} from "@/components/PreLaunchShareCard";
-
-import {
-  getProjectTimelineEvents,
-} from "@/data/espinha-dorsal-projeto";
-
-function dataBrasil(
-  date: string,
-) {
-  const [
-    ano,
-    mes,
-    dia,
-  ] = date.split("-");
-
-  return `${dia}/${mes}/${ano}`;
-}
+import { EditorialModalTrigger } from "@/components/EditorialModalTrigger";
+import { HomeReadingButton } from "@/components/HomeReadingButton";
 
 export default function Home() {
-  const eventos =
-    getProjectTimelineEvents()
-      .slice(
-        0,
-        4,
-      );
-
   return (
     <main
-      id="prelaunch-reading"
+      id="home-reading"
       className="min-h-screen bg-[#eeeee9] text-[#151515]"
     >
-      <section
-        id="abertura"
-        data-prelaunch-step="abertura"
-        className="bg-black px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-10"
-      >
-        <div className="mx-auto w-full max-w-4xl">
+
+      {/* ABERTURA */}
+
+      <section className="bg-black px-5 py-16 text-white sm:px-8 sm:py-24 lg:px-10">
+        <div className="mx-auto w-full max-w-5xl">
+
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#FFC400]">
-            Pré-lançamento
+            Edição especial de pré-lançamento
           </p>
 
-          <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-6xl">
-            Um espaço público de fala, escuta, informação e participação.
+          <h1 className="mt-5 max-w-4xl text-5xl font-semibold leading-[0.96] tracking-[-0.055em] sm:text-7xl">
+            Conheça o Fora da Pauta
           </h1>
 
-          <p className="mt-7 max-w-3xl text-lg leading-8 text-white/70">
-            As pessoas trazem suas dúvidas, sugestões, experiências e opiniões.
-            O Fora da Pauta organiza, verifica, documenta e apresenta o que pode
-            ser verificado.
+          <p className="mt-8 max-w-3xl text-2xl font-semibold leading-9 text-white">
+            Informação para entender o que acontece e formar sua própria avaliação.
           </p>
 
-          <p className="mt-4 text-lg font-semibold text-white">
-            A opinião pertence às pessoas.
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-white/65">
+            O Fora da Pauta é um canal direto de informação e esclarecimento
+            com as pessoas. Os assuntos são pesquisados, documentados e
+            apresentados com fontes para que cada pessoa possa compreender o
+            que aconteceu, acompanhar o que muda e chegar às próprias conclusões.
           </p>
 
-          <PreLaunchExperience />
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-white/65">
+            A proposta é não depender de publicidade, de grandes financiadores
+            nem da disputa por alcance nas plataformas para decidir o que merece
+            ser pesquisado e publicado.
+          </p>
+
+          <div className="mt-9">
+            <HomeReadingButton />
+          </div>
+
+          <div
+            data-editorial-ignore
+            className="mt-5 flex flex-col gap-3 sm:flex-row"
+          >
+            <EditorialModalTrigger
+              className="inline-flex min-h-12 items-center justify-center border border-white/25 px-6 py-3 text-sm font-semibold text-white/85 transition hover:border-white/60 hover:text-white"
+            />
+
+            <Link
+              href="/participacao-e-sustentabilidade"
+              className="inline-flex min-h-12 items-center justify-center border border-white/25 px-6 py-3 text-sm font-semibold text-white/85 transition hover:border-white/60 hover:text-white"
+            >
+              Sustentabilidade e Participação
+            </Link>
+          </div>
+
         </div>
       </section>
 
-      <section
-        id="origem"
-        data-prelaunch-step="origem"
-        className="px-5 py-9 sm:px-8 sm:py-12 lg:px-10"
-      >
-        <div className="mx-auto w-full max-w-4xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-            Uma ideia que vem de longe
+
+      {/* O QUE É */}
+
+      <section className="px-5 py-16 sm:px-8 sm:py-20 lg:px-10">
+        <div className="mx-auto w-full max-w-5xl">
+
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/45">
+            O que é
           </p>
 
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-black/65">
-            Essa ideia vem sendo construída há muitos anos. Durante muito tempo,
-            essas conversas aconteciam com uma pessoa por vez. O Fora da Pauta
-            tornou possível ampliar essa conversa: falar com muitas pessoas,
-            ouvi-las e construir um espaço em que elas também possam participar.
-          </p>
-        </div>
-      </section>
-
-      <section
-        id="principios"
-        data-prelaunch-step="principios"
-        className="border-y border-black/15 bg-white/35 px-5 py-12 sm:px-8 sm:py-16 lg:px-10"
-      >
-        <div className="mx-auto w-full max-w-4xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-            Princípios
-          </p>
-
-          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
-            O Fora da Pauta não diz o que você deve pensar.
+          <h2 className="mt-3 max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] sm:text-5xl">
+            Informação para entender. Espaço para participar.
           </h2>
 
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-black/65">
-            O Fora da Pauta não é acusatório nem promocional. É documental.
-            A pergunta que orienta a verificação é: o que pode ser verificado?
+          <p className="mt-7 max-w-3xl text-lg leading-8 text-black/65">
+            O Fora da Pauta é um projeto independente de informação,
+            esclarecimento e participação aberta, baseado em fatos, documentos,
+            evidências e fontes verificáveis.
           </p>
 
           <p className="mt-4 max-w-3xl text-lg leading-8 text-black/65">
-            O projeto mostra o que pode ser verificado e abre espaço para que as
-            pessoas falem por si mesmas. A decisão política, eleitoral ou pessoal
-            continua pertencendo à própria pessoa.
+            O objetivo não é dizer o que você deve pensar, em quem deve votar
+            ou qual conclusão deve adotar. É oferecer informação organizada,
+            contextualizada e verificável para que você possa formar sua própria
+            avaliação.
           </p>
 
-          <div className="mt-7 border-l-4 border-[#FFC400] pl-5">
-            <p className="font-semibold leading-7">
-              A participação pública é anônima: a identidade de quem participa
-              não é exibida publicamente.
-            </p>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+
+            <div className="border border-black/15 p-6">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-black/40">
+                Informação
+              </p>
+
+              <h3 className="mt-3 text-xl font-semibold">
+                O que pode ser verificado?
+              </h3>
+
+              <p className="mt-3 text-sm leading-7 text-black/60">
+                A pesquisa parte do que pode ser verificado: fatos, documentos,
+                registros e fontes. O que foi verificado, alegado, contestado
+                ou ainda não confirmado deve aparecer como tal.
+              </p>
+            </div>
+
+
+            <div className="border border-black/15 p-6">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-black/40">
+                Participação
+              </p>
+
+              <h3 className="mt-3 text-xl font-semibold">
+                Incluir o povo no debate
+              </h3>
+
+              <p className="mt-3 text-sm leading-7 text-black/60">
+                As pessoas podem sugerir assuntos, perguntar, comentar e
+                participar das discussões. A participação pode ser anônima
+                e organizada dentro da própria plataforma.
+              </p>
+            </div>
+
+
+            <div className="border border-black/15 p-6">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-black/40">
+                Independência
+              </p>
+
+              <h3 className="mt-3 text-xl font-semibold">
+                Uma pessoa, uma cota
+              </h3>
+
+              <p className="mt-3 text-sm leading-7 text-black/60">
+                Cada pessoa poderá assumir no máximo uma cota, de mesmo valor.
+                Contribuir ajuda a sustentar o projeto, mas não compra influência,
+                prioridade editorial ou acesso privilegiado.
+              </p>
+            </div>
+
           </div>
         </div>
       </section>
 
-      <section
-        id="participacao"
-        data-prelaunch-step="participacao"
-        className="px-5 py-12 sm:px-8 sm:py-16 lg:px-10"
-      >
-        <div className="mx-auto w-full max-w-4xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-            Participação
-          </p>
 
-          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
-            Você fala. O sistema mostra o que entendeu. Você confere.
-          </h2>
+      {/* ESPINHA DORSAL */}
 
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-black/65">
-            Sugestões de temas, comentários e perguntas poderão ser feitos por
-            áudio. A pessoa fala livremente; o sistema interpreta; a pessoa
-            confirma, corrige ou completa. Só então a manifestação é registrada.
-          </p>
+      <section className="bg-black px-5 py-16 text-white sm:px-8 sm:py-20 lg:px-10">
+        <div className="mx-auto w-full max-w-5xl">
 
-          <h3 className="mt-9 text-2xl font-semibold tracking-[-0.035em]">
-            A conversa começa nas pessoas.
-          </h3>
-
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-black/65">
-            Não haverá uma lista de assuntos para escolher. Os temas poderão
-            nascer da fala livre das pessoas. Quando as sugestões forem
-            organizadas por tema, o Fora da Pauta mostrará quantas pessoas
-            mencionaram cada assunto, o percentual correspondente e a base usada
-            no cálculo.
-          </p>
-
-          <div className="mt-8 border-l-4 border-[#FFC400] pl-5">
-            <p className="font-semibold leading-7">
-              Não basta ouvir. É preciso mostrar o que foi feito com aquilo que foi ouvido.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="espinha-dorsal"
-        data-prelaunch-step="espinha-dorsal"
-        className="bg-black px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-10"
-      >
-        <div className="mx-auto w-full max-w-4xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#FFC400]">
-            Desde o começo
+            Espinha Dorsal
           </p>
 
-          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
-            Espinha Dorsal do Fora da Pauta
+          <h2 className="mt-3 max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] sm:text-5xl">
+            A informação não começa do zero.
           </h2>
 
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
-            Quem participa deve poder acompanhar como as coisas acontecem. O
-            princípio é registrar todos os acontecimentos do projeto, do mais
-            recente para o mais antigo, preservando os detalhes que precisem ser
-            protegidos por privacidade ou dever legal.
+          <p className="mt-7 max-w-3xl text-lg leading-8 text-white/65">
+            Documentos, decisões, falas, votos, acontecimentos e atualizações
+            são organizados em ordem cronológica. Assim, é possível reconstruir
+            o caminho de um assunto, entender o contexto e conferir as fontes.
           </p>
 
-          <div className="mt-9 border-t border-white/15">
-            {eventos.map(
-              (evento) => (
-                <article
-                  key={evento.id}
-                  className="grid gap-2 border-b border-white/15 py-5 sm:grid-cols-[120px_1fr] sm:gap-7"
-                >
-                  <div>
-                    <p className="text-sm font-semibold text-[#FFC400]">
-                      {dataBrasil(
-                        evento.date,
-                      )}
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold">
-                      {evento.title}
-                    </h3>
-
-                    <p className="mt-2 text-sm leading-6 text-white/50">
-                      {evento.description}
-                    </p>
-                  </div>
-                </article>
-              ),
-            )}
-          </div>
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-white/65">
+            É uma linha do tempo viva: cresce para a frente, com novos
+            acontecimentos, e também para trás, quando registros anteriores
+            são localizados e documentados.
+          </p>
 
           <Link
             href="/espinha-dorsal"
-            className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[#FFC400]"
+            className="mt-8 inline-flex min-h-12 items-center justify-center border border-white/25 px-6 py-3 text-sm font-semibold text-white/85 transition hover:border-white/60 hover:text-white"
           >
-            Ver Espinha Dorsal completa
-            <span aria-hidden="true">
-              →
-            </span>
+            Ver Espinha Dorsal
           </Link>
+
         </div>
       </section>
 
-      <section
-        id="sustentacao"
-        data-prelaunch-step="sustentacao"
-        className="px-5 py-12 sm:px-8 sm:py-16 lg:px-10"
-      >
-        <div className="mx-auto w-full max-w-4xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-            Sustentabilidade
+
+      {/* CANAL DIRETO */}
+
+      <section className="px-5 py-16 sm:px-8 sm:py-20 lg:px-10">
+        <div className="mx-auto w-full max-w-5xl">
+
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/45">
+            Canal direto
           </p>
 
-          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
-            Uma pessoa. Uma cota. 12 meses.
+          <h2 className="mt-3 max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] sm:text-5xl">
+            O ponto de encontro é aqui.
           </h2>
 
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-black/65">
-            A participação no Fora da Pauta não depende de contribuição
-            financeira. O modelo de sustentabilidade em construção prevê uma
-            contribuição voluntária, limitada a uma cota por pessoa em cada período
-            de 12 meses.
+          <p className="mt-7 max-w-3xl text-lg leading-8 text-black/65">
+            O Fora da Pauta é o ponto de encontro do projeto. É aqui que
+            permanecem os conteúdos, documentos, fontes, cronologias e espaços
+            de participação.
           </p>
 
           <p className="mt-4 max-w-3xl text-lg leading-8 text-black/65">
-            O objetivo é distribuir os custos entre o maior número possível de
-            pessoas que queiram contribuir, sem que contribuir mais dê mais
-            influência.
+            O Telegram é o canal de notificação. Quando houver novidade,
+            ele avisa e conduz a pessoa de volta ao Fora da Pauta.
           </p>
 
-          <div className="mt-8 bg-black p-6 text-white sm:p-7">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#FFC400]">
-              Qual deve ser o valor?
-            </p>
-
-            <p className="mt-3 text-xl font-semibold leading-8">
-              A proposta é buscar a menor cota compatível com os custos reais e
-              consultar as pessoas interessadas em contribuir antes de defini-la.
-            </p>
-
-            <p className="mt-3 text-sm leading-7 text-white/55">
-              Se o valor precisar mudar para mais ou para menos, haverá nova
-              consulta antes da alteração.
+          <div className="mt-8 border-l-4 border-[#FFC400] pl-5">
+            <p className="max-w-3xl text-lg font-semibold leading-8">
+              O Telegram avisa. O Fora da Pauta reúne, organiza e preserva
+              a informação e a participação.
             </p>
           </div>
 
-          <p className="mt-6 max-w-3xl text-sm leading-7 text-black/50">
-            Ao fim de cada período de 12 meses, eventual sobra será apresentada na
-            Prestação de Contas. O mecanismo de devolução ou de permanência
-            voluntária para o período seguinte só será adotado depois de validação
-            jurídica e contábil.
+        </div>
+      </section>
+
+
+      {/* SUSTENTABILIDADE */}
+
+      <section className="bg-black px-5 py-16 text-white sm:px-8 sm:py-20 lg:px-10">
+        <div className="mx-auto w-full max-w-5xl">
+
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#FFC400]">
+            Sustentabilidade
+          </p>
+
+          <h2 className="mt-3 max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] sm:text-5xl">
+            Contribuir não compra influência.
+          </h2>
+
+          <p className="mt-7 max-w-3xl text-lg leading-8 text-white/65">
+            Antes de cada período, o Fora da Pauta apresentará quanto precisa
+            para funcionar e por quanto tempo. O valor necessário será dividido
+            em cotas de mesmo valor.
+          </p>
+
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-white/65">
+            Cada pessoa poderá assumir no máximo uma cota naquele período.
+            A contribuição ajuda a sustentar o projeto, mas não dá prioridade,
+            influência editorial, acesso privilegiado nem maior poder de participação.
+          </p>
+
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-white/65">
+            Participar do Fora da Pauta não depende de contribuição financeira.
           </p>
 
           <Link
             href="/participacao-e-sustentabilidade"
-            className="mt-6 inline-flex items-center gap-2 text-sm font-semibold"
+            className="mt-8 inline-flex min-h-12 items-center justify-center border border-white/25 px-6 py-3 text-sm font-semibold text-white/85 transition hover:border-white/60 hover:text-white"
           >
-            Ver Sustentabilidade e Prestação de Contas
-            <span aria-hidden="true">
-              →
-            </span>
+            Sustentabilidade e Participação
           </Link>
+
         </div>
       </section>
 
-      <section
-        id="onde-estamos"
-        data-prelaunch-step="onde-estamos"
-        className="border-y border-black/15 bg-white/35 px-5 py-12 sm:px-8 sm:py-16 lg:px-10"
-      >
-        <div className="mx-auto w-full max-w-4xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-            Agora
-          </p>
 
-          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
-            Situação atual
-          </h2>
+      {/* EM QUE PONTO ESTAMOS */}
 
-          <div className="mt-7 divide-y divide-black/10 border-y border-black/10">
-            <div className="flex items-center justify-between gap-5 py-4">
-              <p className="font-medium">
-                Consulta jurídica preventiva
-              </p>
-              <p className="text-sm font-semibold">
-                Contato inicial enviado
-              </p>
-            </div>
+      <section className="border-t border-white/15 bg-black px-5 py-16 text-white sm:px-8 sm:py-20 lg:px-10">
+        <div className="mx-auto w-full max-w-5xl">
 
-            <div className="flex items-center justify-between gap-5 py-4">
-              <p className="font-medium">
-                Custos dos próximos 12 meses
-              </p>
-              <p className="text-sm font-semibold text-black/45">
-                Em apuração
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between gap-5 py-4">
-              <p className="font-medium">
-                Valor da cota
-              </p>
-              <p className="text-sm font-semibold text-black/45">
-                Ainda não definido
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between gap-5 py-4">
-              <p className="font-medium">
-                Participação financeira
-              </p>
-              <p className="text-sm font-semibold text-black/45">
-                Ainda não aberta
-              </p>
-            </div>
-          </div>
-
-          <p className="mt-6 text-sm leading-7 text-black/45">
-            Primeiro se conhece o custo. Depois se sabe quantas pessoas são
-            necessárias para dividi-lo.
-          </p>
-        </div>
-      </section>
-
-      <section
-        id="perguntas"
-        data-prelaunch-step="perguntas"
-        className="border-y border-black/15 bg-white/35 px-5 py-12 sm:px-8 sm:py-16 lg:px-10"
-      >
-        <div className="mx-auto w-full max-w-4xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-            Participação
-          </p>
-
-          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
-            Ficou alguma dúvida?
-          </h2>
-
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-black/65">
-            Faça sua pergunta por áudio sobre o Fora da Pauta. Você fala, o
-            sistema mostra o que entendeu e você confere antes de enviar.
-          </p>
-
-          <p className="mt-4 max-w-3xl text-base leading-7 text-black/55">
-            Depois do envio, você receberá um link para acompanhar sua pergunta
-            e voltar diretamente à resposta quando ela for publicada.
-          </p>
-
-          <div className="mt-8 border-l-4 border-[#FFC400] pl-5">
-            <p className="font-semibold leading-7">
-              Quando houver interesse público, a pergunta e a resposta também poderão ser publicadas abaixo.
-            </p>
-          </div>
-
-          <PublicQuestionsExperience />
-        </div>
-      </section>
-
-      <section
-        id="fechamento"
-        data-prelaunch-step="fechamento"
-        className="px-5 py-14 sm:px-8 sm:py-20 lg:px-10"
-      >
-        <div className="mx-auto w-full max-w-4xl">
-          <p className="text-3xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-5xl">
-            É gente, como a gente,
-            <br />
-            que faz a diferença.
-          </p>
-
-          <div className="mt-6 h-1 w-16 bg-[#FFC400]" />
-
-          <p className="mt-6 max-w-3xl text-xl leading-9 text-black/60 sm:text-2xl">
-            Quanto mais gente participa, mais gente a gente alcança.
-          </p>
-        </div>
-      </section>
-
-      <section
-        id="compartilhar"
-        data-prelaunch-step="compartilhar"
-        className="px-5 py-12 sm:px-8 sm:py-16 lg:px-10"
-      >
-        <div className="mx-auto w-full max-w-4xl">
-          <PreLaunchShareCard />
-        </div>
-      </section>
-
-      <section
-        id="acompanhar"
-        data-prelaunch-step="acompanhar"
-        className="bg-black px-5 py-12 text-white sm:px-8 sm:py-16 lg:px-10"
-      >
-        <div className="mx-auto w-full max-w-4xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#FFC400]">
+            Em que ponto estamos
+          </p>
+
+          <h2 className="mt-3 max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] sm:text-5xl">
+            O projeto ainda está em <span className="whitespace-nowrap">pré-lançamento</span>
+          </h2>
+
+          <p className="mt-7 max-w-3xl text-lg leading-8 text-white/65">
+            O Fora da Pauta ainda não iniciou sua operação regular.
+          </p>
+
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-white/65">
+            Antes do lançamento oficial, ainda precisamos concluir a estrutura
+            jurídica, contábil e operacional, fechar o orçamento do primeiro
+            período e publicar de forma clara como funcionarão a sustentação
+            e a prestação de contas.
+          </p>
+
+
+          <div className="mt-10 divide-y divide-white/15 border-y border-white/15">
+
+            <div className="flex gap-4 py-5">
+              <span
+                aria-hidden="true"
+                className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+              />
+
+              <div>
+                <p className="font-semibold">
+                  Linha Editorial definida
+                </p>
+
+                <p className="mt-1 text-sm leading-6 text-white/50">
+                  Os princípios que orientam pesquisa, publicação e participação
+                  já estão documentados.
+                </p>
+              </div>
+            </div>
+
+
+            <div className="flex gap-4 py-5">
+              <span
+                aria-hidden="true"
+                className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+              />
+
+              <div>
+                <p className="font-semibold">
+                  Princípios de sustentabilidade definidos
+                </p>
+
+                <p className="mt-1 text-sm leading-6 text-white/50">
+                  O modelo prevê cotas de mesmo valor, no máximo uma por pessoa.
+                  Contribuir não compra influência, prioridade ou participação
+                  privilegiada.
+                </p>
+              </div>
+            </div>
+
+
+            <div className="flex gap-4 py-5">
+              <span
+                aria-hidden="true"
+                className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full border border-white/50"
+              />
+
+              <div>
+                <p className="font-semibold">
+                  Estrutura de funcionamento em conclusão
+                </p>
+
+                <p className="mt-1 text-sm leading-6 text-white/50">
+                  A estrutura jurídica, contábil e operacional e o orçamento
+                  do primeiro período ainda precisam ser concluídos antes da
+                  operação regular.
+                </p>
+              </div>
+            </div>
+
+
+            <div className="flex gap-4 py-5">
+              <span
+                aria-hidden="true"
+                className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full border border-white/50"
+              />
+
+              <div>
+                <p className="font-semibold">
+                  Contribuições ainda não abertas
+                </p>
+
+                <p className="mt-1 text-sm leading-6 text-white/50">
+                  Nenhuma contribuição financeira está sendo solicitada nesta fase.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+
+          <Link
+            href="/participacao-e-sustentabilidade"
+            className="mt-9 inline-flex items-center gap-3 text-sm font-semibold text-[#FFC400] transition hover:text-white"
+          >
+            Veja como o projeto pretende se sustentar
+            <span aria-hidden="true">→</span>
+          </Link>
+
+        </div>
+      </section>
+
+
+      {/* COMO PARTICIPAR */}
+
+
+{/* ACOMPANHAR */}
+
+
+{/* ACOMPANHAR PELO TELEGRAM */}
+
+<section
+        id="acompanhar-telegram"
+        className="bg-[#eeeee9] px-5 py-16 text-[#151515] sm:px-8 sm:py-20 lg:px-10"
+      >
+        <div className="mx-auto w-full max-w-5xl">
+
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/45">
             Continue acompanhando
           </p>
 
-          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
-            O Telegram avisa.
+          <h2 className="mt-3 max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] sm:text-5xl">
+            Entre no Telegram para acompanhar o Fora da Pauta.
           </h2>
 
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-white/65">
-            O Telegram é somente um canal de notificação. O conteúdo, os
-            documentos, o histórico, as perguntas e os espaços de participação
-            ficam no site.
+          <p className="mt-7 max-w-3xl text-lg leading-8 text-black/65">
+            O Telegram é o canal de notificação do projeto. É por lá que você
+            recebe os avisos de novas publicações e atualizações, com o link
+            para voltar ao Fora da Pauta.
           </p>
 
-          <p className="mt-4 font-semibold leading-7">
-            O Fora da Pauta registra, explica e abre a participação.
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-black/65">
+            Depois de entrar, você também receberá o link para compartilhar
+            o projeto com outras pessoas.
+          </p>
+
+          <p className="mt-4 max-w-3xl font-medium leading-8">
+            A informação, os documentos, o histórico e a participação ficam
+            no Fora da Pauta. O Telegram faz a ligação entre você e a plataforma.
           </p>
 
           <a
+            data-editorial-ignore
             href="https://t.me/foradapauta"
             target="_blank"
             rel="noreferrer"
-            data-prelaunch-action="telegram"
-            className="mt-7 inline-flex min-h-12 items-center justify-center bg-[#FFC400] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#e9b300]"
+            aria-label="Entrar no canal do Fora da Pauta no Telegram"
+            className="mt-8 inline-flex min-h-12 items-center justify-center bg-[#FFC400] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#e9b300]"
           >
             Entrar no Telegram
           </a>
+
         </div>
       </section>
 
+      {/* RODAPÉ */}
+
+      <footer className="bg-black px-5 py-6 text-white sm:px-8 lg:px-10">
+        <div className="mx-auto flex w-full max-w-7xl items-end justify-between gap-6">
+
+          <Image
+            src="/marca/fora-da-pauta-branca.png"
+            alt="Fora da Pauta"
+            width={160}
+            height={115}
+            className="h-auto w-[66px]"
+          />
+
+          <p className="text-right text-xs font-semibold uppercase tracking-[0.12em] text-[#FFC400]">
+            Há mais para entender.
+          </p>
+
+        </div>
+      </footer>
     </main>
   );
 }
