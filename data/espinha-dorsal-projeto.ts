@@ -9,6 +9,16 @@ export type ProjectTimelineEvent = {
 
 export const projectTimelineEvents:
   ProjectTimelineEvent[] = [
+  {
+    id: "2026-09-16-retorno-conceito-identidade-original",
+    date: "2026-09-16",
+    sequence: 100,
+    category: "Identidade",
+    title:
+      "Retorno ao conceito e à identidade visual originais",
+    description:
+      "Após a revisão realizada durante o pré-lançamento, o Fora da Pauta retomou seu conceito original e também sua identidade visual anterior, incluindo o logotipo e o favicon.",
+  },
 
   {
     id: "2026-09-14-contato-juridico-enviado",

@@ -5,6 +5,7 @@ import type {
 import {
   getProjectTimelineEvents,
 } from "@/data/espinha-dorsal-projeto";
+import { HomeReadingButton } from "@/components/HomeReadingButton";
 
 export const metadata: Metadata = {
   title:
@@ -30,7 +31,7 @@ export default function EspinhaDorsalPage() {
     getProjectTimelineEvents();
 
   return (
-    <main className="min-h-screen bg-[#eeeee9] text-[#151515]">
+    <main id="espinha-dorsal-reading" data-editorial-root className="min-h-screen bg-[#eeeee9] text-[#151515]">
       <section className="px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
         <div className="mx-auto w-full max-w-4xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
@@ -58,6 +59,14 @@ export default function EspinhaDorsalPage() {
             A consolidação retrospectiva dos acontecimentos anteriores
             ainda está sendo incorporada a este histórico.
           </p>
+
+          <div className="mt-8">
+            <HomeReadingButton
+              rootId="espinha-dorsal-reading"
+              title="Espinha Dorsal do Fora da Pauta"
+              timeTone="dark"
+            />
+          </div>
 
           <div className="mt-12 border-t border-black/15">
             {eventos.map(
