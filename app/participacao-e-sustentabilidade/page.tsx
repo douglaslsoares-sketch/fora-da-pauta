@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HomeReadingButton } from "@/components/HomeReadingButton";
 
 export const metadata: Metadata = {
   title: "Sustentabilidade e Participação",
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ParticipacaoESustentabilidadePage() {
   return (
-    <main className="min-h-screen bg-[#eeeee9] text-[#151515]">
+    <main id="sustentabilidade-reading" data-editorial-root className="min-h-screen bg-[#eeeee9] text-[#151515]">
       <section className="px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
         <div className="mx-auto w-full max-w-3xl">
 
@@ -40,6 +41,13 @@ export default function ParticipacaoESustentabilidadePage() {
           </div>
 
 
+          <div className="mt-9">
+            <HomeReadingButton
+              rootId="sustentabilidade-reading"
+              title="Sustentabilidade e Participação"
+              timeTone="dark"
+            />
+          </div>
           {/* PARTICIPAÇÃO */}
 
           <section className="mt-16 border-t border-black/15 pt-12">
@@ -751,6 +759,13 @@ export default function ParticipacaoESustentabilidadePage() {
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.035em]">
               Prestação de Contas
             </h2>
+            <div className="mt-6">
+              <HomeReadingButton
+                rootId="prestacao-de-contas"
+                title="Prestação de Contas"
+                timeTone="dark"
+              />
+            </div>
 
             <p className="mt-5 text-base leading-8 text-black/65">
               Quem participa da sustentação deve conseguir saber quanto

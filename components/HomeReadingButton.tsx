@@ -2,14 +2,24 @@
 
 import { useEffect, useState } from "react";
 
-export function HomeReadingButton() {
+type HomeReadingButtonProps = {
+  rootId?: string;
+  title?: string;
+  timeTone?: "light" | "dark";
+};
+
+export function HomeReadingButton({
+  rootId = "home-reading",
+  title = "Conheça o Fora da Pauta",
+  timeTone = "light",
+}: HomeReadingButtonProps) {
   const [minutos, setMinutos] =
     useState<number | null>(null);
 
   useEffect(() => {
     const root =
       document.getElementById(
-        "home-reading",
+        rootId,
       );
 
     if (!root) {
@@ -48,7 +58,7 @@ export function HomeReadingButton() {
         ),
       ),
     );
-  }, []);
+  }, [rootId]);
 
   function iniciarLeitura() {
     window.dispatchEvent(
@@ -57,14 +67,18 @@ export function HomeReadingButton() {
         {
           detail: {
             rootSelector:
-              "#home-reading",
-            title:
-              "Conheça o Fora da Pauta",
+              `#${rootId}`,
+            title,
           },
         },
       ),
     );
   }
+
+  const classeTempo =
+    timeTone === "dark"
+      ? "text-black/55"
+      : "text-white/65";
 
   return (
     <div
@@ -83,7 +97,7 @@ export function HomeReadingButton() {
         Ouvir a leitura
       </button>
 
-      <p className="text-sm text-white/65">
+      <p className={`text-sm ${classeTempo}`}>
         {minutos
           ? `Tempo estimado de leitura: ${minutos} min`
           : "Calculando tempo de leitura…"}

@@ -6,12 +6,11 @@ import Link from "next/link";
 import type { Campaign } from "@/data/campanhas";
 import { ExpandableCard } from "@/components/ExpandableCard";
 import { CampaignComparison } from "@/components/CampaignComparison";
-import { ShareCard } from "@/components/ShareCard";
-import { TelegramUpdatesCard } from "@/components/TelegramUpdatesCard";
 import { CandidatesCard } from "@/components/CandidatesCard";
 import { StoreCard } from "@/components/StoreCard";
 import { EconomicIndicators } from "@/components/EconomicIndicators";
 import { SeusInteressesExperience } from "@/components/SeusInteressesExperience";
+import { EditionEndActions } from "@/components/EditionEndActions";
 
 type CampaignPageProps = {
   campaign: Campaign;
@@ -144,9 +143,7 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
               <EconomicIndicators />
             ) : null}
 
-            <TelegramUpdatesCard />
 
-            <ShareCard statement={campaign.statement} />
 
       {ehEdicao01 ? (
         <section className="mt-8 border-t border-black/10 pt-8">
@@ -240,6 +237,12 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
       ) : null}
 
             <StoreCard storeUrl="https://montink.com/fora-da-pauta" />
+
+            <EditionEndActions
+              title={campaign.title}
+              statement={campaign.statement}
+              slug={campaign.slug}
+            />
           </div>
         </div>
       </section>
