@@ -1,20 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { EditorialModalTrigger } from "@/components/EditorialModalTrigger";
 import { PreLaunchHeaderLink } from "@/components/PreLaunchHeaderLink";
 
 const linksInstitucionais = [
   {
     href: "/linha-editorial",
-    label: "Linha Editorial",
-  },
-  {
-    href: "/participacao-e-sustentabilidade",
-    label: "Sustentabilidade e Participação",
-  },
-  {
-    href: "/participacao-e-sustentabilidade#prestacao-de-contas",
-    label: "Prestação de Contas",
+    label: "O que faz, como se sustenta e como presta contas",
   },
 ];
 
@@ -42,22 +33,15 @@ export function SiteHeader() {
             aria-label="Navegação institucional"
             className="hidden items-center gap-7 md:flex"
           >
-            {linksInstitucionais.map((item) =>
-              item.href === "/linha-editorial" ? (
-                <EditorialModalTrigger
-                  key={item.href}
-                  className="text-[12px] font-semibold tracking-[0.01em] text-white/70 transition hover:text-white"
-                />
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-[12px] font-semibold tracking-[0.01em] text-white/70 transition hover:text-white"
-                >
-                  {item.label}
-                </Link>
-              ),
-            )}
+            {linksInstitucionais.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="max-w-[390px] text-right text-[12px] font-semibold leading-5 tracking-[0.01em] text-white/70 transition hover:text-white"
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
 
           <details className="relative md:hidden">
@@ -70,22 +54,15 @@ export function SiteHeader() {
               className="absolute right-0 z-50 mt-2 w-[280px] border border-white/15 bg-black p-4 shadow-xl"
             >
               <div className="flex flex-col">
-                {linksInstitucionais.map((item) =>
-                  item.href === "/linha-editorial" ? (
-                    <EditorialModalTrigger
-                      key={item.href}
-                      className="border-b border-white/10 py-3 text-left text-sm font-semibold text-white/75 last:border-b-0 hover:text-white"
-                    />
-                  ) : (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="border-b border-white/10 py-3 text-sm font-semibold text-white/75 last:border-b-0 hover:text-white"
-                    >
-                      {item.label}
-                    </Link>
-                  ),
-                )}
+                {linksInstitucionais.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="border-b border-white/10 py-3 text-sm font-semibold leading-6 text-white/75 last:border-b-0 hover:text-white"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </div>
             </nav>
           </details>

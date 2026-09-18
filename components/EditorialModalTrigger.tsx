@@ -19,7 +19,7 @@ export function EditorialModalTrigger({
       onClick={abrirLinhaEditorial}
       className={className}
     >
-      Linha Editorial
+      Como funciona
     </button>
   );
 }

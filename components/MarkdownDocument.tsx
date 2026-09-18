@@ -52,6 +52,18 @@ export function MarkdownDocument({ markdown }: { markdown: string }) {
       continue;
     }
 
+    if (linha.startsWith("### ")) {
+      elementos.push(
+        <h3
+          key={`h3-${i}`}
+          className="mt-9 text-xl font-semibold leading-tight tracking-[-0.025em] sm:text-2xl"
+        >
+          {linha.slice(4)}
+        </h3>
+      );
+      i++;
+      continue;
+    }
     if (linha.startsWith("## ")) {
       elementos.push(
         <h2
@@ -117,6 +129,7 @@ export function MarkdownDocument({ markdown }: { markdown: string }) {
         atual === "---" ||
         atual.startsWith("# ") ||
         atual.startsWith("## ") ||
+        atual.startsWith("### ") ||
         atual.startsWith(">") ||
         atual.startsWith("- ")
       ) {

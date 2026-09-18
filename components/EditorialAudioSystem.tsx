@@ -2206,7 +2206,7 @@ export function EditorialAudioSystem() {
    * Prepara silenciosamente apenas o primeiro
    * trecho da leitura.
    *
-   * Também funciona quando a Linha Editorial
+   * Também funciona quando a Como funciona o Fora da Pauta
    * estiver aberta em modal.
    */
   useEffect(() => {
@@ -2385,7 +2385,7 @@ export function EditorialAudioSystem() {
 
       if (!resposta.ok) {
         throw new Error(
-          "Falha ao carregar Linha Editorial",
+          "Falha ao carregar as informações institucionais",
         );
       }
 
@@ -2395,7 +2395,7 @@ export function EditorialAudioSystem() {
       setMarkdown(texto);
     } catch {
       setErroMarkdown(
-        "Não foi possível carregar a Linha Editorial agora.",
+        "Não foi possível carregar essas informações agora.",
       );
     } finally {
       setCarregandoMarkdown(false);
@@ -2542,14 +2542,14 @@ export function EditorialAudioSystem() {
                   id="linha-editorial-modal-titulo"
                   className="mt-2 text-2xl font-semibold tracking-[-0.035em] sm:text-3xl"
                 >
-                  Linha Editorial
+                  Como funciona o Fora da Pauta
                 </h2>
               </div>
 
               <button
                 type="button"
                 onClick={fecharModal}
-                aria-label="Fechar Linha Editorial"
+                aria-label="Fechar informações sobre o Fora da Pauta"
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/15 text-xl transition hover:bg-black hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFC400]"
               >
                 ×
@@ -2566,7 +2566,7 @@ export function EditorialAudioSystem() {
                         rootSelector:
                           "#linha-editorial-modal-resumo",
                         title:
-                          "Linha Editorial — resumo",
+                          "Como funciona o Fora da Pauta — resumo",
                       })
                     }
                     className="inline-flex items-center gap-2 text-sm font-semibold"
@@ -2577,7 +2577,7 @@ export function EditorialAudioSystem() {
                     >
                       ▶
                     </span>
-                    Ouvir linha editorial
+                    Ouvir resumo
                   </button>
                 </div>
 
@@ -2590,49 +2590,37 @@ export function EditorialAudioSystem() {
                     className="mx-auto max-w-3xl"
                   >
                     <p className="text-sm leading-7 text-black/55">
-                      Estes são os princípios centrais que orientam
-                      o trabalho do Fora da Pauta.
+                      Em resumo, estes são os princípios que guiam
+                      o Fora da Pauta.
                     </p>
 
                     <div className="mt-5 divide-y divide-black/10 border-y border-black/10">
                       <div className="flex gap-4 py-4">
                         <span
                           aria-hidden="true"
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFC400] text-sm font-bold text-black"
-                        >
-                          1
-                        </span>
-
-                        <p className="pt-0.5 text-base leading-7 text-black/75 sm:text-lg">
-                          O Fora da Pauta não é acusatório nem
-                          promocional. É documental.
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          Quem recebe a informação importa.
                         </p>
                       </div>
 
                       <div className="flex gap-4 py-4">
                         <span
                           aria-hidden="true"
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFC400] text-sm font-bold text-black"
-                        >
-                          2
-                        </span>
-
-                        <p className="pt-0.5 text-base leading-7 text-black/75 sm:text-lg">
-                          A importância de um fato para o Fora da
-                          Pauta não é determinada pela quantidade
-                          de exposição que ele recebeu.
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          O Fora da Pauta apresenta informações. A conclusão cabe a você.
                         </p>
                       </div>
 
                       <div className="flex gap-4 py-4">
                         <span
                           aria-hidden="true"
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFC400] text-sm font-bold text-black"
-                        >
-                          3
-                        </span>
-
-                        <p className="pt-0.5 text-base leading-7 text-black/75 sm:text-lg">
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
                           O que pode ser verificado?
                         </p>
                       </div>
@@ -2640,130 +2628,109 @@ export function EditorialAudioSystem() {
                       <div className="flex gap-4 py-4">
                         <span
                           aria-hidden="true"
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFC400] text-sm font-bold text-black"
-                        >
-                          4
-                        </span>
-
-                        <p className="pt-0.5 text-base leading-7 text-black/75 sm:text-lg">
-                          Informar para que a pessoa possa decidir,
-                          não decidir por ela.
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          Não confundir importância com visibilidade.
                         </p>
                       </div>
 
                       <div className="flex gap-4 py-4">
                         <span
                           aria-hidden="true"
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFC400] text-sm font-bold text-black"
-                        >
-                          5
-                        </span>
-
-                        <p className="pt-0.5 text-base leading-7 text-black/75 sm:text-lg">
-                          Incluir o povo no debate.
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          O mesmo critério deve valer para todos, em todos os casos.
                         </p>
                       </div>
 
                       <div className="flex gap-4 py-4">
                         <span
                           aria-hidden="true"
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFC400] text-sm font-bold text-black"
-                        >
-                          6
-                        </span>
-
-                        <p className="pt-0.5 text-base leading-7 text-black/75 sm:text-lg">
-                          Registrar e preservar a trajetória pública
-                          de quem exerce poder.
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          Mostrar o que mudou e não apagar o que veio antes.
                         </p>
                       </div>
 
                       <div className="flex gap-4 py-4">
                         <span
                           aria-hidden="true"
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFC400] text-sm font-bold text-black"
-                        >
-                          7
-                        </span>
-
-                        <p className="pt-0.5 text-base leading-7 text-black/75 sm:text-lg">
-                          A cronologia deve seguir a data dos
-                          acontecimentos, não a data em que foram
-                          encontrados.
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          Acompanhar quem exerce poder público e preservar a sequência dos acontecimentos.
                         </p>
                       </div>
 
                       <div className="flex gap-4 py-4">
                         <span
                           aria-hidden="true"
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFC400] text-sm font-bold text-black"
-                        >
-                          8
-                        </span>
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          Incluir o povo no debate e preservar o sentido do que cada pessoa diz.
+                        </p>
+                      </div>
 
-                        <p className="pt-0.5 text-base leading-7 text-black/75 sm:text-lg">
-                          Preservar a divergência e impedir que o
-                          debate se transforme em ataque às pessoas.
+                                            <div className="flex gap-4 py-4">
+                        <span
+                          aria-hidden="true"
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          O povo também precisa ouvir a própria voz.
+                        </p>
+                      </div>
+<div className="flex gap-4 py-4">
+                        <span
+                          aria-hidden="true"
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          Proteger quem participa e permitir a divergência sem permitir ataques às pessoas.
                         </p>
                       </div>
 
                       <div className="flex gap-4 py-4">
                         <span
                           aria-hidden="true"
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFC400] text-sm font-bold text-black"
-                        >
-                          9
-                        </span>
-
-                        <p className="pt-0.5 text-base leading-7 text-black/75 sm:text-lg">
-                          Proteger a identidade de quem participa
-                          anonimamente.
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          Corrigir os erros de forma clara.
                         </p>
                       </div>
 
                       <div className="flex gap-4 py-4">
                         <span
                           aria-hidden="true"
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFC400] text-sm font-bold text-black"
-                        >
-                          10
-                        </span>
-
-                        <p className="pt-0.5 text-base leading-7 text-black/75 sm:text-lg">
-                          A sustentabilidade deve ser distribuída e
-                          transparente; contribuir financeiramente
-                          não é condição para participar.
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          Usar a inteligência artificial como ferramenta, nunca como substituta das fontes.
                         </p>
                       </div>
 
                       <div className="flex gap-4 py-4">
                         <span
                           aria-hidden="true"
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFC400] text-sm font-bold text-black"
-                        >
-                          11
-                        </span>
-
-                        <p className="pt-0.5 text-base leading-7 text-black/75 sm:text-lg">
-                          Não apenas disponibilizar informação,
-                          mas criar meios para que ela chegue
-                          às pessoas.
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          Levar a informação até as pessoas de forma clara, direta e possível de acompanhar no dia a dia.
                         </p>
                       </div>
 
                       <div className="flex gap-4 py-4">
                         <span
                           aria-hidden="true"
-                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFC400] text-sm font-bold text-black"
-                        >
-                          12
-                        </span>
-
-                        <p className="pt-0.5 text-base leading-7 text-black/75 sm:text-lg">
-                          A pauta pode nascer de qualquer pessoa.
-                          O tratamento do conteúdo é determinado
-                          pelas regras editoriais, não por quem
-                          fez a sugestão.
+                          className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
+                        />
+                        <p className="text-base leading-7 text-black/75 sm:text-lg">
+                          Contribuir ajuda a manter o Fora da Pauta. Não compra influência sobre ele.
                         </p>
                       </div>
                     </div>
@@ -2794,7 +2761,7 @@ export function EditorialAudioSystem() {
                       className="mt-6 inline-flex w-full items-center justify-between bg-[#FFC400] px-5 py-4 text-left text-sm font-semibold text-black transition hover:bg-[#e9b300] sm:w-auto sm:min-w-[310px]"
                     >
                       <span>
-                        Ler linha editorial completa
+                        Ler texto completo
                       </span>
 
                       <span aria-hidden="true">
@@ -2864,7 +2831,7 @@ export function EditorialAudioSystem() {
                           rootSelector:
                             "#linha-editorial-modal-content",
                           title:
-                            "Linha Editorial",
+                            "Como funciona o Fora da Pauta",
                         })
                       }
                       className="inline-flex items-center gap-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-35"

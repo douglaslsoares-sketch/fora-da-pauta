@@ -54,10 +54,10 @@ export default function Home() {
             />
 
             <Link
-              href="/participacao-e-sustentabilidade"
+              href="/linha-editorial"
               className="inline-flex min-h-12 items-center justify-center border border-white/25 px-6 py-3 text-sm font-semibold text-white/85 transition hover:border-white/60 hover:text-white"
             >
-              Sustentabilidade e Participação
+              O que faz, como se sustenta e como presta contas
             </Link>
           </div>
 
@@ -250,138 +250,14 @@ export default function Home() {
           </p>
 
           <Link
-            href="/participacao-e-sustentabilidade"
+            href="/linha-editorial"
             className="mt-8 inline-flex min-h-12 items-center justify-center border border-white/25 px-6 py-3 text-sm font-semibold text-white/85 transition hover:border-white/60 hover:text-white"
           >
-            Sustentabilidade e Participação
+            O que faz, como se sustenta e como presta contas
           </Link>
 
         </div>
       </section>
-
-
-      {/* EM QUE PONTO ESTAMOS */}
-
-      <section className="border-t border-white/15 bg-black px-5 py-16 text-white sm:px-8 sm:py-20 lg:px-10">
-        <div className="mx-auto w-full max-w-5xl">
-
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#FFC400]">
-            Em que ponto estamos
-          </p>
-
-          <h2 className="mt-3 max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] sm:text-5xl">
-            O projeto ainda está em <span className="whitespace-nowrap">pré-lançamento</span>
-          </h2>
-
-          <p className="mt-7 max-w-3xl text-lg leading-8 text-white/65">
-            O Fora da Pauta ainda não iniciou sua operação regular.
-          </p>
-
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-white/65">
-            Antes do lançamento oficial, ainda precisamos concluir a estrutura
-            jurídica, contábil e operacional, fechar o orçamento do primeiro
-            período e publicar de forma clara como funcionarão a sustentação
-            e a prestação de contas.
-          </p>
-
-
-          <div className="mt-10 divide-y divide-white/15 border-y border-white/15">
-
-            <div className="flex gap-4 py-5">
-              <span
-                aria-hidden="true"
-                className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
-              />
-
-              <div>
-                <p className="font-semibold">
-                  Linha Editorial definida
-                </p>
-
-                <p className="mt-1 text-sm leading-6 text-white/50">
-                  Os princípios que orientam pesquisa, publicação e participação
-                  já estão documentados.
-                </p>
-              </div>
-            </div>
-
-
-            <div className="flex gap-4 py-5">
-              <span
-                aria-hidden="true"
-                className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFC400]"
-              />
-
-              <div>
-                <p className="font-semibold">
-                  Princípios de sustentabilidade definidos
-                </p>
-
-                <p className="mt-1 text-sm leading-6 text-white/50">
-                  O modelo prevê cotas de mesmo valor, no máximo uma por pessoa.
-                  Contribuir não compra influência, prioridade ou participação
-                  privilegiada.
-                </p>
-              </div>
-            </div>
-
-
-            <div className="flex gap-4 py-5">
-              <span
-                aria-hidden="true"
-                className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full border border-white/50"
-              />
-
-              <div>
-                <p className="font-semibold">
-                  Estrutura de funcionamento em conclusão
-                </p>
-
-                <p className="mt-1 text-sm leading-6 text-white/50">
-                  A estrutura jurídica, contábil e operacional e o orçamento
-                  do primeiro período ainda precisam ser concluídos antes da
-                  operação regular.
-                </p>
-              </div>
-            </div>
-
-
-            <div className="flex gap-4 py-5">
-              <span
-                aria-hidden="true"
-                className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full border border-white/50"
-              />
-
-              <div>
-                <p className="font-semibold">
-                  Contribuições ainda não abertas
-                </p>
-
-                <p className="mt-1 text-sm leading-6 text-white/50">
-                  Nenhuma contribuição financeira está sendo solicitada nesta fase.
-                </p>
-              </div>
-            </div>
-
-          </div>
-
-
-          <Link
-            href="/participacao-e-sustentabilidade"
-            className="mt-9 inline-flex items-center gap-3 text-sm font-semibold text-[#FFC400] transition hover:text-white"
-          >
-            Veja como o projeto pretende se sustentar
-            <span aria-hidden="true">→</span>
-          </Link>
-
-        </div>
-      </section>
-
-
-      {/* COMO PARTICIPAR */}
-
-
-{/* ACOMPANHAR */}
 
 
 {/* ACOMPANHAR PELO TELEGRAM */}

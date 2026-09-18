@@ -1,26 +1,82 @@
-﻿# Linha Editorial do Fora da Pauta
+# O que faz, como se sustenta e como presta contas
 
-## 1. Finalidade
+O Fora da Pauta explica aqui como trabalha, como as pessoas podem participar, como o projeto se sustenta e como presta contas dos recursos que recebe e utiliza.
 
-O Fora da Pauta é um projeto de informação, esclarecimento e participação
-cidadã baseado na apresentação de fatos, documentos, evidências e fontes
-verificáveis.
+## O que o Fora da Pauta faz
 
-Seu objetivo não é dizer ao leitor o que pensar, em quem votar ou qual
-conclusão deve adotar.
+### Para que existe
 
-Seu papel é oferecer informação suficiente, organizada e contextualizada
-para que cada pessoa possa formar sua própria avaliação, participar do
-debate público e tomar suas próprias decisões.
+O Fora da Pauta é um projeto de informação, esclarecimento e participação aberta, baseado em fatos, documentos, evidências e fontes verificáveis.
 
----
+Seu ponto de partida é simples:
 
-## 2. Princípio fundamental
+> **Quem recebe a informação precisa ter condições de compreender o que chega até ela para poder decidir por conta própria.**
+
+A pessoa não deve ser tratada apenas como audiência, público, consumidor de notícias ou alguém a ser convencido.
+
+Ela deve ter condições de compreender, questionar, verificar, participar e tomar suas próprias decisões a partir daquilo que chega até ela.
+
+Todos os dias chegam até você notícias, argumentos, vídeos, pesquisas, opiniões e diferentes interpretações sobre o que acontece.
+
+Tudo isso pode influenciar a maneira como você compreende o mundo e as decisões que toma.
+
+Por isso, esclarecer não é apenas mostrar **o que foi dito**.
+
+É também ajudar a entender **de onde essa informação veio, por que ela está sendo apresentada dessa maneira, o que a sustenta e o que ficou de fora**.
+
+Isso não significa partir da ideia de que alguém esteja tentando enganar ou manipular você.
+
+Se houver algum interesse que ajude a explicar a maneira como uma informação foi apresentada, o Fora da Pauta procura identificá-lo.
+
+Mas só afirma que esse interesse existe quando houver elementos que permitam demonstrá-lo.
+
+O Fora da Pauta não pretende trocar uma interpretação pronta por outra.
+
+Também não pretende dizer ao leitor o que pensar, em quem votar ou qual conclusão adotar.
+
+Seu papel é tornar visíveis fatos, fontes, documentos e contextos para que cada pessoa tenha melhores condições de compreender o que está acontecendo e decidir por conta própria.
+
+> **Você não é apenas audiência. Você faz parte da decisão.**
+
+### Quem recebe a informação importa
+
+O ponto de chegada da informação é a pessoa.
+
+Uma notícia, um argumento, uma campanha, um vídeo, uma pesquisa ou uma mensagem podem alcançar milhares ou milhões de pessoas.
+
+Mas sempre chegam a alguém: a uma pessoa, depois a outra, depois a outra.
+
+Cada uma recebe, interpreta, aceita, rejeita, questiona, compartilha, ignora ou reage ao que recebeu.
+
+As decisões coletivas são formadas justamente por pessoas.
+
+Uma maioria não existe separada dos indivíduos que a formam.
+
+**Por isso, cada pessoa importa.**
+
+O Fora da Pauta não trata quem recebe a informação como alguém que precisa ser conduzido a uma conclusão.
+
+Trata essa pessoa como alguém que é capaz de compreender o que está diante dela e tomar sua própria decisão.
+
+É isso que queremos fortalecer:
+
+> **A capacidade de compreender antes de decidir.**
+
+Por isso, diante de qualquer assunto, o Fora da Pauta deve procurar responder a duas perguntas:
+
+> **O que isso tem a ver com você?**
+
+> **Por que essa informação está chegando até você dessa forma?**
+
+Essas perguntas não significam desconfiar de tudo.
+
+Significam tentar entender melhor **o que está chegando até você**.
+
+### O que pode ser verificado?
 
 > **O Fora da Pauta não é acusatório nem promocional. É documental.**
 
-O projeto não parte da intenção de favorecer ou prejudicar pessoas,
-partidos, governos, instituições, movimentos, empresas ou propostas.
+O projeto não parte da intenção de favorecer ou prejudicar pessoas, partidos, governos, instituições, movimentos, empresas ou propostas.
 
 A investigação começa pela pergunta:
 
@@ -30,40 +86,57 @@ A conclusão não é definida antecipadamente.
 
 Ela deve decorrer das informações encontradas.
 
----
+### O que significa estar Fora da Pauta
 
-## 3. Fora da pauta dominante
+O nome Fora da Pauta expressa duas escolhas editoriais.
 
-O nome Fora da Pauta expressa também uma escolha editorial.
+A primeira é **não confundir importância com visibilidade**.
 
-O projeto não considera que a importância de um fato seja determinada
-pela quantidade de atenção que ele recebeu dos grandes meios de
-comunicação, redes sociais ou agentes políticos.
+Um assunto pode ser importante mesmo quando não aparece nos grandes meios de comunicação, nas redes sociais ou no debate público.
 
-> **A importância de um fato para o Fora da Pauta não é determinada pela
-> quantidade de exposição que ele recebeu.**
+Da mesma forma, um assunto muito repetido não se torna mais importante apenas porque recebeu muita atenção.
 
-Um assunto pouco divulgado pode ser investigado.
+Por isso, o Fora da Pauta também procura olhar para fatos, assuntos e pessoas que **recebem pouca atenção**.
 
-Uma pessoa pouco conhecida pode ser apresentada.
+**Quando houver algo relevante a ser conhecido, a falta de visibilidade não será motivo para deixar o assunto de fora.**
 
-Uma candidatura sem espaço em debates ou na imprensa pode ser examinada
-com os mesmos critérios aplicados às candidaturas mais conhecidas.
+O segundo sentido é olhar também para o que costuma ficar fora da informação que chega até você.
 
-A ausência de exposição não significa ausência de informação ou de
-interesse público.
+Não basta perguntar:
 
----
+> **O que estão me dizendo?**
 
-## 4. Verificabilidade
+Também vale perguntar:
 
-O Fora da Pauta deve distinguir claramente entre:
+> **Por que estão me mostrando isso dessa maneira?**
 
-- aquilo que foi verificado;
-- aquilo que foi alegado;
-- aquilo que ainda está em investigação;
-- aquilo sobre o qual existem versões divergentes;
-- aquilo que não foi possível confirmar.
+Quem produziu essa informação?
+
+De onde veio?
+
+O que foi escolhido para aparecer?
+
+Que contexto ajuda a entendê-la?
+
+O que ficou de fora?
+
+O que precisa ser verificado?
+
+Isso não quer dizer que toda informação esconda uma intenção ou que todo meio de comunicação esteja tentando manipular alguém.
+
+Significa apenas que uma informação não aparece sozinha.
+
+**Alguém a produziu, alguém decidiu apresentá-la de determinada maneira e alguém vai recebê-la.**
+
+**Quem recebe importa.**
+
+> **Fora da Pauta não é apenas falar do que quase não aparece. É mostrar também o que normalmente não vem junto com a informação.**
+
+## Como trabalha com a informação
+
+### Verificabilidade
+
+O Fora da Pauta deve distinguir claramente entre aquilo que foi verificado, aquilo que foi alegado, aquilo que ainda está em investigação, aquilo sobre o qual existem versões divergentes e aquilo que não foi possível confirmar.
 
 O projeto não deve transformar hipótese em fato.
 
@@ -71,659 +144,434 @@ Não deve transformar acusação em condenação.
 
 Não deve transformar opinião em evidência.
 
-Não deve preencher lacunas por inferência.
+**Não deve completar o que não se sabe com suposições.**
 
-Quando uma informação não puder ser confirmada, isso deve ser informado
-de maneira transparente.
+Quando uma informação não puder ser confirmada, isso deve ser informado de maneira transparente.
 
----
+### Fontes
 
-## 5. Fontes
+Sempre que possível, toda informação que possa ser comprovada deve mostrar de onde veio.
 
-Toda afirmação factual que permita documentação deve estar vinculada,
-sempre que possível, a uma fonte identificável.
+O Fora da Pauta deve procurar a fonte original da informação sempre que ela estiver disponível.
 
-Devem ser priorizadas fontes primárias, documentos oficiais e registros
-originais.
+Fonte original é, por exemplo, o documento, dado, registro, fala, áudio ou vídeo em que a informação aparece diretamente.
 
-Entre elas:
+Entre as fontes que devem ser procuradas estão leis e outras normas, dados de órgãos públicos, informações e documentos de tribunais, diários oficiais, portais de transparência, documentos do Legislativo, registros de votações, registros eleitorais, documentos públicos, decisões judiciais, entrevistas e declarações feitas pelas próprias pessoas envolvidas, registros de áudio e vídeo e documentos produzidos pelas pessoas ou instituições diretamente ligadas ao assunto.
 
-- legislação;
-- dados governamentais;
-- tribunais;
-- diários oficiais;
-- portais de transparência;
-- documentos legislativos;
-- votações;
-- registros eleitorais;
-- documentos públicos;
-- decisões judiciais;
-- entrevistas e declarações originais;
-- registros de áudio e vídeo;
-- documentos produzidos pelas próprias pessoas ou instituições envolvidas.
+Notícias e outros materiais que relatam um acontecimento também podem ser usados.
 
-Fontes jornalísticas e outras fontes secundárias podem ser utilizadas,
-especialmente para localizar fatos ou registrar acontecimentos que não
-possuam outra fonte acessível.
+Eles podem ajudar a localizar informações e entender o contexto.
 
-Sempre que possível, a fonte original deve ser procurada.
+Mas, quando houver um documento ou registro original acessível, o Fora da Pauta deve consultá-lo.
 
----
+> **Sempre que possível, o Fora da Pauta deve procurar indicar a fonte da informação.**
 
-## 6. Fato e interpretação
+### Fato e interpretação
 
-O Fora da Pauta deve separar informação factual de interpretação.
+O Fora da Pauta deve deixar claro **o que foi verificado e o que é interpretação**.
 
-Quando houver diferentes interpretações legítimas sobre determinado
-fato, elas poderão ser apresentadas como interpretações, e não como
-verdades estabelecidas.
+Sobre o mesmo fato podem existir diferentes interpretações.
 
-O projeto pode contextualizar, explicar, comparar e organizar
-informações.
+Elas podem ser apresentadas, mas devem aparecer como interpretações, e não como fatos estabelecidos.
 
-Não deve utilizar essa contextualização para conduzir silenciosamente
-o leitor a uma conclusão previamente escolhida.
+O Fora da Pauta pode explicar, comparar, organizar informações e mostrar o contexto em que elas aparecem.
 
----
+Esse trabalho deve ajudar você a compreender melhor o assunto, não indicar qual conclusão deve tirar.
 
-## 7. Tratamento igual das evidências
+> **O Fora da Pauta apresenta informações. A conclusão cabe a você.**
 
-Fatos favoráveis, desfavoráveis ou neutros devem ser submetidos aos
-mesmos critérios de verificação.
+### O mesmo critério para todos
 
-Uma informação não deve ser excluída porque beneficia alguém.
+Fatos favoráveis, desfavoráveis ou neutros devem passar pelos mesmos critérios de verificação.
+
+**Uma informação não deve ser deixada de fora porque beneficia alguém.**
 
 Também não deve ser destacada apenas porque prejudica alguém.
 
-O critério é documental.
+> **O mesmo critério deve valer para todos, em todos os casos.**
 
-O projeto deve evitar tanto a construção de personagens positivos
-quanto a construção de personagens negativos.
+O Fora da Pauta não deve selecionar informações para construir uma imagem positiva ou negativa **de quem quer que seja**.
 
----
+### Mostrar também o que mudou
 
-## 8. Não omissão seletiva
+O Fora da Pauta não deve contar apenas a parte da história que combina com uma determinada versão dos fatos.
 
-O Fora da Pauta não deve omitir seletivamente informações verificáveis
-para preservar uma narrativa.
+Se aparecer uma informação nova que mude ou contradiga o que já foi apresentado, essa informação também deve aparecer.
 
-Se novos fatos contradisserem informações anteriores, os novos fatos
-devem ser incorporados.
+Se uma pessoa mudar de posição, a mudança deve ser mostrada, sem apagar o que ela já disse antes.
 
-Se uma posição mudar, a posição anterior não deve ser apagada.
+Se alguém for acusado de alguma coisa e depois absolvido, isso também deve ser mostrado.
 
-Se uma acusação resultar posteriormente em absolvição, arquivamento,
-anulação ou outra decisão, o desfecho deve ser apresentado.
+O mesmo vale se a acusação for arquivada, anulada ou houver outra decisão que mude a situação.
 
-Se uma informação publicada pelo próprio Fora da Pauta for posteriormente
-demonstrada incorreta, ela deve ser corrigida de forma transparente.
+E, se o próprio Fora da Pauta publicar uma informação que depois se mostrar errada, ela deve ser corrigida e a correção deve ficar clara para quem lê.
 
----
+### Quando existem versões diferentes
 
-## 9. Atualização permanente
+Sobre o mesmo assunto podem existir versões diferentes.
 
-Informações que podem mudar com o tempo não devem ser tratadas como
-permanentemente válidas.
+Quando isso acontecer, o Fora da Pauta deve mostrar **quais são essas versões e o que sustenta cada uma delas**.
 
-O projeto deve buscar manter atualizados, entre outros:
+Uma afirmação apoiada por documentos, dados ou outros registros não deve ser tratada como se tivesse o mesmo peso de outra que não apresenta nenhuma evidência.
 
-- dados eleitorais;
-- candidaturas;
-- cargos;
-- filiações;
-- votações;
-- processos;
-- decisões;
-- patrimônio declarado;
-- posicionamentos;
-- propostas;
-- tramitações;
-- indicadores;
-- manifestações públicas;
-- atos praticados no exercício de função pública;
-- demais fatos sujeitos a alteração.
+Se ainda houver dúvida, informações incompletas ou pontos que não puderam ser confirmados, isso também deve ser dito claramente.
 
-Quando apropriado, a página deve informar a data da última atualização
-ou da última verificação.
+O Fora da Pauta não precisa fingir que todas as versões têm o mesmo peso.
 
-A ausência de fato novo não significa ausência de verificação.
+> **Deve mostrar o que pode ser comprovado, o que ainda está em discussão e o que não foi possível confirmar.**
 
----
+### Linguagem
 
-## 10. Direito à cronologia
+A linguagem do Fora da Pauta deve ser clara, direta, compreensível, precisa, sóbria e não sensacionalista.
 
-Os fatos não devem ser apresentados isoladamente quando sua compreensão
-depender de acontecimentos anteriores ou posteriores.
-
-Sempre que possível, o Fora da Pauta deve preservar a sequência dos
-acontecimentos.
-
-A cronologia permite que o leitor veja a trajetória sem que o
-Fora da Pauta escolha qual momento deve definir uma pessoa ou um fato.
-
-Uma manifestação posterior não deve apagar aquilo que a mesma pessoa
-declarou, defendeu, votou ou decidiu anteriormente.
-
-A mudança também é informação e deve poder ser compreendida dentro de
-sua sequência histórica.
-
----
-
-## 11. Cobertura sem filtro de notoriedade
-
-O Fora da Pauta não adota notoriedade como requisito para cobertura.
-
-No caso das candidaturas eleitorais, todos os candidatos constantes da
-base oficial utilizada pelo projeto devem poder ser encontrados e
-consultados segundo a mesma estrutura metodológica.
-
-A pauta do projeto não deve ser determinada exclusivamente por quem já
-possui espaço público.
-
----
-
-## 12. Linguagem
-
-A linguagem do Fora da Pauta deve ser:
-
-- clara;
-- direta;
-- compreensível;
-- precisa;
-- sóbria;
-- não sensacionalista.
-
-Títulos e chamadas podem despertar curiosidade e estimular reflexão,
-mas não devem distorcer o conteúdo ao qual conduzem.
+Títulos e chamadas podem despertar curiosidade e estimular reflexão, mas não devem distorcer o conteúdo ao qual conduzem.
 
 O projeto deve buscar linguagem acessível sem sacrificar precisão.
 
----
+### Independência do Fora da Pauta
 
-## 13. Temas controversos
+O Fora da Pauta não deve incluir, retirar ou destacar uma informação para favorecer partido, candidato, governo, empresa, parceiro, financiador ou interesse pessoal.
 
-Em assuntos controversos, o objetivo não é fabricar equilíbrio
-artificial entre posições.
+Quem apoia, financia ou mantém alguma relação com o Fora da Pauta não pode decidir o que será publicado, retirado ou destacado.
 
-O objetivo é representar corretamente as evidências disponíveis e as
-divergências existentes.
+Se existir alguma relação que possa colocar em dúvida a independência do Fora da Pauta, isso deve ser informado de forma clara.
 
-Uma afirmação sustentada por documentação não precisa ser colocada no
-mesmo nível de uma afirmação sem evidência apenas para produzir aparência
-de neutralidade.
+A mesma regra vale para o financiamento.
 
-Controvérsias legítimas devem ser apresentadas como tais.
+> **Quem contribui para manter o Fora da Pauta não compra influência sobre o conteúdo.**
 
----
+### Como o Fora da Pauta usa a inteligência artificial?
 
-## 14. Independência editorial
+A inteligência artificial pode ajudar o Fora da Pauta a procurar, organizar, comparar e apresentar informações.
 
-Nenhuma informação deve ser incluída ou retirada para favorecer
-interesses eleitorais, partidários, econômicos, comerciais ou pessoais.
+Mas ela **não substitui documentos, dados, registros e outras fontes que comprovem o que está sendo dito**.
 
-Publicidade, financiamento, parceria ou relacionamento institucional
-não devem determinar conclusões editoriais.
+A inteligência artificial não deve inventar informações, completar o que não se sabe com suposições nem atribuir uma intenção a alguém sem que existam elementos para demonstrá-la.
 
-Quando houver situação capaz de produzir conflito de interesse,
-ela deverá ser tratada com transparência.
+Quando a inteligência artificial ajudar a interpretar uma fala, um documento ou um conjunto de informações, **deve ser possível saber em quais fontes aquela interpretação se baseou**.
 
-A forma de financiamento do projeto também deverá ser compatível com
-essa independência.
+Nos espaços de participação, a inteligência artificial também deve respeitar a privacidade, o anonimato e as regras de proteção dos participantes.
 
----
+E, quando ajudar a organizar ou resumir o que uma pessoa disse, **não deve mudar o sentido da fala dela**.
 
-## 15. Uso de inteligência artificial
+### Quando o Fora da Pauta errar
 
-A inteligência artificial pode auxiliar na localização, organização,
-comparação, classificação e apresentação de informações.
+O Fora da Pauta pode errar.
 
-Ela não substitui a exigência de evidência.
+Se uma informação estiver errada, incompleta ou desatualizada, ela deve ser corrigida.
 
-A IA não deve inventar fatos, preencher informações ausentes,
-atribuir intenções sem documentação ou transformar inferências em
-afirmações factuais.
+Se o erro tiver alterado de forma importante a compreensão do assunto, a correção também deve aparecer de forma clara.
 
-Quando a IA interpretar uma fala, documento ou conjunto de evidências,
-essa interpretação deve poder ser rastreada até as fontes que a
-sustentaram.
+O Fora da Pauta não deve esconder seus erros.
 
-Nos espaços participativos, o uso de inteligência artificial também
-deve respeitar as regras de anonimato, privacidade, proteção de dados,
-moderação e fidelidade ao sentido das manifestações dos participantes.
+> **Errar pode acontecer. Esconder o erro, não.**
 
----
+## Como acompanha a vida pública
 
-## 16. Correção
+### Manter atualizadas as informações sobre a vida pública
 
-Errar é possível.
+Informações sobre pessoas que ocupam, disputam ou exercem funções públicas podem mudar com o tempo.
 
-Esconder o erro não é compatível com a linha editorial do projeto.
+Uma pessoa pode mudar de cargo, função ou partido. Uma candidatura pode ser registrada ou retirada. Um processo pode receber uma nova decisão. Uma proposta pode avançar, mudar ou ser rejeitada.
 
-Quando for identificada uma informação incorreta, incompleta ou
-desatualizada, ela deve ser corrigida.
+Por isso, quando o Fora da Pauta apresentar informações sobre integrantes dos Poderes Executivo, Legislativo e Judiciário, candidaturas, cargos, funções, filiações, votações, processos, decisões, patrimônio declarado, propostas, manifestações públicas e outros fatos da vida pública, deve verificar se elas continuam atuais.
 
-Quando a alteração modificar de maneira substancial a compreensão do
-conteúdo, a correção deve ser transparente para o leitor.
+Quando isso for importante, a página deve mostrar quando a informação foi verificada pela última vez.
 
----
+Se nada tiver mudado, isso também pode ser informado.
 
-## 17. Incluir o povo no debate
+> **Informação antiga não deve ser apresentada como se ainda descrevesse a situação atual.**
 
-> **Um dos propósitos centrais do Fora da Pauta é incluir o povo no debate.**
+### Mostrar o que veio antes e depois
 
-O cidadão não deve ser tratado apenas como receptor de informação.
+Um fato nem sempre pode ser entendido sozinho.
 
-O projeto deve combinar esclarecimento baseado em fatos e fontes com
-mecanismos que permitam às pessoas participar do debate público.
+Às vezes, é preciso saber **o que aconteceu antes e o que aconteceu depois**.
 
-Sempre que a natureza de uma edição ou ferramenta permitir, o
-Fora da Pauta poderá abrir espaços para que as pessoas:
+Sempre que isso for importante, o Fora da Pauta deve mostrar a sequência dos acontecimentos.
 
-- respondam perguntas;
-- apresentem opiniões;
-- relatem experiências;
-- comentem;
-- respondam a outros participantes;
-- formulem perguntas;
-- expressem prioridades;
-- apresentem dúvidas;
-- concordem ou discordem;
-- contribuam para a discussão dos assuntos apresentados.
+Assim, você pode acompanhar a trajetória inteira, sem reduzir uma pessoa ou um fato a um único momento.
 
-As manifestações da sociedade poderão integrar o próprio conteúdo do
-Fora da Pauta de forma organizada.
+Se uma pessoa mudar de posição, o que ela disse, defendeu, votou ou decidiu antes não deve ser apagado.
 
-O projeto deve preservar, tanto quanto possível, o sentido original daquilo
-que a pessoa quis dizer.
+> **A mudança também faz parte da história e precisa aparecer no seu contexto.**
 
-Organizar uma participação não significa alterar sua manifestação.
+### Nas eleições, não olhar só para quem já é conhecido
 
-> **O Fora da Pauta não pretende apenas falar para as pessoas. Pretende
-> também ouvi-las e criar condições para que elas falem entre si.**
+Quando o Fora da Pauta apresentar candidaturas, não deve dar atenção apenas a quem já é conhecido ou aparece muito.
 
-A decisão política, eleitoral ou pessoal continua pertencendo ao cidadão.
+Todos os candidatos incluídos na base oficial usada pelo projeto devem poder ser encontrados e consultados pelos mesmos critérios.
 
----
+Ser pouco conhecido ou receber pouca atenção não é motivo para ficar de fora.
 
-## 18. Acompanhamento de quem exerce poder de decisão
+> **Nas eleições, o Fora da Pauta deve permitir que você encontre também quem normalmente aparece menos.**
 
-O Fora da Pauta deve acompanhar não apenas períodos eleitorais, mas
-também o exercício efetivo do poder.
+### Acompanhar quem exerce poder público
 
-Pessoas que exerçam poder de decisão nos Poderes Executivo, Legislativo
-e Judiciário poderão ter sua trajetória pública documentada ao longo do
-tempo.
+As eleições são apenas uma parte da vida pública.
 
-Esse acompanhamento poderá abranger as diferentes esferas em que esses
-Poderes atuam e deverá se concentrar em fatos de interesse público.
+O Fora da Pauta também deve acompanhar o que fazem as pessoas que exercem poder nos **Poderes Executivo, Legislativo e Judiciário**.
 
-Poderão ser registrados, quando houver documentação verificável:
+Esse acompanhamento deve tratar do que essas pessoas fazem, dizem ou decidem no exercício de suas funções e em assuntos de interesse público.
 
-- declarações;
-- entrevistas;
-- discursos;
-- manifestações públicas;
-- compromissos;
-- propostas;
-- votos;
-- pareceres;
-- projetos;
-- vetos;
-- sanções;
-- decretos;
-- medidas administrativas;
-- atos de governo;
-- decisões legislativas;
-- decisões judiciais;
-- mudanças de posição;
-- outras ações ou decisões relacionadas ao exercício do poder público.
+**A vida privada fica de fora.**
 
-O objetivo não é acompanhar a vida privada dessas pessoas.
+Podem fazer parte desse acompanhamento falas, entrevistas, propostas, compromissos, votos, projetos, vetos, decretos, decisões, mudanças de posição e outros atos ligados ao exercício do poder público.
 
-O objeto de interesse é aquilo que elas dizem, defendem, propõem,
-votam, decidem ou fazem quando essas manifestações possuem relação
-com sua atuação pública ou com o exercício do poder.
+Essas informações só devem ser apresentadas quando houver uma fonte que permita verificá-las.
 
-Sempre que possível, cada registro deverá estar associado:
+Sempre que possível, cada registro deve mostrar **quem fez ou disse aquilo, quando aconteceu, a fonte da informação e o contexto necessário para entendê-la**.
 
-- à pessoa correspondente;
-- à data do acontecimento;
-- ao horário, quando disponível e relevante;
-- ao tipo de manifestação ou decisão;
-- à fonte documental;
-- ao contexto necessário para sua compreensão.
+> **O que uma pessoa fez, disse, defendeu, votou ou decidiu no exercício do poder público não deve depender apenas da memória de quem acompanha a vida pública.**
 
-> **O que uma pessoa pública disse, defendeu, votou e decidiu faz parte de
-> sua trajetória pública e não deve depender apenas da memória do cidadão.**
+### Uma linha do tempo pode crescer para frente e para trás
 
-### Cronologia viva e expansível
+O Fora da Pauta deve organizar esses acontecimentos em uma linha do tempo.
 
-A trajetória pública documentada pelo Fora da Pauta deve ser entendida
-como uma cronologia viva e permanentemente ampliável.
+Novos fatos podem ser acrescentados à medida que acontecem.
 
-Ela não cresce apenas para a frente.
+Mas também podem ser encontrados depois documentos ou registros de fatos antigos que ainda não estavam na linha do tempo.
 
-Novos acontecimentos poderão ser incorporados à medida que ocorrerem,
-mas pesquisas posteriores também poderão localizar fatos antigos que
-ainda não faziam parte do acervo.
+Quando isso acontecer, o fato deve ser colocado **na data em que realmente aconteceu**, e não na data em que o Fora da Pauta o encontrou.
 
-Por isso, essa cronologia poderá crescer em duas direções:
+Se o horário também for importante e estiver disponível, ele pode ser registrado.
 
-- para a frente, com novos acontecimentos;
-- para trás, com a inclusão posterior de acontecimentos antigos.
+> **A linha do tempo deve mostrar a ordem em que os fatos aconteceram, mesmo quando eles forem descobertos muito tempo depois.**
 
-Uma declaração, voto, decisão, ato, entrevista, manifestação ou outro
-registro ocorrido anos antes poderá ser incorporado posteriormente,
-desde que exista documentação verificável.
+## Como você participa
 
-> **A ordem da linha do tempo deve representar a ordem em que os fatos
-> aconteceram, e não a ordem em que o Fora da Pauta os encontrou.**
+### Incluir o povo no debate
 
-O registro deverá ocupar a posição correspondente à data real do
-acontecimento e, quando disponível e relevante, ao respectivo horário.
+Um dos propósitos do Fora da Pauta é **incluir o povo no debate**.
 
-O fato de uma informação histórica ser encontrada somente mais tarde
-não diminui sua relevância nem altera sua posição cronológica.
+As pessoas não devem apenas receber informação.
 
-Sempre que tecnicamente possível, o sistema deverá distinguir:
+Elas também devem poder **perguntar, argumentar, opinar, contar o que viveram, apresentar dúvidas, concordar, discordar e conversar umas com as outras**.
 
-- a data e o horário em que o acontecimento ocorreu;
-- a fonte que o documenta;
-- a data em que o registro foi incorporado ao acervo do Fora da Pauta;
-- eventuais correções ou atualizações posteriores.
+Por isso, sempre que for possível, o Fora da Pauta deve abrir espaços para essa participação.
 
-Novas pesquisas poderão preencher lacunas existentes e ampliar
-progressivamente a trajetória documentada de uma pessoa.
+O que as pessoas disserem também pode fazer parte do conteúdo do Fora da Pauta.
 
-> **A trajetória pública não é um retrato fechado. É um arquivo histórico
-> vivo, verificável e permanentemente ampliável.**
+Quando uma fala for organizada, resumida ou apresentada de outra forma, **o sentido do que a pessoa quis dizer deve ser preservado**.
 
----
+> **O Fora da Pauta não quer apenas falar com as pessoas. Quer também ouvi-las e criar espaço para que conversem entre si.**
 
-## 19. Participação anônima e identidade no debate
+A decisão política, eleitoral ou pessoal continua sendo de cada pessoa.
 
-Nos espaços participativos em que o Fora da Pauta adotar anonimato,
-cada participante deverá receber um identificador numérico aleatório.
+### Participar sem se identificar
 
-A identificação pública deverá seguir este padrão:
+Nos espaços em que a participação for anônima, a pessoa não precisará mostrar seu nome.
+
+O Fora da Pauta dará a cada participante uma identificação aleatória, por exemplo:
 
 > **Anônimo 5837**
 
-O número acima é apenas um exemplo.
+Esse número não deve indicar se a pessoa chegou primeiro, depois ou em qualquer outra posição.
 
-O identificador não deverá representar a ordem de entrada do participante
-e deverá ser gerado de forma a evitar identificação sequencial previsível.
+Dentro da mesma conversa, a pessoa continuará usando a mesma identificação. Assim, será possível acompanhar **quem disse o quê e quem respondeu a quem**.
 
-Dentro do mesmo ambiente de debate, esse identificador deverá permanecer
-estável, permitindo que os participantes reconheçam quem respondeu a
-quem e possam fazer referência às manifestações anteriores.
-
-Quando a própria pessoa estiver visualizando uma manifestação feita por
-ela, a identificação deverá indicar isso claramente:
+Quando você estiver vendo uma fala sua, aparecerá:
 
 > **Anônimo 5837 (você)**
 
-Para os demais participantes aparecerá apenas:
+Para as outras pessoas, aparecerá apenas:
 
 > **Anônimo 5837**
 
-O objetivo é permitir continuidade de conversa e referência entre
-participantes sem exigir a exposição de sua identidade civil.
+> **A ideia é permitir que as pessoas conversem entre si sem precisar revelar quem são.**
 
----
+### Proteger quem participa
 
-## 20. Proteção da identidade e dos dados pessoais
+Nos espaços anônimos do Fora da Pauta, ninguém deve precisar revelar seu nome ou seus contatos pessoais para participar.
 
-Os ambientes anônimos de participação do Fora da Pauta destinam-se ao
-debate dentro da própria plataforma.
+Não devem ser publicados telefone, WhatsApp, e-mail pessoal, endereço, localização exata, nome verdadeiro ou qualquer outra informação que possa **identificar ou localizar uma pessoa que participe anonimamente**.
 
-Eles não deverão ser utilizados para publicação de informações com a
-finalidade de identificar diretamente um participante ou possibilitar
-contato pessoal fora do ambiente do projeto.
+Também não deve ser permitido expor indevidamente dados pessoais de outras pessoas.
 
-Não deverão ser publicados, com essa finalidade:
+Essa regra não impede citar autoridades, candidatos ou outras pessoas que façam parte do assunto que está sendo discutido.
 
-- número de telefone;
-- WhatsApp ou outro contato pessoal;
-- endereço de e-mail pessoal;
-- endereço residencial;
-- localização precisa;
-- nome real utilizado para revelar a identidade do participante;
-- outros dados capazes de identificar, localizar ou estabelecer contato
-  direto com um participante anônimo.
+Se, no futuro, o Fora da Pauta criar uma forma para que participantes possam entrar em contato fora da plataforma, isso deverá acontecer **separadamente do debate público e somente com a vontade das próprias pessoas envolvidas**.
 
-Também não deverá ser permitida a divulgação indevida de dados pessoais
-de terceiros.
+> **Quem participa anonimamente deve poder conversar sem precisar dizer quem é nem fornecer meios para ser encontrado fora dali.**
 
-Essa proteção não impede referências legítimas a pessoas públicas,
-autoridades, candidatos ou outras pessoas que façam parte do próprio
-assunto debatido.
+### Discordar sem atacar
 
-Se futuramente o Fora da Pauta desenvolver algum mecanismo para permitir
-aproximação voluntária entre participantes fora da plataforma, esse
-mecanismo deverá ser separado do debate público, voluntário e criado
-especificamente para essa finalidade.
+Discordar faz parte do debate.
 
-> **A pessoa deve poder participar de um debate sem precisar revelar quem
-> é nem fornecer meios para ser localizada fora dele.**
+No Fora da Pauta, as pessoas podem questionar e criticar ideias, argumentos, governos, instituições, decisões e posições políticas.
 
----
+Mas discordar de uma ideia é diferente de atacar uma pessoa.
 
-## 21. Convivência, proteção e moderação
+Ameaças, perseguição, assédio, intimidação e ataques pessoais não fazem parte do debate.
 
-O Fora da Pauta deve preservar a divergência.
+Sempre que for possível, quem participa deve poder **silenciar ou bloquear outra pessoa, deixar de receber suas notificações e denunciar ofensas, ameaças ou abusos**.
 
-Discordar, contestar, questionar e criticar ideias, argumentos, governos,
-instituições, decisões ou posições políticas faz parte do debate público.
+Quando alguém silenciar ou bloquear outra pessoa, isso deve proteger quem tomou essa decisão.
 
-Ataques pessoais, intimidação, perseguição, ameaça e assédio não devem
-ser confundidos com divergência de ideias.
+Não significa que tudo o que a outra pessoa publicou será automaticamente apagado para todos.
 
-Os ambientes participativos deverão, sempre que tecnicamente possível,
-oferecer mecanismos para que o participante possa:
+Um conteúdo poderá ser retirado ou escondido quando desrespeitar as regras do espaço, como em casos de ataques pessoais, ofensas, ameaças, perseguição, assédio, exposição de dados pessoais ou tentativa de descobrir a identidade de quem participa anonimamente.
 
-- silenciar outro participante;
-- deixar de receber notificações daquele participante;
-- bloquear interações diretas daquele participante;
-- denunciar uma manifestação;
-- informar situações de ofensa, ameaça, perseguição, assédio ou abuso.
+**Discordar, por si só, não é motivo para apagar uma fala.**
 
-Silenciar ou bloquear alguém deverá proteger a pessoa que tomou essa
-decisão.
+> **O Fora da Pauta deve proteger o debate de ideias sem permitir ataques às pessoas.**
 
-Isso não significa automaticamente remover para todos as manifestações
-do participante bloqueado.
+### O povo também precisa se ouvir
 
-A retirada, ocultação ou limitação pública de conteúdo deverá decorrer
-das regras de moderação aplicáveis à manifestação.
+O Fora da Pauta não quer apenas ouvir cada pessoa separadamente.
 
-Poderão estar sujeitos à moderação, entre outros:
+De tempos em tempos, deve mostrar o que está surgindo das perguntas, opiniões, experiências e conversas das pessoas que participam.
 
-- ataques pessoais;
-- ofensas;
-- ameaças;
-- perseguição;
-- assédio;
-- exposição indevida de dados pessoais;
-- tentativas de identificar participantes anônimos;
-- publicação de contatos pessoais proibidos pelas regras do espaço;
-- outras formas de abuso incompatíveis com o debate.
+Essa apresentação deve preservar o anonimato e informar claramente **quantas pessoas participaram, em que período e qual foi a base usada**.
 
-A mera discordância não constitui motivo suficiente para remoção.
+Isso não significa dizer que essas pessoas representam automaticamente todo o povo brasileiro.
 
-> **O Fora da Pauta deve proteger o confronto de ideias sem permitir que
-> ele seja substituído pelo ataque às pessoas.**
+Significa permitir que quem participa conheça também o que outras pessoas estão perguntando, pensando, vivendo e considerando importante.
 
----
+> **O povo também precisa ouvir a própria voz.**
 
-## 22. Sustentabilidade e acesso aberto
+O Fora da Pauta também deve ajudar as pessoas a conhecer melhor o Brasil: sua história, sua sociedade, suas capacidades, seus problemas, suas conquistas e sua relação com o restante do mundo.
 
-A continuidade do Fora da Pauta exige sustentabilidade financeira.
+Conhecer o país não significa esconder seus problemas nem criar uma imagem idealizada dele.
 
-Essa sustentabilidade deve ser construída de forma compatível com a
-independência editorial e com o objetivo de ampliar, e não restringir,
-a participação das pessoas.
+Significa conhecer melhor o lugar onde vivemos, aquilo que já construímos, **o que precisa mudar** e aquilo que podemos construir juntos.
 
-O modelo adotado é de contribuição por meio de assinatura voluntária de
-baixo valor.
+> **Conhecer melhor o Brasil também é conhecer melhor a nós mesmos.**
 
-> **A assinatura voluntária do Fora da Pauta é de R$ 10 por ano.**
+O Fora da Pauta quer contribuir para que cada brasileiro reconheça que sua voz importa, que sua participação tem valor e que ele faz parte da construção do país.
 
-A cobrança poderá ser recorrente anualmente e deverá poder ser cancelada
-de forma simples.
+## Informação que cabe na vida cotidiana
 
-A finalidade da contribuição é ajudar na manutenção e continuidade do
-projeto.
+### Levar a informação até as pessoas
 
-A contribuição não compra acesso.
+Muita gente tem pouco tempo para procurar e acompanhar informações.
 
-O conteúdo e a participação do Fora da Pauta deverão permanecer
-integralmente acessíveis também às pessoas que não contribuem
-financeiramente.
+Trabalho, estudo, família, deslocamentos e outras responsabilidades fazem parte da vida de todo dia.
 
-Não deverá existir diferença editorial entre quem contribui e quem não
-contribui.
+O Fora da Pauta deve levar essa realidade em conta.
 
-Não haverá maior poder de participação, maior visibilidade no debate ou
-acesso privilegiado a informação em razão da contribuição financeira.
+Por isso, suas edições devem ser preparadas para que a pessoa consiga **entender o essencial em poucos minutos, esteja ela onde estiver**.
 
-> **Assinar é uma forma de contribuir, não uma condição para participar.**
+Isso não significa tratar os assuntos de forma superficial.
 
-A escolha por um valor baixo busca permitir que pessoas de diferentes
-condições econômicas possam colaborar sem transformar renda em barreira
-à participação.
+Significa organizar a informação de maneira clara e direta, mantendo disponíveis o contexto, os documentos e as fontes para quem quiser se aprofundar.
 
-O modelo de sustentabilidade, sua finalidade e sua forma de funcionamento
-deverão ser explicados com transparência.
+Sempre que possível, a edição deve informar **aproximadamente quanto tempo leva para ser lida ou ouvida**.
 
-O Fora da Pauta deverá possuir uma página própria de Sustentabilidade,
-na qual esse tema possa ser apresentado e aprofundado separadamente da
-Linha Editorial.
+O Fora da Pauta também não deve esperar que a pessoa entre no site todos os dias para descobrir se apareceu algo novo.
 
----
+Quem quiser acompanhar o projeto poderá receber avisos pelo Telegram sobre novas edições, atualizações, investigações, debates e oportunidades de participação.
 
-## 23. Levar a informação até as pessoas
+Entrar no Telegram é uma escolha. **Não é condição para acessar o conteúdo nem para participar do Fora da Pauta.**
 
-Disponibilizar uma informação em um site não significa, por si só, que
-ela chegará às pessoas.
+O Telegram serve para avisar.
 
-Muitas pessoas possuem pouco tempo disponível para procurar e acompanhar
-informação continuamente.
+> **O conteúdo, as fontes e os espaços de participação ficam no próprio Fora da Pauta.**
 
-Trabalho, estudo, família, deslocamentos e as demais responsabilidades
-da vida cotidiana disputam a atenção e o tempo do cidadão.
+No futuro, outros meios também poderão ser usados para levar essas atualizações às pessoas.
 
-O Fora da Pauta deve reconhecer essa realidade.
+> **A informação precisa ser clara, caber na vida cotidiana e conseguir chegar a quem deseja recebê-la.**
 
-Por isso, o projeto não deverá apenas esperar que as pessoas procurem
-suas informações.
+### Ler ou ouvir
 
-Também deverá criar meios para levar suas atualizações diretamente a
-quem desejar acompanhá-las.
+Sempre que for possível, o Fora da Pauta deve permitir que a pessoa escolha **ler ou ouvir** o conteúdo.
 
-> **A pessoa não deve precisar procurar continuamente o Fora da Pauta para
-> descobrir se surgiu algo importante. O projeto também deve levar a
-> informação até ela.**
+O áudio não substitui o texto. As duas formas devem continuar disponíveis.
 
-O grupo ou canal oficial do Fora da Pauta no Telegram poderá cumprir essa
-função, avisando as pessoas interessadas sobre:
+Durante o áudio, **o trecho que está sendo lido deve ficar marcado na tela**, para que a pessoa possa acompanhar também pelo texto.
 
-- novas edições;
-- novas informações;
-- atualizações de conteúdos já publicados;
-- investigações;
-- consultas à sociedade;
-- debates;
-- oportunidades de participação;
-- outros acontecimentos relevantes acompanhados pelo projeto.
+Essa opção deve fazer parte, sempre que possível, das edições, explicações, fichas de candidatos, históricos, linhas do tempo e outros conteúdos do Fora da Pauta.
 
-A participação no Telegram deverá ser voluntária.
+Menus, filtros, botões e outros comandos do site não precisam fazer parte da leitura em áudio.
 
-Entrar no grupo ou canal não será condição para acessar o conteúdo ou
-participar do Fora da Pauta.
+**O áudio só deve começar quando a própria pessoa escolher ouvi-lo.**
 
-O objetivo é facilitar o acompanhamento.
+O Fora da Pauta não deve iniciar a leitura automaticamente.
 
-O aviso deverá, sempre que possível, conduzir a pessoa ao conteúdo
-completo, às fontes e ao espaço correspondente de participação.
+## Como o Fora da Pauta se sustenta?
 
-O projeto poderá desenvolver outros meios de distribuição no futuro,
-desde que respeitem os princípios de voluntariedade, privacidade,
-clareza e respeito ao participante.
+O Fora da Pauta precisa de recursos para continuar funcionando.
 
-> **Informação acessível também é informação que consegue chegar às
-> pessoas no meio da vida cotidiana.**
+A cada período, deve mostrar quanto precisa para funcionar e quais despesas formam esse valor.
 
----
+A proposta é dividir esse custo entre o maior número possível de pessoas.
 
-## 24. Acessibilidade e leitura em áudio
+**Quem decidir contribuir assume uma cota de mesmo valor.**
 
-O Fora da Pauta deve buscar tornar seus conteúdos editoriais acessíveis
-também por meio de leitura em áudio.
+Cada pessoa pode assumir, no máximo, uma cota naquele período.
 
-> **Todo conteúdo editorial textual do Fora da Pauta deve, sempre que
-> tecnicamente possível, oferecer leitura em áudio sincronizada com o
-> texto, preservando ao mesmo tempo a possibilidade de leitura convencional.**
+A contribuição é voluntária.
 
-A leitura em áudio não deve substituir o texto.
+Quem contribui não compra acesso, influência, prioridade, maior espaço no debate ou qualquer vantagem dentro do Fora da Pauta.
 
-Ela constitui uma forma adicional de acesso ao mesmo conteúdo.
+O conteúdo e a participação continuam abertos também para quem não contribui.
 
-Durante a reprodução, o trecho correspondente do texto deve ser
-identificado visualmente, permitindo que a pessoa acompanhe a leitura
-pela tela.
+Quanto mais pessoas contribuírem, mais distribuído fica o custo.
 
-Essa funcionalidade deve ser adotada como padrão para:
+**O Fora da Pauta só inicia um novo período quando o valor necessário para cobrir as despesas daquele período estiver garantido.**
 
-- edições;
-- matérias;
-- explicações;
-- fichas de candidatos;
-- históricos e cronologias;
-- Linha Editorial;
-- metodologias;
-- demais conteúdos editoriais textuais do projeto.
+**Se o valor ainda não tiver sido alcançado, o início do período fica adiado até que o custo esteja coberto.**
 
-Elementos puramente funcionais da interface, como menus, filtros,
-botões, comandos de navegação e controles, não precisam integrar a
-narração do conteúdo editorial.
+**O que entrar e o que for gasto deve ficar registrado na prestação de contas do período.**
 
-A reprodução deve depender de uma ação do usuário.
+> **Contribuir ajuda a manter o Fora da Pauta. Não compra influência sobre ele.**
 
-O Fora da Pauta não deve iniciar automaticamente a leitura em áudio.
+## Como o Fora da Pauta presta contas?
 
----
+Antes de cada período, o Fora da Pauta deve mostrar quanto precisa para funcionar e quais despesas formam esse valor.
 
-## 25. Princípios editoriais centrais
+Assim, quem quiser contribuir poderá saber **quanto o período custa antes de tomar essa decisão**.
 
-> **O Fora da Pauta não é acusatório nem promocional. É documental.**
+A prestação de contas deve mostrar de forma simples:
 
-> **A importância de um fato para o Fora da Pauta não é determinada pela
-> quantidade de exposição que ele recebeu.**
+- quanto estava previsto para o período;
+- quais despesas formaram esse valor;
+- quantas cotas foram necessárias;
+- quanto foi recebido;
+- quanto foi efetivamente gasto;
+- em que o dinheiro foi gasto;
+- qual foi o resultado final do período.
+
+Se uma despesa ficar diferente do que havia sido previsto, essa diferença deve ser mostrada e explicada.
+
+Se houver sobra de recursos, o destino dessa sobra também deve ser informado.
+
+Se houver alguma despesa que não estava prevista inicialmente, ela deve aparecer na prestação de contas.
+
+Os períodos anteriores devem continuar disponíveis para consulta.
+
+Assim, qualquer pessoa poderá acompanhar não apenas **o quanto** o Fora da Pauta está gastando agora, mas também como seus custos e sua sustentação mudaram ao longo do tempo.
+
+> **Antes do período, mostrar quanto será necessário. Depois, mostrar o que entrou e o que foi gasto.**
+
+## Em resumo: o que guia o Fora da Pauta?
+
+> **Quem recebe a informação importa.**
+
+> **O Fora da Pauta apresenta informações. A conclusão cabe a você.**
 
 > **O que pode ser verificado?**
 
-> **Informar para que a pessoa possa decidir, não decidir por ela.**
+> **Não confundir importância com visibilidade.**
 
-> **Incluir o povo no debate.**
+> **O mesmo critério deve valer para todos, em todos os casos.**
 
-> **Registrar e preservar a trajetória pública de quem exerce poder.**
+> **Mostrar o que mudou e não apagar o que veio antes.**
 
-> **A cronologia deve seguir a data dos acontecimentos, não a data em que
-> foram encontrados.**
+> **Acompanhar quem exerce poder público e preservar a sequência dos acontecimentos.**
 
-> **Preservar a divergência e impedir que o debate se transforme em ataque
-> às pessoas.**
+> **Incluir o povo no debate e preservar o sentido do que cada pessoa diz.**
 
-> **Proteger a identidade de quem participa anonimamente.**
+> **O povo também precisa ouvir a própria voz.**
 
-> **Assinar é uma forma de contribuir, não uma condição para participar.**
+> **Proteger quem participa e permitir a divergência sem permitir ataques às pessoas.**
 
-> **Não apenas disponibilizar informação, mas criar meios para que ela
-> chegue às pessoas.**
+> **Corrigir os erros de forma clara.**
 
-Esses princípios devem orientar pesquisas, edições, campanhas,
-fichas, ferramentas de inteligência artificial, bases de dados,
-cronologias, sistemas participativos, comentários, atualizações,
-mecanismos de distribuição e demais conteúdos produzidos pelo
-Fora da Pauta.
+> **Usar a inteligência artificial como ferramenta, nunca como substituta das fontes.**
+
+> **Levar a informação até as pessoas de forma clara, direta e possível de acompanhar no dia a dia.**
+
+> **Contribuir ajuda a manter o Fora da Pauta. Não compra influência sobre ele.**
+
+Esses princípios devem orientar tudo o que o Fora da Pauta fizer: pesquisas, edições, informações sobre a vida pública, participação, uso da inteligência artificial, correções, atualizações e formas de levar o conteúdo até as pessoas.
