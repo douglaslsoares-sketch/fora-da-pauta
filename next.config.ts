@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  outputFileTracingIncludes: {
+    "/conheca-seu-candidato/*": [
+      "./data/eleicoes/gerado/atuacao-candidatos/**/*.json",
+    ],
+    "/conheca-seu-candidato/*/*": [
+      "./data/eleicoes/gerado/atuacao-candidatos/**/*.json",
+    ],
+  },
 };
 
 export default nextConfig;

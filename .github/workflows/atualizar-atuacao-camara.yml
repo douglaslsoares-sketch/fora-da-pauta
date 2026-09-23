@@ -1,0 +1,96 @@
+name: Atualizar atuação política da Câmara
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "23 */4 * * *"
+      timezone: "America/Sao_Paulo"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: atualizar-atuacao-camara
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    name: Atualizar dados parlamentares
+    runs-on: windows-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Atualizar dados da Câmara
+        shell: powershell
+        run: |
+          powershell.exe `
+            -NoProfile `
+            -ExecutionPolicy Bypass `
+            -File ".\scripts\atualizar-atuacao-camara.ps1"
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "Atualização da Câmara falhou."
+          }
+
+      - name: Preparar arquivos públicos alterados
+        id: changes
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Checkpoint usado para não repetir milhares de consultas à API.
+          git add -- "data/eleicoes/gerado/proposicoes-complementares-api.json"
+
+          # JSONs públicos por candidatura.
+          # -A também registra eventual remoção de um arquivo antigo.
+          # _metadata.json permanece ignorado pelo .gitignore.
+          git add -A -- "data/eleicoes/gerado/atuacao-candidatos"
+
+          $alterados =
+            @(
+              git diff `
+                --cached `
+                --name-only
+            )
+
+          if ($alterados.Count -eq 0) {
+            "changed=false" |
+              Out-File `
+                -FilePath $env:GITHUB_OUTPUT `
+                -Encoding utf8 `
+                -Append
+
+            Write-Host "Nenhuma mudança pública encontrada."
+          }
+          else {
+            "changed=true" |
+              Out-File `
+                -FilePath $env:GITHUB_OUTPUT `
+                -Encoding utf8 `
+                -Append
+
+            Write-Host "Arquivos que serão publicados:"
+            $alterados
+          }
+
+      - name: Publicar atualização no repositório
+        if: steps.changes.outputs.changed == 'true'
+        shell: pwsh
+        run: |
+          git commit `
+            -m "chore(dados): atualizar atuação parlamentar"
+
+          git push
+
+      - name: Sem alterações
+        if: steps.changes.outputs.changed != 'true'
+        shell: pwsh
+        run: |
+          Write-Host "As fontes foram verificadas e não houve mudança a publicar."
