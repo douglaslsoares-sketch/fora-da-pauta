@@ -47,3 +47,15 @@ data/eleicoes/camara/
 data/eleicoes/camara/
 components/*.backup-*
 components/*.bak
+
+# Fora da Pauta - intermediarios da atuacao politica
+# Estes arquivos podem ser reconstruidos pelas fontes oficiais.
+data/eleicoes/gerado/atuacao-votacoes-politicas.json
+data/eleicoes/gerado/atuacao-votacoes-politicas-enriquecida.json
+data/eleicoes/gerado/contexto-votacoes-2026.json
+data/eleicoes/gerado/atuacao-proposicoes-politicas.json
+data/eleicoes/gerado/atuacao-proposicoes-politicas-completa.json
+data/eleicoes/gerado/historico-politico-unificado.json
+data/eleicoes/gerado/atuacao-candidatos/_metadata.json
+data/eleicoes/gerado/atuacao-candidatos.tmp-*/
+data/eleicoes/gerado/*.backup-*
