@@ -1,4 +1,7 @@
-import identidadesJson from "./gerado/identidades-politicas.json";
+import "server-only";
+
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
 import {
   buscarPatrimonio2022PorCandidaturaId,
@@ -19,8 +22,21 @@ type IdentidadePolitica = {
   candidaturas: CandidaturaDaIdentidade[];
 };
 
+const arquivoIdentidades = join(
+  process.cwd(),
+  "data",
+  "eleicoes",
+  "gerado",
+  "identidades-politicas.json",
+);
+
 const identidades =
-  identidadesJson as IdentidadePolitica[];
+  JSON.parse(
+    readFileSync(
+      arquivoIdentidades,
+      "utf8",
+    ),
+  ) as IdentidadePolitica[];
 
 export type EvolucaoPatrimonial = {
   candidatura2022Id: string;
