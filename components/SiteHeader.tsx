@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PreLaunchHeaderLink } from "@/components/PreLaunchHeaderLink";
+import { SiteHeaderRouter } from "@/components/SiteHeaderRouter";
 
 const linksInstitucionais = [
   {
@@ -9,7 +10,7 @@ const linksInstitucionais = [
   },
 ];
 
-export function SiteHeader() {
+function InstitutionalHeader() {
   return (
     <header className="bg-black text-white">
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
@@ -71,5 +72,13 @@ export function SiteHeader() {
         <PreLaunchHeaderLink />
       </div>
     </header>
+  );
+}
+
+export function SiteHeader() {
+  return (
+    <SiteHeaderRouter>
+      <InstitutionalHeader />
+    </SiteHeaderRouter>
   );
 }
