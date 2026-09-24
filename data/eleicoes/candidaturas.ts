@@ -1,4 +1,22 @@
-﻿import dados from "./gerado/candidaturas-2026.json";
+import "server-only";
+
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
 import type { Candidatura } from "./tipos";
 
-export const candidaturas = dados as Candidatura[];
+const arquivoCandidaturas = join(
+  process.cwd(),
+  "data",
+  "eleicoes",
+  "gerado",
+  "candidaturas-2026.json",
+);
+
+export const candidaturas =
+  JSON.parse(
+    readFileSync(
+      arquivoCandidaturas,
+      "utf8",
+    ),
+  ) as Candidatura[];
