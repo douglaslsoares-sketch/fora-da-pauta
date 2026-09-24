@@ -54,7 +54,7 @@ export function CandidatePhoto({
     >
       {!erro ? (
         <img
-          src={`https://c1srb75ofa8hm8ek.public.blob.vercel-storage.com/candidatos/2026/${id}.jpg`}
+          src={`https://pub-2ff7d24c72ae4d739a71d60b1a26bb5e.r2.dev/candidatos/2026/${id}.jpg`}
           alt={`Foto de ${name}`}
           onError={() => setErro(true)}
           style={{
