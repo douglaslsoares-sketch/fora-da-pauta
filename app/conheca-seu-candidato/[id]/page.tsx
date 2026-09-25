@@ -206,7 +206,7 @@ const trajetoriaOrdenada =
 
   return (
     <main className="min-h-screen bg-[#eeeee9] text-[#151515]">
-      <header className="bg-black text-white">
+      <header id="quem-e" className="scroll-mt-8 bg-black text-white">
         <div className="mx-auto w-full max-w-5xl px-5 pb-9 pt-5 sm:px-8 sm:pb-11 sm:pt-6">
 
           <div className="flex justify-end">
@@ -312,7 +312,7 @@ const trajetoriaOrdenada =
         candidaturaId={candidate.id}
       />
 
-      <section className="border-t border-black/15 py-8 sm:py-10">
+      <section id="patrimonio" className="scroll-mt-8 border-t border-black/15 py-8 sm:py-10">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
               Patrimônio declarado
             </p>
@@ -523,7 +523,7 @@ const trajetoriaOrdenada =
           )}
 
           {atuacaoPolitica && (
-            <section className="border-t border-black/15 py-8 sm:py-10">
+            <section id="atuacao-politica" className="scroll-mt-8 border-t border-black/15 py-8 sm:py-10">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
                 Atuação política documentada
               </p>
@@ -686,7 +686,7 @@ const trajetoriaOrdenada =
                 A ficha apresenta um resumo. Todos os registros disponíveis podem ser consultados nas páginas completas de votações e proposições.
               </p>
             </section>
-          )}<section className="border-t border-black/15 py-8 sm:py-10">
+          )}<section id="sobre-os-dados" className="scroll-mt-8 border-t border-black/15 py-8 sm:py-10">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
               Sobre os dados
             </p>

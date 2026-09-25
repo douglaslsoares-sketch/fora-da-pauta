@@ -112,6 +112,26 @@ function formatarDataAtualizacao(
   );
 }
 
+function hrefDoEixo(
+  eixo: EixoDossie,
+) {
+  switch (eixo) {
+    case "quem-e":
+      return "#quem-e";
+
+    case "exercicio-cargo":
+      return "#linha-do-tempo";
+
+    case "patrimonio-atividades-economicas":
+      return "#patrimonio";
+
+    case "fontes-atualizacoes":
+      return "#sobre-os-dados";
+
+    default:
+      return "#linha-do-tempo";
+  }
+}
 export function CandidateDossier({
   candidaturaId,
 }: CandidateDossierProps) {
@@ -174,36 +194,49 @@ export function CandidateDossier({
         </p>
 
         <div className="mt-5 grid gap-px overflow-hidden border border-black/10 bg-black/10 sm:grid-cols-2">
-          {eixos.map((eixo) => {
-return (
-              <div
-                key={eixo.id}
-                className="bg-[#eeeee9] p-5 sm:p-6"
-              >
-                <div className="flex items-start gap-4">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
-                    {eixo.numero}
-                  </span>
+          {eixos.map((eixo) => (
+            <a               key={eixo.id}
+              href={hrefDoEixo(eixo.id)}
+              className="group bg-[#eeeee9] p-5 transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-black sm:p-6"
+            >
+              <div className="flex items-start gap-4">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
+                  {eixo.numero}
+                </span>
 
-                  <div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-4">
                     <h3 className="text-lg font-semibold tracking-[-0.02em]">
                       {eixo.titulo}
                     </h3>
 
-                    <p className="mt-2 text-sm leading-6 text-black/55">
-                      {eixo.descricao}
-                    </p>
+                    <span
+                      aria-hidden="true"
+                      className="shrink-0 text-lg leading-none text-black/30 transition-transform group-hover:translate-x-1 group-hover:text-black"
+                    >
+                      →
+                    </span>
                   </div>
+
+                  <p className="mt-2 text-sm leading-6 text-black/55">
+                    {eixo.descricao}
+                  </p>
                 </div>
               </div>
-            );
-          })}
+            </a>
+          ))}
         </div>
-      </div>
 
+        <p className="mt-3 text-xs leading-5 text-black/35">
+          Use os itens acima para navegar pela ficha.
+        </p>
+      </div>
       {/* LINHA DO TEMPO */}
 
-      <div className="mt-14">
+      <div
+        id="linha-do-tempo"
+        className="mt-14 scroll-mt-8"
+      >
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
           Linha do tempo
         </p>
