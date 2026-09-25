@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CandidateDossier } from "@/components/CandidateDossier";
 
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { notFound } from "next/navigation";
@@ -8,10 +9,7 @@ import { buscarEvolucaoPatrimonial } from "@/data/eleicoes/evolucao-patrimonial"
 import { candidaturas } from "@/data/eleicoes/candidaturas";
 import { buscarHistoricoPolitico } from "@/data/eleicoes/historico-politico";
 import { buscarAtuacaoPolitica } from "@/data/eleicoes/atuacao-politica";
-import {
-  obterCargoAtualConhecido,
-  obterSituacaoReeleicao,
-} from "@/data/eleicoes/reeleicao";
+import { obterMandatoAtualConhecido } from "@/data/eleicoes/reeleicao";
 import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
 
 function formatarReais(valor: number) {
@@ -192,14 +190,8 @@ const trajetoriaOrdenada =
     Array.from(
       mapaTrajetoria.values(),
     );
-
-  const situacaoReeleicao =
-    obterSituacaoReeleicao(
-      candidate,
-    );
-
-  const cargoAtualConhecido =
-    obterCargoAtualConhecido(
+  const mandatoAtualConhecido =
+    obterMandatoAtualConhecido(
       candidate.id,
     );
 
@@ -234,9 +226,73 @@ const trajetoriaOrdenada =
                   {candidate.nomeUrna}
                 </h1>
 
-                <p className="mt-5 text-base leading-7 text-white/65 sm:text-lg">
-                  {cargo} · {candidate.siglaPartido} · {candidate.uf}
+                <p className="mt-5 text-base leading-7 text-white/70 sm:text-lg">
+                  {cargo} · {candidate.siglaPartido} · nº {candidate.numero} · {candidate.uf}
                 </p>
+
+                <div className="mt-4 max-w-xl border-t border-white/10 pt-4">
+                  <p className="text-xs font-medium leading-5 text-white/55 sm:text-sm">
+                    {candidate.nomeCompleto}
+                  </p>
+
+                  {mandatoAtualConhecido && (
+                    <p className="mt-2 text-[11px] leading-5 text-white/40 sm:text-xs">
+                      Mandato atual:{" "}
+                      <span className="font-medium text-white/55">
+                        {formatarCargo(
+                          mandatoAtualConhecido.cargo,
+                        )}
+                        {mandatoAtualConhecido.uf
+                          ? ` · ${mandatoAtualConhecido.uf}`
+                          : ""}
+                        {mandatoAtualConhecido.inicio &&
+                        mandatoAtualConhecido.fim
+                          ? ` · ${mandatoAtualConhecido.inicio}–${mandatoAtualConhecido.fim}`
+                          : ""}
+                      </span>
+
+                      {mandatoAtualConhecido.fonte && (
+                        <>
+                          {" · "}
+                          <a
+                            href={
+                              mandatoAtualConhecido
+                                .fonte.url
+                            }
+                            target="_blank"
+                            rel="noreferrer"
+                            className="font-semibold text-white/55 underline decoration-white/25 underline-offset-4 hover:text-white"
+                          >
+                            {
+                              mandatoAtualConhecido
+                                .fonte.titulo
+                            }{" "}
+                            ↗
+                          </a>
+                        </>
+                      )}
+                    </p>
+                  )}
+                  <p className="mt-2 text-[11px] leading-5 text-white/40 sm:text-xs">
+                    Dados eleitorais verificados em{" "}
+                    {formatarData(candidate.ultimaVerificacao)}
+                    {" · "}
+                    <a
+                      href={candidate.fonteOficial}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-semibold text-white/60 underline decoration-white/30 underline-offset-4 hover:text-white"
+                    >
+                      Fonte oficial do TSE ↗
+                    </a>
+                  </p>
+
+                  {mostrarSituacaoTse && (
+                    <p className="mt-1 text-[11px] leading-5 text-white/40 sm:text-xs">
+                      Situação no TSE: {situacaoTse}
+                    </p>
+                  )}
+                </div>
               </div>
 
               <CandidatePhoto
@@ -252,121 +308,11 @@ const trajetoriaOrdenada =
       <div className="px-5 py-8 sm:px-8 sm:py-12">
         <div className="mx-auto w-full max-w-3xl">
 
-          <section className="pb-8 sm:pb-10">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-              Identificação eleitoral
-            </p>
+          <CandidateDossier
+        candidaturaId={candidate.id}
+      />
 
-            <div className="mt-5 divide-y divide-black/10 border-y border-black/10">
-              <div className="flex justify-between gap-6 py-3">
-                <span className="text-sm text-black/45">
-                  Nome completo
-                </span>
-
-                <span className="max-w-[65%] text-right font-semibold">
-                  {candidate.nomeCompleto}
-                </span>
-              </div>
-
-              <div className="flex justify-between gap-6 py-3">
-                <span className="text-sm text-black/45">
-                  Cargo
-                </span>
-
-                <span className="text-right font-semibold">
-                  {cargo}
-                </span>
-              </div>
-
-              <div className="flex justify-between gap-6 py-3">
-                <span className="text-sm text-black/45">
-                  Partido
-                </span>
-
-                <span className="text-right font-semibold">
-                  {candidate.siglaPartido}
-                </span>
-              </div>
-
-              <div className="flex justify-between gap-6 py-3">
-                <span className="text-sm text-black/45">
-                  Número
-                </span>
-
-                <span className="text-right font-semibold">
-                  {candidate.numero}
-                </span>
-              </div>
-
-              <div className="flex justify-between gap-6 py-3">
-                <span className="text-sm text-black/45">
-                  UF
-                </span>
-
-                <span className="text-right font-semibold">
-                  {candidate.uf}
-                </span>
-              </div>
-
-              {mostrarSituacaoTse && (
-                <div className="flex justify-between gap-6 py-3">
-                  <span className="text-sm text-black/45">
-                    Situação no TSE
-                  </span>
-
-                  <span className="max-w-[65%] text-right font-semibold">
-                    {situacaoTse}
-                  </span>
-                </div>
-              )}
-            </div>
-
-            <p className="mt-5 text-sm leading-6 text-black/45">
-              Dados eleitorais verificados em{" "}
-              {formatarData(
-                candidate.ultimaVerificacao,
-              )}.
-            </p>
-
-            <a
-              href={candidate.fonteOficial}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-3 inline-flex text-sm font-semibold underline underline-offset-4"
-            >
-              Fonte oficial do TSE ↗
-            </a>
-          </section>
-
-          {cargoAtualConhecido && (
-            <section className="border-t border-black/15 py-8 sm:py-10">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-                Mandato atual
-              </p>
-
-              <h2 className="mt-3 text-3xl font-semibold leading-[1.05] tracking-[-0.045em] sm:text-4xl">
-                {formatarCargo(
-                  cargoAtualConhecido,
-                )}
-              </h2>
-
-              {situacaoReeleicao ===
-                "reeleicao" && (
-                <p className="mt-4 max-w-2xl text-base leading-7 text-black/60">
-                  A candidatura de 2026 é para o mesmo cargo atualmente exercido.
-                </p>
-              )}
-
-              {situacaoReeleicao ===
-                "nao-concorre-a-reeleicao" && (
-                <p className="mt-4 max-w-2xl text-base leading-7 text-black/60">
-                  Em 2026, a candidatura é para um cargo diferente daquele atualmente exercido.
-                </p>
-              )}
-            </section>
-          )}
-
-          <section className="border-t border-black/15 py-8 sm:py-10">
+      <section className="border-t border-black/15 py-8 sm:py-10">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
               Patrimônio declarado
             </p>
@@ -740,8 +686,7 @@ const trajetoriaOrdenada =
                 A ficha apresenta um resumo. Todos os registros disponíveis podem ser consultados nas páginas completas de votações e proposições.
               </p>
             </section>
-          )}
-          <section className="border-t border-black/15 py-8 sm:py-10">
+          )}<section className="border-t border-black/15 py-8 sm:py-10">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
               Sobre os dados
             </p>
