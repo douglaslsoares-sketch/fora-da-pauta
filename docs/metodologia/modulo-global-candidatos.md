@@ -425,3 +425,21 @@ canal do Fora da Pauta no Telegram.
 A redação pública e os critérios detalhados estão definidos em:
 
 `docs/metodologia/matriz-ficha-candidato.md`
+---
+
+## Pesquisa progressiva dos candidatos
+
+O Módulo Global de Candidatos admite diferentes estágios de pesquisa
+documental.
+
+A ficha-base pode estar disponível antes da pesquisa ampliada.
+
+Quando um candidato entrar no processo de pesquisa, seu núcleo
+documental poderá ser progressivamente completado usando os mesmos
+critérios aplicados aos demais candidatos.
+
+A quantidade de registros já incorporados não constitui avaliação ou
+classificação política do candidato.
+
+A pesquisa permanece aberta a novos documentos, correções e
+desdobramentos segundo a regra de ficha viva.

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { EditorialAudioSystem } from "@/components/EditorialAudioSystem";
 import { SiteHeader } from "@/components/SiteHeader";
+import { FloatingTelegramButton } from "@/components/FloatingTelegramButton";
 import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,7 @@ export default function RootLayout({
       <body className="min-h-full bg-[#eeeee9] font-sans">
         <SiteHeader />
         {children}
+        <FloatingTelegramButton />
         <EditorialAudioSystem />
         <Analytics />
       </body>

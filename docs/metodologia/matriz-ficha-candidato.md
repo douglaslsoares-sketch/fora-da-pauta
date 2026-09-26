@@ -113,3 +113,38 @@ canal do Fora da Pauta no Telegram.
 > Registros anteriores são preservados para manter a trajetória
 > documental. Quando a ficha for atualizada, a alteração poderá ser
 > comunicada pelo canal do Fora da Pauta no Telegram.
+---
+
+## Pesquisa progressiva por consulta
+
+A pesquisa documental dos candidatos será ampliada progressivamente.
+
+A ficha-base pode existir antes da conclusão da pesquisa documental
+ampliada.
+
+Quando um candidato for consultado no processo de pesquisa do Fora da
+Pauta, seu dossiê poderá ser ampliado a partir dos oito eixos definidos
+nesta matriz.
+
+A consulta funciona como gatilho operacional para aprofundamento da
+pesquisa.
+
+Nesta fase do projeto, isso não significa pesquisa automática em tempo
+real no momento em que o visitante realiza uma busca no site.
+
+O mesmo método documental deve ser aplicado independentemente de cargo,
+partido, federação, coligação, estado, município ou posição política.
+
+A existência de mais registros em uma ficha não significa que o
+candidato seja mais importante, mais controverso, melhor, pior, mais
+investigado ou mais representativo do que outro.
+
+Ela pode significar apenas que aquela pesquisa documental já avançou
+mais.
+
+Quando uma ficha ainda não tiver recebido pesquisa ampliada, o sistema
+não deve preencher lacunas por inferência nem apresentar a ficha como
+completa.
+
+À medida que a pesquisa avançar, novos registros verificados poderão ser
+incorporados seguindo a regra de ficha viva e atualização contínua.
