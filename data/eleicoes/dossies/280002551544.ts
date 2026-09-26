@@ -5,7 +5,7 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
 
   nome: "Flávio Bolsonaro",
 
-  atualizadoEm: "2026-09-25",
+  atualizadoEm: "2026-09-26",
 
   emPoucasLinhas:
     "Flávio Nantes Bolsonaro nasceu em Resende (RJ), em 1981. " +
@@ -630,6 +630,111 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
       ultimaVerificacao: "2026-09-25",
     },
     {
+      id: "2007-2018-familiares-adriano-gabinete",
+
+      data: {
+        inicio: "2007-09-06",
+        fim: "2018-11-14",
+        rotulo: "2007–2018",
+      },
+
+      titulo:
+        "Familiares de Adriano da Nóbrega trabalham no gabinete na Alerj",
+
+      resumo:
+        "Durante os mandatos de Flávio Bolsonaro na Alerj, Danielle Mendonça da Costa da Nóbrega, então mulher de Adriano da Nóbrega, e Raimunda Veras Magalhães, mãe dele, ocuparam cargos no gabinete parlamentar. A relação ganhou repercussão pública em 2019, quando Adriano era alvo de investigação sobre milícia.",
+
+      eixos: [
+        "exercicio-cargo",
+        "acontecimentos-publicos",
+        "fontes-atualizacoes",
+      ],
+
+      natureza: [
+        "documentado",
+        "publicado",
+        "atualizada",
+      ],
+
+      fatoDocumentado: [
+        "Segundo informações da Alerj reproduzidas pelo Estado de S. Paulo, Danielle Mendonça da Costa da Nóbrega foi nomeada no gabinete em 6 de setembro de 2007 e exonerada em 14 de novembro de 2018.",
+        "Raimunda Veras Magalhães trabalhou no gabinete de 11 de maio de 2016 a 14 de maio de 2018.",
+        "Folhas de pagamento oficiais da Alerj registram Raimunda como assessora parlamentar.",
+      ],
+
+      oQueFoiPublicadoOuQuestionado: [
+        {
+          atribuicao:
+            "Estado de S. Paulo, em reportagem reproduzida pelo Terra em janeiro de 2019",
+          texto:
+            "A reportagem destacou que Danielle era então mulher e Raimunda era mãe de Adriano da Nóbrega, que naquele momento era alvo de mandado de prisão em investigação sobre a milícia de Rio das Pedras.",
+        },
+        {
+          atribuicao:
+            "Ministério Público do Estado do Rio de Janeiro, em 2021",
+          texto:
+            "Em comunicação sobre a Operação Gárgula, o MPRJ descreveu Adriano da Nóbrega como líder da milícia de Rio das Pedras e afirmou que ele exercia forte influência sobre o grupo de matadores conhecido como Escritório do Crime.",
+        },
+      ],
+
+      respostas: [
+        {
+          atribuicao:
+            "Flávio Bolsonaro, em nota divulgada em janeiro de 2019",
+          texto:
+            "Flávio afirmou que Raimunda havia sido contratada por indicação de Fabrício Queiroz, que supervisionava seu trabalho. Disse que não poderia ser responsabilizado por fatos que desconhecia e defendeu que eventuais responsáveis fossem investigados e julgados.",
+        },
+        {
+          atribuicao:
+            "Flávio Bolsonaro, sobre as homenagens a agentes de segurança",
+          texto:
+            "Na mesma manifestação, afirmou ter concedido centenas de homenagens a agentes de segurança e sustentou que pessoas que cometessem erros deveriam responder pelos próprios atos.",
+        },
+      ],
+
+      desdobramentos: [
+        "O vínculo funcional das duas mulheres com o gabinete é um fato documentado. A caracterização posterior de Adriano como líder de milícia pelo MPRJ é apresentada separadamente e não transforma, por si só, a contratação de seus familiares em prova de participação de Flávio Bolsonaro em organização miliciana.",
+      ],
+
+      fontes: [
+        {
+          id: "estadao-terra-familia-adriano-gabinete-2019",
+          titulo:
+            "Gabinete de Flávio Bolsonaro empregou mãe e mulher de PM suspeito de comandar milícia",
+          veiculoOuInstituicao:
+            "O Estado de S. Paulo / Terra",
+          url:
+            "https://www.terra.com.br/noticias/gabinete-de-flavio-bolsonaro-empregou-mae-e-mulher-de-pm-suspeito-de-comandar-milicia,105206d4f644c10898972a6ff4c84f11b8fupu58.html",
+          tipo: "reportagem",
+          publicadaEm: "2019-01-22",
+        },
+        {
+          id: "alerj-folha-pagamento-raimunda-2016",
+          titulo:
+            "Folha de pagamento da Alerj — agosto de 2016",
+          veiculoOuInstituicao:
+            "Assembleia Legislativa do Estado do Rio de Janeiro",
+          url:
+            "https://www2.alerj.rj.gov.br/leideacesso/spic/arquivo/folha-de-pagamento-2016-08.pdf",
+          tipo: "fonte-oficial",
+          publicadaEm: "2016-08",
+        },
+        {
+          id: "mprj-gargula-adriano-2021",
+          titulo:
+            "MPRJ deflagra operação contra acusados de lavagem de dinheiro e movimentação de recursos ilícitos do miliciano Adriano da Nóbrega",
+          veiculoOuInstituicao:
+            "Ministério Público do Estado do Rio de Janeiro",
+          url:
+            "https://transparencia.mprj.mp.br/web/guest/visualizar?noticiaId=103209",
+          tipo: "fonte-oficial",
+          publicadaEm: "2021-03-22",
+        },
+      ],
+
+      ultimaVerificacao: "2026-09-26",
+    },
+    {
       id: "2008-2010-planejamento-familiar",
 
       data: {
@@ -804,6 +909,107 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
     },
 
     {
+      id: "2011-pl-996-estimulo-operacional-pm",
+
+      data: {
+        inicio: "2011-10-25",
+        rotulo: "25 de outubro de 2011",
+      },
+
+      titulo:
+        "Propõe serviço extraordinário remunerado para policiais militares",
+
+      resumo:
+        "Flávio Bolsonaro apresentou o Projeto de Lei nº 996/2011, propondo um programa para que policiais militares prestassem serviço operacional extraordinário remunerado além da jornada semanal ordinária.",
+
+      eixos: [
+        "exercicio-cargo",
+        "o-que-diz-e-defende",
+        "fontes-atualizacoes",
+      ],
+
+      natureza: [
+        "documentado",
+      ],
+
+      fatoDocumentado: [
+        "O Projeto de Lei nº 996/2011 foi apresentado por Flávio Bolsonaro em 25 de outubro de 2011.",
+        "A proposta previa serviço extraordinário além da jornada semanal de 40 horas, limitado a 40 horas mensais.",
+        "O projeto previa indenização calculada a partir do valor da hora normal acrescido de 50%.",
+      ],
+
+      desdobramentos: [
+        "Este registro apresenta um exemplo documentado de atuação legislativa e não representa a totalidade das proposições apresentadas no mandato.",
+      ],
+
+      fontes: [
+        {
+          id: "alerj-pl-996-2011",
+          titulo:
+            "Projeto de Lei nº 996/2011",
+          veiculoOuInstituicao:
+            "Assembleia Legislativa do Estado do Rio de Janeiro",
+          url:
+            "https://www3.alerj.rj.gov.br/lotus_notes/default.asp?id=57&url=L3NjcHJvMTExNS5uc2YvZjRiNDZiM2NkYmJhOTkwMDgzMjU2Y2M5MDA3NDZjZjYvZDdiZWYyZjc2ZWMwNTNiZjgzMjU3OTM0MDA1MWY0NWQ%2FT3BlbkRvY3VtZW50",
+          tipo: "fonte-oficial",
+          publicadaEm: "2011-10-26",
+        },
+      ],
+
+      ultimaVerificacao: "2026-09-26",
+    },
+    {
+      id: "2013-pl-2049-defesa-civil",
+
+      data: {
+        inicio: "2013-03-20",
+        rotulo: "20 de março de 2013",
+      },
+
+      titulo:
+        "Propõe prioridade judicial para ações emergenciais de Defesa Civil",
+
+      resumo:
+        "Flávio Bolsonaro apresentou o Projeto de Lei nº 2.049/2013, propondo prioridade de tramitação para procedimentos judiciais relacionados a ações emergenciais de Defesa Civil e redução de riscos de desastres.",
+
+      eixos: [
+        "exercicio-cargo",
+        "o-que-diz-e-defende",
+        "fontes-atualizacoes",
+      ],
+
+      natureza: [
+        "documentado",
+      ],
+
+      fatoDocumentado: [
+        "O Projeto de Lei nº 2.049/2013 foi apresentado em 20 de março de 2013.",
+        "O texto incluía processos relacionados à remoção de moradores de áreas de risco e outras medidas necessárias a ações emergenciais de Defesa Civil.",
+        "Na justificativa, o autor relacionou a tramitação prioritária à proteção da vida e do patrimônio.",
+      ],
+
+      desdobramentos: [
+        "A proposta continuou em tramitação nos anos seguintes. Este registro identifica o ato de autoria e seu conteúdo, sem resumir toda a tramitação posterior.",
+        "Este registro apresenta um exemplo documentado de atuação legislativa e não representa a totalidade das proposições apresentadas no mandato.",
+      ],
+
+      fontes: [
+        {
+          id: "alerj-pl-2049-2013",
+          titulo:
+            "Projeto de Lei nº 2049/2013",
+          veiculoOuInstituicao:
+            "Assembleia Legislativa do Estado do Rio de Janeiro",
+          url:
+            "https://www3.alerj.rj.gov.br/lotus_notes/default.asp?id=144&url=L3NjcHJvMTExNS5uc2YvMGM1YmY1Y2RlOTU2MDFmOTAzMjU2Y2FhMDAyMzEzMWIvZDY3MTcxZGVhZWZkMzg4MjgzMjU3YjM0MDA2YzQ5ZDg%2FT3BlbkRvY3VtZW50JkhpZ2hsaWdodD0wLDIwNDklMkYyMDEzP09wZW5Eb2N1bWVudCZFeHBhbmRWaWV3",
+          tipo: "fonte-oficial",
+          publicadaEm: "2013-03-21",
+        },
+      ],
+
+      ultimaVerificacao: "2026-09-26",
+    },
+    {
       id: "2014-quarta-eleicao-alerj",
 
       data: {
@@ -872,6 +1078,58 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
     },
 
     {
+      id: "2015-pl-1007-cobranca-duplicidade",
+
+      data: {
+        inicio: "2015-10-15",
+        rotulo: "15 de outubro de 2015",
+      },
+
+      titulo:
+        "Propõe prazo para reembolso de cobrança paga em duplicidade",
+
+      resumo:
+        "Flávio Bolsonaro apresentou o Projeto de Lei nº 1.007/2015, propondo reembolso em até cinco dias úteis para consumidores que tivessem pago cobranças efetuadas em duplicidade.",
+
+      eixos: [
+        "exercicio-cargo",
+        "o-que-diz-e-defende",
+        "fontes-atualizacoes",
+      ],
+
+      natureza: [
+        "documentado",
+        "atualizada",
+      ],
+
+      fatoDocumentado: [
+        "O Projeto de Lei nº 1.007/2015 foi apresentado em 15 de outubro de 2015.",
+        "A proposta previa reembolso em até cinco dias úteis quando uma cobrança em duplicidade tivesse sido efetivamente paga.",
+        "O texto permitia que o consumidor optasse expressamente por receber o valor como crédito em fatura subsequente.",
+      ],
+
+      desdobramentos: [
+        "A tramitação registrada pela Alerj indica encaminhamento à Secretaria-Geral da Mesa ao final da legislatura e arquivamento em 2019.",
+        "Este registro apresenta um exemplo documentado de atuação legislativa e não representa a totalidade das proposições apresentadas no mandato.",
+      ],
+
+      fontes: [
+        {
+          id: "alerj-pl-1007-2015",
+          titulo:
+            "Projeto de Lei nº 1007/2015",
+          veiculoOuInstituicao:
+            "Assembleia Legislativa do Estado do Rio de Janeiro",
+          url:
+            "https://www3.alerj.rj.gov.br/lotus_notes/default.asp?id=3&url=L3NjcHJvMTUxOS5uc2YvMGM1YmY1Y2RlOTU2MDFmOTAzMjU2Y2FhMDAyMzEzMWIvNzVjNGRiNzg3MWM0OTkwMDgzMjU3ZWRmMDA2MjY4ZTM%2FT3BlbkRvY3VtZW50",
+          tipo: "fonte-oficial",
+          publicadaEm: "2015-10-16",
+        },
+      ],
+
+      ultimaVerificacao: "2026-09-26",
+    },
+    {
       id: "2016-candidatura-prefeitura-rio",
 
       data: {
@@ -929,6 +1187,56 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
       ultimaVerificacao: "2026-09-25",
     },
 
+    {
+      id: "2017-pl-2441-quitacao-anual-eletronica",
+
+      data: {
+        inicio: "2017-03-14",
+        rotulo: "14 de março de 2017",
+      },
+
+      titulo:
+        "Propõe disponibilização eletrônica da declaração anual de quitação",
+
+      resumo:
+        "Flávio Bolsonaro apresentou o Projeto de Lei nº 2.441/2017, propondo que prestadores de serviços públicos ou privados disponibilizassem aos consumidores, em seus sites, a declaração anual de quitação de débitos.",
+
+      eixos: [
+        "exercicio-cargo",
+        "o-que-diz-e-defende",
+        "fontes-atualizacoes",
+      ],
+
+      natureza: [
+        "documentado",
+      ],
+
+      fatoDocumentado: [
+        "O Projeto de Lei nº 2.441/2017 foi apresentado em 14 de março de 2017.",
+        "A proposta previa a disponibilização eletrônica da declaração anual de quitação de débitos aos consumidores.",
+        "O texto abrangia pessoas jurídicas prestadoras de serviços públicos ou privados.",
+      ],
+
+      desdobramentos: [
+        "Este registro apresenta um exemplo documentado de atuação legislativa e não representa a totalidade das proposições apresentadas no mandato.",
+      ],
+
+      fontes: [
+        {
+          id: "alerj-pl-2441-2017",
+          titulo:
+            "Projeto de Lei nº 2441/2017",
+          veiculoOuInstituicao:
+            "Assembleia Legislativa do Estado do Rio de Janeiro",
+          url:
+            "https://www3.alerj.rj.gov.br/lotus_notes/default.asp?id=3&url=L3NjcHJvMTUxOS5uc2YvMGM1YmY1Y2RlOTU2MDFmOTAzMjU2Y2FhMDAyMzEzMWIvYzQwYmMxMjgwMDUzNzk4MjgzMjU4MGUzMDA0YzA3MTI%2FT3BlbkRvY3VtZW50",
+          tipo: "fonte-oficial",
+          publicadaEm: "2017-03-15",
+        },
+      ],
+
+      ultimaVerificacao: "2026-09-26",
+    },
     {
       id: "2018-eleicao-senado",
 
@@ -988,6 +1296,194 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
       ],
 
       ultimaVerificacao: "2026-09-25",
+    },
+    {
+      id: "2020-2022-rachadinha-denuncia-desfecho",
+
+      data: {
+        inicio: "2020-10-19",
+        fim: "2022-05-16",
+        rotulo: "2020–2022",
+      },
+
+      titulo:
+        "Denúncia sobre o antigo gabinete é rejeitada após anulação de provas",
+
+      resumo:
+        "O Ministério Público do Rio denunciou Flávio Bolsonaro, Fabrício Queiroz e outros investigados por suposto esquema de devolução de salários no antigo gabinete da Alerj. Posteriormente, decisões do STF e do STJ invalidaram elementos probatórios usados na acusação, e o Tribunal de Justiça do Rio rejeitou a denúncia em 2022.",
+
+      eixos: [
+        "exercicio-cargo",
+        "acontecimentos-publicos",
+        "fontes-atualizacoes",
+      ],
+
+      natureza: [
+        "alegacao",
+        "decisao",
+        "atualizada",
+      ],
+
+      fatoDocumentado: [
+        "Em 19 de outubro de 2020, o MPRJ ofereceu denúncia contra Flávio Bolsonaro, Fabrício Queiroz e outros 15 investigados.",
+        "O MPRJ atribuiu aos denunciados, naquele procedimento, crimes de organização criminosa, peculato, lavagem de dinheiro e apropriação indébita relacionados ao período de 2007 a 2018.",
+        "Em novembro de 2021, a Segunda Turma do STF anulou quatro dos cinco relatórios de inteligência financeira do Coaf que haviam embasado a denúncia.",
+        "Em maio de 2022, o Tribunal de Justiça do Rio rejeitou a denúncia após o próprio Ministério Público pedir sua extinção diante das decisões que invalidaram provas utilizadas na acusação.",
+      ],
+
+      oQueFoiPublicadoOuQuestionado: [
+        {
+          atribuicao:
+            "Ministério Público do Estado do Rio de Janeiro",
+          texto:
+            "A acusação sustentava a existência de um suposto esquema de devolução de parte dos salários de servidores do gabinete, conhecido publicamente como rachadinha.",
+        },
+      ],
+
+      respostas: [
+        {
+          atribuicao:
+            "Defesa de Flávio Bolsonaro, após a decisão de 2022",
+          texto:
+            "A defesa afirmou que entendia o caso como encerrado e disse que adotaria as medidas judiciais cabíveis caso surgissem novos desdobramentos.",
+        },
+      ],
+
+      desdobramentos: [
+        "A rejeição da denúncia decorreu da falta de justa causa após a invalidação de elementos probatórios. Segundo a decisão noticiada pela Agência Brasil, essa forma de rejeição não impede juridicamente eventual retomada de investigação caso existam elementos válidos.",
+        "Esse procedimento tratava do suposto esquema de devolução de salários no gabinete. A acusação por organização criminosa nesse processo não deve ser confundida com uma acusação de que Flávio Bolsonaro integrasse uma milícia.",
+      ],
+
+      fontes: [
+        {
+          id: "mprj-denuncia-rachadinha-flavio-2020",
+          titulo:
+            "MPRJ oferece denúncia ao Órgão Especial do TJRJ em caso de rachadinha na Alerj",
+          veiculoOuInstituicao:
+            "Ministério Público do Estado do Rio de Janeiro",
+          url:
+            "https://transparencia.mprj.mp.br/web/guest/visualizar?noticiaId=96203",
+          tipo: "fonte-oficial",
+          publicadaEm: "2020-11-04",
+        },
+        {
+          id: "stf-rifs-flavio-2021",
+          titulo:
+            "2ª Turma decide que provas contra Flávio Bolsonaro no caso das chamadas rachadinhas são ilegais",
+          veiculoOuInstituicao:
+            "Supremo Tribunal Federal",
+          url:
+            "https://portal.stf.jus.br/noticias/verNoticiaDetalhe.asp?idConteudo=477496&ori=1",
+          tipo: "fonte-oficial",
+          publicadaEm: "2021-11-30",
+        },
+        {
+          id: "agencia-brasil-rejeicao-rachadinha-2022",
+          titulo:
+            "Justiça do Rio arquiva processo de caso de supostas rachadinhas",
+          veiculoOuInstituicao:
+            "Agência Brasil",
+          url:
+            "https://agenciabrasil.ebc.com.br/politica/noticia/2022-05/justica-do-rio-arquiva-processo-de-caso-de-supostas-rachadinhas",
+          tipo: "reportagem",
+          publicadaEm: "2022-05-16",
+        },
+      ],
+
+      ultimaVerificacao: "2026-09-26",
+    },
+    {
+      id: "2023-2026-emenda-robson-calixto",
+
+      data: {
+        inicio: "2023",
+        fim: "2026-09-21",
+        rotulo: "2023–2026",
+      },
+
+      titulo:
+        "Assessora do gabinete trata de emenda com Robson Calixto, posteriormente condenado por organização criminosa armada",
+
+      resumo:
+        "Mensagens obtidas pela Polícia Federal e reveladas em 2026 mostram uma assessora do gabinete de Flávio Bolsonaro tratando, em 2023, com Robson Calixto, o Peixe, da liberação de recursos para um projeto esportivo. Flávio destinou R$ 199 mil ao projeto. Em 2026, Calixto foi condenado pelo STF por integrar organização criminosa armada.",
+
+      eixos: [
+        "exercicio-cargo",
+        "acontecimentos-publicos",
+        "fontes-atualizacoes",
+      ],
+
+      natureza: [
+        "documentado",
+        "publicado",
+        "em-investigacao",
+        "decisao",
+        "atualizada",
+      ],
+
+      fatoDocumentado: [
+        "A reportagem da Folha, baseada em diálogos obtidos pela Polícia Federal, registra que uma assessora de Flávio Bolsonaro tratou com Robson Calixto em 2023 da liberação de emendas parlamentares.",
+        "Flávio Bolsonaro destinou R$ 199 mil a um projeto de futebol do Instituto de Formação Profissional José Carlos Procópio, no Rio de Janeiro.",
+        "Em fevereiro de 2026, a Primeira Turma do STF condenou Robson Calixto pelo crime de integrar organização criminosa armada.",
+        "Na mesma ação penal, os irmãos Domingos e Chiquinho Brazão foram condenados pelo STF pelos homicídios de Marielle Franco e Anderson Gomes e por chefiarem organização criminosa armada.",
+      ],
+
+      oQueFoiPublicadoOuQuestionado: [
+        {
+          atribuicao:
+            "Polícia Federal, segundo relatório citado pela Folha de S.Paulo",
+          texto:
+            "A PF apontou Maria de Fátima Bezerra Castro como interlocutora direta de Robson Calixto no gabinete e registrou indícios de desvio de recursos relacionados às emendas investigadas.",
+        },
+        {
+          atribuicao:
+            "Folha de S.Paulo",
+          texto:
+            "A reportagem publicou mensagens em que Calixto solicitava ajuda do gabinete para o projeto e acompanhava a liberação dos recursos.",
+        },
+      ],
+
+      respostas: [
+        {
+          atribuicao:
+            "Assessoria de Flávio Bolsonaro",
+          texto:
+            "A assessoria afirmou que os repasses foram feitos dentro da lei e seguiram critérios técnicos do Ministério do Esporte. Disse ainda que a responsabilidade pela execução é da entidade beneficiária e que eventuais irregularidades devem ser apuradas pelos órgãos de controle.",
+        },
+      ],
+
+      desdobramentos: [
+        "A condenação de Robson Calixto pelo STF em 2026 foi pelo crime de organização criminosa armada. O resultado oficial do STF não o condenou pelos homicídios de Marielle Franco e Anderson Gomes.",
+        "A investigação sobre a aplicação das emendas e eventual desvio de recursos deve ser distinguida da condenação criminal de Calixto no caso Marielle.",
+        "Os registros aqui reunidos documentam interlocução entre uma assessora do gabinete, Calixto e a destinação da emenda. Eles não constituem, por si sós, prova de que Flávio Bolsonaro integrasse a organização criminosa ou de que conhecesse, em 2023, todos os fatos que posteriormente fundamentaram a condenação de Calixto.",
+      ],
+
+      fontes: [
+        {
+          id: "folha-peixe-emenda-flavio-2026",
+          titulo:
+            "Assessora de Flávio Bolsonaro negociou liberação de emendas com miliciano condenado no caso Marielle",
+          veiculoOuInstituicao:
+            "Folha de S.Paulo",
+          url:
+            "https://www1.folha.uol.com.br/poder/2026/09/assessora-de-flavio-bolsonaro-negociou-liberacao-de-emendas-com-miliciano-condenado-no-caso-marielle.shtml",
+          tipo: "reportagem",
+          publicadaEm: "2026-09-21",
+        },
+        {
+          id: "stf-ap2434-marielle-2026",
+          titulo:
+            "STF condena acusados pelo assassinato de Marielle Franco e Anderson Gomes",
+          veiculoOuInstituicao:
+            "Supremo Tribunal Federal",
+          url:
+            "https://noticias.stf.jus.br/postsnoticias/stf-condena-acusados-pelo-assassinato-de-marielle-franco-e-anderson-gomes/",
+          tipo: "fonte-oficial",
+          publicadaEm: "2026-02-25",
+        },
+      ],
+
+      ultimaVerificacao: "2026-09-26",
     },
     {
       id: "2026-formacao-ufrj",
