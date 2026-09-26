@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import {
   buscarDossiePorCandidaturaId,
 } from "@/data/eleicoes/dossies";
@@ -9,6 +10,9 @@ import type {
 
 type CandidateDossierProps = {
   candidaturaId: string;
+  conteudoQuemE: ReactNode;
+  conteudoPatrimonio: ReactNode;
+  conteudoFontes: ReactNode;
 };
 
 const eixos: Array<{
@@ -39,42 +43,48 @@ const eixos: Array<{
       "Partidos, candidaturas, eleições, mandatos e funções.",
   },
   {
-    id: "exercicio-cargo",
+    id: "o-que-prometeu",
     numero: "4",
+    titulo: "O que prometeu",
+    descricao:
+      "Propostas e compromissos assumidos em campanha, com eleição e fonte.",
+  },
+  {
+    id: "exercicio-cargo",
+    numero: "5",
     titulo: "O que fez no exercício do cargo",
     descricao:
-      "Votações, proposições, comissões, funções e decisões.",
+      "Projetos, votações, decisões, atos e atuação durante os mandatos.",
   },
   {
     id: "patrimonio-atividades-economicas",
-    numero: "5",
+    numero: "6",
     titulo: "Patrimônio e atividades econômicas",
     descricao:
       "Bens declarados, evolução patrimonial e atividades econômicas documentadas.",
   },
   {
-    id: "acontecimentos-publicos",
-    numero: "6",
-    titulo: "Acontecimentos públicos",
+    id: "suspeitas-investigacoes-acusacoes",
+    numero: "7",
+    titulo: "Suspeitas, investigações e acusações",
     descricao:
-      "Reportagens, questionamentos, investigações, respostas e desdobramentos.",
+      "Registros documentados, com respostas e desfechos quando houver.",
   },
   {
     id: "o-que-diz-e-defende",
-    numero: "7",
+    numero: "8",
     titulo: "O que diz e o que defende",
     descricao:
       "Declarações, entrevistas, discursos e posições públicas.",
   },
   {
     id: "fontes-atualizacoes",
-    numero: "8",
+    numero: "9",
     titulo: "Fontes e atualizações",
     descricao:
       "Documentos, links, verificações, correções e novos desdobramentos.",
   },
 ];
-
 const rotulosNatureza:
   Record<NaturezaRegistro, string> = {
     documentado: "Documentado",
@@ -119,11 +129,26 @@ function hrefDoEixo(
     case "quem-e":
       return "#quem-e";
 
+    case "formacao-trabalho":
+      return "#formacao-trabalho";
+
+    case "caminho-politica":
+      return "#caminho-politica";
+
+    case "o-que-prometeu":
+      return "#o-que-prometeu";
+
     case "exercicio-cargo":
-      return "#linha-do-tempo";
+      return "#exercicio-cargo";
 
     case "patrimonio-atividades-economicas":
       return "#patrimonio";
+
+    case "suspeitas-investigacoes-acusacoes":
+      return "#suspeitas-investigacoes-acusacoes";
+
+    case "o-que-diz-e-defende":
+      return "#o-que-diz-e-defende";
 
     case "fontes-atualizacoes":
       return "#sobre-os-dados";
@@ -134,6 +159,9 @@ function hrefDoEixo(
 }
 export function CandidateDossier({
   candidaturaId,
+  conteudoQuemE,
+  conteudoPatrimonio,
+  conteudoFontes,
 }: CandidateDossierProps) {
 
   const dossie =
@@ -142,9 +170,73 @@ export function CandidateDossier({
     );
 
   if (!dossie) {
-    return null;
-  }
+    return (
+      <section
+        aria-label="Conteúdo da ficha do candidato"
+        className="border-t border-black/15 py-8 sm:py-10"
+      >
+        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
+          O que você encontra nesta ficha
+        </p>
 
+        <p className="mt-4 max-w-2xl text-sm leading-6 text-black/55 sm:text-base sm:leading-7">
+          Os mesmos itens são utilizados para todos os candidatos.
+          Abra um item para consultar as informações disponíveis.
+        </p>
+
+        <div className="mt-6 border-y border-black/10">
+          {eixos.map((eixo) => (
+            <details
+              key={eixo.id}
+              className="group/eixo border-b border-black/10 last:border-b-0"
+            >
+              <summary className="flex cursor-pointer list-none items-center gap-4 py-5 sm:py-6 [&::-webkit-details-marker]:hidden">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
+                  {eixo.numero}
+                </span>
+
+                <span className="min-w-0 flex-1 text-lg font-semibold tracking-[-0.02em]">
+                  {eixo.titulo}
+                </span>
+
+                <span
+                  aria-hidden="true"
+                  className="shrink-0 text-2xl font-light leading-none text-black/35 transition-transform group-open/eixo:rotate-45"
+                >
+                  +
+                </span>
+              </summary>
+
+              <div className="pb-6 pl-12 pr-4 sm:pb-7">
+                <p className="max-w-2xl text-sm leading-6 text-black/55">
+                  {eixo.descricao}
+                </p>
+
+                {eixo.id === "quem-e" ? (
+                  <>{conteudoQuemE}</>
+                ) : eixo.id === "patrimonio-atividades-economicas" ? (
+                  <>{conteudoPatrimonio}</>
+                ) : eixo.id === "fontes-atualizacoes" ? (
+                  <>{conteudoFontes}</>
+                ) : (
+                  <div className="mt-5 border-l-2 border-[#FFC400] pl-4">
+                    <p className="font-semibold">
+                      Informações em levantamento
+                    </p>
+
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-black/50">
+                      Ainda não há registros verificados incorporados
+                      a esta ficha para este item.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    );
+  }
   const eventos =
     [...dossie.eventos].sort(
       (a, b) =>
@@ -186,50 +278,102 @@ export function CandidateDossier({
         </p>
       </div>
 
-      {/* OITO EIXOS */}
+      {/* NOVE ITENS — ACORDEÃO */}
 
       <div className="mt-10">
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
           O que você encontra nesta ficha
         </p>
 
-        <div className="mt-5 grid gap-px overflow-hidden border border-black/10 bg-black/10 sm:grid-cols-2">
-          {eixos.map((eixo) => (
-            <a               key={eixo.id}
-              href={hrefDoEixo(eixo.id)}
-              className="group bg-[#eeeee9] p-5 transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-black sm:p-6"
-            >
-              <div className="flex items-start gap-4">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
-                  {eixo.numero}
-                </span>
+        <p className="mt-4 max-w-2xl text-sm leading-6 text-black/55">
+          Abra um item para consultar os registros relacionados.
+          A cronologia completa permanece disponível mais abaixo.
+        </p>
 
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-start justify-between gap-4">
-                    <h3 className="text-lg font-semibold tracking-[-0.02em]">
-                      {eixo.titulo}
-                    </h3>
+        <div className="mt-6 border-y border-black/10">
+          {eixos.map((eixo) => {
+            const registros =
+              eventos.filter((evento) =>
+                evento.eixos.includes(eixo.id),
+              );
 
-                    <span
-                      aria-hidden="true"
-                      className="shrink-0 text-lg leading-none text-black/30 transition-transform group-hover:translate-x-1 group-hover:text-black"
-                    >
-                      →
-                    </span>
-                  </div>
+            return (
+              <details
+                key={eixo.id}
+                className="group/eixo border-b border-black/10 last:border-b-0"
+              >
+                <summary className="flex cursor-pointer list-none items-center gap-4 py-5 sm:py-6 [&::-webkit-details-marker]:hidden">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
+                    {eixo.numero}
+                  </span>
 
-                  <p className="mt-2 text-sm leading-6 text-black/55">
+                  <span className="min-w-0 flex-1 text-lg font-semibold tracking-[-0.02em]">
+                    {eixo.titulo}
+                  </span>
+
+                  <span
+                    aria-hidden="true"
+                    className="shrink-0 text-2xl font-light leading-none text-black/35 transition-transform group-open/eixo:rotate-45"
+                  >
+                    +
+                  </span>
+                </summary>
+
+                <div className="pb-6 pl-12 pr-4 sm:pb-7">
+                  <p className="max-w-2xl text-sm leading-6 text-black/55">
                     {eixo.descricao}
                   </p>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
 
-        <p className="mt-3 text-xs leading-5 text-black/35">
-          Use os itens acima para navegar pela ficha.
-        </p>
+                  {eixo.id === "quem-e" ? (
+                    <>{conteudoQuemE}</>
+                  ) : eixo.id === "patrimonio-atividades-economicas" ? (
+                    <>{conteudoPatrimonio}</>
+                  ) : eixo.id === "fontes-atualizacoes" ? (
+                    <>{conteudoFontes}</>
+                  ) : registros.length > 0 ? (
+                    <div className="mt-5 divide-y divide-black/10 border-y border-black/10">
+                      {registros.map((evento) => (
+                        <a
+                          key={evento.id}
+                          href={`#evento-${evento.id}`}
+                          className="group/event flex items-start justify-between gap-6 py-4"
+                        >
+                          <div>
+                            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-black/40">
+                              {evento.data.rotulo}
+                            </p>
+
+                            <p className="mt-1 font-semibold leading-6">
+                              {evento.titulo}
+                            </p>
+                          </div>
+
+                          <span
+                            aria-hidden="true"
+                            className="shrink-0 text-lg text-black/30 transition-transform group-hover/event:translate-y-1 group-hover/event:text-black"
+                          >
+                            ↓
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="mt-5 border-l-2 border-[#FFC400] pl-4">
+                      <p className="font-semibold">
+                        Informações em levantamento
+                      </p>
+
+                      <p className="mt-2 max-w-2xl text-sm leading-6 text-black/50">
+                        Ainda não há registros verificados incorporados
+                        a esta ficha para este item.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </details>
+            );
+          })}
+        </div>
       </div>
       {/* LINHA DO TEMPO */}
 
@@ -256,6 +400,7 @@ export function CandidateDossier({
         <div className="mt-8 border-l border-black/20 pl-6 sm:pl-8">
           {eventos.map((evento) => (
             <article
+              id={`evento-${evento.id}`}
               key={evento.id}
               className="relative pb-12 last:pb-0"
             >

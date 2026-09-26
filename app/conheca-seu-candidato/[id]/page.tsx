@@ -335,15 +335,90 @@ const trajetoriaOrdenada =
             </div>
           </section>
           <CandidateDossier
-        candidaturaId={candidate.id}
-      />
+            candidaturaId={candidate.id}
+            conteudoQuemE={
+              <div className="mt-5 space-y-5">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
+                    Nome completo
+                  </p>
 
-      <section id="patrimonio" className="scroll-mt-8 border-t border-black/15 py-8 sm:py-10">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-              Patrimônio declarado
-            </p>
+                  <p className="mt-1 text-base font-semibold leading-7">
+                    {candidate.nomeCompleto}
+                  </p>
+                </div>
 
-            {patrimonio ? (
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
+                    Candidatura
+                  </p>
+
+                  <p className="mt-1 text-base leading-7 text-black/65">
+                    {cargo} · {candidate.siglaPartido} · nº {candidate.numero} · {candidate.uf}
+                  </p>
+                </div>
+
+                {mandatoAtualConhecido && (
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
+                      Mandato atual
+                    </p>
+
+                    <p className="mt-1 text-base leading-7 text-black/65">
+                      {formatarCargo(
+                        mandatoAtualConhecido.cargo,
+                      )}
+                      {mandatoAtualConhecido.uf
+                        ? ` · ${mandatoAtualConhecido.uf}`
+                        : ""}
+                      {mandatoAtualConhecido.inicio &&
+                      mandatoAtualConhecido.fim
+                        ? ` · ${mandatoAtualConhecido.inicio}–${mandatoAtualConhecido.fim}`
+                        : ""}
+                    </p>
+
+                    {mandatoAtualConhecido.fonte && (
+                      <a
+                        href={mandatoAtualConhecido.fonte.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-2 inline-block text-sm font-semibold underline decoration-black/25 underline-offset-4 hover:decoration-black"
+                      >
+                        {mandatoAtualConhecido.fonte.titulo} ↗
+                      </a>
+                    )}
+                  </div>
+                )}
+
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
+                    Dados eleitorais
+                  </p>
+
+                  <p className="mt-1 text-sm leading-6 text-black/55">
+                    Verificados em {formatarData(candidate.ultimaVerificacao)}.
+                  </p>
+
+                  <a
+                    href={candidate.fonteOficial}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-2 inline-block text-sm font-semibold underline decoration-black/25 underline-offset-4 hover:decoration-black"
+                  >
+                    Fonte oficial do TSE ↗
+                  </a>
+
+                  {mostrarSituacaoTse && (
+                    <p className="mt-2 text-sm leading-6 text-black/55">
+                      Situação no TSE: {situacaoTse}
+                    </p>
+                  )}
+                </div>
+              </div>
+            }
+            conteudoPatrimonio={
+              <>
+{patrimonio ? (
               <>
                 {evolucaoPatrimonial ? (
                   <>
@@ -444,44 +519,56 @@ const trajetoriaOrdenada =
                 )}
 
                 {patrimonio.bens.length > 0 && (
-                  <>
-                    <div className="mt-8">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-                        Bens declarados em 2026
-                      </p>
-                    </div>
+                  <details className="group/bens mt-8 border-y border-black/10">
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 [&::-webkit-details-marker]:hidden">
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
+                          Bens declarados em 2026
+                        </p>
 
-                    <div className="mt-4 divide-y divide-black/10 border-y border-black/10">
-                    {patrimonio.bens.map(
-                      (bem, index) => (
-                        <div
-                          key={`${bem.tipoCodigo}-${index}`}
-                          className="py-5"
-                        >
-                          <div className="flex items-start justify-between gap-6">
-                            <div>
-                              <p className="font-semibold">
-                                {bem.tipo}
-                              </p>
+                        <p className="mt-2 text-sm leading-6 text-black/55">
+                          {patrimonio.quantidadeDeBens} bens declarados — ver relação completa
+                        </p>
+                      </div>
 
-                              <p className="mt-1 max-w-xl text-sm leading-6 text-black/55">
-                                {bem.descricao}
+                      <span
+                        aria-hidden="true"
+                        className="shrink-0 text-2xl font-light leading-none text-black/35 transition-transform group-open/bens:rotate-45"
+                      >
+                        +
+                      </span>
+                    </summary>
+
+                    <div className="divide-y divide-black/10 border-t border-black/10">
+                      {patrimonio.bens.map(
+                        (bem, index) => (
+                          <div
+                            key={`${bem.tipoCodigo}-${index}`}
+                            className="py-5"
+                          >
+                            <div className="flex items-start justify-between gap-6">
+                              <div>
+                                <p className="font-semibold">
+                                  {bem.tipo}
+                                </p>
+
+                                <p className="mt-1 max-w-xl text-sm leading-6 text-black/55">
+                                  {bem.descricao}
+                                </p>
+                              </div>
+
+                              <p className="shrink-0 text-right font-semibold">
+                                {formatarReais(
+                                  bem.valor,
+                                )}
                               </p>
                             </div>
-
-                            <p className="shrink-0 text-right font-semibold">
-                              {formatarReais(
-                                bem.valor,
-                              )}
-                            </p>
                           </div>
-                        </div>
-                      ),
-                    )}
+                        ),
+                      )}
                     </div>
-                  </>
+                  </details>
                 )}
-
                 <p className="mt-5 text-sm leading-6 text-black/45">
                   {evolucaoPatrimonial
                     ? "Fonte: Tribunal Superior Eleitoral — bens declarados por candidatos em 2022 e 2026."
@@ -493,9 +580,23 @@ const trajetoriaOrdenada =
                 Não há informação patrimonial carregada nesta base para esta candidatura.
               </p>
             )}
-          </section>
+              </>
+            }
+            conteudoFontes={
+              <>
+<p className="mt-4 max-w-2xl text-base leading-7 text-black/60">
+              Cada informação apresentada nesta ficha deve estar associada a uma fonte identificável e, quando aplicável, à data de verificação. Fato, alegação, resposta, investigação e decisão são apresentados separadamente.
+            </p>
 
-          {trajetoriaAgrupada.length > 0 && (
+            <p className="mt-4 text-sm leading-6 text-black/45">
+              Identificador da candidatura no TSE: {candidate.id}
+            </p>
+              </>
+            }
+          />
+
+
+{trajetoriaAgrupada.length > 0 && (
             <section className="border-t border-black/15 py-8 sm:py-10">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
                 Trajetória política documentada
@@ -712,19 +813,7 @@ const trajetoriaOrdenada =
                 A ficha apresenta um resumo. Todos os registros disponíveis podem ser consultados nas páginas completas de votações e proposições.
               </p>
             </section>
-          )}<section id="sobre-os-dados" className="scroll-mt-8 border-t border-black/15 py-8 sm:py-10">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-              Sobre os dados
-            </p>
-
-            <p className="mt-4 max-w-2xl text-base leading-7 text-black/60">
-              Cada informação apresentada nesta ficha deve estar associada a uma fonte identificável e, quando aplicável, à data de verificação. Fato, alegação, resposta, investigação e decisão são apresentados separadamente.
-            </p>
-
-            <p className="mt-4 text-sm leading-6 text-black/45">
-              Identificador da candidatura no TSE: {candidate.id}
-            </p>
-          </section>
+          )}
 
           <section className="border-t border-black/15 py-8 sm:py-10">
             <Link

@@ -2,9 +2,16 @@ export const EIXOS_DOSSIE = [
   "quem-e",
   "formacao-trabalho",
   "caminho-politica",
+  "o-que-prometeu",
   "exercicio-cargo",
   "patrimonio-atividades-economicas",
+  "suspeitas-investigacoes-acusacoes",
+
+  // Classificação interna preservada para registros
+  // públicos que não pertencem necessariamente ao
+  // eixo de suspeitas, investigações ou acusações.
   "acontecimentos-publicos",
+
   "o-que-diz-e-defende",
   "fontes-atualizacoes",
 ] as const;
