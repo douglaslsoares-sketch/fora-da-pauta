@@ -56,3 +56,60 @@ A mesma matriz deve ser oferecida a todos os candidatos.
 
 A quantidade de informações disponíveis pode variar,
 mas os critérios de organização e verificação devem ser os mesmos.
+---
+
+## Ficha viva e atualização contínua
+
+Todas as Fichas do Candidato são documentos vivos e permanecem em
+atualização contínua.
+
+Esta regra se aplica igualmente a candidatos de todos os cargos,
+partidos, federações, coligações, estados e municípios abrangidos pelo
+projeto.
+
+Nenhuma ficha deve ser apresentada como completa, definitiva ou como
+reunião de tudo o que existe sobre determinada pessoa.
+
+A ficha apresenta as informações verificadas até as datas indicadas em
+seus registros e fontes.
+
+Novos documentos, declarações, atos públicos, investigações, respostas,
+decisões, correções e desdobramentos podem ser incorporados
+posteriormente.
+
+A incorporação de informação nova não apaga automaticamente registros
+anteriores. O histórico deve ser preservado para permitir a compreensão
+da trajetória ao longo do tempo.
+
+Correções devem substituir informações incorretas quando necessário,
+preservando registro suficiente da alteração quando isso for necessário
+para compreender a evolução documental.
+
+O método de pesquisa, verificação, atribuição, contextualização e
+apresentação deve ser o mesmo para todos os candidatos.
+
+O volume de informações já localizado ou já incorporado pode variar
+entre as fichas. Essa diferença não deve ser apresentada como medida de
+importância, gravidade, mérito, demérito ou qualidade de um candidato.
+
+O Fora da Pauta não classifica atualizações como "relevantes",
+"irrelevantes", "importantes" ou "sem importância".
+
+A atualização é registrada de acordo com sua natureza documental.
+A avaliação de seu significado cabe ao leitor.
+
+Quando uma ficha for atualizada, a alteração poderá ser comunicada pelo
+canal do Fora da Pauta no Telegram.
+
+### Texto público padrão
+
+> **Ficha em atualização contínua**
+>
+> Esta ficha reúne informações verificadas até as datas indicadas nos
+> registros e nas fontes. Novos documentos, declarações, investigações,
+> respostas, decisões, correções e desdobramentos podem ser incorporados
+> posteriormente.
+>
+> Registros anteriores são preservados para manter a trajetória
+> documental. Quando a ficha for atualizada, a alteração poderá ser
+> comunicada pelo canal do Fora da Pauta no Telegram.

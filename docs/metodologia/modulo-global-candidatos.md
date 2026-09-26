@@ -1,4 +1,4 @@
-﻿# Módulo Global de Candidatos
+# Módulo Global de Candidatos
 
 ## Finalidade
 
@@ -398,3 +398,30 @@ o contexto.
 
 Esses princípios orientam a coleta, organização, atualização,
 apresentação e auditoria das informações do Módulo Global de Candidatos.
+---
+
+## Regra global de ficha viva
+
+A Ficha do Candidato é mantida em atualização contínua para qualquer
+cargo e qualquer filiação partidária.
+
+Nenhuma ficha é tratada como completa ou definitiva.
+
+Informações verificadas, correções e novos desdobramentos podem ser
+incorporados posteriormente sem apagar a trajetória documental
+anterior.
+
+O mesmo método deve ser aplicado a todas as pessoas pesquisadas.
+
+A quantidade de registros disponíveis ou já incorporados não constitui
+avaliação do candidato.
+
+O sistema não classifica uma atualização como relevante, irrelevante,
+importante ou sem importância.
+
+Quando uma ficha for atualizada, a alteração poderá ser comunicada pelo
+canal do Fora da Pauta no Telegram.
+
+A redação pública e os critérios detalhados estão definidos em:
+
+`docs/metodologia/matriz-ficha-candidato.md`

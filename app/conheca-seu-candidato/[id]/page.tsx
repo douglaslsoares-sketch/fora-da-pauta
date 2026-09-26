@@ -308,6 +308,32 @@ const trajetoriaOrdenada =
       <div className="px-5 py-8 sm:px-8 sm:py-12">
         <div className="mx-auto w-full max-w-3xl">
 
+          {/* FICHA VIVA — REGRA GLOBAL */}
+          <section
+            aria-label="Situação da ficha"
+            className="border-t border-black/15 py-8 sm:py-10"
+          >
+            <div className="border-l-4 border-[#FFC400] pl-5 sm:pl-6">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/45">
+                Ficha em atualização contínua
+              </p>
+
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-black/60 sm:text-base sm:leading-7">
+                Esta ficha reúne informações verificadas até as datas
+                indicadas nos registros e nas fontes. Novos documentos,
+                declarações, investigações, respostas, decisões,
+                correções e desdobramentos podem ser incorporados
+                posteriormente.
+              </p>
+
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-black/50">
+                Registros anteriores são preservados para manter a
+                trajetória documental. Quando a ficha for atualizada,
+                a alteração poderá ser comunicada pelo canal do
+                Fora da Pauta no Telegram.
+              </p>
+            </div>
+          </section>
           <CandidateDossier
         candidaturaId={candidate.id}
       />
@@ -692,7 +718,7 @@ const trajetoriaOrdenada =
             </p>
 
             <p className="mt-4 max-w-2xl text-base leading-7 text-black/60">
-              Esta ficha reúne informações acompanhadas de fonte identificável. Novos documentos podem ser incorporados à medida que forem verificados.
+              Cada informação apresentada nesta ficha deve estar associada a uma fonte identificável e, quando aplicável, à data de verificação. Fato, alegação, resposta, investigação e decisão são apresentados separadamente.
             </p>
 
             <p className="mt-4 text-sm leading-6 text-black/45">
