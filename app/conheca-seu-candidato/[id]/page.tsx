@@ -416,6 +416,227 @@ const trajetoriaOrdenada =
                 </div>
               </div>
             }
+            conteudoCaminhoPolitica={
+              trajetoriaAgrupada.length > 0 ? (
+                <div className="mt-5">
+                              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
+                                Trajetória política documentada
+                              </p>
+
+                              <div className="mt-6 border-l border-black/20 pl-6">
+                                {trajetoriaAgrupada.map(
+                                  (item, index) => (
+                                    <article
+                                      key={`${item.titulo}-${item.periodos.join("-") || index}`}
+                                      className="relative pb-9 last:pb-0"
+                                    >
+
+                                      {item.periodos.length > 0 && (
+                                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
+                                          {item.periodos.length === 1
+                                            ? formatarPeriodoTrajetoria(
+                                                item.periodos[0],
+                                              )
+                                            : `Registros na Câmara: ${item.periodos
+                                                .map(
+                                                  formatarPeriodoTrajetoria,
+                                                )
+                                                .join(" · ")}`}
+                                        </p>
+                                      )}
+
+                                      <h2 className="mt-1 text-xl font-semibold tracking-[-0.025em]">
+                                        {item.titulo}
+                                      </h2>
+
+                                      {item.descricao && (
+                                        <p className="mt-2 max-w-2xl text-base leading-7 text-black/60">
+                                          {item.descricao}
+                                        </p>
+                                      )}
+
+                                      <a
+                                        href={item.fonte.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="mt-3 inline-flex text-sm font-semibold underline underline-offset-4"
+                                      >
+                                        {item.fonte.titulo} ↗
+                                      </a>
+                                    </article>
+                                  ),
+                                )}
+                              </div>
+                            </div>
+              ) : null
+            }
+            conteudoExercicioCargo={
+              atuacaoPolitica ? (
+                <div className="mt-5">
+                              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
+                                Atuação política documentada
+                              </p>
+
+                              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                                <div className="border border-black/10 p-5">
+                                  <p className="text-xs uppercase tracking-[0.18em] text-black/40">
+                                    Votações nominais
+                                  </p>
+
+                                  <p className="mt-2 text-3xl font-semibold tracking-[-0.04em]">
+                                    {atuacaoPolitica.totalVotacoes}
+                                  </p>
+
+                                  <p className="mt-2 text-sm text-black/45">
+                                    registros documentados
+                                  </p>
+                                </div>
+
+                                <div className="border border-black/10 p-5">
+                                  <p className="text-xs uppercase tracking-[0.18em] text-black/40">
+                                    Proposições
+                                  </p>
+
+                                  <p className="mt-2 text-3xl font-semibold tracking-[-0.04em]">
+                                    {atuacaoPolitica.totalProposicoes}
+                                  </p>
+
+                                  <p className="mt-2 text-sm text-black/45">
+                                    com vínculo oficial de autoria
+                                  </p>
+                                </div>
+                              </div>
+
+                              {atuacaoPolitica.votacoesRecentes.length > 0 && (
+                                <div className="mt-9">
+                                  <div className="flex flex-wrap items-end justify-between gap-4">
+                                    <div>
+                                      <h2 className="text-2xl font-semibold tracking-[-0.035em]">
+                                        Votações nominais recentes
+                                      </h2>
+
+                                      <p className="mt-2 text-sm text-black/45">
+                                        Cinco registros mais recentes.
+                                      </p>
+                                    </div>
+
+                                    <Link
+                                      href={`/conheca-seu-candidato/${candidate.id}/votacoes`}
+                                      className="text-sm font-semibold underline underline-offset-4"
+                                    >
+                                      Ver todas as {atuacaoPolitica.totalVotacoes} votações →
+                                    </Link>
+                                  </div>
+
+                                  <div className="mt-4 divide-y divide-black/10 border-y border-black/10">
+                                    {atuacaoPolitica.votacoesRecentes.map(
+                                      (item) => (
+                                        <article
+                                          key={item.votacaoId}
+                                          className="py-5"
+                                        >
+                                          <div className="flex flex-wrap items-baseline justify-between gap-3">
+                                            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
+                                              {formatarData(item.data)}
+                                            </p>
+
+                                            <p className="text-sm font-semibold">
+                                              Voto registrado: {item.voto}
+                                            </p>
+                                          </div>
+
+                                          <p className="mt-3 text-base leading-7 text-black/65">
+                                            {item.descricao}
+                                          </p>
+
+                                          <a
+                                            href={item.fonte.url}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="mt-3 inline-flex text-sm font-semibold underline underline-offset-4"
+                                          >
+                                            Câmara dos Deputados ↗
+                                          </a>
+                                        </article>
+                                      ),
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+
+                              {atuacaoPolitica.proposicoesRecentes.length > 0 && (
+                                <div className="mt-10">
+                                  <div className="flex flex-wrap items-end justify-between gap-4">
+                                    <div>
+                                      <h2 className="text-2xl font-semibold tracking-[-0.035em]">
+                                        Proposições recentes
+                                      </h2>
+
+                                      <p className="mt-2 text-sm text-black/45">
+                                        Cinco registros mais recentes.
+                                      </p>
+                                    </div>
+
+                                    <Link
+                                      href={`/conheca-seu-candidato/${candidate.id}/proposicoes`}
+                                      className="text-sm font-semibold underline underline-offset-4"
+                                    >
+                                      Ver todas as {atuacaoPolitica.totalProposicoes} proposições →
+                                    </Link>
+                                  </div>
+
+                                  <div className="mt-4 divide-y divide-black/10 border-y border-black/10">
+                                    {atuacaoPolitica.proposicoesRecentes.map(
+                                      (item) => (
+                                        <article
+                                          key={item.proposicaoId}
+                                          className="py-5"
+                                        >
+                                          <div className="flex flex-wrap items-baseline justify-between gap-3">
+                                            <p className="font-semibold">
+                                              {item.identificacao}
+                                            </p>
+
+                                            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
+                                              {formatarData(
+                                                item.data.slice(0, 10),
+                                              )}
+                                            </p>
+                                          </div>
+
+                                          <p className="mt-1 text-sm text-black/45">
+                                            {item.descricaoTipo}
+                                          </p>
+
+                                          <p className="mt-3 text-base leading-7 text-black/65">
+                                            {item.ementa}
+                                          </p>
+
+                                          <p className="mt-3 text-xs font-semibold uppercase tracking-[0.12em] text-black/40">
+                                            {item.papel}
+                                          </p>
+
+                                          <a
+                                            href={item.fonte.url}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="mt-3 inline-flex text-sm font-semibold underline underline-offset-4"
+                                          >
+                                            Câmara dos Deputados ↗
+                                          </a>
+                                        </article>
+                                      ),
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+
+                              <p className="mt-6 text-xs leading-5 text-black/40">
+                                A ficha apresenta um resumo. Todos os registros disponíveis podem ser consultados nas páginas completas de votações e proposições.
+                              </p>
+                            </div>
+              ) : null
+            }
             conteudoPatrimonio={
               <>
 {patrimonio ? (
@@ -596,226 +817,7 @@ const trajetoriaOrdenada =
           />
 
 
-{trajetoriaAgrupada.length > 0 && (
-            <section className="border-t border-black/15 py-8 sm:py-10">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-                Trajetória política documentada
-              </p>
-
-              <div className="mt-6 border-l border-black/20 pl-6">
-                {trajetoriaAgrupada.map(
-                  (item, index) => (
-                    <article
-                      key={`${item.titulo}-${item.periodos.join("-") || index}`}
-                      className="relative pb-9 last:pb-0"
-                    >
-
-                      {item.periodos.length > 0 && (
-                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
-                          {item.periodos.length === 1
-                            ? formatarPeriodoTrajetoria(
-                                item.periodos[0],
-                              )
-                            : `Registros na Câmara: ${item.periodos
-                                .map(
-                                  formatarPeriodoTrajetoria,
-                                )
-                                .join(" · ")}`}
-                        </p>
-                      )}
-
-                      <h2 className="mt-1 text-xl font-semibold tracking-[-0.025em]">
-                        {item.titulo}
-                      </h2>
-
-                      {item.descricao && (
-                        <p className="mt-2 max-w-2xl text-base leading-7 text-black/60">
-                          {item.descricao}
-                        </p>
-                      )}
-
-                      <a
-                        href={item.fonte.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="mt-3 inline-flex text-sm font-semibold underline underline-offset-4"
-                      >
-                        {item.fonte.titulo} ↗
-                      </a>
-                    </article>
-                  ),
-                )}
-              </div>
-            </section>
-          )}
-
-          {atuacaoPolitica && (
-            <section id="atuacao-politica" className="scroll-mt-8 border-t border-black/15 py-8 sm:py-10">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-                Atuação política documentada
-              </p>
-
-              <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                <div className="border border-black/10 p-5">
-                  <p className="text-xs uppercase tracking-[0.18em] text-black/40">
-                    Votações nominais
-                  </p>
-
-                  <p className="mt-2 text-3xl font-semibold tracking-[-0.04em]">
-                    {atuacaoPolitica.totalVotacoes}
-                  </p>
-
-                  <p className="mt-2 text-sm text-black/45">
-                    registros documentados
-                  </p>
-                </div>
-
-                <div className="border border-black/10 p-5">
-                  <p className="text-xs uppercase tracking-[0.18em] text-black/40">
-                    Proposições
-                  </p>
-
-                  <p className="mt-2 text-3xl font-semibold tracking-[-0.04em]">
-                    {atuacaoPolitica.totalProposicoes}
-                  </p>
-
-                  <p className="mt-2 text-sm text-black/45">
-                    com vínculo oficial de autoria
-                  </p>
-                </div>
-              </div>
-
-              {atuacaoPolitica.votacoesRecentes.length > 0 && (
-                <div className="mt-9">
-                  <div className="flex flex-wrap items-end justify-between gap-4">
-                    <div>
-                      <h2 className="text-2xl font-semibold tracking-[-0.035em]">
-                        Votações nominais recentes
-                      </h2>
-
-                      <p className="mt-2 text-sm text-black/45">
-                        Cinco registros mais recentes.
-                      </p>
-                    </div>
-
-                    <Link
-                      href={`/conheca-seu-candidato/${candidate.id}/votacoes`}
-                      className="text-sm font-semibold underline underline-offset-4"
-                    >
-                      Ver todas as {atuacaoPolitica.totalVotacoes} votações →
-                    </Link>
-                  </div>
-
-                  <div className="mt-4 divide-y divide-black/10 border-y border-black/10">
-                    {atuacaoPolitica.votacoesRecentes.map(
-                      (item) => (
-                        <article
-                          key={item.votacaoId}
-                          className="py-5"
-                        >
-                          <div className="flex flex-wrap items-baseline justify-between gap-3">
-                            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
-                              {formatarData(item.data)}
-                            </p>
-
-                            <p className="text-sm font-semibold">
-                              Voto registrado: {item.voto}
-                            </p>
-                          </div>
-
-                          <p className="mt-3 text-base leading-7 text-black/65">
-                            {item.descricao}
-                          </p>
-
-                          <a
-                            href={item.fonte.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="mt-3 inline-flex text-sm font-semibold underline underline-offset-4"
-                          >
-                            Câmara dos Deputados ↗
-                          </a>
-                        </article>
-                      ),
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {atuacaoPolitica.proposicoesRecentes.length > 0 && (
-                <div className="mt-10">
-                  <div className="flex flex-wrap items-end justify-between gap-4">
-                    <div>
-                      <h2 className="text-2xl font-semibold tracking-[-0.035em]">
-                        Proposições recentes
-                      </h2>
-
-                      <p className="mt-2 text-sm text-black/45">
-                        Cinco registros mais recentes.
-                      </p>
-                    </div>
-
-                    <Link
-                      href={`/conheca-seu-candidato/${candidate.id}/proposicoes`}
-                      className="text-sm font-semibold underline underline-offset-4"
-                    >
-                      Ver todas as {atuacaoPolitica.totalProposicoes} proposições →
-                    </Link>
-                  </div>
-
-                  <div className="mt-4 divide-y divide-black/10 border-y border-black/10">
-                    {atuacaoPolitica.proposicoesRecentes.map(
-                      (item) => (
-                        <article
-                          key={item.proposicaoId}
-                          className="py-5"
-                        >
-                          <div className="flex flex-wrap items-baseline justify-between gap-3">
-                            <p className="font-semibold">
-                              {item.identificacao}
-                            </p>
-
-                            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
-                              {formatarData(
-                                item.data.slice(0, 10),
-                              )}
-                            </p>
-                          </div>
-
-                          <p className="mt-1 text-sm text-black/45">
-                            {item.descricaoTipo}
-                          </p>
-
-                          <p className="mt-3 text-base leading-7 text-black/65">
-                            {item.ementa}
-                          </p>
-
-                          <p className="mt-3 text-xs font-semibold uppercase tracking-[0.12em] text-black/40">
-                            {item.papel}
-                          </p>
-
-                          <a
-                            href={item.fonte.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="mt-3 inline-flex text-sm font-semibold underline underline-offset-4"
-                          >
-                            Câmara dos Deputados ↗
-                          </a>
-                        </article>
-                      ),
-                    )}
-                  </div>
-                </div>
-              )}
-
-              <p className="mt-6 text-xs leading-5 text-black/40">
-                A ficha apresenta um resumo. Todos os registros disponíveis podem ser consultados nas páginas completas de votações e proposições.
-              </p>
-            </section>
-          )}
-
-          <section className="border-t border-black/15 py-8 sm:py-10">
+<section className="border-t border-black/15 py-8 sm:py-10">
             <Link
               href="/conheca-seu-candidato"
               className="font-semibold underline underline-offset-4"

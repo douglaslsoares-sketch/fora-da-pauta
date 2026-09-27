@@ -5,7 +5,7 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
 
   nome: "Flávio Bolsonaro",
 
-  atualizadoEm: "2026-09-26",
+  atualizadoEm: "2026-09-27",
 
   emPoucasLinhas:
     "Flávio Nantes Bolsonaro nasceu em Resende (RJ), em 1981. " +
@@ -14,6 +14,196 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
     "Esta ficha organiza cronologicamente informações documentadas, publicações, " +
     "questionamentos, respostas e desdobramentos posteriores.",
 
+  promessas: [
+    {
+      id: "2026-presidente-servicos-publicos-digitais",
+
+      eleicao: "Eleições 2026",
+
+      cargo: "Presidente da República",
+
+      classificacao: {
+        macrotema:
+          "Governança, Transparência e Reformas de Estado",
+        assunto:
+          "100% dos serviços públicos digitalizados",
+        origem:
+          "Tribunal Superior Eleitoral",
+      },
+
+      titulo:
+        "Digitalizar os serviços públicos federais passíveis de digitalização",
+
+      compromisso:
+        "O plano de governo propõe digitalizar 100% dos serviços públicos do Governo Federal passíveis de digitalização e eliminar a exigência de reapresentação de documentos que o Estado já possui.",
+
+      origem:
+        "Plano de governo apresentado à Justiça Eleitoral",
+
+      referencia:
+        "Página 25, conforme o índice temático disponibilizado pelo TSE.",
+
+      oQueAFontePermiteAfirmar: [
+        "O plano estabelece a meta de digitalizar 100% dos serviços públicos federais que sejam passíveis de digitalização.",
+        "O documento também propõe eliminar a reapresentação de documentos quando a informação já estiver disponível ao Estado.",
+      ],
+
+      criteriosDeAcompanhamento: [
+        "Percentual dos serviços públicos federais passíveis de digitalização efetivamente digitalizados.",
+        "Existência de medidas para evitar a reapresentação de documentos já disponíveis ao poder público.",
+      ],
+
+      fontes: [
+        {
+          id: "tse-flavio-propostas-2026",
+          titulo:
+            "Flavio Bolsonaro — Propostas de Governo",
+          veiculoOuInstituicao:
+            "Tribunal Superior Eleitoral",
+          url:
+            "https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/flavio-bolsonaro",
+          tipo: "fonte-oficial",
+        },
+        {
+          id: "tse-plano-flavio-2026-pdf",
+          titulo:
+            "Diretrizes — Plano de Governo Flávio Bolsonaro 2027–2030",
+          veiculoOuInstituicao:
+            "Tribunal Superior Eleitoral",
+          url:
+            "https://www.tse.jus.br/eleicoes/eleicoes-2026-content/arquivos/proposta-pl/@@display-file/file/proposta-pl.pdf",
+          tipo: "documento",
+        },
+      ],
+
+      ultimaVerificacao: "2026-09-27",
+    },
+
+    {
+      id: "2026-presidente-prontuario-eletronico-unico",
+
+      eleicao: "Eleições 2026",
+
+      cargo: "Presidente da República",
+
+      classificacao: {
+        macrotema:
+          "Saúde Pública e Assistência",
+        assunto:
+          "Prontuário eletrônico único",
+        origem:
+          "Tribunal Superior Eleitoral",
+      },
+
+      titulo:
+        "Implantar prontuário eletrônico único",
+
+      compromisso:
+        "O plano propõe implantar prontuário eletrônico único vinculado ao CPF e integrado ao Gov.br, interoperável entre redes pública e privada e com histórico de consultas, exames, vacinas e prescrições.",
+
+      origem:
+        "Plano de governo apresentado à Justiça Eleitoral",
+
+      referencia:
+        "Seção Saúde digital e prontuário eletrônico único, página 25 do plano.",
+
+      oQueAFontePermiteAfirmar: [
+        "O documento propõe um prontuário eletrônico único vinculado ao CPF e integrado ao Gov.br.",
+        "O plano prevê interoperabilidade entre as redes pública e privada.",
+        "A proposta menciona histórico de consultas, exames, vacinas e prescrições e afirma que devem ser observados consentimento, LGPD, sigilo médico e protocolos de segurança.",
+      ],
+
+      criteriosDeAcompanhamento: [
+        "Existência e implantação nacional do prontuário eletrônico único descrito no plano.",
+        "Integração efetiva entre sistemas das redes pública e privada.",
+        "Abrangência dos dados de saúde previstos no compromisso.",
+      ],
+
+      fontes: [
+        {
+          id: "tse-flavio-propostas-2026",
+          titulo:
+            "Flavio Bolsonaro — Propostas de Governo",
+          veiculoOuInstituicao:
+            "Tribunal Superior Eleitoral",
+          url:
+            "https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/flavio-bolsonaro",
+          tipo: "fonte-oficial",
+        },
+        {
+          id: "tse-plano-flavio-2026-pdf",
+          titulo:
+            "Diretrizes — Plano de Governo Flávio Bolsonaro 2027–2030",
+          veiculoOuInstituicao:
+            "Tribunal Superior Eleitoral",
+          url:
+            "https://www.tse.jus.br/eleicoes/eleicoes-2026-content/arquivos/proposta-pl/@@display-file/file/proposta-pl.pdf",
+          tipo: "documento",
+        },
+      ],
+
+      ultimaVerificacao: "2026-09-27",
+    },
+
+    {
+      id: "2026-presidente-fim-reeleicao",
+
+      eleicao: "Eleições 2026",
+
+      cargo: "Presidente da República",
+
+      classificacao: {
+        macrotema:
+          "Governança, Transparência e Reformas de Estado",
+        assunto:
+          "Fim da reeleição",
+        origem:
+          "Tribunal Superior Eleitoral",
+      },
+
+      titulo:
+        "Propor o fim da reeleição para presidente da República",
+
+      compromisso:
+        "O plano de governo propõe o fim da reeleição para o cargo de Presidente da República.",
+
+      origem:
+        "Plano de governo apresentado à Justiça Eleitoral",
+
+      referencia:
+        "Seção Reforma política, página 66 conforme o índice temático do TSE.",
+
+      oQueAFontePermiteAfirmar: [
+        "O plano apresenta expressamente o fim da reeleição para Presidente da República como proposta da candidatura.",
+        "O próprio documento registra a existência de proposta legislativa relacionada ao tema.",
+      ],
+
+      fontes: [
+        {
+          id: "tse-flavio-propostas-2026",
+          titulo:
+            "Flavio Bolsonaro — Propostas de Governo",
+          veiculoOuInstituicao:
+            "Tribunal Superior Eleitoral",
+          url:
+            "https://www.tse.jus.br/eleicoes/eleicoes-2026-content/propostas-de-governo-dos-candidatos-ao-cargo-de-presidente-da-republica-eleicoes-2026/flavio-bolsonaro",
+          tipo: "fonte-oficial",
+        },
+        {
+          id: "tse-plano-flavio-2026-pdf",
+          titulo:
+            "Diretrizes — Plano de Governo Flávio Bolsonaro 2027–2030",
+          veiculoOuInstituicao:
+            "Tribunal Superior Eleitoral",
+          url:
+            "https://www.tse.jus.br/eleicoes/eleicoes-2026-content/arquivos/proposta-pl/@@display-file/file/proposta-pl.pdf",
+          tipo: "documento",
+        },
+      ],
+
+      ultimaVerificacao: "2026-09-27",
+    },
+  ],
   eventos: [
     {
       id: "1981-nascimento",
@@ -193,7 +383,6 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
       eixos: [
         "formacao-trabalho",
         "caminho-politica",
-        "exercicio-cargo",
         "fontes-atualizacoes",
       ],
 
@@ -593,7 +782,6 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
         "Em discurso no plenário da Alerj, Flávio Bolsonaro apresentou sua posição sobre as milícias. Argumentou contra a generalização desses grupos e afirmou que, em determinadas comunidades, policiais locais poderiam proporcionar segurança aos moradores.",
 
       eixos: [
-        "exercicio-cargo",
         "acontecimentos-publicos",
         "o-que-diz-e-defende",
         "fontes-atualizacoes",
@@ -646,6 +834,7 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
 
       eixos: [
         "exercicio-cargo",
+        "suspeitas-investigacoes-acusacoes",
         "acontecimentos-publicos",
         "fontes-atualizacoes",
       ],
@@ -809,8 +998,8 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
         "Flávio Bolsonaro foi designado relator de uma comissão especial da Alerj criada para acompanhar o cumprimento das leis estaduais. Em junho, apresentou relatório parcial que concluiu pela apresentação de seis projetos de lei.",
 
       eixos: [
-        "exercicio-cargo",
         "caminho-politica",
+        "exercicio-cargo",
         "fontes-atualizacoes",
       ],
 
@@ -924,7 +1113,6 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
 
       eixos: [
         "exercicio-cargo",
-        "o-que-diz-e-defende",
         "fontes-atualizacoes",
       ],
 
@@ -974,7 +1162,6 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
 
       eixos: [
         "exercicio-cargo",
-        "o-que-diz-e-defende",
         "fontes-atualizacoes",
       ],
 
@@ -1093,7 +1280,6 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
 
       eixos: [
         "exercicio-cargo",
-        "o-que-diz-e-defende",
         "fontes-atualizacoes",
       ],
 
@@ -1203,7 +1389,6 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
 
       eixos: [
         "exercicio-cargo",
-        "o-que-diz-e-defende",
         "fontes-atualizacoes",
       ],
 
@@ -1253,7 +1438,6 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
 
       eixos: [
         "caminho-politica",
-        "exercicio-cargo",
         "fontes-atualizacoes",
       ],
 
@@ -1313,7 +1497,7 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
         "O Ministério Público do Rio denunciou Flávio Bolsonaro, Fabrício Queiroz e outros investigados por suposto esquema de devolução de salários no antigo gabinete da Alerj. Posteriormente, decisões do STF e do STJ invalidaram elementos probatórios usados na acusação, e o Tribunal de Justiça do Rio rejeitou a denúncia em 2022.",
 
       eixos: [
-        "exercicio-cargo",
+        "suspeitas-investigacoes-acusacoes",
         "acontecimentos-publicos",
         "fontes-atualizacoes",
       ],
@@ -1402,13 +1586,14 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
       },
 
       titulo:
-        "Assessora do gabinete trata de emenda com Robson Calixto, posteriormente condenado por organização criminosa armada",
+        "Assessora do gabinete trata de emenda com Robson Calixto",
 
       resumo:
         "Mensagens obtidas pela Polícia Federal e reveladas em 2026 mostram uma assessora do gabinete de Flávio Bolsonaro tratando, em 2023, com Robson Calixto, o Peixe, da liberação de recursos para um projeto esportivo. Flávio destinou R$ 199 mil ao projeto. Em 2026, Calixto foi condenado pelo STF por integrar organização criminosa armada.",
 
       eixos: [
         "exercicio-cargo",
+        "suspeitas-investigacoes-acusacoes",
         "acontecimentos-publicos",
         "fontes-atualizacoes",
       ],
@@ -1609,6 +1794,7 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
         "O ministro André Mendonça determinou a abertura de inquérito para apurar a participação de Flávio Bolsonaro em supostos crimes relacionados ao financiamento do filme Dark Horse. A inclusão do senador como investigado ocorreu em julho e tornou-se pública posteriormente.",
 
       eixos: [
+        "suspeitas-investigacoes-acusacoes",
         "acontecimentos-publicos",
         "fontes-atualizacoes",
       ],
@@ -1640,6 +1826,121 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
       ],
 
       ultimaVerificacao: "2026-09-25",
+    },
+    {
+      id: "2026-04-06-entrevista-milicias-contexto-2007",
+
+      data: {
+        inicio: "2026-04-06",
+        rotulo: "6 de abril de 2026",
+      },
+
+      titulo:
+        "Explica em entrevista como interpreta seu discurso de 2007 sobre milícias",
+
+      resumo:
+        "Em entrevista ao podcast Inteligência Ltda., Flávio Bolsonaro retomou seu discurso de 2007 sobre milícias. Afirmou que, naquele contexto, defendia a legitimidade de policiais que impediam a atuação do tráfico perto de onde moravam e disse que não defendia práticas posteriores de exploração de moradores por grupos milicianos.",
+
+      tema: "Milícias e segurança pública",
+
+      tipoManifestacao: "entrevista",
+
+      contextoManifestacao:
+        "Entrevista concedida ao podcast Inteligência Ltda., episódio #1806, em conversa com Rogério Vilela. O tema aparece no trecho próximo de 1h37min do programa, quando o entrevistador pergunta sobre o discurso feito por Flávio Bolsonaro na Alerj em 2007.",
+
+      eixos: [
+        "acontecimentos-publicos",
+        "o-que-diz-e-defende",
+        "fontes-atualizacoes",
+      ],
+
+      natureza: [
+        "documentado",
+      ],
+
+      fatoDocumentado: [
+        "A entrevista de 2026 está disponível integralmente no canal oficial do Inteligência Ltda.",
+        "A Assembleia Legislativa do Estado do Rio de Janeiro mantém a transcrição oficial do discurso de Flávio Bolsonaro realizado em 7 de fevereiro de 2007.",
+      ],
+
+      oQueFoiPublicadoOuQuestionado: [
+        {
+          atribuicao:
+            "Flávio Bolsonaro — entrevista ao Inteligência Ltda.",
+          texto:
+            "Ao explicar seu posicionamento de 2007, afirmou que o termo milícia era aplicado naquele contexto a situações envolvendo policiais que protegiam os locais onde moravam e disse que sua defesa se referia à legitimidade desses policiais, não a práticas de exploração econômica de moradores.",
+        },
+      ],
+
+      verificacaoDocumental: {
+        afirmacoesVerificaveis: [
+          "Se o discurso oficial de 2007 mostra uma defesa de policiais organizados em comunidades sob a justificativa de combate ao crime.",
+          "Se o registro de 2007 distingue essa atuação de abusos cometidos por policiais.",
+          "Se o discurso de 2007 sustenta a explicação posterior de que qualquer prédio ou rua com poucos policiais residentes era então considerado uma milícia.",
+          "Se o discurso de 2007 contém defesa explícita de cobranças coercitivas por serviços praticadas posteriormente por grupos milicianos.",
+        ],
+
+        sintese:
+          "A transcrição oficial da Alerj confirma que, em 2007, Flávio Bolsonaro distinguiu policiais que cometiam atrocidades de grupos que descrevia como formados por policiais e defendeu aspectos da atuação desses grupos em comunidades. O discurso atribuiu benefícios a essa atuação e criticou o que considerava perseguição às milícias. No registro oficial consultado, porém, não aparece a formulação posterior de que qualquer prédio ou rua com poucos policiais era automaticamente considerado milícia. Também não foi localizada, nesse discurso, defesa explícita de cobranças coercitivas por gás, internet ou outros serviços.",
+
+        evidenciasQueSustentam: [
+          "No discurso de 7 de fevereiro de 2007, Flávio Bolsonaro descreveu as milícias como grupos de policiais organizados e afirmou que via benefícios na atuação que atribuía a esses grupos.",
+          "O discurso separou policiais que praticavam atrocidades daqueles que, segundo sua descrição, atuavam para impedir a presença de criminosos nas comunidades.",
+          "Ele também defendeu que não se generalizasse a conduta abusiva de alguns policiais para todos os grupos que estava descrevendo.",
+        ],
+
+        evidenciasQueLimitamOuContrariam: [
+          "A transcrição oficial de 2007 apresenta uma definição mais específica de milícia, envolvendo grupos de policiais organizados sob determinada hierarquia e disciplina; não traz a formulação de que qualquer prédio ou rua com alguns policiais residentes fosse, por esse simples fato, chamado de milícia.",
+          "O registro de 2007 contém manifestações expressamente favoráveis a aspectos da atuação desses grupos, incluindo referência a benefícios e crítica ao que Flávio Bolsonaro considerava perseguição contra eles. Esse contexto é relevante para interpretar a explicação apresentada em 2026.",
+        ],
+
+        naoFoiPossivelConfirmar: [
+          "Com as fontes consultadas neste registro, não foi possível estabelecer se, em 2007, autoridades, imprensa ou população utilizavam de forma generalizada o termo milícia para qualquer prédio ou rua onde residissem alguns policiais.",
+        ],
+
+        fontes: [
+          {
+            id: "alerj-discurso-flavio-2007-02-07-verificacao",
+            titulo:
+              "Discurso de Flávio Bolsonaro — sessão de 7 de fevereiro de 2007",
+            veiculoOuInstituicao:
+              "Assembleia Legislativa do Estado do Rio de Janeiro",
+            url:
+              "https://www3.alerj.rj.gov.br/lotus_notes/default.asp?id=58&url=L3RhcWFsZXJqMjAwNi5uc2YvOGI5OWNhMzhlMDc4MjZkYjAzMjU2NTMwMDA0NmZkZjEvYzcyYWY4ODI5NTQwZWFkZDgzMjU3YjZiMDA2MjUyOTk%2FT3BlbkRvY3VtZW50JkV4cGFuZFNlY3Rpb249MSNfU2VjdGlvbjE%3D",
+            tipo: "fonte-oficial",
+            publicadaEm: "2007-02-07",
+          },
+        ],
+
+        verificadoEm: "2026-09-27",
+      },
+
+      fontes: [
+        {
+          id: "inteligencia-ltda-flavio-1806",
+          titulo:
+            "FLÁVIO BOLSONARO — Inteligência Ltda. Podcast #1806",
+          veiculoOuInstituicao:
+            "Inteligência Ltda.",
+          url:
+            "https://www.youtube.com/watch?v=GWRMgy_C5Kg",
+          tipo: "declaracao",
+          publicadaEm: "2026-04-06",
+        },
+        {
+          id: "alerj-discurso-flavio-2007-02-07",
+          titulo:
+            "Discurso de Flávio Bolsonaro — sessão de 7 de fevereiro de 2007",
+          veiculoOuInstituicao:
+            "Assembleia Legislativa do Estado do Rio de Janeiro",
+          url:
+            "https://www3.alerj.rj.gov.br/lotus_notes/default.asp?id=58&url=L3RhcWFsZXJqMjAwNi5uc2YvOGI5OWNhMzhlMDc4MjZkYjAzMjU2NTMwMDA0NmZkZjEvYzcyYWY4ODI5NTQwZWFkZDgzMjU3YjZiMDA2MjUyOTk%2FT3BlbkRvY3VtZW50JkV4cGFuZFNlY3Rpb249MSNfU2VjdGlvbjE%3D",
+          tipo: "fonte-oficial",
+          publicadaEm: "2007-02-07",
+        },
+      ],
+
+      ultimaVerificacao: "2026-09-27",
     },
   ],
 };
