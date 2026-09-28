@@ -336,6 +336,72 @@ const trajetoriaOrdenada =
           </section>
           <CandidateDossier
             candidaturaId={candidate.id}
+            conteudoLinhaDoTempoAutomatico={
+              historico &&
+              historico.trajetoria.length > 0 ? (
+                <div className="mt-5 border-l border-black/20 pl-6">
+                  {[...historico.trajetoria]
+                    .sort(
+                      (a, b) =>
+                        valorOrdenacaoPeriodo(
+                          a.periodo,
+                        ) -
+                        valorOrdenacaoPeriodo(
+                          b.periodo,
+                        ),
+                    )
+                    .map((item, index) => (
+                      <article
+                        key={`${item.titulo}-${item.periodo ?? index}`}
+                        className="relative pb-9 last:pb-0"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="absolute -left-[29px] top-2 h-2.5 w-2.5 rounded-full bg-[#FFC400]"
+                        />
+
+                        {item.periodo && (
+                          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
+                            {formatarPeriodoTrajetoria(
+                              item.periodo,
+                            )}
+                          </p>
+                        )}
+
+                        <h3 className="mt-2 text-lg font-semibold leading-7">
+                          {item.titulo}
+                        </h3>
+
+                        {item.descricao && (
+                          <p className="mt-2 max-w-2xl text-sm leading-6 text-black/60">
+                            {item.descricao}
+                          </p>
+                        )}
+
+                        <a
+                          href={item.fonte.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="mt-3 inline-block text-sm font-semibold underline decoration-black/25 underline-offset-4 hover:decoration-black"
+                        >
+                          {item.fonte.titulo} ↗
+                        </a>
+                      </article>
+                    ))}
+                </div>
+              ) : (
+                <div className="mt-5 border-l-2 border-[#FFC400] pl-4">
+                  <p className="font-semibold">
+                    Informações em levantamento
+                  </p>
+
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-black/50">
+                    Ainda não há registros eleitorais anteriores incorporados
+                    a esta linha do tempo.
+                  </p>
+                </div>
+              )
+            }
             conteudoQuemE={
               <div className="mt-5 space-y-5">
                 <div>

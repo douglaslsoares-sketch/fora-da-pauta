@@ -16,6 +16,7 @@ type CandidateDossierProps = {
   conteudoExercicioCargo: ReactNode;
   conteudoPatrimonio: ReactNode;
   conteudoFontes: ReactNode;
+  conteudoLinhaDoTempoAutomatico: ReactNode;
 };
 
 const eixos: Array<{
@@ -193,6 +194,7 @@ export function CandidateDossier({
   conteudoExercicioCargo,
   conteudoPatrimonio,
   conteudoFontes,
+  conteudoLinhaDoTempoAutomatico,
 }: CandidateDossierProps) {
 
   const dossie =
@@ -211,6 +213,8 @@ export function CandidateDossier({
         conteudoPatrimonio,
       "fontes-atualizacoes":
         conteudoFontes,
+      "linha-do-tempo":
+        conteudoLinhaDoTempoAutomatico,
     };
 
   if (!dossie) {
