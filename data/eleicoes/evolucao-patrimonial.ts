@@ -17,8 +17,14 @@ type CandidaturaDaIdentidade = {
   uf: string;
 };
 
+type SituacaoIdentidadePolitica =
+  | "CONFIRMADA"
+  | "EM_REVISAO";
+
 type IdentidadePolitica = {
   pessoaPoliticaId: string;
+  situacaoIdentidade?: SituacaoIdentidadePolitica;
+  motivoRevisao?: string | null;
   candidaturas: CandidaturaDaIdentidade[];
 };
 
@@ -61,15 +67,35 @@ export function buscarEvolucaoPatrimonial(
       ),
     );
 
-  if (!identidade) {
+  if (
+    !identidade ||
+    identidade.situacaoIdentidade ===
+      "EM_REVISAO"
+  ) {
+    return null;
+  }
+
+  /*
+   * A comparação patrimonial só é feita quando
+   * existe uma única candidatura de 2022 ligada
+   * à identidade política.
+   *
+   * Se a identidade estiver em revisão ou houver
+   * mais de um registro em 2022, a ficha não
+   * escolhe arbitrariamente qual comparar.
+   */
+  const candidaturas2022 =
+    identidade.candidaturas.filter(
+      (candidatura) =>
+        candidatura.eleicao === 2022,
+    );
+
+  if (candidaturas2022.length !== 1) {
     return null;
   }
 
   const candidatura2022 =
-    identidade.candidaturas.find(
-      (candidatura) =>
-        candidatura.eleicao === 2022,
-    );
+    candidaturas2022[0];
 
   const candidatura2026 =
     identidade.candidaturas.find(

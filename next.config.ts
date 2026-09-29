@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
     "/conheca-seu-candidato/*": [
       "./data/eleicoes/gerado/candidaturas-2026.json",
       "./data/eleicoes/gerado/identidades-politicas.json",
+      "./data/eleicoes/gerado/candidaturas-2022-resumo.json",
       "./data/eleicoes/gerado/atuacao-candidatos/**/*.json",
     ],
 

@@ -222,7 +222,7 @@ const trajetoriaOrdenada =
                   Ficha do candidato
                 </p>
 
-                <h1 className="mt-4 break-words text-4xl font-semibold leading-[0.98] tracking-[-0.05em] sm:text-5xl">
+                <h1 className="mt-4 break-normal whitespace-normal text-3xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-5xl sm:leading-[0.98] sm:tracking-[-0.05em]">
                   {candidate.nomeUrna}
                 </h1>
 

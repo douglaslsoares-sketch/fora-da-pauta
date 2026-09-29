@@ -39,10 +39,10 @@
         "uf":  "BR",
         "partido":  "AVANTE",
         "siglaPartido":  "AVANTE",
-        "situacao":  "nao-informada",
-        "situacaoTse":  "#NE",
+        "situacao":  "deferida",
+        "situacaoTse":  "DEFERIDO",
         "fonteOficial":  "https://dadosabertos.tse.jus.br/dataset/candidatos-2026",
-        "ultimaVerificacao":  "2026-08-17"
+        "ultimaVerificacao":  "2026-09-28"
     },
     {
         "id":  "280002553884",
@@ -111724,10 +111724,10 @@
         "uf":  "BR",
         "partido":  "PARTIDO SOCIALISTA  DOS TRABALHADORES UNIFICADO",
         "siglaPartido":  "PSTU",
-        "situacao":  "nao-informada",
-        "situacaoTse":  "#NE",
+        "situacao":  "deferida",
+        "situacaoTse":  "DEFERIDO",
         "fonteOficial":  "https://dadosabertos.tse.jus.br/dataset/candidatos-2026",
-        "ultimaVerificacao":  "2026-08-17"
+        "ultimaVerificacao":  "2026-09-28"
     },
     {
         "id":  "280002551544",

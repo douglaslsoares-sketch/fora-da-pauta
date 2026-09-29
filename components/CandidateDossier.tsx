@@ -30,7 +30,7 @@ const eixos: Array<{
     numero: "1",
     titulo: "Quem é",
     descricao:
-      "Origem, nascimento, situação atual e candidatura.",
+      "Biografia resumida, origem, trajetória e situação atual, com fontes identificadas.",
   },
   {
     id: "formacao-trabalho",
@@ -213,8 +213,6 @@ export function CandidateDossier({
         conteudoPatrimonio,
       "fontes-atualizacoes":
         conteudoFontes,
-      "linha-do-tempo":
-        conteudoLinhaDoTempoAutomatico,
     };
 
   if (!dossie) {
@@ -260,7 +258,31 @@ export function CandidateDossier({
                   {eixo.descricao}
                 </p>
 
-                {conteudoLocalPorEixo[eixo.id] ? (
+                {eixo.id === "linha-do-tempo" ? (
+                  <>{conteudoLinhaDoTempoAutomatico}</>
+                ) : eixo.id === "quem-e" ? (
+                  <>
+                    <div className="mt-5 border-l-2 border-[#FFC400] pl-4">
+                      <p className="font-semibold">
+                        Biografia em levantamento
+                      </p>
+
+                      <p className="mt-2 max-w-2xl text-sm leading-6 text-black/50">
+                        A biografia resumida será incorporada à medida
+                        que origem, formação, trajetória e situação atual
+                        forem verificadas em fontes identificáveis.
+                      </p>
+                    </div>
+
+                    <div className="mt-7 border-t border-black/10 pt-6">
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
+                        Dados de identificação
+                      </p>
+
+                      {conteudoLocalPorEixo[eixo.id]}
+                    </div>
+                  </>
+                ) : conteudoLocalPorEixo[eixo.id] ? (
                   <>
                     {conteudoLocalPorEixo[eixo.id]}
                   </>
@@ -749,13 +771,6 @@ export function CandidateDossier({
           Conheça a trajetória
         </h2>
 
-        {dossie.emPoucasLinhas && (
-          <div className="mt-6 border-l-4 border-[#FFC400] pl-5">
-            <p className="text-lg leading-8 text-black/70">
-              {dossie.emPoucasLinhas}
-            </p>
-          </div>
-        )}
 
         <p className="mt-5 text-sm leading-6 text-black/45">
           Atualizado em{" "}
@@ -816,10 +831,78 @@ export function CandidateDossier({
 
                   {eixo.id === "linha-do-tempo" ? (
                     <>{conteudoLinhaDoTempo}</>
-                  ) : eixo.id === "quem-e" ||
-                  eixo.id ===
-                    "patrimonio-atividades-economicas" ||
-                  eixo.id === "fontes-atualizacoes" ? (
+                  ) : eixo.id === "quem-e" ? (
+                    <>
+                      <div className="mt-5">
+                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
+                          Biografia
+                        </p>
+
+                        <div className="mt-3 space-y-4">
+                          {dossie.biografia.paragrafos.map(
+                            (paragrafo, index) => (
+                              <p
+                                key={index}
+                                className="max-w-2xl text-base leading-7 text-black/70"
+                              >
+                                {paragrafo}
+                              </p>
+                            ),
+                          )}
+                        </div>
+
+                        {dossie.biografia.fontes.length > 0 && (
+                          <div className="mt-6 border-t border-black/10 pt-5">
+                            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-black/40">
+                              Fontes da biografia
+                            </p>
+
+                            <div className="mt-3 divide-y divide-black/10 border-y border-black/10">
+                              {dossie.biografia.fontes.map(
+                                (fonte) => (
+                                  <a
+                                    key={fonte.id}
+                                    href={fonte.url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="block py-3 text-sm leading-6 underline decoration-black/25 underline-offset-4 hover:decoration-black"
+                                  >
+                                    <span className="font-semibold">
+                                      {
+                                        fonte
+                                          .veiculoOuInstituicao
+                                      }
+                                    </span>
+                                    {" — "}
+                                    {fonte.titulo} ↗
+                                  </a>
+                                ),
+                              )}
+                            </div>
+
+                            <p className="mt-3 text-xs text-black/35">
+                              Verificado em{" "}
+                              {formatarDataAtualizacao(
+                                dossie.biografia
+                                  .ultimaVerificacao,
+                              )}
+                              .
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="mt-7 border-t border-black/10 pt-6">
+                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
+                          Dados de identificação
+                        </p>
+
+                        {conteudoLocalPorEixo[eixo.id]}
+                      </div>
+                    </>
+                  ) : eixo.id ===
+                      "patrimonio-atividades-economicas" ||
+                    eixo.id === "fontes-atualizacoes" ? (
                     <>
                       {conteudoLocalPorEixo[eixo.id]}
                     </>

@@ -195,6 +195,12 @@ export type EventoDossie = {
   ultimaVerificacao: string;
 };
 
+export type BiografiaDossie = {
+  paragrafos: string[];
+  fontes: FonteDossie[];
+  ultimaVerificacao: string;
+};
+
 export type DossieCandidato = {
   candidaturaId: string;
   nome: string;
@@ -202,6 +208,8 @@ export type DossieCandidato = {
   atualizadoEm: string;
 
   emPoucasLinhas?: string;
+
+  biografia: BiografiaDossie;
 
   promessas?: PromessaCampanha[];
 

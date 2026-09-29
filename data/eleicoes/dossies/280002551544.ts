@@ -14,6 +14,40 @@ export const dossieFlavioBolsonaro: DossieCandidato = {
     "Esta ficha organiza cronologicamente informações documentadas, publicações, " +
     "questionamentos, respostas e desdobramentos posteriores.",
 
+  biografia: {
+    paragrafos: [
+      "Flávio Nantes Bolsonaro nasceu em Resende, no Rio de Janeiro, em 30 de abril de 1981.",
+      "Exerce mandato de senador pelo Rio de Janeiro no período de 2019 a 2027, conforme o perfil oficial do Senado Federal.",
+      "Nas Eleições 2026, concorre à Presidência da República pelo Partido Liberal (PL), em chapa com Alfredo Gaspar como candidato a vice-presidente.",
+    ],
+
+    fontes: [
+      {
+        id: "senado-biografia-flavio-5894",
+        titulo:
+          "Perfil do senador Flávio Bolsonaro",
+        veiculoOuInstituicao:
+          "Senado Federal",
+        url:
+          "https://www25.senado.leg.br/web/senadores/senador/-/perfil/5894",
+        tipo: "fonte-oficial",
+      },
+      {
+        id: "tse-chapa-flavio-2026-biografia",
+        titulo:
+          "TSE valida seis registros de candidatura à Presidência da República",
+        veiculoOuInstituicao:
+          "Tribunal Superior Eleitoral",
+        url:
+          "https://www.tse.jus.br/comunicacao/noticias/2026/Setembro/tse-valida-seis-registros-de-candidatura-a-presidencia-da-republica",
+        tipo: "fonte-oficial",
+        publicadaEm: "2026-09-02",
+      },
+    ],
+
+    ultimaVerificacao: "2026-09-27",
+  },
+
   promessas: [
     {
       id: "2026-presidente-servicos-publicos-digitais",
