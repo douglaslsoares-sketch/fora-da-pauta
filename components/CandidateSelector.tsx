@@ -23,6 +23,8 @@ type CandidateResult = {
 type SearchResponse = {
   resultados: CandidateResult[];
   total: number;
+  pagina: number;
+  totalPaginas: number;
 };
 
 const cargos = [
@@ -104,6 +106,12 @@ export function CandidateSelector() {
   const [total, setTotal] =
     useState(0);
 
+  const [pagina, setPagina] =
+    useState(1);
+
+  const [totalPaginas, setTotalPaginas] =
+    useState(1);
+
   const [carregando, setCarregando] =
     useState(false);
 
@@ -119,6 +127,8 @@ export function CandidateSelector() {
     if (!podeBuscar) {
       setResultados([]);
       setTotal(0);
+      setPagina(1);
+      setTotalPaginas(1);
       setErro("");
       return;
     }
@@ -157,6 +167,11 @@ export function CandidateSelector() {
               );
             }
 
+            params.set(
+              "pagina",
+              String(pagina),
+            );
+
             const response =
               await fetch(
                 `/api/candidatos/buscar?${params.toString()}`,
@@ -181,6 +196,17 @@ export function CandidateSelector() {
 
             setTotal(
               data.total,
+            );
+
+            setPagina(
+              data.pagina,
+            );
+
+            setTotalPaginas(
+              Math.max(
+                1,
+                data.totalPaginas,
+              ),
             );
           } catch (error) {
             if (
@@ -209,6 +235,7 @@ export function CandidateSelector() {
     query,
     cargo,
     uf,
+    pagina,
     podeBuscar,
   ]);
 
@@ -216,6 +243,8 @@ export function CandidateSelector() {
     setQuery("");
     setCargo("");
     setUf("");
+    setPagina(1);
+    setTotalPaginas(1);
     setResultados([]);
     setTotal(0);
     setErro("");
@@ -234,11 +263,12 @@ export function CandidateSelector() {
         id="busca-candidato"
         type="search"
         value={query}
-        onChange={(event) =>
+        onChange={(event) => {
           setQuery(
             event.target.value,
-          )
-        }
+          );
+          setPagina(1);
+        }}
         placeholder="Digite o nome, partido ou número"
         autoComplete="off"
         className="
@@ -269,11 +299,12 @@ export function CandidateSelector() {
           <select
             id="filtro-cargo"
             value={cargo}
-            onChange={(event) =>
+            onChange={(event) => {
               setCargo(
                 event.target.value,
-              )
-            }
+              );
+              setPagina(1);
+            }}
             className="
               min-h-12
               w-full
@@ -315,11 +346,12 @@ export function CandidateSelector() {
           <select
             id="filtro-uf"
             value={uf}
-            onChange={(event) =>
+            onChange={(event) => {
               setUf(
                 event.target.value,
-              )
-            }
+              );
+              setPagina(1);
+            }}
             className="
               min-h-12
               w-full
@@ -406,9 +438,12 @@ export function CandidateSelector() {
                 </p>
 
                 <p className="text-xs text-black/40">
-                  {total > 40
-                    ? `40 de ${total}`
-                    : total}
+                  {total === 0
+                    ? "0"
+                    : `${(pagina - 1) * 40 + 1}-${Math.min(
+                        pagina * 40,
+                        total,
+                      )} de ${total}`}
                 </p>
               </div>
 
@@ -489,13 +524,51 @@ export function CandidateSelector() {
                 )}
               </div>
 
-              {total > 40 && (
-                <p className="mt-5 text-sm leading-6 text-black/45">
-                  Há mais resultados.
-                  Refine o nome, cargo
-                  ou estado para reduzir
-                  a lista.
-                </p>
+              {totalPaginas > 1 && (
+                <div className="mt-6 flex items-center justify-between gap-4 border-t border-black/10 pt-5">
+                  <button
+                    type="button"
+                    disabled={
+                      carregando ||
+                      pagina <= 1
+                    }
+                    onClick={() =>
+                      setPagina((atual) =>
+                        Math.max(
+                          1,
+                          atual - 1,
+                        ),
+                      )
+                    }
+                    className="text-sm font-semibold underline underline-offset-4 disabled:cursor-not-allowed disabled:opacity-30"
+                  >
+                    {"\u2190"} Anterior
+                  </button>
+
+                  <p className="text-xs text-black/45">
+                    {"P\u00e1gina"} {pagina} de{" "}
+                    {totalPaginas}
+                  </p>
+
+                  <button
+                    type="button"
+                    disabled={
+                      carregando ||
+                      pagina >= totalPaginas
+                    }
+                    onClick={() =>
+                      setPagina((atual) =>
+                        Math.min(
+                          totalPaginas,
+                          atual + 1,
+                        ),
+                      )
+                    }
+                    className="text-sm font-semibold underline underline-offset-4 disabled:cursor-not-allowed disabled:opacity-30"
+                  >
+                    {"Pr\u00f3xima"} {"\u2192"}
+                  </button>
+                </div>
               )}
             </>
           )}
