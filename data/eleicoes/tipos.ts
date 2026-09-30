@@ -1,4 +1,4 @@
-﻿export type CargoEleitoral =
+export type CargoEleitoral =
   | "presidente"
   | "governador"
   | "senador"
@@ -32,6 +32,12 @@ export type Candidatura = {
   situacaoTse: string;
   fonteOficial: string;
   ultimaVerificacao: string;
+  resultadoEleitoral?: {
+    turno: number;
+    codigoTse: string;
+    situacaoTse: string;
+    geradoEmTse: string;
+  };
 };
 
 export type PosicaoPolitica =
