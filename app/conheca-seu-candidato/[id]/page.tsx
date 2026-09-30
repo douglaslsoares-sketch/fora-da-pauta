@@ -330,8 +330,8 @@ const trajetoriaOrdenada =
               <p className="mt-3 max-w-2xl text-sm leading-6 text-black/50">
                 Registros anteriores são preservados para manter a
                 trajetória documental. Quando a ficha for atualizada,
-                a alteração poderá ser comunicada pelo canal do
-                Fora da Pauta no Telegram.
+                Para receber os avisos pelo bot do Fora da Pauta no Telegram,
+                ative o acompanhamento deste candidato no botão abaixo.
               </p>
             </div>
           </section>

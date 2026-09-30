@@ -44,9 +44,10 @@ export function SiteChromeRouter() {
             tipo={tipoCompartilhamento}
           />
 
-          <FloatingTelegramButton />
+
         </>
       ) : null}
+      <FloatingTelegramButton />
     </>
   );
 }
