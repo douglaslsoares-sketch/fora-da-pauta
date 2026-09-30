@@ -29,16 +29,21 @@ export default function CandidateSearchPage() {
 
             <h1 className="mt-0 max-w-2xl text-[2rem] font-semibold leading-[0.94] tracking-[-0.05em] sm:mt-4 sm:text-5xl sm:leading-[0.98]">
               <span className="sm:hidden">
-                <span className="block">Qual candidato você</span>
-                <span className="block">quer consultar?</span>
+                <span className="block">Acompanhe seu candidato</span>
+                <span className="block">depois de eleito.</span>
               </span>
               <span className="hidden sm:inline">
-                Qual candidato você quer consultar?
+                Acompanhe seu candidato depois de eleito.
               </span>
             </h1>
 
-            <p className="hidden mt-3 max-w-xl text-sm leading-6 text-white/60 sm:mt-4 sm:block sm:text-lg sm:leading-7">
-              Digite o nome ou use os filtros para localizar a candidatura.
+            <p className="mt-3 max-w-xl text-sm leading-6 text-white/70 sm:mt-4 sm:text-lg sm:leading-7">
+              Escolha uma vez. Quando houver novos registros documentados,
+              o aviso chega diretamente pelo Telegram.
+            </p>
+
+            <p className="mt-2 max-w-xl text-xs leading-5 text-white/45 sm:text-sm sm:leading-6">
+              Você não precisa voltar ao site para procurar novidades.
             </p>
           </div>
         </div>
@@ -46,6 +51,13 @@ export default function CandidateSearchPage() {
 
       <section className="px-5 pb-20 pt-4 sm:px-8 sm:py-10">
         <div className="mx-auto w-full max-w-3xl">
+          <h2 className="mb-4 text-xl font-semibold leading-tight tracking-[-0.025em] text-black/80 sm:mb-6 sm:text-2xl">
+
+            Qual candidato você quer acompanhar?
+
+          </h2>
+
+
           <CandidateSelector />
 
           <div className="hidden mt-12 border-t border-black/10 pt-6 sm:block"><p className="max-w-2xl text-sm leading-6 text-black/45">

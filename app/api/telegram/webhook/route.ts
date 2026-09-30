@@ -1,6 +1,4 @@
-import {
-  timingSafeEqual,
-} from "node:crypto";
+import { timingSafeEqual } from "node:crypto";
 
 import { NextResponse } from "next/server";
 
@@ -26,8 +24,13 @@ type TelegramUpdate = {
   message?: TelegramMessage;
 };
 
+type TelegramButton = {
+  text: string;
+  url: string;
+};
+
 const START_PATTERN =
-  /^\/start(?:@[A-Za-z0-9_]+)?(?:\s+seguir_(\d{8,20}))?\s*$/i;
+  /^\/start(?:@[A-Za-z0-9_]+)?(?:\s+([A-Za-z0-9_-]+))?\s*$/i;
 
 function obterVariavelObrigatoria(
   nome: string,
@@ -44,21 +47,25 @@ function obterVariavelObrigatoria(
   return valor;
 }
 
+function obterBotUsername() {
+  return (
+    process.env
+      .NEXT_PUBLIC_TELEGRAM_BOT_USERNAME
+      ?.trim()
+      .replace(/^@/, "") ||
+    "ForaDaPautaAcompanhaBot"
+  );
+}
+
 function segredoConfere(
   recebido: string,
   esperado: string,
 ) {
   const a =
-    Buffer.from(
-      recebido,
-      "utf8",
-    );
+    Buffer.from(recebido, "utf8");
 
   const b =
-    Buffer.from(
-      esperado,
-      "utf8",
-    );
+    Buffer.from(esperado, "utf8");
 
   if (a.length !== b.length) {
     return false;
@@ -73,32 +80,16 @@ function segredoConfere(
 async function enviarMensagemTelegram({
   chatId,
   texto,
-  candidaturaId,
+  botoes = [],
 }: {
   chatId: string;
   texto: string;
-  candidaturaId?: string;
+  botoes?: TelegramButton[][];
 }) {
   const botToken =
     obterVariavelObrigatoria(
       "TELEGRAM_BOT_TOKEN",
     );
-
-  const replyMarkup =
-    candidaturaId
-      ? {
-          inline_keyboard: [
-            [
-              {
-                text:
-                  "Ver ficha no Fora da Pauta",
-                url:
-                  `https://www.foradapauta.org/conheca-seu-candidato/${candidaturaId}`,
-              },
-            ],
-          ],
-        }
-      : undefined;
 
   const response =
     await fetch(
@@ -118,7 +109,12 @@ async function enviarMensagemTelegram({
             disable_web_page_preview:
               true,
             reply_markup:
-              replyMarkup,
+              botoes.length
+                ? {
+                    inline_keyboard:
+                      botoes,
+                  }
+                : undefined,
           }),
         cache: "no-store",
       },
@@ -180,12 +176,78 @@ async function registrarAcompanhamento(
           ELSE 'aguardando_eleicao'
         END,
 
-      updated_at =
-        now(),
-
-      cancelled_at =
-        NULL
+      updated_at = now(),
+      cancelled_at = NULL
   `;
+}
+
+async function registrarNovasEdicoes(
+  chatId: string,
+) {
+  await sql`
+    INSERT INTO telegram_preferencias (
+      telegram_chat_id,
+      tipo,
+      referencia,
+      status,
+      created_at,
+      updated_at,
+      cancelled_at
+    )
+    VALUES (
+      ${chatId}::bigint,
+      'novas_edicoes',
+      '',
+      'ativo',
+      now(),
+      now(),
+      NULL
+    )
+    ON CONFLICT (
+      telegram_chat_id,
+      tipo,
+      referencia
+    )
+    DO UPDATE SET
+      status = 'ativo',
+      updated_at = now(),
+      cancelled_at = NULL
+  `;
+}
+
+async function cancelarTudo(
+  chatId: string,
+) {
+  await sql.begin(
+    async (tx) => {
+      await tx`
+        UPDATE telegram_acompanhamentos
+        SET
+          status = 'cancelado',
+          updated_at = now(),
+          cancelled_at = now()
+        WHERE
+          telegram_chat_id =
+            ${chatId}::bigint
+          AND status NOT IN (
+            'cancelado',
+            'encerrado'
+          )
+      `;
+
+      await tx`
+        UPDATE telegram_preferencias
+        SET
+          status = 'cancelado',
+          updated_at = now(),
+          cancelled_at = now()
+        WHERE
+          telegram_chat_id =
+            ${chatId}::bigint
+          AND status = 'ativo'
+      `;
+    },
+  );
 }
 
 export async function POST(
@@ -240,10 +302,6 @@ export async function POST(
     const chatType =
       message?.chat?.type;
 
-    /*
-     * O acompanhamento e individual.
-     * Ignoramos mensagens vindas de grupos.
-     */
     if (
       !texto ||
       typeof chatIdRaw !== "number" ||
@@ -257,6 +315,26 @@ export async function POST(
     const chatId =
       String(chatIdRaw);
 
+    if (
+      /^\/parar(?:@[A-Za-z0-9_]+)?\s*$/i.test(
+        texto,
+      )
+    ) {
+      await cancelarTudo(
+        chatId,
+      );
+
+      await enviarMensagemTelegram({
+        chatId,
+        texto:
+          "Pronto. O recebimento de avisos do Fora da Pauta foi interrompido.\n\nSe quiser voltar a acompanhar alguma coisa depois, basta ativar novamente pelo site.",
+      });
+
+      return NextResponse.json({
+        ok: true,
+      });
+    }
+
     const match =
       texto.match(
         START_PATTERN,
@@ -268,20 +346,84 @@ export async function POST(
       });
     }
 
-    const candidaturaId =
-      match[1];
+    const payload =
+      match[1]?.toLowerCase();
 
-    if (!candidaturaId) {
+    const botUsername =
+      obterBotUsername();
+
+    if (!payload) {
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "Para acompanhar um candidato, abra a ficha no Fora da Pauta e toque em \"Acompanhar no Telegram\".",
+          "O bot do Fora da Pauta entrega diretamente pelo Telegram os avisos que você escolher receber.\n\nVocê pode acompanhar candidatos e, separadamente, escolher receber novas edições.",
+        botoes: [
+          [
+            {
+              text: "Receber novas edições",
+              url:
+                `https://t.me/${botUsername}?start=edicoes`,
+            },
+          ],
+          [
+            {
+              text: "Escolher candidato",
+              url:
+                "https://www.foradapauta.org/conheca-seu-candidato",
+            },
+          ],
+        ],
       });
 
       return NextResponse.json({
         ok: true,
       });
     }
+
+    if (payload === "edicoes") {
+      await registrarNovasEdicoes(
+        chatId,
+      );
+
+      await enviarMensagemTelegram({
+        chatId,
+        texto:
+          "Pronto. Você escolheu receber pelo Telegram os avisos de novas edições do Fora da Pauta.\n\nEssa escolha é independente do acompanhamento de candidatos.",
+        botoes: [
+          [
+            {
+              text: "Escolher candidato para acompanhar",
+              url:
+                "https://www.foradapauta.org/conheca-seu-candidato",
+            },
+          ],
+        ],
+      });
+
+      return NextResponse.json({
+        ok: true,
+      });
+    }
+
+    const seguirMatch =
+      payload.match(
+        /^seguir_(\d{8,20})$/,
+      );
+
+    if (!seguirMatch) {
+      await enviarMensagemTelegram({
+        chatId,
+        texto:
+          "Não consegui identificar o acompanhamento solicitado. Abra novamente o link no Fora da Pauta.",
+      });
+
+      return NextResponse.json({
+        ok: true,
+      });
+    }
+
+    const candidaturaId =
+      seguirMatch[1];
 
     const candidato =
       candidaturas.find(
@@ -294,7 +436,7 @@ export async function POST(
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "Nao foi possivel localizar essa candidatura na base eleitoral do Fora da Pauta.",
+          "Não foi possível localizar essa candidatura na base eleitoral do Fora da Pauta.",
       });
 
       return NextResponse.json({
@@ -309,11 +451,25 @@ export async function POST(
 
     await enviarMensagemTelegram({
       chatId,
-      candidaturaId,
       texto:
-        `Voce esta acompanhando ${candidato.nomeUrna}.\n\n` +
-        "Se essa candidatura for eleita, o Fora da Pauta enviara aqui avisos quando novos registros documentados forem incorporados a ficha.\n\n" +
-        "Voce podera parar de acompanhar quando quiser.",
+        `Você está acompanhando ${candidato.nomeUrna}.\n\n` +
+        "Se essa candidatura for eleita, o Fora da Pauta enviará aqui avisos quando novos registros documentados forem incorporados à ficha.\n\nVocê não precisa voltar ao site para procurar novidades. Para interromper os avisos, envie /parar.",
+      botoes: [
+        [
+          {
+            text: "Ver ficha no Fora da Pauta",
+            url:
+              `https://www.foradapauta.org/conheca-seu-candidato/${candidaturaId}`,
+          },
+        ],
+        [
+          {
+            text: "Receber também novas edições",
+            url:
+              `https://t.me/${botUsername}?start=edicoes`,
+          },
+        ],
+      ],
     });
 
     return NextResponse.json({
@@ -321,7 +477,7 @@ export async function POST(
     });
   } catch (error) {
     console.error(
-      "Falha no webhook de acompanhamento do Telegram:",
+      "Falha no webhook do Telegram:",
       error,
     );
 

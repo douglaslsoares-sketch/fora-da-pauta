@@ -2,22 +2,40 @@
 
 import { usePathname } from "next/navigation";
 
+function obterBotUsername() {
+  return (
+    process.env
+      .NEXT_PUBLIC_TELEGRAM_BOT_USERNAME
+      ?.trim()
+      .replace(/^@/, "") ||
+    "ForaDaPautaAcompanhaBot"
+  );
+}
+
 export function FloatingTelegramButton() {
-  const pathname = usePathname();
+  const pathname =
+    usePathname();
 
   if (
-    pathname === "/conheca-seu-candidato"
+    pathname === "/conheca-seu-candidato" ||
+    pathname.startsWith("/conheca-seu-candidato/")
   ) {
     return null;
   }
 
+  const botUsername =
+    obterBotUsername();
+
+  const telegramHref =
+    `https://t.me/${botUsername}?start=edicoes`;
+
   return (
     <a
-      href="https://t.me/foradapauta"
+      href={telegramHref}
       target="_blank"
       rel="noreferrer"
-      aria-label="Receber avisos de novas edições do Fora da Pauta no Telegram"
-      title="Avisos de novas edições no Telegram"
+      aria-label="Receber avisos de novas edições do Fora da Pauta pelo Telegram"
+      title="Receba novas edições pelo Telegram"
       data-editorial-ignore
       className="fixed bottom-3 right-3 z-[80] flex h-11 items-center justify-center gap-1.5 rounded-full border border-black/15 bg-[#FFC400] px-3 py-2.5 text-black shadow-lg transition hover:-translate-y-0.5 hover:bg-[#e9b300] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 sm:bottom-6 sm:right-6 sm:h-auto sm:gap-0 sm:rounded-none sm:px-4 sm:py-3"
     >
@@ -35,7 +53,7 @@ export function FloatingTelegramButton() {
       </span>
 
       <span className="hidden text-sm font-semibold sm:inline">
-        Avisos de novas edições no Telegram
+        Receba novas edições pelo Telegram
       </span>
 
       <span

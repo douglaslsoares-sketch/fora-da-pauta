@@ -31,21 +31,21 @@ export default function Home() {
           </h1>
 
           <p className="mt-7 max-w-2xl text-lg leading-8 text-white/70">
-            Consulte a ficha e acompanhe as informações documentadas
-            disponíveis sobre cada candidatura.
+            Escolha o candidato que você quer acompanhar.
+            Quando houver novos registros documentados sobre a atuação dele,
+            o aviso chega diretamente pelo Telegram.
           </p>
 
-          <p className="mt-4 max-w-2xl text-sm leading-6 text-white/45">
-            As fichas estão em atualização contínua. Novos registros,
-            fontes e desdobramentos podem ser incorporados ao longo do
-            levantamento.
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-white/50">
+            Você escolhe uma vez. Depois, não precisa voltar ao site
+            para procurar novidades.
           </p>
 
           <Link
             href="/conheca-seu-candidato"
             className="mt-8 inline-flex min-h-12 items-center justify-center bg-[#FFC400] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#e9b300]"
           >
-            Consultar candidato →
+            Escolher candidato para acompanhar →
           </Link>
         </section>
 
