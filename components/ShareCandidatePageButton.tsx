@@ -83,6 +83,11 @@ export function ShareCandidatePageButton({
         ? "Compartilhar consulta"
         : "Compartilhar página";
 
+  const posicionamento =
+    tipo === "consulta"
+      ? "left-1/2 -translate-x-1/2 sm:left-6 sm:translate-x-0"
+      : "left-3 sm:left-6";
+
   async function compartilhar() {
     const url =
       window.location.href;
@@ -161,7 +166,7 @@ export function ShareCandidatePageButton({
       onClick={compartilhar}
       data-editorial-ignore
       aria-label={label}
-      className="fixed bottom-3 left-3 z-[80] inline-flex h-11 items-center justify-center rounded-full border border-white/15 bg-black px-3 text-xs font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-black/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFC400] focus-visible:ring-offset-2 sm:bottom-6 sm:left-6 sm:h-auto sm:rounded-none sm:px-4 sm:py-3 sm:text-sm"
+      className={`fixed bottom-3 z-[80] inline-flex h-11 items-center justify-center rounded-full border border-white/15 bg-black px-3 text-xs font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-black/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFC400] focus-visible:ring-offset-2 sm:bottom-6 sm:h-auto sm:rounded-none sm:px-4 sm:py-3 sm:text-sm ${posicionamento}`}
     >
       {estado === "copiado"
         ? "Link copiado ✓"

@@ -49,7 +49,7 @@ const eixos: Array<{
   {
     id: "o-que-prometeu",
     numero: "4",
-    titulo: "O que prometeu",
+    titulo: "Propostas",
     descricao:
       "Propostas e compromissos assumidos em campanha, com eleição e fonte.",
   },

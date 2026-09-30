@@ -30,7 +30,7 @@ type SearchResponse = {
 const cargos = [
   {
     value: "",
-    label: "Todos os cargos",
+    label: "Cargo",
   },
   {
     value: "presidente",
@@ -89,7 +89,13 @@ const ufs = [
 ];
 
 export function CandidateSelector() {
-  const [query, setQuery] =
+  const [nome, setNome] =
+    useState("");
+
+  const [partido, setPartido] =
+    useState("");
+
+  const [numero, setNumero] =
     useState("");
 
   const [cargo, setCargo] =
@@ -119,7 +125,9 @@ export function CandidateSelector() {
     useState("");
 
   const podeBuscar =
-    query.trim().length >= 2 ||
+    nome.trim().length >= 2 ||
+    partido.trim().length >= 2 ||
+    numero.replace(/\D/g, "").length > 0 ||
     Boolean(cargo) ||
     Boolean(uf);
 
@@ -146,13 +154,26 @@ export function CandidateSelector() {
             const params =
               new URLSearchParams();
 
-            if (query.trim()) {
+            if (nome.trim()) {
               params.set(
-                "q",
-                query.trim(),
+                "nome",
+                nome.trim(),
               );
             }
 
+            if (partido.trim()) {
+              params.set(
+                "partido",
+                partido.trim(),
+              );
+            }
+
+            if (numero.trim()) {
+              params.set(
+                "numero",
+                numero.trim(),
+              );
+            }
             if (cargo) {
               params.set(
                 "cargo",
@@ -232,7 +253,9 @@ export function CandidateSelector() {
       controller.abort();
     };
   }, [
-    query,
+    nome,
+    partido,
+    numero,
     cargo,
     uf,
     pagina,
@@ -240,7 +263,9 @@ export function CandidateSelector() {
   ]);
 
   function limpar() {
-    setQuery("");
+    setNome("");
+    setPartido("");
+    setNumero("");
     setCargo("");
     setUf("");
     setPagina(1);
@@ -251,47 +276,80 @@ export function CandidateSelector() {
   }
 
   return (
-    <div className="mt-8">
-      <label
-        htmlFor="busca-candidato"
-        className="block text-sm font-semibold"
-      >
-        Nome do candidato
-      </label>
+    <div className="mt-0 sm:mt-8">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <div className="col-span-2 sm:col-span-1">
+          <label
+            htmlFor="busca-nome"
+            className="sr-only sm:not-sr-only sm:mb-2 sm:block sm:text-xs sm:font-semibold sm:uppercase sm:tracking-[0.16em] sm:text-black/45"
+          >
+            Nome
+          </label>
 
-      <input
-        id="busca-candidato"
-        type="search"
-        value={query}
-        onChange={(event) => {
-          setQuery(
-            event.target.value,
-          );
-          setPagina(1);
-        }}
-        placeholder="Digite o nome, partido ou número"
-        autoComplete="off"
-        className="
-          mt-2
-          min-h-14
-          w-full
-          border
-          border-black/20
-          bg-white
-          px-4
-          text-base
-          outline-none
-          transition
-          placeholder:text-black/35
-          focus:border-black
-        "
-      />
+          <input
+            id="busca-nome"
+            type="search"
+            value={nome}
+            onChange={(event) => {
+              setNome(event.target.value);
+              setPagina(1);
+            }}
+            placeholder="Nome do candidato"
+            autoComplete="off"
+            className="min-h-12 w-full border border-black/20 bg-white px-3 text-sm outline-none transition placeholder:text-black/50 focus:border-black"
+          />
+        </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <div>
+          <label
+            htmlFor="busca-partido"
+            className="sr-only sm:not-sr-only sm:mb-2 sm:block sm:text-xs sm:font-semibold sm:uppercase sm:tracking-[0.16em] sm:text-black/45"
+          >
+            Partido
+          </label>
+
+          <input
+            id="busca-partido"
+            type="search"
+            value={partido}
+            onChange={(event) => {
+              setPartido(event.target.value);
+              setPagina(1);
+            }}
+            placeholder="Partido"
+            autoComplete="off"
+            className="min-h-12 w-full border border-black/20 bg-white px-3 text-sm outline-none transition placeholder:text-black/50 focus:border-black"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="busca-numero"
+            className="sr-only sm:not-sr-only sm:mb-2 sm:block sm:text-xs sm:font-semibold sm:uppercase sm:tracking-[0.16em] sm:text-black/45"
+          >
+            {"N\u00famero"}
+          </label>
+
+          <input
+            id="busca-numero"
+            type="search"
+            inputMode="numeric"
+            value={numero}
+            onChange={(event) => {
+              setNumero(event.target.value);
+              setPagina(1);
+            }}
+            placeholder="Número"
+            autoComplete="off"
+            className="min-h-12 w-full border border-black/20 bg-white px-3 text-sm outline-none transition placeholder:text-black/50 focus:border-black"
+          />
+        </div>
+      </div>
+      <div className="mt-3 grid grid-cols-2 gap-3 sm:mt-4">
         <div>
           <label
             htmlFor="filtro-cargo"
-            className="mb-2 block text-xs font-semibold uppercase tracking-[0.16em] text-black/45"
+            className="sr-only sm:not-sr-only sm:mb-2 sm:block sm:text-xs sm:font-semibold sm:uppercase sm:tracking-[0.16em] sm:text-black/45"
           >
             Cargo
           </label>
@@ -338,7 +396,7 @@ export function CandidateSelector() {
         <div>
           <label
             htmlFor="filtro-uf"
-            className="mb-2 block text-xs font-semibold uppercase tracking-[0.16em] text-black/45"
+            className="sr-only sm:not-sr-only sm:mb-2 sm:block sm:text-xs sm:font-semibold sm:uppercase sm:tracking-[0.16em] sm:text-black/45"
           >
             Estado
           </label>
@@ -365,7 +423,7 @@ export function CandidateSelector() {
             "
           >
             <option value="">
-              Todos os estados
+              Estado
             </option>
 
             {ufs.map(
@@ -382,7 +440,9 @@ export function CandidateSelector() {
         </div>
       </div>
 
-      {(query ||
+      {(nome ||
+        partido ||
+        numero ||
         cargo ||
         uf) && (
         <button
@@ -399,10 +459,8 @@ export function CandidateSelector() {
         aria-live="polite"
       >
         {!podeBuscar && (
-          <p className="text-sm leading-6 text-black/50">
-            Digite pelo menos duas
-            letras do nome ou escolha
-            um cargo ou estado.
+          <p className="hidden text-sm leading-6 text-black/50 sm:block">
+            {"Informe nome, partido ou n\u00famero, ou escolha um cargo ou estado."}
           </p>
         )}
 

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CandidateDossier } from "@/components/CandidateDossier";
+import { CandidateFollowCard } from "@/components/CandidateFollowCard";
 
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { notFound } from "next/navigation";
@@ -334,6 +335,10 @@ const trajetoriaOrdenada =
               </p>
             </div>
           </section>
+          <CandidateFollowCard
+            candidaturaId={candidate.id}
+          />
+
           <CandidateDossier
             candidaturaId={candidate.id}
             conteudoLinhaDoTempoAutomatico={

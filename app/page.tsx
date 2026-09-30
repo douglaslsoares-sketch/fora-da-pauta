@@ -27,7 +27,7 @@ export default function Home() {
           </p>
 
           <h1 className="mt-4 text-4xl font-semibold leading-[0.98] tracking-[-0.05em] sm:text-6xl">
-            Conheça seu candidato.
+            {"Acompanhe seu candidato depois de eleito."}
           </h1>
 
           <p className="mt-7 max-w-2xl text-lg leading-8 text-white/70">

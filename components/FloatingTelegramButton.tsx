@@ -1,4 +1,16 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
 export function FloatingTelegramButton() {
+  const pathname = usePathname();
+
+  if (
+    pathname === "/conheca-seu-candidato"
+  ) {
+    return null;
+  }
+
   return (
     <a
       href="https://t.me/foradapauta"
