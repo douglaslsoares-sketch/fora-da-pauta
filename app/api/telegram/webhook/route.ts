@@ -327,7 +327,7 @@ export async function POST(
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "Pronto. O recebimento de avisos do Fora da Pauta foi interrompido.\n\nSe quiser voltar a acompanhar alguma coisa depois, basta ativar novamente pelo site.",
+          "Pronto. O recebimento de avisos do Fora da Pauta foi interrompido.\n\nSe quiser voltar a acompanhar alguma coisa depois, envie /start e escolha novamente o que deseja acompanhar.",
       });
 
       return NextResponse.json({
