@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation";
 
-import { FloatingTelegramButton } from "@/components/FloatingTelegramButton";
 import { ShareCandidatePageButton } from "@/components/ShareCandidatePageButton";
 import { SiteHeader } from "@/components/SiteHeader";
 
@@ -47,7 +46,6 @@ export function SiteChromeRouter() {
 
         </>
       ) : null}
-      <FloatingTelegramButton />
     </>
   );
 }
