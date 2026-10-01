@@ -555,11 +555,21 @@ const trajetoriaOrdenada =
                                   </p>
 
                                   <p className="mt-2 text-3xl font-semibold tracking-[-0.04em]">
-                                    {atuacaoPolitica.totalVotacoes}
+                                    {atuacaoPolitica.totalVotacoes === 0 &&
+                                      atuacaoPolitica.proposicoes.some(
+                                        (item) => item.proposicaoId.startsWith("cldf:"),
+                                      )
+                                      ? "Não coletadas"
+                                      : atuacaoPolitica.totalVotacoes}
                                   </p>
 
                                   <p className="mt-2 text-sm text-black/45">
-                                    registros documentados
+                                    {atuacaoPolitica.totalVotacoes === 0 &&
+                                      atuacaoPolitica.proposicoes.some(
+                                        (item) => item.proposicaoId.startsWith("cldf:"),
+                                      )
+                                      ? "A coleta de votações da CLDF ainda não está disponível."
+                                      : "registros documentados"}
                                   </p>
                                 </div>
 
@@ -573,7 +583,7 @@ const trajetoriaOrdenada =
                                   </p>
 
                                   <p className="mt-2 text-sm text-black/45">
-                                    com vínculo oficial de autoria
+                                    com autoria indicada na fonte oficial
                                   </p>
                                 </div>
                               </div>
@@ -626,7 +636,7 @@ const trajetoriaOrdenada =
                                             rel="noreferrer"
                                             className="mt-3 inline-flex text-sm font-semibold underline underline-offset-4"
                                           >
-                                            Câmara dos Deputados ↗
+                                            {item.fonte.titulo} ↗
                                           </a>
                                         </article>
                                       ),
@@ -693,7 +703,7 @@ const trajetoriaOrdenada =
                                             rel="noreferrer"
                                             className="mt-3 inline-flex text-sm font-semibold underline underline-offset-4"
                                           >
-                                            Câmara dos Deputados ↗
+                                            {item.fonte.titulo} ↗
                                           </a>
                                         </article>
                                       ),
@@ -704,6 +714,16 @@ const trajetoriaOrdenada =
 
                               <p className="mt-6 text-xs leading-5 text-black/40">
                                 A ficha apresenta um resumo. Todos os registros disponíveis podem ser consultados nas páginas completas de votações e proposições.
+                                {atuacaoPolitica.proposicoes.some(
+                                  (item) => item.proposicaoId.startsWith("cldf:"),
+                                ) && (
+                                  <>
+                                    {" "}A cobertura da CLDF reúne proposições de 2026
+                                    com autoria indicada na busca oficial. As votações
+                                    da CLDF ainda não foram coletadas. A ausência desses
+                                    registros não significa ausência de atuação.
+                                  </>
+                                )}
                               </p>
                             </div>
               ) : null
