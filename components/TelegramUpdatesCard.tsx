@@ -1,4 +1,20 @@
+function obterBotUsername() {
+  return (
+    process.env
+      .NEXT_PUBLIC_TELEGRAM_BOT_USERNAME
+      ?.trim()
+      .replace(/^@/, "") ||
+    "ForaDaPautaAcompanhaBot"
+  );
+}
+
 export function TelegramUpdatesCard() {
+  const botUsername =
+    obterBotUsername();
+
+  const telegramHref =
+    `https://t.me/${botUsername}?start=edicoes`;
+
   return (
     <section className="border-t border-black/15 py-8 sm:py-10">
       <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
@@ -12,20 +28,20 @@ export function TelegramUpdatesCard() {
           </h2>
 
           <p className="mt-4 text-base leading-7 text-black/55">
-            Entre no canal oficial do Fora da Pauta no Telegram e receba um
-            aviso quando uma nova edição for publicada.
+            Ative no bot do Fora da Pauta o recebimento de novas edições.
+            Os avisos chegam diretamente pelo Telegram.
           </p>
 
           <p className="mt-3 text-sm leading-6 text-black/40">
-            Sem excesso de mensagens. Só o necessário para acompanhar o projeto.
+            Essa escolha é independente do acompanhamento de candidatos.
           </p>
         </div>
 
         <a
-          href="https://t.me/foradapauta"
+          href={telegramHref}
           target="_blank"
           rel="noreferrer"
-          aria-label="Entrar no canal Fora da Pauta no Telegram"
+          aria-label="Receber novas edições pelo bot do Fora da Pauta"
           className="shrink-0 text-2xl transition-transform duration-300 hover:translate-x-1"
         >
           →

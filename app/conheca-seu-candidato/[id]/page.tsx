@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CandidateDossier } from "@/components/CandidateDossier";
+import { CandidateFollowCard } from "@/components/CandidateFollowCard";
 
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { notFound } from "next/navigation";
@@ -328,12 +329,16 @@ const trajetoriaOrdenada =
 
               <p className="mt-3 max-w-2xl text-sm leading-6 text-black/50">
                 Registros anteriores são preservados para manter a
-                trajetória documental. Quando a ficha for atualizada,
-                a alteração poderá ser comunicada pelo canal do
-                Fora da Pauta no Telegram.
+                trajetória documental.
+                Para receber os avisos pelo bot do Fora da Pauta no Telegram,
+                ative o acompanhamento deste candidato no botão abaixo.
               </p>
             </div>
           </section>
+          <CandidateFollowCard
+            candidaturaId={candidate.id}
+          />
+
           <CandidateDossier
             candidaturaId={candidate.id}
             conteudoLinhaDoTempoAutomatico={

@@ -66,6 +66,29 @@ $candidaturas = foreach ($linha in $dados) {
     ultimaVerificacao   = (Get-Date).ToString("yyyy-MM-dd")
   }
 
+  $codigoResultado = Limpar-Valor $linha.CD_SIT_TOT_TURNO
+  $descricaoResultado = Limpar-Valor $linha.DS_SIT_TOT_TURNO
+  $turnoResultado = 0
+
+  if (
+    $codigoResultado -and
+    $codigoResultado -ne "-1" -and
+    $descricaoResultado -and
+    $descricaoResultado -ne "#NE" -and
+    [int]::TryParse([string]$linha.NR_TURNO, [ref]$turnoResultado) -and
+    $turnoResultado -gt 0
+  ) {
+    $item["resultadoEleitoral"] = [ordered]@{
+      turno = $turnoResultado
+      codigoTse = $codigoResultado
+      situacaoTse = $descricaoResultado
+      geradoEmTse = (
+        [string]$linha.DT_GERACAO + " " +
+        [string]$linha.HH_GERACAO
+      ).Trim()
+    }
+  }
+
   if ($federacao) {
     $item["federacao"] = $federacao
   }
