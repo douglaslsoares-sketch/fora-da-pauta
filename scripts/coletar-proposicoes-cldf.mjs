@@ -104,6 +104,22 @@ async function main() {
 }
 
 main().catch(error => {
-  console.error(error.message);
+  console.error("Falha na coleta:", error.message);
+  let causa = error.cause;
+  for (let nivel = 0; causa && nivel < 5; nivel++) {
+    console.error(JSON.stringify({
+      nivel,
+      nome: causa.name,
+      codigo: causa.code,
+      mensagem: causa.message,
+      erros: Array.isArray(causa.errors)
+        ? causa.errors.map(item => ({
+            codigo: item.code,
+            mensagem: item.message,
+          }))
+        : undefined,
+    }));
+    causa = causa.cause;
+  }
   process.exitCode = 1;
 });
