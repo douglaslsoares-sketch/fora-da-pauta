@@ -87,9 +87,9 @@ export default async function ProposicoesDoCandidatoPage({
 
       <div className="mx-auto w-full max-w-4xl px-5 py-8 sm:px-8 sm:py-12">
         <p className="max-w-2xl text-sm leading-6 text-black/50">
-          Registros com vínculo oficial de autoria identificados na
-          base da Câmara dos Deputados, da data mais recente para a
-          mais antiga.
+          Proposições com autoria indicada nas fontes oficiais consultadas,
+          da data mais recente para a mais antiga. A instituição e o vínculo
+          documentado aparecem em cada registro.
         </p>
 
         <div className="mt-8 divide-y divide-black/10 border-y border-black/10">
@@ -129,7 +129,7 @@ export default async function ProposicoesDoCandidatoPage({
                   rel="noreferrer"
                   className="mt-3 inline-flex text-sm font-semibold underline underline-offset-4"
                 >
-                  Câmara dos Deputados ↗
+                  {item.fonte.titulo} ↗
                 </a>
               </article>
             ),
