@@ -1,7 +1,7 @@
 import "server-only";
 
 import { sql } from "../interesses/db";
-import { planejarNovidades } from "./novidades";
+import { planejarNovidades, prepararHistoricoPorGrupo } from "./novidades";
 
 export type EventoNotificacao = {
   id: string;
@@ -66,14 +66,23 @@ export async function registrarNovidadesNaFila({
       WHERE tipo = ${tipo} AND referencia = ${referencia}
     `;
 
-    const plano = planejarNovidades(
+    const historico = prepararHistoricoPorGrupo(
       [...porId.keys()],
-      criada.length > 0 ? null : conhecidos.map((item) => item.evento_id),
+      conhecidos.map((item) => item.evento_id),
+      tipo === "candidato"
+        ? ["proposicao:cldf:", "votacao:cldf:"]
+        : [],
     );
 
-    const idsRegistrar = plano.inicializacao
-      ? plano.idsConhecidos
-      : plano.novosIds;
+    const plano = planejarNovidades(
+      [...porId.keys()],
+      criada.length > 0 ? null : historico.idsConhecidos,
+    );
+
+    const idsRegistrar = [...new Set([
+      ...historico.idsRegistrar,
+      ...(plano.inicializacao ? plano.idsConhecidos : plano.novosIds),
+    ])];
 
     for (const id of idsRegistrar) {
       await tx`

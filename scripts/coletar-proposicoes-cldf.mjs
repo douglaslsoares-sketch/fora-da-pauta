@@ -78,7 +78,7 @@ async function main() {
 
   const itens = [...registros.values()];
   fs.writeFileSync(
-    path.join(pasta, "proposicoes-2026.json"),
+    process.argv[2] || path.join(pasta, "proposicoes-2026.json"),
     JSON.stringify({
       fonte: base,
       ano,
