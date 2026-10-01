@@ -1,0 +1,87 @@
+name: Processar avisos do Telegram
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "7,22,37,52 * * * *"
+
+permissions: {}
+
+concurrency:
+  group: processar-avisos-telegram
+  cancel-in-progress: false
+
+jobs:
+  processar:
+    if: vars.TELEGRAM_AVISOS_ATIVADOS == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Coletar novidades e processar avisos
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          node <<'NODE'
+          async function main() {
+            const segredo = process.env.CRON_SECRET?.trim();
+            if (!segredo) {
+              throw new Error("CRON_SECRET não configurado no GitHub.");
+            }
+
+            const resposta = await fetch(
+              "https://www.foradapauta.org/api/telegram/processar-fila",
+              {
+                headers: { Authorization: `Bearer ${segredo}` },
+                redirect: "error",
+                signal: AbortSignal.timeout(75000),
+              },
+            );
+
+            if (!resposta.ok) {
+              throw new Error(`Rota retornou HTTP ${resposta.status}.`);
+            }
+
+            const resultado = await resposta.json();
+
+            if (
+              resultado.ok !== true ||
+              !resultado.coleta ||
+              !resultado.envio
+            ) {
+              throw new Error("Resposta inesperada da rota.");
+            }
+
+            console.log(JSON.stringify({
+              fontesVerificadas: resultado.coleta.fontesVerificadas,
+              fontesSemDados: resultado.coleta.fontesSemDados,
+              fontesComFalha: resultado.coleta.fontesComFalha,
+              eventosNovos: resultado.coleta.eventosNovos,
+              avisosInseridos: resultado.coleta.avisosInseridos,
+              enviados: resultado.envio.enviados,
+              cancelados: resultado.envio.cancelados,
+              erros: resultado.envio.erros,
+              incertos: resultado.envio.incertos,
+            }, null, 2));
+
+            if (
+              resultado.coleta.fontesComFalha > 0 ||
+              resultado.envio.erros > 0 ||
+              resultado.envio.incertos > 0
+            ) {
+              throw new Error("O processamento exige conferência.");
+            }
+          }
+
+          main().catch((error) => {
+            console.error(
+              error instanceof Error
+                ? error.message.replaceAll(
+                    process.env.CRON_SECRET || "__SEM_SEGREDO__",
+                    "[oculto]",
+                  )
+                : "Falha no processamento.",
+            );
+            process.exitCode = 1;
+          });
+          NODE
