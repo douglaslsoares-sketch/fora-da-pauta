@@ -30,6 +30,25 @@ jobs:
         with:
           node-version: '24'
 
+      - name: Diagnosticar acesso HTTPS com curl
+        shell: bash
+        run: |
+          for ip in 179.124.14.98 189.84.137.28; do
+            echo "Testando endereco: $ip"
+            if curl --silent --show-error \
+              --connect-timeout 30 --max-time 40 \
+              --resolve "ple.cl.df.gov.br:443:$ip" \
+              --header "Content-Type: application/json" \
+              --data '{"ano":"2026","ementa":true}' \
+              --output /dev/null \
+              --write-out 'HTTP: %{http_code}; conexao: %{time_connect}s; total: %{time_total}s\n' \
+              "https://ple.cl.df.gov.br/pleservico/api/public/proposicao/filter?page=0&size=1&sort=id,ASC"; then
+              echo "Consulta concluida."
+            else
+              echo "curl falhou com codigo $?"
+            fi
+          done
+
       - name: Coletar e gerar dados com backup
         shell: pwsh
         run: |
