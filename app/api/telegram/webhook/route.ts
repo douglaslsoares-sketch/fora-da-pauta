@@ -246,6 +246,15 @@ async function cancelarTudo(
             ${chatId}::bigint
           AND status = 'ativo'
       `;
+      await tx`
+        UPDATE public.telegram_fila_avisos
+        SET
+          status = 'cancelado',
+          updated_at = now(),
+          ultimo_erro_codigo = 'CANCELADO_PELO_USUARIO'
+        WHERE telegram_chat_id = ${chatId}::bigint
+          AND status IN ('pendente', 'erro')
+      `;
     },
   );
 }
