@@ -1,0 +1,96 @@
+name: Atualizar atuacao da CLDF
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 */4 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: atualizar-atuacao-cldf-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    if: vars.CLDF_ATUALIZACAO_ATIVADA == 'true'
+    runs-on: windows-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Baixar repositorio
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Coletar e gerar dados com backup
+        shell: pwsh
+        run: |
+          & "./scripts/atualizar-atuacao-cldf.ps1"
+          if ($LASTEXITCODE -ne 0) {
+            throw "Atualizacao da CLDF falhou."
+          }
+
+      - name: Preparar dados alterados
+        id: changes
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A -- "data/eleicoes/gerado/atuacao-estadual-candidatos"
+          if ($LASTEXITCODE -ne 0) {
+            throw "Falha ao preparar dados."
+          }
+
+          git diff --cached --quiet
+          $codigo = $LASTEXITCODE
+
+          if ($codigo -eq 0) {
+            "changed=false" >> $env:GITHUB_OUTPUT
+            Write-Host "Nenhuma alteracao encontrada."
+          } elseif ($codigo -eq 1) {
+            "changed=true" >> $env:GITHUB_OUTPUT
+            git diff --cached --stat
+          } else {
+            throw "Falha ao conferir alteracoes."
+          }
+
+      - name: Publicar dados
+        if: steps.changes.outputs.changed == 'true'
+        shell: pwsh
+        env:
+          BRANCH_DESTINO: ${{ github.ref_name }}
+        run: |
+          git commit -m "chore(dados): atualizar proposicoes da CLDF"
+          if ($LASTEXITCODE -ne 0) {
+            throw "Falha ao criar commit."
+          }
+
+          for ($tentativa = 1; $tentativa -le 3; $tentativa++) {
+            git fetch origin $env:BRANCH_DESTINO
+            if ($LASTEXITCODE -ne 0) {
+              throw "Falha ao buscar branch."
+            }
+
+            git rebase "origin/$env:BRANCH_DESTINO"
+            if ($LASTEXITCODE -ne 0) {
+              git rebase --abort
+              throw "Conflito na atualizacao. Conferencia necessaria."
+            }
+
+            git push origin "HEAD:refs/heads/$env:BRANCH_DESTINO"
+            if ($LASTEXITCODE -eq 0) {
+              Write-Host "Dados publicados."
+              exit 0
+            }
+          }
+
+          throw "Publicacao falhou apos tres tentativas."
