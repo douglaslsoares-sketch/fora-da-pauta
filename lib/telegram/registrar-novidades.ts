@@ -70,7 +70,7 @@ export async function registrarNovidadesNaFila({
       [...porId.keys()],
       conhecidos.map((item) => item.evento_id),
       tipo === "candidato"
-        ? ["proposicao:cldf:", "votacao:cldf:"]
+        ? ["proposicao:cldf:", "votacao:cldf:", "proposicao:alepa:", "votacao:alepa:"]
         : [],
     );
 

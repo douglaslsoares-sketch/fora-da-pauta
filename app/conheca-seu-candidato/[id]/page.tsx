@@ -557,7 +557,7 @@ const trajetoriaOrdenada =
                                   <p className="mt-2 text-3xl font-semibold tracking-[-0.04em]">
                                     {atuacaoPolitica.totalVotacoes === 0 &&
                                       atuacaoPolitica.proposicoes.some(
-                                        (item) => item.proposicaoId.startsWith("cldf:"),
+                                        (item) => item.proposicaoId.startsWith("cldf:") || item.proposicaoId.startsWith("alepa:"),
                                       )
                                       ? "Não coletadas"
                                       : atuacaoPolitica.totalVotacoes}
@@ -566,9 +566,9 @@ const trajetoriaOrdenada =
                                   <p className="mt-2 text-sm text-black/45">
                                     {atuacaoPolitica.totalVotacoes === 0 &&
                                       atuacaoPolitica.proposicoes.some(
-                                        (item) => item.proposicaoId.startsWith("cldf:"),
+                                        (item) => item.proposicaoId.startsWith("cldf:") || item.proposicaoId.startsWith("alepa:"),
                                       )
-                                      ? "A coleta de votações da CLDF ainda não está disponível."
+                                      ? "A coleta de votações das casas legislativas estaduais e distrital ainda não está disponível."
                                       : "registros documentados"}
                                   </p>
                                 </div>
@@ -714,6 +714,19 @@ const trajetoriaOrdenada =
 
                               <p className="mt-6 text-xs leading-5 text-black/40">
                                 A ficha apresenta um resumo. Todos os registros disponíveis podem ser consultados nas páginas completas de votações e proposições.
+                                {atuacaoPolitica.proposicoes.some(
+                                  (item) => item.proposicaoId.startsWith("alepa:"),
+                                ) && (
+                                  <>
+                                    {" "}A cobertura da ALEPA reúne proposições
+                                    identificadas como de 2026, com autoria indicada
+                                    na lista oficial. Registros com divergência entre
+                                    o ano da identificação e o da data permanecem
+                                    pendentes de conferência. As votações da ALEPA
+                                    ainda não foram coletadas. A ausência desses
+                                    registros não significa ausência de atuação.
+                                  </>
+                                )}
                                 {atuacaoPolitica.proposicoes.some(
                                   (item) => item.proposicaoId.startsWith("cldf:"),
                                 ) && (
