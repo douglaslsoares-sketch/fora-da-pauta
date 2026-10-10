@@ -1,8 +1,9 @@
-import { timingSafeEqual } from "node:crypto";
+import { createHash, timingSafeEqual } from "node:crypto";
 
 import { NextResponse } from "next/server";
 
 import { candidaturas } from "@/data/eleicoes/candidaturas";
+import { eleitos2026 } from "@/data/eleicoes/eleitos";
 import { buscarPessoaPoliticaConfirmadaPorCandidatura } from "@/lib/eleicoes/identidade-politica";
 import { sql } from "@/lib/interesses/db";
 
@@ -27,6 +28,13 @@ type TelegramUpdate = {
 type TelegramButton = {
   text: string;
   url: string;
+};
+
+type VinculoPendente = {
+  candidatura_ids: string[];
+  consumido: boolean;
+  consumed_by_chat_id: string | null;
+  valido: boolean;
 };
 
 const START_PATTERN =
@@ -77,6 +85,12 @@ function segredoConfere(
   );
 }
 
+function hashToken(token: string) {
+  return createHash("sha256")
+    .update(token, "utf8")
+    .digest("hex");
+}
+
 async function enviarMensagemTelegram({
   chatId,
   texto,
@@ -117,6 +131,7 @@ async function enviarMensagemTelegram({
                 : undefined,
           }),
         cache: "no-store",
+        signal: AbortSignal.timeout(8_000),
       },
     );
 
@@ -125,6 +140,165 @@ async function enviarMensagemTelegram({
       `TELEGRAM_SEND_FAILED:${response.status}`,
     );
   }
+}
+
+async function consumirVinculo(
+  chatId: string,
+  token: string,
+) {
+  const tokenHash = hashToken(token);
+
+  const idsEleitos = new Set(
+    eleitos2026.map((pessoa) => pessoa.id),
+  );
+
+  return sql.begin(async (tx) => {
+    const vinculos = await tx<VinculoPendente[]>`
+      SELECT
+        candidatura_ids,
+        consumed_at IS NOT NULL AS consumido,
+        consumed_by_chat_id::text AS consumed_by_chat_id,
+        expires_at > now() AS valido
+      FROM public.telegram_vinculos_pendentes
+      WHERE token_hash = ${tokenHash}
+      LIMIT 1
+      FOR UPDATE
+    `;
+
+    const vinculo = vinculos[0];
+
+    if (!vinculo) {
+      return {
+        ok: false as const,
+        motivo: "invalido" as const,
+        quantidade: 0,
+      };
+    }
+
+    if (vinculo.consumido) {
+      if (vinculo.consumed_by_chat_id === chatId) {
+        return {
+          ok: true as const,
+          quantidade: vinculo.candidatura_ids.length,
+          repetido: true as const,
+        };
+      }
+
+      return {
+        ok: false as const,
+        motivo: "invalido" as const,
+        quantidade: 0,
+      };
+    }
+
+    if (!vinculo.valido) {
+      return {
+        ok: false as const,
+        motivo: "invalido" as const,
+        quantidade: 0,
+      };
+    }
+
+    const candidaturaIds = [
+      ...new Set(vinculo.candidatura_ids),
+    ].filter((id) => idsEleitos.has(id));
+
+    if (
+      candidaturaIds.length < 1 ||
+      candidaturaIds.length !==
+        vinculo.candidatura_ids.length
+    ) {
+      return {
+        ok: false as const,
+        motivo: "eleitos_invalidos" as const,
+        quantidade: 0,
+      };
+    }
+
+    await tx`
+      INSERT INTO public.telegram_preferencias (
+        telegram_chat_id,
+        tipo,
+        referencia,
+        status,
+        created_at,
+        updated_at,
+        cancelled_at
+      )
+      VALUES (
+        ${chatId}::bigint,
+        'notificacoes',
+        '',
+        'ativo',
+        now(),
+        now(),
+        NULL
+      )
+      ON CONFLICT (
+        telegram_chat_id,
+        tipo,
+        referencia
+      )
+      DO UPDATE SET
+        status = 'ativo',
+        updated_at = now(),
+        cancelled_at = NULL
+    `;
+
+    for (const candidaturaId of candidaturaIds) {
+      const pessoaPoliticaId =
+        buscarPessoaPoliticaConfirmadaPorCandidatura(candidaturaId);
+
+      await tx`
+        INSERT INTO public.telegram_acompanhamentos (
+          telegram_chat_id,
+          candidatura_id,
+          identidade_politica_id,
+          status,
+          created_at,
+          updated_at,
+          cancelled_at
+        )
+        VALUES (
+          ${chatId}::bigint,
+          ${candidaturaId},
+          ${pessoaPoliticaId},
+          'ativo',
+          now(),
+          now(),
+          NULL
+        )
+        ON CONFLICT (
+          telegram_chat_id,
+          candidatura_id
+        )
+        DO UPDATE SET
+          identidade_politica_id = COALESCE(
+            EXCLUDED.identidade_politica_id,
+            telegram_acompanhamentos.identidade_politica_id
+          ),
+          status = 'ativo',
+          updated_at = now(),
+          cancelled_at = NULL
+      `;
+    }
+
+    await tx`
+      UPDATE public.telegram_vinculos_pendentes
+      SET
+        consumed_at = now(),
+        consumed_by_chat_id = ${chatId}::bigint
+      WHERE token_hash = ${tokenHash}
+        AND consumed_at IS NULL
+        AND consumed_by_chat_id IS NULL
+    `;
+
+    return {
+      ok: true as const,
+      quantidade: candidaturaIds.length,
+      repetido: false as const,
+    };
+  });
 }
 
 async function registrarAcompanhamento(
@@ -313,7 +487,7 @@ export async function POST(
 
     if (
       !texto ||
-      typeof chatIdRaw !== "number" ||
+      !Number.isSafeInteger(chatIdRaw) ||
       chatType !== "private"
     ) {
       return NextResponse.json({
@@ -356,7 +530,7 @@ export async function POST(
     }
 
     const payload =
-      match[1]?.toLowerCase();
+      match[1];
 
     const botUsername =
       obterBotUsername();
@@ -389,7 +563,53 @@ export async function POST(
       });
     }
 
-    if (payload === "edicoes") {
+    if (payload.startsWith("v_")) {
+      const token = payload.slice(2);
+
+      if (!/^[A-Za-z0-9_-]{20,60}$/.test(token)) {
+        await enviarMensagemTelegram({
+          chatId,
+          texto: "Este link \u00e9 inv\u00e1lido. Volte ao site e gere uma nova ativa\u00e7\u00e3o.",
+        });
+        return NextResponse.json({ ok: true });
+      }
+
+      const resultado = await consumirVinculo(chatId, token);
+
+      if (!resultado.ok) {
+        await enviarMensagemTelegram({
+          chatId,
+          texto: "Este link expirou ou j\u00e1 foi utilizado.\n\n" +
+            "Volte ao Fora da Pauta e toque novamente em ativar o Telegram.",
+        });
+        return NextResponse.json({ ok: true });
+      }
+
+      if (resultado.repetido) {
+        await enviarMensagemTelegram({
+          chatId,
+          texto: "Suas escolhas j\u00e1 foram registradas com este link.\n\n" +
+            "Para uma nova ativa\u00e7\u00e3o, gere outro link pelo site:\n\n" +
+            "https://www.foradapauta.org/votou-fique-de-olho",
+        });
+        return NextResponse.json({ ok: true });
+      }
+
+      const quantidade = resultado.quantidade === 1
+        ? "1 pessoa"
+        : String(resultado.quantidade) + " pessoas";
+
+      await enviarMensagemTelegram({
+        chatId,
+        texto: "Pronto. Suas notifica\u00e7\u00f5es do Fora da Pauta est\u00e3o ativadas.\n\n" +
+          "Voc\u00ea est\u00e1 acompanhando " + quantidade + ". " +
+          "Quando houver uma atualiza\u00e7\u00e3o relevante, ela poder\u00e1 chegar por aqui.\n\n" +
+          "Para interromper as notifica\u00e7\u00f5es, envie /parar.",
+      });
+      return NextResponse.json({ ok: true });
+    }
+
+    if (payload.toLowerCase() === "edicoes") {
       await registrarNovasEdicoes(
         chatId,
       );
@@ -415,7 +635,7 @@ export async function POST(
     }
 
     const seguirMatch =
-      payload.match(
+      payload.toLowerCase().match(
         /^seguir_(\d{8,20})$/,
       );
 

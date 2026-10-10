@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { candidaturas } from "@/data/eleicoes/candidaturas";
+import { eleitos2026 } from "@/data/eleicoes/eleitos";
 import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
 
 const TAMANHO_PAGINA = 40;
@@ -103,8 +104,13 @@ export async function GET(
     });
   }
 
+  const base =
+    searchParams.get("escopo") === "eleitos"
+      ? eleitos2026
+      : candidaturas;
+
   const encontrados =
-    candidaturas
+    base
       .filter((candidate) => {
         if (
           cargo &&
