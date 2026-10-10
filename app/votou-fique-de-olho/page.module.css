@@ -1,0 +1,64 @@
+﻿.page {
+  min-height: 100vh;
+  background: #ffffff;
+  color: #111111;
+}
+
+:global(body):has(.page) > :global(header) {
+  display: none;
+}
+
+.header {
+  background: #000000;
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255,255,255,.13);
+}
+
+.headerInner {
+  width: 100%;
+  max-width: 760px;
+  min-height: 104px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brandLink {
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+.logo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.tagline {
+  margin: 0;
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  text-align: right;
+}
+
+@media (min-width: 768px) {
+  .headerInner {
+    min-height: 96px;
+  }
+
+  .logo {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+:global(.votou-search-stage):has([data-follow-results="true"]) > h2,
+:global(.votou-search-stage):has([data-follow-results="true"]) > :global(.votou-intro-only) {
+  display: none;
+}

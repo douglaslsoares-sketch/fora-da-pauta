@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { candidaturas } from "@/data/eleicoes/candidaturas";
+import { eleitos2026 } from "@/data/eleicoes/eleitos";
 import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
+
+const TAMANHO_PAGINA = 40;
 
 function normalizar(valor: string) {
   return valor
@@ -15,12 +18,23 @@ function nomeCorresponde(
   nome: string,
   termo: string,
 ) {
-  return normalizar(nome)
-    .split(/\s+/)
-    .filter(Boolean)
-    .some((palavra) =>
-      palavra.startsWith(termo),
-    );
+  const palavrasNome =
+    normalizar(nome)
+      .split(/\s+/)
+      .filter(Boolean);
+
+  const palavrasTermo =
+    normalizar(termo)
+      .split(/\s+/)
+      .filter(Boolean);
+
+  return palavrasTermo.every(
+    (parte) =>
+      palavrasNome.some(
+        (palavra) =>
+          palavra.startsWith(parte),
+      ),
+  );
 }
 
 export async function GET(
@@ -37,10 +51,25 @@ export async function GET(
   const cargo =
     searchParams.get("cargo") ?? "";
 
+  const escopo =
+    searchParams.get("escopo") ?? "";
+
   const uf =
     (
       searchParams.get("uf") ?? ""
     ).toUpperCase();
+
+  const paginaInformada =
+    Number.parseInt(
+      searchParams.get("pagina") ?? "1",
+      10,
+    );
+
+  const paginaSolicitada =
+    Number.isFinite(paginaInformada) &&
+    paginaInformada > 0
+      ? paginaInformada
+      : 1;
 
   if (
     termo.length < 2 &&
@@ -50,11 +79,18 @@ export async function GET(
     return NextResponse.json({
       resultados: [],
       total: 0,
+      pagina: 1,
+      totalPaginas: 0,
     });
   }
 
+  const base =
+    escopo === "eleitos"
+      ? eleitos2026
+      : candidaturas;
+
   const encontrados =
-    candidaturas
+    base
       .filter((candidate) => {
         if (
           cargo &&
@@ -103,9 +139,34 @@ export async function GET(
         ),
       );
 
+  const total =
+    encontrados.length;
+
+  const totalPaginas =
+    total === 0
+      ? 0
+      : Math.ceil(
+          total / TAMANHO_PAGINA,
+        );
+
+  const pagina =
+    totalPaginas === 0
+      ? 1
+      : Math.min(
+          paginaSolicitada,
+          totalPaginas,
+        );
+
+  const inicio =
+    (pagina - 1) *
+    TAMANHO_PAGINA;
+
   const resultados =
     encontrados
-      .slice(0, 40)
+      .slice(
+        inicio,
+        inicio + TAMANHO_PAGINA,
+      )
       .map((candidate) => ({
         id: candidate.id,
         nomeUrna: candidate.nomeUrna,
@@ -124,6 +185,8 @@ export async function GET(
 
   return NextResponse.json({
     resultados,
-    total: encontrados.length,
+    total,
+    pagina,
+    totalPaginas,
   });
 }
