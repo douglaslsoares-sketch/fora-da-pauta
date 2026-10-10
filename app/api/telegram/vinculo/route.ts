@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 
 import { eleitos2026 } from "@/data/eleicoes/eleitos";
 import { sql } from "@/lib/interesses/db";
+import { consumeRateLimit } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -11,6 +12,12 @@ export const dynamic = "force-dynamic";
 const BOT_USERNAME = "ForaDaPautaAcompanhaBot";
 const DURACAO_TOKEN_MINUTOS = 15;
 const LIMITE_ACOMPANHAMENTOS = 100;
+
+const LIMITE_VINCULOS_10_MIN = 10;
+const JANELA_VINCULOS_10_MIN_SEGUNDOS = 10 * 60;
+
+const LIMITE_VINCULOS_24_H = 50;
+const JANELA_VINCULOS_24_H_SEGUNDOS = 24 * 60 * 60;
 
 type CorpoRequisicao = {
   ids?: unknown;
@@ -20,6 +27,29 @@ function hashToken(token: string) {
   return createHash("sha256")
     .update(token, "utf8")
     .digest("hex");
+}
+
+function muitasRequisicoes(
+  retryAfterSeconds: number,
+) {
+  return NextResponse.json(
+    {
+      erro:
+        "Muitas tentativas em pouco tempo. Aguarde um pouco e tente novamente.",
+    },
+    {
+      status: 429,
+      headers: {
+        "Cache-Control": "no-store",
+        "Retry-After": String(
+          Math.max(
+            1,
+            retryAfterSeconds,
+          ),
+        ),
+      },
+    },
+  );
 }
 
 export async function POST(request: Request) {
@@ -75,6 +105,36 @@ export async function POST(request: Request) {
           "Uma ou mais pessoas escolhidas não constam na lista atual de eleitos.",
       },
       { status: 400 },
+    );
+  }
+
+  const limiteCurto =
+    await consumeRateLimit({
+      request,
+      scope: "telegram:vinculo:10m",
+      limit: LIMITE_VINCULOS_10_MIN,
+      windowSeconds:
+        JANELA_VINCULOS_10_MIN_SEGUNDOS,
+    });
+
+  if (!limiteCurto.allowed) {
+    return muitasRequisicoes(
+      limiteCurto.retryAfterSeconds,
+    );
+  }
+
+  const limiteDiario =
+    await consumeRateLimit({
+      request,
+      scope: "telegram:vinculo:24h",
+      limit: LIMITE_VINCULOS_24_H,
+      windowSeconds:
+        JANELA_VINCULOS_24_H_SEGUNDOS,
+    });
+
+  if (!limiteDiario.allowed) {
+    return muitasRequisicoes(
+      limiteDiario.retryAfterSeconds,
     );
   }
 
