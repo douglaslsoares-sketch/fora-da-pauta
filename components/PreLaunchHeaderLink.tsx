@@ -17,13 +17,13 @@ export function PreLaunchHeaderLink() {
         className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.04em] text-white/60 transition hover:text-white"
       >
         <span className="text-[#FFC400]">
-          Pré-lançamento
+          Página inicial
         </span>
 
         <span aria-hidden="true">—</span>
 
         <span>
-          Conheça o Fora da Pauta
+          Veja todas as publicações
         </span>
 
         <span aria-hidden="true">→</span>
