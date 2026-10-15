@@ -125,10 +125,35 @@ if (Test-Path -LiteralPath $tmpVotos) {
         -Force
 }
 
-Invoke-WebRequest `
-    -Uri $urlVotos `
-    -OutFile $tmpVotos `
-    -UseBasicParsing
+for ($tentativaVotos = 1; $tentativaVotos -le 3; $tentativaVotos++) {
+    try {
+        if (Test-Path -LiteralPath $tmpVotos) {
+            Remove-Item -LiteralPath $tmpVotos -Force
+        }
+
+        Invoke-WebRequest `
+            -Uri $urlVotos `
+            -OutFile $tmpVotos `
+            -UseBasicParsing `
+            -ErrorAction Stop
+
+        if (
+            -not (Test-Path -LiteralPath $tmpVotos) -or
+            (Get-Item -LiteralPath $tmpVotos).Length -lt 1000
+        ) {
+            throw 'Download de votações inválido.'
+        }
+
+        break
+    }
+    catch {
+        if ($tentativaVotos -eq 3) {
+            throw
+        }
+
+        Start-Sleep -Seconds (5 * $tentativaVotos)
+    }
+}
 
 if (
     -not (Test-Path -LiteralPath $tmpVotos) -or
