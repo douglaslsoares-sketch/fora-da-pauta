@@ -355,6 +355,100 @@ async function registrarAcompanhamento(
   `;
 }
 
+
+async function mostrarPreferencias(chatId: string) {
+  const [pessoas, edicoes] = await Promise.all([
+    sql<{ candidatura_id: string }[]>`
+      SELECT candidatura_id
+      FROM public.telegram_acompanhamentos
+      WHERE telegram_chat_id = ${chatId}::bigint
+        AND status IN ('ativo', 'aguardando_eleicao')
+        AND cancelled_at IS NULL
+      ORDER BY candidatura_id
+      LIMIT 100
+    `,
+    sql<{ tipo: string }[]>`
+      SELECT tipo
+      FROM public.telegram_preferencias
+      WHERE telegram_chat_id = ${chatId}::bigint
+        AND tipo = 'novas_edicoes'
+        AND status = 'ativo'
+        AND cancelled_at IS NULL
+      LIMIT 1
+    `,
+  ]);
+
+  const nomes = new Map(candidaturas.map((item) => [item.id, item.nomeUrna]));
+  const itens = pessoas.slice(0, 20).map(({ candidatura_id }) =>
+    "• " + (nomes.get(candidatura_id) ?? "Candidatura " + candidatura_id) +
+    "\n  Parar: /parar_candidato_" + candidatura_id
+  );
+  const restantes = pessoas.length > 20
+    ? "\n... e mais " + (pessoas.length - 20) + " pessoas."
+    : "";
+  await enviarMensagemTelegram({
+    chatId,
+    texto:
+      "Suas escolhas no Fora da Pauta:\n\n" +
+      "Novas edições: " + (edicoes.length ? "ativadas" : "não ativadas") + ".\n" +
+      "Políticos acompanhados: " + pessoas.length + ".\n\n" +
+      (itens.length ? itens.join("\n") + restantes : "Nenhum político selecionado.") +
+      "\n\nPara parar apenas novas edições, envie /parar_edicoes." +
+      "\nPara parar tudo, envie /parar.",
+    botoes: [[{
+      text: "Escolher ou acrescentar políticos",
+      url: "https://www.foradapauta.org/votou-fique-de-olho",
+    }]],
+  });
+}
+
+async function cancelarEdicoes(chatId: string) {
+  return sql.begin(async (tx) => {
+    const alteradas = await tx`
+      UPDATE public.telegram_preferencias
+      SET status = 'cancelado', cancelled_at = now(), updated_at = now()
+      WHERE telegram_chat_id = ${chatId}::bigint
+        AND tipo = 'novas_edicoes'
+        AND referencia = ''
+        AND status = 'ativo'
+      RETURNING tipo
+    `;
+    await tx`
+      UPDATE public.telegram_fila_avisos
+      SET status = 'cancelado', updated_at = now(),
+          ultimo_erro_codigo = 'PREFERENCIA_DESATIVADA'
+      WHERE telegram_chat_id = ${chatId}::bigint
+        AND tipo = 'edicoes'
+        AND status IN ('pendente', 'erro')
+    `;
+    return alteradas.length > 0;
+  });
+}
+
+async function cancelarCandidato(chatId: string, candidaturaId: string) {
+  return sql.begin(async (tx) => {
+    const alteradas = await tx`
+      UPDATE public.telegram_acompanhamentos
+      SET status = 'cancelado', cancelled_at = now(), updated_at = now()
+      WHERE telegram_chat_id = ${chatId}::bigint
+        AND candidatura_id = ${candidaturaId}
+        AND status IN ('ativo', 'aguardando_eleicao')
+        AND cancelled_at IS NULL
+      RETURNING candidatura_id
+    `;
+    await tx`
+      UPDATE public.telegram_fila_avisos
+      SET status = 'cancelado', updated_at = now(),
+          ultimo_erro_codigo = 'ACOMPANHAMENTO_DESATIVADO'
+      WHERE telegram_chat_id = ${chatId}::bigint
+        AND tipo = 'candidato'
+        AND referencia = ${candidaturaId}
+        AND status IN ('pendente', 'erro')
+    `;
+    return alteradas.length > 0;
+  });
+}
+
 async function registrarNovasEdicoes(
   chatId: string,
 ) {
@@ -518,6 +612,38 @@ export async function POST(
       });
     }
 
+
+    if (/^\/(?:opcoes|preferencias)(?:@[A-Za-z0-9_]+)?\s*$/i.test(texto)) {
+      await mostrarPreferencias(chatId);
+      return NextResponse.json({ ok: true });
+    }
+
+    if (/^\/parar_edicoes(?:@[A-Za-z0-9_]+)?\s*$/i.test(texto)) {
+      const alterou = await cancelarEdicoes(chatId);
+      await enviarMensagemTelegram({
+        chatId,
+        texto: alterou
+          ? "Avisos de novas edições interrompidos. Seus outros acompanhamentos continuam ativos. Envie /opcoes para conferir."
+          : "Novas edições já estavam desativadas. Envie /opcoes para conferir.",
+      });
+      return NextResponse.json({ ok: true });
+    }
+
+    const cancelarPessoa = texto.match(
+      /^\/parar_candidato_(\d{8,20})(?:@[A-Za-z0-9_]+)?\s*$/i,
+    );
+
+    if (cancelarPessoa) {
+      const alterou = await cancelarCandidato(chatId, cancelarPessoa[1]);
+      await enviarMensagemTelegram({
+        chatId,
+        texto: alterou
+          ? "Acompanhamento interrompido. Suas outras escolhas continuam ativas. Envie /opcoes para conferir."
+          : "Este acompanhamento já estava desativado. Envie /opcoes para conferir.",
+      });
+      return NextResponse.json({ ok: true });
+    }
+
     const match =
       texto.match(
         START_PATTERN,
@@ -535,24 +661,29 @@ export async function POST(
     const botUsername =
       obterBotUsername();
 
+    if (payload?.toLowerCase() === "opcoes") {
+      await mostrarPreferencias(chatId);
+      return NextResponse.json({ ok: true });
+    }
+
     if (!payload) {
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "O bot do Fora da Pauta entrega diretamente pelo Telegram os avisos que você escolher receber.\n\nVocê pode acompanhar candidatos e, separadamente, escolher receber novas edições.",
+          "O Fora da Pauta pode avisar você sobre novas publicações e sobre políticos que escolher acompanhar. Tudo por esta mesma conversa.\n\nEnvie /opcoes para consultar ou modificar suas escolhas.",
         botoes: [
           [
             {
-              text: "Receber novas edições",
+              text: "Acompanhar o Fora da Pauta",
               url:
-                `https://t.me/${botUsername}?start=edicoes`,
+                `https://t.me/${botUsername}?start=projeto`,
             },
           ],
           [
             {
-              text: "Escolher candidato",
+              text: "Escolher político",
               url:
-                "https://www.foradapauta.org/conheca-seu-candidato",
+                "https://www.foradapauta.org/votou-fique-de-olho",
             },
           ],
         ],
@@ -609,7 +740,7 @@ export async function POST(
       return NextResponse.json({ ok: true });
     }
 
-    if (payload.toLowerCase() === "edicoes") {
+    if (["edicoes", "projeto"].includes(payload.toLowerCase())) {
       await registrarNovasEdicoes(
         chatId,
       );
@@ -617,13 +748,13 @@ export async function POST(
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "Pronto. Você escolheu receber pelo Telegram os avisos de novas edições do Fora da Pauta.\n\nEssa escolha é independente do acompanhamento de candidatos.",
+          "Pronto. Você escolheu receber pelo Telegram as novidades editoriais do Fora da Pauta.\n\nVocê pode acompanhar políticos nesta mesma conversa, sem criar outra conta. Envie /opcoes para consultar suas escolhas.",
         botoes: [
           [
             {
-              text: "Escolher candidato para acompanhar",
+              text: "Escolher político para acompanhar",
               url:
-                "https://www.foradapauta.org/conheca-seu-candidato",
+                "https://www.foradapauta.org/votou-fique-de-olho",
             },
           ],
         ],
