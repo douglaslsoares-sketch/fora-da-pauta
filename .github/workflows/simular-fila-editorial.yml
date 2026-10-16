@@ -1,0 +1,22 @@
+name: Simular fila editorial
+on:
+  pull_request:
+    paths:
+      - 'tests/telegram-fila-editorial-integracao.test.cjs'
+      - '.github/workflows/simular-fila-editorial.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  integrar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/telegram-fila-editorial-integracao.test.cjs
