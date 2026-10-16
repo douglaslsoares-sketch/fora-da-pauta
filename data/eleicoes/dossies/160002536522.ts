@@ -10,14 +10,16 @@ export const dossieRenatoFreitas: DossieCandidato = {
     "Renato de Almeida Freitas Júnior nasceu em Sorocaba (SP) e cresceu na " +
     "Região Metropolitana de Curitiba. É formado e mestre em Direito pela " +
     "Universidade Federal do Paraná (UFPR). Foi vereador em Curitiba e " +
-    "eleito deputado estadual do Paraná em 2022. Em 2026, concorreu a " +
-    "deputado federal pelo PT no Paraná.",
+    "eleito deputado estadual do Paraná em 2022. Em 2026, foi eleito " +
+    "deputado federal pelo PT no Paraná, com 115.227 votos, segundo " +
+    "o relatório oficial de totalização do TRE-PR. A posse federal " +
+    "está prevista para 2027.",
 
   biografia: {
     paragrafos: [
       "Renato de Almeida Freitas Júnior nasceu em Sorocaba, no interior de São Paulo, e cresceu na Região Metropolitana de Curitiba. É graduado e mestre em Direito pela Universidade Federal do Paraná (UFPR), com atuação nas áreas de Direito Penal, Criminologia e Sociologia da Violência.",
       "Segundo o perfil institucional da Assembleia Legislativa do Paraná, trabalhou na Defensoria Pública do Estado, atuou como professor universitário e advogado popular. O perfil institucional informa que suas principais áreas de atuação são educação, segurança e moradia. A Assembleia ressalva que os dados biográficos de seu perfil são fornecidos pela assessoria parlamentar.",
-      "Foi eleito vereador de Curitiba em 2020 e deputado estadual do Paraná em 2022. Em 2026, seu registro eleitoral no banco de candidaturas do Fora da Pauta o identifica como candidato a deputado federal pelo PT, número 1333. A situação definitiva da eleição não é inferida desse banco, cuja última verificação é anterior à votação.",
+      "Foi eleito vereador de Curitiba em 2020 e deputado estadual do Paraná em 2022. Na eleição de 4 de outubro de 2026, foi eleito deputado federal pelo Paraná, pelo PT, com 115.227 votos e situação «Eleito por QP», conforme o relatório oficial de totalização do TRE-PR. O mandato federal ainda não começou: o início da nova legislatura está previsto para 2027.",
     ],
     fontes: [
       {
@@ -35,11 +37,56 @@ export const dossieRenatoFreitas: DossieCandidato = {
         tipo: "fonte-oficial",
         publicadaEm: "2022-11-10",
       },
+      {
+        id: "tre-pr-totalizacao-deputado-federal-2026-renato-biografia",
+        titulo: "Relatório Resultado da Totalização — Paraná — Eleições 2026, Anexo IX, página 108",
+        veiculoOuInstituicao: "Tribunal Regional Eleitoral do Paraná (SISTOT)",
+        url: "https://www.tre-pr.jus.br/eleicoes/eleicoes-2026/arquivos/tre-pr-relatorio-resultado-da-totalizacao-eleicoes-gerais-estaduais-2026-parana-1o-turno-para-governador-senador-deputados-federais-e-estaduais",
+        tipo: "fonte-oficial",
+        publicadaEm: "2026-10-04",
+      },
     ],
     ultimaVerificacao: "2026-10-16",
   },
 
   eventos: [
+    {
+      id: "2026-10-04-eleito-deputado-federal-parana",
+      data: {
+        inicio: "2026-10-04",
+        rotulo: "4 de outubro de 2026",
+      },
+      titulo: "Eleito deputado federal pelo Paraná com 115.227 votos",
+      resumo:
+        "Na eleição de 4 de outubro de 2026, Renato de Almeida Freitas Junior " +
+        "(PT, nº 1333) recebeu 115.227 votos para deputado federal no Paraná. " +
+        "O relatório oficial da Justiça Eleitoral registra a situação " +
+        "«Eleito por QP» (quociente partidário). A eleição não significa " +
+        "que ele já tenha tomado posse no mandato federal, cujo início " +
+        "está previsto para 2027.",
+      eixos: [
+        "caminho-politica",
+        "linha-do-tempo",
+        "fontes-atualizacoes",
+      ],
+      natureza: ["documentado"],
+      fatoDocumentado: [
+        "O Anexo IX, Resultado de votação, cargo Deputado Federal, página 108 do relatório oficial de totalização do TRE-PR (SISTOT), registra o candidato nº 1333, Renato de Almeida Freitas Junior, com 115.227 votos válidos e situação «Eleito por QP».",
+        "O registro é do resultado eleitoral de 4 de outubro de 2026; não representa início do exercício do mandato de deputado federal.",
+      ],
+      fontes: [
+        {
+          id: "tre-pr-totalizacao-deputado-federal-2026-renato-eleicao",
+          titulo: "Relatório Resultado da Totalização — Eleições 2026, Paraná, Anexo IX, p. 108",
+          veiculoOuInstituicao: "Tribunal Regional Eleitoral do Paraná (SISTOT)",
+          url: "https://www.tre-pr.jus.br/eleicoes/eleicoes-2026/arquivos/tre-pr-relatorio-resultado-da-totalizacao-eleicoes-gerais-estaduais-2026-parana-1o-turno-para-governador-senador-deputados-federais-e-estaduais",
+          tipo: "fonte-oficial",
+          publicadaEm: "2026-10-04",
+        },
+      ],
+      ultimaVerificacao: "2026-10-16",
+      // Fato histórico verificado; nenhuma notificação está habilitada.
+    },
     {
       id: "2026-06-08-pl23-sarau-periferico-comissao-cultura",
       data: {
