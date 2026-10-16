@@ -35,3 +35,14 @@ test("índice registra a ficha sem modificar layout", () => {
   assert.match(indice, /import \{ dossieRenatoFreitas \} from "\.\/160002536522"/);
   assert.match(indice, /\[dossieRenatoFreitas\.candidaturaId\]/);
 });
+
+test("eleição federal de 2026 usa 115.227 votos, fonte TRE e preserva posse em 2027", () => {
+  const e = dossie.eventos.find((item) => item.id === "2026-10-04-eleito-deputado-federal-parana");
+  assert.ok(e);
+  assert.equal(e.data.inicio, "2026-10-04");
+  assert.match(e.resumo, /115\.227 votos/);
+  assert.match(e.resumo, /Eleito por QP/);
+  assert.match(e.resumo, /2027/);
+  assert.ok(e.fontes.some((f) => f.veiculoOuInstituicao.includes("Tribunal Regional Eleitoral")));
+  assert.equal(e.avisoTelegram, undefined);
+});
