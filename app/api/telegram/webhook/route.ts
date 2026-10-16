@@ -670,13 +670,13 @@ export async function POST(
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "O bot do Fora da Pauta entrega diretamente pelo Telegram os avisos que você escolher receber.\n\nVocê pode acompanhar candidatos e, separadamente, escolher receber novas edições.",
+          "O Fora da Pauta pode avisar você sobre novas publicações e sobre políticos que escolher acompanhar. Tudo por esta mesma conversa.\n\nEnvie /opcoes para consultar ou modificar suas escolhas.",
         botoes: [
           [
             {
-              text: "Receber novas edições",
+              text: "Acompanhar o Fora da Pauta",
               url:
-                `https://t.me/${botUsername}?start=edicoes`,
+                `https://t.me/${botUsername}?start=projeto`,
             },
           ],
           [
@@ -740,7 +740,7 @@ export async function POST(
       return NextResponse.json({ ok: true });
     }
 
-    if (payload.toLowerCase() === "edicoes") {
+    if (["edicoes", "projeto"].includes(payload.toLowerCase())) {
       await registrarNovasEdicoes(
         chatId,
       );
@@ -748,13 +748,13 @@ export async function POST(
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "Pronto. Você escolheu receber pelo Telegram os avisos de novas edições do Fora da Pauta.\n\nEssa escolha é independente do acompanhamento de candidatos.",
+          "Pronto. Você escolheu receber pelo Telegram as novidades editoriais do Fora da Pauta.\n\nVocê pode acompanhar políticos nesta mesma conversa, sem criar outra conta. Envie /opcoes para consultar suas escolhas.",
         botoes: [
           [
             {
-              text: "Escolher candidato para acompanhar",
+              text: "Escolher político para acompanhar",
               url:
-                "https://www.foradapauta.org/conheca-seu-candidato",
+                "https://www.foradapauta.org/votou-fique-de-olho",
             },
           ],
         ],
