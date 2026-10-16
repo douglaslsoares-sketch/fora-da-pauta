@@ -45,6 +45,7 @@ export async function coletarNovidadesCandidatos() {
 
       if (!atuacao) {
         // Não inicializa uma fonte vazia por ausência do arquivo.
+        console.warn(`[telegram] Atuacao ausente: candidatura ${id}`);
         resumo.fontesSemDados++;
         continue;
       }
