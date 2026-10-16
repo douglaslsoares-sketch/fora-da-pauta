@@ -6,6 +6,8 @@ import { planejarNovidades, prepararHistoricoPorGrupo } from "./novidades";
 export type EventoNotificacao = {
   id: string;
   texto: string;
+  /** Apenas revisões editoriais do dossiê informam quando foram publicadas. */
+  publicadoEm?: string;
 };
 
 type EntradaNovidades = {
@@ -41,8 +43,19 @@ export async function registrarNovidadesNaFila({
       throw new Error("Evento de notificação inválido.");
     }
 
+    if (
+      evento.publicadoEm !== undefined &&
+      (
+        !evento.id.startsWith("dossie:") ||
+        !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/.test(evento.publicadoEm) ||
+        !Number.isFinite(Date.parse(evento.publicadoEm))
+      )
+    ) {
+      throw new Error("Data editorial de notificação inválida.");
+    }
+
     const anterior = porId.get(evento.id);
-    if (anterior && anterior.texto !== evento.texto) {
+    if (anterior && (anterior.texto !== evento.texto || anterior.publicadoEm !== evento.publicadoEm)) {
       throw new Error("Identificador repetido com conteúdos diferentes.");
     }
 
@@ -79,6 +92,13 @@ export async function registrarNovidadesNaFila({
       criada.length > 0 ? null : historico.idsConhecidos,
     );
 
+    // Na primeira leitura, históricos brutos continuam silenciosos.
+    // Uma publicação editorial identificada por data não deve desaparecer
+    // só porque a fonte da candidatura nunca havia sido inicializada.
+    const novosIds = plano.inicializacao
+      ? [...porId.values()].filter((item) => item.publicadoEm !== undefined).map((item) => item.id)
+      : plano.novosIds;
+
     const idsRegistrar = [...new Set([
       ...historico.idsRegistrar,
       ...(plano.inicializacao ? plano.idsConhecidos : plano.novosIds),
@@ -95,7 +115,7 @@ export async function registrarNovidadesNaFila({
 
     let avisosInseridos = 0;
 
-    for (const id of plano.novosIds) {
+    for (const id of novosIds) {
       const evento = porId.get(id)!;
 
       if (tipo === "candidato") {
@@ -105,8 +125,18 @@ export async function registrarNovidadesNaFila({
           SELECT telegram_chat_id, ${tipo}, ${referencia}, ${id}, ${evento.texto}
           FROM public.telegram_acompanhamentos
           WHERE candidatura_id = ${referencia}
-            AND status = 'ativo'
+            AND (
+              status = 'ativo'
+              OR (${evento.publicadoEm !== undefined} AND status = 'aguardando_eleicao')
+            )
             AND cancelled_at IS NULL
+            AND (
+              ${evento.publicadoEm ?? null}::timestamptz IS NULL
+              OR (
+                created_at <= ${evento.publicadoEm ?? null}::timestamptz
+                AND updated_at <= ${evento.publicadoEm ?? null}::timestamptz
+              )
+            )
           ON CONFLICT (telegram_chat_id, tipo, referencia, evento_id)
           DO NOTHING
           RETURNING id
@@ -138,7 +168,7 @@ export async function registrarNovidadesNaFila({
 
     return {
       inicializacao: plano.inicializacao,
-      eventosNovos: plano.novosIds.length,
+      eventosNovos: novosIds.length,
       avisosInseridos,
     };
   });

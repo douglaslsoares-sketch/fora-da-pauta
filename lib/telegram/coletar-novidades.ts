@@ -1,6 +1,8 @@
 import "server-only";
 
 import { buscarAtuacaoPolitica } from "@/data/eleicoes/atuacao-politica";
+import { buscarDossiePorCandidaturaId } from "@/data/eleicoes/dossies";
+import { prepararAvisosDossie } from "./preparar-avisos-dossie";
 import { sql } from "../interesses/db";
 import {
   registrarNovidadesNaFila,
@@ -42,10 +44,11 @@ export async function coletarNovidadesCandidatos() {
   for (const { candidatura_id: id } of candidaturas) {
     try {
       const atuacao = buscarAtuacaoPolitica(id);
+      const dossie = buscarDossiePorCandidaturaId(id);
 
-      if (!atuacao) {
-        // Não inicializa uma fonte vazia por ausência do arquivo.
-        console.warn(`[telegram] Atuacao ausente: candidatura ${id}`);
+      if (!atuacao && !dossie) {
+        // Nenhum arquivo disponível: não inicializa uma fonte vazia.
+        console.warn(`[telegram] Sem atuação ou dossiê: candidatura ${id}`);
         resumo.fontesSemDados++;
         continue;
       }
@@ -54,7 +57,7 @@ export async function coletarNovidadesCandidatos() {
         `https://www.foradapauta.org/conheca-seu-candidato/${id}`;
 
       const eventos: EventoNotificacao[] = [
-        ...atuacao.votacoes.map((votacao) => ({
+        ...(atuacao?.votacoes ?? []).map((votacao) => ({
           id: `votacao:${votacao.votacaoId}`,
           texto:
             "Novo registro documentado na ficha que você acompanha.\n\n" +
@@ -65,7 +68,7 @@ export async function coletarNovidadesCandidatos() {
             `\n\nVer ficha: ${ficha}\n` +
             "Para interromper os avisos, envie /parar.",
         })),
-        ...atuacao.proposicoes.map((proposicao) => ({
+        ...(atuacao?.proposicoes ?? []).map((proposicao) => ({
           id: `proposicao:${proposicao.proposicaoId}`,
           texto:
             "Novo registro documentado na ficha que você acompanha.\n\n" +
@@ -76,6 +79,7 @@ export async function coletarNovidadesCandidatos() {
             `\n\nVer ficha: ${ficha}\n` +
             "Para interromper os avisos, envie /parar.",
         })),
+        ...prepararAvisosDossie(dossie),
       ];
 
       const resultado = await registrarNovidadesNaFila({

@@ -1,0 +1,28 @@
+name: Testar avisos editoriais dos dossies
+on:
+  pull_request:
+    paths:
+      - 'data/eleicoes/dossies/modelo.ts'
+      - 'lib/telegram/coletar-novidades.ts'
+      - 'lib/telegram/registrar-novidades.ts'
+      - 'lib/telegram/processar-fila.ts'
+      - 'lib/telegram/preparar-avisos-dossie.ts'
+      - 'tests/telegram-avisos-dossie.test.cjs'
+      - '.github/workflows/testar-avisos-dossie.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npx tsc --noEmit
+      - run: node --test tests/telegram-avisos-dossie.test.cjs

@@ -52,7 +52,10 @@ export async function processarFilaTelegram() {
           SELECT 1 FROM public.telegram_acompanhamentos AS a
           WHERE a.telegram_chat_id = f.telegram_chat_id
             AND a.candidatura_id = f.referencia
-            AND a.status = 'ativo'
+            AND (
+              a.status = 'ativo'
+              OR (a.status = 'aguardando_eleicao' AND f.evento_id LIKE 'dossie:%')
+            )
             AND a.cancelled_at IS NULL
         ))
         OR
@@ -88,7 +91,10 @@ export async function processarFilaTelegram() {
               SELECT 1 FROM public.telegram_acompanhamentos AS a
               WHERE a.telegram_chat_id = f.telegram_chat_id
                 AND a.candidatura_id = f.referencia
-                AND a.status = 'ativo'
+                AND (
+                  a.status = 'ativo'
+                  OR (a.status = 'aguardando_eleicao' AND f.evento_id LIKE 'dossie:%')
+                )
                 AND a.cancelled_at IS NULL
             ))
             OR

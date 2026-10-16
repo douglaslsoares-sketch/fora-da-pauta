@@ -193,6 +193,14 @@ export type EventoDossie = {
   fontes: FonteDossie[];
 
   ultimaVerificacao: string;
+
+  // Somente alterações significativas recebem esta aprovação editorial.
+  // O fato permanece na data original, indicada em `data`.
+  avisoTelegram?: {
+    revisao: string; // identificador único da revisão, por exemplo 'v1'
+    publicadoEm: string; // ISO 8601 com hora e fuso horário
+    tipo: "nova-informacao" | "desdobramento" | "correcao";
+  };
 };
 
 export type BiografiaDossie = {
