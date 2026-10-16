@@ -1,0 +1,24 @@
+name: Testar previa local dos avisos
+on:
+  pull_request:
+    paths:
+      - 'scripts/telegram/previa-aviso-dossie.cjs'
+      - 'tests/telegram-previa-editorial.test.cjs'
+      - '.github/workflows/testar-previa-editorial.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  previa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node --check scripts/telegram/previa-aviso-dossie.cjs
+      - run: node --test tests/telegram-previa-editorial.test.cjs
