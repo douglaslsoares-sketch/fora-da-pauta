@@ -8,7 +8,7 @@
 - Nome eleitoral: **Renato Freitas**; nome completo: **Renato de Almeida Freitas Junior**.
 - Eleição 2026: candidato a **deputado federal no Paraná**, partido **PT**, número **1333**.
 - Arquivos de apuração eleitoral reproduzidos por serviços baseados no TSE indicam **115.227 votos** e situação **eleito por quociente partidário (QP)**.
-- Identificador de candidatura **160002536522**, presente nas URLs de páginas de consulta de 2026. **Antes de criar o dossiê em código, conferir esse identificador contra `data/eleicoes/gerado/candidaturas-2026.json` e o registro de assinatura já usado pelo bot.** Não presumir que nome ou número de urna bastem para associar o acompanhamento.
+- Identificador de candidatura **160002536522** **confirmado diretamente** em `data/eleicoes/gerado/candidaturas-2026.json` na `main` do Fora da Pauta, entre **19.655** candidaturas. O registro confere nome, PT, nº **1333**, cargo **deputado-federal** e UF **PR**. A base interna preserva estado eleitoral antigo (`situacao: nao-informada`, `situacaoTse: #NE`, extração de 17/08/2026), portanto **não serve para confirmar o resultado de outubro**. Antes de notificações, ainda falta conferir que os acompanhamentos específicos do bot usam o MESMO `candidatura_id` em produção. Não foi consultado banco privado.
 
 Fontes da identificação:
 - https://www1.folha.uol.com.br/poder/eleicoes/candidatos/2026/pr/deputado-federal/renato-freitas-160002536522.shtml
@@ -47,7 +47,7 @@ https://legado.curitiba.pr.leg.br/informacao/noticias/comissao-de-educacao-e-con
 
 ## Sugestão de dados para futura ficha (somente após revisão)
 
-- `candidaturaId`: **160002536522**, pendente conferência com base do projeto/bot.
+- `candidaturaId`: **160002536522**, confirmado com base pública do projeto; **vínculo com assinaturas do bot ainda não verificado**.
 - `evento.id`: `2026-06-08-pl23-sarau-periferico-comissao-cultura`
 - `evento.data.inicio`: `2026-06-08`
 - `evento.data.rotulo`: `8 de junho de 2026`
@@ -60,10 +60,30 @@ https://legado.curitiba.pr.leg.br/informacao/noticias/comissao-de-educacao-e-con
 
 ## Portões antes de publicar e enviar aviso
 
-1. Confirmar o ID da candidatura e a correspondência com os acompanhamentos já existentes do Telegram.
+1. **ID confirmado no projeto: 160002536522.** Ainda confirmar, em consulta autorizada e somente leitura, a correspondência com os acompanhamentos já existentes do Telegram; não extrapolar do nome na urna.
 2. Conferir a íntegra e a tramitação mais recente do PL 23/2026, inclusive eventual votação final, arquivamento ou sanção, e resolver/divulgar a divergência entre as duas fontes oficiais.
 3. Revisar a precisão e a relevância da notícia histórica para o público, explicando a diferença entre **data do fato** e **data em que a ficha foi atualizada**.
 4. Criar e revisar dossiê e fonte no projeto sem `avisoTelegram`; validar links da página.
 5. Se houver decisão editorial favorável, executar uma prévia com número de destinatários; só então aprovar marcação para aviso e publicar de modo controlado.
 
 *Esta pesquisa não constitui publicação no site, não gera notificações e não autoriza enviar mensagens a qualquer usuário.*
+
+## Revisão complementar — 16/10/2026
+
+**Identidade eleitoral:** conferida diretamente na base de candidaturas presente na `main` (19.655 registros). A candidatura de Renato Freitas aparece uma única vez, ID `160002536522`, nome completo RENATO DE ALMEIDA FREITAS JUNIOR, cargo deputado federal, PT, número 1333, PR. A associação exata com a tabela de acompanhamentos do Telegram não foi testada (sem conexão ao banco de produção).
+
+**Eleição:** consulta externa que reproduz os arquivos de totalização do TSE registra 115.227 votos e situação 'Eleito por QP' no primeiro turno de 04/10/2026. Fonte: https://www.analistas.com.br/eleicoes/2026/pr/deputado-federal/renato-freitas-160002536522. Tratar como *resultado eleitoral reportado por base secundária*, até confirmação direta do arquivo oficial do TSE.
+
+**PL 23/2026:** foram confirmadas documentalmente a aprovação do parecer na CCJ (05/05/2026) e a aprovação em Comissão de Cultura (08/06/2026), mas **a tramitação mais recente e a íntegra da proposição não puderam ser obtidas na pesquisa legislativa da Alep**. A plataforma de consulta abre uma aplicação JavaScript com erro no acesso disponibilizado. A divergência entre 'calendário do município' e 'calendário do estado' permanece.
+
+**Não confundir com a proposta municipal da Câmara de Curitiba:** número 005.00005.2026, autoria de Giorgia Prates, com coautoria de Angelo Vanhoni e Professora Angela, que teve parecer contrário em comissão municipal. Fonte oficial: https://legado.curitiba.pr.leg.br/informacao/noticias/comissao-de-educacao-e-contraria-ao-projeto-que-oficializa-o-sarau-periferico
+
+### Texto editorial sugerido — assunto histórico, não alerta automático
+
+**Título:** Projeto de Renato Freitas sobre Sarau Periférico avança em duas comissões da Assembleia do Paraná.
+
+**Resumo:** Em 5 de maio de 2026, a Comissão de Constituição e Justiça da Assembleia Legislativa do Paraná aprovou parecer favorável ao Projeto de Lei 23/2026, de autoria de Renato Freitas. Em 8 de junho, a Comissão de Cultura também aprovou a proposta, relacionada ao reconhecimento do Sarau Periférico, manifestação cultural realizada em novembro na região de Curitiba. Nos documentos disponíveis para esta checagem, não foi possível confirmar se a matéria passou pelo plenário ou se virou lei. As fontes da própria Assembleia divergem sobre o calendário municipal ou estadual referido na descrição do projeto.
+
+**Avaliação de relevância:** trata-se de **registro histórico** já ocorrido em junho, não de novidade legislativa verificada em outubro. **Não marcar `avisoTelegram` apenas porque o registro passou a constar da ficha agora.** Para o primeiro ensaio de notificações reais, escolher fato recente, material e verificado, com publicação editorial e destinatários aprovados separadamente.
+
+**Situação:** APENAS RASCUNHO DE PESQUISA. Sem publicação, sem fila, sem Telegram.
