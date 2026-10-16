@@ -1,0 +1,23 @@
+name: Validar ficha de Renato Freitas
+on:
+  pull_request:
+    paths:
+      - 'data/eleicoes/dossies/160002536522.ts'
+      - 'data/eleicoes/dossies/index.ts'
+      - 'tests/dossie-renato-freitas.test.cjs'
+      - '.github/workflows/validar-dossie-renato.yml'
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npx tsc --noEmit
+      - run: node --test tests/dossie-renato-freitas.test.cjs
