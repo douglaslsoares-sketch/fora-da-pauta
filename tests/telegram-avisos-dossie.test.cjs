@@ -83,3 +83,21 @@ test("limita mensagens longas ao teto do Telegram", () => {
   item.eventos[0].resumo = "a".repeat(8000);
   assert.ok(prepararAvisosDossie(item, agora)[0].texto.length < 4096);
 });
+
+test("cadastro e reativação precisam anteceder a publicação editorial", () => {
+  const registro = fs.readFileSync(
+    path.join(__dirname, "..", "lib", "telegram", "registrar-novidades.ts"), "utf8",
+  );
+  assert.ok(registro.includes("created_at <= "));
+  assert.ok(registro.includes("updated_at <= "));
+  assert.ok(registro.includes("AND updated_at <= "));
+  assert.ok(registro.includes("status = 'aguardando_eleicao'"));
+});
+
+test("a fila não libera atos brutos para quem aguarda o mandato", () => {
+  const fila = fs.readFileSync(
+    path.join(__dirname, "..", "lib", "telegram", "processar-fila.ts"), "utf8",
+  );
+  const condicao = "a.status = 'aguardando_eleicao' AND f.evento_id LIKE 'dossie:%'";
+  assert.equal(fila.split(condicao).length - 1, 2);
+});
