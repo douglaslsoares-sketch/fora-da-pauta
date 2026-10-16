@@ -1,0 +1,27 @@
+name: Testar webhook Telegram
+on:
+  pull_request:
+    paths:
+      - 'app/api/telegram/webhook/route.ts'
+      - 'tests/telegram-webhook.test.cjs'
+      - '.github/workflows/testar-telegram-webhook.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  webhook:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Verificar sintaxe da suite
+        run: node --check tests/telegram-webhook.test.cjs
+      - name: Testes isolados do webhook
+        run: node --test tests/telegram-webhook.test.cjs
