@@ -153,6 +153,18 @@ export function VotouFiqueDeOlhoExperience() {
   const [salvandoEscolhas, setSalvandoEscolhas] = useState(false);
   const [escolhasSalvas, setEscolhasSalvas] = useState(false);
 
+  // Ao voltar do Telegram, retoma a seleção preservada no navegador.
+  useEffect(() => {
+    try {
+      if (window.sessionStorage.getItem("fdp:telegram-retorno-votou") === "1") {
+        window.sessionStorage.removeItem("fdp:telegram-retorno-votou");
+        setEtapa("telegram");
+      }
+    } catch {
+      // Armazenamento pode estar bloqueado: seleção continua disponível.
+    }
+  }, []);
+
   useEffect(() => {
     let montado = true;
     async function conferir() {
@@ -223,6 +235,11 @@ export function VotouFiqueDeOlhoExperience() {
       if (url.origin !== "https://t.me" ||
           url.pathname !== "/ForaDaPautaAcompanhaBot" ||
           !/^\?start=s_[A-Za-z0-9_-]{32}$/.test(url.search)) throw Error("Link incorreto");
+      try {
+        window.sessionStorage.setItem("fdp:telegram-retorno-votou", "1");
+      } catch {
+        // Retorno manual continua possível.
+      }
       window.location.assign(url.toString());
     } catch {
       setErroTelegram("Não foi possível abrir o Telegram. Tente novamente.");
