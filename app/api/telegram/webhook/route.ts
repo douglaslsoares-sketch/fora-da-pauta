@@ -397,7 +397,7 @@ async function mostrarPreferencias(chatId: string) {
       "\nPara parar tudo, envie /parar.",
     botoes: [[{
       text: "Voltar ao Fora da Pauta",
-      url: "https://www.foradapauta.org/",
+      url: "https://foradapauta.org/",
     }]],
   });
 }
@@ -683,7 +683,7 @@ export async function POST(
             {
               text: "Voltar ao Fora da Pauta",
               url:
-                "https://www.foradapauta.org/",
+                "https://foradapauta.org/",
             },
           ],
         ],
@@ -817,7 +817,7 @@ export async function POST(
             {
               text: "Voltar ao Fora da Pauta",
               url:
-                "https://www.foradapauta.org/",
+                "https://foradapauta.org/",
             },
           ],
         ],
