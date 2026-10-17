@@ -228,7 +228,11 @@ export function VotouFiqueDeOlhoExperience() {
     setAtivandoTelegram(true);
     setErroTelegram("");
     try {
-      const resposta = await fetch("/api/telegram/sessao", { method: "POST" });
+      const resposta = await fetch("/api/telegram/sessao", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selecionadas.map(p => p.id) }),
+      });
       const dados = await resposta.json() as { url?: string };
       if (!resposta.ok || typeof dados.url !== "string") throw Error("Falha");
       const url = new URL(dados.url);
@@ -408,7 +412,7 @@ export function VotouFiqueDeOlhoExperience() {
           </div>
 
           <p className="text-sm leading-6">
-            Confirme a inscrição no Telegram. Depois volte a esta página para salvar as pessoas escolhidas.
+            Confirme a inscrição no Telegram. Seus escolhidos serão registrados automaticamente.
           </p>
         </div>
 
