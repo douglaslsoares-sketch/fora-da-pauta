@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { campaigns } from "@/data/campanhas";
 import styles from "./page.module.css";
+import { InscricaoTelegramHome } from "@/components/InscricaoTelegramHome";
 
 function formatPublicationDate(date: string) {
   return new Intl.DateTimeFormat("pt-BR", {
@@ -53,12 +54,7 @@ export default function Home() {
           <p className={styles.heroLead}>
             Política, poder, decisões e comunicação que afetam a sua vida.
           </p>
-          <a
-            href="https://t.me/ForaDaPautaAcompanhaBot?start=projeto"
-            className={styles.primaryLink}
-          >
-            Acompanhe pelo Telegram <span aria-hidden="true">→</span>
-          </a>
+          <InscricaoTelegramHome className={styles.primaryLink} />
         </section>
 
         <section

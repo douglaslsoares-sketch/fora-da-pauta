@@ -396,8 +396,8 @@ async function mostrarPreferencias(chatId: string) {
       "\n\nPara parar apenas novas edições, envie /parar_edicoes." +
       "\nPara parar tudo, envie /parar.",
     botoes: [[{
-      text: "Escolher ou acrescentar políticos",
-      url: "https://www.foradapauta.org/votou-fique-de-olho",
+      text: "Voltar ao Fora da Pauta",
+      url: "https://foradapauta.org/",
     }]],
   });
 }
@@ -681,9 +681,9 @@ export async function POST(
           ],
           [
             {
-              text: "Escolher político",
+              text: "Voltar ao Fora da Pauta",
               url:
-                "https://www.foradapauta.org/votou-fique-de-olho",
+                "https://foradapauta.org/",
             },
           ],
         ],
@@ -692,6 +692,69 @@ export async function POST(
       return NextResponse.json({
         ok: true,
       });
+    }
+
+    if (payload.startsWith("s_")) {
+      const codigo = payload.slice(2);
+      if (!/^[A-Za-z0-9_-]{32}$/.test(codigo)) {
+        await enviarMensagemTelegram({ chatId, texto: "Link de confirmação inválido." });
+        return NextResponse.json({ ok: true });
+      }
+      const hash = hashToken(codigo);
+      const confirmado = await sql.begin(async tx => {
+        const vinculos = await tx<{ sessao_hash: string; telegram_chat_id: string | null; candidaturas_pendentes: string[] }[]>`
+          SELECT sessao_hash, telegram_chat_id::text AS telegram_chat_id, candidaturas_pendentes
+          FROM public.telegram_sessoes_site
+          WHERE codigo_hash = ${hash}
+            AND codigo_expira_at > now()
+            AND expira_at > now()
+          FOR UPDATE
+        `;
+        const vinculo = vinculos[0];
+        if (!vinculo || (vinculo.telegram_chat_id && vinculo.telegram_chat_id !== chatId)) return false;
+        const idsEleitos = new Set(eleitos2026.map(p => p.id));
+        const pendentes = vinculo.candidaturas_pendentes ?? [];
+        if (pendentes.some(id => !idsEleitos.has(id))) return false;
+        await tx`
+          INSERT INTO telegram_preferencias
+            (telegram_chat_id, tipo, referencia, status, created_at, updated_at, cancelled_at)
+          VALUES (${chatId}::bigint, 'novas_edicoes', '', 'ativo', now(), now(), NULL)
+          ON CONFLICT (telegram_chat_id, tipo, referencia)
+          DO UPDATE SET status = 'ativo', updated_at = now(), cancelled_at = NULL
+        `;
+        for (const id of pendentes) {
+          const identidade = buscarPessoaPoliticaConfirmadaPorCandidatura(id);
+          await tx`
+            INSERT INTO public.telegram_acompanhamentos
+              (telegram_chat_id, candidatura_id, identidade_politica_id, status, created_at, updated_at, cancelled_at)
+            VALUES (${chatId}::bigint, ${id}, ${identidade}, 'ativo', now(), now(), NULL)
+            ON CONFLICT (telegram_chat_id, candidatura_id)
+            DO UPDATE SET identidade_politica_id = COALESCE(EXCLUDED.identidade_politica_id,
+                telegram_acompanhamentos.identidade_politica_id),
+              status = 'ativo', updated_at = now(), cancelled_at = NULL
+          `;
+        }
+        await tx`
+          UPDATE public.telegram_sessoes_site
+          SET telegram_chat_id = ${chatId}::bigint,
+              vinculada_at = now(), codigo_hash = NULL, codigo_expira_at = NULL,
+              candidaturas_pendentes = '{}'
+          WHERE sessao_hash = ${vinculo.sessao_hash}
+        `;
+        return true;
+      });
+      if (!confirmado) {
+        await enviarMensagemTelegram({
+          chatId,
+          texto: "Este link expirou ou já foi usado. Volte ao site e solicite uma nova confirmação.",
+        });
+        return NextResponse.json({ ok: true });
+      }
+      await enviarMensagemTelegram({
+        chatId,
+        texto: "Pronto! Seu Telegram está vinculado ao Fora da Pauta. Você receberá as novas edições aqui. Volte ao site para escolher quem deseja acompanhar; não precisa ativar o Telegram novamente.",
+      });
+      return NextResponse.json({ ok: true });
     }
 
     if (payload.startsWith("v_")) {
@@ -721,7 +784,7 @@ export async function POST(
           chatId,
           texto: "Suas escolhas j\u00e1 foram registradas com este link.\n\n" +
             "Para uma nova ativa\u00e7\u00e3o, gere outro link pelo site:\n\n" +
-            "https://www.foradapauta.org/votou-fique-de-olho",
+            "https://www.foradapauta.org/",
         });
         return NextResponse.json({ ok: true });
       }
@@ -752,9 +815,9 @@ export async function POST(
         botoes: [
           [
             {
-              text: "Escolher político para acompanhar",
+              text: "Voltar ao Fora da Pauta",
               url:
-                "https://www.foradapauta.org/votou-fique-de-olho",
+                "https://foradapauta.org/",
             },
           ],
         ],

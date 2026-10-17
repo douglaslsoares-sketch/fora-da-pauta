@@ -148,6 +148,80 @@ export function VotouFiqueDeOlhoExperience() {
   const [avisoStorage, setAvisoStorage] = useState("");
   const [ativandoTelegram, setAtivandoTelegram] = useState(false);
   const [erroTelegram, setErroTelegram] = useState("");
+  const [inscricaoAtiva, setInscricaoAtiva] = useState(false);
+  const [conferindoInscricao, setConferindoInscricao] = useState(true);
+  const [salvandoEscolhas, setSalvandoEscolhas] = useState(false);
+  const [escolhasSalvas, setEscolhasSalvas] = useState(false);
+
+  // Ao voltar do Telegram, retoma a seleção preservada no navegador.
+  useEffect(() => {
+    try {
+      if (window.sessionStorage.getItem("fdp:telegram-retorno-votou") === "1") {
+        window.sessionStorage.removeItem("fdp:telegram-retorno-votou");
+        setEtapa("telegram");
+      }
+    } catch {
+      // Armazenamento pode estar bloqueado: seleção continua disponível.
+    }
+  }, []);
+
+  useEffect(() => {
+    let montado = true;
+    async function conferir() {
+      try {
+        const resposta = await fetch("/api/telegram/sessao", { cache: "no-store" });
+        const dados = await resposta.json() as { ativo?: boolean; ids?: string[] };
+        if (!montado) return;
+        setInscricaoAtiva(dados.ativo === true);
+        // Recupera os acompanhamentos do bot apenas se a lista local estiver vazia.
+        // Não substitui uma seleção que a pessoa ainda esteja preparando no navegador.
+        if (dados.ativo && Array.isArray(dados.ids) && dados.ids.length > 0 &&
+            interpretarSelecao(lerSelecaoSerializada()).length === 0) {
+          const validacao = await fetch("/api/candidatos/eleitos/validar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ids: dados.ids }),
+          });
+          if (validacao.ok && montado &&
+              interpretarSelecao(lerSelecaoSerializada()).length === 0) {
+            const resultado = await validacao.json() as {
+              pessoas?: Omit<PessoaSelecionada, "eleicao">[];
+            };
+            if (Array.isArray(resultado.pessoas) && resultado.pessoas.length) {
+              salvarSelecao(resultado.pessoas.map(pessoa => ({ ...pessoa, eleicao: 2026 })));
+            }
+          }
+        }
+      } catch {
+        if (montado) setInscricaoAtiva(false);
+      } finally {
+        if (montado) setConferindoInscricao(false);
+      }
+    }
+    void conferir();
+    window.addEventListener("focus", conferir);
+    return () => { montado = false; window.removeEventListener("focus", conferir); };
+  }, []);
+
+  async function salvarAcompanhamentos() {
+    if (selecionadas.length === 0 || salvandoEscolhas) return;
+    setSalvandoEscolhas(true);
+    setErroTelegram("");
+    try {
+      const resposta = await fetch("/api/telegram/sessao", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selecionadas.map(p => p.id) }),
+      });
+      if (!resposta.ok) throw Error("Falha ao registrar escolhas");
+      setEscolhasSalvas(true);
+      setEtapa("telegram");
+    } catch {
+      setErroTelegram("Não foi possível salvar suas escolhas. Tente novamente.");
+    } finally {
+      setSalvandoEscolhas(false);
+    }
+  }
 
   const etapaAtual =
     selecionadas.length === 0 && etapa !== "busca"
@@ -170,68 +244,33 @@ export function VotouFiqueDeOlhoExperience() {
   }
 
   async function ativarTelegram() {
-    if (
-      ativandoTelegram ||
-      selecionadas.length === 0
-    ) {
-      return;
-    }
-
+    if (ativandoTelegram || selecionadas.length === 0) return;
     setAtivandoTelegram(true);
     setErroTelegram("");
-
     try {
-      const response = await fetch(
-        "/api/telegram/vinculo",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ids: selecionadas.map(
-              (pessoa) => pessoa.id,
-            ),
-          }),
-        },
-      );
-
-      const data = (await response.json()) as {
-        url?: unknown;
-      };
-
-      if (
-        !response.ok ||
-        typeof data.url !== "string"
-      ) {
-        throw new Error(
-          "Não foi possível preparar a ativação.",
-        );
+      const resposta = await fetch("/api/telegram/sessao", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selecionadas.map(p => p.id) }),
+      });
+      const dados = await resposta.json() as { url?: string };
+      if (!resposta.ok || typeof dados.url !== "string") throw Error("Falha");
+      const url = new URL(dados.url);
+      if (url.origin !== "https://t.me" ||
+          url.pathname !== "/ForaDaPautaAcompanhaBot" ||
+          !/^\?start=s_[A-Za-z0-9_-]{32}$/.test(url.search)) throw Error("Link incorreto");
+      try {
+        window.sessionStorage.setItem("fdp:telegram-retorno-votou", "1");
+      } catch {
+        // Retorno manual continua possível.
       }
-
-      const telegramUrl = new URL(data.url);
-
-      if (
-        telegramUrl.protocol !== "https:" ||
-        telegramUrl.hostname !== "t.me" ||
-        telegramUrl.pathname !==
-          "/ForaDaPautaAcompanhaBot"
-      ) {
-        throw new Error(
-          "Link do Telegram inválido.",
-        );
-      }
-
-      window.location.assign(
-        telegramUrl.toString(),
-      );
+      window.location.assign(url.toString());
     } catch {
-      setErroTelegram(
-        "Não foi possível abrir o Telegram. Tente novamente.",
-      );
+      setErroTelegram("Não foi possível abrir o Telegram. Tente novamente.");
       setAtivandoTelegram(false);
     }
   }
+
   function selecionar(
     pessoa: Omit<PessoaSelecionada, "eleicao">,
   ) {
@@ -243,6 +282,7 @@ export function VotouFiqueDeOlhoExperience() {
       return;
     }
 
+    setEscolhasSalvas(false);
     gravar([
       ...atuais,
       {
@@ -259,11 +299,27 @@ export function VotouFiqueDeOlhoExperience() {
     setEtapa("selecionados");
   }
 
-  function remover(pessoa: PessoaSelecionada) {
+  async function remover(pessoa: PessoaSelecionada) {
+    setErroTelegram("");
+    if (inscricaoAtiva) {
+      try {
+        const resposta = await fetch("/api/telegram/sessao", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: pessoa.id }),
+        });
+        if (!resposta.ok) throw Error("Falha ao cancelar acompanhamento");
+      } catch {
+        setErroTelegram("Não foi possível interromper o acompanhamento no Telegram. Tente novamente.");
+        return;
+      }
+    }
+
     const novaLista = interpretarSelecao(
       lerSelecaoSerializada(),
     ).filter((item) => item.id !== pessoa.id);
 
+    setEscolhasSalvas(false);
     gravar(novaLista);
 
     if (novaLista.length === 0) {
@@ -303,7 +359,7 @@ export function VotouFiqueDeOlhoExperience() {
             {permitirRemocao ? (
               <button
                 type="button"
-                onClick={() => remover(pessoa)}
+                onClick={() => void remover(pessoa)}
                 aria-label={`Remover ${pessoa.nomeUrna}`}
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-2xl text-black/45 hover:bg-black/5"
               >
@@ -313,6 +369,20 @@ export function VotouFiqueDeOlhoExperience() {
           </div>
         ))}
       </div>
+    );
+  }
+
+  if (etapaAtual === "telegram" && inscricaoAtiva && escolhasSalvas) {
+    return (
+      <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
+        <h2 className="text-3xl font-bold">Pronto. Agora fique de olho.</h2>
+        <p className="mt-4">Seus escolhidos foram adicionados ao Telegram que você já utiliza.</p>
+        <ListaSelecionadas permitirRemocao={false} />
+        <button type="button" onClick={() => { setEtapa("selecionados"); setEscolhasSalvas(false); }}
+          className="mt-6 min-h-12 w-full rounded-2xl bg-black px-5 text-white">
+          Acompanhar mais alguém
+        </button>
+      </section>
     );
   }
 
@@ -343,13 +413,26 @@ export function VotouFiqueDeOlhoExperience() {
 
         <ListaSelecionadas permitirRemocao={false} />
 
+        {conferindoInscricao ? (
+          <p role="status">Conferindo sua inscrição no Telegram...</p>
+        ) : inscricaoAtiva ? (
+          <div className="mt-6">
+            <p>Seu Telegram já está ativado. Basta salvar suas escolhas.</p>
+            <button type="button" onClick={() => void salvarAcompanhamentos()}
+              disabled={salvandoEscolhas}
+              className="mt-4 min-h-16 w-full rounded-2xl bg-[#229ED9] px-5 font-semibold text-white">
+              {salvandoEscolhas ? "Salvando..." : "Salvar escolhidos no Telegram"}
+            </button>
+          </div>
+        ) : (
+        <>
         <div className="mt-6 flex items-center gap-4 rounded-2xl border border-[#FFC400] bg-[#fffaf0] p-4">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFC400]/30">
             <TelegramIcon className="h-5 w-5" />
           </div>
 
           <p className="text-sm leading-6">
-            Ao ativar, você poderá receber pelo Telegram as notificações do Fora da Pauta, inclusive sobre as pessoas escolhidas.
+            Confirme a inscrição no Telegram. Seus escolhidos serão registrados automaticamente.
           </p>
         </div>
 
@@ -376,6 +459,8 @@ export function VotouFiqueDeOlhoExperience() {
           </span>
         </button>
 
+        </>
+        )}
         {erroTelegram ? (
           <p className="mt-3 text-center text-sm font-medium text-red-700">
             {erroTelegram}
@@ -465,10 +550,11 @@ export function VotouFiqueDeOlhoExperience() {
 
           <ListaSelecionadas />
         </div>
+        {erroTelegram ? <p role="alert" className="mt-3 text-sm text-red-700">{erroTelegram}</p> : null}
 
         <button
           type="button"
-          onClick={() => setEtapa("telegram")}
+          onClick={() => { setEtapa("telegram"); setEscolhasSalvas(false); }}
           className="mt-7 flex min-h-14 w-full items-center justify-center gap-4 rounded-2xl bg-black px-5 font-semibold text-white"
         >
           <span>Continuar</span>

@@ -4,6 +4,8 @@ on:
     paths:
       - 'app/api/telegram/webhook/route.ts'
       - 'tests/telegram-webhook.test.cjs'
+      - 'tests/telegram-sessao.test.cjs'
+      - 'app/api/telegram/sessao/route.ts'
       - '.github/workflows/testar-telegram-webhook.yml'
   workflow_dispatch:
 
@@ -22,6 +24,6 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - name: Verificar sintaxe da suite
-        run: node --check tests/telegram-webhook.test.cjs
+        run: node --check tests/telegram-webhook.test.cjs && node --check tests/telegram-sessao.test.cjs
       - name: Testes isolados do webhook
-        run: node --test tests/telegram-webhook.test.cjs
+        run: node --test tests/telegram-webhook.test.cjs tests/telegram-sessao.test.cjs
