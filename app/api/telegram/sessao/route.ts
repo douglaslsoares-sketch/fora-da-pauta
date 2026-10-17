@@ -39,9 +39,34 @@ export async function GET() {
     ORDER BY a.candidatura_id
     LIMIT 100
   `;
+  const [{ eleitos2026 }, { candidaturas }, { formatarCargo }] = await Promise.all([
+    import("@/data/eleicoes/eleitos"),
+    import("@/data/eleicoes/candidaturas"),
+    import("@/lib/eleicoes/formatar-cargo"),
+  ]);
+  const eleitos = new Set(eleitos2026.map(p => p.id));
+  const candidaturasPorId = new Map(candidaturas.map(p => [p.id, p]));
+  const ids = acompanhamentos.map(p => p.candidatura_id);
+  const pessoas = ids.map(id => {
+    const pessoa = candidaturasPorId.get(id);
+    if (!pessoa) return null;
+    return {
+      id: pessoa.id,
+      eleicao: 2026,
+      nomeUrna: pessoa.nomeUrna,
+      nomeCompleto: pessoa.nomeCompleto,
+      numero: pessoa.numero,
+      cargo: pessoa.cargo,
+      cargoLabel: formatarCargo(pessoa.cargo),
+      uf: pessoa.uf,
+      siglaPartido: pessoa.siglaPartido,
+      eleitoConfirmado: eleitos.has(id),
+    };
+  }).filter(p => p !== null);
   return NextResponse.json({
     ativo: true,
-    ids: acompanhamentos.map(p => p.candidatura_id),
+    ids,
+    pessoas,
   }, { headers: semCache });
 }
 
