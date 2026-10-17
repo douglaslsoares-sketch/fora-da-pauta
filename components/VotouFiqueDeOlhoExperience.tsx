@@ -275,7 +275,22 @@ export function VotouFiqueDeOlhoExperience() {
     setEtapa("selecionados");
   }
 
-  function remover(pessoa: PessoaSelecionada) {
+  async function remover(pessoa: PessoaSelecionada) {
+    setErroTelegram("");
+    if (inscricaoAtiva) {
+      try {
+        const resposta = await fetch("/api/telegram/sessao", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: pessoa.id }),
+        });
+        if (!resposta.ok) throw Error("Falha ao cancelar acompanhamento");
+      } catch {
+        setErroTelegram("Não foi possível interromper o acompanhamento no Telegram. Tente novamente.");
+        return;
+      }
+    }
+
     const novaLista = interpretarSelecao(
       lerSelecaoSerializada(),
     ).filter((item) => item.id !== pessoa.id);
@@ -320,7 +335,7 @@ export function VotouFiqueDeOlhoExperience() {
             {permitirRemocao ? (
               <button
                 type="button"
-                onClick={() => remover(pessoa)}
+                onClick={() => void remover(pessoa)}
                 aria-label={`Remover ${pessoa.nomeUrna}`}
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-2xl text-black/45 hover:bg-black/5"
               >
@@ -511,6 +526,7 @@ export function VotouFiqueDeOlhoExperience() {
 
           <ListaSelecionadas />
         </div>
+        {erroTelegram ? <p role="alert" className="mt-3 text-sm text-red-700">{erroTelegram}</p> : null}
 
         <button
           type="button"
