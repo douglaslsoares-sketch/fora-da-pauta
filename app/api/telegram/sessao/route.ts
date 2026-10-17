@@ -21,8 +21,28 @@ function permitido(request: Request) {
 }
 
 export async function GET() {
-  const ativo = await inscricaoAtiva(await tokenSessao());
-  return NextResponse.json({ ativo }, { headers: semCache });
+  const token = await tokenSessao();
+  const ativo = await inscricaoAtiva(token);
+  if (!ativo || !token) {
+    return NextResponse.json({ ativo: false, ids: [] }, { headers: semCache });
+  }
+  // Entrega somente IDs publicos de candidaturas, nunca o ID da conversa Telegram.
+  const acompanhamentos = await sql<{ candidatura_id: string }[]>`
+    SELECT a.candidatura_id
+    FROM public.telegram_acompanhamentos a
+    JOIN public.telegram_sessoes_site s
+      ON s.telegram_chat_id = a.telegram_chat_id
+    WHERE s.sessao_hash = ${hashSessao(token)}
+      AND s.expira_at > now()
+      AND a.status IN ('ativo', 'aguardando_eleicao')
+      AND a.cancelled_at IS NULL
+    ORDER BY a.candidatura_id
+    LIMIT 100
+  `;
+  return NextResponse.json({
+    ativo: true,
+    ids: acompanhamentos.map(p => p.candidatura_id),
+  }, { headers: semCache });
 }
 
 export async function POST(request: Request) {
