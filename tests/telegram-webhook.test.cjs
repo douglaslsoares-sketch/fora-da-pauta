@@ -22,6 +22,11 @@ function cenario() {
       { chat: "100", status: "ativo" },
       { chat: "200", status: "ativo" },
     ],
+    sessoes: [{
+      sessao_hash: "sessao_teste_hash",
+      codigo_hash: crypto.createHash("sha256").update("a".repeat(32)).digest("hex"),
+      telegram_chat_id: null,
+    }],
     fila: [
       { chat: "100", tipo: "candidato", ref: A, status: "pendente" },
       { chat: "100", tipo: "candidato", ref: B, status: "erro" },
@@ -40,6 +45,22 @@ function cenario() {
     const q = strings.join("?").replace(/\s+/g, " ").trim();
     const chat = String(args[0] ?? "");
     const id = String(args[1] ?? "");
+    if (q.includes("FROM public.telegram_sessoes_site") && q.includes("codigo_hash")) {
+      const sessao = db.sessoes.find(s => s.codigo_hash === String(args[0]));
+      return Promise.resolve(sessao ? [{
+        sessao_hash: sessao.sessao_hash,
+        telegram_chat_id: sessao.telegram_chat_id,
+      }] : []);
+    }
+    if (q.startsWith("UPDATE public.telegram_sessoes_site")) {
+      const sessao = db.sessoes.find(s => s.sessao_hash === String(args[1]));
+      if (sessao) {
+        sessao.telegram_chat_id = String(args[0]);
+        sessao.codigo_hash = null;
+        gravacoes++;
+      }
+      return Promise.resolve([]);
+    }
     if (q.includes("SELECT candidatura_id") && q.includes("FROM public.telegram_acompanhamentos"))
       return Promise.resolve(db.politicos.filter((r) => r.chat === chat &&
         ["ativo", "aguardando_eleicao"].includes(r.status)).map((r) => ({ candidatura_id: r.id })));
@@ -183,4 +204,23 @@ test("comandos invalidos nao modificam preferencias", async () => {
   await c.enviar("/parar_candidato_123");
   await c.enviar("/nao-existe");
   assert.equal(c.gravacoes, 0);
+});
+
+test("confirma a inscricao via sessao do site no mesmo bot", async () => {
+  const c = cenario();
+  const resp = await c.enviar("/start s_" + "a".repeat(32), { chat: "300" });
+  assert.equal(resp.status, 200);
+  assert.equal(c.db.sessoes[0].telegram_chat_id, "300");
+  assert.equal(c.db.sessoes[0].codigo_hash, null);
+  assert.match(c.mensagens.at(-1).text, /vinculado ao Fora da Pauta/i);
+  assert.equal(c.db.edicoes.find(r => r.chat === "300").status, "ativo");
+});
+
+test("nao permite confirmar duas vezes um codigo consumido", async () => {
+  const c = cenario();
+  await c.enviar("/start s_" + "a".repeat(32), { chat: "300" });
+  await c.enviar("/start s_" + "a".repeat(32), { chat: "400" });
+  assert.equal(c.db.sessoes[0].telegram_chat_id, "300");
+  assert.ok(!c.db.edicoes.some(r => r.chat === "400"));
+  assert.match(c.mensagens.at(-1).text, /expirou ou já foi usado/i);
 });
