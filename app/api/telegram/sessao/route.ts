@@ -35,6 +35,22 @@ export async function POST(request: Request) {
     { status: 429, headers: { ...semCache, "Retry-After": String(limite.retryAfterSeconds) } },
   );
   // O código do bot serve apenas para vincular este navegador, nunca para autenticar outra pessoa.
+  const corpo = await request.json().catch(() => ({})) as { ids?: unknown };
+  const idsInformados = corpo.ids;
+  let idsPendentes: string[] = [];
+  if (idsInformados !== undefined) {
+    if (!Array.isArray(idsInformados) || idsInformados.length < 1 ||
+      idsInformados.length > 100 ||
+      idsInformados.some(id => typeof id !== "string" || !/^\d{8,20}$/.test(id))) {
+      return NextResponse.json({ erro: "Seleção inválida." }, { status: 400, headers: semCache });
+    }
+    const { eleitos2026 } = await import("@/data/eleicoes/eleitos");
+    const validos = new Set(eleitos2026.map(p => p.id));
+    idsPendentes = [...new Set(idsInformados as string[])];
+    if (idsPendentes.some(id => !validos.has(id))) {
+      return NextResponse.json({ erro: "Pessoa não eleita." }, { status: 400, headers: semCache });
+    }
+  }
   const anterior = await tokenSessao();
   const token = anterior ?? randomBytes(32).toString("base64url");
   const codigo = randomBytes(24).toString("base64url");
@@ -42,15 +58,16 @@ export async function POST(request: Request) {
   const codigoHash = hashSessao(codigo);
   const result = await sql<{ vinculado: boolean }[]>`
     INSERT INTO public.telegram_sessoes_site
-      (sessao_hash, codigo_hash, codigo_expira_at, expira_at)
+      (sessao_hash, codigo_hash, codigo_expira_at, expira_at, candidaturas_pendentes)
     VALUES
       (${sessaoHash}, ${codigoHash}, now() + (${MINUTOS_CODIGO} * interval '1 minute'),
-       now() + (${DIAS_SESSAO} * interval '1 day'))
+       now() + (${DIAS_SESSAO} * interval '1 day'), ${idsPendentes})
     ON CONFLICT (sessao_hash)
     DO UPDATE SET
       codigo_hash = EXCLUDED.codigo_hash,
       codigo_expira_at = EXCLUDED.codigo_expira_at,
-      expira_at = EXCLUDED.expira_at
+      expira_at = EXCLUDED.expira_at,
+      candidaturas_pendentes = EXCLUDED.candidaturas_pendentes
     RETURNING telegram_chat_id IS NOT NULL AS vinculado
   `;
   const resposta = NextResponse.json({
