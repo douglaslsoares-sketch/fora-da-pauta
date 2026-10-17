@@ -17,7 +17,9 @@ export default function Home() {
   // A edição 6x1 já estava publicada na home original.
   // As demais entram somente quando tiverem data editorial de publicação.
   const publicacoes = campaigns
-    .filter((campaign) => campaign.slug !== "fim-escala-6x1" && campaign.publishedAt)
+    .filter((campaign) => campaign.slug !== "fim-escala-6x1" &&
+      campaign.slug !== "seus-interesses" &&
+      campaign.publishedAt)
     .sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""));
 
   return (
