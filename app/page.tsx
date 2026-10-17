@@ -14,7 +14,11 @@ function formatPublicationDate(date: string) {
 }
 
 export default function Home() {
-  const publications = campaigns.filter((campaign) => campaign.slug === "fim-escala-6x1");
+  // A edição 6x1 já estava publicada na home original.
+  // As demais entram somente quando tiverem data editorial de publicação.
+  const publicacoes = campaigns
+    .filter((campaign) => campaign.slug !== "fim-escala-6x1" && campaign.publishedAt)
+    .sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""));
 
   return (
     <main className={styles.page}>
@@ -35,87 +39,81 @@ export default function Home() {
             />
             <p className={styles.tagline}>Há mais para entender.</p>
           </div>
-
-          <nav className={styles.navigation} aria-label="Navegação da página inicial">
-            <a href="#publicacoes">Publicações</a>
-            <a href="#consultas">Consultas</a>
-
-          </nav>
         </header>
 
         <section
           id="conteudo"
           className={styles.hero}
-          aria-labelledby="acompanhamento-titulo"
+          aria-labelledby="home-titulo"
           tabIndex={-1}
         >
-          <p className={styles.eyebrow}>Acompanhamento</p>
-          <h1 id="acompanhamento-titulo">Votou? Fique de olho.</h1>
-          <p className={styles.heroLead}>Acompanhe os eleitos pelo Telegram.</p>
-          <p className={styles.heroDescription}>
-            Escolha quem você quer acompanhar. Quando houver novos registros
-            documentados sobre a atuação de quem você escolheu, o aviso chega pelo
-            Telegram.
+          <h1 id="home-titulo">Como o jogo é jogado</h1>
+          <p className={styles.heroLead}>
+            Política, poder, decisões e comunicação que afetam a sua vida.
           </p>
-          <Link href="/votou-fique-de-olho" className={styles.primaryLink}>
-            Escolher quem acompanhar <span aria-hidden="true">→</span>
-          </Link>
+          <a
+            href="https://t.me/ForaDaPautaAcompanhaBot?start=projeto"
+            className={styles.primaryLink}
+          >
+            Acompanhe pelo Telegram <span aria-hidden="true">→</span>
+          </a>
         </section>
 
         <section
-          id="publicacoes"
+          id="edicoes"
           className={styles.section}
-          aria-labelledby="publicacoes-titulo"
+          aria-labelledby="edicoes-titulo"
         >
           <div className={styles.sectionHeading}>
-            <h2 id="publicacoes-titulo">Publicações</h2>
-            <p>Entenda as propostas, consulte as fontes e tire suas conclusões.</p>
+            <h2 id="edicoes-titulo">Edições</h2>
           </div>
 
+          <article className={styles.cardWrapper}>
+            <Link href="/votou-fique-de-olho" className={styles.card}>
+              <div className={styles.cardMeta}>Edição</div>
+              <h3>Votou? Fique de olho.</h3>
+              <p>Acompanhe a atuação dos eleitos.</p>
+              <span className={styles.cardAction}>
+                Abrir edição <span aria-hidden="true">→</span>
+              </span>
+            </Link>
+          </article>
 
-            {publications.map((campaign) => (
-              <article key={campaign.slug} className={styles.cardWrapper}>
-                <Link href={`/campanhas/${campaign.slug}`} className={styles.card}>
-                  <div className={styles.cardMeta}>
-                    {campaign.publishedAt ? (
-                      <time dateTime={campaign.publishedAt}>
-                        {formatPublicationDate(campaign.publishedAt)}
-                      </time>
-                    ) : (
-                      <span>Publicação</span>
-                    )}
-                  </div>
-                  <h3>{campaign.title}</h3>
-                  <p>{campaign.statement}</p>
-                  <span className={styles.cardAction}>
-                    Abrir publicação <span aria-hidden="true">→</span>
-                  </span>
-                </Link>
-              </article>
-            ))}
+          <article className={styles.cardWrapper}>
+            <Link href="/campanhas/fim-escala-6x1" className={styles.card}>
+              <div className={styles.cardMeta}>Edição</div>
+              <h3>Fim da escala 6x1</h3>
+              <p>
+                A proposta é trocar a escala 6x1 pela 5x2, sem redução de salário.
+                Veja o que muda e quem apoia essa mudança.
+              </p>
+              <span className={styles.cardAction}>
+                Abrir edição <span aria-hidden="true">→</span>
+              </span>
+            </Link>
+          </article>
 
+          {publicacoes.map((campaign) => (
+            <article key={campaign.slug} className={styles.cardWrapper}>
+              <Link href={`/campanhas/${campaign.slug}`} className={styles.card}>
+                <div className={styles.cardMeta}>
+                  {campaign.publishedAt ? (
+                    <time dateTime={campaign.publishedAt}>
+                      {formatPublicationDate(campaign.publishedAt)}
+                    </time>
+                  ) : (
+                    <span>Edição</span>
+                  )}
+                </div>
+                <h3>{campaign.title}</h3>
+                <p>{campaign.statement}</p>
+                <span className={styles.cardAction}>
+                  Abrir edição <span aria-hidden="true">→</span>
+                </span>
+              </Link>
+            </article>
+          ))}
         </section>
-
-        <section
-          id="consultas"
-          className={styles.section}
-          aria-labelledby="consultas-titulo"
-        >
-          <div className={styles.sectionHeading}>
-            <h2 id="consultas-titulo">Consultas</h2>
-            <p>Encontre candidatos e consulte seus registros públicos.</p>
-          </div>
-
-          <Link href="/conheca-seu-candidato" className={styles.card}>
-            <h3>Conheça seu candidato</h3>
-            <p>Consulte a ficha, as votações e as proposições disponíveis.</p>
-            <span className={styles.cardAction}>
-              Buscar candidato <span aria-hidden="true">→</span>
-            </span>
-          </Link>
-        </section>
-
-
 
         <footer className={styles.footer}>
           <p>Fora da Pauta</p>
