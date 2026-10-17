@@ -148,6 +148,48 @@ export function VotouFiqueDeOlhoExperience() {
   const [avisoStorage, setAvisoStorage] = useState("");
   const [ativandoTelegram, setAtivandoTelegram] = useState(false);
   const [erroTelegram, setErroTelegram] = useState("");
+  const [inscricaoAtiva, setInscricaoAtiva] = useState(false);
+  const [conferindoInscricao, setConferindoInscricao] = useState(true);
+  const [salvandoEscolhas, setSalvandoEscolhas] = useState(false);
+  const [escolhasSalvas, setEscolhasSalvas] = useState(false);
+
+  useEffect(() => {
+    let montado = true;
+    async function conferir() {
+      try {
+        const resposta = await fetch("/api/telegram/sessao", { cache: "no-store" });
+        const dados = await resposta.json() as { ativo?: boolean };
+        if (montado) setInscricaoAtiva(dados.ativo === true);
+      } catch {
+        if (montado) setInscricaoAtiva(false);
+      } finally {
+        if (montado) setConferindoInscricao(false);
+      }
+    }
+    void conferir();
+    window.addEventListener("focus", conferir);
+    return () => { montado = false; window.removeEventListener("focus", conferir); };
+  }, []);
+
+  async function salvarAcompanhamentos() {
+    if (selecionadas.length === 0 || salvandoEscolhas) return;
+    setSalvandoEscolhas(true);
+    setErroTelegram("");
+    try {
+      const resposta = await fetch("/api/telegram/sessao", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selecionadas.map(p => p.id) }),
+      });
+      if (!resposta.ok) throw Error("Falha ao registrar escolhas");
+      setEscolhasSalvas(true);
+      setEtapa("telegram");
+    } catch {
+      setErroTelegram("Não foi possível salvar suas escolhas. Tente novamente.");
+    } finally {
+      setSalvandoEscolhas(false);
+    }
+  }
 
   const etapaAtual =
     selecionadas.length === 0 && etapa !== "busca"
@@ -243,6 +285,7 @@ export function VotouFiqueDeOlhoExperience() {
       return;
     }
 
+    setEscolhasSalvas(false);
     gravar([
       ...atuais,
       {
@@ -264,6 +307,7 @@ export function VotouFiqueDeOlhoExperience() {
       lerSelecaoSerializada(),
     ).filter((item) => item.id !== pessoa.id);
 
+    setEscolhasSalvas(false);
     gravar(novaLista);
 
     if (novaLista.length === 0) {
@@ -316,6 +360,20 @@ export function VotouFiqueDeOlhoExperience() {
     );
   }
 
+  if (etapaAtual === "telegram" && inscricaoAtiva && escolhasSalvas) {
+    return (
+      <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
+        <h2 className="text-3xl font-bold">Pronto. Agora fique de olho.</h2>
+        <p className="mt-4">Seus escolhidos foram adicionados ao Telegram que você já utiliza.</p>
+        <ListaSelecionadas permitirRemocao={false} />
+        <button type="button" onClick={() => { setEtapa("selecionados"); setEscolhasSalvas(false); }}
+          className="mt-6 min-h-12 w-full rounded-2xl bg-black px-5 text-white">
+          Acompanhar mais alguém
+        </button>
+      </section>
+    );
+  }
+
   if (etapaAtual === "telegram") {
     return (
       <section className="mx-auto max-w-[760px] px-6 pb-14 pt-6">
@@ -343,6 +401,19 @@ export function VotouFiqueDeOlhoExperience() {
 
         <ListaSelecionadas permitirRemocao={false} />
 
+        {conferindoInscricao ? (
+          <p role="status">Conferindo sua inscrição no Telegram...</p>
+        ) : inscricaoAtiva ? (
+          <div className="mt-6">
+            <p>Seu Telegram já está ativado. Basta salvar suas escolhas.</p>
+            <button type="button" onClick={() => void salvarAcompanhamentos()}
+              disabled={salvandoEscolhas}
+              className="mt-4 min-h-16 w-full rounded-2xl bg-[#229ED9] px-5 font-semibold text-white">
+              {salvandoEscolhas ? "Salvando..." : "Salvar escolhidos no Telegram"}
+            </button>
+          </div>
+        ) : (
+        <>
         <div className="mt-6 flex items-center gap-4 rounded-2xl border border-[#FFC400] bg-[#fffaf0] p-4">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFC400]/30">
             <TelegramIcon className="h-5 w-5" />
@@ -376,6 +447,8 @@ export function VotouFiqueDeOlhoExperience() {
           </span>
         </button>
 
+        </>
+        )}
         {erroTelegram ? (
           <p className="mt-3 text-center text-sm font-medium text-red-700">
             {erroTelegram}
@@ -468,7 +541,7 @@ export function VotouFiqueDeOlhoExperience() {
 
         <button
           type="button"
-          onClick={() => setEtapa("telegram")}
+          onClick={() => { setEtapa("telegram"); setEscolhasSalvas(false); }}
           className="mt-7 flex min-h-14 w-full items-center justify-center gap-4 rounded-2xl bg-black px-5 font-semibold text-white"
         >
           <span>Continuar</span>
