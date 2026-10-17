@@ -694,6 +694,47 @@ export async function POST(
       });
     }
 
+    if (payload.startsWith("s_")) {
+      const codigo = payload.slice(2);
+      if (!/^[A-Za-z0-9_-]{32}$/.test(codigo)) {
+        await enviarMensagemTelegram({ chatId, texto: "Link de confirmação inválido." });
+        return NextResponse.json({ ok: true });
+      }
+      const hash = hashToken(codigo);
+      const confirmado = await sql.begin(async tx => {
+        const vinculos = await tx<{ sessao_hash: string; telegram_chat_id: string | null }[]>`
+          SELECT sessao_hash, telegram_chat_id::text AS telegram_chat_id
+          FROM public.telegram_sessoes_site
+          WHERE codigo_hash = ${hash}
+            AND codigo_expira_at > now()
+            AND expira_at > now()
+          FOR UPDATE
+        `;
+        const vinculo = vinculos[0];
+        if (!vinculo || (vinculo.telegram_chat_id && vinculo.telegram_chat_id !== chatId)) return false;
+        await tx`
+          UPDATE public.telegram_sessoes_site
+          SET telegram_chat_id = ${chatId}::bigint,
+              vinculada_at = now(), codigo_hash = NULL, codigo_expira_at = NULL
+          WHERE sessao_hash = ${vinculo.sessao_hash}
+        `;
+        return true;
+      });
+      if (!confirmado) {
+        await enviarMensagemTelegram({
+          chatId,
+          texto: "Este link expirou ou já foi usado. Volte ao site e solicite uma nova confirmação.",
+        });
+        return NextResponse.json({ ok: true });
+      }
+      await registrarNovasEdicoes(chatId);
+      await enviarMensagemTelegram({
+        chatId,
+        texto: "Pronto! Seu Telegram está vinculado ao Fora da Pauta. Você receberá as novas edições aqui. Volte ao site para escolher quem deseja acompanhar; não precisa ativar o Telegram novamente.",
+      });
+      return NextResponse.json({ ok: true });
+    }
+
     if (payload.startsWith("v_")) {
       const token = payload.slice(2);
 
