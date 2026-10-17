@@ -145,7 +145,6 @@ export async function PUT(request: Request) {
   const { eleitos2026 } = await import("@/data/eleicoes/eleitos");
   const { buscarPessoaPoliticaConfirmadaPorCandidatura } = await import("@/lib/eleicoes/identidade-politica");
   const validos = new Set(eleitos2026.map(p => p.id));
-  if (ids.some(id => !validos.has(id))) return NextResponse.json({ erro: "Pessoa não eleita." }, { status: 400 });
   const resultado = await sql.begin(async tx => {
     const linhas = await tx<{ telegram_chat_id: string }[]>`
       SELECT telegram_chat_id::text AS telegram_chat_id
@@ -155,8 +154,23 @@ export async function PUT(request: Request) {
       FOR UPDATE
     `;
     const chatId = linhas[0]?.telegram_chat_id;
-    if (!chatId) return false;
+    if (!chatId) return "sem_vinculo" as const;
+    // Aceita na lista candidaturas antigas ainda ativas no mesmo bot.
+    // Nunca cadastra uma nova candidatura sem eleição confirmada.
+    const acompanhados = await tx<{ candidatura_id: string }[]>`
+      SELECT candidatura_id
+      FROM public.telegram_acompanhamentos
+      WHERE telegram_chat_id = ${chatId}::bigint
+        AND candidatura_id = ANY(${sql.array(ids)}::text[])
+        AND status IN ('ativo', 'aguardando_eleicao')
+        AND cancelled_at IS NULL
+    `;
+    const jaAcompanhados = new Set(acompanhados.map(p => p.candidatura_id));
+    if (ids.some(id => !validos.has(id) && !jaAcompanhados.has(id))) {
+      return "id_invalido" as const;
+    }
     for (const id of ids) {
+      if (!validos.has(id)) continue; // Mantém acompanhamento legado sem mudar seu status.
       const politicoId = buscarPessoaPoliticaConfirmadaPorCandidatura(id);
       await tx`
         INSERT INTO public.telegram_acompanhamentos
@@ -169,11 +183,14 @@ export async function PUT(request: Request) {
           status = 'ativo', updated_at = now(), cancelled_at = NULL
       `;
     }
-    return true;
+    return "salvo" as const;
   });
-  return NextResponse.json(resultado ? { salvo: true } : { erro: "Vincule o Telegram." }, {
-    status: resultado ? 200 : 401, headers: semCache,
-  });
+  return NextResponse.json(
+    resultado === "salvo" ? { salvo: true } :
+      { erro: resultado === "id_invalido" ? "Pessoa não eleita." : "Vincule o Telegram." },
+    { status: resultado === "salvo" ? 200 : resultado === "id_invalido" ? 400 : 401,
+      headers: semCache },
+  );
 }
 
 export async function DELETE(request: Request) {
