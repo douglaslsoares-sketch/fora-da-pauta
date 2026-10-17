@@ -22,6 +22,11 @@ function fixture() {
         query.includes("FROM public.telegram_acompanhamentos a")) {
       return Promise.resolve(state.saved.map(id => ({ candidatura_id: id })));
     }
+    if (query.startsWith("SELECT candidatura_id") &&
+        query.includes("FROM public.telegram_acompanhamentos")) {
+      const requested = args[1];
+      return Promise.resolve(state.saved.filter(id => requested.includes(id)).map(id => ({ candidatura_id: id })));
+    }
     if (query.startsWith("INSERT INTO public.telegram_sessoes_site")) {
       state.sessionHash = args[0];
       state.confirmationHash = args[1];
@@ -146,4 +151,16 @@ test("PUT rejeita IDs nao eleitos e origem estranha", async () => {
   assert.equal((await f.module.PUT(f.request("PUT", ["111111111111"]))).status, 400);
   assert.equal((await f.module.PUT(f.request("PUT", []))).status, 400);
   assert.equal(f.state.saved.length, 0);
+});
+
+test("PUT preserva candidatura antiga ativa sem reativar ou apagar", async () => {
+  const f = fixture();
+  await f.module.POST(f.request("POST"));
+  f.state.linked = true;
+  const antiga = "140002548998";
+  f.state.saved.push(antiga);
+  assert.equal((await f.module.PUT(f.request("PUT", [antiga, ID1]))).status, 200);
+  assert.deepEqual(f.state.saved, [antiga, ID1]);
+  assert.equal((await f.module.PUT(f.request("PUT", [antiga, "999999999999"]))).status, 400);
+  assert.deepEqual(f.state.saved, [antiga, ID1]);
 });
