@@ -396,8 +396,8 @@ async function mostrarPreferencias(chatId: string) {
       "\n\nPara parar apenas novas edições, envie /parar_edicoes." +
       "\nPara parar tudo, envie /parar.",
     botoes: [[{
-      text: "Escolher ou acrescentar políticos",
-      url: "https://www.foradapauta.org/votou-fique-de-olho",
+      text: "Voltar ao Fora da Pauta",
+      url: "https://www.foradapauta.org/",
     }]],
   });
 }
@@ -681,9 +681,9 @@ export async function POST(
           ],
           [
             {
-              text: "Escolher político",
+              text: "Voltar ao Fora da Pauta",
               url:
-                "https://www.foradapauta.org/votou-fique-de-olho",
+                "https://www.foradapauta.org/",
             },
           ],
         ],
@@ -762,7 +762,7 @@ export async function POST(
           chatId,
           texto: "Suas escolhas j\u00e1 foram registradas com este link.\n\n" +
             "Para uma nova ativa\u00e7\u00e3o, gere outro link pelo site:\n\n" +
-            "https://www.foradapauta.org/votou-fique-de-olho",
+            "https://www.foradapauta.org/",
         });
         return NextResponse.json({ ok: true });
       }
@@ -793,9 +793,9 @@ export async function POST(
         botoes: [
           [
             {
-              text: "Escolher político para acompanhar",
+              text: "Voltar ao Fora da Pauta",
               url:
-                "https://www.foradapauta.org/votou-fique-de-olho",
+                "https://www.foradapauta.org/",
             },
           ],
         ],
