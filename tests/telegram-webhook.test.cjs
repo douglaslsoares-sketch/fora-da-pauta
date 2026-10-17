@@ -233,3 +233,12 @@ test("nao permite confirmar duas vezes um codigo consumido", async () => {
   assert.ok(!c.db.edicoes.some(r => r.chat === "400"));
   assert.match(c.mensagens.at(-1).text, /expirou ou já foi usado/i);
 });
+
+test("selecionados da edicao sao ativados ao confirmar no bot", async () => {
+  const v = cenario();
+  v.db.sessoes[0].candidaturas_pendentes = [A, B];
+  const resp = await v.enviar("/start s_" + "a".repeat(32), { chat: "300" });
+  assert.equal(resp.status, 200);
+  assert.deepEqual(v.db.politicos.filter(p => p.chat === "300").map(p => p.id), [A, B]);
+  assert.equal(v.db.edicoes.find(p => p.chat === "300").status, "ativo");
+});
