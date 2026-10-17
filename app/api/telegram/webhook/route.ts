@@ -702,8 +702,8 @@ export async function POST(
       }
       const hash = hashToken(codigo);
       const confirmado = await sql.begin(async tx => {
-        const vinculos = await tx<{ sessao_hash: string; telegram_chat_id: string | null }[]>`
-          SELECT sessao_hash, telegram_chat_id::text AS telegram_chat_id
+        const vinculos = await tx<{ sessao_hash: string; telegram_chat_id: string | null; candidaturas_pendentes: string[] }[]>`
+          SELECT sessao_hash, telegram_chat_id::text AS telegram_chat_id, candidaturas_pendentes
           FROM public.telegram_sessoes_site
           WHERE codigo_hash = ${hash}
             AND codigo_expira_at > now()
@@ -712,10 +712,33 @@ export async function POST(
         `;
         const vinculo = vinculos[0];
         if (!vinculo || (vinculo.telegram_chat_id && vinculo.telegram_chat_id !== chatId)) return false;
+        const idsEleitos = new Set(eleitos2026.map(p => p.id));
+        const pendentes = vinculo.candidaturas_pendentes ?? [];
+        if (pendentes.some(id => !idsEleitos.has(id))) return false;
+        await tx`
+          INSERT INTO telegram_preferencias
+            (telegram_chat_id, tipo, referencia, status, created_at, updated_at, cancelled_at)
+          VALUES (${chatId}::bigint, 'novas_edicoes', '', 'ativo', now(), now(), NULL)
+          ON CONFLICT (telegram_chat_id, tipo, referencia)
+          DO UPDATE SET status = 'ativo', updated_at = now(), cancelled_at = NULL
+        `;
+        for (const id of pendentes) {
+          const identidade = buscarPessoaPoliticaConfirmadaPorCandidatura(id);
+          await tx`
+            INSERT INTO public.telegram_acompanhamentos
+              (telegram_chat_id, candidatura_id, identidade_politica_id, status, created_at, updated_at, cancelled_at)
+            VALUES (${chatId}::bigint, ${id}, ${identidade}, 'ativo', now(), now(), NULL)
+            ON CONFLICT (telegram_chat_id, candidatura_id)
+            DO UPDATE SET identidade_politica_id = COALESCE(EXCLUDED.identidade_politica_id,
+                telegram_acompanhamentos.identidade_politica_id),
+              status = 'ativo', updated_at = now(), cancelled_at = NULL
+          `;
+        }
         await tx`
           UPDATE public.telegram_sessoes_site
           SET telegram_chat_id = ${chatId}::bigint,
-              vinculada_at = now(), codigo_hash = NULL, codigo_expira_at = NULL
+              vinculada_at = now(), codigo_hash = NULL, codigo_expira_at = NULL,
+              candidaturas_pendentes = '{}'
           WHERE sessao_hash = ${vinculo.sessao_hash}
         `;
         return true;
@@ -727,7 +750,6 @@ export async function POST(
         });
         return NextResponse.json({ ok: true });
       }
-      await registrarNovasEdicoes(chatId);
       await enviarMensagemTelegram({
         chatId,
         texto: "Pronto! Seu Telegram está vinculado ao Fora da Pauta. Você receberá as novas edições aqui. Volte ao site para escolher quem deseja acompanhar; não precisa ativar o Telegram novamente.",
