@@ -77,6 +77,9 @@ export function VotouFiqueDeOlhoExperience() {
     [bruto],
   );
 
+  const [inscricaoAtiva, setInscricaoAtiva] = useState(false);
+  const [conferindoInscricao, setConferindoInscricao] = useState(true);
+
   useEffect(() => {
     if (selecionadas.length === 0 || conferindoInscricao || inscricaoAtiva) return;
 
@@ -148,8 +151,6 @@ export function VotouFiqueDeOlhoExperience() {
   const [avisoStorage, setAvisoStorage] = useState("");
   const [ativandoTelegram, setAtivandoTelegram] = useState(false);
   const [erroTelegram, setErroTelegram] = useState("");
-  const [inscricaoAtiva, setInscricaoAtiva] = useState(false);
-  const [conferindoInscricao, setConferindoInscricao] = useState(true);
   const [salvandoEscolhas, setSalvandoEscolhas] = useState(false);
   const [escolhasSalvas, setEscolhasSalvas] = useState(false);
   const edicoesLocaisPendentes = useRef(false);
