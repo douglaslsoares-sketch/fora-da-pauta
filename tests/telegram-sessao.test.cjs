@@ -18,6 +18,10 @@ function fixture() {
   };
   function sql(strings, ...args) {
     const query = strings.join("?").replace(/\s+/g, " ").trim();
+    if (query.includes("SELECT a.candidatura_id") &&
+        query.includes("FROM public.telegram_acompanhamentos a")) {
+      return Promise.resolve(state.saved.map(id => ({ candidatura_id: id })));
+    }
     if (query.startsWith("INSERT INTO public.telegram_sessoes_site")) {
       state.sessionHash = args[0];
       state.confirmationHash = args[1];
