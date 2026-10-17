@@ -26,6 +26,7 @@ function cenario() {
       sessao_hash: "sessao_teste_hash",
       codigo_hash: crypto.createHash("sha256").update("a".repeat(32)).digest("hex"),
       telegram_chat_id: null,
+      candidaturas_pendentes: [],
     }],
     fila: [
       { chat: "100", tipo: "candidato", ref: A, status: "pendente" },
@@ -50,7 +51,15 @@ function cenario() {
       return Promise.resolve(sessao ? [{
         sessao_hash: sessao.sessao_hash,
         telegram_chat_id: sessao.telegram_chat_id,
+        candidaturas_pendentes: sessao.candidaturas_pendentes,
       }] : []);
+    }
+    if (q.startsWith("INSERT INTO public.telegram_acompanhamentos")) {
+      const record = db.politicos.find(p => p.chat === chat && p.id === id);
+      if (record) record.status = "ativo";
+      else db.politicos.push({ chat, id, status: "ativo" });
+      gravacoes++;
+      return Promise.resolve([]);
     }
     if (q.startsWith("UPDATE public.telegram_sessoes_site")) {
       const sessao = db.sessoes.find(s => s.sessao_hash === String(args[1]));
