@@ -212,68 +212,24 @@ export function VotouFiqueDeOlhoExperience() {
   }
 
   async function ativarTelegram() {
-    if (
-      ativandoTelegram ||
-      selecionadas.length === 0
-    ) {
-      return;
-    }
-
+    if (ativandoTelegram || selecionadas.length === 0) return;
     setAtivandoTelegram(true);
     setErroTelegram("");
-
     try {
-      const response = await fetch(
-        "/api/telegram/vinculo",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ids: selecionadas.map(
-              (pessoa) => pessoa.id,
-            ),
-          }),
-        },
-      );
-
-      const data = (await response.json()) as {
-        url?: unknown;
-      };
-
-      if (
-        !response.ok ||
-        typeof data.url !== "string"
-      ) {
-        throw new Error(
-          "Não foi possível preparar a ativação.",
-        );
-      }
-
-      const telegramUrl = new URL(data.url);
-
-      if (
-        telegramUrl.protocol !== "https:" ||
-        telegramUrl.hostname !== "t.me" ||
-        telegramUrl.pathname !==
-          "/ForaDaPautaAcompanhaBot"
-      ) {
-        throw new Error(
-          "Link do Telegram inválido.",
-        );
-      }
-
-      window.location.assign(
-        telegramUrl.toString(),
-      );
+      const resposta = await fetch("/api/telegram/sessao", { method: "POST" });
+      const dados = await resposta.json() as { url?: string };
+      if (!resposta.ok || typeof dados.url !== "string") throw Error("Falha");
+      const url = new URL(dados.url);
+      if (url.origin !== "https://t.me" ||
+          url.pathname !== "/ForaDaPautaAcompanhaBot" ||
+          !/^\\?start=s_[A-Za-z0-9_-]{32}$/.test(url.search)) throw Error("Link incorreto");
+      window.location.assign(url.toString());
     } catch {
-      setErroTelegram(
-        "Não foi possível abrir o Telegram. Tente novamente.",
-      );
+      setErroTelegram("Não foi possível abrir o Telegram. Tente novamente.");
       setAtivandoTelegram(false);
     }
   }
+
   function selecionar(
     pessoa: Omit<PessoaSelecionada, "eleicao">,
   ) {
@@ -420,7 +376,7 @@ export function VotouFiqueDeOlhoExperience() {
           </div>
 
           <p className="text-sm leading-6">
-            Ao ativar, você poderá receber pelo Telegram as notificações do Fora da Pauta, inclusive sobre as pessoas escolhidas.
+            Confirme a inscrição no Telegram. Depois volte a esta página para salvar as pessoas escolhidas.
           </p>
         </div>
 
