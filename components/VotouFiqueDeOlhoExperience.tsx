@@ -78,7 +78,7 @@ export function VotouFiqueDeOlhoExperience() {
   );
 
   useEffect(() => {
-    if (selecionadas.length === 0) return;
+    if (selecionadas.length === 0 || conferindoInscricao || inscricaoAtiva) return;
 
     const controller = new AbortController();
 
@@ -140,7 +140,7 @@ export function VotouFiqueDeOlhoExperience() {
     return () => {
       controller.abort();
     };
-  }, [selecionadas]);
+  }, [selecionadas, conferindoInscricao, inscricaoAtiva]);
 
   const [etapa, setEtapa] = useState<Etapa>("busca");
   const [busca, setBusca] = useState(0);
