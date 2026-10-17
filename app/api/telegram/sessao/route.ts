@@ -115,3 +115,42 @@ export async function PUT(request: Request) {
     status: resultado ? 200 : 401, headers: semCache,
   });
 }
+
+export async function DELETE(request: Request) {
+  if (!permitido(request)) return NextResponse.json({ erro: "Origem inválida." }, { status: 403, headers: semCache });
+  const token = await tokenSessao();
+  if (!token) return NextResponse.json({ erro: "Vínculo não confirmado." }, { status: 401, headers: semCache });
+  const body = await request.json().catch(() => null) as { id?: unknown } | null;
+  if (typeof body?.id !== "string" || !/^\d{8,20}$/.test(body.id)) {
+    return NextResponse.json({ erro: "Identificador inválido." }, { status: 400, headers: semCache });
+  }
+  const id = body.id;
+  const resultado = await sql.begin(async tx => {
+    const sessao = await tx<{ telegram_chat_id: string }[]>`
+      SELECT telegram_chat_id::text AS telegram_chat_id
+      FROM public.telegram_sessoes_site
+      WHERE sessao_hash = ${hashSessao(token)}
+        AND expira_at > now() AND telegram_chat_id IS NOT NULL
+      FOR UPDATE
+    `;
+    const chatId = sessao[0]?.telegram_chat_id;
+    if (!chatId) return false;
+    await tx`
+      UPDATE public.telegram_acompanhamentos
+      SET status = 'cancelado', cancelled_at = now(), updated_at = now()
+      WHERE telegram_chat_id = ${chatId}::bigint AND candidatura_id = ${id}
+        AND status <> 'cancelado'
+    `;
+    await tx`
+      UPDATE public.telegram_fila_avisos
+      SET status = 'cancelado', updated_at = now(),
+          ultimo_erro_codigo = 'CANCELADO_PELO_USUARIO'
+      WHERE telegram_chat_id = ${chatId}::bigint AND tipo = 'candidato'
+        AND referencia = ${id} AND status IN ('pendente', 'erro')
+    `;
+    return true;
+  });
+  return NextResponse.json(resultado ? { removido: true } : { erro: "Vínculo não confirmado." }, {
+    status: resultado ? 200 : 401, headers: semCache,
+  });
+}
