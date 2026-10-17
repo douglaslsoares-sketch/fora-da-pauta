@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { sql } from "@/lib/interesses/db";
+import { consumeRateLimit } from "@/lib/rateLimit";
 import {
   COOKIE_SESSAO_TELEGRAM, DIAS_SESSAO, MINUTOS_CODIGO,
   hashSessao, inscricaoAtiva, tokenSessao,
@@ -26,6 +27,13 @@ export async function GET() {
 
 export async function POST(request: Request) {
   if (!permitido(request)) return NextResponse.json({ erro: "Origem inválida" }, { status: 403 });
+  const limite = await consumeRateLimit({
+    request, scope: "telegram:sessao:iniciar", limit: 10, windowSeconds: 600,
+  });
+  if (!limite.allowed) return NextResponse.json(
+    { erro: "Muitas tentativas. Aguarde alguns minutos." },
+    { status: 429, headers: { ...semCache, "Retry-After": String(limite.retryAfterSeconds) } },
+  );
   // O código do bot serve apenas para vincular este navegador, nunca para autenticar outra pessoa.
   const anterior = await tokenSessao();
   const token = anterior ?? randomBytes(32).toString("base64url");
@@ -58,6 +66,13 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   if (!permitido(request)) return NextResponse.json({ erro: "Origem inválida" }, { status: 403 });
+  const limite = await consumeRateLimit({
+    request, scope: "telegram:sessao:salvar", limit: 30, windowSeconds: 600,
+  });
+  if (!limite.allowed) return NextResponse.json(
+    { erro: "Muitas tentativas. Aguarde alguns minutos." },
+    { status: 429, headers: { ...semCache, "Retry-After": String(limite.retryAfterSeconds) } },
+  );
   const token = await tokenSessao();
   if (!token) return NextResponse.json({ erro: "Vincule o Telegram." }, { status: 401 });
   const body = await request.json().catch(() => null) as { ids?: unknown } | null;
