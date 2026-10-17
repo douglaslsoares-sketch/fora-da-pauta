@@ -15,7 +15,7 @@ function formatPublicationDate(date: string) {
 }
 
 export default function Home() {
-  // A edição 6x1 já estava publicada na home original.
+  // Edições ocultas da home permanecem acessíveis pelo endereço original.
   // As demais entram somente quando tiverem data editorial de publicação.
   const publicacoes = campaigns
     .filter((campaign) => campaign.slug !== "fim-escala-6x1" &&
@@ -71,20 +71,6 @@ export default function Home() {
               <div className={styles.cardMeta}>Edição</div>
               <h3>Votou? Fique de olho.</h3>
               <p>Acompanhe a atuação dos eleitos.</p>
-              <span className={styles.cardAction}>
-                Abrir edição <span aria-hidden="true">→</span>
-              </span>
-            </Link>
-          </article>
-
-          <article className={styles.cardWrapper}>
-            <Link href="/campanhas/fim-escala-6x1" className={styles.card}>
-              <div className={styles.cardMeta}>Edição</div>
-              <h3>Fim da escala 6x1</h3>
-              <p>
-                A proposta é trocar a escala 6x1 pela 5x2, sem redução de salário.
-                Veja o que muda e quem apoia essa mudança.
-              </p>
               <span className={styles.cardAction}>
                 Abrir edição <span aria-hidden="true">→</span>
               </span>
