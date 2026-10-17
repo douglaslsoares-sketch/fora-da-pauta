@@ -170,8 +170,28 @@ export function VotouFiqueDeOlhoExperience() {
     async function conferir() {
       try {
         const resposta = await fetch("/api/telegram/sessao", { cache: "no-store" });
-        const dados = await resposta.json() as { ativo?: boolean };
-        if (montado) setInscricaoAtiva(dados.ativo === true);
+        const dados = await resposta.json() as { ativo?: boolean; ids?: string[] };
+        if (!montado) return;
+        setInscricaoAtiva(dados.ativo === true);
+        // Recupera os acompanhamentos do bot apenas se a lista local estiver vazia.
+        // Não substitui uma seleção que a pessoa ainda esteja preparando no navegador.
+        if (dados.ativo && Array.isArray(dados.ids) && dados.ids.length > 0 &&
+            interpretarSelecao(lerSelecaoSerializada()).length === 0) {
+          const validacao = await fetch("/api/candidatos/eleitos/validar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ids: dados.ids }),
+          });
+          if (validacao.ok && montado &&
+              interpretarSelecao(lerSelecaoSerializada()).length === 0) {
+            const resultado = await validacao.json() as {
+              pessoas?: Omit<PessoaSelecionada, "eleicao">[];
+            };
+            if (Array.isArray(resultado.pessoas) && resultado.pessoas.length) {
+              salvarSelecao(resultado.pessoas.map(pessoa => ({ ...pessoa, eleicao: 2026 })));
+            }
+          }
+        }
       } catch {
         if (montado) setInscricaoAtiva(false);
       } finally {
