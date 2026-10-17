@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore, useRef } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import {
@@ -152,6 +152,8 @@ export function VotouFiqueDeOlhoExperience() {
   const [conferindoInscricao, setConferindoInscricao] = useState(true);
   const [salvandoEscolhas, setSalvandoEscolhas] = useState(false);
   const [escolhasSalvas, setEscolhasSalvas] = useState(false);
+  const edicoesLocaisPendentes = useRef(false);
+  const [eleitosConfirmados, setEleitosConfirmados] = useState<string[]>([]);
 
   // Ao voltar do Telegram, retoma a seleção preservada no navegador.
   useEffect(() => {
@@ -170,26 +172,19 @@ export function VotouFiqueDeOlhoExperience() {
     async function conferir() {
       try {
         const resposta = await fetch("/api/telegram/sessao", { cache: "no-store" });
-        const dados = await resposta.json() as { ativo?: boolean; ids?: string[] };
+        const dados = await resposta.json() as {
+          ativo?: boolean;
+          ids?: string[];
+          pessoas?: (PessoaSelecionada & { eleitoConfirmado?: boolean })[];
+        };
         if (!montado) return;
         setInscricaoAtiva(dados.ativo === true);
-        // Recupera os acompanhamentos do bot apenas se a lista local estiver vazia.
-        // Não substitui uma seleção que a pessoa ainda esteja preparando no navegador.
-        if (dados.ativo && Array.isArray(dados.ids) && dados.ids.length > 0 &&
-            interpretarSelecao(lerSelecaoSerializada()).length === 0) {
-          const validacao = await fetch("/api/candidatos/eleitos/validar", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ids: dados.ids }),
-          });
-          if (validacao.ok && montado &&
-              interpretarSelecao(lerSelecaoSerializada()).length === 0) {
-            const resultado = await validacao.json() as {
-              pessoas?: Omit<PessoaSelecionada, "eleicao">[];
-            };
-            if (Array.isArray(resultado.pessoas) && resultado.pessoas.length) {
-              salvarSelecao(resultado.pessoas.map(pessoa => ({ ...pessoa, eleicao: 2026 })));
-            }
+        if (dados.ativo && Array.isArray(dados.pessoas) && !edicoesLocaisPendentes.current) {
+          const pessoas = dados.pessoas.map(({ eleitoConfirmado, ...pessoa }) => pessoa);
+          setEleitosConfirmados(dados.pessoas.filter(p => p.eleitoConfirmado).map(p => p.id));
+          const atuais = interpretarSelecao(lerSelecaoSerializada());
+          if (JSON.stringify(atuais) !== JSON.stringify(pessoas)) {
+            salvarSelecao(pessoas);
           }
         }
       } catch {
@@ -214,6 +209,7 @@ export function VotouFiqueDeOlhoExperience() {
         body: JSON.stringify({ ids: selecionadas.map(p => p.id) }),
       });
       if (!resposta.ok) throw Error("Falha ao registrar escolhas");
+      edicoesLocaisPendentes.current = false;
       setEscolhasSalvas(true);
       setEtapa("telegram");
     } catch {
@@ -282,6 +278,7 @@ export function VotouFiqueDeOlhoExperience() {
       return;
     }
 
+    edicoesLocaisPendentes.current = true;
     setEscolhasSalvas(false);
     gravar([
       ...atuais,
@@ -319,6 +316,7 @@ export function VotouFiqueDeOlhoExperience() {
       lerSelecaoSerializada(),
     ).filter((item) => item.id !== pessoa.id);
 
+    edicoesLocaisPendentes.current = true;
     setEscolhasSalvas(false);
     gravar(novaLista);
 
@@ -349,6 +347,9 @@ export function VotouFiqueDeOlhoExperience() {
                 {pessoa.nomeUrna}
               </p>
 
+              {inscricaoAtiva && !eleitosConfirmados.includes(pessoa.id) ? (
+                <p className="mt-1 text-xs text-amber-700">Eleição não confirmada na base atual</p>
+              ) : null}
               <p className="mt-1 text-sm leading-5 text-black/60">
                 {pessoa.cargoLabel} · {pessoa.uf}
                 <br />
