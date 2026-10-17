@@ -55,10 +55,10 @@ export async function POST(request: Request) {
     { status: 429, headers: { ...semCache, "Retry-After": String(limite.retryAfterSeconds) } },
   );
   // O código do bot serve apenas para vincular este navegador, nunca para autenticar outra pessoa.
-  const body = await request.json().catch(() => ({})) as { ids?: unknown };
+  const body = await request.json().catch(() => ({})) as { ids?: unknown } | null;
   let idsPendentes: string[] = [];
-  if (body.ids !== undefined) {
-    if (!Array.isArray(body.ids) || body.ids.length < 1 || body.ids.length > 100 ||
+  if (body?.ids !== undefined && body?.ids !== null) {
+    if (!Array.isArray(body?.ids) || body.ids.length < 1 || body.ids.length > 100 ||
         body.ids.some(id => typeof id !== "string" || !/^[0-9]{8,20}$/.test(id))) {
       return NextResponse.json({ erro: "Seleção inválida." }, { status: 400, headers: semCache });
     }
