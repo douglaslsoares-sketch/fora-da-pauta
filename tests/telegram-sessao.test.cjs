@@ -40,6 +40,7 @@ function fixture() {
     }
     throw Error("SQL nao previsto no teste: " + query.slice(0, 150));
   }
+  sql.array = values => values;
   sql.begin = cb => cb(sql);
   const src = fs.readFileSync(sourcePath, "utf8");
   const compiled = ts.transpileModule(src, {
