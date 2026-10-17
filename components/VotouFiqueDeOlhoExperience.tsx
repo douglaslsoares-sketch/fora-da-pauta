@@ -222,7 +222,7 @@ export function VotouFiqueDeOlhoExperience() {
       const url = new URL(dados.url);
       if (url.origin !== "https://t.me" ||
           url.pathname !== "/ForaDaPautaAcompanhaBot" ||
-          !/^\\?start=s_[A-Za-z0-9_-]{32}$/.test(url.search)) throw Error("Link incorreto");
+          !/^\?start=s_[A-Za-z0-9_-]{32}$/.test(url.search)) throw Error("Link incorreto");
       window.location.assign(url.toString());
     } catch {
       setErroTelegram("Não foi possível abrir o Telegram. Tente novamente.");
