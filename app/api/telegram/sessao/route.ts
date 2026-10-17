@@ -79,7 +79,7 @@ export async function POST(request: Request) {
       (sessao_hash, codigo_hash, codigo_expira_at, expira_at, candidaturas_pendentes)
     VALUES
       (${sessaoHash}, ${codigoHash}, now() + (${MINUTOS_CODIGO} * interval '1 minute'),
-       now() + (${DIAS_SESSAO} * interval '1 day'), ${idsPendentes})
+       now() + (${DIAS_SESSAO} * interval '1 day'), ${sql.array(idsPendentes)})
     ON CONFLICT (sessao_hash)
     DO UPDATE SET
       codigo_hash = EXCLUDED.codigo_hash,
