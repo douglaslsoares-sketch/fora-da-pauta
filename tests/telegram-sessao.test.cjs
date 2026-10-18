@@ -78,7 +78,8 @@ function fixture() {
       COOKIE_SESSAO_TELEGRAM: "fdp_tg_site_v1", DIAS_SESSAO: 180, MINUTOS_CODIGO: 15,
       hashSessao: token => crypto.createHash("sha256").update(token).digest("hex"),
       tokenSessao: async () => state.token,
-      inscricaoAtiva: async token => Boolean(token && state.linked && state.notifications),
+      inscricaoAtiva: async token => Boolean(token && state.linked && (state.notifications || state.saved.length > 0)),
+      inscricaoGeralAtiva: async token => Boolean(token && state.linked && state.notifications),
     },
     "@/data/eleicoes/eleitos": { eleitos2026: [{ id: ID1 }, { id: ID2 }] },
     "@/data/eleicoes/candidaturas": { candidaturas: [
@@ -118,6 +119,18 @@ test("GET nao considera clique anterior como inscricao confirmada", async () => 
   f.state.linked = true;
   f.state.notifications = true;
   assert.equal((await f.module.GET()).body.ativo, true);
+  assert.equal((await f.module.GET()).body.geralAtivo, true);
+});
+
+test("GET distingue acompanhamento individual de inscrição geral", async () => {
+  const f = fixture();
+  await f.module.POST(f.request("POST"));
+  f.state.linked = true;
+  f.state.saved.push(ID1);
+  const resposta = await f.module.GET();
+  assert.equal(resposta.body.ativo, true);
+  assert.equal(resposta.body.geralAtivo, false);
+  assert.deepEqual(resposta.body.ids, [ID1]);
 });
 
 test("POST exige origem correta e limita tentativas", async () => {
