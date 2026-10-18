@@ -571,7 +571,7 @@ export function VotouFiqueDeOlhoExperience() {
       <section className="bg-black text-white">
         <div className="mx-auto max-w-[760px] px-6 pb-8 pt-8">
           <h1 className="text-[clamp(3rem,13vw,6.5rem)] font-bold leading-[0.93] tracking-[-0.06em]">
-            <span className="block whitespace-nowrap text-[#FFC400]">Fique de Olho</span>
+            <span className="block text-[#FFC400]">Fique de Olho</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-xl leading-7 text-white/90">
