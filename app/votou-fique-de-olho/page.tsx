@@ -5,9 +5,9 @@ import { VotouFiqueDeOlhoExperience } from "@/components/VotouFiqueDeOlhoExperie
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Votou? Fique de olho.",
-  description: "Escolha quem você quer acompanhar no Fora da Pauta.",
-  robots: { index: false, follow: false },
+  title: "Fique de Olho",
+  description: "Acompanhe a atuação de representantes e receba atualizações pelo Telegram.",
+  robots: { index: true, follow: true },
 };
 
 export default function VotouFiqueDeOlhoPage() {
