@@ -42,3 +42,23 @@ export async function inscricaoAtiva(token: string | null) {
   `;
   return resultado[0]?.ativo === true;
 }
+
+/** Inscrição editorial geral, independente da escolha de representantes. */
+export async function inscricaoGeralAtiva(token: string | null) {
+  if (!token) return false;
+  const resultado = await sql<{ ativo: boolean }[]>`
+    SELECT EXISTS (
+      SELECT 1
+      FROM public.telegram_sessoes_site AS s
+      JOIN public.telegram_preferencias AS p
+        ON p.telegram_chat_id = s.telegram_chat_id
+      WHERE s.sessao_hash = ${hashSessao(token)}
+        AND s.expira_at > now()
+        AND s.telegram_chat_id IS NOT NULL
+        AND p.tipo = 'novas_edicoes'
+        AND p.status = 'ativo'
+        AND p.cancelled_at IS NULL
+    ) AS ativo
+  `;
+  return resultado[0]?.ativo === true;
+}
