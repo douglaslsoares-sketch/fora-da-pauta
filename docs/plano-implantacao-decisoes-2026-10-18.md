@@ -39,3 +39,13 @@ Este documento acompanha a implementação; não é declaração de funcionament
 4. Não colocar tokens, senhas ou outras credenciais no código.
 5. Fazer build, lint e testes antes de qualquer integração à ramificação principal.
 6. Comparar esta ramificação com a cópia local antes de aplicar suas mudanças ao projeto definitivo.
+
+## Revisão estática da ramificação (18/10/2026)
+- Home mantém um único componente de inscrição e separa a seção permanente Fique de Olho da lista de edições.
+- Campanha 6×1 continua fora da home, sem apagar a rota.
+- Compartilhamento WhatsApp foi implementado como opção adicional.
+- A confirmação antecipada de acompanhamento foi substituída por "Você selecionou" / "Mais um passo".
+- O bot recebeu botões "Voltar para a página inicial" em respostas de confirmação; a verificação por segredo do webhook permanece.
+- Nove verificações estáticas de presença/invariantes de código passaram.
+- **Pendente**: comparação com ZIP local, instalação de dependências, `npm run lint`, `npx tsc --noEmit`, testes isolados do Telegram, `npm run build`, teste em telefone de terceiro.
+- **Não executado**: qualquer publicação, promoção de domínio ou alteração de dados.
