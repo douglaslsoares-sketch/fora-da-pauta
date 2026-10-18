@@ -493,7 +493,7 @@ export function VotouFiqueDeOlhoExperience() {
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm text-white">
                 ✓
               </span>
-              Você está acompanhando:
+              Você selecionou:
             </p>
 
             <div className="mt-4 flex items-center gap-3">
