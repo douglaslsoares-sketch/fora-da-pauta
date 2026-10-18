@@ -400,7 +400,7 @@ export function VotouFiqueDeOlhoExperience() {
 
           <h2 className="mt-5 font-bold leading-[1.02] tracking-[-0.045em]">
             <span className="block text-4xl">
-              Pronto.
+              Mais um passo.
             </span>
             <span className="mt-1 block whitespace-nowrap text-[clamp(1.75rem,8.4vw,2.25rem)]">
               Agora fique de olho.
@@ -409,7 +409,7 @@ export function VotouFiqueDeOlhoExperience() {
         </div>
 
         <p className="mt-8 font-semibold">
-          Você escolheu acompanhar:
+          Você selecionou:
         </p>
 
         <ListaSelecionadas permitirRemocao={false} />
