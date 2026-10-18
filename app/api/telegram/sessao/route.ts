@@ -5,7 +5,7 @@ import { sql } from "@/lib/interesses/db";
 import { consumeRateLimit } from "@/lib/rateLimit";
 import {
   COOKIE_SESSAO_TELEGRAM, DIAS_SESSAO, MINUTOS_CODIGO,
-  hashSessao, inscricaoAtiva, tokenSessao,
+  hashSessao, inscricaoAtiva, inscricaoGeralAtiva, tokenSessao,
 } from "@/lib/telegram/sessao-site";
 
 export const runtime = "nodejs";
@@ -24,8 +24,9 @@ export async function GET() {
   const token = await tokenSessao();
   const ativo = await inscricaoAtiva(token);
   if (!ativo || !token) {
-    return NextResponse.json({ ativo: false, ids: [] }, { headers: semCache });
+    return NextResponse.json({ ativo: false, geralAtivo: false, ids: [] }, { headers: semCache });
   }
+  const geralAtivo = await inscricaoGeralAtiva(token);
   // Entrega somente IDs publicos de candidaturas, nunca o ID da conversa Telegram.
   const acompanhamentos = await sql<{ candidatura_id: string }[]>`
     SELECT a.candidatura_id
@@ -65,6 +66,7 @@ export async function GET() {
   }).filter(p => p !== null);
   return NextResponse.json({
     ativo: true,
+    geralAtivo,
     ids,
     pessoas,
   }, { headers: semCache });
