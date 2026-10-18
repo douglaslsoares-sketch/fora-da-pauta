@@ -4,6 +4,7 @@ import Link from "next/link";
 import { campaigns } from "@/data/campanhas";
 import styles from "./page.module.css";
 import { InscricaoTelegramHome } from "@/components/InscricaoTelegramHome";
+import { HomeShareInvite } from "@/components/HomeShareInvite";
 
 function formatPublicationDate(date: string) {
   return new Intl.DateTimeFormat("pt-BR", {
@@ -44,6 +45,11 @@ export default function Home() {
           </div>
         </header>
 
+        <nav className={styles.navigation} aria-label="Navegação principal">
+          <Link href="/votou-fique-de-olho">Fique de Olho</Link>
+          <a href="#edicoes">Edições</a>
+        </nav>
+
         <section
           id="conteudo"
           className={styles.hero}
@@ -52,9 +58,30 @@ export default function Home() {
         >
           <h1 id="home-titulo">Como o jogo é jogado</h1>
           <p className={styles.heroLead}>
-            Política, poder, decisões e comunicação que afetam a sua vida.
+            Decisões que afetam a sua vida.
           </p>
           <InscricaoTelegramHome className={styles.primaryLink} />
+        </section>
+
+        <section
+          id="fique-de-olho"
+          className={styles.section}
+          aria-labelledby="fique-de-olho-titulo"
+        >
+          <div className={styles.sectionHeading}>
+            <h2 id="fique-de-olho-titulo">Fique de Olho</h2>
+            <p>Acompanhe a atuação de quem foi eleito.</p>
+          </div>
+          <Link href="/votou-fique-de-olho" className={styles.permanentFeature}>
+            <span className={styles.featureLabel}>Acompanhamento permanente</span>
+            <span className={styles.featureDescription}>
+              Escolha os representantes que você deseja acompanhar e receba
+              atualizações pelo Telegram.
+            </span>
+            <span className={styles.featureAction}>
+              Abrir Fique de Olho <span aria-hidden="true">→</span>
+            </span>
+          </Link>
         </section>
 
         <section
@@ -65,17 +92,6 @@ export default function Home() {
           <div className={styles.sectionHeading}>
             <h2 id="edicoes-titulo">Edições</h2>
           </div>
-
-          <article className={styles.cardWrapper}>
-            <Link href="/votou-fique-de-olho" className={styles.card}>
-              <div className={styles.cardMeta}>Edição</div>
-              <h3>Votou? Fique de olho.</h3>
-              <p>Acompanhe a atuação dos eleitos.</p>
-              <span className={styles.cardAction}>
-                Abrir edição <span aria-hidden="true">→</span>
-              </span>
-            </Link>
-          </article>
 
           {publicacoes.map((campaign) => (
             <article key={campaign.slug} className={styles.cardWrapper}>
@@ -97,6 +113,10 @@ export default function Home() {
               </Link>
             </article>
           ))}
+        </section>
+
+        <section className={styles.section} aria-labelledby="convite-titulo">
+          <HomeShareInvite />
         </section>
 
         <footer className={styles.footer}>
