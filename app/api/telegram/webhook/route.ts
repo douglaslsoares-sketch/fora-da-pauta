@@ -800,6 +800,7 @@ export async function POST(
           "Voc\u00ea est\u00e1 acompanhando " + quantidade + ". " +
           "Quando houver uma atualiza\u00e7\u00e3o relevante, ela poder\u00e1 chegar por aqui.\n\n" +
           "Para interromper as notifica\u00e7\u00f5es, envie /parar.",
+        botoes: [[{ text: "Voltar para a página inicial", url: "https://www.foradapauta.org/" }]],
       });
       return NextResponse.json({ ok: true });
     }
