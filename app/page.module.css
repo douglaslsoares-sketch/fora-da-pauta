@@ -285,3 +285,43 @@
     transition: none;
   }
 }
+
+/* Canal permanente, separado da lista de edições. */
+.page .permanentFeature {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px;
+  border: 1px solid #ffc400;
+  text-decoration: none;
+  transition: background 150ms ease;
+}
+
+.page .permanentFeature:hover {
+  background: #111;
+}
+
+.featureLabel {
+  color: #ffc400;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.featureDescription {
+  color: #fff;
+  font-size: clamp(17px, 2vw, 21px);
+  line-height: 1.5;
+}
+
+.featureAction {
+  color: #ffc400;
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .page .permanentFeature {
+    padding: 24px;
+  }
+}
