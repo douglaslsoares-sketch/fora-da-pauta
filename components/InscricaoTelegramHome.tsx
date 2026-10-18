@@ -13,8 +13,8 @@ export function InscricaoTelegramHome({ className }: { className: string }) {
       try {
         const r = await fetch("/api/telegram/sessao", { cache: "no-store" });
         if (!ativo) return;
-        const dados = await r.json() as { ativo?: boolean };
-        setStatus(dados.ativo ? "inscrito" : "nao-inscrito");
+        const dados = await r.json() as { geralAtivo?: boolean; ativo?: boolean };
+        setStatus(dados.geralAtivo === true ? "inscrito" : "nao-inscrito");
       } catch {
         if (ativo) setStatus("nao-inscrito");
       }
