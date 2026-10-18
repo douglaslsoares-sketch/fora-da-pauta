@@ -49,3 +49,9 @@ Este documento acompanha a implementação; não é declaração de funcionament
 - Nove verificações estáticas de presença/invariantes de código passaram.
 - **Pendente**: comparação com ZIP local, instalação de dependências, `npm run lint`, `npx tsc --noEmit`, testes isolados do Telegram, `npm run build`, teste em telefone de terceiro.
 - **Não executado**: qualquer publicação, promoção de domínio ou alteração de dados.
+
+## Inscrição geral e acompanhamento individual — revisão
+- Uma inscrição para seguir representantes pode existir sem a preferência `novas_edicoes` ativa. A home não deve apresentar a primeira como confirmação da segunda.
+- A resposta de `GET /api/telegram/sessao` agora inclui `geralAtivo`, além do campo histórico `ativo`, mantendo a compatibilidade do Fique de Olho.
+- Teste isolado adicionado para verificar que `ativo: true` e `geralAtivo: false` podem coexistir sem apagar os representantes seguidos.
+- **Ainda não testado**: execução real de Node, compilação, integração com banco e produção. GitHub Actions não apresentou execuções para esta ramificação.
