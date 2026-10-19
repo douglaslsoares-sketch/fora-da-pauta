@@ -3,12 +3,13 @@
 import { useState } from "react";
 
 const MENSAGEM = "Conheça o Fora da Pauta: como o jogo é jogado. Há mais para entender.";
+const HOME_PUBLICA = "https://www.foradapauta.org/";
 
 export function HomeShareInvite() {
   const [aviso, setAviso] = useState("");
 
   function mensagem() {
-    return `${MENSAGEM} ${window.location.origin}/`;
+    return `${MENSAGEM} ${HOME_PUBLICA}`;
   }
 
   function compartilharWhatsapp() {
@@ -26,7 +27,7 @@ export function HomeShareInvite() {
         await navigator.share({
           title: "Fora da Pauta",
           text: MENSAGEM,
-          url: `${window.location.origin}/`,
+          url: HOME_PUBLICA,
         });
         return;
       } catch (erro) {
