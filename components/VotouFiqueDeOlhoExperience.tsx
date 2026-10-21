@@ -380,10 +380,9 @@ export function VotouFiqueDeOlhoExperience() {
         <h2 className="text-3xl font-bold">Pronto. Agora fique de olho.</h2>
         <p className="mt-4">Seus escolhidos foram adicionados ao Telegram que você já utiliza.</p>
         <ListaSelecionadas permitirRemocao={false} />
-        <button type="button" onClick={() => { setEtapa("selecionados"); setEscolhasSalvas(false); }}
-          className="mt-6 min-h-12 w-full rounded-2xl bg-black px-5 text-white">
-          Acompanhar mais alguém
-        </button>
+        <a href="/" className="mt-6 block rounded-2xl bg-black px-5 py-4 text-center font-semibold text-white">
+          Voltar para a página inicial
+        </a>
       </section>
     );
   }
@@ -401,7 +400,7 @@ export function VotouFiqueDeOlhoExperience() {
 
           <h2 className="mt-5 font-bold leading-[1.02] tracking-[-0.045em]">
             <span className="block text-4xl">
-              Pronto.
+              Mais um passo.
             </span>
             <span className="mt-1 block whitespace-nowrap text-[clamp(1.75rem,8.4vw,2.25rem)]">
               Agora fique de olho.
@@ -410,7 +409,7 @@ export function VotouFiqueDeOlhoExperience() {
         </div>
 
         <p className="mt-8 font-semibold">
-          Você escolheu acompanhar:
+          Você selecionou:
         </p>
 
         <ListaSelecionadas permitirRemocao={false} />
@@ -469,22 +468,11 @@ export function VotouFiqueDeOlhoExperience() {
           </p>
         ) : null}
 
-        <button
-          type="button"
-          onClick={() => {
-            setBusca((atual) => atual + 1);
-            setEtapa("selecionados");
-          }}
-          className="mt-3 min-h-13 w-full rounded-2xl bg-black/[0.07] px-5 py-3 font-semibold"
-        >
-          Acompanhar mais alguém
-        </button>
-
         <a
           href="/"
           className="mt-6 block text-center text-sm underline underline-offset-4"
         >
-          ‹ &nbsp; Voltar para o site
+          ‹ &nbsp; Voltar para a página inicial
         </a>
 
         {avisoStorage ? (
@@ -505,7 +493,7 @@ export function VotouFiqueDeOlhoExperience() {
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm text-white">
                 ✓
               </span>
-              Você está acompanhando:
+              Você selecionou:
             </p>
 
             <div className="mt-4 flex items-center gap-3">
@@ -583,10 +571,7 @@ export function VotouFiqueDeOlhoExperience() {
       <section className="bg-black text-white">
         <div className="mx-auto max-w-[760px] px-6 pb-8 pt-8">
           <h1 className="text-[clamp(3rem,13vw,6.5rem)] font-bold leading-[0.93] tracking-[-0.06em]">
-            <span className="block">Votou?</span>
-            <span className="mt-2 block whitespace-nowrap text-[#FFC400]">
-              Fique de olho.
-            </span>
+            <span className="block text-[#FFC400]">Fique de Olho</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-xl leading-7 text-white/90">
@@ -597,7 +582,7 @@ export function VotouFiqueDeOlhoExperience() {
 
       <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
         <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
-          Quem você quer acompanhar?
+          Selecione os representantes que você deseja acompanhar
         </h2>
 
         <CandidateSelector
