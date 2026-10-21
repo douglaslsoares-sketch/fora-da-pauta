@@ -641,6 +641,7 @@ type CandidateSelectorProps =
       mode: "follow";
       selectedIds: readonly string[];
       onSelect: (candidate: CandidateResult) => void;
+      modoPrevia?: boolean;
     };
 
 // Sem props, renderiza exatamente a experiÃªncia original de consulta.
@@ -652,6 +653,7 @@ export function CandidateSelector(props: CandidateSelectorProps = {}) {
 function CandidateFollowSelector({
   selectedIds,
   onSelect,
+  modoPrevia = false,
 }: Extract<CandidateSelectorProps, { mode: "follow" }>) {
   const [query, setQuery] = useState("");
   const [buscaAtiva, setBuscaAtiva] = useState("");
@@ -901,8 +903,8 @@ function CandidateFollowSelector({
                 }`}
               >
                 {selecionado
-                  ? "Selecionado"
-                  : "Acompanhar"}
+                  ? (modoPrevia ? "Selecionado no teste" : "Selecionado")
+                  : (modoPrevia ? "Testar seleção" : "Acompanhar")}
               </button>
             </div>
           );
