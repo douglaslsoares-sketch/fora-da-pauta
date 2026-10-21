@@ -5,7 +5,7 @@ import { VotouFiqueDeOlhoExperience } from "@/components/VotouFiqueDeOlhoExperie
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Votou? Fique de olho.",
+  title: "Fique de Olho",
   description: "Escolha quem você quer acompanhar no Fora da Pauta.",
   robots: { index: false, follow: false },
 };
@@ -37,7 +37,7 @@ export default function VotouFiqueDeOlhoPage() {
       </header>
 
       <main>
-        <VotouFiqueDeOlhoExperience />
+        <VotouFiqueDeOlhoExperience modoPrevia={process.env.VERCEL_ENV === "preview"} />
       </main>
     </div>
   );
