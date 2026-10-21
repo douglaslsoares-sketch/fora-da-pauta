@@ -396,7 +396,7 @@ async function mostrarPreferencias(chatId: string) {
       "\n\nPara parar apenas novas edições, envie /parar_edicoes." +
       "\nPara parar tudo, envie /parar.",
     botoes: [[{
-      text: "Voltar ao Fora da Pauta",
+      text: "Voltar para a página inicial",
       url: "https://foradapauta.org/",
     }]],
   });
@@ -681,7 +681,7 @@ export async function POST(
           ],
           [
             {
-              text: "Voltar ao Fora da Pauta",
+              text: "Voltar para a página inicial",
               url:
                 "https://foradapauta.org/",
             },
@@ -752,7 +752,8 @@ export async function POST(
       }
       await enviarMensagemTelegram({
         chatId,
-        texto: "Pronto! Seu Telegram está vinculado ao Fora da Pauta. Você receberá as novas edições aqui. Volte ao site para escolher quem deseja acompanhar; não precisa ativar o Telegram novamente.",
+        texto: "Pronto! Seu Telegram está vinculado ao Fora da Pauta. Você receberá as novas edições aqui. Para acompanhar representantes, selecione-os no Fique de Olho; não precisa ativar outro Telegram.",
+        botoes: [[{ text: "Voltar para a página inicial", url: "https://www.foradapauta.org/" }]],
       });
       return NextResponse.json({ ok: true });
     }
@@ -799,6 +800,7 @@ export async function POST(
           "Voc\u00ea est\u00e1 acompanhando " + quantidade + ". " +
           "Quando houver uma atualiza\u00e7\u00e3o relevante, ela poder\u00e1 chegar por aqui.\n\n" +
           "Para interromper as notifica\u00e7\u00f5es, envie /parar.",
+        botoes: [[{ text: "Voltar para a página inicial", url: "https://www.foradapauta.org/" }]],
       });
       return NextResponse.json({ ok: true });
     }
@@ -815,7 +817,7 @@ export async function POST(
         botoes: [
           [
             {
-              text: "Voltar ao Fora da Pauta",
+              text: "Voltar para a página inicial",
               url:
                 "https://foradapauta.org/",
             },
