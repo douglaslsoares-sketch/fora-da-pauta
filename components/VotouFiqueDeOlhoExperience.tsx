@@ -65,7 +65,7 @@ function PeopleIcon({ className = "h-5 w-5" }: { className?: string }) {
     </svg>
   );
 }
-export function VotouFiqueDeOlhoExperience() {
+export function VotouFiqueDeOlhoExperience({ modoPrevia = false }: { modoPrevia?: boolean }) {
   const bruto = useSyncExternalStore(
     observarSelecao,
     lerSelecaoSerializada,
@@ -78,10 +78,10 @@ export function VotouFiqueDeOlhoExperience() {
   );
 
   const [inscricaoAtiva, setInscricaoAtiva] = useState(false);
-  const [conferindoInscricao, setConferindoInscricao] = useState(true);
+  const [conferindoInscricao, setConferindoInscricao] = useState(!modoPrevia);
 
   useEffect(() => {
-    if (selecionadas.length === 0 || conferindoInscricao || inscricaoAtiva) return;
+    if (modoPrevia || selecionadas.length === 0 || conferindoInscricao || inscricaoAtiva) return;
 
     const controller = new AbortController();
 
@@ -143,7 +143,7 @@ export function VotouFiqueDeOlhoExperience() {
     return () => {
       controller.abort();
     };
-  }, [selecionadas, conferindoInscricao, inscricaoAtiva]);
+  }, [selecionadas, conferindoInscricao, inscricaoAtiva, modoPrevia]);
 
   const [etapa, setEtapa] = useState<Etapa>("busca");
   const [busca, setBusca] = useState(0);
@@ -169,6 +169,7 @@ export function VotouFiqueDeOlhoExperience() {
   }, []);
 
   useEffect(() => {
+    if (modoPrevia) return;
     let montado = true;
     async function conferir() {
       try {
@@ -197,9 +198,10 @@ export function VotouFiqueDeOlhoExperience() {
     void conferir();
     window.addEventListener("focus", conferir);
     return () => { montado = false; window.removeEventListener("focus", conferir); };
-  }, []);
+  }, [modoPrevia]);
 
   async function salvarAcompanhamentos() {
+    if (modoPrevia) return;
     if (selecionadas.length === 0 || salvandoEscolhas) return;
     setSalvandoEscolhas(true);
     setErroTelegram("");
@@ -241,6 +243,7 @@ export function VotouFiqueDeOlhoExperience() {
   }
 
   async function ativarTelegram() {
+    if (modoPrevia) return;
     if (ativandoTelegram || selecionadas.length === 0) return;
     setAtivandoTelegram(true);
     setErroTelegram("");
@@ -299,7 +302,7 @@ export function VotouFiqueDeOlhoExperience() {
 
   async function remover(pessoa: PessoaSelecionada) {
     setErroTelegram("");
-    if (inscricaoAtiva) {
+    if (inscricaoAtiva && !modoPrevia) {
       try {
         const resposta = await fetch("/api/telegram/sessao", {
           method: "DELETE",
@@ -371,6 +374,24 @@ export function VotouFiqueDeOlhoExperience() {
           </div>
         ))}
       </div>
+    );
+  }
+
+  // A previa testa somente a navegacao. Nunca altera inscricoes reais.
+  if (etapaAtual === "telegram" && modoPrevia) {
+    return (
+      <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
+        <h2 className="text-3xl font-bold">Teste de seleção concluído</h2>
+        <p className="mt-4 leading-7">Esta foi apenas uma simulação. Nenhum acompanhamento foi criado, removido ou alterado no Telegram.</p>
+        <p className="mt-4 font-semibold">Pessoas escolhidas neste teste:</p>
+        <ListaSelecionadas permitirRemocao={false} />
+        <a href="https://foradapauta.org/votou-fique-de-olho" className="mt-6 block rounded-2xl bg-black px-5 py-4 text-center font-semibold text-white">
+          Ver meus acompanhamentos no site oficial
+        </a>
+        <button type="button" onClick={() => setEtapa("selecionados")} className="mt-3 min-h-12 w-full rounded-2xl bg-black/10 px-5 font-semibold">
+          Voltar às escolhas do teste
+        </button>
+      </section>
     );
   }
 
@@ -505,7 +526,7 @@ export function VotouFiqueDeOlhoExperience() {
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm text-white">
                 ✓
               </span>
-              Você está acompanhando:
+              {modoPrevia ? "Você selecionou para testar:" : "Você está acompanhando:"}
             </p>
 
             <div className="mt-4 flex items-center gap-3">
@@ -541,6 +562,7 @@ export function VotouFiqueDeOlhoExperience() {
         <CandidateSelector
           key={`mais-${busca}`}
           mode="follow"
+          modoPrevia={modoPrevia}
           selectedIds={selecionadas.map((item) => item.id)}
           onSelect={selecionar}
         />
@@ -583,10 +605,7 @@ export function VotouFiqueDeOlhoExperience() {
       <section className="bg-black text-white">
         <div className="mx-auto max-w-[760px] px-6 pb-8 pt-8">
           <h1 className="text-[clamp(3rem,13vw,6.5rem)] font-bold leading-[0.93] tracking-[-0.06em]">
-            <span className="block">Votou?</span>
-            <span className="mt-2 block whitespace-nowrap text-[#FFC400]">
-              Fique de olho.
-            </span>
+            <span className="block text-[#FFC400]">Fique de Olho</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-xl leading-7 text-white/90">
@@ -595,14 +614,26 @@ export function VotouFiqueDeOlhoExperience() {
         </div>
       </section>
 
+      {modoPrevia ? (
+        <div className="mx-auto max-w-[760px] px-6 pt-6">
+          <div role="status" className="border-l-4 border-[#FFC400] bg-[#fff8dc] p-4 text-sm leading-6">
+            <p className="font-bold">Prévia de teste — seus acompanhamentos estão preservados.</p>
+            <p className="mt-1">Este endereço não compartilha a sessão com o site oficial. Aqui você pode testar escolhas sem cadastrar ou cancelar ninguém no Telegram. Por isso, a situação real de Renato Freitas e dos demais acompanhados deve ser conferida no endereço oficial.</p>
+            <a href="https://foradapauta.org/votou-fique-de-olho" className="mt-2 inline-block font-semibold underline underline-offset-4">
+              Ver meus acompanhamentos no site oficial ↗
+            </a>
+          </div>
+        </div>
+      ) : null}
       <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
         <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
-          Quem você quer acompanhar?
+          Selecione os representantes que você deseja acompanhar
         </h2>
 
         <CandidateSelector
           key={`busca-${busca}`}
           mode="follow"
+          modoPrevia={modoPrevia}
           selectedIds={selecionadas.map((item) => item.id)}
           onSelect={selecionar}
         />
