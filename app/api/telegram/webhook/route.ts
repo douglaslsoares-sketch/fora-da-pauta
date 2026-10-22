@@ -752,7 +752,14 @@ export async function POST(
       }
       await enviarMensagemTelegram({
         chatId,
-        texto: "Pronto! Seu Telegram está vinculado ao Fora da Pauta. Você receberá as novas edições aqui. Volte ao site para escolher quem deseja acompanhar; não precisa ativar o Telegram novamente.",
+        texto:
+          "Pronto! Sua inscrição no Fora da Pauta foi confirmada. " +
+          "Você receberá as informações pelo Telegram. " +
+          "Volte ao Fique de Olho para conferir os representantes escolhidos e, se desejar, convidar outra pessoa a conhecer o projeto.",
+        botoes: [[{
+          text: "Voltar ao Fique de Olho",
+          url: "https://www.foradapauta.org/votou-fique-de-olho?retorno=telegram",
+        }]],
       });
       return NextResponse.json({ ok: true });
     }
