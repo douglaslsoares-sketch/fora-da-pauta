@@ -741,7 +741,7 @@ export async function POST(
               candidaturas_pendentes = '{}'
           WHERE sessao_hash = ${vinculo.sessao_hash}
         `;
-        return true;
+        return { temSelecionados: pendentes.length > 0 };
       });
       if (!confirmado) {
         await enviarMensagemTelegram({
@@ -752,7 +752,13 @@ export async function POST(
       }
       await enviarMensagemTelegram({
         chatId,
-        texto: "Pronto! Seu Telegram está vinculado ao Fora da Pauta. Você receberá as novas edições aqui. Volte ao site para escolher quem deseja acompanhar; não precisa ativar o Telegram novamente.",
+        texto: "Sua inscrição no Fora da Pauta foi confirmada. Você receberá as novas edições e as atualizações dos representantes escolhidos nesta mesma conversa.",
+        botoes: [[{
+          text: "Voltar ao Fora da Pauta",
+          url: confirmado.temSelecionados
+            ? "https://www.foradapauta.org/votou-fique-de-olho?telegram=retorno"
+            : "https://www.foradapauta.org/",
+        }]],
       });
       return NextResponse.json({ ok: true });
     }
