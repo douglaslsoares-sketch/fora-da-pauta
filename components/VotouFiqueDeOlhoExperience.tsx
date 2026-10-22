@@ -589,6 +589,11 @@ export function VotouFiqueDeOlhoExperience() {
           <p className="mt-6 max-w-xl text-xl leading-7 text-white/90">
             Acompanhe a atuação de quem foi eleito.
           </p>
+          <p className="mt-4 max-w-xl text-base leading-7 text-white/75">
+            Entenda como as decisões são tomadas: o que faz a Presidência,
+            o que decide o Congresso e qual é o papel do Judiciário.
+            Escolha quem você quer acompanhar e receba as informações pelo Telegram.
+          </p>
         </div>
       </section>
 
