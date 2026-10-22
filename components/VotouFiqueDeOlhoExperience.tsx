@@ -80,6 +80,8 @@ export function VotouFiqueDeOlhoExperience() {
 
   const [inscricaoAtiva, setInscricaoAtiva] = useState(false);
   const [conferindoInscricao, setConferindoInscricao] = useState(true);
+  const [idsConfirmados, setIdsConfirmados] = useState<string[]>([]);
+  const [retornoTelegram, setRetornoTelegram] = useState(false);
 
   useEffect(() => {
     if (selecionadas.length === 0 || conferindoInscricao || inscricaoAtiva) return;
@@ -157,15 +159,19 @@ export function VotouFiqueDeOlhoExperience() {
   const edicoesLocaisPendentes = useRef(false);
   const [eleitosConfirmados, setEleitosConfirmados] = useState<string[]>([]);
 
-  // Ao voltar do Telegram, retoma a seleção preservada no navegador.
+  // O retorno do bot não basta para comprovar inscrição: consulte o servidor.
   useEffect(() => {
+    const peloLink = new URLSearchParams(window.location.search).get("retorno") === "telegram";
+    let peloNavegador = false;
     try {
-      if (window.sessionStorage.getItem("fdp:telegram-retorno-votou") === "1") {
-        window.sessionStorage.removeItem("fdp:telegram-retorno-votou");
-        setEtapa("telegram");
-      }
+      peloNavegador = window.sessionStorage.getItem("fdp:telegram-retorno-votou") === "1";
+      if (peloNavegador) window.sessionStorage.removeItem("fdp:telegram-retorno-votou");
     } catch {
-      // Armazenamento pode estar bloqueado: seleção continua disponível.
+      // O navegador pode bloquear armazenamento; o link continua disponível.
+    }
+    if (peloLink || peloNavegador) {
+      setRetornoTelegram(true);
+      setEtapa("telegram");
     }
   }, []);
 
@@ -181,6 +187,11 @@ export function VotouFiqueDeOlhoExperience() {
         };
         if (!montado) return;
         setInscricaoAtiva(dados.ativo === true);
+        setIdsConfirmados(
+          dados.ativo && Array.isArray(dados.ids)
+            ? dados.ids.filter((id): id is string => typeof id === "string" && /^[0-9]{8,20}$/.test(id))
+            : [],
+        );
         if (dados.ativo && Array.isArray(dados.pessoas) && !edicoesLocaisPendentes.current) {
           const pessoas = dados.pessoas.map(({ eleitoConfirmado, ...pessoa }) => pessoa);
           setEleitosConfirmados(dados.pessoas.filter(p => p.eleitoConfirmado).map(p => p.id));
@@ -190,7 +201,10 @@ export function VotouFiqueDeOlhoExperience() {
           }
         }
       } catch {
-        if (montado) setInscricaoAtiva(false);
+        if (montado) {
+          setInscricaoAtiva(false);
+          setIdsConfirmados([]);
+        }
       } finally {
         if (montado) setConferindoInscricao(false);
       }
@@ -212,6 +226,7 @@ export function VotouFiqueDeOlhoExperience() {
       });
       if (!resposta.ok) throw Error("Falha ao registrar escolhas");
       edicoesLocaisPendentes.current = false;
+      setIdsConfirmados((atuais) => [...new Set([...atuais, ...selecionadas.map((p) => p.id)])]);
       setEscolhasSalvas(true);
       setEtapa("telegram");
     } catch {
@@ -375,11 +390,19 @@ export function VotouFiqueDeOlhoExperience() {
     );
   }
 
-  if (etapaAtual === "telegram" && inscricaoAtiva && escolhasSalvas) {
+  const escolhasConfirmadas =
+    selecionadas.length > 0 &&
+    selecionadas.every((pessoa) => idsConfirmados.includes(pessoa.id));
+
+  if (etapaAtual === "telegram" && inscricaoAtiva && (escolhasSalvas || escolhasConfirmadas)) {
     return (
       <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
-        <h2 className="text-3xl font-bold">Pronto. Agora fique de olho.</h2>
-        <p className="mt-4">Seus escolhidos foram adicionados ao Telegram que você já utiliza.</p>
+        <h2 className="text-3xl font-bold">Pronto! Você está inscrito.</h2>
+        <p className="mt-4 leading-7">
+          A partir de agora, você receberá pelo Telegram as informações sobre a atuação dos
+          representantes que escolheu, quando houver novas atualizações.
+        </p>
+        <p className="mt-5 font-semibold">Você escolheu acompanhar:</p>
         <ListaSelecionadas permitirRemocao={false} />
         <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
           <HomeShareInvite />
@@ -387,6 +410,23 @@ export function VotouFiqueDeOlhoExperience() {
         <button type="button" onClick={() => { setEtapa("selecionados"); setEscolhasSalvas(false); }}
           className="mt-6 min-h-12 w-full rounded-2xl bg-black px-5 text-white">
           Acompanhar mais alguém
+        </button>
+      </section>
+    );
+  }
+
+  if (retornoTelegram && !conferindoInscricao && !inscricaoAtiva) {
+    return (
+      <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
+        <h2 className="text-2xl font-bold">Vamos conferir sua inscrição</h2>
+        <p className="mt-4 leading-7">
+          Não conseguimos reconhecer sua inscrição neste navegador. Se você já confirmou no
+          bot, abra o Fique de Olho no mesmo navegador em que fez suas escolhas.
+          Seus acompanhamentos não foram cancelados.
+        </p>
+        <button type="button" onClick={() => window.location.reload()}
+          className="mt-5 min-h-12 rounded-xl bg-black px-5 py-3 font-semibold text-white">
+          Conferir novamente
         </button>
       </section>
     );
