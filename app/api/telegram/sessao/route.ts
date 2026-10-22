@@ -99,7 +99,7 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => ({})) as { ids?: unknown } | null;
   let idsPendentes: string[] = [];
   if (body?.ids !== undefined && body?.ids !== null) {
-    if (!Array.isArray(body?.ids) || body.ids.length < 1 || body.ids.length > 100 ||
+    if (!Array.isArray(body?.ids) || body.ids.length > 100 ||
         body.ids.some(id => typeof id !== "string" || !/^[0-9]{8,20}$/.test(id))) {
       return NextResponse.json({ erro: "Seleção inválida." }, { status: 400, headers: semCache });
     }
