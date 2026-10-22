@@ -165,14 +165,17 @@ export function VotouFiqueDeOlhoExperience() {
   useEffect(() => {
     const peloLink = new URLSearchParams(window.location.search).get("retorno") === "telegram";
     let peloNavegador = false;
+    let somenteNovidades = false;
     try {
       peloNavegador = window.sessionStorage.getItem("fdp:telegram-retorno-votou") === "1";
+      somenteNovidades = window.sessionStorage.getItem("fdp:telegram-inscricao-geral") === "1";
       if (peloNavegador) window.sessionStorage.removeItem("fdp:telegram-retorno-votou");
+      if (peloLink || peloNavegador) window.sessionStorage.removeItem("fdp:telegram-inscricao-geral");
     } catch {
       // O navegador pode bloquear armazenamento; o link continua disponível.
     }
     if (peloLink || peloNavegador) {
-      if (interpretarSelecao(lerSelecaoSerializada()).length === 0) {
+      if (somenteNovidades || interpretarSelecao(lerSelecaoSerializada()).length === 0) {
         setInscricaoGeral(true);
       }
       setRetornoTelegram(true);
@@ -283,6 +286,8 @@ export function VotouFiqueDeOlhoExperience() {
           !/^\?start=s_[A-Za-z0-9_-]{32}$/.test(url.search)) throw Error("Link incorreto");
       try {
         window.sessionStorage.setItem("fdp:telegram-retorno-votou", "1");
+        if (inscricaoGeral) window.sessionStorage.setItem("fdp:telegram-inscricao-geral", "1");
+        else window.sessionStorage.removeItem("fdp:telegram-inscricao-geral");
       } catch {
         // Retorno manual continua possível.
       }
