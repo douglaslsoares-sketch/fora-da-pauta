@@ -583,10 +583,7 @@ export function VotouFiqueDeOlhoExperience() {
       <section className="bg-black text-white">
         <div className="mx-auto max-w-[760px] px-6 pb-8 pt-8">
           <h1 className="text-[clamp(3rem,13vw,6.5rem)] font-bold leading-[0.93] tracking-[-0.06em]">
-            <span className="block">Votou?</span>
-            <span className="mt-2 block whitespace-nowrap text-[#FFC400]">
-              Fique de olho.
-            </span>
+            <span className="block text-[#FFC400]">Fique de Olho</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-xl leading-7 text-white/90">
@@ -606,43 +603,6 @@ export function VotouFiqueDeOlhoExperience() {
           selectedIds={selecionadas.map((item) => item.id)}
           onSelect={selecionar}
         />
-
-        <div className="votou-intro-only mt-8 space-y-5">
-          <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFC400]">
-              <ActivityIcon className="h-5 w-5" />
-            </div>
-            <p className="pt-1 text-base leading-6">
-              Receba informações sobre o que a pessoa está fazendo no mandato.
-            </p>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFC400]">
-              <PeopleIcon className="h-5 w-5" />
-            </div>
-            <p className="pt-2 text-base leading-6">
-              Você pode acompanhar mais de uma pessoa.
-            </p>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFC400]">
-              <TelegramIcon className="h-5 w-5" />
-            </div>
-            <p className="pt-1 text-base leading-6">
-              As atualizações serão recebidas diretamente no Telegram.
-            </p>
-          </div>
-        </div>
-
-        <div className="votou-intro-only mt-8 rounded-2xl bg-black/[0.055] p-4">
-          <p className="text-sm leading-6">
-            ⓘ &nbsp; Informações com fontes.
-            <br />
-            Sem rótulos. Você decide.
-          </p>
-        </div>
 
         {selecionadas.length > 0 ? (
           <button
