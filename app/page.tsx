@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import { campaigns } from "@/data/campanhas";
 import styles from "./page.module.css";
-import { InscricaoTelegramHome } from "@/components/InscricaoTelegramHome";
 import { HomeShareInvite } from "@/components/HomeShareInvite";
 
 export const metadata: Metadata = {
@@ -64,11 +63,6 @@ export default function Home() {
           </div>
         </header>
 
-        <nav className={styles.navigation} aria-label="Navegação principal">
-          <Link href="/votou-fique-de-olho">Fique de Olho</Link>
-          {publicacoes.length > 0 ? <a href="#edicoes">Edições</a> : null}
-        </nav>
-
         <section
           id="conteudo"
           className={styles.hero}
@@ -79,27 +73,8 @@ export default function Home() {
           <p className={styles.heroLead}>
             Decisões que afetam a sua vida.
           </p>
-          <InscricaoTelegramHome className={styles.primaryLink} />
-        </section>
-
-        <section
-          id="fique-de-olho"
-          className={styles.section}
-          aria-labelledby="fique-de-olho-titulo"
-        >
-          <div className={styles.sectionHeading}>
-            <h2 id="fique-de-olho-titulo">Fique de Olho</h2>
-            <p>Acompanhe a atuação de quem foi eleito.</p>
-          </div>
-          <Link href="/votou-fique-de-olho" className={styles.permanentFeature}>
-            <span className={styles.featureLabel}>Acompanhamento permanente</span>
-            <span className={styles.featureDescription}>
-              Escolha os representantes que você deseja acompanhar e receba
-              atualizações pelo Telegram.
-            </span>
-            <span className={styles.featureAction}>
-              Abrir Fique de Olho <span aria-hidden="true">→</span>
-            </span>
+          <Link href="/votou-fique-de-olho" className={styles.primaryLink}>
+            Fique de Olho <span aria-hidden="true">→</span>
           </Link>
         </section>
 
