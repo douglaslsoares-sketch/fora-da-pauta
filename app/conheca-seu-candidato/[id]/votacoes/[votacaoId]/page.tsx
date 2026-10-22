@@ -99,6 +99,25 @@ export default async function RegistroDeVotacao({
           Os canais de contato individual só aparecem depois de verificados.
         </p>
 
+        <section aria-labelledby="continuar-etapa-3" className="rounded-2xl border border-black/10 bg-white p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-black/50">
+            Continue no Fique de Olho
+          </p>
+          <h2 id="continuar-etapa-3" className="mt-2 text-xl font-bold">
+            Acompanhe os três Poderes
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-black/70">
+            Além da atuação de representantes eleitos, consulte a agenda
+            do presidente e as pautas de julgamento do STF.
+          </p>
+          <Link
+            href="/votou-fique-de-olho/acompanhamento"
+            className="mt-4 inline-flex min-h-12 items-center rounded-xl bg-[#FFC400] px-5 py-3 text-sm font-bold text-black hover:bg-[#e9b300]"
+          >
+            Ir para a etapa 3 →
+          </Link>
+        </section>
+
         <Link
           href={`/conheca-seu-candidato/${candidato.id}/votacoes`}
           className="inline-block text-sm font-semibold underline underline-offset-4"
