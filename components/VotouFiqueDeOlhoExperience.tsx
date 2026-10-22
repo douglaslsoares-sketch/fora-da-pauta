@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore, useRef } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
+import { HomeShareInvite } from "@/components/HomeShareInvite";
 import {
   interpretarSelecao,
   lerSelecaoSerializada,
@@ -79,6 +80,8 @@ export function VotouFiqueDeOlhoExperience() {
 
   const [inscricaoAtiva, setInscricaoAtiva] = useState(false);
   const [conferindoInscricao, setConferindoInscricao] = useState(true);
+  const [idsConfirmados, setIdsConfirmados] = useState<string[]>([]);
+  const [retornoTelegram, setRetornoTelegram] = useState(false);
 
   useEffect(() => {
     if (selecionadas.length === 0 || conferindoInscricao || inscricaoAtiva) return;
@@ -156,15 +159,19 @@ export function VotouFiqueDeOlhoExperience() {
   const edicoesLocaisPendentes = useRef(false);
   const [eleitosConfirmados, setEleitosConfirmados] = useState<string[]>([]);
 
-  // Ao voltar do Telegram, retoma a seleção preservada no navegador.
+  // O retorno do bot não basta para comprovar inscrição: consulte o servidor.
   useEffect(() => {
+    const peloLink = new URLSearchParams(window.location.search).get("retorno") === "telegram";
+    let peloNavegador = false;
     try {
-      if (window.sessionStorage.getItem("fdp:telegram-retorno-votou") === "1") {
-        window.sessionStorage.removeItem("fdp:telegram-retorno-votou");
-        setEtapa("telegram");
-      }
+      peloNavegador = window.sessionStorage.getItem("fdp:telegram-retorno-votou") === "1";
+      if (peloNavegador) window.sessionStorage.removeItem("fdp:telegram-retorno-votou");
     } catch {
-      // Armazenamento pode estar bloqueado: seleção continua disponível.
+      // O navegador pode bloquear armazenamento; o link continua disponível.
+    }
+    if (peloLink || peloNavegador) {
+      setRetornoTelegram(true);
+      setEtapa("telegram");
     }
   }, []);
 
@@ -180,6 +187,11 @@ export function VotouFiqueDeOlhoExperience() {
         };
         if (!montado) return;
         setInscricaoAtiva(dados.ativo === true);
+        setIdsConfirmados(
+          dados.ativo && Array.isArray(dados.ids)
+            ? dados.ids.filter((id): id is string => typeof id === "string" && /^[0-9]{8,20}$/.test(id))
+            : [],
+        );
         if (dados.ativo && Array.isArray(dados.pessoas) && !edicoesLocaisPendentes.current) {
           const pessoas = dados.pessoas.map(({ eleitoConfirmado, ...pessoa }) => pessoa);
           setEleitosConfirmados(dados.pessoas.filter(p => p.eleitoConfirmado).map(p => p.id));
@@ -189,7 +201,10 @@ export function VotouFiqueDeOlhoExperience() {
           }
         }
       } catch {
-        if (montado) setInscricaoAtiva(false);
+        if (montado) {
+          setInscricaoAtiva(false);
+          setIdsConfirmados([]);
+        }
       } finally {
         if (montado) setConferindoInscricao(false);
       }
@@ -211,6 +226,7 @@ export function VotouFiqueDeOlhoExperience() {
       });
       if (!resposta.ok) throw Error("Falha ao registrar escolhas");
       edicoesLocaisPendentes.current = false;
+      setIdsConfirmados((atuais) => [...new Set([...atuais, ...selecionadas.map((p) => p.id)])]);
       setEscolhasSalvas(true);
       setEtapa("telegram");
     } catch {
@@ -374,15 +390,43 @@ export function VotouFiqueDeOlhoExperience() {
     );
   }
 
-  if (etapaAtual === "telegram" && inscricaoAtiva && escolhasSalvas) {
+  const escolhasConfirmadas =
+    selecionadas.length > 0 &&
+    selecionadas.every((pessoa) => idsConfirmados.includes(pessoa.id));
+
+  if (etapaAtual === "telegram" && inscricaoAtiva && (escolhasSalvas || escolhasConfirmadas)) {
     return (
       <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
-        <h2 className="text-3xl font-bold">Pronto. Agora fique de olho.</h2>
-        <p className="mt-4">Seus escolhidos foram adicionados ao Telegram que você já utiliza.</p>
+        <h2 className="text-3xl font-bold">Pronto! Você está inscrito.</h2>
+        <p className="mt-4 leading-7">
+          A partir de agora, você receberá pelo Telegram as informações sobre a atuação dos
+          representantes que escolheu, quando houver novas atualizações.
+        </p>
+        <p className="mt-5 font-semibold">Você escolheu acompanhar:</p>
         <ListaSelecionadas permitirRemocao={false} />
+        <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
+          <HomeShareInvite />
+        </section>
         <button type="button" onClick={() => { setEtapa("selecionados"); setEscolhasSalvas(false); }}
           className="mt-6 min-h-12 w-full rounded-2xl bg-black px-5 text-white">
           Acompanhar mais alguém
+        </button>
+      </section>
+    );
+  }
+
+  if (retornoTelegram && !conferindoInscricao && !inscricaoAtiva) {
+    return (
+      <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
+        <h2 className="text-2xl font-bold">Vamos conferir sua inscrição</h2>
+        <p className="mt-4 leading-7">
+          Não conseguimos reconhecer sua inscrição neste navegador. Se você já confirmou no
+          bot, abra o Fique de Olho no mesmo navegador em que fez suas escolhas.
+          Seus acompanhamentos não foram cancelados.
+        </p>
+        <button type="button" onClick={() => window.location.reload()}
+          className="mt-5 min-h-12 rounded-xl bg-black px-5 py-3 font-semibold text-white">
+          Conferir novamente
         </button>
       </section>
     );
@@ -583,14 +627,16 @@ export function VotouFiqueDeOlhoExperience() {
       <section className="bg-black text-white">
         <div className="mx-auto max-w-[760px] px-6 pb-8 pt-8">
           <h1 className="text-[clamp(3rem,13vw,6.5rem)] font-bold leading-[0.93] tracking-[-0.06em]">
-            <span className="block">Votou?</span>
-            <span className="mt-2 block whitespace-nowrap text-[#FFC400]">
-              Fique de olho.
-            </span>
+            <span className="block text-[#FFC400]">Fique de Olho</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-xl leading-7 text-white/90">
             Acompanhe a atuação de quem foi eleito.
+          </p>
+          <p className="mt-4 max-w-xl text-base leading-7 text-white/75">
+            Entenda como as decisões são tomadas: o que faz a Presidência,
+            o que decide o Congresso e qual é o papel do Judiciário.
+            Escolha quem você quer acompanhar e receba as informações pelo Telegram.
           </p>
         </div>
       </section>
@@ -606,43 +652,6 @@ export function VotouFiqueDeOlhoExperience() {
           selectedIds={selecionadas.map((item) => item.id)}
           onSelect={selecionar}
         />
-
-        <div className="votou-intro-only mt-8 space-y-5">
-          <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFC400]">
-              <ActivityIcon className="h-5 w-5" />
-            </div>
-            <p className="pt-1 text-base leading-6">
-              Receba informações sobre o que a pessoa está fazendo no mandato.
-            </p>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFC400]">
-              <PeopleIcon className="h-5 w-5" />
-            </div>
-            <p className="pt-2 text-base leading-6">
-              Você pode acompanhar mais de uma pessoa.
-            </p>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFC400]">
-              <TelegramIcon className="h-5 w-5" />
-            </div>
-            <p className="pt-1 text-base leading-6">
-              As atualizações serão recebidas diretamente no Telegram.
-            </p>
-          </div>
-        </div>
-
-        <div className="votou-intro-only mt-8 rounded-2xl bg-black/[0.055] p-4">
-          <p className="text-sm leading-6">
-            ⓘ &nbsp; Informações com fontes.
-            <br />
-            Sem rótulos. Você decide.
-          </p>
-        </div>
 
         {selecionadas.length > 0 ? (
           <button

@@ -115,6 +115,13 @@ export default async function VotacoesDoCandidatoPage({
                   {item.descricao}
                 </p>
 
+                <Link
+                  href={`/conheca-seu-candidato/${candidato.id}/votacoes/${encodeURIComponent(item.votacaoId)}`}
+                  className="mt-4 block w-fit rounded-lg bg-[#FFC400] px-4 py-3 text-sm font-semibold text-black hover:bg-[#e6af00]"
+                >
+                  Entenda o registro e fale com seu representante →
+                </Link>
+
                 <a
                   href={item.fonte.url}
                   target="_blank"
