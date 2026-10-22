@@ -13,7 +13,7 @@ const areas = [
     titulo: "Representantes eleitos",
     tipo: "Eleitos pelo voto",
     descricao: "Escolha deputados e outros representantes para acompanhar. A busca e suas escolhas existentes continuam funcionando como antes.",
-    href: "/votou-fique-de-olho#escolher-representantes",
+    href: "/votou-fique-de-olho",
     acao: "Ir à busca de representantes",
   },
   {
