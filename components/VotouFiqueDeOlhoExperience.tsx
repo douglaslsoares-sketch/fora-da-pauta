@@ -82,6 +82,8 @@ export function VotouFiqueDeOlhoExperience() {
   const [conferindoInscricao, setConferindoInscricao] = useState(true);
   const [idsConfirmados, setIdsConfirmados] = useState<string[]>([]);
   const [retornoTelegram, setRetornoTelegram] = useState(false);
+  const [inscricaoGeral, setInscricaoGeral] = useState(false);
+  const [novasEdicoesAtivas, setNovasEdicoesAtivas] = useState(false);
 
   useEffect(() => {
     if (selecionadas.length === 0 || conferindoInscricao || inscricaoAtiva) return;
@@ -170,6 +172,9 @@ export function VotouFiqueDeOlhoExperience() {
       // O navegador pode bloquear armazenamento; o link continua disponível.
     }
     if (peloLink || peloNavegador) {
+      if (interpretarSelecao(lerSelecaoSerializada()).length === 0) {
+        setInscricaoGeral(true);
+      }
       setRetornoTelegram(true);
       setEtapa("telegram");
     }
@@ -182,17 +187,20 @@ export function VotouFiqueDeOlhoExperience() {
         const resposta = await fetch("/api/telegram/sessao", { cache: "no-store" });
         const dados = await resposta.json() as {
           ativo?: boolean;
+          novasEdicoes?: boolean;
           ids?: string[];
           pessoas?: (PessoaSelecionada & { eleitoConfirmado?: boolean })[];
         };
         if (!montado) return;
         setInscricaoAtiva(dados.ativo === true);
+        setNovasEdicoesAtivas(dados.ativo === true && dados.novasEdicoes === true);
         setIdsConfirmados(
           dados.ativo && Array.isArray(dados.ids)
             ? dados.ids.filter((id): id is string => typeof id === "string" && /^[0-9]{8,20}$/.test(id))
             : [],
         );
-        if (dados.ativo && Array.isArray(dados.pessoas) && !edicoesLocaisPendentes.current) {
+        if (dados.ativo && Array.isArray(dados.pessoas) &&
+            !edicoesLocaisPendentes.current && !inscricaoGeral) {
           const pessoas = dados.pessoas.map(({ eleitoConfirmado, ...pessoa }) => pessoa);
           setEleitosConfirmados(dados.pessoas.filter(p => p.eleitoConfirmado).map(p => p.id));
           const atuais = interpretarSelecao(lerSelecaoSerializada());
@@ -203,6 +211,7 @@ export function VotouFiqueDeOlhoExperience() {
       } catch {
         if (montado) {
           setInscricaoAtiva(false);
+          setNovasEdicoesAtivas(false);
           setIdsConfirmados([]);
         }
       } finally {
@@ -212,7 +221,7 @@ export function VotouFiqueDeOlhoExperience() {
     void conferir();
     window.addEventListener("focus", conferir);
     return () => { montado = false; window.removeEventListener("focus", conferir); };
-  }, []);
+  }, [inscricaoGeral]);
 
   async function salvarAcompanhamentos() {
     if (selecionadas.length === 0 || salvandoEscolhas) return;
@@ -237,7 +246,7 @@ export function VotouFiqueDeOlhoExperience() {
   }
 
   const etapaAtual =
-    selecionadas.length === 0 && etapa !== "busca"
+    selecionadas.length === 0 && etapa !== "busca" && !inscricaoGeral
       ? "busca"
       : etapa;
 
@@ -257,14 +266,14 @@ export function VotouFiqueDeOlhoExperience() {
   }
 
   async function ativarTelegram() {
-    if (ativandoTelegram || selecionadas.length === 0) return;
+    if (ativandoTelegram || (selecionadas.length === 0 && !inscricaoGeral)) return;
     setAtivandoTelegram(true);
     setErroTelegram("");
     try {
       const resposta = await fetch("/api/telegram/sessao", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids: selecionadas.map(p => p.id) }),
+        body: JSON.stringify({ ids: inscricaoGeral ? [] : selecionadas.map(p => p.id) }),
       });
       const dados = await resposta.json() as { url?: string };
       if (!resposta.ok || typeof dados.url !== "string") throw Error("Falha");
@@ -296,6 +305,7 @@ export function VotouFiqueDeOlhoExperience() {
     }
 
     edicoesLocaisPendentes.current = true;
+    setInscricaoGeral(false);
     setEscolhasSalvas(false);
     gravar([
       ...atuais,
@@ -393,23 +403,37 @@ export function VotouFiqueDeOlhoExperience() {
   const escolhasConfirmadas =
     selecionadas.length > 0 &&
     selecionadas.every((pessoa) => idsConfirmados.includes(pessoa.id));
+  const inscricaoConfirmada =
+    inscricaoAtiva &&
+    (inscricaoGeral
+      ? novasEdicoesAtivas
+      : (escolhasSalvas || escolhasConfirmadas));
 
-  if (etapaAtual === "telegram" && inscricaoAtiva && (escolhasSalvas || escolhasConfirmadas)) {
+  if (etapaAtual === "telegram" && inscricaoConfirmada) {
     return (
       <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
         <h2 className="text-3xl font-bold">Pronto! Você está inscrito.</h2>
         <p className="mt-4 leading-7">
-          A partir de agora, você receberá pelo Telegram as informações sobre a atuação dos
-          representantes que escolheu, quando houver novas atualizações.
+          {inscricaoGeral
+            ? "Você receberá pelo Telegram avisos sobre novas edições e publicações do Fora da Pauta."
+            : "Você receberá pelo Telegram informações sobre a atuação dos representantes que escolheu, quando houver novas atualizações."}
         </p>
-        <p className="mt-5 font-semibold">Você escolheu acompanhar:</p>
-        <ListaSelecionadas permitirRemocao={false} />
+        {inscricaoGeral ? null : (
+          <>
+            <p className="mt-5 font-semibold">Você escolheu acompanhar:</p>
+            <ListaSelecionadas permitirRemocao={false} />
+          </>
+        )}
         <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
           <HomeShareInvite />
         </section>
-        <button type="button" onClick={() => { setEtapa("selecionados"); setEscolhasSalvas(false); }}
+        <button type="button" onClick={() => {
+          setInscricaoGeral(false);
+          setEtapa("busca");
+          setEscolhasSalvas(false);
+        }}
           className="mt-6 min-h-12 w-full rounded-2xl bg-black px-5 text-white">
-          Acompanhar mais alguém
+          {inscricaoGeral ? "Escolher representantes para acompanhar" : "Acompanhar mais alguém"}
         </button>
       </section>
     );
@@ -453,15 +477,21 @@ export function VotouFiqueDeOlhoExperience() {
           </h2>
         </div>
 
-        <p className="mt-8 font-semibold">
-          Você escolheu acompanhar:
-        </p>
-
-        <ListaSelecionadas permitirRemocao={false} />
+        {inscricaoGeral ? (
+          <p className="mt-8 leading-7">
+            Você vai receber avisos sobre novas edições e publicações do Fora da Pauta.
+            Não é necessário escolher nenhum representante.
+          </p>
+        ) : (
+          <>
+            <p className="mt-8 font-semibold">Você escolheu acompanhar:</p>
+            <ListaSelecionadas permitirRemocao={false} />
+          </>
+        )}
 
         {conferindoInscricao ? (
           <p role="status">Conferindo sua inscrição no Telegram...</p>
-        ) : inscricaoAtiva ? (
+        ) : inscricaoAtiva && !inscricaoGeral ? (
           <div className="mt-6">
             <p>Seu Telegram já está ativado. Basta salvar suas escolhas.</p>
             <button type="button" onClick={() => void salvarAcompanhamentos()}
@@ -478,7 +508,9 @@ export function VotouFiqueDeOlhoExperience() {
           </div>
 
           <p className="text-sm leading-6">
-            Confirme a inscrição no Telegram. Seus escolhidos serão registrados automaticamente.
+            {inscricaoGeral
+              ? "Confirme a inscrição no Telegram para receber as novidades do Fora da Pauta."
+              : "Confirme a inscrição no Telegram. Seus escolhidos serão registrados automaticamente."}
           </p>
         </div>
 
@@ -512,7 +544,7 @@ export function VotouFiqueDeOlhoExperience() {
           onClick={() => void ativarTelegram()}
           disabled={
             ativandoTelegram ||
-            selecionadas.length === 0
+            (selecionadas.length === 0 && !inscricaoGeral)
           }
           className="mt-4 flex min-h-16 w-full items-center justify-center gap-3 rounded-2xl bg-[#229ED9] px-5 text-base font-semibold text-white disabled:cursor-wait disabled:opacity-70"
         >
@@ -542,11 +574,12 @@ export function VotouFiqueDeOlhoExperience() {
           type="button"
           onClick={() => {
             setBusca((atual) => atual + 1);
-            setEtapa("selecionados");
+            setInscricaoGeral(false);
+            setEtapa(inscricaoGeral ? "busca" : "selecionados");
           }}
           className="mt-3 min-h-13 w-full rounded-2xl bg-black/[0.07] px-5 py-3 font-semibold"
         >
-          Acompanhar mais alguém
+          {inscricaoGeral ? "Escolher representantes para acompanhar" : "Acompanhar mais alguém"}
         </button>
 
         <a
@@ -677,6 +710,25 @@ export function VotouFiqueDeOlhoExperience() {
           selectedIds={selecionadas.map((item) => item.id)}
           onSelect={selecionar}
         />
+
+        <div className="mt-7 rounded-2xl border border-black/15 p-5">
+          <p className="font-semibold">Prefere receber somente as novidades do Fora da Pauta?</p>
+          <p className="mt-2 text-sm leading-6 text-black/65">
+            Receba avisos de novas edições e publicações pelo Telegram, sem escolher
+            nenhum representante agora. Você pode escolher depois.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setInscricaoGeral(true);
+              setEscolhasSalvas(false);
+              setEtapa("telegram");
+            }}
+            className="mt-4 min-h-14 w-full rounded-2xl bg-black px-5 py-3 font-semibold text-white"
+          >
+            Receber as novidades do Fora da Pauta
+          </button>
+        </div>
 
         {selecionadas.length > 0 ? (
           <button
