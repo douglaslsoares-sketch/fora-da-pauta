@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore, useRef } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
+import { HomeShareInvite } from "@/components/HomeShareInvite";
 import {
   interpretarSelecao,
   lerSelecaoSerializada,
@@ -380,6 +381,9 @@ export function VotouFiqueDeOlhoExperience() {
         <h2 className="text-3xl font-bold">Pronto. Agora fique de olho.</h2>
         <p className="mt-4">Seus escolhidos foram adicionados ao Telegram que você já utiliza.</p>
         <ListaSelecionadas permitirRemocao={false} />
+        <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
+          <HomeShareInvite />
+        </section>
         <button type="button" onClick={() => { setEtapa("selecionados"); setEscolhasSalvas(false); }}
           className="mt-6 min-h-12 w-full rounded-2xl bg-black px-5 text-white">
           Acompanhar mais alguém
