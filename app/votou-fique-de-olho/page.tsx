@@ -62,6 +62,27 @@ export default function VotouFiqueDeOlhoPage() {
           </div>
         </section>
 
+        <section aria-labelledby="titulo-acompanhamento-3-poderes" className="bg-[#eeeee9] text-[#151515]">
+          <div className="mx-auto max-w-[760px] px-6 pb-8 pt-4">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/55">
+              Fique de Olho · Acompanhamento
+            </p>
+            <h2 id="titulo-acompanhamento-3-poderes" className="mt-3 text-2xl font-bold tracking-tight">
+              Acompanhe os três Poderes
+            </h2>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-black/70">
+              Encontre o acompanhamento de representantes eleitos e consulte
+              a agenda do presidente e os julgamentos do STF.
+            </p>
+            <Link
+              href="/votou-fique-de-olho/acompanhamento"
+              className="mt-4 inline-flex min-h-12 items-center rounded-xl bg-black px-5 py-3 text-sm font-bold text-white hover:bg-black/85"
+            >
+              Abrir áreas de acompanhamento →
+            </Link>
+          </div>
+        </section>
+
         <VotouFiqueDeOlhoExperience />
       </main>
     </div>
