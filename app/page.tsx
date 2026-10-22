@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import { campaigns } from "@/data/campanhas";
 import styles from "./page.module.css";
-import { HomeShareInvite } from "@/components/HomeShareInvite";
 
 export const metadata: Metadata = {
   title: "Fora da Pauta",
@@ -110,10 +109,6 @@ export default function Home() {
           ))}
         </section>
         ) : null}
-
-        <section className={styles.section} aria-labelledby="convite-titulo">
-          <HomeShareInvite />
-        </section>
 
         <footer className={styles.footer}>
           <p>Fora da Pauta</p>
