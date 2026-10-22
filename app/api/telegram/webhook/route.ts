@@ -753,12 +753,11 @@ export async function POST(
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "Pronto! Sua inscrição no Fora da Pauta foi confirmada. " +
-          "Você receberá avisos de novas edições e publicações pelo Telegram. " +
-          "Se escolheu representantes, também receberá informações sobre a atuação deles. " +
-          "Volte ao Fique de Olho para conferir sua inscrição e, se desejar, convidar outra pessoa a conhecer o projeto.",
+          "Sua inscrição foi registrada no Telegram. " +
+          "Para finalizar e conferir sua inscrição no Fora da Pauta, toque no botão abaixo. " +
+          "Você receberá avisos de novas edições e, se escolheu representantes, atualizações sobre a atuação deles.",
         botoes: [[{
-          text: "Voltar ao Fique de Olho",
+          text: "Concluir a inscrição",
           url: "https://www.foradapauta.org/votou-fique-de-olho?retorno=telegram",
         }]],
       });
