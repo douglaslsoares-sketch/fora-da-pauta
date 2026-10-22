@@ -417,7 +417,7 @@ export function VotouFiqueDeOlhoExperience() {
   if (etapaAtual === "telegram" && inscricaoConfirmada) {
     return (
       <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
-        <h2 className="text-3xl font-bold">Pronto! Você está inscrito.</h2>
+        <h2 className="text-3xl font-bold">Pronto! Você está inscrito no Fora da Pauta.</h2>
         <p className="mt-4 leading-7">
           {inscricaoGeral
             ? "Você receberá pelo Telegram avisos sobre novas edições e publicações do Fora da Pauta."
@@ -472,13 +472,8 @@ export function VotouFiqueDeOlhoExperience() {
             <span className="absolute -right-6 top-12 h-1 w-7 rotate-6 rounded-full bg-[#FFC400]" />
           </div>
 
-          <h2 className="mt-5 font-bold leading-[1.02] tracking-[-0.045em]">
-            <span className="block text-4xl">
-              Pronto.
-            </span>
-            <span className="mt-1 block whitespace-nowrap text-[clamp(1.75rem,8.4vw,2.25rem)]">
-              Agora fique de olho.
-            </span>
+          <h2 className="mt-5 text-3xl font-bold leading-tight tracking-[-0.045em]">
+            {inscricaoAtiva ? "Confirme suas escolhas." : "Ative as notificações no Telegram."}
           </h2>
         </div>
 
@@ -612,7 +607,7 @@ export function VotouFiqueDeOlhoExperience() {
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm text-white">
                 ✓
               </span>
-              Você está acompanhando:
+              Você selecionou:
             </p>
 
             <div className="mt-4 flex items-center gap-3">
@@ -642,7 +637,7 @@ export function VotouFiqueDeOlhoExperience() {
         </h2>
 
         <p className="mt-2 text-base leading-6 text-black/65">
-          Digite o nome ou o número de outra pessoa para adicionar à sua lista.
+          Procure outro representante pelo nome ou pelo número de candidatura.
         </p>
 
         <CandidateSelector
