@@ -37,6 +37,31 @@ export default function VotouFiqueDeOlhoPage() {
       </header>
 
       <main>
+        <section aria-labelledby="fique-conteudos" className="bg-[#eeeee9] text-[#151515]">
+          <div className="mx-auto max-w-[760px] px-6 pb-7 pt-7">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/55">
+              Fique de Olho · Matérias
+            </p>
+            <h2 id="fique-conteudos" className="mt-3 text-2xl font-bold tracking-tight">
+              Uma votação documentada
+            </h2>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-black/70">
+              Veja um registro real, consulte a fonte e conheça o espaço
+              para escrever ao representante.
+            </p>
+            <Link
+              href="/conheca-seu-candidato/100002535230/votacoes/2236186-60"
+              className="mt-4 inline-flex min-h-12 items-center rounded-xl bg-[#FFC400] px-5 py-3 text-sm font-bold text-black hover:bg-[#e9b300]"
+            >
+              Abrir matéria de exemplo →
+            </Link>
+            <p className="mt-3 text-xs leading-5 text-black/55">
+              Esta é uma matéria para demonstrar a participação.
+              Não altera suas escolhas nem seus acompanhamentos no Telegram.
+            </p>
+          </div>
+        </section>
+
         <VotouFiqueDeOlhoExperience />
       </main>
     </div>
