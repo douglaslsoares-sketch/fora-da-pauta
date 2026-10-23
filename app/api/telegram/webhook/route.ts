@@ -1,4 +1,4 @@
-import { createHash, timingSafeEqual } from "node:crypto";
+import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 
 import { NextResponse } from "next/server";
 
@@ -715,6 +715,8 @@ export async function POST(
         return NextResponse.json({ ok: true });
       }
       const hash = hashToken(codigo);
+      const codigoRetorno = randomBytes(24).toString("base64url");
+      const hashRetorno = hashToken(codigoRetorno);
       const confirmado = await sql.begin(async tx => {
         const vinculos = await tx<{ sessao_hash: string; telegram_chat_id: string | null; candidaturas_pendentes: string[] }[]>`
           SELECT sessao_hash, telegram_chat_id::text AS telegram_chat_id, candidaturas_pendentes
@@ -750,7 +752,8 @@ export async function POST(
         await tx`
           UPDATE public.telegram_sessoes_site
           SET telegram_chat_id = ${chatId}::bigint,
-              vinculada_at = now(), codigo_hash = NULL, codigo_expira_at = NULL,
+              vinculada_at = now(), codigo_hash = ${hashRetorno},
+              codigo_expira_at = now() + interval '15 minutes',
               candidaturas_pendentes = '{}'
           WHERE sessao_hash = ${vinculo.sessao_hash}
         `;
@@ -772,7 +775,7 @@ export async function POST(
           "As pessoas escolhidas ficam na mesma conversa. Envie /opcoes para consultar suas preferências.",
         botoes: [[{
           text: "Concluir a inscrição",
-          url: "https://www.foradapauta.org/votou-fique-de-olho?retorno=telegram",
+          url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}`,
         }]],
       });
       return NextResponse.json({ ok: true });
