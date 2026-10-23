@@ -59,7 +59,13 @@ export async function POST(request: Request) {
          ${origem}, now())
       RETURNING id::text AS id
     `;
-    return rows[0]?.id ?? null;
+    const novoId = rows[0]?.id;
+    if (!novoId) return null;
+    await tx`
+      INSERT INTO public.interacoes_politicas_historico (interacao_id, evento)
+      VALUES (${novoId}::uuid, 'recebida')
+    `;
+    return novoId;
   });
   if (!registro) return NextResponse.json({ erro: "Conecte o Telegram antes de enviar sua manifestação." }, { status: 401, headers: noStore });
   // Apenas registra recebimento. O encaminhamento precisa de triagem humana e canal validado.
