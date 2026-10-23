@@ -208,3 +208,43 @@ export function buscarPessoaPoliticaConfirmadaPorCandidatura(
 
   return identidade.pessoaPoliticaId;
 }
+
+/**
+ * Retorna todas as candidaturas com uma identidade comum confirmada.
+ * Nunca agrupa nomes parecidos ou registros "EM_REVISAO".
+ * A lista pode conter eleições anteriores, ainda sem ficha detalhada.
+ */
+export function buscarCandidaturasConfirmadasDaMesmaPessoa(
+  candidaturaId: string,
+): string[] {
+  const identidade = buscarPessoaPoliticaConfirmadaPorCandidatura(candidaturaId);
+  if (!identidade) return [];
+
+  const mapa = carregarMapaDeIdentidades();
+  return [...mapa.entries()]
+    .filter(([, vinculo]) =>
+      vinculo?.situacaoIdentidade === "CONFIRMADA" &&
+      vinculo.pessoaPoliticaId === identidade
+    )
+    .map(([id]) => id)
+    .sort();
+}
+
+/** Localiza um representante conhecido da identidade, sem confiar em nomes. */
+export function buscarCandidaturaConfirmadaDaPessoa(
+  pessoaPoliticaId: string,
+  candidaturasDisponiveis: ReadonlySet<string>,
+): string | null {
+  if (!/^politico-[a-z0-9-]{8,80}$/.test(pessoaPoliticaId)) return null;
+
+  const mapa = carregarMapaDeIdentidades();
+  const ids = [...mapa.entries()]
+    .filter(([id, vinculo]) =>
+      candidaturasDisponiveis.has(id) &&
+      vinculo?.situacaoIdentidade === "CONFIRMADA" &&
+      vinculo.pessoaPoliticaId === pessoaPoliticaId
+    )
+    .map(([id]) => id);
+  // Uma escolha ambígua jamais vira uma ficha permanente arbitrária.
+  return ids.length === 1 ? ids[0] : null;
+}
