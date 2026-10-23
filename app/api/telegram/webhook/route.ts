@@ -3,7 +3,7 @@ import { createHash, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 
 import { candidaturas } from "@/data/eleicoes/candidaturas";
-import { eleitos2026 } from "@/data/eleicoes/eleitos";
+import { idsAcompanhaveis } from "@/lib/eleicoes/acompanhamento-politico";
 import { buscarPessoaPoliticaConfirmadaPorCandidatura } from "@/lib/eleicoes/identidade-politica";
 import { sql } from "@/lib/interesses/db";
 
@@ -148,9 +148,7 @@ async function consumirVinculo(
 ) {
   const tokenHash = hashToken(token);
 
-  const idsEleitos = new Set(
-    eleitos2026.map((pessoa) => pessoa.id),
-  );
+  const idsEleitos = idsAcompanhaveis;
 
   return sql.begin(async (tx) => {
     const vinculos = await tx<VinculoPendente[]>`
@@ -712,7 +710,7 @@ export async function POST(
         `;
         const vinculo = vinculos[0];
         if (!vinculo || (vinculo.telegram_chat_id && vinculo.telegram_chat_id !== chatId)) return false;
-        const idsEleitos = new Set(eleitos2026.map(p => p.id));
+        const idsEleitos = idsAcompanhaveis;
         const pendentes = vinculo.candidaturas_pendentes ?? [];
         if (pendentes.some(id => !idsEleitos.has(id))) return false;
         await tx`
@@ -883,7 +881,7 @@ export async function POST(
       chatId,
       texto:
         `Você está acompanhando ${candidato.nomeUrna}.\n\n` +
-        "Se essa candidatura for eleita, o Fora da Pauta enviará aqui avisos quando novos registros documentados forem incorporados à ficha.\n\nVocê não precisa voltar ao site para procurar novidades. Para interromper os avisos, envie /parar.",
+        "O Fora da Pauta poderá avisar quando novos registros públicos verificados sobre a atuação dessa pessoa forem incorporados à ficha, independentemente do resultado eleitoral.\n\nVocê não precisa voltar ao site para procurar novidades. Para interromper os avisos, envie /parar.",
       botoes: [
         [
           {
