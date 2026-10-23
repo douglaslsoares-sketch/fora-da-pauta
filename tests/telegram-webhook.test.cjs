@@ -249,3 +249,15 @@ test("selecionados da edicao sao ativados ao confirmar no bot", async () => {
   assert.equal(v.mensagens.at(-1).reply_markup.inline_keyboard[0][0].text, "Concluir a inscrição");
   assert.deepEqual(v.db.politicos.filter(p => p.chat === "300").map(p => p.id), [A, B]);
 });
+
+test("acompanha pessoa nao eleita sem condicionar avisos a vitoria", async () => {
+  const c = cenario();
+  const resposta = await c.enviar("/start seguir_" + B);
+  assert.equal(resposta.status, 200);
+  assert.equal(c.db.politicos.find(p => p.chat === "100" && p.id === B).status, "ativo");
+  const mensagem = c.mensagens.at(-1);
+  assert.match(mensagem.text, /tenha sido eleita ou não/i);
+  assert.doesNotMatch(mensagem.text, /se essa candidatura for eleita/i);
+  assert.equal(mensagem.reply_markup.inline_keyboard[0][0].text, "Ver Ficha Política");
+  assert.match(mensagem.text, /parar_candidato_/i);
+});
