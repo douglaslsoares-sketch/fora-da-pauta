@@ -230,10 +230,9 @@ test("confirma a inscricao via sessao do site no mesmo bot", async () => {
   assert.equal(c.db.sessoes[0].telegram_chat_id, "300");
   assert.equal(c.db.sessoes[0].codigo_hash, null);
   assert.match(c.mensagens.at(-1).text, /inscrição foi registrada no Telegram/i);
-  assert.deepEqual(c.mensagens.at(-1).reply_markup.inline_keyboard, [[{
-    text: "Concluir a inscrição",
-    url: "https://www.foradapauta.org/votou-fique-de-olho?retorno=telegram",
-  }]]);
+  assert.equal(c.mensagens.at(-1).reply_markup.inline_keyboard[0][0].text, "Concluir a inscrição");
+  assert.match(c.mensagens.at(-1).reply_markup.inline_keyboard[0][0].url,
+    /^https:\/\/www\.foradapauta\.org\/api\/telegram\/concluir\?codigo=[A-Za-z0-9_-]{32}$/);
   assert.equal(c.db.edicoes.find(r => r.chat === "300").status, "ativo");
 });
 
