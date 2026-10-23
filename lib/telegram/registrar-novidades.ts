@@ -126,7 +126,7 @@ export async function registrarNovidadesNaFila({
           FROM public.telegram_acompanhamentos
           WHERE candidatura_id = ${referencia}
             AND (
-              status = 'ativo'
+              status IN ('ativo', 'nao_eleito')
               OR (${evento.publicadoEm !== undefined} AND status = 'aguardando_eleicao')
             )
             AND cancelled_at IS NULL
