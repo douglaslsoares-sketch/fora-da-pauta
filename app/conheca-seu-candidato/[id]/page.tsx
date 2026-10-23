@@ -339,7 +339,9 @@ const trajetoriaOrdenada =
           <CandidateFollowCard
             candidaturaId={candidate.id}
           />
-          <InteracaoPessoaPublica candidaturaId={candidate.id} />
+          {process.env.FDP_INTERACOES_HABILITADAS === "1" ? (
+            <InteracaoPessoaPublica candidaturaId={candidate.id} />
+          ) : null}
 
           <CandidateDossier
             candidaturaId={candidate.id}
