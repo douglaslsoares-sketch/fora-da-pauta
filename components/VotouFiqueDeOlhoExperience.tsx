@@ -153,18 +153,30 @@ export function VotouFiqueDeOlhoExperience() {
   const [erroTelegram, setErroTelegram] = useState("");
   const [salvandoEscolhas, setSalvandoEscolhas] = useState(false);
   const [escolhasSalvas, setEscolhasSalvas] = useState(false);
+  const [retornouDoTelegram, setRetornouDoTelegram] = useState(false);
   const edicoesLocaisPendentes = useRef(false);
   const [eleitosConfirmados, setEleitosConfirmados] = useState<string[]>([]);
 
-  // Ao voltar do Telegram, retoma a seleção preservada no navegador.
+  // O retorno apenas abre a tela de conferência: a confirmação real vem do servidor.
   useEffect(() => {
+    const retornoPeloLink = new URLSearchParams(window.location.search).get("telegram") === "retorno";
+    let retornoNaSessao = false;
     try {
-      if (window.sessionStorage.getItem("fdp:telegram-retorno-votou") === "1") {
+      retornoNaSessao = window.sessionStorage.getItem("fdp:telegram-retorno-votou") === "1";
+      if (retornoNaSessao) {
         window.sessionStorage.removeItem("fdp:telegram-retorno-votou");
-        setEtapa("telegram");
       }
     } catch {
-      // Armazenamento pode estar bloqueado: seleção continua disponível.
+      // O navegador pode bloquear armazenamento; o retorno pela URL continua disponível.
+    }
+    if (retornoPeloLink) {
+      const destino = new URL(window.location.href);
+      destino.searchParams.delete("telegram");
+      window.history.replaceState(window.history.state, "", destino.pathname + destino.search + destino.hash);
+    }
+    if (retornoPeloLink || retornoNaSessao) {
+      setRetornouDoTelegram(true);
+      setEtapa("telegram");
     }
   }, []);
 
@@ -374,12 +386,20 @@ export function VotouFiqueDeOlhoExperience() {
     );
   }
 
-  if (etapaAtual === "telegram" && inscricaoAtiva && escolhasSalvas) {
+  if (etapaAtual === "telegram" && inscricaoAtiva && (retornouDoTelegram || escolhasSalvas)) {
     return (
       <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
         <h2 className="text-3xl font-bold">Pronto. Agora fique de olho.</h2>
-        <p className="mt-4">Seus escolhidos foram adicionados ao Telegram que você já utiliza.</p>
-        <ListaSelecionadas permitirRemocao={false} />
+        <p className="mt-4">
+          Sua inscrição foi confirmada. Você receberá atualizações pelo Telegram que já utiliza,
+          incluindo novas edições do Fora da Pauta.
+        </p>
+        {selecionadas.length > 0 ? (
+          <>
+            <p className="mt-6 font-semibold">Representantes que você acompanha:</p>
+            <ListaSelecionadas permitirRemocao={false} />
+          </>
+        ) : null}
         <button type="button" onClick={() => { setEtapa("selecionados"); setEscolhasSalvas(false); }}
           className="mt-6 min-h-12 w-full rounded-2xl bg-black px-5 text-white">
           Acompanhar mais alguém
@@ -399,13 +419,8 @@ export function VotouFiqueDeOlhoExperience() {
             <span className="absolute -right-6 top-12 h-1 w-7 rotate-6 rounded-full bg-[#FFC400]" />
           </div>
 
-          <h2 className="mt-5 font-bold leading-[1.02] tracking-[-0.045em]">
-            <span className="block text-4xl">
-              Pronto.
-            </span>
-            <span className="mt-1 block whitespace-nowrap text-[clamp(1.75rem,8.4vw,2.25rem)]">
-              Agora fique de olho.
-            </span>
+          <h2 className="mt-5 text-3xl font-bold leading-tight tracking-[-0.045em]">
+            {inscricaoAtiva ? "Confirme suas escolhas." : "Ative as notificações no Telegram."}
           </h2>
         </div>
 
@@ -414,6 +429,13 @@ export function VotouFiqueDeOlhoExperience() {
         </p>
 
         <ListaSelecionadas permitirRemocao={false} />
+
+        {retornouDoTelegram && !conferindoInscricao && !inscricaoAtiva ? (
+          <p role="status" className="mt-5 rounded-2xl bg-black/[0.055] p-4 text-sm leading-6">
+            Sua inscrição ainda não foi confirmada. Abra o Telegram, toque em Iniciar
+            na conversa com o bot e depois volte a esta página.
+          </p>
+        ) : null}
 
         {conferindoInscricao ? (
           <p role="status">Conferindo sua inscrição no Telegram...</p>
@@ -505,7 +527,7 @@ export function VotouFiqueDeOlhoExperience() {
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm text-white">
                 ✓
               </span>
-              Você está acompanhando:
+              Você selecionou:
             </p>
 
             <div className="mt-4 flex items-center gap-3">
@@ -535,7 +557,7 @@ export function VotouFiqueDeOlhoExperience() {
         </h2>
 
         <p className="mt-2 text-base leading-6 text-black/65">
-          Digite o nome ou o número de outra pessoa para adicionar à sua lista.
+          Procure outro representante pelo nome ou pelo número de candidatura.
         </p>
 
         <CandidateSelector
