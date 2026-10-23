@@ -9,8 +9,10 @@ if (!raw) {
 } else {
   const url = new URL(raw); url.searchParams.delete("schema");
   const sql = postgres(url.toString(), { max: 1, connect_timeout: 8, idle_timeout: 3 });
-  const tabelas = ["telegram_sessoes_site","telegram_acompanhamentos","telegram_preferencias",
-    "rate_limit_buckets","interacoes_politicas","interacoes_politicas_historico"];
+  const tabelas = ["interacoes_politicas","interacoes_politicas_historico"];
+  if (process.env.VERIFICAR_TABELAS_TELEGRAM === "1") {
+    tabelas.push("telegram_sessoes_site","telegram_acompanhamentos","telegram_preferencias","rate_limit_buckets");
+  }
   (async () => {
     try {
       const resultados = await sql.begin(async tx => {
