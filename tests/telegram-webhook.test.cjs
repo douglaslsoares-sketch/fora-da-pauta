@@ -54,7 +54,7 @@ function cenario() {
         candidaturas_pendentes: sessao.candidaturas_pendentes,
       }] : []);
     }
-    if (q.startsWith("INSERT INTO public.telegram_acompanhamentos")) {
+    if (q.startsWith("INSERT INTO public.telegram_acompanhamentos") || q.startsWith("INSERT INTO telegram_acompanhamentos")) {
       const record = db.politicos.find(p => p.chat === chat && p.id === id);
       if (record) record.status = "ativo";
       else db.politicos.push({ chat, id, status: "ativo" });
