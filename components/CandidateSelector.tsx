@@ -18,6 +18,7 @@ type CandidateResult = {
   cargoLabel: string;
   uf: string;
   siglaPartido: string;
+  situacaoEleitoral?: string;
 };
 
 type SearchResponse = {
@@ -679,7 +680,7 @@ function CandidateFollowSelector({
         const params = new URLSearchParams({
           q: buscaAtiva,
           pagina: String(pagina),
-          escopo: "eleitos",
+          escopo: "acompanhamento",
         });
 
         const response = await fetch(
@@ -880,6 +881,9 @@ function CandidateFollowSelector({
                   {candidate.nomeUrna}
                 </p>
 
+                {candidate.situacaoEleitoral ? (
+                  <p className="mt-1 text-xs font-semibold text-black/70">{candidate.situacaoEleitoral}</p>
+                ) : null}
                 <p className="mt-1 text-sm leading-5 text-black/60">
                   {candidate.cargoLabel}
                   <br />
@@ -890,6 +894,8 @@ function CandidateFollowSelector({
                 </p>
               </div>
 
+              <div className="flex shrink-0 flex-col gap-2">
+                <Link href={`/conheca-seu-candidato/${candidate.id}`} target="_blank" rel="noopener noreferrer" className="rounded-xl border border-black/20 px-2.5 py-3 text-center text-xs font-bold">Ver ficha</Link>
               <button
                 type="button"
                 onClick={() => onSelect(candidate)}
@@ -904,6 +910,7 @@ function CandidateFollowSelector({
                   ? "Selecionado"
                   : "Acompanhar"}
               </button>
+              </div>
             </div>
           );
         })}
