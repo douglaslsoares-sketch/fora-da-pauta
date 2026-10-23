@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const alternativas = [
   { valor: "pergunta", rotulo: "Fazer uma pergunta" },
@@ -11,6 +11,8 @@ const alternativas = [
 ] as const;
 
 export function InteracaoPessoaPublica({ candidaturaId }: { candidaturaId: string }) {
+  const [conectado, setConectado] = useState<boolean | null>(null);
+  const [erroConexao, setErroConexao] = useState(false);
   const [categoria, setCategoria] = useState<string>("pergunta");
   const [mensagem, setMensagem] = useState("");
   const [consentiu, setConsentiu] = useState(false);
@@ -20,6 +22,26 @@ export function InteracaoPessoaPublica({ candidaturaId }: { candidaturaId: strin
   const [exibirHistorico, setExibirHistorico] = useState(false);
   const [historico, setHistorico] = useState<{ id: string; mensagem: string; status: string; resposta_texto: string | null; resposta_autoria: string | null }[]>([]);
   const [situacao, setSituacao] = useState("");
+
+  useEffect(() => {
+    let montado = true;
+    async function verificar() {
+      try {
+        const resposta = await fetch("/api/telegram/sessao", { cache: "no-store" });
+        if (!resposta.ok) throw Error("Não foi possível conferir inscrição");
+        const dados = await resposta.json() as { ativo?: boolean };
+        if (montado) {
+          setConectado(dados.ativo === true);
+          setErroConexao(false);
+        }
+      } catch {
+        if (montado) { setConectado(null); setErroConexao(true); }
+      }
+    }
+    void verificar();
+    window.addEventListener("focus", verificar);
+    return () => { montado = false; window.removeEventListener("focus", verificar); };
+  }, []);
 
   async function enviar(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,6 +89,21 @@ export function InteracaoPessoaPublica({ candidaturaId }: { candidaturaId: strin
           O Fora da Pauta poderá encaminhar a mensagem após verificar um canal público de contato.
           Se houver resposta, ela poderá chegar a você pelo nosso Telegram.
         </p>
+        {conectado === false ? (
+          <p className="mt-5 border-l-4 border-[#FFC400] bg-white p-4 text-sm leading-6">
+            Para enviar ou consultar manifestações, conecte primeiro sua inscrição
+            pelo Telegram. Não é necessário criar outra conta.{" "}
+            <a href="/votou-fique-de-olho" className="font-semibold underline">
+              Conectar pelo Fique de Olho
+            </a>
+          </p>
+        ) : null}
+        {conectado === null ? (
+          <p className="mt-5 text-sm text-black/60" role="status">
+            {erroConexao ? "Não foi possível conferir sua conexão com o Telegram. Reabra esta página." : "Conferindo sua inscrição no Telegram..."}
+          </p>
+        ) : null}
+        {conectado === true ? (
         <button type="button" className="mt-5 text-sm font-semibold underline underline-offset-4"
           onClick={async () => {
             if (exibirHistorico) { setExibirHistorico(false); return; }
@@ -84,6 +121,7 @@ export function InteracaoPessoaPublica({ candidaturaId }: { candidaturaId: strin
           }}>
           {exibirHistorico ? "Ocultar minhas manifestações" : "Consultar minhas manifestações"}
         </button>
+        ) : null}
         {exibirHistorico ? (
           <div className="mt-4 space-y-4" role="region" aria-label="Minhas manifestações">
             {historico.map(item => <div key={item.id} className="rounded-xl border border-black/10 bg-white p-4">
@@ -110,7 +148,7 @@ export function InteracaoPessoaPublica({ candidaturaId }: { candidaturaId: strin
             </p>
           </div>
         ) : (
-          <form onSubmit={enviar} className="mt-6 space-y-5">
+          conectado === true ? <form onSubmit={enviar} className="mt-6 space-y-5">
             <fieldset>
               <legend className="mb-3 font-semibold">O que você gostaria de fazer?</legend>
               <div className="space-y-3">
@@ -149,7 +187,7 @@ export function InteracaoPessoaPublica({ candidaturaId }: { candidaturaId: strin
               className="min-h-12 w-full bg-[#FFC400] px-5 py-3 font-bold text-black disabled:opacity-50">
               {enviando ? "Registrando..." : "Enviar pelo Fora da Pauta"}
             </button>
-          </form>
+          </form> : null
         )}
       </div>
     </section>
