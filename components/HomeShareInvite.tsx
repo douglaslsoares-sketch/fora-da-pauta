@@ -1,7 +1,3 @@
-"use client";
-
-import { useState } from "react";
-
 const HOME_PUBLICA = "https://www.foradapauta.org/";
 const TEXTO = [
   "Conheça o Fora da Pauta.",
@@ -12,30 +8,6 @@ const TEXTO = [
 ].join("\n");
 
 export function HomeShareInvite() {
-  const [aviso, setAviso] = useState("");
-
-  async function compartilhar() {
-    setAviso("");
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Fora da Pauta",
-          text: "Conheça o Fora da Pauta. Há mais para entender.",
-          url: HOME_PUBLICA,
-        });
-        return;
-      } catch (erro) {
-        if (erro instanceof DOMException && erro.name === "AbortError") return;
-      }
-    }
-    try {
-      await navigator.clipboard.writeText(TEXTO);
-      setAviso("Convite copiado. Agora você pode colá-lo onde quiser.");
-    } catch {
-      setAviso("Não foi possível copiar. Utilize o botão do WhatsApp.");
-    }
-  }
-
   return (
     <div>
       <h2 id="convite-titulo">Convide alguém a conhecer</h2>
@@ -51,15 +23,7 @@ export function HomeShareInvite() {
         >
           Enviar pelo WhatsApp
         </a>
-        <button
-          type="button"
-          onClick={() => void compartilhar()}
-          className="min-h-12 border border-white/50 px-5 py-3 font-semibold text-white hover:border-[#FFC400]"
-        >
-          Compartilhar de outra forma
-        </button>
       </div>
-      {aviso ? <p role="status" className="mt-4 text-sm text-white/80">{aviso}</p> : null}
     </div>
   );
 }
