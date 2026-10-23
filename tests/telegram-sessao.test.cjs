@@ -85,6 +85,7 @@ function fixture() {
       inscricaoAtiva: async token => Boolean(token && state.linked && state.notifications),
     },
     "@/data/eleicoes/eleitos": { eleitos2026: [{ id: ID1 }, { id: ID2 }] },
+    "@/lib/eleicoes/acompanhamento-politico": { idsAcompanhaveis: new Set([ID1, ID2]) },
     "@/data/eleicoes/candidaturas": { candidaturas: [
       { id: ID1, nomeUrna: "EXEMPLO 1", nomeCompleto: "EXEMPLO UM", numero: 12, cargo: "deputado-federal", uf: "MA", siglaPartido: "X" },
       { id: ID2, nomeUrna: "EXEMPLO 2", nomeCompleto: "EXEMPLO DOIS", numero: 13, cargo: "deputado-federal", uf: "PR", siglaPartido: "Y" },

@@ -159,7 +159,7 @@ export function VotouFiqueDeOlhoExperience() {
   const [salvandoEscolhas, setSalvandoEscolhas] = useState(false);
   const [escolhasSalvas, setEscolhasSalvas] = useState(false);
   const edicoesLocaisPendentes = useRef(false);
-  const [eleitosConfirmados, setEleitosConfirmados] = useState<string[]>([]);
+
 
   // O retorno do bot não basta para comprovar inscrição: consulte o servidor.
   useEffect(() => {
@@ -205,7 +205,7 @@ export function VotouFiqueDeOlhoExperience() {
         if (dados.ativo && Array.isArray(dados.pessoas) &&
             !edicoesLocaisPendentes.current && !inscricaoGeral) {
           const pessoas = dados.pessoas.map(({ eleitoConfirmado, ...pessoa }) => pessoa);
-          setEleitosConfirmados(dados.pessoas.filter(p => p.eleitoConfirmado).map(p => p.id));
+
           const atuais = interpretarSelecao(lerSelecaoSerializada());
           if (JSON.stringify(atuais) !== JSON.stringify(pessoas)) {
             salvarSelecao(pessoas);
@@ -379,9 +379,7 @@ export function VotouFiqueDeOlhoExperience() {
                 {pessoa.nomeUrna}
               </p>
 
-              {inscricaoAtiva && !eleitosConfirmados.includes(pessoa.id) ? (
-                <p className="mt-1 text-xs text-amber-700">Eleição não confirmada na base atual</p>
-              ) : null}
+
               <p className="mt-1 text-sm leading-5 text-black/60">
                 {pessoa.cargoLabel} · {pessoa.uf}
                 <br />
@@ -421,7 +419,7 @@ export function VotouFiqueDeOlhoExperience() {
         <p className="mt-4 leading-7">
           {inscricaoGeral
             ? "Você receberá pelo Telegram avisos sobre novas edições e publicações do Fora da Pauta."
-            : "Você receberá pelo Telegram informações sobre a atuação dos representantes que escolheu, quando houver novas atualizações."}
+            : "Você receberá pelo Telegram informações sobre a atuação das pessoas que escolheu, quando houver novas atualizações."}
         </p>
         {inscricaoGeral ? null : (
           <>
@@ -489,8 +487,29 @@ export function VotouFiqueDeOlhoExperience() {
           </>
         )}
 
+        <section aria-labelledby="porque-telegram" className="mt-7 rounded-2xl border border-black/15 bg-white p-5 sm:p-6">
+          <h3 id="porque-telegram" className="text-2xl font-bold leading-tight tracking-[-0.035em]">
+            A informação chega até você.
+          </h3>
+          <p className="mt-4 text-base leading-7 text-black/75">
+            Entre o trabalho, a casa e os compromissos do dia a dia, nem sempre
+            sobra tempo para acompanhar o que acontece na política.
+          </p>
+          <p className="mt-3 text-base leading-7 text-black/75">
+            Por isso, o Fora da Pauta leva a informação até você, pelo Telegram.
+          </p>
+          <p className="mt-3 text-base leading-7 text-black/75">
+            {inscricaoGeral
+              ? "Quando houver novas edições e publicações do Fora da Pauta, você recebe um aviso pelo Telegram."
+              : "Quando houver novidades verificadas sobre as pessoas que você escolher acompanhar, você recebe um aviso, com a fonte da informação."}
+          </p>
+          <p className="mt-4 text-base font-semibold leading-7">
+            Assim, você fica sabendo do que acontece sem precisar parar o seu dia para procurar.
+          </p>
+        </section>
+
         {conferindoInscricao ? (
-          <p role="status">Conferindo sua inscrição no Telegram...</p>
+          <p role="status" className="mt-5">Conferindo sua inscrição no Telegram...</p>
         ) : inscricaoAtiva && !inscricaoGeral ? (
           <div className="mt-6">
             <p>Seu Telegram já está ativado. Basta salvar suas escolhas.</p>
@@ -513,31 +532,6 @@ export function VotouFiqueDeOlhoExperience() {
               : "Confirme a inscrição no Telegram. Seus escolhidos serão registrados automaticamente."}
           </p>
         </div>
-
-        <details className="group mt-4 rounded-2xl border border-black/15 bg-white">
-          <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 font-semibold underline-offset-4 hover:underline [&::-webkit-details-marker]:hidden">
-            <span>Vai usar outro número neste celular?</span>
-            <span aria-hidden="true" className="shrink-0 text-xl transition-transform group-open:rotate-180">
-              ⌄
-            </span>
-          </summary>
-          <div className="border-t border-black/10 px-4 pb-4 pt-3 text-sm leading-6">
-            <p>
-              Se o Telegram já está instalado com outro número, você não precisa
-              instalar o aplicativo novamente nem sair da conta atual.
-            </p>
-            <ol className="mt-3 list-decimal space-y-2 pl-5">
-              <li>Abra o Telegram e entre no menu da sua conta.</li>
-              <li>Escolha <strong>Adicionar conta</strong> e cadastre o segundo número.</li>
-              <li>Confirme esse número no Telegram e selecione a nova conta.</li>
-              <li>Volte a esta página e toque em <strong>Ativar notificações no Telegram</strong>.</li>
-            </ol>
-            <p className="mt-3 font-medium">
-              Suas escolhas ficam guardadas neste navegador. Antes de ativar,
-              confira se a segunda conta está selecionada no Telegram.
-            </p>
-          </div>
-        </details>
 
         <button
           type="button"
@@ -581,13 +575,6 @@ export function VotouFiqueDeOlhoExperience() {
         >
           {inscricaoGeral ? "Escolher representantes para acompanhar" : "Acompanhar mais alguém"}
         </button>
-
-        <a
-          href="/"
-          className="mt-6 block text-center text-sm underline underline-offset-4"
-        >
-          ‹ &nbsp; Voltar para o site
-        </a>
 
         {avisoStorage ? (
           <p role="alert" className="mt-5 text-sm text-black/60">
@@ -637,7 +624,7 @@ export function VotouFiqueDeOlhoExperience() {
         </h2>
 
         <p className="mt-2 text-base leading-6 text-black/65">
-          Procure outro representante pelo nome ou pelo número de candidatura.
+          Procure outra pessoa pelo nome ou pelo número de candidatura.
         </p>
 
         <CandidateSelector
@@ -689,7 +676,7 @@ export function VotouFiqueDeOlhoExperience() {
           </h1>
 
           <p className="mt-6 max-w-xl text-xl leading-7 text-white/90">
-            Acompanhe a atuação de quem foi eleito.
+            Acompanhe a atuação de quem participa da política, tenha sido eleito ou não.
           </p>
           <p className="mt-4 max-w-xl text-base leading-7 text-white/75">
             Entenda como as decisões são tomadas: o que faz a Presidência,

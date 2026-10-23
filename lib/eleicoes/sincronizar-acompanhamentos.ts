@@ -34,11 +34,11 @@ export async function sincronizarAcompanhamentos(
       simulacao: !aplicar,
       aguardandoConsultados: 0,
       seriamAtivados: 0,
-      seriamMarcadosNaoEleitos: 0,
+
       permaneceriamAguardando: 0,
       candidaturaAusenteNaBase: 0,
       ativados: 0,
-      marcadosNaoEleitos: 0,
+
     };
 
     for (const grupo of grupos) {
@@ -60,14 +60,11 @@ export async function sincronizarAcompanhamentos(
         continue;
       }
 
-      const novoStatus =
-        resultado === "eleito" ? "ativo" : "nao_eleito";
+      // Uma derrota eleitoral não encerra o acompanhamento da pessoa.
+      // O resultado continua na ficha; o interesse do inscrito permanece ativo.
+      const novoStatus = "ativo";
 
-      if (resultado === "eleito") {
-        resumo.seriamAtivados += quantidade;
-      } else {
-        resumo.seriamMarcadosNaoEleitos += quantidade;
-      }
+      resumo.seriamAtivados += quantidade;
 
       if (!aplicar) continue;
 
@@ -81,11 +78,7 @@ export async function sincronizarAcompanhamentos(
         RETURNING id
       `;
 
-      if (resultado === "eleito") {
-        resumo.ativados += alterados.length;
-      } else {
-        resumo.marcadosNaoEleitos += alterados.length;
-      }
+      resumo.ativados += alterados.length;
     }
 
     return resumo;

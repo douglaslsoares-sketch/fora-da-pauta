@@ -1,14 +1,8 @@
 ﻿import { NextRequest, NextResponse } from "next/server";
 
-import { eleitos2026 } from "@/data/eleicoes/eleitos";
+import { candidaturasPorId } from "@/lib/eleicoes/acompanhamento-politico";
 import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
 
-const eleitosPorId = new Map(
-  eleitos2026.map((pessoa) => [
-    pessoa.id,
-    pessoa,
-  ]),
-);
 
 export async function POST(
   request: NextRequest,
@@ -53,7 +47,7 @@ export async function POST(
   const pessoas = [];
 
   for (const id of ids) {
-    const pessoa = eleitosPorId.get(id);
+    const pessoa = candidaturasPorId.get(id);
 
     if (!pessoa) continue;
 

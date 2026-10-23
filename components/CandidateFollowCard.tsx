@@ -46,13 +46,13 @@ export function CandidateFollowCard({
           id="acompanhar-candidato"
           className="mt-3 max-w-2xl text-2xl font-semibold leading-tight tracking-[-0.035em] sm:text-3xl"
         >
-          Receba no Telegram as atualizações deste candidato depois de eleito.
+          Receba no Telegram as atualizações públicas desta pessoa.
         </h2>
 
         <p className="mt-4 max-w-2xl text-sm leading-6 text-black/60 sm:text-base sm:leading-7">
           Você não precisa voltar ao site para procurar novidades.
-          Quando houver novos registros documentados sobre a atuação
-          dele, o Fora da Pauta avisa você pelo Telegram.
+          Quando houver novos registros públicos verificados sobre a atuação
+          dessa pessoa, o Fora da Pauta poderá avisar você pelo Telegram.
         </p>
 
         {telegramHref ? (

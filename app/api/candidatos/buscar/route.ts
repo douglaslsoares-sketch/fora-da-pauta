@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { candidaturas } from "@/data/eleicoes/candidaturas";
-import { eleitos2026 } from "@/data/eleicoes/eleitos";
+import { situacaoEleitoral2026 } from "@/lib/eleicoes/acompanhamento-politico";
 import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
+import { buscarPessoaPoliticaConfirmadaPorCandidatura } from "@/lib/eleicoes/identidade-politica";
 
 const TAMANHO_PAGINA = 40;
 
@@ -106,7 +107,7 @@ export async function GET(
 
   const base =
     searchParams.get("escopo") === "eleitos"
-      ? eleitos2026
+      ? candidaturas
       : candidaturas;
 
   const encontrados =
@@ -236,6 +237,8 @@ export async function GET(
         uf: candidate.uf,
         siglaPartido:
           candidate.siglaPartido,
+        situacaoEleitoral: situacaoEleitoral2026(candidate),
+        pessoaPoliticaId: buscarPessoaPoliticaConfirmadaPorCandidatura(candidate.id),
       }));
 
   return NextResponse.json({

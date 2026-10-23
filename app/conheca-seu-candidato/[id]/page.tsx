@@ -220,7 +220,7 @@ const trajetoriaOrdenada =
             <div className="flex items-start justify-between gap-5 sm:gap-8">
               <div className="min-w-0 flex-1">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/45">
-                  Ficha do candidato
+                  Ficha Política
                 </p>
 
                 <h1 className="mt-4 break-normal whitespace-normal text-3xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-5xl sm:leading-[0.98] sm:tracking-[-0.05em]">

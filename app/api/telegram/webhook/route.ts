@@ -3,7 +3,7 @@ import { createHash, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 
 import { candidaturas } from "@/data/eleicoes/candidaturas";
-import { eleitos2026 } from "@/data/eleicoes/eleitos";
+import { idsAcompanhaveis } from "@/lib/eleicoes/acompanhamento-politico";
 import { buscarPessoaPoliticaConfirmadaPorCandidatura } from "@/lib/eleicoes/identidade-politica";
 import { sql } from "@/lib/interesses/db";
 
@@ -148,9 +148,7 @@ async function consumirVinculo(
 ) {
   const tokenHash = hashToken(token);
 
-  const idsEleitos = new Set(
-    eleitos2026.map((pessoa) => pessoa.id),
-  );
+  const idsEleitos = idsAcompanhaveis;
 
   return sql.begin(async (tx) => {
     const vinculos = await tx<VinculoPendente[]>`
@@ -324,7 +322,7 @@ async function registrarAcompanhamento(
       ${chatId}::bigint,
       ${candidaturaId},
       ${pessoaPoliticaId},
-      'aguardando_eleicao',
+      'ativo',
       now(),
       now(),
       NULL
@@ -337,18 +335,11 @@ async function registrarAcompanhamento(
       identidade_politica_id =
         EXCLUDED.identidade_politica_id,
 
-      status =
-        CASE
-          WHEN telegram_acompanhamentos.status
-            IN (
-              'ativo',
-              'nao_eleito',
-              'encerrado'
-            )
-            THEN telegram_acompanhamentos.status
-
-          ELSE 'aguardando_eleicao'
-        END,
+      status = CASE
+        WHEN telegram_acompanhamentos.status = 'encerrado'
+          THEN 'encerrado'
+        ELSE 'ativo'
+      END,
 
       updated_at = now(),
       cancelled_at = NULL
@@ -362,7 +353,7 @@ async function mostrarPreferencias(chatId: string) {
       SELECT candidatura_id
       FROM public.telegram_acompanhamentos
       WHERE telegram_chat_id = ${chatId}::bigint
-        AND status IN ('ativo', 'aguardando_eleicao')
+        AND status IN ('ativo', 'aguardando_eleicao', 'nao_eleito')
         AND cancelled_at IS NULL
       ORDER BY candidatura_id
       LIMIT 100
@@ -432,7 +423,7 @@ async function cancelarCandidato(chatId: string, candidaturaId: string) {
       SET status = 'cancelado', cancelled_at = now(), updated_at = now()
       WHERE telegram_chat_id = ${chatId}::bigint
         AND candidatura_id = ${candidaturaId}
-        AND status IN ('ativo', 'aguardando_eleicao')
+        AND status IN ('ativo', 'aguardando_eleicao', 'nao_eleito')
         AND cancelled_at IS NULL
       RETURNING candidatura_id
     `;
@@ -712,7 +703,7 @@ export async function POST(
         `;
         const vinculo = vinculos[0];
         if (!vinculo || (vinculo.telegram_chat_id && vinculo.telegram_chat_id !== chatId)) return false;
-        const idsEleitos = new Set(eleitos2026.map(p => p.id));
+        const idsEleitos = idsAcompanhaveis;
         const pendentes = vinculo.candidaturas_pendentes ?? [];
         if (pendentes.some(id => !idsEleitos.has(id))) return false;
         await tx`
@@ -883,11 +874,12 @@ export async function POST(
       chatId,
       texto:
         `Você está acompanhando ${candidato.nomeUrna}.\n\n` +
-        "Se essa candidatura for eleita, o Fora da Pauta enviará aqui avisos quando novos registros documentados forem incorporados à ficha.\n\nVocê não precisa voltar ao site para procurar novidades. Para interromper os avisos, envie /parar.",
+        "O Fora da Pauta reúne informações públicas verificadas sobre a atuação política dessa pessoa, tenha sido eleita ou não. Quando houver novidades documentadas, você poderá receber avisos aqui no Telegram, com as fontes para consultar.\n\n" +
+        `Para consultar suas escolhas, envie /opcoes. Para deixar de acompanhar apenas ${candidato.nomeUrna}, envie /parar_candidato_${candidaturaId}.`,
       botoes: [
         [
           {
-            text: "Ver ficha no Fora da Pauta",
+            text: "Ver Ficha Política",
             url:
               `https://www.foradapauta.org/conheca-seu-candidato/${candidaturaId}`,
           },

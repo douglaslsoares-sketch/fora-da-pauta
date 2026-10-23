@@ -54,7 +54,7 @@ function cenario() {
         candidaturas_pendentes: sessao.candidaturas_pendentes,
       }] : []);
     }
-    if (q.startsWith("INSERT INTO public.telegram_acompanhamentos")) {
+    if (q.startsWith("INSERT INTO public.telegram_acompanhamentos") || q.startsWith("INSERT INTO telegram_acompanhamentos")) {
       const record = db.politicos.find(p => p.chat === chat && p.id === id);
       if (record) record.status = "ativo";
       else db.politicos.push({ chat, id, status: "ativo" });
@@ -115,6 +115,7 @@ function cenario() {
       { id: A, nomeUrna: "Pessoa A" }, { id: B, nomeUrna: "Pessoa B" },
     ] },
     "@/data/eleicoes/eleitos": { eleitos2026: [{ id: A }, { id: B }] },
+    "@/lib/eleicoes/acompanhamento-politico": { idsAcompanhaveis: new Set([A, B]) },
     "@/lib/eleicoes/identidade-politica": {
       buscarPessoaPoliticaConfirmadaPorCandidatura: () => null,
     },
@@ -221,9 +222,9 @@ test("confirma a inscricao via sessao do site no mesmo bot", async () => {
   assert.equal(resp.status, 200);
   assert.equal(c.db.sessoes[0].telegram_chat_id, "300");
   assert.equal(c.db.sessoes[0].codigo_hash, null);
-  assert.match(c.mensagens.at(-1).text, /inscrição no Fora da Pauta foi confirmada/i);
+  assert.match(c.mensagens.at(-1).text, /inscrição foi registrada no Telegram/i);
   assert.deepEqual(c.mensagens.at(-1).reply_markup.inline_keyboard, [[{
-    text: "Voltar ao Fique de Olho",
+    text: "Concluir a inscrição",
     url: "https://www.foradapauta.org/votou-fique-de-olho?retorno=telegram",
   }]]);
   assert.equal(c.db.edicoes.find(r => r.chat === "300").status, "ativo");
@@ -245,6 +246,18 @@ test("selecionados da edicao sao ativados ao confirmar no bot", async () => {
   assert.equal(resp.status, 200);
   assert.deepEqual(v.db.politicos.filter(p => p.chat === "300").map(p => p.id), [A, B]);
   assert.equal(v.db.edicoes.find(p => p.chat === "300").status, "ativo");
-  assert.equal(v.mensagens.at(-1).reply_markup.inline_keyboard[0][0].text, "Voltar ao Fique de Olho");
+  assert.equal(v.mensagens.at(-1).reply_markup.inline_keyboard[0][0].text, "Concluir a inscrição");
   assert.deepEqual(v.db.politicos.filter(p => p.chat === "300").map(p => p.id), [A, B]);
+});
+
+test("acompanha pessoa nao eleita sem condicionar avisos a vitoria", async () => {
+  const c = cenario();
+  const resposta = await c.enviar("/start seguir_" + B);
+  assert.equal(resposta.status, 200);
+  assert.equal(c.db.politicos.find(p => p.chat === "100" && p.id === B).status, "ativo");
+  const mensagem = c.mensagens.at(-1);
+  assert.match(mensagem.text, /tenha sido eleita ou não/i);
+  assert.doesNotMatch(mensagem.text, /se essa candidatura for eleita/i);
+  assert.equal(mensagem.reply_markup.inline_keyboard[0][0].text, "Ver Ficha Política");
+  assert.match(mensagem.text, /parar_candidato_/i);
 });

@@ -35,7 +35,7 @@ export async function GET() {
         ON s.telegram_chat_id = a.telegram_chat_id
       WHERE s.sessao_hash = ${hashSessao(token)}
         AND s.expira_at > now()
-        AND a.status IN ('ativo', 'aguardando_eleicao')
+        AND a.status IN ('ativo', 'aguardando_eleicao', 'nao_eleito')
         AND a.cancelled_at IS NULL
       ORDER BY a.candidatura_id
       LIMIT 100
@@ -104,10 +104,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ erro: "Seleção inválida." }, { status: 400, headers: semCache });
     }
     idsPendentes = [...new Set(body.ids as string[])];
-    const { eleitos2026 } = await import("@/data/eleicoes/eleitos");
-    const validos = new Set(eleitos2026.map(p => p.id));
+    const { idsAcompanhaveis } = await import("@/lib/eleicoes/acompanhamento-politico");
+    const validos = idsAcompanhaveis;
     if (idsPendentes.some(id => !validos.has(id))) {
-      return NextResponse.json({ erro: "Pessoa não eleita." }, { status: 400, headers: semCache });
+      return NextResponse.json({ erro: "Pessoa não encontrada na base eleitoral." }, { status: 400, headers: semCache });
     }
   }
   const anterior = await tokenSessao();
@@ -158,9 +158,9 @@ export async function PUT(request: Request) {
   }
   const ids = [...new Set(body.ids as string[])];
   // Somente adiciona/reativa os selecionados, sem apagar escolhas anteriores.
-  const { eleitos2026 } = await import("@/data/eleicoes/eleitos");
+  const { idsAcompanhaveis } = await import("@/lib/eleicoes/acompanhamento-politico");
   const { buscarPessoaPoliticaConfirmadaPorCandidatura } = await import("@/lib/eleicoes/identidade-politica");
-  const validos = new Set(eleitos2026.map(p => p.id));
+  const validos = idsAcompanhaveis;
   const resultado = await sql.begin(async tx => {
     const linhas = await tx<{ telegram_chat_id: string }[]>`
       SELECT telegram_chat_id::text AS telegram_chat_id
@@ -172,13 +172,13 @@ export async function PUT(request: Request) {
     const chatId = linhas[0]?.telegram_chat_id;
     if (!chatId) return "sem_vinculo" as const;
     // Aceita na lista candidaturas antigas ainda ativas no mesmo bot.
-    // Nunca cadastra uma nova candidatura sem eleição confirmada.
+    // Nunca cadastra um identificador ausente da base eleitoral.
     const acompanhados = await tx<{ candidatura_id: string }[]>`
       SELECT candidatura_id
       FROM public.telegram_acompanhamentos
       WHERE telegram_chat_id = ${chatId}::bigint
         AND candidatura_id = ANY(${sql.array(ids)}::text[])
-        AND status IN ('ativo', 'aguardando_eleicao')
+        AND status IN ('ativo', 'aguardando_eleicao', 'nao_eleito')
         AND cancelled_at IS NULL
     `;
     const jaAcompanhados = new Set(acompanhados.map(p => p.candidatura_id));
@@ -203,7 +203,7 @@ export async function PUT(request: Request) {
   });
   return NextResponse.json(
     resultado === "salvo" ? { salvo: true } :
-      { erro: resultado === "id_invalido" ? "Pessoa não eleita." : "Vincule o Telegram." },
+      { erro: resultado === "id_invalido" ? "Pessoa não encontrada na base eleitoral." : "Vincule o Telegram." },
     { status: resultado === "salvo" ? 200 : resultado === "id_invalido" ? 400 : 401,
       headers: semCache },
   );
