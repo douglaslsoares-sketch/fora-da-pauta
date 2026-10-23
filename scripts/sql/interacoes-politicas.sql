@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS public.interacoes_politicas (
     'sem_resposta','nao_encaminhada'
   )),
   destino_oficial text,
+  destino_fonte_url text,
   encaminhada_at timestamptz,
   resposta_texto text CHECK (resposta_texto IS NULL OR char_length(resposta_texto) BETWEEN 1 AND 2400),
   resposta_autoria text CHECK (resposta_autoria IS NULL OR resposta_autoria IN ('titular','assessoria','orgao')),
@@ -37,6 +38,18 @@ CREATE TABLE IF NOT EXISTS public.interacoes_politicas (
       AND resposta_origem_verificada IS NOT NULL AND resposta_confirmada_at IS NOT NULL)
   )
 );
+CREATE TABLE IF NOT EXISTS public.interacoes_politicas_historico (
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  interacao_id uuid NOT NULL REFERENCES public.interacoes_politicas(id),
+  evento text NOT NULL CHECK (evento IN (
+    'recebida','em_analise','encaminhada','respondida','sem_resposta','nao_encaminhada'
+  )),
+  observacao text,
+  registrado_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS interacoes_politicas_historico_idx
+  ON public.interacoes_politicas_historico (interacao_id, registrado_at);
+
 CREATE INDEX IF NOT EXISTS interacoes_politicas_cidadao_idx
   ON public.interacoes_politicas (telegram_chat_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS interacoes_politicas_fila_idx
