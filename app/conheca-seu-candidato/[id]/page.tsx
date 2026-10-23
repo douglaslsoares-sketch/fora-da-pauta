@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CandidateDossier } from "@/components/CandidateDossier";
 import { CandidateFollowCard } from "@/components/CandidateFollowCard";
+import { InteracaoPessoaPublica } from "@/components/InteracaoPessoaPublica";
 
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { notFound } from "next/navigation";
@@ -338,6 +339,9 @@ const trajetoriaOrdenada =
           <CandidateFollowCard
             candidaturaId={candidate.id}
           />
+          {process.env.FDP_INTERACOES_HABILITADAS === "1" ? (
+            <InteracaoPessoaPublica candidaturaId={candidate.id} />
+          ) : null}
 
           <CandidateDossier
             candidaturaId={candidate.id}

@@ -1,0 +1,57 @@
+name: Validar interações políticas
+on:
+  pull_request:
+    paths:
+      - 'app/api/interacoes/**'
+      - 'app/api/admin/interacoes/**'
+      - 'app/conheca-seu-candidato/[id]/page.tsx'
+      - 'app/campanhas/[slug]/candidatos/page.tsx'
+      - 'components/InteracaoPessoaPublica.tsx'
+      - 'lib/interacoes/juntar-transcricao.ts'
+      - 'tests/interacoes-voz.test.cjs'
+      - 'components/InteracoesAdminPanel.tsx'
+      - 'lib/telegram/processar-respostas-interacoes.ts'
+      - 'scripts/sql/interacoes-politicas.sql'
+      - 'tests/interacoes.test.cjs'
+      - 'tests/interacoes-postgres.test.cjs'
+      - 'scripts/interacoes/verificar-banco.cjs'
+      - '.github/workflows/testar-interacoes.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: teste-local
+          POSTGRES_USER: postgres
+          POSTGRES_DB: fora_da_pauta_teste
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/interacoes.test.cjs tests/interacoes-voz.test.cjs
+      - name: Fluxo completo em PostgreSQL isolado
+        env:
+          INTERACOES_TEST_DATABASE_URL: postgres://postgres:teste-local@localhost:5432/fora_da_pauta_teste
+        run: node --test tests/interacoes-postgres.test.cjs
+      - name: Inspecionar esquema de teste sem escrita
+        env:
+          INTERACOES_TEST_DATABASE_URL: postgres://postgres:teste-local@localhost:5432/fora_da_pauta_teste
+        run: node scripts/interacoes/verificar-banco.cjs
+      - name: TypeScript
+        run: npx tsc --noEmit
