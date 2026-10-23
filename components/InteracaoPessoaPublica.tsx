@@ -35,7 +35,12 @@ export function InteracaoPessoaPublica({ candidaturaId }: { candidaturaId: strin
           categoria,
           mensagem,
           consentiu,
-          origemCaminho: window.location.pathname,
+          origemCaminho: (() => {
+            const origem = new URLSearchParams(window.location.search).get("origem");
+            return origem && /^\/campanhas\/[A-Za-z0-9_-]{1,100}\/candidatos$/.test(origem)
+              ? origem
+              : window.location.pathname;
+          })(),
         }),
       });
       const dados = await resposta.json() as {
