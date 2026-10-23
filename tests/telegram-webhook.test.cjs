@@ -69,10 +69,10 @@ function cenario() {
       return Promise.resolve([]);
     }
     if (q.startsWith("UPDATE public.telegram_sessoes_site")) {
-      const sessao = db.sessoes.find(s => s.sessao_hash === String(args[1]));
+      const sessao = db.sessoes.find(s => s.sessao_hash === String(args[2]));
       if (sessao) {
         sessao.telegram_chat_id = String(args[0]);
-        sessao.codigo_hash = null;
+        sessao.codigo_hash = String(args[1]);
         gravacoes++;
       }
       return Promise.resolve([]);
@@ -228,7 +228,9 @@ test("confirma a inscricao via sessao do site no mesmo bot", async () => {
   const resp = await c.enviar("/start s_" + "a".repeat(32), { chat: "300" });
   assert.equal(resp.status, 200);
   assert.equal(c.db.sessoes[0].telegram_chat_id, "300");
-  assert.equal(c.db.sessoes[0].codigo_hash, null);
+  const urlConclusao = new URL(c.mensagens.at(-1).reply_markup.inline_keyboard[0][0].url);
+  assert.equal(c.db.sessoes[0].codigo_hash,
+    crypto.createHash("sha256").update(urlConclusao.searchParams.get("codigo")).digest("hex"));
   assert.match(c.mensagens.at(-1).text, /inscrição foi registrada no Telegram/i);
   assert.equal(c.mensagens.at(-1).reply_markup.inline_keyboard[0][0].text, "Concluir a inscrição");
   assert.match(c.mensagens.at(-1).reply_markup.inline_keyboard[0][0].url,
