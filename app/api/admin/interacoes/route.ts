@@ -52,6 +52,7 @@ export async function POST(request: Request) {
   const nota = typeof data?.observacao === "string" ? data.observacao.trim() : "";
   if (destino.length > 250 || fonte.length > 500 || resposta.length > 2400 ||
       origem.length > 500 || nota.length > 500 ||
+      (status === "respondida" && resposta.length === 0) ||
       (fonte && !/^https:\/\//i.test(fonte)) ||
       (status === "encaminhada" && (!destino || !fonte)) ||
       (status === "respondida" && (!resposta || !origem || !["titular","assessoria","orgao"].includes(autoria)))) {
