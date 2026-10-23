@@ -203,8 +203,13 @@ export function VotouFiqueDeOlhoExperience() {
             : [],
         );
         if (dados.ativo && Array.isArray(dados.pessoas) &&
-            !edicoesLocaisPendentes.current && !inscricaoGeral) {
+            !edicoesLocaisPendentes.current && (!inscricaoGeral || retornoTelegram)) {
           const pessoas = dados.pessoas.map(({ eleitoConfirmado, ...pessoa }) => pessoa);
+          // Ao retornar pelo bot em outro navegador, recupera as escolhas
+          // do servidor em vez de apresentar apenas a inscrição geral.
+          if (retornoTelegram && inscricaoGeral && pessoas.length > 0) {
+            setInscricaoGeral(false);
+          }
 
           const atuais = interpretarSelecao(lerSelecaoSerializada());
           if (JSON.stringify(atuais) !== JSON.stringify(pessoas)) {
@@ -224,7 +229,7 @@ export function VotouFiqueDeOlhoExperience() {
     void conferir();
     window.addEventListener("focus", conferir);
     return () => { montado = false; window.removeEventListener("focus", conferir); };
-  }, [inscricaoGeral]);
+  }, [inscricaoGeral, retornoTelegram]);
 
   async function salvarAcompanhamentos() {
     if (selecionadas.length === 0 || salvandoEscolhas) return;
