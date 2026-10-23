@@ -54,6 +54,13 @@ function cenario() {
         candidaturas_pendentes: sessao.candidaturas_pendentes,
       }] : []);
     }
+    if (q.startsWith("INSERT INTO public.telegram_preferencias") && q.includes("DO NOTHING")) {
+      if (!db.edicoes.some(r => r.chat === chat)) db.edicoes.push({ chat, status: "ativo" });
+      return Promise.resolve([]);
+    }
+    if (q.includes("SELECT EXISTS (") && q.includes("FROM public.telegram_preferencias")) {
+      return Promise.resolve([{ ativa: db.edicoes.some(r => r.chat === chat && r.status === "ativo") }]);
+    }
     if (q.startsWith("INSERT INTO public.telegram_acompanhamentos") || q.startsWith("INSERT INTO telegram_acompanhamentos")) {
       const record = db.politicos.find(p => p.chat === chat && p.id === id);
       if (record) record.status = "ativo";
@@ -258,6 +265,26 @@ test("acompanha pessoa nao eleita sem condicionar avisos a vitoria", async () =>
   const mensagem = c.mensagens.at(-1);
   assert.match(mensagem.text, /tenha sido eleita ou não/i);
   assert.doesNotMatch(mensagem.text, /se essa candidatura for eleita/i);
-  assert.equal(mensagem.reply_markup.inline_keyboard[0][0].text, "Ver Ficha Política");
+  assert.equal(mensagem.reply_markup, undefined);
+  assert.match(mensagem.text, /novas edições do Fora da Pauta/i);
   assert.match(mensagem.text, /parar_candidato_/i);
+});
+
+test("nao reativa edicoes desativadas ao seguir outra pessoa", async () => {
+  const c = cenario();
+  await c.enviar("/parar_edicoes");
+  const resposta = await c.enviar("/start seguir_" + B);
+  assert.equal(resposta.status, 200);
+  assert.equal(c.db.edicoes.find(r => r.chat === "100").status, "cancelado");
+  assert.match(c.mensagens.at(-1).text, /desativado as novas edições/i);
+  assert.equal(c.mensagens.at(-1).reply_markup, undefined);
+});
+
+test("inscricao direta inicial ativa edicoes sem segundo botao", async () => {
+  const c = cenario();
+  const resposta = await c.enviar("/start seguir_" + A, { chat: "300" });
+  assert.equal(resposta.status, 200);
+  assert.equal(c.db.edicoes.find(r => r.chat === "300").status, "ativo");
+  assert.equal(c.db.politicos.find(r => r.chat === "300" && r.id === A).status, "ativo");
+  assert.equal(c.mensagens.at(-1).reply_markup, undefined);
 });

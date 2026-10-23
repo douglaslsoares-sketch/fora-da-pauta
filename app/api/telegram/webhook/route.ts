@@ -302,48 +302,71 @@ async function consumirVinculo(
 async function registrarAcompanhamento(
   chatId: string,
   candidaturaId: string,
-) {
+): Promise<boolean> {
   const pessoaPoliticaId =
-    buscarPessoaPoliticaConfirmadaPorCandidatura(
-      candidaturaId,
-    );
+    buscarPessoaPoliticaConfirmadaPorCandidatura(candidaturaId);
 
-  await sql`
-    INSERT INTO telegram_acompanhamentos (
-      telegram_chat_id,
-      candidatura_id,
-      identidade_politica_id,
-      status,
-      created_at,
-      updated_at,
-      cancelled_at
-    )
-    VALUES (
-      ${chatId}::bigint,
-      ${candidaturaId},
-      ${pessoaPoliticaId},
-      'ativo',
-      now(),
-      now(),
-      NULL
-    )
-    ON CONFLICT (
-      telegram_chat_id,
-      candidatura_id
-    )
-    DO UPDATE SET
-      identidade_politica_id =
-        EXCLUDED.identidade_politica_id,
+  return sql.begin(async (tx) => {
+    // Uma inscrição no bot inclui novas edições por padrão.
+    // Se a pessoa já desativou as edições, respeita a decisão anterior.
+    await tx`
+      INSERT INTO public.telegram_preferencias (
+        telegram_chat_id, tipo, referencia, status,
+        created_at, updated_at, cancelled_at
+      )
+      VALUES (
+        ${chatId}::bigint, 'novas_edicoes', '', 'ativo',
+        now(), now(), NULL
+      )
+      ON CONFLICT (telegram_chat_id, tipo, referencia) DO NOTHING
+    `;
 
-      status = CASE
-        WHEN telegram_acompanhamentos.status = 'encerrado'
-          THEN 'encerrado'
-        ELSE 'ativo'
-      END,
+    await tx`
+      INSERT INTO telegram_acompanhamentos (
+        telegram_chat_id,
+        candidatura_id,
+        identidade_politica_id,
+        status,
+        created_at,
+        updated_at,
+        cancelled_at
+      )
+      VALUES (
+        ${chatId}::bigint,
+        ${candidaturaId},
+        ${pessoaPoliticaId},
+        'ativo',
+        now(),
+        now(),
+        NULL
+      )
+      ON CONFLICT (telegram_chat_id, candidatura_id)
+      DO UPDATE SET
+        identidade_politica_id = COALESCE(
+          EXCLUDED.identidade_politica_id,
+          telegram_acompanhamentos.identidade_politica_id
+        ),
+        status = CASE
+          WHEN telegram_acompanhamentos.status = 'encerrado'
+            THEN 'encerrado'
+          ELSE 'ativo'
+        END,
+        updated_at = now(),
+        cancelled_at = NULL
+    `;
 
-      updated_at = now(),
-      cancelled_at = NULL
-  `;
+    const preferencias = await tx<{ ativa: boolean }[]>`
+      SELECT EXISTS (
+        SELECT 1 FROM public.telegram_preferencias
+        WHERE telegram_chat_id = ${chatId}::bigint
+          AND tipo = 'novas_edicoes'
+          AND referencia = ''
+          AND status = 'ativo'
+          AND cancelled_at IS NULL
+      ) AS ativa
+    `;
+    return preferencias[0]?.ativa === true;
+  });
 }
 
 
@@ -710,8 +733,7 @@ export async function POST(
           INSERT INTO telegram_preferencias
             (telegram_chat_id, tipo, referencia, status, created_at, updated_at, cancelled_at)
           VALUES (${chatId}::bigint, 'novas_edicoes', '', 'ativo', now(), now(), NULL)
-          ON CONFLICT (telegram_chat_id, tipo, referencia)
-          DO UPDATE SET status = 'ativo', updated_at = now(), cancelled_at = NULL
+          ON CONFLICT (telegram_chat_id, tipo, referencia) DO NOTHING
         `;
         for (const id of pendentes) {
           const identidade = buscarPessoaPoliticaConfirmadaPorCandidatura(id);
@@ -745,8 +767,9 @@ export async function POST(
         chatId,
         texto:
           "Sua inscrição foi registrada no Telegram. " +
-          "Para finalizar e conferir sua inscrição no Fora da Pauta, toque no botão abaixo. " +
-          "Você receberá avisos de novas edições e, se escolheu representantes, atualizações sobre a atuação deles.",
+          "Para finalizar e conferir suas escolhas no Fora da Pauta, toque no botão abaixo. " +
+          "As novas edições são ativadas por padrão, sem reativar uma preferência que você tenha desativado. " +
+          "As pessoas escolhidas ficam na mesma conversa. Envie /opcoes para consultar suas preferências.",
         botoes: [[{
           text: "Concluir a inscrição",
           url: "https://www.foradapauta.org/votou-fique-de-olho?retorno=telegram",
@@ -865,7 +888,7 @@ export async function POST(
       });
     }
 
-    await registrarAcompanhamento(
+    const novasEdicoesAtivas = await registrarAcompanhamento(
       chatId,
       candidaturaId,
     );
@@ -875,23 +898,10 @@ export async function POST(
       texto:
         `Você está acompanhando ${candidato.nomeUrna}.\n\n` +
         "O Fora da Pauta reúne informações públicas verificadas sobre a atuação política dessa pessoa, tenha sido eleita ou não. Quando houver novidades documentadas, você poderá receber avisos aqui no Telegram, com as fontes para consultar.\n\n" +
+        (novasEdicoesAtivas
+          ? "Você também receberá avisos sobre novas edições do Fora da Pauta. Tudo nesta mesma conversa.\n\n"
+          : "Você havia desativado as novas edições, e essa escolha foi preservada. Se quiser reativá-las, envie /start projeto.\n\n") +
         `Para consultar suas escolhas, envie /opcoes. Para deixar de acompanhar apenas ${candidato.nomeUrna}, envie /parar_candidato_${candidaturaId}.`,
-      botoes: [
-        [
-          {
-            text: "Ver Ficha Política",
-            url:
-              `https://www.foradapauta.org/conheca-seu-candidato/${candidaturaId}`,
-          },
-        ],
-        [
-          {
-            text: "Receber também novas edições",
-            url:
-              `https://t.me/${botUsername}?start=edicoes`,
-          },
-        ],
-      ],
     });
 
     return NextResponse.json({
