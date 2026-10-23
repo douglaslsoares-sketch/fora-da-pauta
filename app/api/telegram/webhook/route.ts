@@ -322,7 +322,7 @@ async function registrarAcompanhamento(
       ${chatId}::bigint,
       ${candidaturaId},
       ${pessoaPoliticaId},
-      'aguardando_eleicao',
+      'ativo',
       now(),
       now(),
       NULL
@@ -335,18 +335,11 @@ async function registrarAcompanhamento(
       identidade_politica_id =
         EXCLUDED.identidade_politica_id,
 
-      status =
-        CASE
-          WHEN telegram_acompanhamentos.status
-            IN (
-              'ativo',
-              'nao_eleito',
-              'encerrado'
-            )
-            THEN telegram_acompanhamentos.status
-
-          ELSE 'aguardando_eleicao'
-        END,
+      status = CASE
+        WHEN telegram_acompanhamentos.status = 'encerrado'
+          THEN 'encerrado'
+        ELSE 'ativo'
+      END,
 
       updated_at = now(),
       cancelled_at = NULL
