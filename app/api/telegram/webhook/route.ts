@@ -896,11 +896,11 @@ export async function POST(
     await enviarMensagemTelegram({
       chatId,
       texto:
-        `Você está acompanhando ${candidato.nomeUrna}.\\n\\n` +
-        "O Fora da Pauta reúne informações públicas verificadas sobre a atuação política dessa pessoa, tenha sido eleita ou não. Quando houver novidades documentadas, você poderá receber avisos aqui no Telegram, com as fontes para consultar.\\n\\n" +
+        `Você está acompanhando ${candidato.nomeUrna}.\n\n` +
+        "O Fora da Pauta reúne informações públicas verificadas sobre a atuação política dessa pessoa, tenha sido eleita ou não. Quando houver novidades documentadas, você poderá receber avisos aqui no Telegram, com as fontes para consultar.\n\n" +
         (novasEdicoesAtivas
-          ? "Você também receberá avisos sobre novas edições do Fora da Pauta. Tudo nesta mesma conversa.\\n\\n"
-          : "Você havia desativado as novas edições, e essa escolha foi preservada. Se quiser reativá-las, envie /start projeto.\\n\\n") +
+          ? "Você também receberá avisos sobre novas edições do Fora da Pauta. Tudo nesta mesma conversa.\n\n"
+          : "Você havia desativado as novas edições, e essa escolha foi preservada. Se quiser reativá-las, envie /start projeto.\n\n") +
         `Para consultar suas escolhas, envie /opcoes. Para deixar de acompanhar apenas ${candidato.nomeUrna}, envie /parar_candidato_${candidaturaId}.`,
     });
 
