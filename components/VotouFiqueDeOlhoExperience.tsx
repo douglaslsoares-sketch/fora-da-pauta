@@ -704,10 +704,11 @@ export function VotouFiqueDeOlhoExperience() {
         />
 
         <div className="mt-7 rounded-2xl border border-black/15 p-5">
-          <p className="font-semibold">Prefere receber somente as novidades do Fora da Pauta?</p>
+          <p className="font-semibold">Receba as novidades do Fora da Pauta</p>
           <p className="mt-2 text-sm leading-6 text-black/65">
-            Receba avisos de novas edições e publicações pelo Telegram, sem escolher
-            nenhum representante agora. Você pode escolher depois.
+            Você pode receber avisos de novas edições e publicações pelo Telegram,
+            mesmo sem escolher representantes. Se já acompanha alguém, suas escolhas
+            continuam ativas e não serão canceladas.
           </p>
           <button
             type="button"
