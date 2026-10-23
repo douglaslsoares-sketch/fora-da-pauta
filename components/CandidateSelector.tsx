@@ -822,8 +822,8 @@ function CandidateFollowSelector({
 
   return (
     <div className="mt-1" data-follow-results="true">
-      <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
-        Resultados da busca
+      <h2 className="w-full min-w-0 break-words text-2xl font-bold leading-tight tracking-normal sm:text-3xl">
+        Resultado da busca
       </h2>
 
       <p className="mt-2 text-base leading-6 text-black/70">
