@@ -1,36 +1,67 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 type CandidateFollowCardProps = {
   candidaturaId: string;
 };
 
-function normalizarBotUsername(
-  valor: string | undefined,
-) {
-  return (
-    valor
-      ?.trim()
-      .replace(/^@/, "") ||
-    "ForaDaPautaAcompanhaBot"
-  );
+type Situacao = "conferindo" | "acompanhando" | "disponivel" | "erro";
+
+function normalizarBotUsername(valor: string | undefined) {
+  return valor?.trim().replace(/^@/, "") || "ForaDaPautaAcompanhaBot";
 }
 
 export function CandidateFollowCard({
   candidaturaId,
 }: CandidateFollowCardProps) {
-  const botUsername =
-    normalizarBotUsername(
-      process.env
-        .NEXT_PUBLIC_TELEGRAM_BOT_USERNAME,
-    );
+  const [situacao, setSituacao] = useState<Situacao>("conferindo");
+  const [tentativa, setTentativa] = useState(0);
 
-  const payload =
-    `seguir_${candidaturaId}`;
-
+  const botUsername = normalizarBotUsername(
+    process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME,
+  );
   const telegramHref =
-    botUsername
-      ? `https://t.me/${botUsername}?start=${encodeURIComponent(
-          payload,
-        )}`
-      : null;
+    `https://t.me/${botUsername}?start=${encodeURIComponent(`seguir_${candidaturaId}`)}`;
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function conferirAcompanhamento() {
+      try {
+        const resposta = await fetch("/api/telegram/sessao", {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        if (!resposta.ok) throw new Error("Falha ao consultar o Telegram");
+        const dados = (await resposta.json()) as {
+          ativo?: boolean;
+          ids?: unknown;
+        };
+
+        if (controller.signal.aborted) return;
+
+        const confirmado =
+          dados.ativo === true &&
+          Array.isArray(dados.ids) &&
+          dados.ids.includes(candidaturaId);
+
+        setSituacao(confirmado ? "acompanhando" : "disponivel");
+      } catch {
+        if (!controller.signal.aborted) setSituacao("erro");
+      }
+    }
+
+    void conferirAcompanhamento();
+    // Reconfere ao voltar do aplicativo Telegram para a ficha.
+    window.addEventListener("focus", conferirAcompanhamento);
+    return () => {
+      controller.abort();
+      window.removeEventListener("focus", conferirAcompanhamento);
+    };
+  }, [candidaturaId, tentativa]);
+
+  const acompanhando = situacao === "acompanhando";
 
   return (
     <section
@@ -46,16 +77,24 @@ export function CandidateFollowCard({
           id="acompanhar-candidato"
           className="mt-3 max-w-2xl text-2xl font-semibold leading-tight tracking-[-0.035em] sm:text-3xl"
         >
-          Receba no Telegram as atualizações públicas desta pessoa.
+          {acompanhando
+            ? "Você já acompanha esta pessoa pelo Telegram."
+            : "Receba no Telegram as atualizações públicas desta pessoa."}
         </h2>
 
         <p className="mt-4 max-w-2xl text-sm leading-6 text-black/60 sm:text-base sm:leading-7">
-          Você não precisa voltar ao site para procurar novidades.
-          Quando houver novos registros públicos verificados sobre a atuação
-          dessa pessoa, o Fora da Pauta poderá avisar você pelo Telegram.
+          {acompanhando
+            ? "Quando houver novos registros públicos verificados sobre a atuação desta pessoa, o Fora da Pauta poderá avisar você no Telegram. Não é necessário se inscrever novamente."
+            : "Você não precisa voltar ao site para procurar novidades. Quando houver novos registros públicos verificados sobre a atuação desta pessoa, o Fora da Pauta poderá avisar você pelo Telegram."}
         </p>
 
-        {telegramHref ? (
+        {situacao === "conferindo" ? (
+          <p className="mt-5 text-sm text-black/60" role="status">
+            Conferindo seu acompanhamento no Telegram...
+          </p>
+        ) : null}
+
+        {situacao === "disponivel" ? (
           <a
             href={telegramHref}
             target="_blank"
@@ -63,30 +102,38 @@ export function CandidateFollowCard({
             className="mt-5 inline-flex min-h-12 items-center justify-center bg-[#FFC400] px-5 py-3 text-sm font-semibold text-black transition hover:bg-[#e9b300]"
           >
             Acompanhar no Telegram
-            <span
-              aria-hidden="true"
-              className="ml-2"
-            >
-              →
-            </span>
+            <span aria-hidden="true" className="ml-2">→</span>
           </a>
-        ) : (
-          <div className="mt-5 border-l-4 border-[#FFC400] pl-4">
-            <p className="font-semibold">
-              Acompanhamento pelo Telegram em preparação
-            </p>
+        ) : null}
 
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-black/50">
-              Esta ficha já está preparada para ativar o
-              acompanhamento individual quando o bot do Fora da Pauta
-              for conectado.
+        {situacao === "erro" ? (
+          <div className="mt-5">
+            <p className="text-sm text-black/65" role="alert">
+              Não foi possível conferir seu acompanhamento neste momento.
+              Nenhuma escolha foi alterada.
             </p>
+            <button
+              type="button"
+              onClick={() => {
+                setSituacao("conferindo");
+                setTentativa((atual) => atual + 1);
+              }}
+              className="mt-3 min-h-11 border border-black/20 px-4 py-2 text-sm font-semibold"
+            >
+              Conferir novamente
+            </button>
           </div>
-        )}
+        ) : null}
 
-        <p className="mt-4 text-xs leading-5 text-black/45">
-          Você poderá parar de acompanhar quando quiser.
-        </p>
+        {acompanhando ? (
+          <p className="mt-4 text-xs leading-5 text-black/45">
+            Para consultar ou interromper seus acompanhamentos, envie /opcoes ao bot.
+          </p>
+        ) : (
+          <p className="mt-4 text-xs leading-5 text-black/45">
+            Você poderá parar de acompanhar quando quiser.
+          </p>
+        )}
       </div>
     </section>
   );
