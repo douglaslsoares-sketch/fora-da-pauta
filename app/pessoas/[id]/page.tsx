@@ -1,4 +1,5 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
+import CandidatePage from "@/app/conheca-seu-candidato/[id]/page";
 import { idsAcompanhaveis } from "@/lib/eleicoes/acompanhamento-politico";
 import { buscarCandidaturaConfirmadaDaPessoa } from "@/lib/eleicoes/identidade-politica";
 
@@ -11,7 +12,8 @@ export default async function FichaPermanente({ params }: Props) {
   const candidaturaId = buscarCandidaturaConfirmadaDaPessoa(id, idsAcompanhaveis);
   if (!candidaturaId) notFound();
 
-  // O endereço da pessoa permanece estável entre eleições.
-  // A ficha atual continua compatível com os links de candidatura existentes.
-  redirect(`/conheca-seu-candidato/${candidaturaId}`);
+  // Mantém a URL permanente da pessoa enquanto reaproveita a ficha editorial
+  // existente. A candidatura exibida pode mudar quando uma nova eleição for
+  // incorporada e vinculada com identidade CONFIRMADA.
+  return CandidatePage({ params: Promise.resolve({ id: candidaturaId }) });
 }
