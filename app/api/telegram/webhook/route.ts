@@ -874,11 +874,12 @@ export async function POST(
       chatId,
       texto:
         `Você está acompanhando ${candidato.nomeUrna}.\n\n` +
-        "O Fora da Pauta poderá avisar quando novos registros públicos verificados sobre a atuação dessa pessoa forem incorporados à ficha, independentemente do resultado eleitoral.\n\nVocê não precisa voltar ao site para procurar novidades. Para interromper os avisos, envie /parar.",
+        "O Fora da Pauta reúne informações públicas verificadas sobre a atuação política dessa pessoa, tenha sido eleita ou não. Quando houver novidades documentadas, você poderá receber avisos aqui no Telegram, com as fontes para consultar.\n\n" +
+        `Para consultar suas escolhas, envie /opcoes. Para deixar de acompanhar apenas ${candidato.nomeUrna}, envie /parar_candidato_${candidaturaId}.`,
       botoes: [
         [
           {
-            text: "Ver ficha no Fora da Pauta",
+            text: "Ver Ficha Política",
             url:
               `https://www.foradapauta.org/conheca-seu-candidato/${candidaturaId}`,
           },
