@@ -221,7 +221,11 @@ test("confirma a inscricao via sessao do site no mesmo bot", async () => {
   assert.equal(resp.status, 200);
   assert.equal(c.db.sessoes[0].telegram_chat_id, "300");
   assert.equal(c.db.sessoes[0].codigo_hash, null);
-  assert.match(c.mensagens.at(-1).text, /vinculado ao Fora da Pauta/i);
+  assert.match(c.mensagens.at(-1).text, /inscrição no Fora da Pauta foi confirmada/i);
+  assert.deepEqual(c.mensagens.at(-1).reply_markup.inline_keyboard, [[{
+    text: "Voltar ao Fique de Olho",
+    url: "https://www.foradapauta.org/votou-fique-de-olho?retorno=telegram",
+  }]]);
   assert.equal(c.db.edicoes.find(r => r.chat === "300").status, "ativo");
 });
 
@@ -241,4 +245,6 @@ test("selecionados da edicao sao ativados ao confirmar no bot", async () => {
   assert.equal(resp.status, 200);
   assert.deepEqual(v.db.politicos.filter(p => p.chat === "300").map(p => p.id), [A, B]);
   assert.equal(v.db.edicoes.find(p => p.chat === "300").status, "ativo");
+  assert.equal(v.mensagens.at(-1).reply_markup.inline_keyboard[0][0].text, "Voltar ao Fique de Olho");
+  assert.deepEqual(v.db.politicos.filter(p => p.chat === "300").map(p => p.id), [A, B]);
 });

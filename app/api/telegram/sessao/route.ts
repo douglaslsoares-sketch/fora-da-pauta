@@ -24,21 +24,36 @@ export async function GET() {
   const token = await tokenSessao();
   const ativo = await inscricaoAtiva(token);
   if (!ativo || !token) {
-    return NextResponse.json({ ativo: false, ids: [] }, { headers: semCache });
+    return NextResponse.json({ ativo: false, novasEdicoes: false, ids: [] }, { headers: semCache });
   }
   // Entrega somente IDs publicos de candidaturas, nunca o ID da conversa Telegram.
-  const acompanhamentos = await sql<{ candidatura_id: string }[]>`
-    SELECT a.candidatura_id
-    FROM public.telegram_acompanhamentos a
-    JOIN public.telegram_sessoes_site s
-      ON s.telegram_chat_id = a.telegram_chat_id
-    WHERE s.sessao_hash = ${hashSessao(token)}
-      AND s.expira_at > now()
-      AND a.status IN ('ativo', 'aguardando_eleicao')
-      AND a.cancelled_at IS NULL
-    ORDER BY a.candidatura_id
-    LIMIT 100
-  `;
+  const [acompanhamentos, preferencias] = await Promise.all([
+    sql<{ candidatura_id: string }[]>`
+      SELECT a.candidatura_id
+      FROM public.telegram_acompanhamentos a
+      JOIN public.telegram_sessoes_site s
+        ON s.telegram_chat_id = a.telegram_chat_id
+      WHERE s.sessao_hash = ${hashSessao(token)}
+        AND s.expira_at > now()
+        AND a.status IN ('ativo', 'aguardando_eleicao')
+        AND a.cancelled_at IS NULL
+      ORDER BY a.candidatura_id
+      LIMIT 100
+    `,
+    sql<{ ativadas: boolean }[]>`
+      SELECT EXISTS (
+        SELECT 1
+        FROM public.telegram_preferencias p
+        JOIN public.telegram_sessoes_site s
+          ON s.telegram_chat_id = p.telegram_chat_id
+        WHERE s.sessao_hash = ${hashSessao(token)}
+          AND s.expira_at > now()
+          AND p.tipo = 'novas_edicoes'
+          AND p.status = 'ativo'
+          AND p.cancelled_at IS NULL
+      ) AS ativadas
+    `,
+  ]);
   const [{ eleitos2026 }, { candidaturas }, { formatarCargo }] = await Promise.all([
     import("@/data/eleicoes/eleitos"),
     import("@/data/eleicoes/candidaturas"),
@@ -65,6 +80,7 @@ export async function GET() {
   }).filter(p => p !== null);
   return NextResponse.json({
     ativo: true,
+    novasEdicoes: preferencias[0]?.ativadas === true,
     ids,
     pessoas,
   }, { headers: semCache });
@@ -83,7 +99,7 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => ({})) as { ids?: unknown } | null;
   let idsPendentes: string[] = [];
   if (body?.ids !== undefined && body?.ids !== null) {
-    if (!Array.isArray(body?.ids) || body.ids.length < 1 || body.ids.length > 100 ||
+    if (!Array.isArray(body?.ids) || body.ids.length > 100 ||
         body.ids.some(id => typeof id !== "string" || !/^[0-9]{8,20}$/.test(id))) {
       return NextResponse.json({ erro: "Seleção inválida." }, { status: 400, headers: semCache });
     }

@@ -18,6 +18,10 @@ function fixture() {
   };
   function sql(strings, ...args) {
     const query = strings.join("?").replace(/\s+/g, " ").trim();
+    if (query.includes("SELECT EXISTS (") &&
+        query.includes("FROM public.telegram_preferencias p")) {
+      return Promise.resolve([{ ativadas: state.notifications }]);
+    }
     if (query.includes("SELECT a.candidatura_id") &&
         query.includes("FROM public.telegram_acompanhamentos a")) {
       return Promise.resolve(state.saved.map(id => ({ candidatura_id: id })));
@@ -118,6 +122,30 @@ test("GET nao considera clique anterior como inscricao confirmada", async () => 
   f.state.linked = true;
   f.state.notifications = true;
   assert.equal((await f.module.GET()).body.ativo, true);
+  assert.equal((await f.module.GET()).body.novasEdicoes, true);
+});
+
+test("POST permite inscricao geral sem escolher representantes", async () => {
+  const f = fixture();
+  const post = await f.module.POST(f.request("POST", []));
+  assert.equal(post.status, 200);
+  assert.match(post.body.url, /^https:\/\/t.me\/ForaDaPautaAcompanhaBot\?start=s_/);
+  assert.equal((await f.module.GET()).body.ativo, false);
+  f.state.linked = true;
+  f.state.notifications = true;
+  assert.equal((await f.module.GET()).body.ativo, true);
+  assert.equal((await f.module.GET()).body.novasEdicoes, true);
+  assert.deepEqual((await f.module.GET()).body.ids, []);
+  assert.deepEqual(f.state.saved, []);
+});
+
+test("Inscrito que acompanha politicos pode estar sem noticias editoriais", async () => {
+  const f = fixture();
+  await f.module.POST(f.request("POST", []));
+  f.state.linked = true;
+  f.state.notifications = false;
+  f.state.saved.push(ID1);
+  assert.equal((await f.module.GET()).body.novasEdicoes, false);
 });
 
 test("POST exige origem correta e limita tentativas", async () => {
