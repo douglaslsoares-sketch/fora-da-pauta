@@ -703,6 +703,7 @@ export function VotouFiqueDeOlhoExperience() {
           onSelect={selecionar}
         />
 
+        {!conferindoInscricao && !novasEdicoesAtivas ? (
         <div className="mt-7 rounded-2xl border border-black/15 p-5">
           <p className="font-semibold">Receba as novidades do Fora da Pauta</p>
           <p className="mt-2 text-sm leading-6 text-black/65">
@@ -722,6 +723,7 @@ export function VotouFiqueDeOlhoExperience() {
             Receber as novidades do Fora da Pauta
           </button>
         </div>
+        ) : null}
 
         {selecionadas.length > 0 ? (
           <button
