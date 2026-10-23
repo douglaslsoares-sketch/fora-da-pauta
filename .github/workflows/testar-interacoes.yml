@@ -12,6 +12,7 @@ on:
       - 'scripts/sql/interacoes-politicas.sql'
       - 'tests/interacoes.test.cjs'
       - 'tests/interacoes-postgres.test.cjs'
+      - 'scripts/interacoes/verificar-banco.cjs'
       - '.github/workflows/testar-interacoes.yml'
   workflow_dispatch:
 permissions:
@@ -46,5 +47,9 @@ jobs:
         env:
           INTERACOES_TEST_DATABASE_URL: postgres://postgres:teste-local@localhost:5432/fora_da_pauta_teste
         run: node --test tests/interacoes-postgres.test.cjs
+      - name: Inspecionar esquema de teste sem escrita
+        env:
+          INTERACOES_TEST_DATABASE_URL: postgres://postgres:teste-local@localhost:5432/fora_da_pauta_teste
+        run: node scripts/interacoes/verificar-banco.cjs
       - name: TypeScript
         run: npx tsc --noEmit
