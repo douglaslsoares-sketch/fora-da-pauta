@@ -35,7 +35,7 @@ export async function GET() {
         ON s.telegram_chat_id = a.telegram_chat_id
       WHERE s.sessao_hash = ${hashSessao(token)}
         AND s.expira_at > now()
-        AND a.status IN ('ativo', 'aguardando_eleicao')
+        AND a.status IN ('ativo', 'aguardando_eleicao', 'nao_eleito')
         AND a.cancelled_at IS NULL
       ORDER BY a.candidatura_id
       LIMIT 100
@@ -178,7 +178,7 @@ export async function PUT(request: Request) {
       FROM public.telegram_acompanhamentos
       WHERE telegram_chat_id = ${chatId}::bigint
         AND candidatura_id = ANY(${sql.array(ids)}::text[])
-        AND status IN ('ativo', 'aguardando_eleicao')
+        AND status IN ('ativo', 'aguardando_eleicao', 'nao_eleito')
         AND cancelled_at IS NULL
     `;
     const jaAcompanhados = new Set(acompanhados.map(p => p.candidatura_id));
