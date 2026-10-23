@@ -159,7 +159,7 @@ export function VotouFiqueDeOlhoExperience() {
   const [salvandoEscolhas, setSalvandoEscolhas] = useState(false);
   const [escolhasSalvas, setEscolhasSalvas] = useState(false);
   const edicoesLocaisPendentes = useRef(false);
-  const [eleitosConfirmados, setEleitosConfirmados] = useState<string[]>([]);
+
 
   // O retorno do bot não basta para comprovar inscrição: consulte o servidor.
   useEffect(() => {
@@ -205,7 +205,7 @@ export function VotouFiqueDeOlhoExperience() {
         if (dados.ativo && Array.isArray(dados.pessoas) &&
             !edicoesLocaisPendentes.current && !inscricaoGeral) {
           const pessoas = dados.pessoas.map(({ eleitoConfirmado, ...pessoa }) => pessoa);
-          setEleitosConfirmados(dados.pessoas.filter(p => p.eleitoConfirmado).map(p => p.id));
+
           const atuais = interpretarSelecao(lerSelecaoSerializada());
           if (JSON.stringify(atuais) !== JSON.stringify(pessoas)) {
             salvarSelecao(pessoas);
@@ -379,9 +379,7 @@ export function VotouFiqueDeOlhoExperience() {
                 {pessoa.nomeUrna}
               </p>
 
-              {inscricaoAtiva && !eleitosConfirmados.includes(pessoa.id) ? (
-                <p className="mt-1 text-xs text-amber-700">Eleição não confirmada na base atual</p>
-              ) : null}
+
               <p className="mt-1 text-sm leading-5 text-black/60">
                 {pessoa.cargoLabel} · {pessoa.uf}
                 <br />
@@ -421,7 +419,7 @@ export function VotouFiqueDeOlhoExperience() {
         <p className="mt-4 leading-7">
           {inscricaoGeral
             ? "Você receberá pelo Telegram avisos sobre novas edições e publicações do Fora da Pauta."
-            : "Você receberá pelo Telegram informações sobre a atuação dos representantes que escolheu, quando houver novas atualizações."}
+            : "Você receberá pelo Telegram informações sobre a atuação das pessoas que escolheu, quando houver novas atualizações."}
         </p>
         {inscricaoGeral ? null : (
           <>
@@ -626,7 +624,7 @@ export function VotouFiqueDeOlhoExperience() {
         </h2>
 
         <p className="mt-2 text-base leading-6 text-black/65">
-          Procure outro representante pelo nome ou pelo número de candidatura.
+          Procure outra pessoa pelo nome ou pelo número de candidatura.
         </p>
 
         <CandidateSelector
@@ -678,7 +676,7 @@ export function VotouFiqueDeOlhoExperience() {
           </h1>
 
           <p className="mt-6 max-w-xl text-xl leading-7 text-white/90">
-            Acompanhe a atuação de quem foi eleito.
+            Acompanhe a atuação de quem participa da política, tenha sido eleito ou não.
           </p>
           <p className="mt-4 max-w-xl text-base leading-7 text-white/75">
             Entenda como as decisões são tomadas: o que faz a Presidência,
