@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/api/candidatos/*": [
       "./data/eleicoes/gerado/candidaturas-2026.json",
+      "./data/eleicoes/gerado/identidades-politicas.json",
     ],
 
     "/campanhas/*/candidatos": [
