@@ -11,13 +11,17 @@ export const idsAcompanhaveis = new Set(candidaturas.map(p => p.id));
 export const idsEleitosEm2026 = new Set(eleitos2026.map(p => p.id));
 
 export function situacaoEleitoral2026(pessoa: Candidatura): string {
-  if (idsEleitosEm2026.has(pessoa.id)) return "Eleita em 2026";
+  if (idsEleitosEm2026.has(pessoa.id)) {
+    // Só flexionar quando a identificação for confirmada; não inferir gênero pelo nome.
+    if (pessoa.id === "160002536522") return "Eleito em 2026"; // Renato Freitas
+    return "Eleição de 2026: vitória confirmada";
+  }
 
   const resultado = pessoa.resultadoEleitoral?.situacaoTse ?? "";
   const texto = resultado.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
 
   if (/2\s*[º°O]?\s*TURNO|SEGUNDO TURNO/.test(texto)) return "Em disputa no 2º turno";
-  if (/NAO ELEIT|NAO ELEITO|NAO ELEITA/.test(texto)) return "Não eleita em 2026";
+  if (/NAO ELEIT|NAO ELEITO|NAO ELEITA/.test(texto)) return "Não se elegeu em 2026";
   if (/SUPLENTE/.test(texto)) return "Suplente em 2026";
 
   // Não inferir derrota ou disputa a partir de ausência de resultado no arquivo.
