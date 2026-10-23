@@ -17,6 +17,8 @@ export function InteracaoPessoaPublica({ candidaturaId }: { candidaturaId: strin
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState("");
   const [protocolo, setProtocolo] = useState("");
+  const [exibirHistorico, setExibirHistorico] = useState(false);
+  const [historico, setHistorico] = useState<{ id: string; mensagem: string; status: string; resposta_texto: string | null; resposta_autoria: string | null }[]>([]);
   const [situacao, setSituacao] = useState("");
 
   async function enviar(event: React.FormEvent<HTMLFormElement>) {
@@ -60,6 +62,38 @@ export function InteracaoPessoaPublica({ candidaturaId }: { candidaturaId: strin
           O Fora da Pauta poderá encaminhar a mensagem após verificar um canal público de contato.
           Se houver resposta, ela poderá chegar a você pelo nosso Telegram.
         </p>
+        <button type="button" className="mt-5 text-sm font-semibold underline underline-offset-4"
+          onClick={async () => {
+            if (exibirHistorico) { setExibirHistorico(false); return; }
+            setErro("");
+            try {
+              const r = await fetch("/api/interacoes/minhas", { cache: "no-store" });
+              const dados = await r.json() as {
+                registros?: { id: string; mensagem: string; status: string; resposta_texto: string | null; resposta_autoria: string | null }[];
+                erro?: string;
+              };
+              if (!r.ok) throw Error(dados.erro || "Não foi possível consultar.");
+              setHistorico(dados.registros || []);
+              setExibirHistorico(true);
+            } catch (e) { setErro(e instanceof Error ? e.message : "Falha na consulta."); }
+          }}>
+          {exibirHistorico ? "Ocultar minhas manifestações" : "Consultar minhas manifestações"}
+        </button>
+        {exibirHistorico ? (
+          <div className="mt-4 space-y-4" role="region" aria-label="Minhas manifestações">
+            {historico.map(item => <div key={item.id} className="rounded-xl border border-black/10 bg-white p-4">
+              <p className="text-xs text-black/50">Protocolo: {item.id}</p>
+              <p className="mt-2 whitespace-pre-wrap text-sm">{item.mensagem}</p>
+              <p className="mt-2 font-semibold">Situação: {item.status.replaceAll("_", " ")}</p>
+              {item.resposta_texto ? (
+                <p className="mt-2 whitespace-pre-wrap text-sm">
+                  Resposta {item.resposta_autoria === "assessoria" ? "da assessoria" : "confirmada"}: {item.resposta_texto}
+                </p>
+              ) : null}
+            </div>)}
+            {historico.length === 0 ? <p className="text-sm">Você ainda não enviou manifestações.</p> : null}
+          </div>
+        ) : null}
         {protocolo ? (
           <div role="status" className="mt-5 rounded-xl border border-black/15 p-4">
             <p className="font-semibold">Mensagem recebida pelo Fora da Pauta</p>
