@@ -353,7 +353,7 @@ async function mostrarPreferencias(chatId: string) {
       SELECT candidatura_id
       FROM public.telegram_acompanhamentos
       WHERE telegram_chat_id = ${chatId}::bigint
-        AND status IN ('ativo', 'aguardando_eleicao')
+        AND status IN ('ativo', 'aguardando_eleicao', 'nao_eleito')
         AND cancelled_at IS NULL
       ORDER BY candidatura_id
       LIMIT 100
@@ -423,7 +423,7 @@ async function cancelarCandidato(chatId: string, candidaturaId: string) {
       SET status = 'cancelado', cancelled_at = now(), updated_at = now()
       WHERE telegram_chat_id = ${chatId}::bigint
         AND candidatura_id = ${candidaturaId}
-        AND status IN ('ativo', 'aguardando_eleicao')
+        AND status IN ('ativo', 'aguardando_eleicao', 'nao_eleito')
         AND cancelled_at IS NULL
       RETURNING candidatura_id
     `;
