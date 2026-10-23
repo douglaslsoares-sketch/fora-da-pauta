@@ -11,6 +11,9 @@ const categorias = new Set(["pergunta","discordancia","elogio","sugestao","cobra
 const noStore = { "Cache-Control": "no-store" };
 
 export async function POST(request: Request) {
+  if (process.env.FDP_INTERACOES_HABILITADAS !== "1") {
+    return NextResponse.json({ erro: "Interações ainda não estão disponíveis." }, { status: 503, headers: noStore });
+  }
   const origin = request.headers.get("origin");
   if (!origin || origin !== new URL(request.url).origin) {
     return NextResponse.json({ erro: "Origem inválida." }, { status: 403, headers: noStore });
