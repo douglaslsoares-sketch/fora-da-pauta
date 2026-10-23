@@ -578,13 +578,6 @@ export function VotouFiqueDeOlhoExperience() {
           {inscricaoGeral ? "Escolher representantes para acompanhar" : "Acompanhar mais alguém"}
         </button>
 
-        <a
-          href="/"
-          className="mt-6 block text-center text-sm underline underline-offset-4"
-        >
-          ‹ &nbsp; Voltar para o site
-        </a>
-
         {avisoStorage ? (
           <p role="alert" className="mt-5 text-sm text-black/60">
             {avisoStorage}
