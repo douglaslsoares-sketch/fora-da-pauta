@@ -447,9 +447,9 @@ export function VotouFiqueDeOlhoExperience() {
       <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
         <h2 className="text-2xl font-bold">Vamos conferir sua inscrição</h2>
         <p className="mt-4 leading-7">
-          Não conseguimos reconhecer sua inscrição neste navegador. Se você já confirmou no
-          bot, abra o Fique de Olho no mesmo navegador em que fez suas escolhas.
-          Seus acompanhamentos não foram cancelados.
+          Ainda não conseguimos vincular este navegador à sua inscrição no Telegram.
+          Seus acompanhamentos continuam preservados no bot. Você pode fazer a confirmação
+          pelo Telegram para reconhecer este navegador, sem criar outra inscrição.
         </p>
         <button type="button" onClick={() => window.location.reload()}
           className="mt-5 min-h-12 rounded-xl bg-black px-5 py-3 font-semibold text-white">
@@ -471,7 +471,7 @@ export function VotouFiqueDeOlhoExperience() {
           </div>
 
           <h2 className="mt-5 text-3xl font-bold leading-tight tracking-[-0.045em]">
-            {inscricaoAtiva ? "Confirme suas escolhas." : "Ative as notificações no Telegram."}
+            {inscricaoAtiva ? "Confirme suas escolhas." : "Conecte o Fora da Pauta ao Telegram."}
           </h2>
         </div>
 
@@ -528,8 +528,8 @@ export function VotouFiqueDeOlhoExperience() {
 
           <p className="text-sm leading-6">
             {inscricaoGeral
-              ? "Confirme a inscrição no Telegram para receber as novidades do Fora da Pauta."
-              : "Confirme a inscrição no Telegram. Seus escolhidos serão registrados automaticamente."}
+              ? "Abra o Telegram para vincular este navegador. Se você já está inscrito, suas escolhas serão preservadas."
+              : "Conecte este navegador ao Telegram. Se você já está inscrito, seus acompanhamentos serão preservados."}
           </p>
         </div>
 
