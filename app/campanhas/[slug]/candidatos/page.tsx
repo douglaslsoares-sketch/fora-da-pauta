@@ -489,6 +489,19 @@ export default async function CandidatosDaPautaPage({
                   Verificado em {posicionamento.atualizadoEm}
                 </p>
               )}
+              {process.env.FDP_INTERACOES_HABILITADAS === "1" ? (
+                <div className="mt-6 border-t border-black/10 pt-5">
+                  <Link
+                    href={`/conheca-seu-candidato/${candidatura.id}?origem=${encodeURIComponent(`/campanhas/${campaign.slug}/candidatos`)}#fale-com-esta-pessoa`}
+                    className="inline-flex min-h-12 items-center bg-[#FFC400] px-4 py-3 text-sm font-semibold text-black"
+                  >
+                    Perguntar ou se manifestar sobre esta pauta →
+                  </Link>
+                  <p className="mt-2 text-xs text-black/50">
+                    A manifestação será registrada pelo Fora da Pauta na Ficha Política desta pessoa.
+                  </p>
+                </div>
+              ) : null}
             </article>
           ))}
         </section>
