@@ -16,7 +16,7 @@ export async function processarRemessasAutomaticas() {
     throw new Error("Canal de e-mail não está configurado para encaminhamento.");
   }
 
-  const resumo = { aceitas: 0, semContato: 0, incertas: 0 };
+  const resumo = { aceitas: 0, semContato: 0, aguardandoContato: 0, incertas: 0 };
   // Uma remessa que já entrou em processamento não é repetida cegamente.
   const candidatas = await sql<{ id: string; candidatura_id: string }[]>`
     SELECT p.id::text AS id, p.candidatura_id
@@ -32,8 +32,9 @@ export async function processarRemessasAutomaticas() {
 
   for (const item of candidatas) {
     const reservado = await sql.begin(async tx => {
-      const detalhes = await tx<{ id: string; mensagem: string; categoria: string; candidatura_id: string }[]>`
-        SELECT id::text AS id, candidatura_id, mensagem, categoria
+      const detalhes = await tx<{ id: string; mensagem: string; categoria: string; candidatura_id: string; idadeHoras: number }[]>`
+        SELECT id::text AS id, candidatura_id, mensagem, categoria,
+          EXTRACT(EPOCH FROM (now() - created_at)) / 3600 AS "idadeHoras"
         FROM public.interacoes_politicas
         WHERE id = ${item.id}::uuid AND status = 'recebida'
         FOR UPDATE SKIP LOCKED
@@ -50,6 +51,8 @@ export async function processarRemessasAutomaticas() {
       const contato = contatos[0];
       if (!contato || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contato.endereco_email) ||
           !/^https:\/\//.test(contato.fonte_url)) {
+        // Dê tempo para a sincronização automática recuperar falhas temporárias.
+        if (Number(atual.idadeHoras) < 48) return "aguardando" as const;
         await tx`
           UPDATE public.interacoes_politicas
           SET status = 'nao_encaminhada', updated_at = now()
@@ -74,6 +77,7 @@ export async function processarRemessasAutomaticas() {
     });
     if (!reservado) continue;
     if (reservado === "sem_contato") { resumo.semContato++; continue; }
+    if (reservado === "aguardando") { resumo.aguardandoContato++; continue; }
 
     // Endereço individual por protocolo, sem dados privados no e-mail.
     const resposta = `resposta+${reservado.id}@${dominioRespostas}`;
