@@ -108,11 +108,12 @@ export async function processarRemessasAutomaticas() {
       if (result.ok) dados = await result.json() as { id?: string };
     } catch { /* Falha incerta não permite reenvio automático. */ }
 
-    if (dados?.id && /^[a-zA-Z0-9-]{10,100}$/.test(dados.id)) {
+    const idProvedor = dados?.id;
+    if (idProvedor && /^[a-zA-Z0-9-]{10,100}$/.test(idProvedor)) {
       await sql.begin(async tx => {
         await tx`
           UPDATE public.interacoes_remessas
-          SET status = 'aceita_pelo_provedor', protocolo_externo = ${dados!.id},
+          SET status = 'aceita_pelo_provedor', protocolo_externo = ${idProvedor},
               aceita_at = now(), atualizada_at = now()
           WHERE interacao_id = ${reservado.id}::uuid AND status = 'processando'
         `;
