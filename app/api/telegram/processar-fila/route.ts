@@ -49,7 +49,12 @@ export async function GET(request: Request) {
     const respostas = interacoesHabilitadas
       ? await (await import("@/lib/telegram/processar-respostas-interacoes")).processarRespostasInteracoes()
       : { pendenteDeAtivacao: true };
-    const resumo = { coleta, envio, respostas };
+    // A rotina de e-mails institucionais é opcional e desativada por padrão.
+    // Somente roda após validar contatos, DNS, webhooks e banco.
+    const remessas = process.env.FDP_INTERACOES_AUTOMATICAS === "1"
+      ? await (await import("@/lib/interacoes/processar-remessas")).processarRemessasAutomaticas()
+      : { desativado: true };
+    const resumo = { coleta, envio, respostas, remessas };
 
     return NextResponse.json(
       { ok: true, ...resumo },
