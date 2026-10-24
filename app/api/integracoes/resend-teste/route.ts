@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 const headers = { "Cache-Control": "no-store" };
 
 function assinaturaValida(texto: string, id: string | null, tempo: string | null, assinatura: string | null, segredo: string): boolean {
-  if (!segredo.startsWith("whsec_") || !id || !tempo || !assinatura || !/^\\d{10}$/.test(tempo)) return false;
+  if (!segredo.startsWith("whsec_") || !id || !tempo || !assinatura || !/^[0-9]{10}$/.test(tempo)) return false;
   if (Math.abs(Date.now() / 1000 - Number(tempo)) > 300) return false;
   const chave = Buffer.from(segredo.slice(6), "base64");
   if (chave.length < 16) return false;
