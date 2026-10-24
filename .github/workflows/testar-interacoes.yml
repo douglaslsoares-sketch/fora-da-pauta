@@ -9,6 +9,10 @@ on:
       - 'components/InteracaoPessoaPublica.tsx'
       - 'lib/interacoes/juntar-transcricao.ts'
       - 'tests/interacoes-voz.test.cjs'
+      - 'tests/interacoes-remessas.test.cjs'
+      - 'lib/interacoes/processar-remessas.ts'
+      - 'lib/interacoes/contatos-institucionais.ts'
+      - 'scripts/sql/interacoes-automaticas.sql'
       - 'components/InteracoesAdminPanel.tsx'
       - 'lib/telegram/processar-respostas-interacoes.ts'
       - 'scripts/sql/interacoes-politicas.sql'
@@ -44,7 +48,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: node --test tests/interacoes.test.cjs tests/interacoes-voz.test.cjs
+      - run: node --test tests/interacoes.test.cjs tests/interacoes-voz.test.cjs tests/interacoes-remessas.test.cjs
       - name: Fluxo completo em PostgreSQL isolado
         env:
           INTERACOES_TEST_DATABASE_URL: postgres://postgres:teste-local@localhost:5432/fora_da_pauta_teste
