@@ -1,0 +1,21 @@
+name: Validar receptor Resend isolado
+on:
+  pull_request:
+    paths:
+      - 'app/api/integracoes/resend-teste/route.ts'
+      - 'tests/interacoes-resend-isolado.test.cjs'
+      - '.github/workflows/testar-resend-isolado.yml'
+permissions:
+  contents: read
+jobs:
+  testar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/interacoes-resend-isolado.test.cjs
+      - run: npx tsc --noEmit
