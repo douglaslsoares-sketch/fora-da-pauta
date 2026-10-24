@@ -16,7 +16,7 @@ export async function processarRemessasAutomaticas() {
     throw new Error("Canal de e-mail não está configurado para encaminhamento.");
   }
 
-  const resumo = { aceitas: 0, semContato: 0, aguardandoContato: 0, incertas: 0 };
+  const resumo = { aceitas: 0, semContato: 0, aguardandoContato: 0, limiteDestino: 0, incertas: 0 };
   // Uma remessa que já entrou em processamento não é repetida cegamente.
   const candidatas = await sql<{ id: string; candidatura_id: string }[]>`
     SELECT p.id::text AS id, p.candidatura_id
@@ -64,6 +64,18 @@ export async function processarRemessasAutomaticas() {
         `;
         return "sem_contato" as const;
       }
+      // Evitar sobrecarregar automaticamente o mesmo gabinete.
+      const cota = await tx<{ ultimaHora: number; ultimoDia: number }[]>`
+        SELECT COUNT(*) FILTER (WHERE criada_at > now() - interval '1 hour')::int
+                 AS "ultimaHora",
+               COUNT(*) FILTER (WHERE criada_at > now() - interval '1 day')::int
+                 AS "ultimoDia"
+        FROM public.interacoes_remessas
+        WHERE endereco_destino = ${contato.endereco_email}
+      `;
+      if ((cota[0]?.ultimaHora ?? 0) >= 2 || (cota[0]?.ultimoDia ?? 0) >= 20) {
+        return "cota" as const;
+      }
       const inseridas = await tx<{ interacao_id: string }[]>`
         INSERT INTO public.interacoes_remessas
           (interacao_id, candidatura_id, endereco_destino, origem_contato, status)
@@ -78,6 +90,7 @@ export async function processarRemessasAutomaticas() {
     if (!reservado) continue;
     if (reservado === "sem_contato") { resumo.semContato++; continue; }
     if (reservado === "aguardando") { resumo.aguardandoContato++; continue; }
+    if (reservado === "cota") { resumo.limiteDestino++; continue; }
 
     // Endereço individual por protocolo, sem dados privados no e-mail.
     const resposta = `resposta+${reservado.id}@${dominioRespostas}`;
