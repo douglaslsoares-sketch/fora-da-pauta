@@ -51,7 +51,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: node --test tests/interacoes.test.cjs tests/interacoes-voz.test.cjs tests/interacoes-remessas.test.cjs
+      - run: node --test tests/interacoes.test.cjs tests/interacoes-voz.test.cjs tests/interacoes-remessas.test.cjs tests/interacoes-webhook.test.cjs
       - name: Fluxo completo em PostgreSQL isolado
         env:
           INTERACOES_TEST_DATABASE_URL: postgres://postgres:teste-local@localhost:5432/fora_da_pauta_teste
