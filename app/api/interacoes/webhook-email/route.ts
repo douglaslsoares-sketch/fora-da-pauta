@@ -24,8 +24,63 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false }, { status: 401, headers: noStore });
   }
   const evento = JSON.parse(payload) as Evento;
+  if (["email.delivered", "email.bounced", "email.failed"].includes(evento.type ?? "")) {
+    const emailIdSaida = evento.data?.email_id;
+    if (!emailIdSaida || !uuid.test(emailIdSaida)) {
+      return NextResponse.json({ ok: true, ignorado: true }, { headers: noStore });
+    }
+    const resultado = await sql.begin(async tx => {
+      const linhas = await tx<{ interacao_id: string; status: string }[]>`
+        SELECT interacao_id::text, status FROM public.interacoes_remessas
+        WHERE protocolo_externo = ${emailIdSaida}
+        FOR UPDATE
+      `;
+      const atual = linhas[0];
+      if (!atual) return "desconhecido";
+      if (["entregue", "falhou"].includes(atual.status)) return "ja_finalizado";
+      const statusNovo = evento.type === "email.delivered" ? "entregue" : "falhou";
+      const evt = `${evento.type}:${emailIdSaida}`;
+      const inserido = await tx<{ evento_id: string }[]>`
+        INSERT INTO public.interacoes_webhooks_email (evento_id, evento_tipo)
+        VALUES (${evt}, ${evento.type!})
+        ON CONFLICT DO NOTHING RETURNING evento_id
+      `;
+      if (!inserido.length) return "duplicado";
+      await tx`
+        UPDATE public.interacoes_remessas
+        SET status = ${statusNovo}, entregue_at =
+          CASE WHEN ${statusNovo} = 'entregue' THEN now() ELSE entregue_at END,
+          atualizada_at = now()
+        WHERE interacao_id = ${atual.interacao_id}::uuid
+      `;
+      if (statusNovo === "entregue") {
+        await tx`
+          UPDATE public.interacoes_politicas SET status = 'encaminhada', updated_at = now()
+          WHERE id = ${atual.interacao_id}::uuid AND status = 'em_analise'
+        `;
+        await tx`
+          INSERT INTO public.interacoes_politicas_historico
+            (interacao_id, evento, observacao)
+          VALUES (${atual.interacao_id}::uuid, 'encaminhada',
+                  'EMAIL_ENTREGUE_SERVIDOR_DESTINATARIO')
+        `;
+      } else {
+        await tx`
+          UPDATE public.interacoes_politicas SET status = 'nao_encaminhada', updated_at = now()
+          WHERE id = ${atual.interacao_id}::uuid AND status IN ('recebida','em_analise')
+        `;
+        await tx`
+          INSERT INTO public.interacoes_politicas_historico
+            (interacao_id, evento, observacao)
+          VALUES (${atual.interacao_id}::uuid, 'nao_encaminhada',
+                  'FALHA_ENTREGA_EMAIL')
+        `;
+      }
+      return statusNovo;
+    });
+    return NextResponse.json({ ok: true, resultado }, { headers: noStore });
+  }
   if (evento.type !== "email.received") {
-    // Eventos de entrega serão tratados em etapa independente.
     return NextResponse.json({ ok: true, ignorado: true }, { headers: noStore });
   }
   const emailId = evento.data?.email_id;
