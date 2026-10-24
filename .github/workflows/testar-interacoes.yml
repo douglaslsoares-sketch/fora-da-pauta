@@ -15,6 +15,7 @@ on:
       - 'app/api/interacoes/webhook-email/route.ts'
       - 'lib/interacoes/processar-remessas.ts'
       - 'lib/interacoes/contatos-institucionais.ts'
+      - 'lib/interacoes/sincronizar-contatos-camara.ts'
       - 'scripts/sql/interacoes-automaticas.sql'
       - 'components/InteracoesAdminPanel.tsx'
       - 'lib/telegram/processar-respostas-interacoes.ts'
