@@ -77,7 +77,7 @@ export async function POST(request: Request) {
     await tx`
       UPDATE public.interacoes_politicas SET
         status = 'respondida', resposta_texto = ${corpo},
-        resposta_autoria = 'assessoria', resposta_origem_verificada =
+        resposta_autoria = 'orgao', resposta_origem_verificada =
           'E-MAIL_INSTITUCIONAL_COM_DMARC_PASS',
         resposta_confirmada_at = now(), notificacao_status = 'pendente', updated_at = now()
       WHERE id = ${protocolo}::uuid
