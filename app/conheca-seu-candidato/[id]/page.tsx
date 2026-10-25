@@ -210,9 +210,9 @@ const trajetoriaOrdenada =
     );
 
   return (
-    <main className="min-h-screen bg-[#eeeee9] text-[#151515]">
+    <main className="min-h-screen bg-white text-[#111111]">
       <header id="quem-e" className="scroll-mt-8 bg-black text-white">
-        <div className="mx-auto w-full max-w-5xl px-5 pb-9 pt-5 sm:px-8 sm:pb-11 sm:pt-6">
+        <div className="mx-auto w-full max-w-[760px] px-6 pb-10 pt-6 sm:pb-12 sm:pt-7">
 
           <div className="flex justify-end">
             <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/45">
@@ -223,11 +223,11 @@ const trajetoriaOrdenada =
           <div className="mt-6 border-t border-white/15 pt-6">
             <div className="flex items-start justify-between gap-5 sm:gap-8">
               <div className="min-w-0 flex-1">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/45">
-                  Ficha Política
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/60">
+                  Ficha pública
                 </p>
 
-                <h1 className="mt-4 break-normal whitespace-normal text-3xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-5xl sm:leading-[0.98] sm:tracking-[-0.05em]">
+                <h1 className="mt-4 break-normal whitespace-normal text-[clamp(2.9rem,9vw,5.4rem)] font-bold leading-[0.95] tracking-[-0.055em] text-[#FFC400]">
                   {candidate.nomeUrna}
                 </h1>
 
@@ -310,8 +310,8 @@ const trajetoriaOrdenada =
         </div>
       </header>
 
-      <div className="px-5 py-8 sm:px-8 sm:py-12">
-        <div className="mx-auto w-full max-w-3xl">
+      <div className="px-6 py-8 sm:py-12">
+        <div className="mx-auto w-full max-w-[760px]">
 
           <ApresentacaoPublica
             candidato={candidate}
