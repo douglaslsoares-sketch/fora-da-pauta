@@ -81,11 +81,15 @@ export function CabecalhoFichaPublica({
           {apresentacao.paragrafos.map((paragrafo, index) => (
             <p key={index}>{paragrafo}</p>
           ))}
-          {apresentacao.bandeiras && apresentacao.bandeiras.length > 0 ? (
+          {apresentacao.destaques && apresentacao.destaques.itens.length > 0 ? (
             <div>
-              <p className="font-semibold">{apresentacao.tituloBandeiras ?? "Principais bandeiras políticas:"}</p>
+              <p className="font-semibold">
+                {apresentacao.destaques.tipo === "bandeiras-politicas"
+                  ? "Principais bandeiras políticas:"
+                  : "Principais áreas de atuação:"}
+              </p>
               <ul className="mt-2 list-disc space-y-1 pl-6">
-                {apresentacao.bandeiras.map((item, index) => (
+                {apresentacao.destaques.itens.map((item, index) => (
                   <li key={index}>{item}</li>
                 ))}
               </ul>
