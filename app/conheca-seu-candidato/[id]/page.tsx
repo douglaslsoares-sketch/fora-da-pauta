@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CandidateDossier } from "@/components/CandidateDossier";
+import { ApresentacaoPublica } from "@/components/ApresentacaoPublica";
 import { CandidateFollowCard } from "@/components/CandidateFollowCard";
 import { InteracaoPessoaPublica } from "@/components/InteracaoPessoaPublica";
 
@@ -11,6 +12,7 @@ import { buscarEvolucaoPatrimonial } from "@/data/eleicoes/evolucao-patrimonial"
 import { candidaturas } from "@/data/eleicoes/candidaturas";
 import { buscarHistoricoPolitico } from "@/data/eleicoes/historico-politico";
 import { buscarAtuacaoPolitica } from "@/data/eleicoes/atuacao-politica";
+import { buscarDossiePorCandidaturaId } from "@/data/eleicoes/dossies";
 import { obterMandatoAtualConhecido } from "@/data/eleicoes/reeleicao";
 import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
 
@@ -128,6 +130,7 @@ export default async function CandidatePage({
     buscarAtuacaoPolitica(
       candidate.id,
     );
+  const dossiePublico = buscarDossiePorCandidaturaId(candidate.id);
 const trajetoriaOrdenada =
     [...(historico?.trajetoria ?? [])]
       .sort(
@@ -309,6 +312,12 @@ const trajetoriaOrdenada =
 
       <div className="px-5 py-8 sm:px-8 sm:py-12">
         <div className="mx-auto w-full max-w-3xl">
+
+          <ApresentacaoPublica
+            candidato={candidate}
+            dossie={dossiePublico}
+            atuacao={atuacaoPolitica}
+          />
 
           {/* FICHA VIVA — REGRA GLOBAL */}
           <section
