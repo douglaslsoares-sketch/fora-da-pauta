@@ -12,8 +12,10 @@ export type FontePerfilPublico = {
 
 export type DadosPerfilPublico = {
   idade?: number;
+  /** Nascimento documentado, em formato AAAA-MM-DD; evita idade que envelhece no cadastro. */
+  dataNascimento?: string;
   cidade?: string;
-  cidadeRotulo?: "Cidade" | "Cidade de atuação";
+  cidadeRotulo?: "Cidade" | "Cidade de atuação" | "Naturalidade";
   votos?: number;
   percentualVotosValidos?: number;
   fonteDados?: FontePerfilPublico;
@@ -38,6 +40,24 @@ export type DadosPerfilPublico = {
 };
 
 const dadosPorCandidatura: Record<string, DadosPerfilPublico> = {
+  "280002551544": {
+    dataNascimento: "1981-04-30",
+    cidade: "Resende (RJ)",
+    cidadeRotulo: "Naturalidade",
+    fonteDados: {
+      titulo: "Senado Federal — perfil de Flávio Bolsonaro",
+      url: "https://www25.senado.leg.br/web/senadores/senador/-/perfil/5894",
+    },
+  },
+  "280002552484": {
+    dataNascimento: "1987-04-03",
+    cidade: "Cuiabá (MT)",
+    cidadeRotulo: "Naturalidade",
+    fonteDados: {
+      titulo: "Folha de S.Paulo — perfil eleitoral de Clariana Barão",
+      url: "https://www1.folha.uol.com.br/poder/eleicoes/candidatos/2026/br/presidente/clariana-barao-280002552484.shtml",
+    },
+  },
   "160002536522": {
     // Atuação como vereador de Curitiba e deputado estadual do Paraná
     // documentada no perfil institucional da Assembleia Legislativa.
@@ -60,8 +80,6 @@ const dadosPorCandidatura: Record<string, DadosPerfilPublico> = {
           "Moradia.",
         ],
       },
-      posicionamento:
-        "É filiado ao PT. Segundo seu perfil na Assembleia Legislativa do Paraná, suas principais áreas de atuação incluem educação, segurança e moradia.",
       fontes: [
         {
           titulo: "Assembleia Legislativa do Paraná — trajetória de Renato Freitas",
