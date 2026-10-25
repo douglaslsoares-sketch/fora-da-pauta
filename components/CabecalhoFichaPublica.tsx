@@ -1,3 +1,4 @@
+import { ShareCandidatePageButton } from "@/components/ShareCandidatePageButton";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { buscarDadosPerfilPublico } from "@/data/eleicoes/ficha-publica";
 import type { Candidatura } from "@/data/eleicoes/tipos";
@@ -71,6 +72,7 @@ export function CabecalhoFichaPublica({
         {dados?.fonteDados ? <a className="text-black/65 underline decoration-black/25 underline-offset-4" href={dados.fonteDados.url} target="_blank" rel="noreferrer">{dados.fonteDados.titulo} ↗</a> : null}
         {dados?.fonteVotos ? <a className="text-black/65 underline decoration-black/25 underline-offset-4" href={dados.fonteVotos.url} target="_blank" rel="noreferrer">Fonte dos votos — TRE ↗</a> : null}
       </div>
+      <div className="mt-4"><ShareCandidatePageButton tipo="ficha" inline /></div>
       <details className="mt-4 border-t border-black/10 pt-3">
         <summary className="w-fit cursor-pointer text-xs font-semibold text-black/60 underline underline-offset-4">Nome completo, mandato e dados eleitorais</summary>
         <div className="mt-3 space-y-2 text-sm leading-6 text-black/70">
