@@ -4,7 +4,8 @@ import { ApresentacaoPublica } from "@/components/ApresentacaoPublica";
 import { CandidateFollowCard } from "@/components/CandidateFollowCard";
 import { InteracaoPessoaPublica } from "@/components/InteracaoPessoaPublica";
 
-import { CandidatePhoto } from "@/components/CandidatePhoto";
+import { CabecalhoFichaPublica } from "@/components/CabecalhoFichaPublica";
+import { eleitos2026 } from "@/data/eleicoes/eleitos";
 import { notFound } from "next/navigation";
 
 import { buscarPatrimonio2026PorCandidaturaId } from "@/data/eleicoes/bens";
@@ -131,6 +132,7 @@ export default async function CandidatePage({
       candidate.id,
     );
   const dossiePublico = buscarDossiePorCandidaturaId(candidate.id);
+  const eleitoConfirmado = eleitos2026.find((pessoa) => pessoa.id === candidate.id) ?? null;
 const trajetoriaOrdenada =
     [...(historico?.trajetoria ?? [])]
       .sort(
@@ -226,110 +228,14 @@ const trajetoriaOrdenada =
 
   return (
     <main className="min-h-screen bg-white text-[#111111]">
-      <header id="quem-e" className="scroll-mt-8 bg-black text-white">
-        <div className="mx-auto w-full max-w-[760px] px-5 pb-6 pt-2 sm:px-6 sm:pb-8 sm:pt-3">
-
-          <div className="border-t border-white/15 pt-5 sm:pt-6">
-            <div className="flex items-start justify-between gap-3 sm:gap-6">
-              <div className="min-w-0 flex-1">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/60">
-                  Ficha pública
-                </p>
-
-                <h1 className="mt-2 break-normal whitespace-normal text-[clamp(2.25rem,5.2vw,3.7rem)] font-bold leading-[0.96] tracking-[-0.05em] text-[#FFC400]">
-                  {candidate.nomeUrna}
-                </h1>
-
-                <p className="mt-3 text-sm font-semibold leading-6 text-white/90 sm:text-base">
-                  {eleitoEm2026
-                    ? `Eleito para o cargo de ${cargo.toLowerCase()} em ${candidate.eleicao}`
-                    : `Candidatura a ${cargo.toLowerCase()} em ${candidate.eleicao}`}
-                </p>
-                <p className="mt-1 text-sm leading-6 text-white/65">
-                  {candidate.siglaPartido} · nº {candidate.numero} · {candidate.uf}
-                </p>
-
-                <details className="mt-3 max-w-xl border-t border-white/15 pt-3">
-                  <summary className="w-fit cursor-pointer text-xs font-semibold text-white/70 underline decoration-white/30 underline-offset-4 hover:text-white">
-                    Nome completo, mandato e fontes eleitorais
-                  </summary>
-                  <div className="mt-3 space-y-2">
-
-                  <p className="text-xs font-medium leading-5 text-white/55 sm:text-sm">
-                    {candidate.nomeCompleto}
-                  </p>
-
-                  {mandatoAtualConhecido && (
-                    <p className="mt-2 text-[11px] leading-5 text-white/40 sm:text-xs">
-                      Mandato atual:{" "}
-                      <span className="font-medium text-white/55">
-                        {formatarCargo(
-                          mandatoAtualConhecido.cargo,
-                        )}
-                        {mandatoAtualConhecido.uf
-                          ? ` · ${mandatoAtualConhecido.uf}`
-                          : ""}
-                        {mandatoAtualConhecido.inicio &&
-                        mandatoAtualConhecido.fim
-                          ? ` · ${mandatoAtualConhecido.inicio}–${mandatoAtualConhecido.fim}`
-                          : ""}
-                      </span>
-
-                      {mandatoAtualConhecido.fonte && (
-                        <>
-                          {" · "}
-                          <a
-                            href={
-                              mandatoAtualConhecido
-                                .fonte.url
-                            }
-                            target="_blank"
-                            rel="noreferrer"
-                            className="font-semibold text-white/55 underline decoration-white/25 underline-offset-4 hover:text-white"
-                          >
-                            {
-                              mandatoAtualConhecido
-                                .fonte.titulo
-                            }{" "}
-                            ↗
-                          </a>
-                        </>
-                      )}
-                    </p>
-                  )}
-                  <p className="mt-2 text-[11px] leading-5 text-white/40 sm:text-xs">
-                    Dados eleitorais verificados em{" "}
-                    {formatarData(candidate.ultimaVerificacao)}
-                    {" · "}
-                    <a
-                      href={candidate.fonteOficial}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="font-semibold text-white/60 underline decoration-white/30 underline-offset-4 hover:text-white"
-                    >
-                      Fonte oficial do TSE ↗
-                    </a>
-                  </p>
-
-                  {mostrarSituacaoTse && (
-                    <p className="mt-1 text-[11px] leading-5 text-white/40 sm:text-xs">
-                      Situação no TSE: {situacaoTse}
-                    </p>
-                  )}
-
-                  </div>
-                </details>
-              </div>
-
-              <CandidatePhoto
-                id={candidate.id}
-                name={candidate.nomeUrna}
-                variant="profile"
-              />
-            </div>
-          </div>
-        </div>
-      </header>
+      <div id="quem-e" className="scroll-mt-8">
+        <CabecalhoFichaPublica
+          candidato={candidate}
+          dossie={dossiePublico}
+          eleito={eleitoConfirmado}
+          mandatoAtual={mandatoAtualConhecido}
+        />
+      </div>
 
       <div className="px-5 py-6 sm:px-6 sm:py-8">
         <div className="mx-auto w-full max-w-[760px]">
