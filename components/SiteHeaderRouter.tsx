@@ -23,6 +23,8 @@ export function SiteHeaderRouter({
     return <>{children}</>;
   }
 
+  const fichaPublica = /^\/(?:conheca-seu-candidato|pessoas)\/[^/]+$/.test(pathname);
+
   return (
     <header className="bg-black text-white">
       <div className="mx-auto flex min-h-[80px] w-full max-w-[760px] items-center justify-between gap-5 px-6 py-2">
@@ -41,7 +43,7 @@ export function SiteHeaderRouter({
           />
         </Link>
         <p className="text-right text-[15px] font-semibold leading-tight tracking-[-0.02em]">
-          há mais para entender.
+          {fichaPublica ? "Ficha política" : "há mais para entender."}
         </p>
       </div>
     </header>
