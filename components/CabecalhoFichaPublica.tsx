@@ -1,0 +1,85 @@
+import { CandidatePhoto } from "@/components/CandidatePhoto";
+import { buscarDadosPerfilPublico } from "@/data/eleicoes/ficha-publica";
+import type { Candidatura } from "@/data/eleicoes/tipos";
+import type { DossieCandidato } from "@/data/eleicoes/dossies/modelo";
+import type { Eleito2026 } from "@/data/eleicoes/eleitos";
+import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
+
+type Props = {
+  candidato: Candidatura;
+  dossie: DossieCandidato | null;
+  eleito: Eleito2026 | null;
+  mandatoAtual?: {
+    cargo: string;
+    uf?: string;
+    inicio?: number;
+    fim?: number;
+    fonte?: { titulo: string; url: string };
+  };
+};
+
+function formatarNumero(valor: number): string {
+  return new Intl.NumberFormat("pt-BR").format(valor);
+}
+
+export function CabecalhoFichaPublica({
+  candidato,
+  dossie,
+  eleito,
+  mandatoAtual,
+}: Props) {
+  const dados = buscarDadosPerfilPublico(candidato.id);
+  const situacao = eleito
+    ? dados?.rotuloEleitoral ?? (eleito.resultadoTse.toUpperCase().includes("SUPLENTE")
+        ? "Suplente"
+        : "Eleito")
+    : "Candidatura registrada";
+  const cargo = formatarCargo(candidato.cargo);
+  const local = candidato.uf === "BR" ? "Brasil" : candidato.uf;
+  const resumo = dossie?.emPoucasLinhas?.trim();
+
+  return (
+    <section aria-labelledby="nome-politico" className="mx-auto w-full max-w-[760px] px-5 pb-7 pt-6 sm:px-6 sm:pt-8">
+      <div className="flex items-start gap-4 sm:gap-5">
+        <div className="shrink-0">
+          <CandidatePhoto id={candidato.id} name={candidato.nomeUrna} variant="profile" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-black/45">
+            Ficha pública
+          </p>
+          <h1 id="nome-politico" className="mt-1 break-words text-xl font-bold leading-tight tracking-[-0.035em] text-black sm:text-2xl">
+            {candidato.nomeUrna}
+          </h1>
+          <p className="mt-1 text-sm leading-5 text-black/60">
+            {eleito ? `${cargo} eleito por ${local} em ${candidato.eleicao}` : `Candidatura a ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}`}
+          </p>
+          <span className={`mt-2 inline-flex rounded-md px-2 py-0.5 text-xs font-semibold ${eleito ? "bg-emerald-100 text-emerald-800" : "bg-black/5 text-black/65"}`}>
+            {situacao}
+          </span>
+          <dl className="mt-2 space-y-1 text-sm leading-6 text-black/80">
+            <div><dt className="inline font-semibold">Partido: </dt><dd className="inline">{candidato.siglaPartido}</dd></div>
+            {dados?.idade != null ? <div><dt className="inline font-semibold">Idade: </dt><dd className="inline">{dados.idade} anos</dd></div> : null}
+            {dados?.cidade ? <div><dt className="inline font-semibold">{dados.cidadeRotulo ?? "Cidade"}: </dt><dd className="inline">{dados.cidade}</dd></div> : null}
+            {dados?.votos != null ? <div><dt className="inline font-semibold">Votos: </dt><dd className="inline">{formatarNumero(dados.votos)}{dados.percentualVotosValidos != null ? ` (${new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(dados.percentualVotosValidos)}% dos válidos)` : ""}</dd></div> : null}
+          </dl>
+        </div>
+      </div>
+      {resumo ? <p className="mt-5 text-base leading-7 text-black/80">{resumo}</p> : null}
+      <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold">
+        <a className="text-black/65 underline decoration-black/25 underline-offset-4" href={candidato.fonteOficial} target="_blank" rel="noreferrer">Registro eleitoral — TSE ↗</a>
+        {dados?.fonteDados ? <a className="text-black/65 underline decoration-black/25 underline-offset-4" href={dados.fonteDados.url} target="_blank" rel="noreferrer">{dados.fonteDados.titulo} ↗</a> : null}
+        {dados?.fonteVotos ? <a className="text-black/65 underline decoration-black/25 underline-offset-4" href={dados.fonteVotos.url} target="_blank" rel="noreferrer">Fonte dos votos — TRE ↗</a> : null}
+      </div>
+      <details className="mt-4 border-t border-black/10 pt-3">
+        <summary className="w-fit cursor-pointer text-xs font-semibold text-black/60 underline underline-offset-4">Nome completo, mandato e dados eleitorais</summary>
+        <div className="mt-3 space-y-2 text-sm leading-6 text-black/70">
+          <p><strong>Nome completo:</strong> {candidato.nomeCompleto}</p>
+          <p><strong>Número:</strong> {candidato.numero} · <strong>UF:</strong> {candidato.uf}</p>
+          {mandatoAtual ? <p><strong>Mandato documentado:</strong> {formatarCargo(mandatoAtual.cargo)}{mandatoAtual.uf ? ` · ${mandatoAtual.uf}` : ""}{mandatoAtual.inicio && mandatoAtual.fim ? ` · ${mandatoAtual.inicio}–${mandatoAtual.fim}` : ""}{mandatoAtual.fonte ? <> · <a className="underline" href={mandatoAtual.fonte.url} target="_blank" rel="noreferrer">{mandatoAtual.fonte.titulo} ↗</a></> : null}</p> : null}
+          <p><strong>Situação no TSE:</strong> {eleito?.resultadoTse ?? candidato.situacaoTse}</p>
+        </div>
+      </details>
+    </section>
+  );
+}
