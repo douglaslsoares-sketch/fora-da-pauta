@@ -61,80 +61,43 @@ export function CandidateFollowCard({
     };
   }, [candidaturaId, tentativa]);
 
-  const acompanhando = situacao === "acompanhando";
+  // A ficha é para conhecer a pessoa. Quem já acompanha não recebe outro convite.
+  // Durante a verificação também não exibimos um convite prematuro.
+  if (situacao === "acompanhando" || situacao === "conferindo") {
+    return null;
+  }
+
+  if (situacao === "erro") {
+    return (
+      <p className="border-t border-black/10 py-3 text-xs leading-5 text-black/50">
+        Não foi possível conferir o acompanhamento neste navegador.
+        <button
+          type="button"
+          onClick={() => {
+            setSituacao("conferindo");
+            setTentativa((atual) => atual + 1);
+          }}
+          className="ml-2 font-semibold underline underline-offset-4"
+        >
+          Conferir novamente
+        </button>
+      </p>
+    );
+  }
 
   return (
-    <section
-      aria-labelledby="acompanhar-candidato"
-      className="border-t border-black/15 py-7 sm:py-9"
-    >
-      <div className="border border-black/15 bg-white/45 p-5 sm:p-6">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-          Acompanhamento
-        </p>
-
-        <h2
-          id="acompanhar-candidato"
-          className="mt-3 max-w-2xl text-2xl font-semibold leading-tight tracking-[-0.035em] sm:text-3xl"
+    <aside className="border-t border-black/10 py-4">
+      <p className="text-sm leading-6 text-black/65">
+        Ainda não acompanha esta pessoa neste navegador?{" "}
+        <a
+          href={telegramHref}
+          target="_blank"
+          rel="noreferrer"
+          className="font-semibold text-black underline decoration-[#bd8c00] underline-offset-4"
         >
-          {acompanhando
-            ? "Você já acompanha esta pessoa pelo Telegram."
-            : "Receba no Telegram as atualizações públicas desta pessoa."}
-        </h2>
-
-        <p className="mt-4 max-w-2xl text-sm leading-6 text-black/60 sm:text-base sm:leading-7">
-          {acompanhando
-            ? "Quando houver novos registros públicos verificados sobre a atuação desta pessoa, o Fora da Pauta poderá avisar você no Telegram. Não é necessário se inscrever novamente."
-            : "Você não precisa voltar ao site para procurar novidades. Quando houver novos registros públicos verificados sobre a atuação desta pessoa, o Fora da Pauta poderá avisar você pelo Telegram."}
-        </p>
-
-        {situacao === "conferindo" ? (
-          <p className="mt-5 text-sm text-black/60" role="status">
-            Conferindo seu acompanhamento no Telegram...
-          </p>
-        ) : null}
-
-        {situacao === "disponivel" ? (
-          <a
-            href={telegramHref}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-5 inline-flex min-h-12 items-center justify-center bg-[#FFC400] px-5 py-3 text-sm font-semibold text-black transition hover:bg-[#e9b300]"
-          >
-            Acompanhar no Telegram
-            <span aria-hidden="true" className="ml-2">→</span>
-          </a>
-        ) : null}
-
-        {situacao === "erro" ? (
-          <div className="mt-5">
-            <p className="text-sm text-black/65" role="alert">
-              Não foi possível conferir seu acompanhamento neste momento.
-              Nenhuma escolha foi alterada.
-            </p>
-            <button
-              type="button"
-              onClick={() => {
-                setSituacao("conferindo");
-                setTentativa((atual) => atual + 1);
-              }}
-              className="mt-3 min-h-11 border border-black/20 px-4 py-2 text-sm font-semibold"
-            >
-              Conferir novamente
-            </button>
-          </div>
-        ) : null}
-
-        {acompanhando ? (
-          <p className="mt-4 text-xs leading-5 text-black/45">
-            Para consultar ou interromper seus acompanhamentos, envie /opcoes ao bot.
-          </p>
-        ) : (
-          <p className="mt-4 text-xs leading-5 text-black/45">
-            Você poderá parar de acompanhar quando quiser.
-          </p>
-        )}
-      </div>
-    </section>
+          Acompanhar pelo Telegram ↗
+        </a>
+      </p>
+    </aside>
   );
 }
