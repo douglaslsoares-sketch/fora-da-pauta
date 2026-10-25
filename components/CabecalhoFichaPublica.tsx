@@ -35,6 +35,17 @@ function formatarNumero(valor: number): string {
   return new Intl.NumberFormat("pt-BR").format(valor);
 }
 
+// Calcula a idade apenas quando a data completa estiver documentada.
+function calcularIdade(dataNascimento?: string): number | null {
+  if (!dataNascimento || !/^\\d{4}-\\d{2}-\\d{2}$/.test(dataNascimento)) return null;
+  const [ano, mes, dia] = dataNascimento.split("-").map(Number);
+  const hoje = new Date();
+  let idade = hoje.getUTCFullYear() - ano;
+  if (hoje.getUTCMonth() + 1 < mes ||
+      (hoje.getUTCMonth() + 1 === mes && hoje.getUTCDate() < dia)) idade--;
+  return idade >= 0 && idade <= 120 ? idade : null;
+}
+
 export function CabecalhoFichaPublica({
   candidato,
   dossie,
@@ -42,12 +53,17 @@ export function CabecalhoFichaPublica({
   mandatoAtual,
 }: Props) {
   const dados = buscarDadosPerfilPublico(candidato.id);
+  const resultadoTse = candidato.resultadoEleitoral?.situacaoTse?.trim();
   const situacao = eleito
     ? dados?.rotuloEleitoral ?? (eleito.resultadoTse.toUpperCase().includes("SUPLENTE")
         ? "Suplente"
         : "Eleito")
-    : candidato.resultadoEleitoral?.situacaoTse?.trim() || "Situação em levantamento";
+    : resultadoTse && !resultadoTse.startsWith("#")
+      ? resultadoTse.replace(/\\s+/g, " ").toLocaleLowerCase("pt-BR")
+      : null;
   const cargo = formatarCargo(candidato.cargo);
+  const idade = dados?.dataNascimento ? calcularIdade(dados.dataNascimento) : dados?.idade ?? null;
+  const nomeExibido = dossie?.nome?.trim() || candidato.nomeUrna.toLocaleLowerCase("pt-BR").replace(/(^|\\s)(\\p{L})/gu, (_, espaco: string, letra: string) => espaco + letra.toLocaleUpperCase("pt-BR"));
   const local = candidato.uf === "BR" ? "Brasil" : nomesEstados[candidato.uf] ?? candidato.uf;
   const apresentacao = dados?.apresentacao;
   // Um perfil editorial específico tem prioridade. Para os demais, aproveitar
@@ -70,17 +86,23 @@ export function CabecalhoFichaPublica({
         </div>
         <div className="min-w-0 flex-1">
           <h1 id="nome-politico" className="break-words text-xl font-semibold leading-tight tracking-[-0.025em] text-black sm:text-2xl">
-            {candidato.nomeUrna}
+            {nomeExibido}
           </h1>
           <p className="mt-1 text-sm leading-5 text-black/60">
-            {eleito ? `Eleito para ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}` : `Candidatura a ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}`}
+            {eleito
+              ? `Eleito ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}`
+              : candidato.cargo === "presidente"
+                ? `Candidatura à Presidência da República em ${candidato.eleicao}`
+                : `Candidatura a ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}`}
           </p>
-          <span className={`mt-2 inline-flex rounded-md px-2 py-0.5 text-xs font-semibold ${eleito ? "bg-emerald-100 text-emerald-800" : "bg-black/5 text-black/65"}`}>
-            {situacao}
-          </span>
+          {situacao ? (
+            <span className={`mt-2 inline-flex rounded-md px-2 py-0.5 text-xs font-semibold ${eleito ? "bg-emerald-100 text-emerald-800" : "bg-black/5 text-black/65"}`}>
+              {situacao}
+            </span>
+          ) : null}
           <dl className="mt-2 space-y-1 text-sm leading-6 text-black/80">
             <div><dt className="inline font-semibold">Partido: </dt><dd className="inline">{candidato.siglaPartido}</dd></div>
-            {dados?.idade != null ? <div><dt className="inline font-semibold">Idade: </dt><dd className="inline">{dados.idade} anos</dd></div> : null}
+            {idade != null ? <div><dt className="inline font-semibold">Idade: </dt><dd className="inline">{idade} anos</dd></div> : null}
             {dados?.cidade ? <div><dt className="inline font-semibold">{dados.cidadeRotulo ?? "Cidade"}: </dt><dd className="inline">{dados.cidade}</dd></div> : null}
             {dados?.votos != null ? <div><dt className="inline font-semibold">Votos: </dt><dd className="inline">{formatarNumero(dados.votos)}{dados.percentualVotosValidos != null ? ` (${new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(dados.percentualVotosValidos)}% dos válidos)` : ""}</dd></div> : null}
           </dl>
