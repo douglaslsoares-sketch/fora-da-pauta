@@ -101,7 +101,7 @@ export function ApresentacaoPublica({
         Conheça melhor {candidato.nomeUrna}
       </h2>
 
-      {paragrafosAprofundamento.length > 0 ? (
+      {dossie && paragrafosAprofundamento.length > 0 ? (
         <>
           <div className="mt-5 space-y-4">
             {paragrafosAprofundamento.map((paragrafo, index) => (
