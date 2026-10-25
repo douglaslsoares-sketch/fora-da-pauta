@@ -360,9 +360,8 @@ const trajetoriaOrdenada =
 
               <p className="mt-3 max-w-2xl text-sm leading-6 text-black/50">
                 Registros anteriores são preservados para manter a
-                trajetória documental. Na seção a seguir, você pode
-                conferir se já acompanha esta pessoa pelo Telegram
-                ou escolher acompanhá-la.
+                trajetória documental. As fontes e as atualizações
+                ficam disponíveis para consulta nesta ficha.
               </p>
             </div>
           </section>
