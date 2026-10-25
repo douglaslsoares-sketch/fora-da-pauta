@@ -16,7 +16,7 @@ export function SiteChromeRouter() {
     "/conheca-seu-candidato";
 
   const isCandidateProfile =
-    /^\/conheca-seu-candidato\/[^/]+$/.test(
+    /^\/(?:conheca-seu-candidato|pessoas)\/[^/]+$/.test(
       pathname,
     );
 
@@ -37,7 +37,7 @@ export function SiteChromeRouter() {
     <>
       {!isHome ? <SiteHeader /> : null}
 
-      {isCandidateRoute ? (
+      {isCandidateRoute && !isCandidateProfile ? (
         <>
           <ShareCandidatePageButton
             tipo={tipoCompartilhamento}
