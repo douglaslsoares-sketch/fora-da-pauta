@@ -83,16 +83,16 @@ export function ApresentacaoPublica({
   return (
     <section
       aria-labelledby="apresentacao-publica-titulo"
-      className="pb-9 sm:pb-11"
+      className="mt-5 border-t border-black/15 pb-9 pt-8 sm:pb-11"
     >
       <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/50">
-        Conheça esta pessoa
+        Aprofundamento
       </p>
       <h2
         id="apresentacao-publica-titulo"
         className="mt-3 text-2xl font-semibold leading-tight tracking-[-0.035em] sm:text-3xl"
       >
-        Quem é {candidato.nomeUrna}?
+        Conheça melhor {candidato.nomeUrna}
       </h2>
 
       {dossie?.biografia.paragrafos.length ? (
