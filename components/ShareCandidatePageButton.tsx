@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 type ShareCandidatePageButtonProps = {
+  inline?: boolean;
   tipo:
     | "consulta"
     | "ficha"
@@ -70,6 +71,7 @@ async function copiarComFallback(
 
 export function ShareCandidatePageButton({
   tipo,
+  inline = false,
 }: ShareCandidatePageButtonProps) {
   const [estado, setEstado] =
     useState<
@@ -166,7 +168,9 @@ export function ShareCandidatePageButton({
       onClick={compartilhar}
       data-editorial-ignore
       aria-label={label}
-      className={`fixed bottom-3 z-[80] inline-flex h-11 items-center justify-center rounded-full border border-white/15 bg-black px-3 text-xs font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-black/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFC400] focus-visible:ring-offset-2 sm:bottom-6 sm:h-auto sm:rounded-none sm:px-4 sm:py-3 sm:text-sm ${posicionamento}`}
+      className={inline
+        ? "inline-flex min-h-10 items-center justify-center rounded-md border border-black/20 bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFC400]"
+        : `fixed bottom-3 z-[80] inline-flex h-11 items-center justify-center rounded-full border border-white/15 bg-black px-3 text-xs font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-black/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFC400] focus-visible:ring-offset-2 sm:bottom-6 sm:h-auto sm:rounded-none sm:px-4 sm:py-3 sm:text-sm ${posicionamento}`}
     >
       {estado === "copiado"
         ? "Link copiado ✓"
