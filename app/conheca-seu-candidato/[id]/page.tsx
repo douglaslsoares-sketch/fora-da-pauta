@@ -203,6 +203,21 @@ const trajetoriaOrdenada =
   const situacaoTse =
     candidate.situacaoTse?.trim();
 
+  // Só atribuímos a condição de eleito quando ela consta de fonte identificada.
+  const eleitoEm2026 =
+    /^(?:re)?eleit[oa]\b/i.test(
+      candidate.resultadoEleitoral?.situacaoTse?.trim() ?? "",
+    ) ||
+    Boolean(
+      dossiePublico?.eventos.some(
+        (evento) =>
+          evento.data.inicio.startsWith(`${candidate.eleicao}-`) &&
+          /^(?:re)?eleit[oa]\b/i.test(evento.titulo) &&
+          evento.natureza.includes("documentado") &&
+          evento.fontes.length > 0,
+      ),
+    );
+
   const mostrarSituacaoTse =
     Boolean(
       situacaoTse &&
@@ -212,30 +227,34 @@ const trajetoriaOrdenada =
   return (
     <main className="min-h-screen bg-white text-[#111111]">
       <header id="quem-e" className="scroll-mt-8 bg-black text-white">
-        <div className="mx-auto w-full max-w-[760px] px-6 pb-10 pt-6 sm:pb-12 sm:pt-7">
+        <div className="mx-auto w-full max-w-[760px] px-5 pb-6 pt-2 sm:px-6 sm:pb-8 sm:pt-3">
 
-          <div className="flex justify-end">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/45">
-              Eleições 2026
-            </p>
-          </div>
-
-          <div className="mt-6 border-t border-white/15 pt-6">
-            <div className="flex items-start justify-between gap-5 sm:gap-8">
+          <div className="border-t border-white/15 pt-5 sm:pt-6">
+            <div className="flex items-start justify-between gap-3 sm:gap-6">
               <div className="min-w-0 flex-1">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/60">
                   Ficha pública
                 </p>
 
-                <h1 className="mt-4 break-normal whitespace-normal text-[clamp(2.9rem,9vw,5.4rem)] font-bold leading-[0.95] tracking-[-0.055em] text-[#FFC400]">
+                <h1 className="mt-2 break-normal whitespace-normal text-[clamp(2.25rem,5.2vw,3.7rem)] font-bold leading-[0.96] tracking-[-0.05em] text-[#FFC400]">
                   {candidate.nomeUrna}
                 </h1>
 
-                <p className="mt-5 text-base leading-7 text-white/70 sm:text-lg">
-                  {cargo} · {candidate.siglaPartido} · nº {candidate.numero} · {candidate.uf}
+                <p className="mt-3 text-sm font-semibold leading-6 text-white/90 sm:text-base">
+                  {eleitoEm2026
+                    ? `Eleito para o cargo de ${cargo.toLowerCase()} em ${candidate.eleicao}`
+                    : `Candidatura a ${cargo.toLowerCase()} em ${candidate.eleicao}`}
+                </p>
+                <p className="mt-1 text-sm leading-6 text-white/65">
+                  {candidate.siglaPartido} · nº {candidate.numero} · {candidate.uf}
                 </p>
 
-                <div className="mt-4 max-w-xl border-t border-white/10 pt-4">
+                <details className="mt-3 max-w-xl border-t border-white/15 pt-3">
+                  <summary className="w-fit cursor-pointer text-xs font-semibold text-white/70 underline decoration-white/30 underline-offset-4 hover:text-white">
+                    Nome completo, mandato e fontes eleitorais
+                  </summary>
+                  <div className="mt-3 space-y-2">
+
                   <p className="text-xs font-medium leading-5 text-white/55 sm:text-sm">
                     {candidate.nomeCompleto}
                   </p>
@@ -297,7 +316,9 @@ const trajetoriaOrdenada =
                       Situação no TSE: {situacaoTse}
                     </p>
                   )}
-                </div>
+
+                  </div>
+                </details>
               </div>
 
               <CandidatePhoto
@@ -310,7 +331,7 @@ const trajetoriaOrdenada =
         </div>
       </header>
 
-      <div className="px-6 py-8 sm:py-12">
+      <div className="px-5 py-6 sm:px-6 sm:py-8">
         <div className="mx-auto w-full max-w-[760px]">
 
           <ApresentacaoPublica
