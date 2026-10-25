@@ -22,8 +22,16 @@ export type DadosPerfilPublico = {
   rotuloEleitoral?: "Eleito" | "Eleita" | "Reeleito" | "Reeleita";
   apresentacao?: {
     paragrafos: string[];
-    bandeiras?: string[];
-    tituloBandeiras?: string;
+    /**
+     * Não confundir temas de trabalho com causas defendidas.
+     * Usar "bandeiras-politicas" somente quando propostas ou declarações
+     * documentadas comprovarem o posicionamento de forma específica.
+     * A fonte comprobatória deve constar em apresentacao.fontes.
+     */
+    destaques?: {
+      tipo: "areas-de-atuacao" | "bandeiras-politicas";
+      itens: string[];
+    };
     posicionamento?: string;
     fontes: FontePerfilPublico[];
   };
@@ -44,12 +52,14 @@ const dadosPorCandidatura: Record<string, DadosPerfilPublico> = {
         "Renato de Almeida Freitas Júnior nasceu em Sorocaba (SP) e cresceu na Região Metropolitana de Curitiba. É graduado e mestre em Direito pela Universidade Federal do Paraná (UFPR).",
         "Foi eleito vereador de Curitiba em 2020 e deputado estadual do Paraná em 2022. Em outubro de 2026, foi eleito deputado federal pelo PT, com 115.227 votos. O mandato federal terá início em 2027.",
       ],
-      tituloBandeiras: "Principais áreas de atuação:",
-      bandeiras: [
-        "Educação.",
-        "Segurança pública.",
-        "Moradia.",
-      ],
+      destaques: {
+        tipo: "areas-de-atuacao",
+        itens: [
+          "Educação.",
+          "Segurança pública.",
+          "Moradia.",
+        ],
+      },
       posicionamento:
         "É filiado ao PT. Segundo seu perfil na Assembleia Legislativa do Paraná, suas principais áreas de atuação incluem educação, segurança e moradia.",
       fontes: [
