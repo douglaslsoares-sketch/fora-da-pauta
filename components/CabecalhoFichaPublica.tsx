@@ -37,7 +37,7 @@ function formatarNumero(valor: number): string {
 
 // Calcula a idade apenas quando a data completa estiver documentada.
 function calcularIdade(dataNascimento?: string): number | null {
-  if (!dataNascimento || !/^\\d{4}-\\d{2}-\\d{2}$/.test(dataNascimento)) return null;
+  if (!dataNascimento || !/^\d{4}-\d{2}-\d{2}$/.test(dataNascimento)) return null;
   const [ano, mes, dia] = dataNascimento.split("-").map(Number);
   const hoje = new Date();
   let idade = hoje.getUTCFullYear() - ano;
@@ -59,11 +59,11 @@ export function CabecalhoFichaPublica({
         ? "Suplente"
         : "Eleito")
     : resultadoTse && !resultadoTse.startsWith("#")
-      ? resultadoTse.replace(/\\s+/g, " ").toLocaleLowerCase("pt-BR")
+      ? resultadoTse.replace(/\s+/g, " ").toLocaleLowerCase("pt-BR")
       : null;
   const cargo = formatarCargo(candidato.cargo);
   const idade = dados?.dataNascimento ? calcularIdade(dados.dataNascimento) : dados?.idade ?? null;
-  const nomeExibido = dossie?.nome?.trim() || candidato.nomeUrna.toLocaleLowerCase("pt-BR").replace(/(^|\\s)(\\p{L})/gu, (_, espaco: string, letra: string) => espaco + letra.toLocaleUpperCase("pt-BR"));
+  const nomeExibido = dossie?.nome?.trim() || candidato.nomeUrna.toLocaleLowerCase("pt-BR").replace(/(^|\s)(\p{L})/gu, (_, espaco: string, letra: string) => espaco + letra.toLocaleUpperCase("pt-BR"));
   const local = candidato.uf === "BR" ? "Brasil" : nomesEstados[candidato.uf] ?? candidato.uf;
   const apresentacao = dados?.apresentacao;
   // Um perfil editorial específico tem prioridade. Para os demais, aproveitar
