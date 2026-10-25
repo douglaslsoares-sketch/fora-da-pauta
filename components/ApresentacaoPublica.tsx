@@ -6,6 +6,7 @@ import type {
 } from "@/data/eleicoes/dossies/modelo";
 import type { AtuacaoPoliticaDocumentada } from "@/data/eleicoes/atuacao-politica";
 import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
+import { buscarDadosPerfilPublico } from "@/data/eleicoes/ficha-publica";
 
 type Props = {
   candidato: Candidatura;
@@ -51,6 +52,11 @@ export function ApresentacaoPublica({
   dossie,
   atuacao,
 }: Props) {
+  const apresentacaoPropria = buscarDadosPerfilPublico(candidato.id)?.apresentacao;
+  const biografiaReaproveitadaNaAbertura = !apresentacaoPropria && Boolean(dossie?.biografia.fontes.length);
+  const paragrafosAprofundamento = biografiaReaproveitadaNaAbertura
+    ? (dossie?.biografia.paragrafos ?? []).slice(2, 4)
+    : (dossie?.biografia.paragrafos ?? []).slice(0, 4);
   const registrosDeAtuacao = (dossie?.eventos ?? [])
     .filter(
       (evento) =>
@@ -95,10 +101,10 @@ export function ApresentacaoPublica({
         Conheça melhor {candidato.nomeUrna}
       </h2>
 
-      {dossie?.biografia.paragrafos.length ? (
+      {paragrafosAprofundamento.length > 0 ? (
         <>
           <div className="mt-5 space-y-4">
-            {dossie.biografia.paragrafos.slice(0, 4).map((paragrafo, index) => (
+            {paragrafosAprofundamento.map((paragrafo, index) => (
               <p
                 key={index}
                 className="max-w-2xl text-base leading-7 text-black/75"
@@ -115,6 +121,11 @@ export function ApresentacaoPublica({
             </div>
           ) : null}
         </>
+      ) : dossie ? (
+        <p className="mt-5 text-sm leading-6 text-black/60">
+          Os dados biográficos documentados já aparecem na apresentação acima.
+          Consulte as fontes e os registros específicos nas seções seguintes.
+        </p>
       ) : (
         <div className="mt-5 max-w-2xl space-y-3">
           <p className="text-base leading-7 text-black/75">
