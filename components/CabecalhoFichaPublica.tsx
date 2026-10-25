@@ -19,6 +19,18 @@ type Props = {
   };
 };
 
+const nomesEstados: Record<string, string> = {
+  AC: "Acre", AL: "Alagoas", AP: "Amapá", AM: "Amazonas",
+  BA: "Bahia", CE: "Ceará", DF: "Distrito Federal",
+  ES: "Espírito Santo", GO: "Goiás", MA: "Maranhão",
+  MT: "Mato Grosso", MS: "Mato Grosso do Sul", MG: "Minas Gerais",
+  PA: "Pará", PB: "Paraíba", PR: "Paraná", PE: "Pernambuco",
+  PI: "Piauí", RJ: "Rio de Janeiro", RN: "Rio Grande do Norte",
+  RS: "Rio Grande do Sul", RO: "Rondônia", RR: "Roraima",
+  SC: "Santa Catarina", SP: "São Paulo", SE: "Sergipe",
+  TO: "Tocantins",
+};
+
 function formatarNumero(valor: number): string {
   return new Intl.NumberFormat("pt-BR").format(valor);
 }
@@ -34,9 +46,9 @@ export function CabecalhoFichaPublica({
     ? dados?.rotuloEleitoral ?? (eleito.resultadoTse.toUpperCase().includes("SUPLENTE")
         ? "Suplente"
         : "Eleito")
-    : "Candidatura registrada";
+    : candidato.resultadoEleitoral?.situacaoTse?.trim() || "Situação em levantamento";
   const cargo = formatarCargo(candidato.cargo);
-  const local = candidato.uf === "BR" ? "Brasil" : candidato.uf;
+  const local = candidato.uf === "BR" ? "Brasil" : nomesEstados[candidato.uf] ?? candidato.uf;
   const resumo = dossie?.emPoucasLinhas?.trim();
 
   return (
@@ -53,7 +65,7 @@ export function CabecalhoFichaPublica({
             {candidato.nomeUrna}
           </h1>
           <p className="mt-1 text-sm leading-5 text-black/60">
-            {eleito ? `${cargo} eleito por ${local} em ${candidato.eleicao}` : `Candidatura a ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}`}
+            {eleito ? `Eleito para ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}` : `Candidatura a ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}`}
           </p>
           <span className={`mt-2 inline-flex rounded-md px-2 py-0.5 text-xs font-semibold ${eleito ? "bg-emerald-100 text-emerald-800" : "bg-black/5 text-black/65"}`}>
             {situacao}
