@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore, useRef } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
+import Link from "next/link";
 import { HomeShareInvite } from "@/components/HomeShareInvite";
 import {
   interpretarSelecao,
@@ -392,6 +393,14 @@ export function VotouFiqueDeOlhoExperience() {
               </p>
             </div>
 
+            <Link
+              href={`/conheca-seu-candidato/${pessoa.id}`}
+              className="shrink-0 rounded-xl border border-black/20 bg-white px-3 py-2 text-center text-xs font-bold text-black hover:border-black/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFC400]"
+              aria-label={`Ver ficha de ${pessoa.nomeUrna}`}
+            >
+              Ver ficha
+            </Link>
+
             {permitirRemocao ? (
               <button
                 type="button"
@@ -621,6 +630,12 @@ export function VotouFiqueDeOlhoExperience() {
                 </p>
               </div>
             </div>
+            <Link
+              href={`/conheca-seu-candidato/${ultimaSelecionada.id}`}
+              className="mt-3 inline-flex min-h-10 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-2 text-xs font-bold text-black"
+            >
+              Ver ficha
+            </Link>
           </div>
         ) : null}
 
