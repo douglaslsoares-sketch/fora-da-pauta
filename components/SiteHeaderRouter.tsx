@@ -25,7 +25,7 @@ export function SiteHeaderRouter({
 
   return (
     <header className="bg-black text-white">
-      <div className="mx-auto flex min-h-[96px] w-full max-w-[760px] items-center justify-between gap-5 px-6 py-4">
+      <div className="mx-auto flex min-h-[80px] w-full max-w-[760px] items-center justify-between gap-5 px-6 py-2">
         <Link
           href="/"
           aria-label="Fora da Pauta — página inicial"
@@ -37,7 +37,7 @@ export function SiteHeaderRouter({
             width={72}
             height={72}
             priority
-            className="h-16 w-16 object-contain"
+            className="h-14 w-14 object-contain"
           />
         </Link>
         <p className="text-right text-[15px] font-semibold leading-tight tracking-[-0.02em]">
