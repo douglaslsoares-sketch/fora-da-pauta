@@ -16,7 +16,8 @@ export function SiteHeaderRouter({
 
   const isCandidateRoute =
     pathname === "/conheca-seu-candidato" ||
-    pathname.startsWith("/conheca-seu-candidato/");
+    pathname.startsWith("/conheca-seu-candidato/") ||
+    pathname.startsWith("/pessoas/");
 
   if (!isCandidateRoute) {
     return <>{children}</>;
@@ -24,7 +25,7 @@ export function SiteHeaderRouter({
 
   return (
     <header className="bg-black text-white">
-      <div className="mx-auto flex min-h-[78px] w-full max-w-7xl items-center px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto flex min-h-[96px] w-full max-w-[760px] items-center justify-between gap-5 px-6 py-4">
         <Link
           href="/"
           aria-label="Fora da Pauta — página inicial"
@@ -33,12 +34,15 @@ export function SiteHeaderRouter({
           <Image
             src="/marca/fora-da-pauta-branca.png"
             alt="Fora da Pauta"
-            width={180}
-            height={130}
+            width={72}
+            height={72}
             priority
-            className="h-auto w-[62px] sm:w-[70px]"
+            className="h-16 w-16 object-contain"
           />
         </Link>
+        <p className="text-right text-[15px] font-semibold leading-tight tracking-[-0.02em]">
+          há mais para entender.
+        </p>
       </div>
     </header>
   );
