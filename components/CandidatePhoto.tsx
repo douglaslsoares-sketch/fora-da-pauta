@@ -44,6 +44,7 @@ export function CandidatePhoto({
         width: `${largura}px`,
         height: `${altura}px`,
         overflow: "hidden",
+        borderRadius: 0,
         border: profile
           ? "1px solid rgba(255,255,255,0.15)"
           : "1px solid rgba(0,0,0,0.10)",
