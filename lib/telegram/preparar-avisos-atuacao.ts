@@ -52,7 +52,9 @@ export function prepararAvisosAtuacao(
       texto: [
         "Um registro de votação parlamentar foi incluído no acompanhamento.",
         `Quando ocorreu: ${reduzir(votacao.data, 65)}.`,
-        `Voto registrado: ${reduzir(votacao.voto, 80)}.`,
+        votacao.voto.trim()
+          ? `Voto registrado: ${reduzir(votacao.voto, 80)}.`
+          : "Voto individual não disponível neste registro. Não é possível atribuir uma posição.",
         reduzir(votacao.descricao, 1450),
         "Este é o registro da votação, não uma conclusão automática sobre as intenções de quem votou.",
         fonteOficial(votacao.fonte),
