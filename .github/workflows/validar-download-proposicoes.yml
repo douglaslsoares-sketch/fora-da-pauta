@@ -1,0 +1,37 @@
+name: Validar download de proposições da Câmara
+
+on:
+  pull_request:
+    paths:
+      - "scripts/gerar-atuacao-proposicoes-politicas.ps1"
+      - "tests/download-proposicoes.test.cjs"
+      - ".github/workflows/validar-download-proposicoes.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --test tests/download-proposicoes.test.cjs
+      - name: Validar sintaxe PowerShell
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile(
+            (Resolve-Path ./scripts/gerar-atuacao-proposicoes-politicas.ps1),
+            [ref]$tokens,
+            [ref]$errors
+          ) | Out-Null
+          if ($errors.Count -gt 0) {
+            $errors | Format-Table
+            throw 'Falha de sintaxe PowerShell.'
+          }
