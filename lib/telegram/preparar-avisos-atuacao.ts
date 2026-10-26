@@ -53,6 +53,7 @@ export function prepararAvisosAtuacao(
   return [
     ...atuacao.votacoes.map((votacao) => ({
       id: `votacao:${votacao.votacaoId}`,
+      ocorridoEm: votacao.data,
       texto: [
         "Um registro de votação parlamentar foi incluído no acompanhamento.",
         `Quando ocorreu: ${reduzir(votacao.data, 65)}.`,
@@ -68,6 +69,7 @@ export function prepararAvisosAtuacao(
     })),
     ...atuacao.proposicoes.map((proposicao) => ({
       id: `proposicao:${proposicao.proposicaoId}`,
+      ocorridoEm: proposicao.data,
       texto: [
         "Um registro de proposição parlamentar foi incluído no acompanhamento.",
         `Proposição: ${reduzir(proposicao.identificacao, 100)}.`,
