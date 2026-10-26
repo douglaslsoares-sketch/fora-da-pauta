@@ -74,7 +74,7 @@ export async function gerarRascunhoResenhaIA(
 
   let bruto: unknown;
   try {
-    bruto = JSON.parse(text.trim().replace(/^\\`\\`\\`(?:json)?\\s*/i, "").replace(/\\s*\\`\\`\\`$/, ""));
+    bruto = JSON.parse(text.trim().replace(/^\x60{3}(?:json)?\s*/i, "").replace(/\s*\x60{3}$/, ""));
   } catch {
     throw new Error("A IA não retornou uma resenha em JSON válido.");
   }
