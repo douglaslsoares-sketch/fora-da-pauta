@@ -15,14 +15,15 @@ test("home preserva identidade e chamada editorial", () => {
   assert.match(home, /Decisões que afetam a sua vida\./);
   assert.match(home, /Fique de Olho/);
   assert.match(home, /Do povo para o povo\./);
+  assert.match(home, /Entenda o que políticos dizem, votam e fazem/);
   assert.match(home, /Sofremos por desconhecer o nosso próprio valor\./);
 });
 
 test("botão principal conduz à página de inscrição sem prometer inscrição imediata", () => {
   assert.match(home, /href="\/votou-fique-de-olho" className=\{styles\.primaryLink\}/);
   assert.match(home, /Inscreva-se no Telegram para receber as próximas novidades/);
-  assert.match(home, /Você seguirá para a próxima etapa no Fora da Pauta\./);
-  assert.match(home, /A inscrição será concluída no Telegram\./);
+  assert.match(home, /Próxima etapa aqui no site\./);
+  assert.match(home, /A inscrição é concluída no Telegram\./);
   assert.match(fluxo, /A inscrição é concluída no Telegram/);
   assert.match(fluxo, /essas decisões afetam a sua vida/);
   assert.match(fluxo, /quem ocupa cargos públicos/);
@@ -41,6 +42,8 @@ test("continuidade preserva seleção e permite receber novidades sem seguir pol
 test("contraste e responsividade sem interferir nas outras páginas", () => {
   assert.match(css, /\.featureTitle[\s\S]*?#ffc400/);
   assert.match(css, /\.primaryArrow/);
+  assert.match(css, /\.featureBenefit/);
+  assert.match(css, /\.primaryText/);
   assert.match(css, /justify-content: space-between/);
   assert.match(css, /text-align: right/);
   assert.match(css, /margin-inline: auto/);
