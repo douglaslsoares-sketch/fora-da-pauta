@@ -67,3 +67,23 @@ Branch: `feature/integracao-fichas-resenhas-telegram-20261026`
 - falta conferir integrações, versões e o domínio de validação antes de promover.
 
 **Decisão de release: BLOQUEADO.** Não interpretar aprovação de testes simulados como autorização para divulgação.
+
+## Validação adicional — compilação integral e continuidade de coleta
+
+- A compilação Next.js de toda a aplicação passou em GitHub Actions na
+  execução 40351058283, utilizando URL fictícia inacessível do PostgreSQL
+  apenas para carregar os módulos durante o build. **Não houve consulta
+  nem teste com banco real.**
+- O novo teste do monitor executa duas coletas consecutivas com três
+  respostas institucionais simuladas. Verifica idempotência, data de
+  última verificação e preservação dos arquivos quando uma fonte falha.
+- A consulta real dos feeds foi demonstrada separadamente, mas o agendamento
+  de coleta continua desativado para produção.
+- A rota de Telegram já possui testes de fila simulada; ainda falta um
+  recebimento **real** por uma pessoa de teste, com inscrição e
+  cancelamento verificados.
+- O sistema de menções não faz extração factual confiável de entrevistas,
+  vídeos ou falas. Não está pronto para atribuí-las como posicionamentos.
+
+**A liberação pública permanece bloqueada.** Compilação e simulação
+não substituem verificação com fonte nova e assinante real.
