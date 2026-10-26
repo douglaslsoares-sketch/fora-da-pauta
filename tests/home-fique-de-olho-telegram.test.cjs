@@ -16,7 +16,7 @@ test("home preserva identidade e chamada editorial", () => {
   assert.match(home, /Fique de Olho/);
   assert.match(home, /Do povo para o povo\./);
   assert.match(home, /Entenda o que os políticos dizem, votam e fazem/);
-  assert.match(home, /Sofremos por desconhecer o nosso próprio valor\./);
+  assert.match(home, /Conhecer é importante\. Entender como o jogo é jogado é fundamental\./);
 });
 
 test("botão principal conduz à página de inscrição sem prometer inscrição imediata", () => {
