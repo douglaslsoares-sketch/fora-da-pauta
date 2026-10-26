@@ -10,7 +10,7 @@ test("coletor distribui todas as fichas acompanhadas sem depender da existencia 
  assert.match(src,/\(\$\{janela\}::bigint \* 10\) % total/);
  assert.match(src,/LIMIT 10/);
  assert.match(src,/const janela = Math\.floor\(Date\.now\(\) \/ \(15 \* 60 \* 1000\)\)/);
- assert.match(src,/\b'nao_eleito'\b/);
+ assert.match(src,/'nao_eleito'/);
  assert.match(src,/!atuacao && !dossie/);
  assert.doesNotMatch(src,/ORDER BY f\.verificado_at ASC NULLS FIRST/);
 });
