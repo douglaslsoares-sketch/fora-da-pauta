@@ -23,3 +23,5 @@ jobs:
           node-version: "22"
       - run: node --test tests/monitor-mencoes-institucionais.test.mjs
       - run: node --check scripts/monitorar-mencoes-institucionais.mjs
+      - name: Conferir feeds oficiais sem publicar ou enviar avisos
+        run: node scripts/monitorar-mencoes-institucionais.mjs
