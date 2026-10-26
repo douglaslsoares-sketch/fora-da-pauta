@@ -6,7 +6,7 @@ import { planejarNovidades, prepararHistoricoPorGrupo } from "./novidades";
 export type EventoNotificacao = {
   id: string;
   texto: string;
-  /** Apenas revisões editoriais do dossiê informam quando foram publicadas. */
+  /** Publicações editoriais aprovadas (dossiês ou novas edições). */
   publicadoEm?: string;
 };
 
@@ -46,7 +46,10 @@ export async function registrarNovidadesNaFila({
     if (
       evento.publicadoEm !== undefined &&
       (
-        !evento.id.startsWith("dossie:") ||
+        !(
+          (tipo === "candidato" && evento.id.startsWith("dossie:")) ||
+          (tipo === "edicoes" && evento.id.startsWith("edicao:"))
+        ) ||
         !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/.test(evento.publicadoEm) ||
         !Number.isFinite(Date.parse(evento.publicadoEm))
       )
@@ -143,6 +146,11 @@ export async function registrarNovidadesNaFila({
         `;
         avisosInseridos += inseridos.length;
       } else {
+        // A inscrição precisa ser anterior à publicação. Não ressuscitar
+        // notícias antigas para assinantes novos ou reativados.
+        if (evento.publicadoEm === undefined) {
+          throw new Error("Edição sem data editorial não pode ser notificada.");
+        }
         const inseridos = await tx`
           INSERT INTO public.telegram_fila_avisos
             (telegram_chat_id, tipo, referencia, evento_id, texto)
@@ -152,6 +160,8 @@ export async function registrarNovidadesNaFila({
             AND referencia = ''
             AND status = 'ativo'
             AND cancelled_at IS NULL
+            AND created_at <= ${evento.publicadoEm}::timestamptz
+            AND updated_at <= ${evento.publicadoEm}::timestamptz
           ON CONFLICT (telegram_chat_id, tipo, referencia, evento_id)
           DO NOTHING
           RETURNING id
