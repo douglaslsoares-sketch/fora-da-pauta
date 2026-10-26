@@ -135,7 +135,8 @@ export async function registrarNovidadesNaFila({
       const evento = porId.get(id)!;
       // O ato antigo descoberto agora entra para o histórico conhecido,
       // mas não vira uma notícia recente. Não se aplica a correções editoriais.
-      if (evento.ocorridoEm !== undefined && !atoOficialRecente(evento.ocorridoEm)) {
+      if ((evento.id.startsWith("votacao:") || evento.id.startsWith("proposicao:")) &&
+          !atoOficialRecente(evento.ocorridoEm)) {
         continue;
       }
 
