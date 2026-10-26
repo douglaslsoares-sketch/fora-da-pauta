@@ -28,7 +28,7 @@ export const FONTES = Object.freeze([
   {
     id: "agencia-brasil",
     nome: "Agência Brasil",
-    feed: "https://agenciabrasil.ebc.com.br/feed/ultimasnoticias/feed.xml",
+    feed: "https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml",
     dominios: ["agenciabrasil.ebc.com.br"],
   },
 ]);
