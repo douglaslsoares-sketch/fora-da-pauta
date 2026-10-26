@@ -1,0 +1,25 @@
+name: Validar monitor de fontes institucionais
+
+on:
+  pull_request:
+    paths:
+      - "scripts/monitorar-mencoes-institucionais.mjs"
+      - "tests/monitor-mencoes-institucionais.test.mjs"
+      - "data/eleicoes/gerado/mencoes-institucionais.json"
+      - ".github/workflows/validar-monitor-institucional.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --test tests/monitor-mencoes-institucionais.test.mjs
+      - run: node --check scripts/monitorar-mencoes-institucionais.mjs
