@@ -37,6 +37,7 @@ jobs:
           node --test tests/telegram-rodizio-fichas.test.cjs
           node --test tests/telegram-edicoes-gerais.test.cjs
           node --test tests/telegram-edicoes-fila-integracao.test.cjs
+          node --test tests/telegram-recencia-atos.test.cjs
           node --test tests/home-fique-de-olho-telegram.test.cjs
           node --test tests/download-proposicoes.test.cjs
       - name: Validar TypeScript
