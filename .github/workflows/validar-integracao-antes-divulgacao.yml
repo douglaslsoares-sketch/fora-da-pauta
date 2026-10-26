@@ -32,6 +32,7 @@ jobs:
           node --test tests/resenhas-contextuais.test.cjs
           node --test tests/telegram-avisos-dossie.test.cjs
           node --test tests/telegram-avisos-atuacao-fonte.test.cjs
+          node --test tests/transparencia-ficha.test.cjs
           node --test tests/telegram-fila-editorial-integracao.test.cjs
           node --test tests/home-fique-de-olho-telegram.test.cjs
           node --test tests/download-proposicoes.test.cjs
