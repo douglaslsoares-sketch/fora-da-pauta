@@ -1,0 +1,28 @@
+name: Testar resenhas contextuais
+
+on:
+  pull_request:
+    paths:
+      - "lib/eleicoes/resenha-contextual.ts"
+      - "lib/eleicoes/gerar-rascunho-resenha-ia.ts"
+      - "components/CandidateDossier.tsx"
+      - "tests/resenhas-contextuais.test.cjs"
+      - ".github/workflows/testar-resenhas-contextuais.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/resenhas-contextuais.test.cjs
+      - run: npx tsc --noEmit
