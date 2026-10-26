@@ -27,7 +27,11 @@ function fonteOficial(
     url.protocol !== "https:" ||
     url.username ||
     url.password ||
-    !url.hostname.includes(".") ||
+    !(
+      url.hostname.endsWith(".leg.br") ||
+      url.hostname.endsWith(".gov.br")
+    ) ||
+    url.port !== "" ||
     fonte.url.length > 850 ||
     !titulo
   ) {
