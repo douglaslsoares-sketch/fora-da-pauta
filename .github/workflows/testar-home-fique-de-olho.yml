@@ -1,0 +1,28 @@
+name: Testar home e inscrição do Telegram
+
+on:
+  pull_request:
+    paths:
+      - "app/page.tsx"
+      - "app/page.module.css"
+      - "components/VotouFiqueDeOlhoExperience.tsx"
+      - "tests/home-fique-de-olho-telegram.test.cjs"
+      - ".github/workflows/testar-home-fique-de-olho.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/home-fique-de-olho-telegram.test.cjs
+      - run: npx tsc --noEmit
