@@ -214,3 +214,72 @@ test("cancelamento antes do processamento impede a entrega", async () => {
   assert.deepEqual(c.enviados.map((x) => String(x.chat_id)), ["101"]);
   assert.equal(c.fila.find((x) => x.chat === "102").status, "cancelado");
 });
+
+
+test("fato editorial com histórico do mesmo tema percorre ficha, fila e Telegram simulados", async () => {
+  const dossie = {
+    candidaturaId: idCandidato,
+    nome: "Representante de exemplo",
+    eventos: [
+      {
+        id: "registro-anterior",
+        tema: "jornada de trabalho",
+        data: { inicio: "2025-03-10", rotulo: "10 de março de 2025" },
+        titulo: "Pronunciamento público registrado",
+        resumo: "Registro atribuído ao representante com fonte original.",
+        natureza: ["documentado"],
+        fontes: [{ titulo: "Registro oficial anterior", url: "https://www.camara.leg.br/noticias/123" }],
+      },
+      {
+        id: "fato-atual",
+        tema: "Jornada de trabalho",
+        data: { inicio: "2026-10-15", rotulo: "15 de outubro de 2026" },
+        titulo: "Nova votação documentada",
+        resumo: "Consta em documento oficial um voto em proposta sobre jornada de trabalho.",
+        natureza: ["documentado"],
+        fontes: [{ titulo: "Registro oficial da votação", url: "https://www.camara.leg.br/noticias/456" }],
+        avisoTelegram: {
+          revisao: "v1",
+          publicadoEm: dataPublicacao,
+          tipo: "nova-informacao",
+        },
+      },
+    ],
+  };
+  const original = fs.readFileSync(
+    path.join(__dirname, "..", "lib/telegram/preparar-avisos-dossie.ts"), "utf8",
+  );
+  const codigo = ts.transpileModule(original, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText;
+  const mod = { exports: {} };
+  vm.runInNewContext(codigo, {
+    module: mod, exports: mod.exports, Date, Set, Error,
+  }, { timeout: 2000 });
+  const preparar = mod.exports.prepararAvisosDossie;
+  const avisos = preparar(dossie, new Date("2026-10-26T13:00:00Z"));
+  assert.equal(avisos.length, 1);
+  assert.match(avisos[0].texto, /Sobre o mesmo assunto/);
+  assert.match(avisos[0].texto, /Pronunciamento público registrado/);
+  assert.match(avisos[0].texto, /Nova votação documentada/);
+  assert.match(avisos[0].texto, /www.camara.leg.br\/noticias\/123/);
+  assert.match(avisos[0].texto, /www.camara.leg.br\/noticias\/456/);
+
+  const c = montarCenario();
+  const primeiro = await c.registrarEventos(avisos);
+  assert.equal(primeiro.avisosInseridos, 2);
+  assert.equal((await c.processar()).enviados, 2);
+  assert.equal(c.enviados.length, 2);
+  assert.ok(c.enviados.every(m => m.text.includes("Sobre o mesmo assunto")));
+  assert.equal((await c.registrarEventos(avisos)).avisosInseridos, 0);
+  assert.equal((await c.processar()).enviados, 0);
+  assert.equal(c.enviados.length, 2);
+});
+
+test("menções automáticas não podem ser enviadas como avisos de dossiê", () => {
+  const script = fs.readFileSync(
+    path.join(__dirname, "..", "scripts/monitorar-mencoes-institucionais.mjs"), "utf8",
+  );
+  assert.match(script, /mencao-automatica-nao-verificada/);
+  assert.doesNotMatch(script, /registrarNovidadesNaFila|processarFilaTelegram|TELEGRAM_BOT_TOKEN/);
+});
