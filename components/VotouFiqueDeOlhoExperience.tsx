@@ -668,10 +668,8 @@ export function VotouFiqueDeOlhoExperience() {
           onClick={() => { setEtapa("telegram"); setEscolhasSalvas(false); }}
           className="mt-7 flex min-h-14 w-full items-center justify-center gap-4 rounded-2xl bg-black px-5 font-semibold text-white"
         >
-          <span>Continuar</span>
-          <span aria-hidden="true" className="text-2xl">
-            ›
-          </span>
+          <span>Inscreva-se no Telegram para receber as próximas novidades</span>
+          <span aria-hidden="true" className="shrink-0 text-2xl">→</span>
         </button>
 
         {avisoStorage ? (
@@ -711,16 +709,9 @@ export function VotouFiqueDeOlhoExperience() {
           Quem você quer acompanhar?
         </h2>
 
-        <CandidateSelector
-          key={`busca-${busca}`}
-          mode="follow"
-          selectedIds={selecionadas.map((item) => item.id)}
-          onSelect={selecionar}
-        />
-
         {!conferindoInscricao && !novasEdicoesAtivas ? (
-        <div className="mt-7 rounded-2xl border border-black/15 p-5">
-          <p className="font-semibold">Receba as novidades do Fora da Pauta</p>
+        <div className="mt-7 border-2 border-[#FFC400] bg-[#fffaf0] p-5 sm:p-6">
+          <h2 className="text-xl font-bold leading-tight">Receba as próximas novidades do Fora da Pauta</h2>
           <p className="mt-2 text-sm leading-6 text-black/65">
             Você pode receber avisos de novas edições e publicações pelo Telegram,
             mesmo sem escolher representantes. Se já acompanha alguém, suas escolhas
@@ -733,12 +724,22 @@ export function VotouFiqueDeOlhoExperience() {
               setEscolhasSalvas(false);
               setEtapa("telegram");
             }}
-            className="mt-4 min-h-14 w-full rounded-2xl bg-black px-5 py-3 font-semibold text-white"
+            className="mt-4 flex min-h-14 w-full items-center justify-center gap-3 bg-black px-5 py-3 text-center font-semibold leading-snug text-white"
           >
-            Receber as novidades do Fora da Pauta
+            <span>Inscreva-se no Telegram para receber as próximas novidades</span>
+            <span aria-hidden="true" className="text-2xl">→</span>
           </button>
+          <p className="mt-3 text-xs leading-5 text-black/60">A inscrição será concluída no Telegram. Você também pode escolher políticos para acompanhar.</p>
         </div>
         ) : null}
+
+        <CandidateSelector
+          key={`busca-${busca}`}
+          mode="follow"
+          selectedIds={selecionadas.map((item) => item.id)}
+          onSelect={selecionar}
+        />
+
 
         {selecionadas.length > 0 ? (
           <button
