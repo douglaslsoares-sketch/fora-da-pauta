@@ -76,14 +76,17 @@ export default function Home() {
           <div className={styles.featureIntro}>
             <h2 className={styles.featureTitle}>Fique de Olho</h2>
             <p className={styles.featureSubtitle}>Do povo para o povo.</p>
+            <p className={styles.featureBenefit}>
+              Entenda o que políticos dizem, votam e fazem — com fontes para conferir.
+            </p>
           </div>
 
           <Link href="/votou-fique-de-olho" className={styles.primaryLink}>
-            <span>Inscreva-se no Telegram para receber as próximas novidades</span>
+            <span className={styles.primaryText}>Inscreva-se no Telegram para receber as próximas novidades</span>
             <span className={styles.primaryArrow} aria-hidden="true">→</span>
           </Link>
           <p className={styles.ctaNote}>
-            Você seguirá para a próxima etapa no Fora da Pauta. A inscrição será concluída no Telegram.
+            Próxima etapa aqui no site. A inscrição é concluída no Telegram.
           </p>
           <div className={styles.heroClosing}>
             <p>Sofremos por desconhecer o nosso próprio valor.</p>
