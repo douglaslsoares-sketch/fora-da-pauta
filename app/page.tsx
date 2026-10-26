@@ -82,13 +82,8 @@ export default function Home() {
             <span>Inscreva-se no Telegram para receber as próximas novidades</span>
             <span className={styles.primaryArrow} aria-hidden="true">→</span>
           </Link>
-          <p className={styles.ctaNote}>
-            Escolha quem acompanhar ou receba só as próximas publicações.
-            A inscrição é concluída no Telegram.
-          </p>
-
           <div className={styles.heroClosing}>
-            <p>Sofremos por desconhecer nosso próprio poder.</p>
+            <p>Sofremos por desconhecer o nosso próprio valor.</p>
           </div>
         </section>
 
