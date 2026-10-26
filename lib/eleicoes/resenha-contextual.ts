@@ -52,7 +52,7 @@ function rotuloFato(evento: EventoDossie): string {
 }
 
 function normalizarTema(valor?: string): string | null {
-  const tema = valor?.normalize("NFKC").trim().replace(/\\s+/g, " ");
+  const tema = valor?.normalize("NFKC").trim().replace(/\s+/g, " ");
   return tema && tema.length >= 3 ? tema.toLocaleLowerCase("pt-BR") : null;
 }
 
