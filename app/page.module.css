@@ -325,3 +325,133 @@
     padding: 24px;
   }
 }
+
+/* Home editorial: percurso único e legível até o Fique de Olho. */
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.logo {
+  width: clamp(118px, 15vw, 166px);
+}
+
+.tagline {
+  max-width: none;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(11px, 1.7vw, 14px);
+  letter-spacing: .12em;
+  text-align: center;
+}
+
+.hero {
+  max-width: 920px;
+  margin-inline: auto;
+  padding: 52px 0 72px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(35px, 6.2vw, 66px);
+}
+
+.heroLead {
+  margin: 12px 0 0;
+  color: #f0f0f0;
+  font-size: clamp(16px, 2.4vw, 23px);
+}
+
+.featureIntro {
+  margin-top: 46px;
+}
+
+.featureTitle {
+  margin: 0;
+  color: #ffc400;
+  font-size: clamp(52px, 10vw, 104px);
+  font-weight: 800;
+  letter-spacing: -.06em;
+  line-height: .98;
+  text-wrap: balance;
+}
+
+.featureSubtitle {
+  margin: 14px 0 0;
+  color: #fff;
+  font-size: clamp(18px, 2.6vw, 26px);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.page .primaryLink {
+  display: flex;
+  max-width: 600px;
+  min-height: 60px;
+  margin: 38px auto 0;
+  padding: 17px 22px;
+  gap: 15px;
+  font-size: clamp(14px, 2vw, 17px);
+  line-height: 1.4;
+  text-align: center;
+}
+
+.primaryArrow {
+  flex: 0 0 auto;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.ctaNote {
+  max-width: 560px;
+  margin: 13px auto 0;
+  color: #bfbfbf;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.heroClosing {
+  margin: 52px auto 0;
+  padding-top: 28px;
+  border-top: 1px solid #ffffff55;
+}
+
+.heroClosing p {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(17px, 2.4vw, 23px);
+  font-weight: 500;
+  line-height: 1.45;
+  text-wrap: balance;
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: 24px 22px;
+  }
+
+  .hero {
+    padding: 40px 0 56px;
+  }
+
+  .featureIntro {
+    margin-top: 36px;
+  }
+
+  .page .primaryLink {
+    width: 100%;
+    margin-top: 28px;
+  }
+
+  .heroClosing {
+    margin-top: 40px;
+  }
+}
