@@ -668,11 +668,12 @@ export function VotouFiqueDeOlhoExperience() {
           onClick={() => { setEtapa("telegram"); setEscolhasSalvas(false); }}
           className="mt-7 flex min-h-14 w-full items-center justify-center gap-4 rounded-2xl bg-black px-5 font-semibold text-white"
         >
-          <span>Continuar</span>
-          <span aria-hidden="true" className="text-2xl">
-            ›
-          </span>
+          <span>Inscreva-se no Telegram para receber as próximas novidades</span>
+          <span aria-hidden="true" className="shrink-0 text-2xl">→</span>
         </button>
+        <p className="mt-3 text-center text-xs leading-5 text-black/55">
+          Próxima etapa: conferir suas escolhas e abrir o Telegram para concluir a inscrição.
+        </p>
 
         {avisoStorage ? (
           <p role="alert" className="mt-5 text-sm text-black/60">
@@ -696,19 +697,41 @@ export function VotouFiqueDeOlhoExperience() {
           </h1>
 
           <p className="mt-6 max-w-xl text-xl leading-7 text-white/90">
-            Acompanhe a atuação de quem participa da política, tenha sido eleito ou não.
+            Acompanhe quem ocupa cargos públicos — como presidente, governador, deputado e senador — e também quem disputa eleições.
           </p>
           <p className="mt-4 max-w-xl text-base leading-7 text-white/75">
-            Entenda como as decisões são tomadas: o que faz a Presidência,
-            o que decide o Congresso e qual é o papel do Judiciário.
-            Escolha quem você quer acompanhar e receba as informações pelo Telegram.
+            Saiba o que essas pessoas dizem, fazem e decidem, e entenda como essas decisões afetam a sua vida.
           </p>
         </div>
       </section>
 
       <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
+        {!conferindoInscricao && !novasEdicoesAtivas ? (
+        <div className="mt-7 border-2 border-[#FFC400] bg-[#fffaf0] p-5 sm:p-6">
+          <h2 className="text-xl font-bold leading-tight">Receba as próximas novidades do Fora da Pauta</h2>
+          <p className="mt-2 text-sm leading-6 text-black/65">
+            Você pode receber avisos das próximas publicações sem selecionar ninguém.
+            Se quiser, escolha abaixo as pessoas que deseja acompanhar.
+            A inscrição é concluída no Telegram, sem cancelar acompanhamentos já existentes.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setInscricaoGeral(true);
+              setEscolhasSalvas(false);
+              setEtapa("telegram");
+            }}
+            className="mt-4 flex min-h-14 w-full items-center justify-center gap-3 bg-black px-5 py-3 text-center font-semibold leading-snug text-white"
+          >
+            <span>Inscreva-se no Telegram para receber as próximas novidades</span>
+            <span aria-hidden="true" className="text-2xl">→</span>
+          </button>
+          <p className="mt-3 text-xs leading-5 text-black/60">Você pode receber somente novidades ou escolher pessoas para acompanhar. A inscrição é concluída no Telegram.</p>
+        </div>
+        ) : null}
+
         <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
-          Quem você quer acompanhar?
+          Quem você quer acompanhar na política?
         </h2>
 
         <CandidateSelector
@@ -718,27 +741,6 @@ export function VotouFiqueDeOlhoExperience() {
           onSelect={selecionar}
         />
 
-        {!conferindoInscricao && !novasEdicoesAtivas ? (
-        <div className="mt-7 rounded-2xl border border-black/15 p-5">
-          <p className="font-semibold">Receba as novidades do Fora da Pauta</p>
-          <p className="mt-2 text-sm leading-6 text-black/65">
-            Você pode receber avisos de novas edições e publicações pelo Telegram,
-            mesmo sem escolher representantes. Se já acompanha alguém, suas escolhas
-            continuam ativas e não serão canceladas.
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              setInscricaoGeral(true);
-              setEscolhasSalvas(false);
-              setEtapa("telegram");
-            }}
-            className="mt-4 min-h-14 w-full rounded-2xl bg-black px-5 py-3 font-semibold text-white"
-          >
-            Receber as novidades do Fora da Pauta
-          </button>
-        </div>
-        ) : null}
 
         {selecionadas.length > 0 ? (
           <button

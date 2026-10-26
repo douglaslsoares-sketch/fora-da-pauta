@@ -72,9 +72,25 @@ export default function Home() {
           <p className={styles.heroLead}>
             Decisões que afetam a sua vida.
           </p>
+
+          <div className={styles.featureIntro}>
+            <h2 className={styles.featureTitle}>Fique de Olho</h2>
+            <p className={styles.featureSubtitle}>Do povo para o povo.</p>
+            <p className={styles.featureBenefit}>
+              Entenda o que os políticos dizem, votam e fazem.
+            </p>
+          </div>
+
           <Link href="/votou-fique-de-olho" className={styles.primaryLink}>
-            Fique de Olho <span aria-hidden="true">→</span>
+            <span className={styles.primaryText}>Inscreva-se no Telegram para receber as próximas novidades</span>
+            <span className={styles.primaryArrow} aria-hidden="true">→</span>
           </Link>
+          <p className={styles.ctaNote}>
+            Próxima etapa aqui no site. A inscrição é concluída no Telegram.
+          </p>
+          <div className={styles.heroClosing}>
+            <p>Conhecer é importante. Entender como o jogo é jogado é fundamental.</p>
+          </div>
         </section>
 
         {publicacoes.length > 0 ? (

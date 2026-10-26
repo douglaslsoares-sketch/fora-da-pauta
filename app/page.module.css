@@ -325,3 +325,181 @@
     padding: 24px;
   }
 }
+
+/* O cabeçalho conserva a assinatura assimétrica; a apresentação é centrada. */
+.header {
+  display: block;
+}
+
+.brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.logo {
+  width: clamp(105px, 12vw, 142px);
+  flex-shrink: 0;
+}
+
+.tagline {
+  max-width: 190px;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(11px, 1.7vw, 14px);
+  letter-spacing: .12em;
+  text-align: right;
+}
+
+.hero {
+  max-width: 920px;
+  margin-inline: auto;
+  padding: 52px 0 72px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(35px, 6.2vw, 66px);
+}
+
+.heroLead {
+  margin: 12px 0 0;
+  color: #f0f0f0;
+  font-size: clamp(16px, 2.4vw, 23px);
+}
+
+.featureIntro {
+  margin-top: 46px;
+}
+
+.featureTitle {
+  margin: 0;
+  color: #ffc400;
+  font-size: clamp(52px, 10vw, 104px);
+  font-weight: 800;
+  letter-spacing: -.06em;
+  line-height: .98;
+  text-wrap: balance;
+}
+
+.featureSubtitle {
+  margin: 14px 0 0;
+  color: #fff;
+  font-size: clamp(18px, 2.6vw, 26px);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.featureBenefit {
+  max-width: 590px;
+  margin: 20px auto 0;
+  color: #d9d9d9;
+  font-size: clamp(15px, 1.6vw, 17px);
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.page .primaryLink {
+  display: flex;
+  max-width: 600px;
+  min-height: 60px;
+  margin: 30px auto 0;
+  padding: 16px 21px;
+  gap: 12px;
+  font-size: clamp(14px, 1.7vw, 16px);
+  line-height: 1.4;
+  text-align: center;
+}
+
+.primaryText {
+  flex: 1;
+}
+
+.primaryArrow {
+  flex: 0 0 auto;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.ctaNote {
+  max-width: 560px;
+  margin: 13px auto 0;
+  color: #bfbfbf;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.heroClosing {
+  margin: 52px auto 0;
+  padding-top: 28px;
+  border-top: 1px solid #ffffff55;
+}
+
+.heroClosing p {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(17px, 2.4vw, 23px);
+  font-weight: 500;
+  line-height: 1.45;
+  text-wrap: balance;
+}
+
+/* Título das edições alinhado ao eixo central; textos extensos seguem legíveis. */
+.sectionHeading {
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: 24px 22px;
+  }
+
+  .hero {
+    padding: 40px 0 56px;
+  }
+
+  .featureIntro {
+    margin-top: 34px;
+  }
+
+  .featureTitle {
+    font-size: clamp(43px, 12vw, 72px);
+    letter-spacing: -0.055em;
+    line-height: 1.04;
+  }
+
+  .featureSubtitle {
+    margin-top: 12px;
+  }
+
+  .featureBenefit {
+    margin-top: 17px;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .page .primaryLink {
+    width: 100%;
+    margin-top: 28px;
+    min-height: 64px;
+    padding: 14px 12px 14px 15px;
+    gap: 7px;
+    font-size: 14px;
+  }
+
+  .primaryArrow {
+    font-size: 22px;
+  }
+
+  .ctaNote {
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .heroClosing {
+    margin-top: 40px;
+  }
+}
