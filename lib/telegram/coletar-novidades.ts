@@ -11,18 +11,29 @@ import {
 } from "./registrar-novidades";
 
 export async function coletarNovidadesCandidatos() {
-  // Prioriza fontes nunca verificadas e depois as mais antigas.
-  // O lote limitado permite continuar nas próximas execuções.
+  // Rotação determinística de 10 fichas a cada janela de 15 minutos.
+  // Fontes sem arquivo permanecem SEM inicialização editorial, mas
+  // não bloqueiam a verificação das outras fichas inscritas.
+  //
+  // O deslocamento circular é calculado no banco, sem trazer todas
+  // as candidaturas para a aplicação e sem criar novas tabelas.
+  const janela = Math.floor(Date.now() / (15 * 60 * 1000));
   const candidaturas = await sql<{ candidatura_id: string }[]>`
-    SELECT a.candidatura_id
-    FROM public.telegram_acompanhamentos AS a
-    LEFT JOIN public.telegram_fontes_notificacao AS f
-      ON f.tipo = 'candidato'
-      AND f.referencia = a.candidatura_id
-    WHERE a.status IN ('ativo', 'aguardando_eleicao')
-      AND a.cancelled_at IS NULL
-    GROUP BY a.candidatura_id, f.verificado_at
-    ORDER BY f.verificado_at ASC NULLS FIRST, a.candidatura_id
+    WITH acompanhadas AS (
+      SELECT DISTINCT a.candidatura_id
+      FROM public.telegram_acompanhamentos AS a
+      WHERE a.status IN ('ativo', 'aguardando_eleicao', 'nao_eleito')
+        AND a.cancelled_at IS NULL
+    ), numeradas AS (
+      SELECT candidatura_id,
+             row_number() OVER (ORDER BY candidatura_id) - 1 AS indice,
+             count(*) OVER () AS total
+      FROM acompanhadas
+    )
+    SELECT candidatura_id
+    FROM numeradas
+    ORDER BY ((indice - ((${janela}::bigint * 10) % total) + total) % total),
+             candidatura_id
     LIMIT 10
   `;
 
