@@ -41,5 +41,9 @@ test("continuidade preserva seleção e permite receber novidades sem seguir pol
 test("contraste e responsividade sem interferir nas outras páginas", () => {
   assert.match(css, /\.featureTitle[\s\S]*?#ffc400/);
   assert.match(css, /\.primaryArrow/);
+  assert.match(css, /justify-content: space-between/);
+  assert.match(css, /text-align: right/);
+  assert.match(css, /margin-inline: auto/);
+  assert.match(css, /text-align: center/);
   assert.match(css, /@media \(max-width: 767px\)/);
 });
