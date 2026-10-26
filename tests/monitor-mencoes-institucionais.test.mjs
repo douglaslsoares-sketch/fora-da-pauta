@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import {
   FONTES, lerFeed, indexarPessoas, identificarMencoes,
   consolidarMencoes, executarMonitor,
@@ -78,4 +81,50 @@ test("lê Atom sem confundir link self com artigo", () => {
 
 test("falha se lista de pessoas não existe; nenhum resultado parcial é aceito", async () => {
   await assert.rejects(() => executarMonitor({listaPessoas:"tests/sem-arquivo.json"}));
+});
+
+
+test("duas coletas reais na lógica do monitor não duplicam menções", async () => {
+  const pasta = await mkdtemp(join(tmpdir(), "fdp-monitor-"));
+  const listaPessoas = join(pasta, "eleitos.json");
+  const destino = join(pasta, "mencoes.json");
+  const statusArquivo = join(pasta, "status.json");
+  try {
+    await writeFile(listaPessoas, JSON.stringify(eleitos));
+    await writeFile(destino, "[]");
+    const requisitar = async (endereco) => {
+      const fonte = FONTES.find(f => f.feed === endereco);
+      assert.ok(fonte, "Só requisitar feeds permitidos");
+      const link = "https://" + fonte.dominios[0] + "/noticias/teste-fdp/";
+      const corpo = '<rss><channel><item><title>Renato de Almeida Freitas Junior é mencionado</title>' +
+        '<link>' + link + '</link>' +
+        '<pubDate>Mon, 26 Oct 2026 09:00:00 GMT</pubDate><description>Publicação institucional.</description>' +
+        '</item></channel></rss>';
+      return { ok: true, status: 200, text: async () => corpo };
+    };
+    const params = {listaPessoas, destino, statusArquivo, requisitar, agora};
+    const primeira = await executarMonitor(params);
+    assert.equal(primeira.fontes, 3);
+    assert.equal(primeira.mencoesNovas, 3);
+    assert.equal(primeira.total, 3);
+    const segunda = await executarMonitor(params);
+    assert.equal(segunda.mencoesNovas, 0);
+    assert.equal(segunda.total, 3);
+    const salvos = JSON.parse(await readFile(destino, "utf8"));
+    assert.equal(salvos.length, 3);
+    assert.ok(salvos.every(x => x.situacao === "mencao-automatica-nao-verificada"));
+    const status = JSON.parse(await readFile(statusArquivo, "utf8"));
+    assert.equal(status.noticias, 3);
+    assert.equal(status.ultimaVerificacaoConcluida, agora.toISOString());
+
+    const antesDaFalha = await readFile(destino, "utf8");
+    const statusAntes = await readFile(statusArquivo, "utf8");
+    await assert.rejects(() => executarMonitor({
+      ...params, requisitar: async () => { throw Error("falha de fonte"); },
+    }), /indisponível/);
+    assert.equal(await readFile(destino, "utf8"), antesDaFalha);
+    assert.equal(await readFile(statusArquivo, "utf8"), statusAntes);
+  } finally {
+    await rm(pasta, {recursive: true, force: true});
+  }
 });
