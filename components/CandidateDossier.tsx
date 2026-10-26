@@ -1,3 +1,4 @@
+import { montarContextoResenha } from "@/lib/eleicoes/resenha-contextual";
 import type { ReactNode } from "react";
 import {
   buscarDossiePorCandidaturaId,
@@ -364,6 +365,31 @@ export function CandidateDossier({
               <p className="mt-3 max-w-3xl text-base leading-7 text-black/65">
                 {evento.resumo}
               </p>
+
+              {evento.tema && (() => {
+                const contexto = montarContextoResenha(dossie, evento.id);
+                return contexto && contexto.relacionados.length > 0 ? (
+                  <aside className="mt-5 border-l-2 border-[#FFC400] pl-4">
+                    <p className="text-sm font-semibold">Este assunto na trajetória</p>
+                    <p className="mt-2 text-sm leading-6 text-black/70">
+                      Encontramos {contexto.relacionados.length} outros registros relacionados ao tema
+                      {" "}{contexto.tema}. Eles não significam, por si sós, que a pessoa manteve ou mudou de posição.
+                    </p>
+                    <ul className="mt-3 space-y-2 text-sm">
+                      {contexto.relacionados.map((referencia) => (
+                        <li key={referencia.id}>
+                          <a className="font-semibold underline underline-offset-4" href={`#evento-${referencia.id}`}>
+                            {referencia.titulo}
+                          </a>
+                          {" · "}<a className="underline underline-offset-4" href={referencia.url} target="_blank" rel="noreferrer">
+                            Conferir fonte ↗
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </aside>
+                ) : null;
+              })()}
 
               <div className="mt-4 flex flex-wrap gap-2">
                 {evento.natureza.map(

@@ -268,6 +268,31 @@ O Fora da Pauta não deve esconder seus erros.
 
 ## Como acompanha a vida pública
 
+### O gravador de Juruna: memória para acompanhar e cobrar
+
+O compromisso editorial de todas as fichas e notificações deve ser fiel à chamada da página inicial:
+
+> **Como o jogo é jogado. Decisões que afetam a sua vida.**
+
+O Fora da Pauta deve explicar **quem tomou a decisão, como ela foi tomada, quais interesses documentados participaram, o que mudou, quem foi afetado e por quê**. Quando ainda não for possível demonstrar algum desses elementos, precisa dizer o que falta apurar.
+
+O exemplo histórico é o líder xavante e deputado federal Mário Juruna, que usava um gravador para registrar compromissos assumidos por autoridades e cobrá-los depois. O Fora da Pauta deve funcionar como uma **memória pública verificável**: cada pessoa poderá consultar o que foi dito, prometido, votado e efetivamente realizado, com documentos e datas, e fazer suas próprias cobranças.
+
+Para cada declaração ou promessa de interesse público, quando existirem fontes, procurar conservar e relacionar:
+
+- a fala original, a autoria, a data, o local, o contexto e o registro integral (áudio, vídeo, transcrição ou documento);
+- o compromisso concreto, seu objeto, destinatários e eventual prazo, **sem tratar intenção genérica como promessa verificável**;
+- atos posteriores, projetos, votações, decisões, respostas, mudanças de posição e eventuais correções;
+- os benefícios, os custos e as consequências demonstráveis para a vida cotidiana das pessoas e para o país;
+- o estado de comprovação e a data da última verificação, sem presumir cumprimento ou descumprimento quando faltarem informações.
+
+A ficha mantém a cronologia completa; a resenha explica o fato novo à luz da trajetória, em **linguagem oralizada e de reportagem**, com referências acessíveis. O Telegram entrega uma síntese do que aconteceu e por que interessa ao cidadão, com link para os registros originais e o aprofundamento. O histórico antigo não pode ser apresentado como novidade recente.
+
+O Fora da Pauta não precisa registrar conversas privadas: prioriza pronunciamentos, documentos e registros públicos legítimos, preservando contexto, integridade e direitos. Um corte editado deve remeter, sempre que possível, ao registro integral. Nenhuma associação política ou econômica, acusação, alegação ou interpretação da IA deve ser apresentada como prova de motivação oculta, ilícito ou culpa.
+
+**O objetivo não é dizer à pessoa o que pensar ou em quem votar: é dar a ela meios de lembrar, comparar, compreender e cobrar.**
+
+
 ### Manter atualizadas as informações sobre a vida pública
 
 Informações sobre pessoas que ocupam, disputam ou exercem funções públicas podem mudar com o tempo.
