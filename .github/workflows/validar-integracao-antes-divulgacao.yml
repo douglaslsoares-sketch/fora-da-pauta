@@ -39,6 +39,9 @@ jobs:
       - name: Compilar site inteiro sem publicar
         env:
           NEXT_TELEMETRY_DISABLED: "1"
+          # Apenas permite importar rotas que instanciam postgres.
+          # Endereço deliberadamente inacessível; nenhuma consulta é permitida neste teste.
+          DATABASE_URL: "postgres://fdp_ci:nao-usar@127.0.0.1:1/fdp_build"
         run: npm run build
       - name: Validar sintaxe do coletor parlamentar
         shell: pwsh
