@@ -36,6 +36,24 @@ test("não associa nome parcial e descarta homônimos na base", () => {
   assert.equal(identificarMencoes([{...item, titulo:"Renato Freitas Junior", descricao:""}], idx, agora).length, 0);
 });
 
+test("reconhece nome parlamentar composto mas não apelido isolado", () => {
+  const eleita = { id:"100000000004", nomeCompleto:"Maria Silva Albuquerque",
+    nomeUrna:"Maria Albuquerque", cargo:"deputado-estadual", uf:"PE" };
+  const idx = indexarPessoas([...eleitos, eleita]);
+  const noticia = {
+    ...lerFeed(xml, camara)[0],
+    titulo:"Maria Albuquerque participa de audiência pública",
+    descricao:"",
+  };
+  const resultado = identificarMencoes([noticia], idx, agora);
+  assert.equal(resultado.length, 1);
+  assert.equal(resultado[0].candidaturaId, eleita.id);
+  assert.equal(identificarMencoes([{...noticia,titulo:"Maria",descricao:""}], idx, agora).length,0);
+  const comHomonimo = indexarPessoas([...eleitos, eleita,
+    {id:"100000000005",nomeCompleto:"Maria Pereira Albuquerque",nomeUrna:"Maria Albuquerque"}]);
+  assert.equal(identificarMencoes([noticia], comHomonimo, agora).length,0);
+});
+
 test("menção é explicitamente não verificada, nunca evento ou manifestação comprovada", () => {
   const idx = indexarPessoas(eleitos);
   const registros = identificarMencoes(lerFeed(xml, camara), idx, agora);
