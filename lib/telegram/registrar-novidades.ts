@@ -1,13 +1,15 @@
 import "server-only";
 
 import { sql } from "../interesses/db";
-import { planejarNovidades, prepararHistoricoPorGrupo } from "./novidades";
+import { atoOficialRecente, planejarNovidades, prepararHistoricoPorGrupo } from "./novidades";
 
 export type EventoNotificacao = {
   id: string;
   texto: string;
   /** Publicações editoriais aprovadas (dossiês ou novas edições). */
   publicadoEm?: string;
+  /** Data real do ato parlamentar, não a data da importação. */
+  ocorridoEm?: string;
 };
 
 type EntradaNovidades = {
@@ -57,8 +59,19 @@ export async function registrarNovidadesNaFila({
       throw new Error("Data editorial de notificação inválida.");
     }
 
+    if (
+      evento.ocorridoEm !== undefined &&
+      (
+        tipo !== "candidato" ||
+        (!evento.id.startsWith("votacao:") && !evento.id.startsWith("proposicao:")) ||
+        !/^\d{4}-\d{2}-\d{2}$/.test(evento.ocorridoEm)
+      )
+    ) {
+      throw new Error("Data do ato oficial inválida.");
+    }
+
     const anterior = porId.get(evento.id);
-    if (anterior && (anterior.texto !== evento.texto || anterior.publicadoEm !== evento.publicadoEm)) {
+    if (anterior && (anterior.texto !== evento.texto || anterior.publicadoEm !== evento.publicadoEm || anterior.ocorridoEm !== evento.ocorridoEm)) {
       throw new Error("Identificador repetido com conteúdos diferentes.");
     }
 
@@ -120,6 +133,11 @@ export async function registrarNovidadesNaFila({
 
     for (const id of novosIds) {
       const evento = porId.get(id)!;
+      // O ato antigo descoberto agora entra para o histórico conhecido,
+      // mas não vira uma notícia recente. Não se aplica a correções editoriais.
+      if (evento.ocorridoEm !== undefined && !atoOficialRecente(evento.ocorridoEm)) {
+        continue;
+      }
 
       if (tipo === "candidato") {
         const inseridos = await tx`
