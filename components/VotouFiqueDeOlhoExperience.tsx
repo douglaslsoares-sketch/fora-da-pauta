@@ -697,10 +697,10 @@ export function VotouFiqueDeOlhoExperience() {
           </h1>
 
           <p className="mt-6 max-w-xl text-xl leading-7 text-white/90">
-            Acompanhe quem exerce ou disputa o poder de tomar decisões que afetam a sua vida.
+            Acompanhe quem ocupa cargos públicos — como presidente, governador, deputado e senador — e também quem disputa eleições.
           </p>
           <p className="mt-4 max-w-xl text-base leading-7 text-white/75">
-            Saiba o que essas pessoas dizem, fazem e decidem, e entenda como isso chega até você.
+            Saiba o que essas pessoas dizem, fazem e decidem, e entenda como essas decisões afetam a sua vida.
           </p>
         </div>
       </section>
@@ -731,7 +731,7 @@ export function VotouFiqueDeOlhoExperience() {
         ) : null}
 
         <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
-          Quem você quer acompanhar?
+          Quem você quer acompanhar na política?
         </h2>
 
         <CandidateSelector
