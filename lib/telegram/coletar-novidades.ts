@@ -51,7 +51,6 @@ export async function coletarNovidadesCandidatos() {
         ...prepararAvisosAtuacao(atuacao, id),
         ...prepararAvisosDossie(dossie),
       ];
-      ];
 
       const resultado = await registrarNovidadesNaFila({
         tipo: "candidato",
