@@ -47,3 +47,11 @@ test("não envia registro que perdeu sua fonte documentada",()=>{
 test("não produz avisos para candidatura inválida",()=>{
  assert.throws(()=>prepararAvisosAtuacao(base,"ABC"),/Identificador eleitoral/);
 });
+
+test("votação com voto individual vazio não atribui posição",()=>{
+ const semVoto=structuredClone(base);
+ semVoto.votacoes[0].voto="";
+ const aviso=prepararAvisosAtuacao(semVoto,"100000000001")[0];
+ assert.match(aviso.texto,/Voto individual não disponível/);
+ assert.doesNotMatch(aviso.texto,/Voto registrado:\s*\./);
+});
