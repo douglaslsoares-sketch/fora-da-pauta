@@ -15,13 +15,15 @@ test("home preserva identidade e chamada editorial", () => {
   assert.match(home, /Decisões que afetam a sua vida\./);
   assert.match(home, /Fique de Olho/);
   assert.match(home, /Do povo para o povo\./);
-  assert.match(home, /Sofremos por desconhecer nosso próprio poder\./);
+  assert.match(home, /Sofremos por desconhecer o nosso próprio valor\./);
 });
 
 test("botão principal conduz à página de inscrição sem prometer inscrição imediata", () => {
   assert.match(home, /href="\/votou-fique-de-olho" className=\{styles\.primaryLink\}/);
   assert.match(home, /Inscreva-se no Telegram para receber as próximas novidades/);
-  assert.match(home, /A inscrição é concluída no Telegram\./);
+  assert.doesNotMatch(home, /A inscrição é concluída no Telegram\./);
+  assert.match(fluxo, /A inscrição é concluída no Telegram/);
+  assert.match(fluxo, /decisões que afetam a sua vida/);
 });
 
 test("continuidade preserva seleção e permite receber novidades sem seguir político", () => {
