@@ -671,6 +671,9 @@ export function VotouFiqueDeOlhoExperience() {
           <span>Inscreva-se no Telegram para receber as próximas novidades</span>
           <span aria-hidden="true" className="shrink-0 text-2xl">→</span>
         </button>
+        <p className="mt-3 text-center text-xs leading-5 text-black/55">
+          Próxima etapa: conferir suas escolhas e abrir o Telegram para concluir a inscrição.
+        </p>
 
         {avisoStorage ? (
           <p role="alert" className="mt-5 text-sm text-black/60">
@@ -705,10 +708,6 @@ export function VotouFiqueDeOlhoExperience() {
       </section>
 
       <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
-        <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
-          Quem você quer acompanhar?
-        </h2>
-
         {!conferindoInscricao && !novasEdicoesAtivas ? (
         <div className="mt-7 border-2 border-[#FFC400] bg-[#fffaf0] p-5 sm:p-6">
           <h2 className="text-xl font-bold leading-tight">Receba as próximas novidades do Fora da Pauta</h2>
@@ -732,6 +731,10 @@ export function VotouFiqueDeOlhoExperience() {
           <p className="mt-3 text-xs leading-5 text-black/60">A inscrição será concluída no Telegram. Você também pode escolher políticos para acompanhar.</p>
         </div>
         ) : null}
+
+        <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
+          Quem você quer acompanhar?
+        </h2>
 
         <CandidateSelector
           key={`busca-${busca}`}
