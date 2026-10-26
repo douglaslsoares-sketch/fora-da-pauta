@@ -58,6 +58,33 @@ const dadosPorCandidatura: Record<string, DadosPerfilPublico> = {
       url: "https://www1.folha.uol.com.br/poder/eleicoes/candidatos/2026/br/presidente/clariana-barao-280002552484.shtml",
     },
   },
+  "280002551975": {
+    dataNascimento: "1950-04-08",
+    cidade: "Pedreiras (MA)",
+    cidadeRotulo: "Naturalidade",
+    fonteDados: {
+      titulo: "Folha de S.Paulo — dados eleitorais de Edmilson Costa, fonte TSE",
+      url: "https://www1.folha.uol.com.br/poder/eleicoes/candidatos/2026/br/presidente/edmilson-costa-280002551975.shtml",
+    },
+  },
+  "280002551547": {
+    dataNascimento: "1958-10-02",
+    cidade: "Colina (SP)",
+    cidadeRotulo: "Naturalidade",
+    fonteDados: {
+      titulo: "Folha de S.Paulo — dados eleitorais de Augusto Cury, fonte TSE",
+      url: "https://www1.folha.uol.com.br/poder/eleicoes/candidatos/2026/br/presidente/escritor-augusto-cury-280002551547.shtml",
+    },
+  },
+  "280002541457": {
+    dataNascimento: "1970-10-20",
+    cidade: "São José de Ribamar (MA)",
+    cidadeRotulo: "Naturalidade",
+    fonteDados: {
+      titulo: "Folha de S.Paulo — dados eleitorais de Hertz Dias, fonte TSE",
+      url: "https://www1.folha.uol.com.br/poder/eleicoes/candidatos/2026/br/presidente/hertz-dias-280002541457.shtml",
+    },
+  },
   "160002536522": {
     // Atuação como vereador de Curitiba e deputado estadual do Paraná
     // documentada no perfil institucional da Assembleia Legislativa.
