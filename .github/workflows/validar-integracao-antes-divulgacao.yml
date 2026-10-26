@@ -36,6 +36,10 @@ jobs:
           node --test tests/download-proposicoes.test.cjs
       - name: Validar TypeScript
         run: npx tsc --noEmit
+      - name: Compilar site inteiro sem publicar
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: npm run build
       - name: Validar sintaxe do coletor parlamentar
         shell: pwsh
         run: |
