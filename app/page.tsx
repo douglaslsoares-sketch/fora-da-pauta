@@ -82,6 +82,9 @@ export default function Home() {
             <span>Inscreva-se no Telegram para receber as próximas novidades</span>
             <span className={styles.primaryArrow} aria-hidden="true">→</span>
           </Link>
+          <p className={styles.ctaNote}>
+            Você seguirá para a próxima etapa no Fora da Pauta. A inscrição será concluída no Telegram.
+          </p>
           <div className={styles.heroClosing}>
             <p>Sofremos por desconhecer o nosso próprio valor.</p>
           </div>
