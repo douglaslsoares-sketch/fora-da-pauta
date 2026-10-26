@@ -47,3 +47,23 @@ não comprovam que o serviço efetivamente acompanha pessoas.
 A autorização de divulgação exige **evidência de funcionamento real**,
 não apenas existência de código. Não unir PRs nem promover produção
 enquanto houver requisito crítico sem comprovação.
+
+## Verificação da branch de integração — 26/10/2026
+
+Branch: `feature/integracao-fichas-resenhas-telegram-20261026`
+
+**Concluídos em teste automatizado:**
+- 7 workflows de integração, interface, monitor, resenhas e coleta aprovados na PR #42;
+- encadeamento real dos módulos de preparação editorial, fila simulada e Telegram falso, com duas entregas de teste e sem mensagens duplicadas;
+- consulta real a três feeds institucionais em PR #41: 30 notícias e 3 menções preliminares, sem publicação nas fichas;
+- tratamento de download interrompido da Câmara preparado e testado, mas ainda não incorporado à coleta oficial.
+
+**Bloqueadores que permanecem:**
+- monitor de notícias deliberadamente desativado até homologação editorial e ativação controlada;
+- notícia/entrevista/vídeo não se torna automaticamente registro documental verificado na ficha;
+- produção de resenha pela IA ainda em modo de rascunho sem validação factual automática;
+- nenhuma comprovação de uma nova publicação de evento para ficha e notificação no Telegram REAL de uma pessoa inscrita;
+- nenhuma homologação ponta a ponta do ciclo recorrente da coleta da Câmara após a correção;
+- falta conferir integrações, versões e o domínio de validação antes de promover.
+
+**Decisão de release: BLOQUEADO.** Não interpretar aprovação de testes simulados como autorização para divulgação.
