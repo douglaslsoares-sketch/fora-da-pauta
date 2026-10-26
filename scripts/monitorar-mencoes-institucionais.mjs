@@ -198,14 +198,20 @@ export async function executarMonitor({
 
   // Falhas de fonte não geram atualização parcial silenciosa.
   const itensPorFonte = await Promise.all(FONTES.map(async fonte => {
-    const resposta = await requisitar(fonte.feed, {
-      headers: { "User-Agent": "ForaDaPautaMonitor/1.0 (contato: www.foradapauta.org)" },
-      signal: AbortSignal.timeout(20000),
-      redirect: "error",
-    });
-    if (!resposta.ok) throw new Error("Falha HTTP " + resposta.status + " na fonte " + fonte.id);
-    const conteudo = await resposta.text();
-    return lerFeed(conteudo, fonte);
+    try {
+      const resposta = await requisitar(fonte.feed, {
+        headers: { "User-Agent": "ForaDaPautaMonitor/1.0 (contato: www.foradapauta.org)" },
+        signal: AbortSignal.timeout(20000),
+        redirect: "error",
+      });
+      if (!resposta.ok) throw new Error("HTTP " + resposta.status);
+      const conteudo = await resposta.text();
+      return lerFeed(conteudo, fonte);
+    } catch (erro) {
+      // Identifica qual provedor falhou, sem expor trechos de documentos ou dados privados.
+      const motivo = erro instanceof Error ? erro.message.slice(0, 140) : "erro desconhecido";
+      throw new Error("Fonte " + fonte.id + " indisponível: " + motivo);
+    }
   }));
 
   const extraidos = itensPorFonte.flat();
