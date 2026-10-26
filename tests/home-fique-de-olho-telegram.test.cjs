@@ -21,7 +21,8 @@ test("home preserva identidade e chamada editorial", () => {
 test("botão principal conduz à página de inscrição sem prometer inscrição imediata", () => {
   assert.match(home, /href="\/votou-fique-de-olho" className=\{styles\.primaryLink\}/);
   assert.match(home, /Inscreva-se no Telegram para receber as próximas novidades/);
-  assert.doesNotMatch(home, /A inscrição é concluída no Telegram\./);
+  assert.match(home, /Você seguirá para a próxima etapa no Fora da Pauta\./);
+  assert.match(home, /A inscrição será concluída no Telegram\./);
   assert.match(fluxo, /A inscrição é concluída no Telegram/);
   assert.match(fluxo, /essas decisões afetam a sua vida/);
   assert.match(fluxo, /quem ocupa cargos públicos/);
