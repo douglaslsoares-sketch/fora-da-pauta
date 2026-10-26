@@ -46,29 +46,57 @@ function Baixar-Arquivo(
   [string]$url,
   [string]$destino
 ) {
-
-  $tmp =
-    "$destino.tmp"
+  # A API da Camara pode interromper um download CSV antes de terminar.
+  # Nunca substitua a copia anterior antes de baixar um arquivo valido.
+  $tmp = "$destino.tmp"
 
   Write-Host "Baixando:"
   Write-Host $url
 
-  Invoke-WebRequest `
-    -Uri $url `
-    -OutFile $tmp `
-    -UseBasicParsing
+  for ($tentativa = 1; $tentativa -le 4; $tentativa++) {
+    try {
+      if (Test-Path -LiteralPath $tmp) {
+        Remove-Item -LiteralPath $tmp -Force -ErrorAction Stop
+      }
 
-  if (
-    -not (Test-Path -LiteralPath $tmp) -or
-    (Get-Item -LiteralPath $tmp).Length -eq 0
-  ) {
-    throw "Download vazio: $url"
+      Invoke-WebRequest `
+        -Uri $url `
+        -OutFile $tmp `
+        -UseBasicParsing `
+        -TimeoutSec 180 `
+        -ErrorAction Stop
+
+      if (
+        -not (Test-Path -LiteralPath $tmp) -or
+        (Get-Item -LiteralPath $tmp).Length -lt 1000
+      ) {
+        throw "Arquivo CSV ausente ou incompleto."
+      }
+
+      Move-Item `
+        -LiteralPath $tmp `
+        -Destination $destino `
+        -Force `
+        -ErrorAction Stop
+
+      Write-Host "Download concluido na tentativa $tentativa."
+      return
+    }
+    catch {
+      # Um erro transitorio nao pode destruir o ultimo CSV valido.
+      if (Test-Path -LiteralPath $tmp) {
+        Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+      }
+
+      if ($tentativa -eq 4) {
+        throw "Falha no download de proposicoes apos 4 tentativas: $url"
+      }
+
+      $espera = 5 * $tentativa
+      Write-Warning "Tentativa $tentativa interrompida; repetindo em $espera segundos."
+      Start-Sleep -Seconds $espera
+    }
   }
-
-  Move-Item `
-    -LiteralPath $tmp `
-    -Destination $destino `
-    -Force
 }
 
 function Encontrar-Coluna(
