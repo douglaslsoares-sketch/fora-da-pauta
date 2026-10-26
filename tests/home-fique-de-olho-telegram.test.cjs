@@ -15,7 +15,7 @@ test("home preserva identidade e chamada editorial", () => {
   assert.match(home, /Decisões que afetam a sua vida\./);
   assert.match(home, /Fique de Olho/);
   assert.match(home, /Do povo para o povo\./);
-  assert.match(home, /Entenda o que políticos dizem, votam e fazem/);
+  assert.match(home, /Entenda o que os políticos dizem, votam e fazem/);
   assert.match(home, /Sofremos por desconhecer o nosso próprio valor\./);
 });
 
