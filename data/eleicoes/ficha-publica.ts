@@ -63,8 +63,8 @@ const dadosPorCandidatura: Record<string, DadosPerfilPublico> = {
     cidade: "Pedreiras (MA)",
     cidadeRotulo: "Naturalidade",
     fonteDados: {
-      titulo: "Folha de S.Paulo — dados eleitorais de Edmilson Costa, fonte TSE",
-      url: "https://www1.folha.uol.com.br/poder/eleicoes/candidatos/2026/br/presidente/edmilson-costa-280002551975.shtml",
+      titulo: "Exame — dados eleitorais de Edmilson Costa, fonte TSE",
+      url: "https://exame.com/eleicoes/2026/candidato/br/edmilson-costa-280002551975/",
     },
   },
   "280002551547": {
