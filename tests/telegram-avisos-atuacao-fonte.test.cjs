@@ -35,6 +35,7 @@ test("inclui data, origem, voto e ressalva interpretativa",()=>{
  assert.match(avisos[0].texto,/intenções/);
  assert.match(avisos[1].texto,/não significa, por si só/);
  assert.match(avisos[1].texto,/Ficha da proposição/);
+ assert.match(avisos[1].texto,/www.camara.leg.br/);
  assert.ok(avisos.every(x=>Array.from(x.texto).length<4096));
 });
 
@@ -54,4 +55,15 @@ test("votação com voto individual vazio não atribui posição",()=>{
  const aviso=prepararAvisosAtuacao(semVoto,"100000000001")[0];
  assert.match(aviso.texto,/Voto individual não disponível/);
  assert.doesNotMatch(aviso.texto,/Voto registrado:\s*\./);
+});
+
+test("bloqueia domínio semelhante, mas não institucional",()=>{
+ const falso=structuredClone(base);
+ falso.votacoes[0].fonte.url="https://camara.leg.br.exemplo.org/noticia";
+ assert.throws(()=>prepararAvisosAtuacao(falso,"100000000001"),/Fonte institucional insegura/);
+});
+test("bloqueia endereço de domínio institucional com porta alternativa",()=>{
+ const falso=structuredClone(base);
+ falso.votacoes[0].fonte.url="https://www.camara.leg.br:8443/noticia";
+ assert.throws(()=>prepararAvisosAtuacao(falso,"100000000001"),/Fonte institucional insegura/);
 });
