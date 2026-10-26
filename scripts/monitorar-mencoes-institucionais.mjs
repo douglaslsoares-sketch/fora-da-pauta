@@ -122,15 +122,29 @@ export function indexarPessoas(pessoas) {
   const nomes = new Map();
   for (const p of pessoas) {
     const id = String(p.id || "");
-    const nome = textoNormalizado(p.nomeCompleto);
-    if (!/^\d{8,20}$/.test(id) || nome.split(" ").length < 3) continue;
-    if (!nomes.has(nome)) nomes.set(nome, []);
-    nomes.get(nome).push({ id, nome: String(p.nomeCompleto), cargo: p.cargo, uf: p.uf });
+    const civil = textoNormalizado(p.nomeCompleto);
+    const publico = textoNormalizado(p.nomeUrna);
+    if (!/^\d{8,20}$/.test(id) || civil.split(" ").length < 3) continue;
+
+    const inserir = (alias) => {
+      if (!nomes.has(alias)) nomes.set(alias, new Map());
+      nomes.get(alias).set(id, {
+        id, nome: String(p.nomeCompleto), cargo: p.cargo, uf: p.uf,
+      });
+    };
+    inserir(civil);
+    // Apenas nome público composto, suficientemente específico e único.
+    // Nomes únicos, apelidos isolados e homônimos não são classificados.
+    if (publico.split(" ").length >= 2 && publico.length >= 11 &&
+        publico !== civil) inserir(publico);
   }
-  // Evita homônimos dentro da própria base.
+  // Identificação preliminar: homônimos na base jamais geram vínculo.
   return [...nomes.entries()]
-    .filter(([, pessoas]) => pessoas.length === 1)
-    .map(([nome, pessoas]) => ({ chave: " " + nome + " ", ...pessoas[0] }));
+    .filter(([, pessoas]) => pessoas.size === 1)
+    .map(([nome, pessoas]) => ({
+      chave: " " + nome + " ",
+      ...[...pessoas.values()][0],
+    }));
 }
 
 export function identificarMencoes(itens, pessoasIndexadas, agora = new Date()) {
