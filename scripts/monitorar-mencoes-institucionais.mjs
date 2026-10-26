@@ -203,6 +203,7 @@ export function consolidarMencoes(existentes, encontrados, agora = new Date()) {
 export async function executarMonitor({
   listaPessoas = "data/eleicoes/gerado/eleitos-2026.json",
   destino = "data/eleicoes/gerado/mencoes-institucionais.json",
+  statusArquivo = "data/eleicoes/gerado/monitor-mencoes-status.json",
   requisitar = fetch,
   agora = new Date(),
 } = {}) {
@@ -236,6 +237,16 @@ export async function executarMonitor({
   if (JSON.stringify(resultado) !== JSON.stringify(anterior)) {
     await writeFile(destino, JSON.stringify(resultado, null, 2) + "\n", "utf8");
   }
+  // Mostra a ÚLTIMA consulta bem-sucedida mesmo quando nenhum nome é encontrado.
+  // Em caso de falha antes desta linha, o estado antigo permanece inalterado.
+  await writeFile(statusArquivo, JSON.stringify({
+    ultimaVerificacaoConcluida: agora.toISOString(),
+    fontes: FONTES.map(f => ({ id: f.id, noticias: extraidos.filter(i => i.fonteId === f.id).length })),
+    noticias: extraidos.length,
+    pessoasIndexadas: indexados.length,
+    mencoes: resultado.length,
+  }, null, 2) + "\n", "utf8");
+
   return { fontes: FONTES.length, noticias: extraidos.length,
     pessoasIndexadas: indexados.length, mencoesNovas: Math.max(0, resultado.length - anterior.length),
     total: resultado.length };
