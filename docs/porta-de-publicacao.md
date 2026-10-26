@@ -106,3 +106,19 @@ não substituem verificação com fonte nova e assinante real.
 
 A aprovação automática de edições, notícias ou denúncias **não** foi habilitada.
 A divulgação continua bloqueada até os requisitos de campo serem atendidos.
+
+## Proteção contra histórico notificado como notícia
+
+- Votações e proposições de arquivos parlamentares passam a carregar a
+  data real do registro ao entrar na preparação do Telegram.
+- Somente um ato datado de até **14 dias**, inclusive, pode originar
+  aviso parlamentar automático. Atos mais antigos, sem data válida ou
+  datados no futuro continuam disponíveis para consulta na ficha, mas
+  não são apresentados como novidades.
+- Identificadores são conservados no histórico conhecido para impedir
+  envio tardio de atos que ficaram fora da janela.
+- Publicações e correções editoriais aprovadas usam a **data de publicação**
+  e não se submetem ao corte de 14 dias da atividade parlamentar.
+- Essa regra não substitui verificação contínua de fontes nem garante
+  que o registro é um fato recém-publicado: ainda falta o teste real
+  de coleta, comparação de versões e entrega.
