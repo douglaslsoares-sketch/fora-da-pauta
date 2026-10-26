@@ -23,7 +23,9 @@ test("botão principal conduz à página de inscrição sem prometer inscrição
   assert.match(home, /Inscreva-se no Telegram para receber as próximas novidades/);
   assert.doesNotMatch(home, /A inscrição é concluída no Telegram\./);
   assert.match(fluxo, /A inscrição é concluída no Telegram/);
-  assert.match(fluxo, /decisões que afetam a sua vida/);
+  assert.match(fluxo, /essas decisões afetam a sua vida/);
+  assert.match(fluxo, /quem ocupa cargos públicos/);
+  assert.match(fluxo, /quem disputa eleições/);
 });
 
 test("continuidade preserva seleção e permite receber novidades sem seguir político", () => {
