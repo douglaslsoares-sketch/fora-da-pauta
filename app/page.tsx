@@ -72,9 +72,24 @@ export default function Home() {
           <p className={styles.heroLead}>
             Decisões que afetam a sua vida.
           </p>
+
+          <div className={styles.featureIntro}>
+            <h2 className={styles.featureTitle}>Fique de Olho</h2>
+            <p className={styles.featureSubtitle}>Do povo para o povo.</p>
+          </div>
+
           <Link href="/votou-fique-de-olho" className={styles.primaryLink}>
-            Fique de Olho <span aria-hidden="true">→</span>
+            <span>Inscreva-se no Telegram para receber as próximas novidades</span>
+            <span className={styles.primaryArrow} aria-hidden="true">→</span>
           </Link>
+          <p className={styles.ctaNote}>
+            Escolha quem acompanhar ou receba só as próximas publicações.
+            A inscrição é concluída no Telegram.
+          </p>
+
+          <div className={styles.heroClosing}>
+            <p>Sofremos por desconhecer nosso próprio poder.</p>
+          </div>
         </section>
 
         {publicacoes.length > 0 ? (
