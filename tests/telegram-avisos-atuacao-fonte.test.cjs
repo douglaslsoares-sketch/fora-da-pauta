@@ -67,3 +67,20 @@ test("bloqueia endereço de domínio institucional com porta alternativa",()=>{
  falso.votacoes[0].fonte.url="https://www.camara.leg.br:8443/noticia";
  assert.throws(()=>prepararAvisosAtuacao(falso,"100000000001"),/Fonte institucional insegura/);
 });
+
+test("registro parlamentar real do repositório produz aviso com a mesma fonte da ficha",()=>{
+ const arquivo=path.join(__dirname,"../data/eleicoes/gerado/atuacao-candidatos/100002535230.json");
+ const real=JSON.parse(fs.readFileSync(arquivo,"utf8"));
+ assert.ok(real.votacoes.length>0 && real.proposicoes.length>0);
+ const recorte={
+  ...real,
+  votacoes:real.votacoes.slice(0,1),
+  proposicoes:real.proposicoes.slice(0,1)
+ };
+ const avisos=prepararAvisosAtuacao(recorte,real.candidaturaId);
+ assert.equal(avisos.length,2);
+ assert.ok(avisos[0].texto.includes(recorte.votacoes[0].fonte.url));
+ assert.ok(avisos[1].texto.includes(recorte.proposicoes[0].fonte.url));
+ assert.match(avisos[0].texto,/Quando ocorreu:/);
+ assert.match(avisos[1].texto,/não significa, por si só/);
+});
