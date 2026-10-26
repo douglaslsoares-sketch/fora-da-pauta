@@ -111,7 +111,7 @@ export default function Home() {
         ) : null}
 
         <footer className={styles.footer}>
-          <p>Fora da Pauta</p>
+          <p>Conhecer nosso valor é importante. Entender como o jogo é jogado é fundamental.</p>
         </footer>
       </div>
     </main>
