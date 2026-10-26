@@ -77,7 +77,7 @@ export default function Home() {
             <h2 className={styles.featureTitle}>Fique de Olho</h2>
             <p className={styles.featureSubtitle}>Do povo para o povo.</p>
             <p className={styles.featureBenefit}>
-              Entenda o que políticos dizem, votam e fazem — com fontes para conferir.
+              Entenda o que os políticos dizem, votam e fazem.
             </p>
           </div>
 
