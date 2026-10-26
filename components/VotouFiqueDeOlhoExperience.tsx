@@ -697,12 +697,10 @@ export function VotouFiqueDeOlhoExperience() {
           </h1>
 
           <p className="mt-6 max-w-xl text-xl leading-7 text-white/90">
-            Acompanhe a atuação de quem participa da política, tenha sido eleito ou não.
+            Acompanhe quem exerce ou disputa o poder de tomar decisões que afetam a sua vida.
           </p>
           <p className="mt-4 max-w-xl text-base leading-7 text-white/75">
-            Entenda como as decisões são tomadas: o que faz a Presidência,
-            o que decide o Congresso e qual é o papel do Judiciário.
-            Escolha quem você quer acompanhar e receba as informações pelo Telegram.
+            Saiba o que essas pessoas dizem, fazem e decidem, e entenda como isso chega até você.
           </p>
         </div>
       </section>
@@ -712,9 +710,9 @@ export function VotouFiqueDeOlhoExperience() {
         <div className="mt-7 border-2 border-[#FFC400] bg-[#fffaf0] p-5 sm:p-6">
           <h2 className="text-xl font-bold leading-tight">Receba as próximas novidades do Fora da Pauta</h2>
           <p className="mt-2 text-sm leading-6 text-black/65">
-            Você pode receber avisos de novas edições e publicações pelo Telegram,
-            mesmo sem escolher representantes. Se já acompanha alguém, suas escolhas
-            continuam ativas e não serão canceladas.
+            Você pode receber avisos das próximas publicações sem selecionar ninguém.
+            Se quiser, escolha abaixo as pessoas que deseja acompanhar.
+            A inscrição é concluída no Telegram, sem cancelar acompanhamentos já existentes.
           </p>
           <button
             type="button"
@@ -728,7 +726,7 @@ export function VotouFiqueDeOlhoExperience() {
             <span>Inscreva-se no Telegram para receber as próximas novidades</span>
             <span aria-hidden="true" className="text-2xl">→</span>
           </button>
-          <p className="mt-3 text-xs leading-5 text-black/60">A inscrição será concluída no Telegram. Você também pode escolher políticos para acompanhar.</p>
+          <p className="mt-3 text-xs leading-5 text-black/60">Você pode receber somente novidades ou escolher pessoas para acompanhar. A inscrição é concluída no Telegram.</p>
         </div>
         ) : null}
 
