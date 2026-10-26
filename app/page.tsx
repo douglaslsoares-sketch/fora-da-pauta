@@ -89,7 +89,7 @@ export default function Home() {
             Próxima etapa aqui no site. A inscrição é concluída no Telegram.
           </p>
           <div className={styles.heroClosing}>
-            <p>Sofremos por desconhecer o nosso próprio valor.</p>
+            <p>Conhecer nosso valor é importante. Entender como o jogo é jogado é fundamental.</p>
           </div>
         </section>
 
