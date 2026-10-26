@@ -1,0 +1,44 @@
+name: Coletar menções institucionais (pré-publicação)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "11 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: coletar-mencoes-institucionais
+  cancel-in-progress: false
+
+jobs:
+  coletar:
+    # Ativação consciente SOMENTE após testes reais das fontes e publicação.
+    if: vars.FDP_MONITOR_INSTITUCIONAL_ATIVO == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Testar algoritmo antes de consultar feeds
+        run: node --test tests/monitor-mencoes-institucionais.test.mjs
+      - name: Consultar RSS/Atom de fontes institucionais
+        run: node scripts/monitorar-mencoes-institucionais.mjs
+      - name: Publicar somente o arquivo de menções
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- data/eleicoes/gerado/mencoes-institucionais.json
+          if git diff --cached --quiet; then
+            echo "Nenhuma nova menção institucional."
+            exit 0
+          fi
+          git commit -m "chore(monitor): atualizar menções em fontes institucionais"
+          git push origin HEAD:main
