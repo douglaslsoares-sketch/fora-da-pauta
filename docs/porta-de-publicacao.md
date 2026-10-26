@@ -87,3 +87,22 @@ Branch: `feature/integracao-fichas-resenhas-telegram-20261026`
 
 **A liberação pública permanece bloqueada.** Compilação e simulação
 não substituem verificação com fonte nova e assinante real.
+
+## Inscrição geral para edições — validação preparatória
+
+- A rota autenticada de processamento da fila passou a preparar, na mesma
+  inscrição Telegram, os avisos da categoria `edicoes`.
+- O catálogo `data/edicoes/avisos-aprovados.ts` permanece **vazio**.
+  Uma página na home, uma data em `campaigns` ou um rascunho de IA
+  não autorizam aviso.
+- Uma edição precisa de publicação explicitamente aprovada, data com fuso,
+  endereço correto e fonte HTTPS original. Mensagens futuras ficam bloqueadas.
+- O registro na fila deve conferir `created_at` e `updated_at` da
+  preferência, e o processamento confirma o estado ativo no momento de enviar.
+- Testes simulados verificam assinante anterior versus posterior à publicação,
+  cancelamento, deduplicação e primeira execução com catálogo vazio.
+- **Não ativar a primeira edição** até confirmar conteúdo final, áudio,
+  fontes, página pública e recebimento no Telegram real de uma pessoa de teste.
+
+A aprovação automática de edições, notícias ou denúncias **não** foi habilitada.
+A divulgação continua bloqueada até os requisitos de campo serem atendidos.
