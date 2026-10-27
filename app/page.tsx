@@ -85,7 +85,6 @@ export default function Home() {
           <div className={styles.heroClosing}>
             <p>Conhecer é importante. Entender como o jogo é jogado é fundamental.</p>
           </div>
-          <a href="#edicoes" className={styles.editionsShortcut}>Ver edições anteriores</a>
         </section>
 
         <section
