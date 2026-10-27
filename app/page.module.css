@@ -169,11 +169,23 @@
 }
 @media (max-width: 767px) {
   .logo { width: 84px; }
-  /* Respiro na primeira dobra: somente espaçamento no celular. */
-  .hero { padding: 96px 0 96px; }
-  .heroClosing { margin-top: 96px; }
+  /* Composição mobile conforme a captura de referência. */
+  .hero { padding: 66px 0 42px; }
   .featureIntro { margin-top: 0; }
-  .featureSubtitle { margin-top: 15px; font-size: clamp(29px, 9.2vw, 35px); }
+  .featureTitle {
+    color: #bdbdbd;
+    font-size: clamp(22px, 6vw, 26px);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.3;
+  }
+  .featureSubtitle {
+    margin-top: 18px;
+    font-size: clamp(29px, 9.2vw, 35px);
+  }
+  .featureBenefit { margin-top: 27px; }
+  .page .primaryLink { margin-top: 32px; }
+  .heroClosing { margin-top: 60px; padding-top: 28px; }
   .publicationGrid { grid-template-columns: 1fr; }
   .card { padding: 22px; }
   .section { padding: 36px 0 50px; }
