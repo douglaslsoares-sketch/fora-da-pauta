@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ContinuarNoForaDaPauta } from "@/components/ContinuarNoForaDaPauta";
 import { notFound } from "next/navigation";
 
 import { candidaturas } from "@/data/eleicoes/candidaturas";
@@ -97,7 +98,8 @@ export default async function ProposicoesDoCandidatoPage({
             (item) => (
               <article
                 key={item.proposicaoId}
-                className="py-6"
+                id={`proposicao-${item.proposicaoId}`}
+                className="scroll-mt-20 py-6"
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-3">
                   <p className="text-lg font-semibold">
@@ -141,6 +143,8 @@ export default async function ProposicoesDoCandidatoPage({
           documental. Ela não é utilizada como medida de importância,
           autoria exclusiva ou grau de participação.
         </p>
+
+        <ContinuarNoForaDaPauta />
 
         <div className="mt-10 border-t border-black/10 pt-6">
           <Link
