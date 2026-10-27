@@ -39,16 +39,13 @@ try {
         ForEach-Object { $_.Trim('"') })
     Write-Host "Cabecalho CSV recebido (colunas): $($colunas -join ', ')"
     Write-Host "Tamanho CSV recebido: $((Get-Item -LiteralPath $tmp).Length) bytes"
-    $grupos = @(
-        ,@("idVotacao", "votacao_id", "id"),
-        ,@("deputado_id", "deputadoId", "idDeputado"),
-        ,@("dataHoraVoto", "dataHora", "data"),
-        ,@("voto", "tipoVoto")
-    )
-
-    foreach ($grupo in $grupos) {
-        if (@($grupo | Where-Object { $colunas -contains $_ }).Count -eq 0) {
-            throw "CSV de votos com cabecalho inesperado ou incompleto."
+    # Colunas utilizadas pelo processador de votos.
+    foreach ($nomeObrigatorio in @(
+        "idVotacao", "deputado_id", "dataHoraVoto", "voto",
+        "uriVotacao", "deputado_nome"
+    )) {
+        if ($colunas -notcontains $nomeObrigatorio) {
+            throw "CSV de votos sem coluna: $nomeObrigatorio"
         }
     }
 
