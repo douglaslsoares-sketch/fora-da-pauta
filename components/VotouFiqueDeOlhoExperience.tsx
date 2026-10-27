@@ -707,6 +707,16 @@ export function VotouFiqueDeOlhoExperience() {
       </section>
 
       <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
+        {!conferindoInscricao && inscricaoAtiva && selecionadas.length > 0 ? (
+          <button
+            type="button"
+            onClick={() => setEtapa("selecionados")}
+            className="votou-intro-only mb-7 min-h-12 w-full rounded-2xl bg-black/[0.07] px-5 py-3 text-sm font-semibold"
+          >
+            Ver minhas escolhas ({selecionadas.length})
+          </button>
+        ) : null}
+
         <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
           Quem você quer acompanhar?
         </h2>
@@ -738,16 +748,6 @@ export function VotouFiqueDeOlhoExperience() {
             Receber as novidades do Fora da Pauta
           </button>
         </div>
-        ) : null}
-
-        {!conferindoInscricao && inscricaoAtiva && selecionadas.length > 0 ? (
-          <button
-            type="button"
-            onClick={() => setEtapa("selecionados")}
-            className="votou-intro-only mt-5 min-h-12 w-full rounded-2xl bg-black/[0.07] px-5 py-3 text-sm font-semibold"
-          >
-            Ver minhas escolhas ({selecionadas.length})
-          </button>
         ) : null}
 
         <p role="status" className="sr-only">
