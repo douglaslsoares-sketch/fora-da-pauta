@@ -28,6 +28,8 @@ export type Candidatura = {
   partido: string;
   siglaPartido: string;
   federacao?: string;
+  /** Gênero declarado na base eleitoral oficial do TSE, quando disponível. */
+  genero?: "masculino" | "feminino";
   situacao: SituacaoCandidatura;
   situacaoTse: string;
   fonteOficial: string;
