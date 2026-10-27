@@ -848,6 +848,22 @@ export function VotouFiqueDeOlhoExperience() {
         </div>
         ) : null}
 
+        <div className="mt-12 border-t border-black/10 pt-8">
+          <h2 className="text-xl font-bold">Compartilhe o Fora da Pauta</h2>
+          <p className="mt-2 text-sm leading-6 text-black/65">
+            Conhece alguém que gostaria de entender melhor como o jogo é jogado?
+            Convide essa pessoa a conhecer o Fora da Pauta.
+          </p>
+          <a
+            href={`https://wa.me/?text=${encodeURIComponent("Conheça o Fora da Pauta. Entenda melhor as decisões que afetam a nossa vida e como o jogo é jogado na política. https://www.foradapauta.org/")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex min-h-12 items-center justify-center rounded-xl bg-[#25D366] px-5 py-3 font-semibold text-black"
+          >
+            Compartilhar pelo WhatsApp
+          </a>
+        </div>
+
         <p role="status" className="sr-only">
           {aviso}
         </p>
