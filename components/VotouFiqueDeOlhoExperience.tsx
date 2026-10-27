@@ -709,13 +709,20 @@ export function VotouFiqueDeOlhoExperience() {
       <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
         {!conferindoInscricao && inscricaoAtiva ? (
           selecionadas.length > 0 ? (
-            <button
-              type="button"
-              onClick={() => setEtapa("selecionados")}
-              className="votou-intro-only mb-7 min-h-12 w-full rounded-2xl bg-black/[0.07] px-5 py-3 text-sm font-semibold"
-            >
-              Ver minhas escolhas ({selecionadas.length})
-            </button>
+            <div className="votou-intro-only mb-7">
+              <p className="mb-3 text-center text-sm text-black/75">
+                {selecionadas.length === 1
+                  ? "Você acompanha 1 pessoa."
+                  : `Você acompanha ${selecionadas.length} pessoas.`}
+              </p>
+              <button
+                type="button"
+                onClick={() => setEtapa("selecionados")}
+                className="min-h-12 w-full rounded-2xl bg-black/[0.07] px-5 py-3 text-sm font-semibold"
+              >
+                Ver minhas escolhas
+              </button>
+            </div>
           ) : (
             <p className="votou-intro-only mb-7 rounded-2xl bg-black/[0.05] px-5 py-4 text-center text-sm text-black/75">
               Você ainda não acompanha nenhuma pessoa.
