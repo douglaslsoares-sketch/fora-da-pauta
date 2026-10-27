@@ -37,6 +37,8 @@ try {
     $cabecalho = Get-Content -LiteralPath $tmp -TotalCount 1 -Encoding UTF8
     $colunas = @($cabecalho.TrimStart([char]0xFEFF).Split(";") |
         ForEach-Object { $_.Trim('"') })
+    Write-Host "Cabecalho CSV recebido (colunas): $($colunas -join ', ')"
+    Write-Host "Tamanho CSV recebido: $((Get-Item -LiteralPath $tmp).Length) bytes"
     $grupos = @(
         ,@("idVotacao", "votacao_id", "id"),
         ,@("deputado_id", "deputadoId", "idDeputado"),
