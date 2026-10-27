@@ -54,14 +54,22 @@ export function CabecalhoFichaPublica({
 }: Props) {
   const dados = buscarDadosPerfilPublico(candidato.id);
   const resultadoTse = candidato.resultadoEleitoral?.situacaoTse?.trim();
+  const genero = candidato.genero;
+  const rotuloEleito = genero === "feminino"
+    ? "Eleita"
+    : genero === "masculino"
+      ? "Eleito"
+      : "Eleição confirmada";
   const situacao = eleito
     ? dados?.rotuloEleitoral ?? (eleito.resultadoTse.toUpperCase().includes("SUPLENTE")
         ? "Suplente"
-        : "Eleito")
+        : rotuloEleito)
     : resultadoTse && !resultadoTse.startsWith("#")
-      ? resultadoTse.replace(/\s+/g, " ").toLocaleLowerCase("pt-BR")
+      ? (genero === "feminino"
+          ? resultadoTse.replace(/^((?:RE)?ELEIT)O\b/i, "$1A")
+          : resultadoTse).replace(/\s+/g, " ").toLocaleLowerCase("pt-BR")
       : null;
-  const cargo = formatarCargo(candidato.cargo);
+  const cargo = formatarCargo(candidato.cargo, genero);
   const idade = dados?.dataNascimento ? calcularIdade(dados.dataNascimento) : dados?.idade ?? null;
   const nomeExibido = dossie?.nome?.trim() || candidato.nomeUrna.toLocaleLowerCase("pt-BR").replace(/(^|\s)(\p{L})/gu, (_, espaco: string, letra: string) => espaco + letra.toLocaleUpperCase("pt-BR"));
   const local = candidato.uf === "BR" ? "Brasil" : nomesEstados[candidato.uf] ?? candidato.uf;
@@ -90,10 +98,12 @@ export function CabecalhoFichaPublica({
           </h1>
           <p className="mt-1 text-sm leading-5 text-black/60">
             {eleito
-              ? `Eleito ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}`
+              ? genero
+                ? `${rotuloEleito} ${cargo.toLowerCase()} ${candidato.uf === "BR" ? "no Brasil" : `por ${local}`} em ${candidato.eleicao}`
+                : `Eleição confirmada em ${candidato.eleicao} · Cargo: ${cargo} · ${local}`
               : candidato.cargo === "presidente"
                 ? `Candidatura à Presidência da República em ${candidato.eleicao}`
-                : `Candidatura a ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}`}
+                : `Candidatura ao cargo de ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}`}
           </p>
           {situacao ? (
             <span className={`mt-2 inline-flex rounded-md px-2 py-0.5 text-xs font-semibold ${eleito ? "bg-emerald-100 text-emerald-800" : "bg-black/5 text-black/65"}`}>
@@ -177,7 +187,7 @@ export function CabecalhoFichaPublica({
         <div className="mt-3 space-y-2 text-sm leading-6 text-black/70">
           <p><strong>Nome completo:</strong> {candidato.nomeCompleto}</p>
           <p><strong>Número:</strong> {candidato.numero} · <strong>UF:</strong> {candidato.uf}</p>
-          {mandatoAtual ? <p><strong>Mandato documentado:</strong> {formatarCargo(mandatoAtual.cargo)}{mandatoAtual.uf ? ` · ${mandatoAtual.uf}` : ""}{mandatoAtual.inicio && mandatoAtual.fim ? ` · ${mandatoAtual.inicio}–${mandatoAtual.fim}` : ""}{mandatoAtual.fonte ? <> · <a className="underline" href={mandatoAtual.fonte.url} target="_blank" rel="noreferrer">{mandatoAtual.fonte.titulo} ↗</a></> : null}</p> : null}
+          {mandatoAtual ? <p><strong>Mandato documentado:</strong> {formatarCargo(mandatoAtual.cargo, genero)}{mandatoAtual.uf ? ` · ${mandatoAtual.uf}` : ""}{mandatoAtual.inicio && mandatoAtual.fim ? ` · ${mandatoAtual.inicio}–${mandatoAtual.fim}` : ""}{mandatoAtual.fonte ? <> · <a className="underline" href={mandatoAtual.fonte.url} target="_blank" rel="noreferrer">{mandatoAtual.fonte.titulo} ↗</a></> : null}</p> : null}
           <p><strong>Situação no TSE:</strong> {eleito?.resultadoTse ?? candidato.situacaoTse}</p>
         </div>
       </details>
