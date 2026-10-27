@@ -157,6 +157,7 @@ export function VotouFiqueDeOlhoExperience() {
   const [removendoMarcadas, setRemovendoMarcadas] = useState(false);
   const [busca, setBusca] = useState(0);
   const [aviso, setAviso] = useState("");
+  const [ultimoIdConfirmado, setUltimoIdConfirmado] = useState<string | null>(null);
   const [avisoStorage, setAvisoStorage] = useState("");
   const [ativandoTelegram, setAtivandoTelegram] = useState(false);
   const [erroTelegram, setErroTelegram] = useState("");
@@ -324,6 +325,7 @@ export function VotouFiqueDeOlhoExperience() {
         setIdsConfirmados((ids) => [...new Set([...ids, pessoa.id])]);
         edicoesLocaisPendentes.current = false;
         gravar(novaLista);
+        setUltimoIdConfirmado(pessoa.id);
         setAviso(`Você já acompanha ${pessoa.nomeUrna}.`);
         setBusca((atual) => atual + 1);
         setEtapa("busca");
@@ -346,6 +348,7 @@ export function VotouFiqueDeOlhoExperience() {
   async function remover(pessoa: PessoaSelecionada) {
     setErroTelegram("");
     setAviso("");
+    setUltimoIdConfirmado(null);
     if (inscricaoAtiva) {
       try {
         const resposta = await fetch("/api/telegram/sessao", {
@@ -378,6 +381,7 @@ export function VotouFiqueDeOlhoExperience() {
     setRemovendoMarcadas(true);
     setErroTelegram("");
     setAviso("");
+    setUltimoIdConfirmado(null);
     const removerIds = [...marcadasParaRemover];
     const removidas: string[] = [];
     try {
@@ -814,7 +818,7 @@ export function VotouFiqueDeOlhoExperience() {
 
         {erroTelegram ? <p role="alert" className="mb-3 text-sm text-red-700">{erroTelegram}</p> : null}
         {salvandoEscolhas ? <p role="status" className="mb-3 text-sm">Salvando acompanhamento no Telegram...</p> : null}
-        {aviso && !erroTelegram ? <p role="status" className="mb-3 text-sm text-green-800">{aviso}</p> : null}
+        {aviso && !erroTelegram && ultimoIdConfirmado && selecionadas.some((pessoa) => pessoa.id === ultimoIdConfirmado) ? <p role="status" className="mb-3 text-sm text-green-800">{aviso}</p> : null}
         <CandidateSelector
           key={`busca-${busca}`}
           mode="follow"
