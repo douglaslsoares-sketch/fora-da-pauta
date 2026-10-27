@@ -1,0 +1,32 @@
+name: Validar concordância das fichas políticas
+
+on:
+  pull_request:
+    paths:
+      - 'components/CabecalhoFichaPublica.tsx'
+      - 'components/ApresentacaoPublica.tsx'
+      - 'app/conheca-seu-candidato/**'
+      - 'app/eleicoes-2026/candidatos/**'
+      - 'data/eleicoes/tipos.ts'
+      - 'lib/eleicoes/formatar-cargo.ts'
+      - 'scripts/importar-candidaturas-2026.ps1'
+      - 'scripts/atualizar-tse-2026.ps1'
+      - 'tests/concordancia-fichas.test.cjs'
+      - '.github/workflows/validar-concordancia-fichas.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci --ignore-scripts
+      - run: npx tsc --noEmit
+      - run: node --test tests/concordancia-fichas.test.cjs
