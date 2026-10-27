@@ -66,6 +66,14 @@ $candidaturas = foreach ($linha in $dados) {
     ultimaVerificacao   = (Get-Date).ToString("yyyy-MM-dd")
   }
 
+  # Sexo/gênero conforme autodeclaração registrada no TSE (DS_GENERO).
+  $generoTse = ([string]$linha.DS_GENERO).Trim().ToUpperInvariant()
+  if ($generoTse -eq "FEMININO") {
+    $item["genero"] = "feminino"
+  } elseif ($generoTse -eq "MASCULINO") {
+    $item["genero"] = "masculino"
+  }
+
   $codigoResultado = Limpar-Valor $linha.CD_SIT_TOT_TURNO
   $descricaoResultado = Limpar-Valor $linha.DS_SIT_TOT_TURNO
   $turnoResultado = 0

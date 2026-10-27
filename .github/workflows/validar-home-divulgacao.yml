@@ -1,0 +1,43 @@
+name: Validar home antes da divulgação
+on:
+  pull_request:
+    paths:
+      - 'app/page.tsx'
+      - 'app/page.module.css'
+      - 'components/CabecalhoFichaPublica.tsx'
+      - 'lib/eleicoes/formatar-cargo.ts'
+      - 'data/eleicoes/tipos.ts'
+      - 'scripts/importar-candidaturas-2026.ps1'
+      - 'scripts/atualizar-tse-2026.ps1'
+      - '.github/workflows/validar-home-divulgacao.yml'
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci --ignore-scripts
+      - run: npx tsc --noEmit
+      - run: npx eslint app/page.tsx components/CabecalhoFichaPublica.tsx lib/eleicoes/formatar-cargo.ts
+      - name: Testes isolados do Telegram
+        run: node --test tests/telegram-webhook.test.cjs tests/telegram-sessao.test.cjs tests/telegram-concluir.test.cjs
+      - name: Conferir frase aprovada e caminhos da home
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const assert = require('node:assert/strict');
+          const fonte = fs.readFileSync('app/page.tsx','utf8');
+          assert.ok(fonte.includes('Conhecer é importante. Entender como o jogo é jogado é fundamental.'));
+          assert.ok(fonte.includes('href="/votou-fique-de-olho"'));
+          assert.ok(fonte.includes('Edições já publicadas'));
+          assert.ok(fonte.includes('Inscreva-se no Telegram para receber as próximas novidades'));
+          assert.ok(fonte.includes('Do povo para o povo.'));
+          assert.ok(fonte.includes('campaign.slug !== "fim-escala-6x1"'));
+          console.log('Home aprovada: verificações básicas OK.');
+          NODE

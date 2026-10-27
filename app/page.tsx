@@ -69,24 +69,45 @@ export default function Home() {
           tabIndex={-1}
         >
           <h1 id="home-titulo">Como o jogo é jogado</h1>
-          <p className={styles.heroLead}>
-            Decisões que afetam a sua vida.
-          </p>
+          <p className={styles.heroLead}>Decisões que afetam a sua vida.</p>
+
+          <div className={styles.featureIntro}>
+            <h2 className={styles.featureTitle}>Fique de Olho</h2>
+            <p className={styles.featureSubtitle}>Do povo para o povo.</p>
+            <p className={styles.featureBenefit}>
+              Entenda o que os políticos dizem, votam e fazem.
+            </p>
+          </div>
+
           <Link href="/votou-fique-de-olho" className={styles.primaryLink}>
-            Fique de Olho <span aria-hidden="true">→</span>
+            <span className={styles.primaryText}>
+              Inscreva-se no Telegram para receber as próximas novidades
+            </span>
+            <span className={styles.primaryArrow} aria-hidden="true">→</span>
           </Link>
+          <p className={styles.ctaNote}>
+            Próxima etapa aqui no site. A inscrição é concluída no Telegram.
+          </p>
+
+          <div className={styles.heroClosing}>
+            <p>Conhecer é importante. Entender como o jogo é jogado é fundamental.</p>
+          </div>
         </section>
 
-        {publicacoes.length > 0 ? (
         <section
           id="edicoes"
           className={styles.section}
           aria-labelledby="edicoes-titulo"
         >
           <div className={styles.sectionHeading}>
-            <h2 id="edicoes-titulo">Edições</h2>
+            <h2 id="edicoes-titulo">Edições já publicadas</h2>
+            <p>Leia ou ouça as edições anteriores do Fora da Pauta.</p>
           </div>
 
+          {publicacoes.length === 0 ? (
+            <p className={styles.emptyEditions}>As edições publicadas aparecerão aqui, da mais recente para a mais antiga.</p>
+          ) : (
+          <div className={styles.publicationGrid}>
           {publicacoes.map((campaign) => (
             <article key={campaign.slug} className={styles.cardWrapper}>
               <Link href={`/campanhas/${campaign.slug}`} className={styles.card}>
@@ -107,8 +128,9 @@ export default function Home() {
               </Link>
             </article>
           ))}
+          </div>
+          )}
         </section>
-        ) : null}
 
         <footer className={styles.footer}>
           <p>Fora da Pauta</p>

@@ -179,6 +179,14 @@ $candidaturas = foreach ($item in $filtrados) {
     ultimaVerificacao = $hoje
   }
 
+  # DS_GENERO pertence ao CSV de candidaturas do TSE.
+  $generoTse = ([string]$item.DS_GENERO).Trim().ToUpperInvariant()
+  if ($generoTse -eq "FEMININO") {
+    $obj["genero"] = "feminino"
+  } elseif ($generoTse -eq "MASCULINO") {
+    $obj["genero"] = "masculino"
+  }
+
   if ($federacao) {
     $obj["federacao"] = $federacao
   }
