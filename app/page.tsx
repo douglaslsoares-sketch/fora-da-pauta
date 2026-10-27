@@ -94,7 +94,6 @@ export default function Home() {
           </div>
         </section>
 
-        {publicacoes.length > 0 ? (
         <section
           id="edicoes"
           className={styles.section}
@@ -105,6 +104,9 @@ export default function Home() {
             <p>Leia ou ouça as edições anteriores do Fora da Pauta.</p>
           </div>
 
+          {publicacoes.length === 0 ? (
+            <p className={styles.emptyEditions}>As edições publicadas aparecerão aqui, da mais recente para a mais antiga.</p>
+          ) : (
           <div className={styles.publicationGrid}>
           {publicacoes.map((campaign) => (
             <article key={campaign.slug} className={styles.cardWrapper}>
@@ -127,8 +129,8 @@ export default function Home() {
             </article>
           ))}
           </div>
+          )}
         </section>
-        ) : null}
 
         <footer className={styles.footer}>
           <p>Fora da Pauta</p>
