@@ -108,6 +108,16 @@
   line-height: 1.45;
   text-wrap: balance;
 }
+ .editionsShortcut {
+  display: inline-block;
+  margin: 23px auto 0;
+  padding: 8px 0;
+  color: #e5e5e5;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: underline !important;
+  text-underline-offset: 5px;
+}
 .section {
   margin: 0 auto;
   max-width: 920px;
@@ -173,11 +183,11 @@
   .hero { padding: 66px 0 42px; }
   .featureIntro { margin-top: 0; }
   .featureTitle {
-    color: #bdbdbd;
-    font-size: clamp(22px, 6vw, 26px);
+    color: #a8a8a8;
+    font-size: clamp(18px, 4.9vw, 22px);
     font-weight: 400;
-    letter-spacing: -0.025em;
-    line-height: 1.3;
+    letter-spacing: 0;
+    line-height: 1.35;
   }
   .featureSubtitle {
     margin-top: 18px;
@@ -185,7 +195,7 @@
   }
   .featureBenefit { margin-top: 27px; }
   .page .primaryLink { margin-top: 32px; }
-  .heroClosing { margin-top: 60px; padding-top: 28px; }
+  .heroClosing { margin-top: 28px; padding-top: 22px; }
   .publicationGrid { grid-template-columns: 1fr; }
   .card { padding: 22px; }
   .section { padding: 36px 0 50px; }
