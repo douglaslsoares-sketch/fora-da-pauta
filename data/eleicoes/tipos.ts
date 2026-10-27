@@ -24,6 +24,8 @@ export type Candidatura = {
   nomeCompleto: string;
   numero: number;
   cargo: CargoEleitoral;
+  /** DS_GENERO no CSV oficial do TSE; nunca inferir pelo nome. */
+  genero?: "masculino" | "feminino";
   uf: string;
   partido: string;
   siglaPartido: string;

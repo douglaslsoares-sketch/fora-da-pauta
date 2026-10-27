@@ -9,6 +9,7 @@ import {
 } from "@/data/eleicoes";
 
 import { obterCargoAtualConhecido } from "@/data/eleicoes/reeleicao";
+import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
 
 import {
   buscarPatrimonio2022PorCandidaturaId,
@@ -21,14 +22,7 @@ type PageProps = {
   }>;
 };
 
-const nomesDosCargos: Record<string, string> = {
-  presidente: "Presidente",
-  governador: "Governador",
-  senador: "Senador",
-  "deputado-federal": "Deputado Federal",
-  "deputado-estadual": "Deputado Estadual",
-  "deputado-distrital": "Deputado Distrital",
-};
+
 
 function formatarPeriodoPolitico(
   periodo?: string,
@@ -171,7 +165,7 @@ export default async function FichaDoCandidatoPage({
 
         <header className="mb-10 mt-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-black/40">
-            Ficha do candidato
+            Ficha política
           </p>
 
           <div className="flex items-start gap-5">
@@ -203,8 +197,7 @@ export default async function FichaDoCandidatoPage({
               <p className="mt-4 text-base leading-7 text-black/60 sm:text-lg">
                 {candidatura.siglaPartido}
                 {" · "}
-                {nomesDosCargos[candidatura.cargo] ??
-                  candidatura.cargo}
+                {formatarCargo(candidatura.cargo, candidatura.genero)}
                 {" · "}
                 {candidatura.uf === "BR"
                   ? "Brasil"
@@ -253,9 +246,7 @@ export default async function FichaDoCandidatoPage({
                 Candidatura em 2026
               </dt>
               <dd className="mt-1 font-semibold">
-                {nomesDosCargos[
-                  candidatura.cargo
-                ] ?? candidatura.cargo}
+                {formatarCargo(candidatura.cargo, candidatura.genero)}
               </dd>
             </div>
 
@@ -265,8 +256,7 @@ export default async function FichaDoCandidatoPage({
                   Cargo atual
                 </dt>
                 <dd className="mt-1 font-semibold">
-                  {nomesDosCargos[cargoAtualConhecido] ??
-                    cargoAtualConhecido}
+                  {formatarCargo(cargoAtualConhecido, candidatura.genero)}
                 </dd>
               </div>
             ) : null}
@@ -554,7 +544,7 @@ export default async function FichaDoCandidatoPage({
                 </details>
 
                 <p className="mt-5 text-xs leading-5 text-black/35">
-                  Valores informados pelo próprio candidato
+                  Valores informados pela própria pessoa candidata
                   à Justiça Eleitoral. A variação
                   patrimonial, isoladamente, não indica
                   irregularidade.
@@ -608,8 +598,8 @@ export default async function FichaDoCandidatoPage({
         <p className="mt-8 text-xs leading-5 text-black/35">
           O Fora da Pauta apresenta informações e
           fontes verificáveis. Os dados não constituem
-          recomendação de voto nem avaliação moral do
-          candidato.
+          recomendação de voto nem avaliação moral da
+          pessoa candidata.
         </p>
       </div>
     </main>

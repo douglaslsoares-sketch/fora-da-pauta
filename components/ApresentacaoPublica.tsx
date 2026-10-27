@@ -130,7 +130,7 @@ export function ApresentacaoPublica({
         <div className="mt-5 max-w-2xl space-y-3">
           <p className="text-base leading-7 text-black/75">
             {candidato.nomeCompleto} consta na base da Justiça Eleitoral
-            como candidato ao cargo de {formatarCargo(candidato.cargo)}
+            em candidatura ao cargo de {formatarCargo(candidato.cargo, candidato.genero)}
             {candidato.uf === "BR" ? "" : ` por ${candidato.uf}`},
             pelo {candidato.siglaPartido}, nas eleições de {candidato.eleicao}.
           </p>

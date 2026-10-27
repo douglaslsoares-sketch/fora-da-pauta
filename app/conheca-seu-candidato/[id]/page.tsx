@@ -109,7 +109,7 @@ export default async function CandidatePage({
   }
 
   const cargo =
-    formatarCargo(candidate.cargo);
+    formatarCargo(candidate.cargo, candidate.genero);
 
   const patrimonio =
     buscarPatrimonio2026PorCandidaturaId(
@@ -377,6 +377,7 @@ const trajetoriaOrdenada =
                     <p className="mt-1 text-base leading-7 text-black/65">
                       {formatarCargo(
                         mandatoAtualConhecido.cargo,
+                        candidate.genero,
                       )}
                       {mandatoAtualConhecido.uf
                         ? ` · ${mandatoAtualConhecido.uf}`

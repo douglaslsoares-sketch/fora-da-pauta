@@ -4,7 +4,7 @@ import { buscarDadosPerfilPublico } from "@/data/eleicoes/ficha-publica";
 import type { Candidatura } from "@/data/eleicoes/tipos";
 import type { DossieCandidato } from "@/data/eleicoes/dossies/modelo";
 import type { Eleito2026 } from "@/data/eleicoes/eleitos";
-import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
+import { formatarCargo, formatarSituacaoEleitoral } from "@/lib/eleicoes/formatar-cargo";
 
 type Props = {
   candidato: Candidatura;
@@ -53,18 +53,36 @@ export function CabecalhoFichaPublica({
   mandatoAtual,
 }: Props) {
   const dados = buscarDadosPerfilPublico(candidato.id);
+  const genero = candidato.genero;
   const resultadoTse = candidato.resultadoEleitoral?.situacaoTse?.trim();
   const situacao = eleito
     ? dados?.rotuloEleitoral ?? (eleito.resultadoTse.toUpperCase().includes("SUPLENTE")
         ? "Suplente"
-        : "Eleito")
+        : genero ? formatarSituacaoEleitoral(
+            eleito.resultadoTse.toUpperCase().includes("REELEITO") ? "Reeleito" : "Eleito",
+            genero,
+          ) : "Eleição confirmada")
     : resultadoTse && !resultadoTse.startsWith("#")
-      ? resultadoTse.replace(/\s+/g, " ").toLocaleLowerCase("pt-BR")
+      ? formatarSituacaoEleitoral(resultadoTse, genero).toLocaleLowerCase("pt-BR")
       : null;
-  const cargo = formatarCargo(candidato.cargo);
+  const cargo = formatarCargo(candidato.cargo, genero);
   const idade = dados?.dataNascimento ? calcularIdade(dados.dataNascimento) : dados?.idade ?? null;
   const nomeExibido = dossie?.nome?.trim() || candidato.nomeUrna.toLocaleLowerCase("pt-BR").replace(/(^|\s)(\p{L})/gu, (_, espaco: string, letra: string) => espaco + letra.toLocaleUpperCase("pt-BR"));
   const local = candidato.uf === "BR" ? "Brasil" : nomesEstados[candidato.uf] ?? candidato.uf;
+  const eleitoComo = eleito && genero
+    ? formatarSituacaoEleitoral(
+        eleito.resultadoTse.toUpperCase().includes("REELEITO") ? "Reeleito" : "Eleito",
+        genero,
+      )
+    : null;
+  const apresentacaoEleitoral = eleito
+    ? eleitoComo
+      ? `${cargo} ${eleitoComo.toLocaleLowerCase("pt-BR")} em ${candidato.eleicao} ${candidato.uf === "BR" ? "no Brasil" : `por ${local}`}`
+      : `Eleição confirmada em ${candidato.eleicao} · Cargo: ${cargo} · ${local}`
+    : candidato.cargo === "presidente"
+      ? `Candidatura à Presidência da República em ${candidato.eleicao}`
+      : `Candidatura ao cargo de ${cargo.toLocaleLowerCase("pt-BR")} ${candidato.uf === "BR" ? "no Brasil" : `por ${local}`} em ${candidato.eleicao}`;
+
   const apresentacao = dados?.apresentacao;
   // Um perfil editorial específico tem prioridade. Para os demais, aproveitar
   // somente a biografia já documentada, sem inferir bandeiras ou feitos.
@@ -89,11 +107,7 @@ export function CabecalhoFichaPublica({
             {nomeExibido}
           </h1>
           <p className="mt-1 text-sm leading-5 text-black/60">
-            {eleito
-              ? `Eleito ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}`
-              : candidato.cargo === "presidente"
-                ? `Candidatura à Presidência da República em ${candidato.eleicao}`
-                : `Candidatura a ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}`}
+            {apresentacaoEleitoral}
           </p>
           {situacao ? (
             <span className={`mt-2 inline-flex rounded-md px-2 py-0.5 text-xs font-semibold ${eleito ? "bg-emerald-100 text-emerald-800" : "bg-black/5 text-black/65"}`}>
@@ -177,7 +191,7 @@ export function CabecalhoFichaPublica({
         <div className="mt-3 space-y-2 text-sm leading-6 text-black/70">
           <p><strong>Nome completo:</strong> {candidato.nomeCompleto}</p>
           <p><strong>Número:</strong> {candidato.numero} · <strong>UF:</strong> {candidato.uf}</p>
-          {mandatoAtual ? <p><strong>Mandato documentado:</strong> {formatarCargo(mandatoAtual.cargo)}{mandatoAtual.uf ? ` · ${mandatoAtual.uf}` : ""}{mandatoAtual.inicio && mandatoAtual.fim ? ` · ${mandatoAtual.inicio}–${mandatoAtual.fim}` : ""}{mandatoAtual.fonte ? <> · <a className="underline" href={mandatoAtual.fonte.url} target="_blank" rel="noreferrer">{mandatoAtual.fonte.titulo} ↗</a></> : null}</p> : null}
+          {mandatoAtual ? <p><strong>Mandato documentado:</strong> {formatarCargo(mandatoAtual.cargo, genero)}{mandatoAtual.uf ? ` · ${mandatoAtual.uf}` : ""}{mandatoAtual.inicio && mandatoAtual.fim ? ` · ${mandatoAtual.inicio}–${mandatoAtual.fim}` : ""}{mandatoAtual.fonte ? <> · <a className="underline" href={mandatoAtual.fonte.url} target="_blank" rel="noreferrer">{mandatoAtual.fonte.titulo} ↗</a></> : null}</p> : null}
           <p><strong>Situação no TSE:</strong> {eleito?.resultadoTse ?? candidato.situacaoTse}</p>
         </div>
       </details>
