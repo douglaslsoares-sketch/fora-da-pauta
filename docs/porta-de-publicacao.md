@@ -122,3 +122,21 @@ A divulgação continua bloqueada até os requisitos de campo serem atendidos.
 - Essa regra não substitui verificação contínua de fontes nem garante
   que o registro é um fato recém-publicado: ainda falta o teste real
   de coleta, comparação de versões e entrega.
+
+## Homologação com download real de votos nominais — 27/10/2026
+
+- Fonte: `dadosabertos.camara.leg.br/arquivos/votacoesVotos/csv/votacoesVotos-2026.csv`.
+- Confirmado em GitHub Actions, execução **40460468611**: CSV de
+  **17.648.870 bytes**, com as colunas exigidas, baixado integralmente,
+  validado e descartado no armazenamento temporário do runner Windows.
+- O procedimento foi integrado ao primeiro estágio do atualizador
+  `scripts/atualizar-atuacao-camara.ps1`, substituindo o
+  `Invoke-WebRequest` que falhava com EOF. Preserva o último CSV até
+  completar a transferência e validar a estrutura.
+- **Ainda não se comprovou** a execução completa dos seis estágios,
+  a persistência dos JSONs gerados e a atualização real nas fichas após
+  esta correção. A rotina oficial de `main` permanece inalterada.
+- A falha recorrente do fluxo em produção não autoriza promoção ou
+  publicação sem teste end-to-end adicional.
+
+**Liberação pública segue bloqueada.**
