@@ -69,7 +69,7 @@ export function prepararAvisosAtuacao(
     })),
     ...atuacao.proposicoes.map((proposicao) => ({
       id: `proposicao:${proposicao.proposicaoId}`,
-      ocorridoEm: proposicao.data,
+      ocorridoEm: proposicao.data.slice(0, 10),
       texto: [
         "Um registro de proposição parlamentar foi incluído no acompanhamento.",
         `Proposição: ${reduzir(proposicao.identificacao, 100)}.`,
