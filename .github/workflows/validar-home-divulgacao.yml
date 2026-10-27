@@ -4,6 +4,11 @@ on:
     paths:
       - 'app/page.tsx'
       - 'app/page.module.css'
+      - 'components/CabecalhoFichaPublica.tsx'
+      - 'lib/eleicoes/formatar-cargo.ts'
+      - 'data/eleicoes/tipos.ts'
+      - 'scripts/importar-candidaturas-2026.ps1'
+      - 'scripts/atualizar-tse-2026.ps1'
       - '.github/workflows/validar-home-divulgacao.yml'
 permissions:
   contents: read
@@ -19,7 +24,9 @@ jobs:
           cache: 'npm'
       - run: npm ci --ignore-scripts
       - run: npx tsc --noEmit
-      - run: npx eslint app/page.tsx
+      - run: npx eslint app/page.tsx components/CabecalhoFichaPublica.tsx lib/eleicoes/formatar-cargo.ts
+      - name: Testes isolados do Telegram
+        run: node --test tests/telegram-webhook.test.cjs tests/telegram-sessao.test.cjs tests/telegram-concluir.test.cjs
       - name: Conferir frase aprovada e caminhos da home
         run: |
           node - <<'NODE'
