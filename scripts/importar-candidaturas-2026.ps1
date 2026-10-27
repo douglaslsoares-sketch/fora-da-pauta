@@ -49,6 +49,7 @@ $candidaturas = foreach ($linha in $dados) {
   }
 
   $federacao = Limpar-Valor $linha.NM_FEDERACAO
+  $generoTse = ([string]$linha.DS_GENERO).Trim().ToUpperInvariant()
 
   $item = [ordered]@{
     id                  = [string]$linha.SQ_CANDIDATO
@@ -91,6 +92,12 @@ $candidaturas = foreach ($linha in $dados) {
 
   if ($federacao) {
     $item["federacao"] = $federacao
+  }
+  if ($generoTse -eq "FEMININO") {
+    $item["genero"] = "feminino"
+  }
+  elseif ($generoTse -eq "MASCULINO") {
+    $item["genero"] = "masculino"
   }
 
   [pscustomobject]$item
