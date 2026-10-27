@@ -345,6 +345,7 @@ export function VotouFiqueDeOlhoExperience() {
 
   async function remover(pessoa: PessoaSelecionada) {
     setErroTelegram("");
+    setAviso("");
     if (inscricaoAtiva) {
       try {
         const resposta = await fetch("/api/telegram/sessao", {
@@ -376,6 +377,7 @@ export function VotouFiqueDeOlhoExperience() {
     if (removendoMarcadas || marcadasParaRemover.length === 0) return;
     setRemovendoMarcadas(true);
     setErroTelegram("");
+    setAviso("");
     const removerIds = [...marcadasParaRemover];
     const removidas: string[] = [];
     try {
