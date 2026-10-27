@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ContinuarNoForaDaPauta } from "@/components/ContinuarNoForaDaPauta";
 import { notFound } from "next/navigation";
 
 import { candidaturas } from "@/data/eleicoes/candidaturas";
@@ -96,7 +97,8 @@ export default async function VotacoesDoCandidatoPage({
             (item) => (
               <article
                 key={item.votacaoId}
-                className="py-6"
+                id={`votacao-${item.votacaoId}`}
+                className="scroll-mt-20 py-6"
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-3">
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/40">
@@ -127,6 +129,8 @@ export default async function VotacoesDoCandidatoPage({
             ),
           )}
         </div>
+
+        <ContinuarNoForaDaPauta />
 
         <div className="mt-10 border-t border-black/10 pt-6">
           <Link
