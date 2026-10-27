@@ -116,60 +116,16 @@ $arquivoVotos =
         $dirCamara `
         "votacoesVotos-2026.csv"
 
-$tmpVotos =
-    "$arquivoVotos.tmp"
-
-if (Test-Path -LiteralPath $tmpVotos) {
-    Remove-Item `
-        -LiteralPath $tmpVotos `
-        -Force
+# O arquivo de votos usa um baixador especifico com verificacao do CSV.
+# Nunca substitui a ultima copia boa em transferencia interrompida.
+$baixadorVotos = Join-Path $PSScriptRoot "baixar-votos-camara.ps1"
+& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $baixadorVotos -Destino $arquivoVotos
+if ($LASTEXITCODE -ne 0) {
+    throw "Falha ao baixar votacoes nominais da Camara."
 }
-
-for ($tentativaVotos = 1; $tentativaVotos -le 3; $tentativaVotos++) {
-    try {
-        if (Test-Path -LiteralPath $tmpVotos) {
-            Remove-Item -LiteralPath $tmpVotos -Force
-        }
-
-        Invoke-WebRequest `
-            -Uri $urlVotos `
-            -OutFile $tmpVotos `
-            -UseBasicParsing `
-            -ErrorAction Stop
-
-        if (
-            -not (Test-Path -LiteralPath $tmpVotos) -or
-            (Get-Item -LiteralPath $tmpVotos).Length -lt 1000
-        ) {
-            throw 'Download de votações inválido.'
-        }
-
-        break
-    }
-    catch {
-        if ($tentativaVotos -eq 3) {
-            throw
-        }
-
-        Start-Sleep -Seconds (5 * $tentativaVotos)
-    }
-}
-
-if (
-    -not (Test-Path -LiteralPath $tmpVotos) -or
-    (Get-Item -LiteralPath $tmpVotos).Length -lt 1000
-) {
-    throw "Download de votações inválido."
-}
-
-Move-Item `
-    -LiteralPath $tmpVotos `
-    -Destination $arquivoVotos `
-    -Force
 
 Write-Host "Votos atualizados."
-Write-Host "Bytes:" `
-    (Get-Item -LiteralPath $arquivoVotos).Length
+Write-Host "Bytes:" (Get-Item -LiteralPath $arquivoVotos).Length
 
 # ============================================================
 # 2. VOTAÇÕES POR PESSOA
