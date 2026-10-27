@@ -169,7 +169,9 @@
 }
 @media (max-width: 767px) {
   .logo { width: 84px; }
-  .hero { padding: 58px 0 26px; }
+  /* Respiro na primeira dobra: somente espaçamento no celular. */
+  .hero { padding: 96px 0 96px; }
+  .heroClosing { margin-top: 96px; }
   .featureIntro { margin-top: 0; }
   .featureSubtitle { margin-top: 15px; font-size: clamp(29px, 9.2vw, 35px); }
   .publicationGrid { grid-template-columns: 1fr; }
