@@ -139,6 +139,46 @@
   background: #e9b300;
 }
 
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.page .secondaryLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 48px;
+  margin-top: 28px;
+  padding: 13px 21px;
+  border: 1px solid #ffffff75;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.page .secondaryLink:hover {
+  background: #181818;
+  border-color: #ffc400;
+}
+
+.heroNote {
+  max-width: 580px;
+  margin: 14px 0 0;
+  color: #bfbfbf;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.hero .eyebrow {
+  margin: 24px 0 0;
+}
+
 .section {
   padding: 40px 0 48px;
   border-top: 1px solid #ffffff30;
@@ -258,6 +298,15 @@
 @media (max-width: 767px) {
   .hero {
     padding: 48px 0 56px;
+  }
+
+  .heroActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page .secondaryLink {
+    margin-top: 0;
   }
 
   .publicationGrid,
