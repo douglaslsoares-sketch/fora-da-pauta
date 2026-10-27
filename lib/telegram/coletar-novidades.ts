@@ -65,7 +65,7 @@ export async function coletarNovidadesCandidatos() {
             `Data: ${votacao.data}\n` +
             `Voto registrado: ${votacao.voto}\n\n` +
             limitarTexto(votacao.descricao) +
-            `\n\nVer ficha: ${ficha}\n` +
+            `\n\nVer esta votação e consultar a fonte: ${ficha}/votacoes#votacao-${encodeURIComponent(votacao.votacaoId)}\n` +
             "Para interromper os avisos, envie /parar.",
         })),
         ...(atuacao?.proposicoes ?? []).map((proposicao) => ({
@@ -76,7 +76,7 @@ export async function coletarNovidadesCandidatos() {
             `Data: ${proposicao.data}\n` +
             `Vínculo registrado: ${proposicao.papel}\n\n` +
             limitarTexto(proposicao.ementa) +
-            `\n\nVer ficha: ${ficha}\n` +
+            `\n\nVer esta proposição e consultar a fonte: ${ficha}/proposicoes#proposicao-${encodeURIComponent(proposicao.proposicaoId)}\n` +
             "Para interromper os avisos, envie /parar.",
         })),
         ...prepararAvisosDossie(dossie),
