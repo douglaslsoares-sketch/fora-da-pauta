@@ -153,6 +153,8 @@ export function VotouFiqueDeOlhoExperience() {
 
   const [etapa, setEtapa] = useState<Etapa>("busca");
   const [mostrarMinhasEscolhas, setMostrarMinhasEscolhas] = useState(false);
+  const [marcadasParaRemover, setMarcadasParaRemover] = useState<string[]>([]);
+  const [removendoMarcadas, setRemovendoMarcadas] = useState(false);
   const [busca, setBusca] = useState(0);
   const [aviso, setAviso] = useState("");
   const [avisoStorage, setAvisoStorage] = useState("");
@@ -364,10 +366,46 @@ export function VotouFiqueDeOlhoExperience() {
     }
   }
 
+  async function removerMarcadas() {
+    if (removendoMarcadas || marcadasParaRemover.length === 0) return;
+    setRemovendoMarcadas(true);
+    setErroTelegram("");
+    const removerIds = [...marcadasParaRemover];
+    const removidas: string[] = [];
+    try {
+      for (const id of removerIds) {
+        if (inscricaoAtiva) {
+          const resposta = await fetch("/api/telegram/sessao", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id }),
+          });
+          if (!resposta.ok) throw Error("Falha ao cancelar acompanhamento");
+        }
+        removidas.push(id);
+      }
+    } catch {
+      setErroTelegram("Não foi possível remover todas as pessoas selecionadas. Tente novamente.");
+    } finally {
+      if (removidas.length > 0) {
+        const novaLista = interpretarSelecao(lerSelecaoSerializada())
+          .filter((pessoa) => !removidas.includes(pessoa.id));
+        edicoesLocaisPendentes.current = true;
+        setEscolhasSalvas(false);
+        gravar(novaLista);
+        if (novaLista.length === 0) setEtapa("busca");
+      }
+      setMarcadasParaRemover((atual) => atual.filter((id) => !removidas.includes(id)));
+      setRemovendoMarcadas(false);
+    }
+  }
+
   function ListaSelecionadas({
     permitirRemocao = true,
+    selecaoParaRemover = false,
   }: {
     permitirRemocao?: boolean;
+    selecaoParaRemover?: boolean;
   }) {
     return (
       <div className="mt-4 space-y-2">
@@ -402,7 +440,22 @@ export function VotouFiqueDeOlhoExperience() {
               Ver ficha
             </Link>
 
-            {permitirRemocao ? (
+            {selecaoParaRemover ? (
+              <label className="flex shrink-0 cursor-pointer flex-col items-center gap-1 text-xs text-black/70">
+                <input
+                  type="checkbox"
+                  checked={marcadasParaRemover.includes(pessoa.id)}
+                  onChange={(evento) => setMarcadasParaRemover((atual) =>
+                    evento.target.checked
+                      ? [...atual, pessoa.id]
+                      : atual.filter((id) => id !== pessoa.id)
+                  )}
+                  aria-label={`Selecionar ${pessoa.nomeUrna} para remover`}
+                  className="h-6 w-6 accent-black"
+                />
+                Remover
+              </label>
+            ) : permitirRemocao ? (
               <button
                 type="button"
                 onClick={() => void remover(pessoa)}
@@ -660,7 +713,16 @@ export function VotouFiqueDeOlhoExperience() {
             Sua lista atual ({selecionadas.length})
           </h3>
 
-          <ListaSelecionadas />
+          <ListaSelecionadas permitirRemocao={false} selecaoParaRemover />
+          {marcadasParaRemover.length > 0 ? (
+            <button type="button" disabled={removendoMarcadas}
+              onClick={() => void removerMarcadas()}
+              className="mt-5 min-h-12 w-full rounded-2xl border border-red-700 px-5 py-3 font-semibold text-red-800 disabled:opacity-60">
+              {removendoMarcadas
+                ? "Removendo..."
+                : `Remover selecionados (${marcadasParaRemover.length})`}
+            </button>
+          ) : null}
         </div>
         {erroTelegram ? <p role="alert" className="mt-3 text-sm text-red-700">{erroTelegram}</p> : null}
 
