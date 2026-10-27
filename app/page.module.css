@@ -191,7 +191,7 @@
   }
   .featureSubtitle {
     margin-top: 18px;
-    font-size: clamp(29px, 9.2vw, 35px);
+    font-size: clamp(27px, 8vw, 32px);
   }
   .featureBenefit { margin-top: 27px; }
   .page .primaryLink { margin-top: 32px; }
