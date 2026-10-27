@@ -45,25 +45,11 @@
 .hero {
   max-width: 920px;
   margin-inline: auto;
-  padding: 52px 0 72px;
+  padding: 72px 0 32px;
   text-align: center;
   scroll-margin-top: 24px;
 }
-.hero h1 {
-  margin: 0;
-  font-size: clamp(35px, 6.2vw, 66px);
-  font-weight: 600;
-  line-height: 1.02;
-  letter-spacing: -0.05em;
-  text-wrap: balance;
-}
-.heroLead {
-  margin: 12px 0 0;
-  color: #f0f0f0;
-  font-size: clamp(16px, 2.4vw, 23px);
-  line-height: 1.4;
-}
-.featureIntro { margin-top: 46px; }
+.featureIntro { margin-top: 0; }
 .featureTitle {
   margin: 0;
   color: #fff;
@@ -93,8 +79,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 600px;
-  min-height: 60px;
+  max-width: 470px;
+  min-height: 58px;
   margin: 30px auto 0;
   padding: 16px 21px;
   gap: 12px;
@@ -109,15 +95,8 @@
 .page .primaryLink:hover { background: #e9b300; }
 .primaryText { flex: 1; }
 .primaryArrow { flex: 0 0 auto; font-size: 24px; line-height: 1; }
-.ctaNote {
-  max-width: 560px;
-  margin: 13px auto 0;
-  color: #bfbfbf;
-  font-size: 12px;
-  line-height: 1.6;
-}
 .heroClosing {
-  margin: 52px auto 0;
+  margin: 60px auto 0;
   padding-top: 28px;
   border-top: 1px solid #ffffff55;
 }
@@ -132,8 +111,7 @@
 .section {
   margin: 0 auto;
   max-width: 920px;
-  padding: 45px 0 60px;
-  border-top: 1px solid #ffffff40;
+  padding: 32px 0 60px;
   scroll-margin-top: 24px;
 }
 .sectionHeading { margin-bottom: 24px; }
@@ -190,8 +168,8 @@
   .container { padding: 40px 40px 32px; }
 }
 @media (max-width: 767px) {
-  .hero { padding: 46px 0 56px; }
-  .featureIntro { margin-top: 38px; }
+  .hero { padding: 58px 0 26px; }
+  .featureIntro { margin-top: 0; }
   .featureSubtitle { margin-top: 15px; }
   .publicationGrid { grid-template-columns: 1fr; }
   .card { padding: 22px; }
