@@ -1,4 +1,6 @@
-export function formatarCargo(cargo: string) {
+export type GeneroGramatical = "masculino" | "feminino";
+
+export function formatarCargo(cargo: string, genero?: GeneroGramatical) {
   const normalizado = cargo
     .trim()
     .toLowerCase()
@@ -19,6 +21,25 @@ export function formatarCargo(cargo: string) {
     "vice-prefeito": "Vice-Prefeito",
     vereador: "Vereador",
   };
+
+  if (genero === "feminino") {
+    const femininos: Record<string, string> = {
+      presidente: "Presidenta da República",
+      "vice-presidente": "Vice-Presidenta da República",
+      governador: "Governadora",
+      "vice-governador": "Vice-Governadora",
+      senador: "Senadora",
+      "1-suplente": "1ª Suplente",
+      "2-suplente": "2ª Suplente",
+      "deputado-federal": "Deputada Federal",
+      "deputado-estadual": "Deputada Estadual",
+      "deputado-distrital": "Deputada Distrital",
+      prefeito: "Prefeita",
+      "vice-prefeito": "Vice-Prefeita",
+      vereador: "Vereadora",
+    };
+    if (femininos[normalizado]) return femininos[normalizado];
+  }
 
   if (cargos[normalizado]) {
     return cargos[normalizado];
