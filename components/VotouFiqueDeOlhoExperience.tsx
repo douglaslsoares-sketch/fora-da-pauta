@@ -724,7 +724,9 @@ export function VotouFiqueDeOlhoExperience() {
         ) : null}
 
         <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
-          Quem você quer acompanhar?
+          {!conferindoInscricao && inscricaoAtiva && selecionadas.length > 0
+            ? "Quem mais você quer acompanhar?"
+            : "Quem você quer acompanhar?"}
         </h2>
 
         <CandidateSelector
