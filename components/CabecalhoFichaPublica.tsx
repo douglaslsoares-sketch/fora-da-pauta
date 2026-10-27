@@ -66,6 +66,20 @@ export function CabecalhoFichaPublica({
       ? formatarSituacaoEleitoral(resultadoTse, genero).toLocaleLowerCase("pt-BR")
       : null;
   const cargo = formatarCargo(candidato.cargo, genero);
+  const eleitoComo = eleito && genero
+    ? formatarSituacaoEleitoral(
+        eleito.resultadoTse.toUpperCase().includes("REELEITO") ? "Reeleito" : "Eleito",
+        genero,
+      )
+    : null;
+  const apresentacaoEleitoral = eleito
+    ? eleitoComo
+      ? `${cargo} ${eleitoComo.toLocaleLowerCase("pt-BR")} em ${candidato.eleicao} ${candidato.uf === "BR" ? "no Brasil" : `por ${local}`}`
+      : `Eleição confirmada em ${candidato.eleicao} · Cargo: ${cargo} · ${local}`
+    : candidato.cargo === "presidente"
+      ? `Candidatura à Presidência da República em ${candidato.eleicao}`
+      : `Candidatura ao cargo de ${cargo.toLocaleLowerCase("pt-BR")} ${candidato.uf === "BR" ? "no Brasil" : `por ${local}`} em ${candidato.eleicao}`;
+
   const idade = dados?.dataNascimento ? calcularIdade(dados.dataNascimento) : dados?.idade ?? null;
   const nomeExibido = dossie?.nome?.trim() || candidato.nomeUrna.toLocaleLowerCase("pt-BR").replace(/(^|\s)(\p{L})/gu, (_, espaco: string, letra: string) => espaco + letra.toLocaleUpperCase("pt-BR"));
   const local = candidato.uf === "BR" ? "Brasil" : nomesEstados[candidato.uf] ?? candidato.uf;
@@ -93,14 +107,7 @@ export function CabecalhoFichaPublica({
             {nomeExibido}
           </h1>
           <p className="mt-1 text-sm leading-5 text-black/60">
-            {eleito
-              ? `${genero ? formatarSituacaoEleitoral(
-                  eleito.resultadoTse.toUpperCase().includes("REELEITO") ? "Reeleito" : "Eleito",
-                  genero,
-                ) : "Eleição para"} ${genero ? cargo.toLowerCase() : `o cargo de ${cargo.toLowerCase()}`} por ${local} em ${candidato.eleicao}`
-              : candidato.cargo === "presidente"
-                ? `Candidatura à Presidência da República em ${candidato.eleicao}`
-                : `Candidatura a ${cargo.toLowerCase()} por ${local} em ${candidato.eleicao}`}
+            {apresentacaoEleitoral}
           </p>
           {situacao ? (
             <span className={`mt-2 inline-flex rounded-md px-2 py-0.5 text-xs font-semibold ${eleito ? "bg-emerald-100 text-emerald-800" : "bg-black/5 text-black/65"}`}>
