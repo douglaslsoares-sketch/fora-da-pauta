@@ -307,32 +307,38 @@ export function VotouFiqueDeOlhoExperience() {
     }
   }
 
-  function selecionar(
-    pessoa: Omit<PessoaSelecionada, "eleicao">,
-  ) {
-    const atuais = interpretarSelecao(
-      lerSelecaoSerializada(),
-    );
-
-    if (atuais.some((item) => item.id === pessoa.id)) {
+  async function selecionar(pessoa: Omit<PessoaSelecionada, "eleicao">) {
+    const atuais = interpretarSelecao(lerSelecaoSerializada());
+    if (atuais.some((item) => item.id === pessoa.id) || salvandoEscolhas) return;
+    const novaLista = [...atuais, { ...pessoa, eleicao: 2026 }];
+    setErroTelegram("");
+    if (inscricaoAtiva) {
+      setSalvandoEscolhas(true);
+      try {
+        const resposta = await fetch("/api/telegram/sessao", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ids: novaLista.map((item) => item.id) }),
+        });
+        if (!resposta.ok) throw new Error("Falha ao salvar");
+        setIdsConfirmados((ids) => [...new Set([...ids, pessoa.id])]);
+        edicoesLocaisPendentes.current = false;
+        gravar(novaLista);
+        setAviso(`Você já acompanha ${pessoa.nomeUrna}.`);
+        setBusca((atual) => atual + 1);
+        setEtapa("busca");
+      } catch {
+        setErroTelegram("Não foi possível salvar no Telegram. Tente novamente.");
+      } finally {
+        setSalvandoEscolhas(false);
+      }
       return;
     }
-
     edicoesLocaisPendentes.current = true;
     setInscricaoGeral(false);
     setEscolhasSalvas(false);
-    gravar([
-      ...atuais,
-      {
-        ...pessoa,
-        eleicao: 2026,
-      },
-    ]);
-
-    setAviso(
-      `${pessoa.nomeUrna} foi adicionado à sua lista.`,
-    );
-
+    gravar(novaLista);
+    setAviso(`${pessoa.nomeUrna} foi adicionado à sua lista.`);
     setBusca((atual) => atual + 1);
     setEtapa("selecionados");
   }
@@ -724,7 +730,7 @@ export function VotouFiqueDeOlhoExperience() {
         </div>
         {erroTelegram ? <p role="alert" className="mt-3 text-sm text-red-700">{erroTelegram}</p> : null}
 
-        <button
+        {!inscricaoAtiva ? <button
           type="button"
           onClick={() => { setEtapa("telegram"); setEscolhasSalvas(false); }}
           className="mt-7 flex min-h-14 w-full items-center justify-center gap-4 rounded-2xl bg-black px-5 font-semibold text-white"
@@ -733,7 +739,7 @@ export function VotouFiqueDeOlhoExperience() {
           <span aria-hidden="true" className="text-2xl">
             ›
           </span>
-        </button>
+        </button> : null}
 
         {avisoStorage ? (
           <p role="alert" className="mt-5 text-sm text-black/60">
@@ -804,6 +810,9 @@ export function VotouFiqueDeOlhoExperience() {
             : "Quem você quer acompanhar?"}
         </h2>
 
+        {erroTelegram ? <p role="alert" className="mb-3 text-sm text-red-700">{erroTelegram}</p> : null}
+        {salvandoEscolhas ? <p role="status" className="mb-3 text-sm">Salvando acompanhamento no Telegram...</p> : null}
+        {aviso && !erroTelegram ? <p role="status" className="mb-3 text-sm text-green-800">{aviso}</p> : null}
         <CandidateSelector
           key={`busca-${busca}`}
           mode="follow"
