@@ -180,7 +180,12 @@
 @media (max-width: 767px) {
   .logo { width: 84px; }
   /* Composição mobile conforme a captura de referência. */
-  .hero { padding: 66px 0 108px; }
+  /* Reserva o rodapé da primeira dobra para o título das edições;
+     o espaço extra fica depois da frase editorial, não acima dela. */
+  .hero {
+    padding: 66px 0 108px;
+    min-height: calc(100svh - 180px);
+  }
   .featureIntro { margin-top: 0; }
   .featureTitle {
     color: #a8a8a8;
