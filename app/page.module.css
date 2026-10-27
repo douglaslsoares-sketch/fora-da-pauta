@@ -374,3 +374,25 @@
     padding: 24px;
   }
 }
+
+/* Acesso discreto ao arquivo editorial, sem competir com a ação principal. */
+.editionsAccess {
+  padding: 0 0 32px;
+}
+
+.allEditionsLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  margin-top: 24px;
+  border-bottom: 1px solid #ffc400;
+  color: #ffc400 !important;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.allEditionsLink:hover {
+  color: #fff !important;
+}
