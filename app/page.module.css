@@ -180,7 +180,7 @@
 @media (max-width: 767px) {
   .logo { width: 84px; }
   /* Composição mobile conforme a captura de referência. */
-  .hero { padding: 66px 0 42px; }
+  .hero { padding: 66px 0 108px; }
   .featureIntro { margin-top: 0; }
   .featureTitle {
     color: #a8a8a8;
