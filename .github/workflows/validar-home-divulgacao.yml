@@ -1,0 +1,35 @@
+name: Validar home antes da divulgação
+on:
+  pull_request:
+    paths:
+      - 'app/page.tsx'
+      - 'app/page.module.css'
+      - '.github/workflows/validar-home-divulgacao.yml'
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci --ignore-scripts
+      - run: npx tsc --noEmit
+      - run: npx eslint app/page.tsx
+      - name: Conferir frase aprovada e caminhos da home
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const assert = require('node:assert/strict');
+          const fonte = fs.readFileSync('app/page.tsx','utf8');
+          assert.ok(fonte.includes('Conhecer é importante. Entender como o jogo é jogado é fundamental.'));
+          assert.ok(fonte.includes('href="/votou-fique-de-olho"'));
+          assert.ok(fonte.includes('href="/conheca-seu-candidato"'));
+          assert.ok(fonte.includes('Acompanhe pelo Telegram'));
+          assert.ok(fonte.includes('campaign.slug !== "fim-escala-6x1"'));
+          console.log('Home aprovada: verificações básicas OK.');
+          NODE
