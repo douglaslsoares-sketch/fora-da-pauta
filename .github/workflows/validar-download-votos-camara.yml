@@ -1,0 +1,52 @@
+name: Validar download real de votos sem publicar
+
+on:
+  pull_request:
+    paths:
+      - "scripts/baixar-votos-camara.ps1"
+      - "scripts/atualizar-atuacao-camara.ps1"
+      - ".github/workflows/validar-download-votos-camara.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  votos:
+    runs-on: windows-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar sintaxe do baixador e do atualizador
+        shell: pwsh
+        run: |
+          foreach ($arquivo in @(
+            "./scripts/baixar-votos-camara.ps1",
+            "./scripts/atualizar-atuacao-camara.ps1"
+          )) {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile(
+              (Resolve-Path $arquivo), [ref]$tokens, [ref]$errors
+            ) | Out-Null
+            if ($errors.Count -gt 0) {
+              $errors | Format-Table
+              throw "Erro de sintaxe: $arquivo"
+            }
+          }
+      - name: Baixar CSV real para pasta descartavel
+        shell: powershell
+        run: |
+          $ErrorActionPreference = "Stop"
+          $destino = Join-Path $env:RUNNER_TEMP "votacoesVotos-2026.csv"
+          & "./scripts/baixar-votos-camara.ps1" -Destino $destino
+          if ($LASTEXITCODE -ne 0) {
+            throw "A fonte oficial nao concluiu o download."
+          }
+          if (-not (Test-Path -LiteralPath $destino)) {
+            throw "CSV nao existe."
+          }
+          $tamanho = (Get-Item -LiteralPath $destino).Length
+          Write-Host "CSV real recebido, bytes: $tamanho"
+          if ($tamanho -lt 1000) { throw "Arquivo pequeno." }
+          Remove-Item -LiteralPath $destino -Force

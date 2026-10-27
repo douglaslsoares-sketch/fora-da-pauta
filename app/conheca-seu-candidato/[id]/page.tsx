@@ -13,6 +13,7 @@ import { buscarEvolucaoPatrimonial } from "@/data/eleicoes/evolucao-patrimonial"
 import { candidaturas } from "@/data/eleicoes/candidaturas";
 import { buscarHistoricoPolitico } from "@/data/eleicoes/historico-politico";
 import { buscarAtuacaoPolitica } from "@/data/eleicoes/atuacao-politica";
+import { obterTransparenciaFicha } from "@/lib/eleicoes/transparencia-ficha";
 import { buscarDossiePorCandidaturaId } from "@/data/eleicoes/dossies";
 import { obterMandatoAtualConhecido } from "@/data/eleicoes/reeleicao";
 import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
@@ -132,6 +133,7 @@ export default async function CandidatePage({
       candidate.id,
     );
   const dossiePublico = buscarDossiePorCandidaturaId(candidate.id);
+  const transparencia = obterTransparenciaFicha(atuacaoPolitica, dossiePublico);
   const eleitoConfirmado = eleitos2026.find((pessoa) => pessoa.id === candidate.id) ?? null;
 const trajetoriaOrdenada =
     [...(historico?.trajetoria ?? [])]
@@ -253,22 +255,37 @@ const trajetoriaOrdenada =
           >
             <div className="border-l-4 border-[#FFC400] pl-5 sm:pl-6">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/45">
-                Ficha em atualização contínua
+                Situação dos registros desta ficha
               </p>
 
               <p className="mt-3 max-w-2xl text-sm leading-6 text-black/60 sm:text-base sm:leading-7">
-                Esta ficha reúne informações verificadas até as datas
-                indicadas nos registros e nas fontes. Novos documentos,
-                declarações, investigações, respostas, decisões,
-                correções e desdobramentos podem ser incorporados
-                posteriormente.
+                A cobertura depende de cada fonte. Uma coleta pode estar
+                incompleta, atrasada ou indisponível. A ausência de registros
+                não demonstra ausência de atuação.
               </p>
 
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-black/50">
-                Registros anteriores são preservados para manter a
-                trajetória documental. As fontes e as atualizações
-                ficam disponíveis para consulta nesta ficha.
-              </p>
+              <div className="mt-4 space-y-2 text-sm leading-6 text-black/65">
+                <p>
+                  <strong>Atuação parlamentar:</strong>{" "}
+                  {transparencia.atuacao.geradoEm
+                    ? `arquivo gerado em ${transparencia.atuacao.geradoEm}`
+                    : "sem data de atualização confirmada"}.
+                  {transparencia.atuacao.ultimoRegistroEm
+                    ? ` Registro mais recente disponível: ${transparencia.atuacao.ultimoRegistroEm}.`
+                    : " Não há data de ato parlamentar disponível."}
+                </p>
+                <p>
+                  <strong>Dossiê editorial:</strong>{" "}
+                  {transparencia.dossie.revisadoEm
+                    ? `revisado em ${transparencia.dossie.revisadoEm}`
+                    : "sem revisão documental publicada nesta ficha"}.
+                </p>
+                <p>
+                  <strong>Notícias e entrevistas:</strong>{" "}
+                  coleta ainda em integração. Menções não verificadas
+                  não são apresentadas como fatos da trajetória.
+                </p>
+              </div>
             </div>
           </section>
           <CandidateFollowCard

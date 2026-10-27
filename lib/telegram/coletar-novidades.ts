@@ -3,32 +3,37 @@ import "server-only";
 import { buscarAtuacaoPolitica } from "@/data/eleicoes/atuacao-politica";
 import { buscarDossiePorCandidaturaId } from "@/data/eleicoes/dossies";
 import { prepararAvisosDossie } from "./preparar-avisos-dossie";
+import { prepararAvisosAtuacao } from "./preparar-avisos-atuacao";
 import { sql } from "../interesses/db";
 import {
   registrarNovidadesNaFila,
   type EventoNotificacao,
 } from "./registrar-novidades";
 
-function limitarTexto(texto: string) {
-  const caracteres = Array.from(texto);
-  return caracteres.length <= 2500
-    ? texto
-    : caracteres.slice(0, 2499).join("") + "…";
-}
-
 export async function coletarNovidadesCandidatos() {
-  // Prioriza fontes nunca verificadas e depois as mais antigas.
-  // O lote limitado permite continuar nas próximas execuções.
+  // Rotação determinística de 10 fichas a cada janela de 15 minutos.
+  // Fontes sem arquivo permanecem SEM inicialização editorial, mas
+  // não bloqueiam a verificação das outras fichas inscritas.
+  //
+  // O deslocamento circular é calculado no banco, sem trazer todas
+  // as candidaturas para a aplicação e sem criar novas tabelas.
+  const janela = Math.floor(Date.now() / (15 * 60 * 1000));
   const candidaturas = await sql<{ candidatura_id: string }[]>`
-    SELECT a.candidatura_id
-    FROM public.telegram_acompanhamentos AS a
-    LEFT JOIN public.telegram_fontes_notificacao AS f
-      ON f.tipo = 'candidato'
-      AND f.referencia = a.candidatura_id
-    WHERE a.status IN ('ativo', 'aguardando_eleicao')
-      AND a.cancelled_at IS NULL
-    GROUP BY a.candidatura_id, f.verificado_at
-    ORDER BY f.verificado_at ASC NULLS FIRST, a.candidatura_id
+    WITH acompanhadas AS (
+      SELECT DISTINCT a.candidatura_id
+      FROM public.telegram_acompanhamentos AS a
+      WHERE a.status IN ('ativo', 'aguardando_eleicao', 'nao_eleito')
+        AND a.cancelled_at IS NULL
+    ), numeradas AS (
+      SELECT candidatura_id,
+             row_number() OVER (ORDER BY candidatura_id) - 1 AS indice,
+             count(*) OVER () AS total
+      FROM acompanhadas
+    )
+    SELECT candidatura_id
+    FROM numeradas
+    ORDER BY ((indice - ((${janela}::bigint * 10) % total) + total) % total),
+             candidatura_id
     LIMIT 10
   `;
 
@@ -53,32 +58,8 @@ export async function coletarNovidadesCandidatos() {
         continue;
       }
 
-      const ficha =
-        `https://www.foradapauta.org/conheca-seu-candidato/${id}`;
-
       const eventos: EventoNotificacao[] = [
-        ...(atuacao?.votacoes ?? []).map((votacao) => ({
-          id: `votacao:${votacao.votacaoId}`,
-          texto:
-            "Novo registro documentado na ficha que você acompanha.\n\n" +
-            `Votação: ${votacao.votacaoId}\n` +
-            `Data: ${votacao.data}\n` +
-            `Voto registrado: ${votacao.voto}\n\n` +
-            limitarTexto(votacao.descricao) +
-            `\n\nVer ficha: ${ficha}\n` +
-            "Para interromper os avisos, envie /parar.",
-        })),
-        ...(atuacao?.proposicoes ?? []).map((proposicao) => ({
-          id: `proposicao:${proposicao.proposicaoId}`,
-          texto:
-            "Novo registro documentado na ficha que você acompanha.\n\n" +
-            `Proposição: ${proposicao.identificacao}\n` +
-            `Data: ${proposicao.data}\n` +
-            `Vínculo registrado: ${proposicao.papel}\n\n` +
-            limitarTexto(proposicao.ementa) +
-            `\n\nVer ficha: ${ficha}\n` +
-            "Para interromper os avisos, envie /parar.",
-        })),
+        ...prepararAvisosAtuacao(atuacao, id),
         ...prepararAvisosDossie(dossie),
       ];
 

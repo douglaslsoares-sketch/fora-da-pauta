@@ -42,6 +42,25 @@ export async function GET(request: Request) {
     );
 
     const coleta = await coletarNovidadesCandidatos();
+
+    // Único bot: inscrições gerais recebem somente edições autorizadas.
+    // O catálogo aprovado começa vazio. Consultar a fonte vazia inicializa
+    // o histórico, sem criar mensagens, e evita replay retroativo.
+    const { edicoesAprovadasParaAviso } = await import(
+      "@/data/edicoes/avisos-aprovados"
+    );
+    const { prepararAvisosEdicoes } = await import(
+      "@/lib/telegram/preparar-avisos-edicoes"
+    );
+    const { registrarNovidadesNaFila } = await import(
+      "@/lib/telegram/registrar-novidades"
+    );
+    const edicoes = await registrarNovidadesNaFila({
+      tipo: "edicoes",
+      referencia: "",
+      eventos: prepararAvisosEdicoes(edicoesAprovadasParaAviso),
+    });
+
     const envio = await processarFilaTelegram();
     // As respostas individuais dependem da migração de interações no banco.
     // Não interromper a fila editorial enquanto a implantação não for concluída.
@@ -49,7 +68,7 @@ export async function GET(request: Request) {
     const respostas = interacoesHabilitadas
       ? await (await import("@/lib/telegram/processar-respostas-interacoes")).processarRespostasInteracoes()
       : { pendenteDeAtivacao: true };
-    const resumo = { coleta, envio, respostas };
+    const resumo = { coleta, edicoes, envio, respostas };
 
     return NextResponse.json(
       { ok: true, ...resumo },

@@ -1,13 +1,15 @@
 import "server-only";
 
 import { sql } from "../interesses/db";
-import { planejarNovidades, prepararHistoricoPorGrupo } from "./novidades";
+import { atoOficialRecente, planejarNovidades, prepararHistoricoPorGrupo } from "./novidades";
 
 export type EventoNotificacao = {
   id: string;
   texto: string;
-  /** Apenas revisões editoriais do dossiê informam quando foram publicadas. */
+  /** Publicações editoriais aprovadas (dossiês ou novas edições). */
   publicadoEm?: string;
+  /** Data real do ato parlamentar, não a data da importação. */
+  ocorridoEm?: string;
 };
 
 type EntradaNovidades = {
@@ -46,7 +48,10 @@ export async function registrarNovidadesNaFila({
     if (
       evento.publicadoEm !== undefined &&
       (
-        !evento.id.startsWith("dossie:") ||
+        !(
+          (tipo === "candidato" && evento.id.startsWith("dossie:")) ||
+          (tipo === "edicoes" && evento.id.startsWith("edicao:"))
+        ) ||
         !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/.test(evento.publicadoEm) ||
         !Number.isFinite(Date.parse(evento.publicadoEm))
       )
@@ -54,8 +59,19 @@ export async function registrarNovidadesNaFila({
       throw new Error("Data editorial de notificação inválida.");
     }
 
+    if (
+      evento.ocorridoEm !== undefined &&
+      (
+        tipo !== "candidato" ||
+        (!evento.id.startsWith("votacao:") && !evento.id.startsWith("proposicao:")) ||
+        !/^\d{4}-\d{2}-\d{2}$/.test(evento.ocorridoEm)
+      )
+    ) {
+      throw new Error("Data do ato oficial inválida.");
+    }
+
     const anterior = porId.get(evento.id);
-    if (anterior && (anterior.texto !== evento.texto || anterior.publicadoEm !== evento.publicadoEm)) {
+    if (anterior && (anterior.texto !== evento.texto || anterior.publicadoEm !== evento.publicadoEm || anterior.ocorridoEm !== evento.ocorridoEm)) {
       throw new Error("Identificador repetido com conteúdos diferentes.");
     }
 
@@ -117,6 +133,12 @@ export async function registrarNovidadesNaFila({
 
     for (const id of novosIds) {
       const evento = porId.get(id)!;
+      // O ato antigo descoberto agora entra para o histórico conhecido,
+      // mas não vira uma notícia recente. Não se aplica a correções editoriais.
+      if ((evento.id.startsWith("votacao:") || evento.id.startsWith("proposicao:")) &&
+          !atoOficialRecente(evento.ocorridoEm)) {
+        continue;
+      }
 
       if (tipo === "candidato") {
         const inseridos = await tx`
@@ -143,6 +165,11 @@ export async function registrarNovidadesNaFila({
         `;
         avisosInseridos += inseridos.length;
       } else {
+        // A inscrição precisa ser anterior à publicação. Não ressuscitar
+        // notícias antigas para assinantes novos ou reativados.
+        if (evento.publicadoEm === undefined) {
+          throw new Error("Edição sem data editorial não pode ser notificada.");
+        }
         const inseridos = await tx`
           INSERT INTO public.telegram_fila_avisos
             (telegram_chat_id, tipo, referencia, evento_id, texto)
@@ -152,6 +179,8 @@ export async function registrarNovidadesNaFila({
             AND referencia = ''
             AND status = 'ativo'
             AND cancelled_at IS NULL
+            AND created_at <= ${evento.publicadoEm}::timestamptz
+            AND updated_at <= ${evento.publicadoEm}::timestamptz
           ON CONFLICT (telegram_chat_id, tipo, referencia, evento_id)
           DO NOTHING
           RETURNING id
