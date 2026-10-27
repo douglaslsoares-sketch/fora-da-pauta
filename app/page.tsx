@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { campaigns } from "@/data/campanhas";
+import { formatEditionDate, getPublishedEditions } from "@/data/edicoes-publicadas";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -23,23 +23,8 @@ export const metadata: Metadata = {
   },
 };
 
-function formatPublicationDate(date: string) {
-  return new Intl.DateTimeFormat("pt-BR", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${date}T12:00:00Z`));
-}
-
 export default function Home() {
-  // Edições ocultas da home permanecem acessíveis pelo endereço original.
-  // As demais entram somente quando tiverem data editorial de publicação.
-  const publicacoes = campaigns
-    .filter((campaign) => campaign.slug !== "fim-escala-6x1" &&
-      campaign.slug !== "seus-interesses" &&
-      campaign.publishedAt)
-    .sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""));
+  const publicacoes = getPublishedEditions().slice(0, 3);
 
   return (
     <main className={styles.page}>
@@ -106,7 +91,7 @@ export default function Home() {
                 <div className={styles.cardMeta}>
                   {campaign.publishedAt ? (
                     <time dateTime={campaign.publishedAt}>
-                      {formatPublicationDate(campaign.publishedAt)}
+                      {formatEditionDate(campaign.publishedAt)}
                     </time>
                   ) : (
                     <span>Edição</span>
@@ -120,8 +105,17 @@ export default function Home() {
               </Link>
             </article>
           ))}
+          <Link href="/edicoes" className={styles.allEditionsLink}>
+            Ver todas as edições publicadas <span aria-hidden="true">→</span>
+          </Link>
         </section>
-        ) : null}
+        ) : (
+          <div className={styles.editionsAccess}>
+            <Link href="/edicoes" className={styles.allEditionsLink}>
+              Ver todas as edições publicadas <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        )}
 
         <footer className={styles.footer}>
           <p>Fora da Pauta</p>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import type { Campaign } from "@/data/campanhas";
+import { getPublishedEditions } from "@/data/edicoes-publicadas";
 import { ExpandableCard } from "@/components/ExpandableCard";
 import { CampaignComparison } from "@/components/CampaignComparison";
 import { CandidatesCard } from "@/components/CandidatesCard";
@@ -17,6 +18,10 @@ type CampaignPageProps = {
 };
 
 export function CampaignPage({ campaign }: CampaignPageProps) {
+  const outrasEdicoes = getPublishedEditions()
+    .filter((edicao) => edicao.slug !== campaign.slug)
+    .slice(0, 2);
+
   const ehEdicao01 =
     campaign.slug === "fim-escala-6x1";
 
@@ -248,15 +253,29 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
       </section>
 
 
-      {/* VOLTAR PARA TODAS AS EDIÇÕES */}
-      <section className="border-t border-black/10 px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
+      {/* OUTRAS EDIÇÕES PUBLICADAS */}
+      <section data-editorial-ignore className="border-t border-black/10 px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
         <div className="mx-auto w-full max-w-3xl">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-3 text-sm font-semibold"
-          >
-            <span aria-hidden="true">←</span>
-            Ver todas as edições
+          <h2 className="text-2xl font-semibold tracking-[-0.035em] sm:text-3xl">
+            Continue entendendo como o jogo é jogado
+          </h2>
+          {outrasEdicoes.length > 0 ? (
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {outrasEdicoes.map((edicao) => (
+                <Link
+                  key={edicao.slug}
+                  href={`/campanhas/${edicao.slug}`}
+                  className="block border border-black/15 bg-white p-5 hover:border-black"
+                >
+                  <h3 className="text-lg font-semibold">{edicao.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-black/60">{edicao.statement}</p>
+                  <span className="mt-4 inline-block text-sm font-semibold">Ler edição →</span>
+                </Link>
+              ))}
+            </div>
+          ) : null}
+          <Link href="/edicoes" className="mt-6 inline-flex min-h-11 items-center gap-3 text-sm font-semibold underline underline-offset-4">
+            Ver todas as edições publicadas <span aria-hidden="true">→</span>
           </Link>
         </div>
       </section>
