@@ -70,11 +70,24 @@ export default function Home() {
         >
           <h1 id="home-titulo">Como o jogo é jogado</h1>
           <p className={styles.heroLead}>
+            Conhecer é importante. Entender como o jogo é jogado é fundamental.
+          </p>
+          <p className={styles.heroDescription}>
             Decisões que afetam a sua vida.
           </p>
-          <Link href="/votou-fique-de-olho" className={styles.primaryLink}>
-            Fique de Olho <span aria-hidden="true">→</span>
-          </Link>
+          <p className={styles.eyebrow}>Votou? Fique de olho.</p>
+          <nav className={styles.heroActions} aria-label="Comece por aqui">
+            <Link href="/votou-fique-de-olho" className={styles.primaryLink}>
+              Acompanhe pelo Telegram <span aria-hidden="true">→</span>
+            </Link>
+            <Link href="/conheca-seu-candidato" className={styles.secondaryLink}>
+              Conheça seu candidato <span aria-hidden="true">→</span>
+            </Link>
+          </nav>
+          <p className={styles.heroNote}>
+            Você pode receber as novidades pelo Telegram mesmo sem escolher ninguém
+            para acompanhar.
+          </p>
         </section>
 
         {publicacoes.length > 0 ? (
