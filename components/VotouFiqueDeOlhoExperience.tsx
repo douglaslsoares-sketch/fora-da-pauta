@@ -551,7 +551,19 @@ export function VotouFiqueDeOlhoExperience() {
         ) : (
           <>
             <p className="mt-8 font-semibold">Você escolheu acompanhar:</p>
-            <ListaSelecionadas permitirRemocao={false} />
+            <p className="mt-2 text-sm text-black/65">Marque as pessoas que deseja retirar da lista.</p>
+            <ListaSelecionadas permitirRemocao={false} selecaoParaRemover />
+            {marcadasParaRemover.length > 0 ? (
+              <button
+                type="button"
+                disabled={removendoMarcadas}
+                onClick={() => void removerMarcadas()}
+                className="mt-5 min-h-12 w-full rounded-2xl border border-red-700 px-5 py-3 font-semibold text-red-800 disabled:opacity-60"
+              >
+                {removendoMarcadas ? "Removendo..." : `Remover selecionados (${marcadasParaRemover.length})`}
+              </button>
+            ) : null}
+            {erroTelegram ? <p role="alert" className="mt-3 text-sm text-red-700">{erroTelegram}</p> : null}
           </>
         )}
 
