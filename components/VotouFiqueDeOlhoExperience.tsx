@@ -707,14 +707,20 @@ export function VotouFiqueDeOlhoExperience() {
       </section>
 
       <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
-        {!conferindoInscricao && inscricaoAtiva && selecionadas.length > 0 ? (
-          <button
-            type="button"
-            onClick={() => setEtapa("selecionados")}
-            className="votou-intro-only mb-7 min-h-12 w-full rounded-2xl bg-black/[0.07] px-5 py-3 text-sm font-semibold"
-          >
-            Ver minhas escolhas ({selecionadas.length})
-          </button>
+        {!conferindoInscricao && inscricaoAtiva ? (
+          selecionadas.length > 0 ? (
+            <button
+              type="button"
+              onClick={() => setEtapa("selecionados")}
+              className="votou-intro-only mb-7 min-h-12 w-full rounded-2xl bg-black/[0.07] px-5 py-3 text-sm font-semibold"
+            >
+              Ver minhas escolhas ({selecionadas.length})
+            </button>
+          ) : (
+            <p className="votou-intro-only mb-7 rounded-2xl bg-black/[0.05] px-5 py-4 text-center text-sm text-black/75">
+              Você ainda não acompanha nenhuma pessoa.
+            </p>
+          )
         ) : null}
 
         <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
