@@ -310,7 +310,7 @@ export function VotouFiqueDeOlhoExperience() {
   async function selecionar(pessoa: Omit<PessoaSelecionada, "eleicao">) {
     const atuais = interpretarSelecao(lerSelecaoSerializada());
     if (atuais.some((item) => item.id === pessoa.id) || salvandoEscolhas) return;
-    const novaLista = [...atuais, { ...pessoa, eleicao: 2026 }];
+    const novaLista: PessoaSelecionada[] = [...atuais, { ...pessoa, eleicao: 2026 }];
     setErroTelegram("");
     if (inscricaoAtiva) {
       setSalvandoEscolhas(true);
