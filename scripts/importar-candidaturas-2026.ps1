@@ -49,7 +49,6 @@ $candidaturas = foreach ($linha in $dados) {
   }
 
   $federacao = Limpar-Valor $linha.NM_FEDERACAO
-  $generoTse = ([string]$linha.DS_GENERO).Trim().ToUpperInvariant()
 
   $item = [ordered]@{
     id                  = [string]$linha.SQ_CANDIDATO
@@ -65,6 +64,14 @@ $candidaturas = foreach ($linha in $dados) {
     situacaoTse         = [string]$linha.DS_SITUACAO_CANDIDATURA
     fonteOficial        = "https://dadosabertos.tse.jus.br/dataset/candidatos-2026"
     ultimaVerificacao   = (Get-Date).ToString("yyyy-MM-dd")
+  }
+
+  # Sexo/gênero conforme autodeclaração registrada no TSE (DS_GENERO).
+  $generoTse = ([string]$linha.DS_GENERO).Trim().ToUpperInvariant()
+  if ($generoTse -eq "FEMININO") {
+    $item["genero"] = "feminino"
+  } elseif ($generoTse -eq "MASCULINO") {
+    $item["genero"] = "masculino"
   }
 
   $codigoResultado = Limpar-Valor $linha.CD_SIT_TOT_TURNO
@@ -92,12 +99,6 @@ $candidaturas = foreach ($linha in $dados) {
 
   if ($federacao) {
     $item["federacao"] = $federacao
-  }
-  if ($generoTse -eq "FEMININO") {
-    $item["genero"] = "feminino"
-  }
-  elseif ($generoTse -eq "MASCULINO") {
-    $item["genero"] = "masculino"
   }
 
   [pscustomobject]$item

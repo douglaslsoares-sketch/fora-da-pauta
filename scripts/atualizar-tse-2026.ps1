@@ -154,7 +154,6 @@ $hoje = Get-Date -Format "yyyy-MM-dd"
 
 $candidaturas = foreach ($item in $filtrados) {
   $federacao = [string]$item.NM_FEDERACAO
-  $generoTse = ([string]$item.DS_GENERO).Trim().ToUpperInvariant()
 
   if (
     [string]::IsNullOrWhiteSpace($federacao) -or
@@ -180,14 +179,16 @@ $candidaturas = foreach ($item in $filtrados) {
     ultimaVerificacao = $hoje
   }
 
-  if ($federacao) {
-    $obj["federacao"] = $federacao
-  }
+  # DS_GENERO pertence ao CSV de candidaturas do TSE.
+  $generoTse = ([string]$item.DS_GENERO).Trim().ToUpperInvariant()
   if ($generoTse -eq "FEMININO") {
     $obj["genero"] = "feminino"
-  }
-  elseif ($generoTse -eq "MASCULINO") {
+  } elseif ($generoTse -eq "MASCULINO") {
     $obj["genero"] = "masculino"
+  }
+
+  if ($federacao) {
+    $obj["federacao"] = $federacao
   }
 
   [pscustomobject]$obj
