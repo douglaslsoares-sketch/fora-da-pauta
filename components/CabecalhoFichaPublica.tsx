@@ -58,10 +58,10 @@ export function CabecalhoFichaPublica({
   const situacao = eleito
     ? dados?.rotuloEleitoral ?? (eleito.resultadoTse.toUpperCase().includes("SUPLENTE")
         ? "Suplente"
-        : formatarSituacaoEleitoral(
+        : genero ? formatarSituacaoEleitoral(
             eleito.resultadoTse.toUpperCase().includes("REELEITO") ? "Reeleito" : "Eleito",
             genero,
-          ))
+          ) : "Eleição confirmada")
     : resultadoTse && !resultadoTse.startsWith("#")
       ? formatarSituacaoEleitoral(resultadoTse, genero).toLocaleLowerCase("pt-BR")
       : null;
