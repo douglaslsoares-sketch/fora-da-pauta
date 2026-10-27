@@ -66,6 +66,9 @@ export function CabecalhoFichaPublica({
       ? formatarSituacaoEleitoral(resultadoTse, genero).toLocaleLowerCase("pt-BR")
       : null;
   const cargo = formatarCargo(candidato.cargo, genero);
+  const idade = dados?.dataNascimento ? calcularIdade(dados.dataNascimento) : dados?.idade ?? null;
+  const nomeExibido = dossie?.nome?.trim() || candidato.nomeUrna.toLocaleLowerCase("pt-BR").replace(/(^|\s)(\p{L})/gu, (_, espaco: string, letra: string) => espaco + letra.toLocaleUpperCase("pt-BR"));
+  const local = candidato.uf === "BR" ? "Brasil" : nomesEstados[candidato.uf] ?? candidato.uf;
   const eleitoComo = eleito && genero
     ? formatarSituacaoEleitoral(
         eleito.resultadoTse.toUpperCase().includes("REELEITO") ? "Reeleito" : "Eleito",
@@ -80,9 +83,6 @@ export function CabecalhoFichaPublica({
       ? `Candidatura à Presidência da República em ${candidato.eleicao}`
       : `Candidatura ao cargo de ${cargo.toLocaleLowerCase("pt-BR")} ${candidato.uf === "BR" ? "no Brasil" : `por ${local}`} em ${candidato.eleicao}`;
 
-  const idade = dados?.dataNascimento ? calcularIdade(dados.dataNascimento) : dados?.idade ?? null;
-  const nomeExibido = dossie?.nome?.trim() || candidato.nomeUrna.toLocaleLowerCase("pt-BR").replace(/(^|\s)(\p{L})/gu, (_, espaco: string, letra: string) => espaco + letra.toLocaleUpperCase("pt-BR"));
-  const local = candidato.uf === "BR" ? "Brasil" : nomesEstados[candidato.uf] ?? candidato.uf;
   const apresentacao = dados?.apresentacao;
   // Um perfil editorial específico tem prioridade. Para os demais, aproveitar
   // somente a biografia já documentada, sem inferir bandeiras ou feitos.
