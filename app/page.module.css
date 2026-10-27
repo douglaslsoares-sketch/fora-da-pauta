@@ -190,9 +190,11 @@
   .container { padding: 40px 40px 32px; }
 }
 @media (max-width: 767px) {
-  .hero { padding: 46px 0 56px; }
-  .featureIntro { margin-top: 38px; }
+  /* Mais respiro na primeira dobra, sem alterar tipografia ou conteúdo. */
+  .hero { padding: 68px 0 76px; }
+  .featureIntro { margin-top: 58px; }
   .featureSubtitle { margin-top: 15px; }
+  .heroClosing { margin-top: 72px; }
   .publicationGrid { grid-template-columns: 1fr; }
   .card { padding: 22px; }
   .section { padding: 36px 0 50px; }
