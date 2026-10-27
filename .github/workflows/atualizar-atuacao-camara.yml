@@ -38,6 +38,14 @@ jobs:
             throw "Atualização da Câmara falhou."
           }
 
+      - name: Validar fichas geradas antes da publicação
+        shell: pwsh
+        run: |
+          node --test tests/validar-atuacao-candidatos.test.cjs
+          if ($LASTEXITCODE -ne 0) { throw "Testes de validação falharam." }
+          node scripts/validar-atuacao-candidatos.cjs --federal
+          if ($LASTEXITCODE -ne 0) { throw "Fichas geradas não passaram na validação." }
+
       - name: Preparar arquivos públicos alterados
         id: changes
         shell: pwsh
