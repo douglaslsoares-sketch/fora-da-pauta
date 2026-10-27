@@ -5,7 +5,7 @@ import { join, basename } from "node:path";
 
 const raiz = process.cwd();
 const pasta = join(raiz, "data", "eleicoes", "gerado", "atuacao-candidatos");
-const arquivos = (await readdir(pasta)).filter(n => /^\\d{8,20}\\.json$/.test(n));
+const arquivos = (await readdir(pasta)).filter(n => /^\d{8,20}\.json$/.test(n));
 assert.ok(arquivos.length >= 100, `Quantidade de fichas insuficiente: ${arquivos.length}`);
 
 let votacoes = 0;
@@ -16,7 +16,7 @@ let dataMaisRecente = "";
 let fontesInvalidas = 0;
 const idsComAtos = [];
 const validarData = data => typeof data === "string" &&
-  /^\\d{4}-\\d{2}-\\d{2}$/.test(data) &&
+  /^\d{4}-\d{2}-\d{2}$/.test(data) &&
   !Number.isNaN(Date.parse(data + "T00:00:00Z"));
 const validarFonte = fonte => {
   try {
@@ -34,7 +34,7 @@ for (const nome of arquivos) {
   assert.ok((await stat(arquivo)).size > 40, `JSON vazio: ${nome}`);
   const dados = JSON.parse(await readFile(arquivo, "utf8"));
   assert.equal(dados.candidaturaId, basename(nome, ".json"), "Arquivo associado a candidatura incorreta");
-  assert.match(dados.atualizadoEm, /^\\d{4}-\\d{2}-\\d{2}/);
+  assert.match(dados.atualizadoEm, /^\d{4}-\d{2}-\d{2}/);
   assert.ok(Array.isArray(dados.votacoes));
   assert.ok(Array.isArray(dados.proposicoes));
   assert.equal(dados.totalVotacoes, dados.votacoes.length);
