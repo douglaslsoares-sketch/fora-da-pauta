@@ -740,7 +740,7 @@ export function VotouFiqueDeOlhoExperience() {
         </div>
         ) : null}
 
-        {selecionadas.length > 0 ? (
+        {!conferindoInscricao && inscricaoAtiva && selecionadas.length > 0 ? (
           <button
             type="button"
             onClick={() => setEtapa("selecionados")}
