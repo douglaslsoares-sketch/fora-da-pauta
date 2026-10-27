@@ -1,0 +1,47 @@
+name: Homologar coleta completa da Camara sem publicar
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "scripts/atualizar-atuacao-camara.ps1"
+      - "scripts/baixar-votos-camara.ps1"
+      - "scripts/validar-atuacao-camara-gerada.mjs"
+      - ".github/workflows/homologar-coleta-camara-isolada.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: homologar-camara-isolada
+  cancel-in-progress: false
+
+jobs:
+  homologar:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    steps:
+      - name: Baixar codigo de teste sem permissao de publicacao
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Instalar Node para validar fichas
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Executar todas as seis etapas do coletor
+        shell: powershell
+        timeout-minutes: 80
+        run: |
+          $ErrorActionPreference = "Stop"
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File "./scripts/atualizar-atuacao-camara.ps1"
+          if ($LASTEXITCODE -ne 0) { throw "Falha na coleta integral da Camara." }
+      - name: Validar JSONs realmente usados nas fichas
+        shell: pwsh
+        run: node scripts/validar-atuacao-camara-gerada.mjs
+      - name: Conferir modificacoes sem enviar para main
+        shell: pwsh
+        run: |
+          Write-Host "Arquivos publicos alterados nesta simulacao:"
+          git status --short -- "data/eleicoes/gerado/atuacao-candidatos"
+          Write-Host "Execucao isolada: nenhuma alteracao foi enviada ao GitHub."
