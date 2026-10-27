@@ -1,0 +1,21 @@
+name: Validar dados parlamentares
+on:
+  pull_request:
+    paths:
+      - 'scripts/validar-atuacao-candidatos.cjs'
+      - 'tests/validar-atuacao-candidatos.test.cjs'
+      - '.github/workflows/atualizar-atuacao-camara.yml'
+      - '.github/workflows/validar-dados-parlamentares.yml'
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test tests/validar-atuacao-candidatos.test.cjs
+      - run: node scripts/validar-atuacao-candidatos.cjs --federal
