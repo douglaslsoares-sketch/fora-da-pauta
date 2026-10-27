@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CandidateDossier } from "@/components/CandidateDossier";
+import { ContinuarNoForaDaPauta } from "@/components/ContinuarNoForaDaPauta";
 import { ApresentacaoPublica } from "@/components/ApresentacaoPublica";
 import { CandidateFollowCard } from "@/components/CandidateFollowCard";
 import { InteracaoPessoaPublica } from "@/components/InteracaoPessoaPublica";
@@ -860,6 +861,8 @@ const trajetoriaOrdenada =
             }
           />
 
+
+<ContinuarNoForaDaPauta />
 
 <section className="border-t border-black/15 py-8 sm:py-10">
             <Link
