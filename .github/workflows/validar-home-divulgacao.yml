@@ -35,8 +35,9 @@ jobs:
           const fonte = fs.readFileSync('app/page.tsx','utf8');
           assert.ok(fonte.includes('Conhecer é importante. Entender como o jogo é jogado é fundamental.'));
           assert.ok(fonte.includes('href="/votou-fique-de-olho"'));
-          assert.ok(fonte.includes('href="/conheca-seu-candidato"'));
-          assert.ok(fonte.includes('Acompanhe pelo Telegram'));
+          assert.ok(fonte.includes('Edições já publicadas'));
+          assert.ok(fonte.includes('Inscreva-se no Telegram para receber as próximas novidades'));
+          assert.ok(fonte.includes('Do povo para o povo.'));
           assert.ok(fonte.includes('campaign.slug !== "fim-escala-6x1"'));
           console.log('Home aprovada: verificações básicas OK.');
           NODE
