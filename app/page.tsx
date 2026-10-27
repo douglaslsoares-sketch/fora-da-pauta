@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HomeTelegramButton } from "@/components/HomeTelegramButton";
 
 import { campaigns } from "@/data/campanhas";
 import styles from "./page.module.css";
@@ -76,12 +77,11 @@ export default function Home() {
             </p>
           </div>
 
-          <Link href="/votou-fique-de-olho" className={styles.primaryLink}>
-            <span className={styles.primaryText}>
-              Receba novidades pelo Telegram
-            </span>
-            <span className={styles.primaryArrow} aria-hidden="true">→</span>
-          </Link>
+          <HomeTelegramButton
+            className={styles.primaryLink}
+            textClassName={styles.primaryText}
+            arrowClassName={styles.primaryArrow}
+          />
           <div className={styles.heroClosing}>
             <p>Conhecer é importante. Entender como o jogo é jogado é fundamental.</p>
           </div>
