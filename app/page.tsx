@@ -69,25 +69,29 @@ export default function Home() {
           tabIndex={-1}
         >
           <h1 id="home-titulo">Como o jogo é jogado</h1>
-          <p className={styles.heroLead}>
-            Conhecer é importante. Entender como o jogo é jogado é fundamental.
+          <p className={styles.heroLead}>Decisões que afetam a sua vida.</p>
+
+          <div className={styles.featureIntro}>
+            <h2 className={styles.featureTitle}>Fique de Olho</h2>
+            <p className={styles.featureSubtitle}>Do povo para o povo.</p>
+            <p className={styles.featureBenefit}>
+              Entenda o que os políticos dizem, votam e fazem.
+            </p>
+          </div>
+
+          <Link href="/votou-fique-de-olho" className={styles.primaryLink}>
+            <span className={styles.primaryText}>
+              Inscreva-se no Telegram para receber as próximas novidades
+            </span>
+            <span className={styles.primaryArrow} aria-hidden="true">→</span>
+          </Link>
+          <p className={styles.ctaNote}>
+            Próxima etapa aqui no site. A inscrição é concluída no Telegram.
           </p>
-          <p className={styles.heroDescription}>
-            Decisões que afetam a sua vida.
-          </p>
-          <p className={styles.eyebrow}>Votou? Fique de olho.</p>
-          <nav className={styles.heroActions} aria-label="Comece por aqui">
-            <Link href="/votou-fique-de-olho" className={styles.primaryLink}>
-              Acompanhe pelo Telegram <span aria-hidden="true">→</span>
-            </Link>
-            <Link href="/conheca-seu-candidato" className={styles.secondaryLink}>
-              Conheça seu candidato <span aria-hidden="true">→</span>
-            </Link>
-          </nav>
-          <p className={styles.heroNote}>
-            Você pode receber as novidades pelo Telegram mesmo sem escolher ninguém
-            para acompanhar.
-          </p>
+
+          <div className={styles.heroClosing}>
+            <p>Conhecer é importante. Entender como o jogo é jogado é fundamental.</p>
+          </div>
         </section>
 
         {publicacoes.length > 0 ? (
@@ -97,9 +101,11 @@ export default function Home() {
           aria-labelledby="edicoes-titulo"
         >
           <div className={styles.sectionHeading}>
-            <h2 id="edicoes-titulo">Edições</h2>
+            <h2 id="edicoes-titulo">Edições já publicadas</h2>
+            <p>Leia ou ouça as edições anteriores do Fora da Pauta.</p>
           </div>
 
+          <div className={styles.publicationGrid}>
           {publicacoes.map((campaign) => (
             <article key={campaign.slug} className={styles.cardWrapper}>
               <Link href={`/campanhas/${campaign.slug}`} className={styles.card}>
@@ -120,6 +126,7 @@ export default function Home() {
               </Link>
             </article>
           ))}
+          </div>
         </section>
         ) : null}
 
