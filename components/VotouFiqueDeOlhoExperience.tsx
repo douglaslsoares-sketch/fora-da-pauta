@@ -152,6 +152,7 @@ export function VotouFiqueDeOlhoExperience() {
   }, [selecionadas, conferindoInscricao, inscricaoAtiva]);
 
   const [etapa, setEtapa] = useState<Etapa>("busca");
+  const [mostrarMinhasEscolhas, setMostrarMinhasEscolhas] = useState(false);
   const [busca, setBusca] = useState(0);
   const [aviso, setAviso] = useState("");
   const [avisoStorage, setAvisoStorage] = useState("");
@@ -717,11 +718,18 @@ export function VotouFiqueDeOlhoExperience() {
               </p>
               <button
                 type="button"
-                onClick={() => setEtapa("selecionados")}
+                onClick={() => setMostrarMinhasEscolhas((anterior) => !anterior)}
+                aria-expanded={mostrarMinhasEscolhas}
+                aria-controls="minhas-escolhas-inline"
                 className="min-h-12 w-full rounded-2xl bg-black/[0.07] px-5 py-3 text-sm font-semibold"
               >
-                Ver minhas escolhas
+                {mostrarMinhasEscolhas ? "Ocultar minhas escolhas" : "Ver minhas escolhas"}
               </button>
+              {mostrarMinhasEscolhas ? (
+                <div id="minhas-escolhas-inline" className="mt-3">
+                  <ListaSelecionadas />
+                </div>
+              ) : null}
             </div>
           ) : (
             <p className="votou-intro-only mb-7 rounded-2xl bg-black/[0.05] px-5 py-4 text-center text-sm text-black/75">
