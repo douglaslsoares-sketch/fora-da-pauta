@@ -153,6 +153,7 @@ export function VotouFiqueDeOlhoExperience() {
 
   const [etapa, setEtapa] = useState<Etapa>("busca");
   const [mostrarMinhasEscolhas, setMostrarMinhasEscolhas] = useState(false);
+  const [mostrarEscolhaFinal, setMostrarEscolhaFinal] = useState(false);
   const [marcadasParaRemover, setMarcadasParaRemover] = useState<string[]>([]);
   const [removendoMarcadas, setRemovendoMarcadas] = useState(false);
   const [busca, setBusca] = useState(0);
@@ -328,7 +329,7 @@ export function VotouFiqueDeOlhoExperience() {
         setUltimoIdConfirmado(pessoa.id);
         setAviso(`Você já acompanha ${pessoa.nomeUrna}.`);
         setBusca((atual) => atual + 1);
-        setEtapa("busca");
+        if (!mostrarEscolhaFinal) setEtapa("busca");
       } catch {
         setErroTelegram("Não foi possível salvar no Telegram. Tente novamente.");
       } finally {
@@ -487,29 +488,56 @@ export function VotouFiqueDeOlhoExperience() {
   if (etapaAtual === "telegram" && inscricaoConfirmada) {
     return (
       <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
-        <h2 className="text-3xl font-bold">Pronto! Você está inscrito no Fora da Pauta.</h2>
-        <p className="mt-4 leading-7">
-          {inscricaoGeral
-            ? "Você receberá pelo Telegram avisos sobre novas edições e publicações do Fora da Pauta."
-            : "Você receberá pelo Telegram informações sobre a atuação das pessoas que escolheu, quando houver novas atualizações."}
-        </p>
-        {inscricaoGeral ? null : (
-          <>
-            <p className="mt-5 font-semibold">Você escolheu acompanhar:</p>
-            <ListaSelecionadas permitirRemocao={false} />
-          </>
-        )}
+        <h2 className="text-3xl font-bold">Pronto! Você está acompanhando o Fora da Pauta.</h2>
+        <p className="mt-4 leading-7">Você receberá as novidades pelo Telegram.</p>
+
+        <div className="mt-8 border-t border-black/10 pt-7">
+          <h3 className="text-xl font-bold">Quer acompanhar alguém na política?</h3>
+          <p className="mt-3 leading-7 text-black/75">
+            Você também pode escolher pessoas para acompanhar suas atuações, decisões e posicionamentos.
+            Essa escolha é opcional.
+          </p>
+          <button
+            type="button"
+            aria-expanded={mostrarEscolhaFinal}
+            aria-controls="escolha-final"
+            onClick={() => setMostrarEscolhaFinal((atual) => !atual)}
+            className="mt-5 min-h-14 w-full rounded-2xl bg-black px-5 py-3 font-semibold text-white"
+          >
+            {mostrarEscolhaFinal ? "Ocultar escolha de pessoas" : "Escolher pessoas para acompanhar"}
+            <span aria-hidden="true"> {mostrarEscolhaFinal ? "⌃" : "⌄"}</span>
+          </button>
+          {mostrarEscolhaFinal ? (
+            <div id="escolha-final" className="mt-5">
+              <CandidateSelector
+                key={`final-${busca}`}
+                mode="follow"
+                selectedIds={selecionadas.map((pessoa) => pessoa.id)}
+                onSelect={selecionar}
+              />
+              {salvandoEscolhas ? <p role="status" className="mt-3 text-sm">Salvando no Telegram...</p> : null}
+              {aviso && !erroTelegram ? <p role="status" className="mt-3 text-sm text-green-800">{aviso}</p> : null}
+              {erroTelegram ? <p role="alert" className="mt-3 text-sm text-red-700">{erroTelegram}</p> : null}
+              {selecionadas.length > 0 ? (
+                <div className="mt-6">
+                  <h4 className="font-semibold">Pessoas que você acompanha ({selecionadas.length})</h4>
+                  <ListaSelecionadas permitirRemocao={false} selecaoParaRemover />
+                  {marcadasParaRemover.length > 0 ? (
+                    <button type="button" disabled={removendoMarcadas}
+                      onClick={() => void removerMarcadas()}
+                      className="mt-4 min-h-12 w-full rounded-2xl border border-red-700 px-4 font-semibold text-red-800 disabled:opacity-60">
+                      {removendoMarcadas ? "Removendo..." : `Remover selecionados (${marcadasParaRemover.length})`}
+                    </button>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+
         <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
           <HomeShareInvite />
         </section>
-        <button type="button" onClick={() => {
-          setInscricaoGeral(false);
-          setEtapa("busca");
-          setEscolhasSalvas(false);
-        }}
-          className="mt-6 min-h-12 w-full rounded-2xl bg-black px-5 text-white">
-          {inscricaoGeral ? "Escolher representantes para acompanhar" : "Acompanhar mais alguém"}
-        </button>
       </section>
     );
   }
@@ -543,14 +571,13 @@ export function VotouFiqueDeOlhoExperience() {
           </div>
 
           <h2 className="mt-5 text-3xl font-bold leading-tight tracking-[-0.045em]">
-            {inscricaoAtiva ? "Confirme suas escolhas." : "Conecte o Fora da Pauta ao Telegram."}
+            {inscricaoGeral ? "Falta só um passo!" : "Confirme suas escolhas."}
           </h2>
         </div>
 
         {inscricaoGeral ? (
           <p className="mt-8 leading-7">
             Você vai receber avisos sobre novas edições e publicações do Fora da Pauta.
-            Não é necessário escolher nenhum representante.
           </p>
         ) : (
           <>
@@ -605,18 +632,6 @@ export function VotouFiqueDeOlhoExperience() {
           </div>
         ) : (
         <>
-        <div className="mt-6 flex items-center gap-4 rounded-2xl border border-[#FFC400] bg-[#fffaf0] p-4">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFC400]/30">
-            <TelegramIcon className="h-5 w-5" />
-          </div>
-
-          <p className="text-sm leading-6">
-            {inscricaoGeral
-              ? "Abra o Telegram para vincular este navegador. Se você já está inscrito, suas escolhas serão preservadas."
-              : "Conecte este navegador ao Telegram. Se você já está inscrito, seus acompanhamentos serão preservados."}
-          </p>
-        </div>
-
         <button
           type="button"
           onClick={() => void ativarTelegram()}
@@ -647,18 +662,6 @@ export function VotouFiqueDeOlhoExperience() {
             {erroTelegram}
           </p>
         ) : null}
-
-        <button
-          type="button"
-          onClick={() => {
-            setBusca((atual) => atual + 1);
-            setInscricaoGeral(false);
-            setEtapa(inscricaoGeral ? "busca" : "selecionados");
-          }}
-          className="mt-3 min-h-13 w-full rounded-2xl bg-black/[0.07] px-5 py-3 font-semibold"
-        >
-          {inscricaoGeral ? "Escolher representantes para acompanhar" : "Acompanhar mais alguém"}
-        </button>
 
         {avisoStorage ? (
           <p role="alert" className="mt-5 text-sm text-black/60">
