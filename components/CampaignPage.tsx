@@ -23,6 +23,26 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
   const ehSeusInteresses =
     campaign.slug === "seus-interesses";
 
+  function ouvirEdicao() {
+    const conteudo = document.getElementById("texto-editorial-edicao");
+    if (!conteudo) return;
+
+    // A leitura precisa alcançar o texto de todas as seções,
+    // inclusive as que estavam recolhidas pelo leitor.
+    conteudo.querySelectorAll<HTMLDetailsElement>("details").forEach((secao) => {
+      secao.open = true;
+    });
+
+    window.requestAnimationFrame(() => {
+      window.dispatchEvent(new CustomEvent("fdp:audio-start", {
+        detail: {
+          rootSelector: "#texto-editorial-edicao",
+          title: campaign.title,
+        },
+      }));
+    });
+  }
+
   async function copiarLinkDaCampanha() {
     const url =
       "https://www.foradapauta.org/campanhas/fim-escala-6x1";
@@ -115,6 +135,16 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
                 Veja o que está sendo proposto, os argumentos do debate,
                 as evidências disponíveis e em que ponto está a discussão.
               </p>
+
+              <button
+                type="button"
+                onClick={ouvirEdicao}
+                className="mt-6 inline-flex min-h-11 items-center gap-2 border border-black/20 bg-white px-4 py-2.5 text-sm font-semibold text-black transition hover:bg-black/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                aria-label={`Ouvir esta edição: ${campaign.title}`}
+              >
+                <span aria-hidden="true">▶</span>
+                Ouvir esta edição
+              </button>
             </div>
           )}
 
@@ -122,16 +152,18 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
             className="space-y-4"
             aria-label="Conteúdo da edição"
           >
-            {campaign.comparison ? (
-              <CampaignComparison comparison={campaign.comparison} />
-            ) : null}
+            <div id="texto-editorial-edicao" className="space-y-4" aria-label="Texto desta edição">
+              {campaign.comparison ? (
+                <CampaignComparison comparison={campaign.comparison} />
+              ) : null}
 
-            {campaign.sections.map((section) => (
-              <ExpandableCard
-                key={section.title}
-                {...section}
-              />
-            ))}
+              {campaign.sections.map((section) => (
+                <ExpandableCard
+                  key={section.title}
+                  {...section}
+                />
+              ))}
+            </div>
 
             {campaign.pautaId && !ehSeusInteresses ? (
               <CandidatesCard
