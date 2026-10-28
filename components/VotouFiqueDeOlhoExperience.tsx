@@ -767,14 +767,31 @@ export function VotouFiqueDeOlhoExperience() {
     <>
       {!conferindoInscricao && !inscricaoAtiva && !retornoTelegram ? (
         <section className="mx-auto max-w-[760px] px-6 pb-16 pt-12 text-center">
+          <div className="mb-7 flex flex-col items-center gap-2">
+            <svg
+              viewBox="0 0 24 24"
+              width="58"
+              height="58"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M2 12s3.7-7 10-7 10 7 10 7-3.7 7-10 7S2 12 2 12Z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            <p className="text-base font-semibold text-black">Fique de olho</p>
+          </div>
           <h1 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
             Receba as novidades do Fora da Pauta
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-black/75">
-            Acompanhe as decisões que afetam a sua vida, sem precisar procurar notícias todos os dias.
+            Acompanhe as decisões políticas que afetam a sua vida.
           </p>
           <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-black/75">
-            Quando houver uma nova edição, você recebe um aviso pelo Telegram.
+            Quando houver uma nova edição, você receberá um aviso pelo Telegram.
           </p>
           <button
             type="button"
