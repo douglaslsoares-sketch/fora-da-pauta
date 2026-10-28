@@ -13,7 +13,9 @@ export function prepararAvisosEdicoes(
   const campanhaPorSlug = new Map(campanhas.map((item) => [item.slug, item]));
   const ids = new Set<string>();
 
-  return aprovacoes.map((aprovacao) => {
+  const eventos: EventoEdicao[] = [];
+
+  for (const aprovacao of aprovacoes) {
     if (aprovacao.aprovado !== true ||
         !/^[a-z0-9-]+$/.test(aprovacao.slug) ||
         !/^v[1-9][0-9]{0,3}$/.test(aprovacao.revisao) ||
@@ -30,9 +32,12 @@ export function prepararAvisosEdicoes(
     }
     const publicacao = Date.parse(aprovacao.publicadoEm);
     const atraso = agora.getTime() - publicacao;
-    if (atraso < 0 || atraso > 7 * 24 * 60 * 60 * 1000) {
-      throw new Error("A edição precisa de publicação recente para ser anunciada.");
+    if (atraso < 0) {
+      throw new Error("A publicação da edição está no futuro.");
     }
+    // Depois de sete dias, o aviso antigo é ignorado, sem interromper
+    // a fila das outras edições e sem redistribuir conteúdo atrasado.
+    if (atraso > 7 * 24 * 60 * 60 * 1000) continue;
     // A data de publicação da página deve coincidir com a aprovação.
     if (aprovacao.publicadoEm.slice(0, 10) !== campanha.publishedAt) {
       throw new Error("Datas de publicação da edição não conferem.");
@@ -42,7 +47,7 @@ export function prepararAvisosEdicoes(
     if (ids.has(id)) throw new Error("Revisão editorial duplicada.");
     ids.add(id);
 
-    return {
+    eventos.push({
       id,
       publicadoEm: aprovacao.publicadoEm,
       texto: prepararTextoAvisoNovaEdicao({
@@ -53,6 +58,8 @@ export function prepararAvisosEdicoes(
         urlEdicao: `https://www.foradapauta.org/campanhas/${aprovacao.slug}`,
         audioDisponivel: aprovacao.audioDisponivel,
       }),
-    };
-  });
+    });
+  }
+
+  return eventos;
 }
