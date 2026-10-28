@@ -42,6 +42,8 @@ export async function GET(request: Request) {
     );
 
     const coleta = await coletarNovidadesCandidatos();
+    const { coletarNovidadesEdicoes } = await import("@/lib/telegram/coletar-novidades-edicoes");
+    const edicoes = await coletarNovidadesEdicoes();
     const envio = await processarFilaTelegram();
     // As respostas individuais dependem da migração de interações no banco.
     // Não interromper a fila editorial enquanto a implantação não for concluída.
@@ -49,7 +51,7 @@ export async function GET(request: Request) {
     const respostas = interacoesHabilitadas
       ? await (await import("@/lib/telegram/processar-respostas-interacoes")).processarRespostasInteracoes()
       : { pendenteDeAtivacao: true };
-    const resumo = { coleta, envio, respostas };
+    const resumo = { coleta, edicoes, envio, respostas };
 
     return NextResponse.json(
       { ok: true, ...resumo },
