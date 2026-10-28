@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FecharFichaLink } from "@/components/FecharFichaLink";
 import { CandidateDossier } from "@/components/CandidateDossier";
 import { ApresentacaoPublica } from "@/components/ApresentacaoPublica";
 import { CandidateFollowCard } from "@/components/CandidateFollowCard";
@@ -853,21 +854,14 @@ const trajetoriaOrdenada =
               Cada informação apresentada nesta ficha deve estar associada a uma fonte identificável e, quando aplicável, à data de verificação. Fato, alegação, resposta, investigação e decisão são apresentados separadamente.
             </p>
 
-            <p className="mt-4 text-sm leading-6 text-black/45">
-              Identificador da candidatura no TSE: {candidate.id}
-            </p>
+
               </>
             }
           />
 
 
 <section className="border-t border-black/15 py-8 sm:py-10">
-            <Link
-              href="/conheca-seu-candidato"
-              className="font-semibold underline underline-offset-4"
-            >
-              ← Consultar outro candidato
-            </Link>
+            <FecharFichaLink />
           </section>
 
         </div>
