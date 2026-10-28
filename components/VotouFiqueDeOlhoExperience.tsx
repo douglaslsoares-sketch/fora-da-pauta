@@ -503,7 +503,7 @@ export function VotouFiqueDeOlhoExperience() {
     return (
       <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
         <h2 className="text-3xl font-bold">Pronto! Você está acompanhando o Fora da Pauta.</h2>
-        <p className="mt-4 leading-7">Você receberá as novidades pelo Telegram.</p>
+        <p className="mt-4 leading-7">Aguarde a próxima novidade.</p>
 
         <div className="mt-8 border-t border-black/10 pt-7">
           <h3 className="text-xl font-bold">Quer acompanhar alguém na política?</h3>
