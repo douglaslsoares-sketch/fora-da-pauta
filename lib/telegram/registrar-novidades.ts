@@ -152,6 +152,13 @@ export async function registrarNovidadesNaFila({
             AND referencia = ''
             AND status = 'ativo'
             AND cancelled_at IS NULL
+            AND (
+              ${evento.publicadoEm ?? null}::timestamptz IS NULL
+              OR (
+                created_at <= ${evento.publicadoEm ?? null}::timestamptz
+                AND updated_at <= ${evento.publicadoEm ?? null}::timestamptz
+              )
+            )
           ON CONFLICT (telegram_chat_id, tipo, referencia, evento_id)
           DO NOTHING
           RETURNING id
