@@ -502,10 +502,10 @@ export function VotouFiqueDeOlhoExperience() {
   if (etapaAtual === "telegram" && inscricaoConfirmada) {
     return (
       <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
-        <div className="flex items-start gap-3">
+        <div className="flex flex-col items-center gap-4 text-center">
           <svg
             viewBox="0 0 24 24"
-            className="mt-1 h-9 w-9 shrink-0 text-emerald-700"
+            className="h-12 w-12 text-emerald-700"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.9"
