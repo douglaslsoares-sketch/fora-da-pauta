@@ -17,13 +17,12 @@ export function SiteHeaderRouter({
   const isCandidateRoute =
     pathname === "/conheca-seu-candidato" ||
     pathname.startsWith("/conheca-seu-candidato/") ||
-    pathname.startsWith("/pessoas/");
+    pathname.startsWith("/pessoas/") ||
+    /^\/eleicoes-2026\/candidatos\/[^/]+$/.test(pathname);
 
   if (!isCandidateRoute) {
     return <>{children}</>;
   }
-
-  const fichaPublica = /^\/(?:conheca-seu-candidato|pessoas)\/[^/]+$/.test(pathname);
 
   return (
     <header className="bg-black text-white">
