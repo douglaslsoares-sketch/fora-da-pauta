@@ -808,33 +808,43 @@ export function VotouFiqueDeOlhoExperience() {
       ) : (
         <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
         {!conferindoInscricao && inscricaoAtiva ? (
-          selecionadas.length > 0 ? (
-            <div className="votou-intro-only mb-7">
-              <p className="mb-3 text-center text-sm text-black/75">
-                {selecionadas.length === 1
-                  ? "Você acompanha 1 pessoa."
-                  : `Você acompanha ${selecionadas.length} pessoas.`}
-              </p>
-              <button
-                type="button"
-                onClick={() => setMostrarMinhasEscolhas((anterior) => !anterior)}
-                aria-expanded={mostrarMinhasEscolhas}
-                aria-controls="minhas-escolhas-inline"
-                className="min-h-12 w-full rounded-2xl bg-black/[0.07] px-5 py-3 text-sm font-semibold"
+          <div className="votou-intro-only mb-7">
+            <div className="mb-6 flex flex-col items-center gap-2">
+              <svg
+                viewBox="0 0 24 24"
+                width="58"
+                height="58"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
               >
-                {mostrarMinhasEscolhas ? "Ocultar minhas escolhas" : "Ver minhas escolhas"}
-              </button>
-              {mostrarMinhasEscolhas ? (
-                <div id="minhas-escolhas-inline" className="mt-3">
-                  <ListaSelecionadas />
-                </div>
-              ) : null}
+                <path d="M2 12s3.7-7 10-7 10 7 10 7-3.7 7-10 7S2 12 2 12Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <p className="text-base font-semibold text-black">Você está de olho.</p>
             </div>
-          ) : (
-            <p className="votou-intro-only mb-7 rounded-2xl bg-black/[0.05] px-5 py-4 text-center text-sm text-black/75">
-              Você ainda não acompanha nenhuma pessoa.
-            </p>
-          )
+            {selecionadas.length > 0 ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setMostrarMinhasEscolhas((anterior) => !anterior)}
+                  aria-expanded={mostrarMinhasEscolhas}
+                  aria-controls="minhas-escolhas-inline"
+                  className="min-h-12 w-full rounded-2xl bg-black/[0.07] px-5 py-3 text-sm font-semibold"
+                >
+                  {mostrarMinhasEscolhas ? "Ocultar minhas escolhas" : "Ver minhas escolhas"}
+                </button>
+                {mostrarMinhasEscolhas ? (
+                  <div id="minhas-escolhas-inline" className="mt-3">
+                    <ListaSelecionadas />
+                  </div>
+                ) : null}
+              </>
+            ) : null}
+          </div>
         ) : null}
 
         <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
