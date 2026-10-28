@@ -762,24 +762,31 @@ export function VotouFiqueDeOlhoExperience() {
 
   return (
     <>
-      <section className="bg-black text-white">
-        <div className="mx-auto max-w-[760px] px-6 pb-8 pt-8">
-          <h1 className="text-[clamp(3rem,13vw,6.5rem)] font-bold leading-[0.93] tracking-[-0.06em]">
-            <span className="block text-[#FFC400]">Fique de Olho</span>
+      {!conferindoInscricao && !inscricaoAtiva && !retornoTelegram ? (
+        <section className="mx-auto max-w-[760px] px-6 pb-16 pt-12 text-center">
+          <h1 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
+            Receba as novidades do Fora da Pauta
           </h1>
-
-          <p className="mt-6 max-w-xl text-xl leading-7 text-white/90">
-            Acompanhe a atuação de quem participa da política, tenha sido eleito ou não.
+          <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-black/75">
+            Acompanhe as decisões que afetam a sua vida, sem precisar procurar notícias todos os dias.
           </p>
-          <p className="mt-4 max-w-xl text-base leading-7 text-white/75">
-            Entenda como as decisões são tomadas: o que faz a Presidência,
-            o que decide o Congresso e qual é o papel do Judiciário.
-            Escolha quem você quer acompanhar e receba as informações pelo Telegram.
+          <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-black/75">
+            Quando houver uma nova edição, você recebe um aviso pelo Telegram.
           </p>
-        </div>
-      </section>
-
-      <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
+          <button
+            type="button"
+            onClick={() => {
+              setInscricaoGeral(true);
+              setEscolhasSalvas(false);
+              setEtapa("telegram");
+            }}
+            className="mt-9 min-h-14 w-full rounded-2xl bg-[#FFC400] px-5 py-3 font-semibold text-black"
+          >
+            Quero acompanhar o Fora da Pauta →
+          </button>
+        </section>
+      ) : (
+        <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
         {!conferindoInscricao && inscricaoAtiva ? (
           selecionadas.length > 0 ? (
             <div className="votou-intro-only mb-7">
@@ -826,48 +833,28 @@ export function VotouFiqueDeOlhoExperience() {
           onSelect={selecionar}
         />
 
-        {!conferindoInscricao && !novasEdicoesAtivas ? (
-        <div className="mt-7 rounded-2xl border border-black/15 p-5">
-          <p className="font-semibold">Receba as novidades do Fora da Pauta</p>
-          <p className="mt-2 text-sm leading-6 text-black/65">
-            Você pode receber avisos de novas edições e publicações pelo Telegram,
-            mesmo sem escolher representantes. Se já acompanha alguém, suas escolhas
-            continuam ativas e não serão canceladas.
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              setInscricaoGeral(true);
-              setEscolhasSalvas(false);
-              setEtapa("telegram");
-            }}
-            className="mt-4 min-h-14 w-full rounded-2xl bg-black px-5 py-3 font-semibold text-white"
-          >
-            Receber as novidades do Fora da Pauta
-          </button>
-        </div>
-        ) : null}
 
-        <div className="mt-12 border-t border-black/10 pt-8">
-          <h2 className="text-xl font-bold">Compartilhe o Fora da Pauta</h2>
-          <p className="mt-2 text-sm leading-6 text-black/65">
-            Conhece alguém que gostaria de entender melhor como o jogo é jogado?
-            Convide essa pessoa a conhecer o Fora da Pauta.
-          </p>
-          <a
-            href={`https://wa.me/?text=${encodeURIComponent("Conheça o Fora da Pauta. Entenda melhor as decisões que afetam a nossa vida e como o jogo é jogado na política. https://www.foradapauta.org/")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex min-h-12 items-center justify-center rounded-xl bg-[#25D366] px-5 py-3 font-semibold text-black"
-          >
-            Compartilhar pelo WhatsApp
-          </a>
-        </div>
-
-        <p role="status" className="sr-only">
-          {aviso}
-        </p>
-      </section>
+          {!conferindoInscricao && !novasEdicoesAtivas ? (
+            <div className="mt-7 rounded-2xl border border-black/15 p-5">
+              <p className="font-semibold">Receba as novidades do Fora da Pauta</p>
+              <p className="mt-2 text-sm leading-6 text-black/65">
+                Além das pessoas escolhidas, receba avisos sobre novas edições pelo Telegram.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setInscricaoGeral(true);
+                  setEscolhasSalvas(false);
+                  setEtapa("telegram");
+                }}
+                className="mt-4 min-h-14 w-full rounded-2xl bg-black px-5 py-3 font-semibold text-white"
+              >
+                Quero acompanhar o Fora da Pauta
+              </button>
+            </div>
+          ) : null}
+        </section>
+      )}
     </>
   );
 }
