@@ -1,0 +1,26 @@
+name: Validar avisos de novas edições
+on:
+  pull_request:
+    paths:
+      - 'lib/telegram/preparar-avisos-edicoes.ts'
+      - 'lib/telegram/modelo-aviso-edicao.ts'
+      - 'lib/telegram/coletar-novidades-edicoes.ts'
+      - 'lib/telegram/registrar-novidades.ts'
+      - 'data/edicoes/avisos-aprovados.ts'
+      - 'tests/telegram-edicoes-*.test.cjs'
+      - '.github/workflows/validar-avisos-edicoes.yml'
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npx tsc --noEmit
+      - run: node --test tests/telegram-edicoes-aprovadas.test.cjs tests/telegram-edicoes-preparacao.test.cjs tests/telegram-modelo-aviso-edicao.test.cjs
