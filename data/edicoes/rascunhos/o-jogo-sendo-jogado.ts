@@ -13,7 +13,6 @@ export const jogoSendoJogadoRascunho: Campaign = {
   slug: "o-jogo-sendo-jogado",
   brand: "Fora da Pauta",
   title: "O jogo sendo jogado",
-  formato: "artigo",
   statement: "Quem conta a história também escolhe o que destacar.",
   sections: [
     {
