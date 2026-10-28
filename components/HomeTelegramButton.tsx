@@ -47,7 +47,7 @@ export function HomeTelegramButton({ className, textClassName, arrowClassName }:
   return (
     <Link href="/votou-fique-de-olho" className={className}>
       <span className={textClassName}>
-        {inscrito ? "Fique de olho" : "Receba novidades pelo Telegram"}
+        Fique de olho
       </span>
       <span className={arrowClassName} aria-hidden="true">→</span>
     </Link>
