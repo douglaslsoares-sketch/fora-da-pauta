@@ -800,6 +800,11 @@ export function VotouFiqueDeOlhoExperience() {
             </button>
           ) : null}
         </div>
+
+        <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
+          <HomeShareInvite />
+        </section>
+
         {erroTelegram ? <p role="alert" className="mt-3 text-sm text-red-700">{erroTelegram}</p> : null}
 
         {!inscricaoAtiva ? <button
