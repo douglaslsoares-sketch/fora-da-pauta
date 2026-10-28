@@ -502,7 +502,22 @@ export function VotouFiqueDeOlhoExperience() {
   if (etapaAtual === "telegram" && inscricaoConfirmada) {
     return (
       <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
-        <h2 className="text-3xl font-bold">Pronto! Você está acompanhando o Fora da Pauta.</h2>
+        <div className="flex items-start gap-3">
+          <svg
+            viewBox="0 0 24 24"
+            className="mt-1 h-9 w-9 shrink-0 text-emerald-700"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.9"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="m8 12 2.5 2.5L16 9" />
+          </svg>
+          <h2 className="text-3xl font-bold">Pronto! Você está acompanhando o Fora da Pauta.</h2>
+        </div>
         <p className="mt-4 leading-7">Aguarde a próxima novidade.</p>
 
         <div className="mt-8 border-t border-black/10 pt-7">
