@@ -43,7 +43,7 @@ export function SiteHeaderRouter({
           />
         </Link>
         <p className="text-right text-[15px] font-semibold leading-tight tracking-[-0.02em]">
-          {fichaPublica ? "Ficha política" : "há mais para entender."}
+          há mais para entender.
         </p>
       </div>
     </header>
