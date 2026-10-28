@@ -159,6 +159,8 @@ export function VotouFiqueDeOlhoExperience() {
   const [busca, setBusca] = useState(0);
   const [aviso, setAviso] = useState("");
   const [ultimoIdConfirmado, setUltimoIdConfirmado] = useState<string | null>(null);
+  const [pessoaConfirmada, setPessoaConfirmada] = useState<PessoaSelecionada | null>(null);
+  const painelConfirmacaoRef = useRef<HTMLElement>(null);
   const [avisoStorage, setAvisoStorage] = useState("");
   const [ativandoTelegram, setAtivandoTelegram] = useState(false);
   const [erroTelegram, setErroTelegram] = useState("");
@@ -260,14 +262,21 @@ export function VotouFiqueDeOlhoExperience() {
   }
 
   const etapaAtual =
-    selecionadas.length === 0 && etapa !== "busca" && !inscricaoGeral
+    selecionadas.length === 0 && !pessoaConfirmada && etapa !== "busca" && !inscricaoGeral
       ? "busca"
       : etapa;
+
+  useEffect(() => {
+    if (etapaAtual === "selecionados" && pessoaConfirmada) {
+      painelConfirmacaoRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+    }
+  }, [etapaAtual, pessoaConfirmada]);
 
   const ultimaSelecionada =
     selecionadas.length > 0
       ? selecionadas[selecionadas.length - 1]
       : null;
+  const pessoaEmConfirmacao = pessoaConfirmada ?? ultimaSelecionada;
 
   function gravar(pessoas: PessoaSelecionada[]) {
     const persistiu = salvarSelecao(pessoas);
@@ -312,7 +321,8 @@ export function VotouFiqueDeOlhoExperience() {
   async function selecionar(pessoa: Omit<PessoaSelecionada, "eleicao">) {
     const atuais = interpretarSelecao(lerSelecaoSerializada());
     if (atuais.some((item) => item.id === pessoa.id) || salvandoEscolhas) return;
-    const novaLista: PessoaSelecionada[] = [...atuais, { ...pessoa, eleicao: 2026 }];
+    const confirmada: PessoaSelecionada = { ...pessoa, eleicao: 2026 };
+    const novaLista: PessoaSelecionada[] = [...atuais, confirmada];
     setErroTelegram("");
     if (inscricaoAtiva) {
       setSalvandoEscolhas(true);
@@ -326,12 +336,13 @@ export function VotouFiqueDeOlhoExperience() {
         setIdsConfirmados((ids) => [...new Set([...ids, pessoa.id])]);
         edicoesLocaisPendentes.current = false;
         gravar(novaLista);
+        setPessoaConfirmada(confirmada);
         setUltimoIdConfirmado(pessoa.id);
         setAviso(`Você já acompanha ${pessoa.nomeUrna}.`);
         setBusca((atual) => atual + 1);
         // Fora da tela final, abrir confirmação com foto e dados.
         // Na tela final, exibir a confirmação junto à busca.
-        if (!mostrarEscolhaFinal) setEtapa("selecionados");
+        if (!(etapa === "telegram" && mostrarEscolhaFinal)) setEtapa("selecionados");
       } catch {
         setErroTelegram("Não foi possível salvar no Telegram. Tente novamente.");
       } finally {
@@ -343,6 +354,7 @@ export function VotouFiqueDeOlhoExperience() {
     setInscricaoGeral(false);
     setEscolhasSalvas(false);
     gravar(novaLista);
+    setPessoaConfirmada(confirmada);
     setAviso(`${pessoa.nomeUrna} foi adicionado à sua lista.`);
     setBusca((atual) => atual + 1);
     setEtapa("selecionados");
@@ -518,7 +530,7 @@ export function VotouFiqueDeOlhoExperience() {
                 onSelect={selecionar}
               />
 
-              {ultimoIdConfirmado && ultimaSelecionada?.id === ultimoIdConfirmado ? (
+              {ultimoIdConfirmado && pessoaConfirmada?.id === ultimoIdConfirmado ? (
                 <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
                   <p className="flex items-center gap-2 font-semibold text-emerald-950">
                     <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm text-white">
@@ -527,18 +539,18 @@ export function VotouFiqueDeOlhoExperience() {
                     Você já acompanha:
                   </p>
                   <div className="mt-4 flex items-center gap-3">
-                    <CandidatePhoto id={ultimaSelecionada.id} name={ultimaSelecionada.nomeUrna} />
+                    <CandidatePhoto id={pessoaConfirmada.id} name={pessoaConfirmada.nomeUrna} />
                     <div className="min-w-0 flex-1">
-                      <p className="font-semibold">{ultimaSelecionada.nomeUrna}</p>
+                      <p className="font-semibold">{pessoaConfirmada.nomeUrna}</p>
                       <p className="mt-1 text-sm leading-5 text-black/65">
-                        {ultimaSelecionada.cargoLabel} · {ultimaSelecionada.uf}
+                        {pessoaConfirmada.cargoLabel} · {pessoaConfirmada.uf}
                         <br />
-                        {ultimaSelecionada.siglaPartido} · Nº {ultimaSelecionada.numero}
+                        {pessoaConfirmada.siglaPartido} · Nº {pessoaConfirmada.numero}
                       </p>
                     </div>
                   </div>
                   <Link
-                    href={"/conheca-seu-candidato/" + ultimaSelecionada.id}
+                    href={"/conheca-seu-candidato/" + pessoaConfirmada.id}
                     className="mt-3 inline-flex min-h-10 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-2 text-xs font-bold text-black"
                   >
                     Ver ficha
@@ -704,8 +716,8 @@ export function VotouFiqueDeOlhoExperience() {
 
   if (etapaAtual === "selecionados") {
     return (
-      <section className="mx-auto max-w-[760px] px-6 pb-14 pt-7">
-        {ultimaSelecionada ? (
+      <section ref={painelConfirmacaoRef} className="mx-auto max-w-[760px] px-6 pb-14 pt-7">
+        {pessoaEmConfirmacao ? (
           <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
             <p className="flex items-center gap-2 font-semibold text-emerald-950">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm text-white">
@@ -716,25 +728,25 @@ export function VotouFiqueDeOlhoExperience() {
 
             <div className="mt-4 flex items-center gap-3">
               <CandidatePhoto
-                id={ultimaSelecionada.id}
-                name={ultimaSelecionada.nomeUrna}
+                id={pessoaEmConfirmacao.id}
+                name={pessoaEmConfirmacao.nomeUrna}
               />
 
               <div>
                 <p className="font-semibold">
-                  {ultimaSelecionada.nomeUrna}
+                  {pessoaEmConfirmacao.nomeUrna}
                 </p>
                 <p className="mt-1 text-sm leading-5 text-black/65">
-                  {ultimaSelecionada.cargoLabel} ·{" "}
-                  {ultimaSelecionada.uf}
+                  {pessoaEmConfirmacao.cargoLabel} ·{" "}
+                  {pessoaEmConfirmacao.uf}
                   <br />
-                  {ultimaSelecionada.siglaPartido} · Nº{" "}
-                  {ultimaSelecionada.numero}
+                  {pessoaEmConfirmacao.siglaPartido} · Nº{" "}
+                  {pessoaEmConfirmacao.numero}
                 </p>
               </div>
             </div>
             <Link
-              href={"/conheca-seu-candidato/" + ultimaSelecionada.id}
+              href={"/conheca-seu-candidato/" + pessoaEmConfirmacao.id}
               className="mt-3 inline-flex min-h-10 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-2 text-xs font-bold text-black"
             >
               Ver ficha
