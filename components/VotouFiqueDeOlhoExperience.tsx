@@ -782,7 +782,7 @@ export function VotouFiqueDeOlhoExperience() {
               <path d="M2 12s3.7-7 10-7 10 7 10 7-3.7 7-10 7S2 12 2 12Z" />
               <circle cx="12" cy="12" r="3" />
             </svg>
-            <p className="text-base font-semibold text-black">Fique de olho</p>
+            <p className="text-base font-semibold text-black">Você está de olho.</p>
           </div>
           <h1 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
             Receba as novidades do Fora da Pauta
