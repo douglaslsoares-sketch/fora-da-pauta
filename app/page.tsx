@@ -70,11 +70,10 @@ export default function Home() {
           tabIndex={-1}
         >
           <div className={styles.featureIntro}>
-            <h1 id="home-titulo" className={styles.featureTitle}>Fique de Olho</h1>
-            <p className={styles.featureSubtitle}>Do povo para o povo.</p>
-            <p className={styles.featureBenefit}>
-              Entenda o que os políticos dizem, votam e fazem.
-            </p>
+            <h1 id="home-titulo" className={styles.featureSubtitle}>Do povo para o povo.</h1>
+            <p className={styles.featureTitle}>Decisões que afetam a sua vida.</p>
+            <p className={styles.featureBenefit}>Entenda o que os políticos dizem, votam e fazem.</p>
+            <p className={styles.featureInvitation}>Conheça como o jogo é jogado.</p>
           </div>
 
           <HomeTelegramButton
@@ -82,9 +81,7 @@ export default function Home() {
             textClassName={styles.primaryText}
             arrowClassName={styles.primaryArrow}
           />
-          <div className={styles.heroClosing}>
-            <p>Conhecer é importante. Entender como o jogo é jogado é fundamental.</p>
-          </div>
+
         </section>
 
         <section
