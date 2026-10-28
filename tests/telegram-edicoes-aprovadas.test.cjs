@@ -15,7 +15,7 @@ test("sem aprovação não há acesso à fila nem ao banco", () => {
 });
 test("registro de edição notifica somente inscritos antes da publicação", () => {
   const fila = ler("lib/telegram/registrar-novidades.ts");
-  assert.match(fila, /tipo === "edicoes" && evento\.id\.startsWith\("edicao:"\)/);
+  assert.match(fila, /tipo === "edicoes"\s*&&\s*evento\.id\.startsWith\("edicao:"\)/);
   assert.match(fila, /created_at <= \$\{evento\.publicadoEm \?\? null\}::timestamptz/);
   assert.match(fila, /updated_at <= \$\{evento\.publicadoEm \?\? null\}::timestamptz/);
 });

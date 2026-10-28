@@ -46,7 +46,7 @@ export async function registrarNovidadesNaFila({
     if (
       evento.publicadoEm !== undefined &&
       (
-        !evento.id.startsWith("dossie:") ||
+        !(evento.id.startsWith("dossie:") || (tipo === "edicoes" && evento.id.startsWith("edicao:"))) ||
         !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/.test(evento.publicadoEm) ||
         !Number.isFinite(Date.parse(evento.publicadoEm))
       )
