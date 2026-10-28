@@ -51,16 +51,16 @@
 }
 .featureIntro { margin-top: 0; }
 .featureTitle {
-  margin: 0;
+  margin: 25px 0 0;
   color: #fff;
-  font-size: clamp(36px, 7vw, 72px);
-  font-weight: 800;
-  letter-spacing: -0.06em;
-  line-height: 0.98;
+  font-size: clamp(22px, 3.6vw, 34px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.22;
   text-wrap: balance;
 }
-.featureSubtitle {
-  margin: 18px 0 0;
+ .featureSubtitle {
+  margin: 0;
   color: #ffc400;
   font-size: clamp(32px, 5vw, 54px);
   font-weight: 800;
@@ -74,6 +74,13 @@
   color: #d9d9d9;
   font-size: clamp(15px, 1.6vw, 17px);
   line-height: 1.55;
+}
+ .featureInvitation {
+  margin: 18px auto 0;
+  color: #fff;
+  font-size: clamp(17px, 2.4vw, 23px);
+  font-weight: 500;
+  line-height: 1.45;
 }
 .page .primaryLink {
   display: flex;
@@ -188,17 +195,19 @@
   }
   .featureIntro { margin-top: 0; }
   .featureTitle {
-    color: #a8a8a8;
-    font-size: clamp(18px, 4.9vw, 22px);
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: 1.35;
+    margin-top: 24px;
+    color: #fff;
+    font-size: clamp(22px, 6.5vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.25;
   }
   .featureSubtitle {
-    margin-top: 18px;
+    margin-top: 0;
     font-size: clamp(27px, 8vw, 32px);
   }
-  .featureBenefit { margin-top: 27px; }
+  .featureBenefit { margin-top: 24px; }
+  .featureInvitation { margin-top: 18px; font-size: 18px; }
   .page .primaryLink { margin-top: 32px; }
   .heroClosing { margin-top: 28px; padding-top: 22px; }
   .publicationGrid { grid-template-columns: 1fr; }
