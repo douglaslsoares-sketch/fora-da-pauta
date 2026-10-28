@@ -101,6 +101,22 @@ export function CabecalhoFichaPublica({
 
   return (
     <section aria-labelledby="nome-politico" className="mx-auto w-full max-w-[760px] px-5 pb-5 pt-5 sm:px-6 sm:pt-6">
+      <div className="mb-7 flex flex-col items-center gap-2 text-center">
+        <svg
+          viewBox="0 0 24 24"
+          className="h-12 w-12 text-black"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+          <path d="M14 2v6h6M8 13h8M8 17h8" />
+        </svg>
+        <p className="text-base font-semibold text-black">Ficha Política</p>
+      </div>
       <div className="flex items-start gap-4 sm:gap-5">
         <div className="shrink-0">
           <CandidatePhoto id={candidato.id} name={candidato.nomeUrna} variant="profile" />
