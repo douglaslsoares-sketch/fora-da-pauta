@@ -926,6 +926,12 @@ export function VotouFiqueDeOlhoExperience() {
           onSelect={selecionar}
         />
 
+        {!conferindoInscricao && inscricaoAtiva ? (
+          <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
+            <HomeShareInvite />
+          </section>
+        ) : null}
+
 
           {!conferindoInscricao && !novasEdicoesAtivas ? (
             <div className="mt-7 rounded-2xl border border-black/15 p-5">
