@@ -17,12 +17,12 @@ function gerarPrevia(argumentos = process.argv.slice(2)) {
   vm.runInNewContext(codigo, { module: modulo, exports: modulo.exports, URL }, { timeout: 2000 });
 
   const aviso = modulo.exports.prepararTextoAvisoNovaEdicao({
-    titulo: "O jogo sendo jogado",
+    titulo: "Lula venceu. O que O Globo disse no dia seguinte?",
     pergunta: "Quem escolhe o que ganha destaque nos jornais depois de uma eleição?",
     chamada: "Nesta edição, comparamos o resultado oficial, um editorial de O Globo e a interpretação apresentada por José, do Portal do José. Confira e tire suas conclusões.",
     atribuicao: "José, do Portal do José",
     // Endereço planejado: NÃO corresponde a uma publicação já confirmada.
-    urlEdicao: "https://www.foradapauta.org/campanhas/o-jogo-sendo-jogado",
+    urlEdicao: "https://www.foradapauta.org/campanhas/lula-venceu-o-globo",
     audioDisponivel: false,
   });
   return [

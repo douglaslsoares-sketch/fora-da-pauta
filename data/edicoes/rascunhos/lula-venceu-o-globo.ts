@@ -9,10 +9,10 @@ import type { Campaign } from "@/data/campanhas";
  * buscar URL primária do editorial de O Globo (referência secundária abaixo);
  * testar a leitura em áudio e aprovar a versão final.
  */
-export const jogoSendoJogadoRascunho: Campaign = {
-  slug: "o-jogo-sendo-jogado",
+export const lulaVenceuOGloboRascunho: Campaign = {
+  slug: "lula-venceu-o-globo",
   brand: "Fora da Pauta",
-  title: "O jogo sendo jogado",
+  title: "Lula venceu. O que O Globo disse no dia seguinte?",
   statement: "Quem conta a história também escolhe o que destacar.",
   sections: [
     {

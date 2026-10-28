@@ -5,7 +5,7 @@ test("prévia sinaliza rascunho e não promete áudio", () => {
   const texto = gerarPrevia(["--o-jogo-sendo-jogado"]);
   assert.match(texto, /NÃO ENVIAR/);
   assert.match(texto, /provisório/);
-  assert.match(texto, /O jogo sendo jogado/);
+  assert.match(texto, /Lula venceu\. O que O Globo disse no dia seguinte\?/);
   assert.match(texto, /José, do Portal do José/);
   assert.match(texto, /📖 Leia a edição:/);
   assert.doesNotMatch(texto, /📖🎧/);
