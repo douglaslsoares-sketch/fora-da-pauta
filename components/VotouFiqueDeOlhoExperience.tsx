@@ -329,7 +329,9 @@ export function VotouFiqueDeOlhoExperience() {
         setUltimoIdConfirmado(pessoa.id);
         setAviso(`Você já acompanha ${pessoa.nomeUrna}.`);
         setBusca((atual) => atual + 1);
-        if (!mostrarEscolhaFinal) setEtapa("busca");
+        // Fora da tela final, abrir confirmação com foto e dados.
+        // Na tela final, exibir a confirmação junto à busca.
+        if (!mostrarEscolhaFinal) setEtapa("selecionados");
       } catch {
         setErroTelegram("Não foi possível salvar no Telegram. Tente novamente.");
       } finally {
@@ -515,8 +517,36 @@ export function VotouFiqueDeOlhoExperience() {
                 selectedIds={selecionadas.map((pessoa) => pessoa.id)}
                 onSelect={selecionar}
               />
+
+              {ultimoIdConfirmado && ultimaSelecionada?.id === ultimoIdConfirmado ? (
+                <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+                  <p className="flex items-center gap-2 font-semibold text-emerald-950">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm text-white">
+                      ✓
+                    </span>
+                    Você já acompanha:
+                  </p>
+                  <div className="mt-4 flex items-center gap-3">
+                    <CandidatePhoto id={ultimaSelecionada.id} name={ultimaSelecionada.nomeUrna} />
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold">{ultimaSelecionada.nomeUrna}</p>
+                      <p className="mt-1 text-sm leading-5 text-black/65">
+                        {ultimaSelecionada.cargoLabel} · {ultimaSelecionada.uf}
+                        <br />
+                        {ultimaSelecionada.siglaPartido} · Nº {ultimaSelecionada.numero}
+                      </p>
+                    </div>
+                  </div>
+                  <Link
+                    href={"/conheca-seu-candidato/" + ultimaSelecionada.id}
+                    className="mt-3 inline-flex min-h-10 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-2 text-xs font-bold text-black"
+                  >
+                    Ver ficha
+                  </Link>
+                </div>
+              ) : null}
               {salvandoEscolhas ? <p role="status" className="mt-3 text-sm">Salvando no Telegram...</p> : null}
-              {aviso && !erroTelegram ? <p role="status" className="mt-3 text-sm text-green-800">{aviso}</p> : null}
+              {aviso && !erroTelegram ? <p role="status" className="sr-only">{aviso}</p> : null}
               {erroTelegram ? <p role="alert" className="mt-3 text-sm text-red-700">{erroTelegram}</p> : null}
               {selecionadas.length > 0 ? (
                 <div className="mt-6">
@@ -681,7 +711,7 @@ export function VotouFiqueDeOlhoExperience() {
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm text-white">
                 ✓
               </span>
-              Você selecionou:
+              {inscricaoAtiva ? "Você já acompanha:" : "Você selecionou:"}
             </p>
 
             <div className="mt-4 flex items-center gap-3">
@@ -703,6 +733,12 @@ export function VotouFiqueDeOlhoExperience() {
                 </p>
               </div>
             </div>
+            <Link
+              href={"/conheca-seu-candidato/" + ultimaSelecionada.id}
+              className="mt-3 inline-flex min-h-10 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-2 text-xs font-bold text-black"
+            >
+              Ver ficha
+            </Link>
           </div>
         ) : null}
 
