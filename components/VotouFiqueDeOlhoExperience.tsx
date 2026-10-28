@@ -457,6 +457,15 @@ export function VotouFiqueDeOlhoExperience() {
                 <br />
                 {pessoa.siglaPartido} · Nº {pessoa.numero}
               </p>
+              <div className="mt-1 flex justify-end">
+                <Link
+                  href={`/conheca-seu-candidato/${pessoa.id}`}
+                  aria-label={`Ver ficha de ${pessoa.nomeUrna}`}
+                  className="inline-flex min-h-11 items-center gap-1 rounded-md px-2 text-xs font-medium text-black/60 underline decoration-black/25 underline-offset-4 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                >
+                  Ver ficha <span aria-hidden="true">↗</span>
+                </Link>
+              </div>
             </div>
 
             {selecaoParaRemover ? (
