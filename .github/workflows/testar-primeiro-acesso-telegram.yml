@@ -1,0 +1,27 @@
+name: Verificar primeiro acesso ao Telegram (isolado)
+on:
+  pull_request:
+    paths:
+      - 'tests/telegram-primeiro-acesso-ux.test.cjs'
+      - 'tests/telegram-webhook.test.cjs'
+      - 'tests/telegram-sessao.test.cjs'
+      - 'tests/telegram-concluir.test.cjs'
+      - 'tests/telegram-fila-editorial-integracao.test.cjs'
+      - 'components/VotouFiqueDeOlhoExperience.tsx'
+      - 'app/api/telegram/**'
+      - '.github/workflows/testar-primeiro-acesso-telegram.yml'
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npx tsc --noEmit
+      - run: node --test tests/telegram-primeiro-acesso-ux.test.cjs tests/telegram-sessao.test.cjs tests/telegram-concluir.test.cjs tests/telegram-webhook.test.cjs tests/telegram-fila-editorial-integracao.test.cjs
