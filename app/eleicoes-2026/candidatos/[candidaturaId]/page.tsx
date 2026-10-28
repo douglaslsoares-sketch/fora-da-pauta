@@ -164,9 +164,22 @@ export default async function FichaDoCandidatoPage({
         </Link>
 
         <header className="mb-10 mt-10">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-black/40">
-            Ficha política
-          </p>
+          <div className="mb-6 flex flex-col items-center gap-2 text-center">
+            <svg
+              viewBox="0 0 24 24"
+              className="h-12 w-12 text-black"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+              <path d="M14 2v6h6M8 13h8M8 17h8" />
+            </svg>
+            <p className="text-base font-semibold text-black">Ficha Política</p>
+          </div>
 
           <div className="flex items-start gap-5">
             <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[24px] bg-white sm:h-32 sm:w-32">
