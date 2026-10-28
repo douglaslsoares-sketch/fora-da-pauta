@@ -803,7 +803,7 @@ function CandidateFollowSelector({
             onChange={(event) =>
               setQuery(event.target.value)
             }
-            placeholder="Digite o nome ou o número"
+            placeholder="Digite um nome"
             autoComplete="off"
             className="min-h-14 w-full rounded-2xl border border-black/20 bg-white py-3 pl-12 pr-4 text-base outline-none placeholder:text-black/40 focus:border-black focus:ring-2 focus:ring-[#FFC400]"
           />
