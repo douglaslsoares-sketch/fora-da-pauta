@@ -4,8 +4,11 @@ import type { Campaign } from "@/data/campanhas";
  * RASCUNHO — NÃO PUBLICAR.
  * 29/10/2026: resultado do TSE conferido; editorial de O Globo conferido
  * em reprodução identificada; interpretação de José identificada na transcrição.
- * PENDÊNCIAS: link primário do editorial, conferir falas no vídeo original,
- * testar áudio no computador e no celular e obter aprovação editorial.
+ * 29/10/2026: endereço original do editorial encontrado em link de terceiro,
+ * porém a leitura direta nesse endereço não foi possível; reprodução conferida.
+ * Falas de José confrontadas com transcrição automática fornecida pelo editor.
+ * PENDÊNCIAS: conferir as falas diretamente no vídeo original, testar áudio
+ * no computador e no celular e obter aprovação editorial.
  * Não inserir este artigo no catálogo nem nos avisos do Telegram.
  */
 export const lulaVenceuOGloboRascunho: Campaign = {
@@ -47,7 +50,11 @@ export const lulaVenceuOGloboRascunho: Campaign = {
       ],
       references: [
         {
-          label: "O Globo — editorial de 26/10/2026 (reprodução atribuída ao jornal; endereço original ainda pendente de conferência)",
+          label: "O Globo — endereço original do editorial de 26/10/2026 (identificado por link externo)",
+          url: "https://oglobo.globo.com/opiniao/editorial/coluna/2026/10/virada-da-a-lula-lugar-inedito-na-historia-do-brasil.ghtml",
+        },
+        {
+          label: "Reprodução identificada do editorial — texto usado na conferência",
           url: "https://gilvanmelo.blogspot.com/2026/10/o-que-midia-pensa-editoriaisopinioes.html?m=0",
         },
       ],
@@ -79,8 +86,8 @@ export const lulaVenceuOGloboRascunho: Campaign = {
       eyebrow: "A interpretação de José",
       title: "Mas José, do Portal do José, leu esse texto de outro jeito.",
       paragraphs: [
-        "Na live de 26 de outubro, José chama atenção para as advertências de O Globo contra ressentimentos e revanchismo. Ele pergunta se cobrar a investigação de possíveis crimes cometidos por adversários políticos poderia acabar sendo apresentado como vingança.",
-        "Na interpretação dele, grandes empresas de comunicação também são **estruturas de poder**, com interesses econômicos e de classe. Por isso, quando recomendam caminhos ao presidente, não estão só observando a política: também tentam influenciar os rumos do governo. Vale uma pergunta adicional: **quando um editorial pede ajuste fiscal, quais escolhas do orçamento estão em disputa e quem será afetado por elas?**",
+        "Na live de 26 de outubro, José lê o título e a advertência de O Globo sobre ressentimentos. Ele questiona o uso da palavra **revanchismo**: na interpretação dele, cobrar que a Justiça investigue possíveis crimes não deveria ser tratado como vingança. José defende que a Polícia Federal e a Procuradoria-Geral da República cumpram suas responsabilidades e que não haja impunidade. Isso não significa declarar culpada qualquer pessoa sem processo e provas.",
+        "José também apresenta sua interpretação sobre a mídia: grandes grupos de comunicação são **estruturas de poder** e, na visão dele, defendem interesses econômicos e de classe. Por isso, quando recomendam caminhos ao presidente, não apenas observam a política: também procuram influenciar o debate sobre os rumos do país.",
         "**Essa é a leitura política de José, não uma intenção comprovada de O Globo.** O próprio editorial também defende que se investiguem suspeitas de crimes. Portanto, o desacordo não é simplesmente entre investigar ou deixar de investigar: envolve a linguagem empregada, as prioridades e a maneira como se cobram diferentes atores políticos. Alegações de favorecimento eleitoral ou de acordos entre empresas e candidatos precisariam ser demonstradas com provas independentes; não as apresentamos como fatos.",
         "A live original está indicada abaixo para que você possa conferir e formar sua própria avaliação. A transcrição automática foi usada como apoio e ainda exige conferência direta no vídeo antes da publicação final.",
       ],
