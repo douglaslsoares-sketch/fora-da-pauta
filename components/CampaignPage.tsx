@@ -158,6 +158,13 @@ export function CampaignPage({ campaign, audioDemonstrativo = false }: CampaignP
                 <span aria-hidden="true">▶</span>
                 Ouvir esta edição
               </button>
+              {ehArtigoOGlobo ? (
+                <p className="mt-3 max-w-2xl text-xs leading-5 text-black/55">
+                  {audioDemonstrativo
+                    ? "Áudio de demonstração gerado digitalmente pelo navegador. A voz definitiva ainda está em avaliação."
+                    : "Narração gerada por inteligência artificial. Você pode continuar lendo enquanto escuta."}
+                </p>
+              ) : null}
             </div>
           )}
 
@@ -170,10 +177,11 @@ export function CampaignPage({ campaign, audioDemonstrativo = false }: CampaignP
                 <CampaignComparison comparison={campaign.comparison} />
               ) : null}
 
-              {campaign.sections.map((section) => (
+              {campaign.sections.map((section, index) => (
                 <ExpandableCard
                   key={section.title}
                   {...section}
+                  defaultOpen={ehArtigoOGlobo && index === 0}
                 />
               ))}
             </div>
