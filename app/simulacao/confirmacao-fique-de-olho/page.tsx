@@ -31,11 +31,12 @@ export default function SimulacaoConfirmacaoFiqueDeOlho() {
         <section className="mt-8 border-t border-black/10 pt-7">
           <h2 className="text-xl font-bold">Quer acompanhar alguém na política?</h2>
           <p className="mt-3 leading-7 text-black/75">
-            Você também pode escolher pessoas para acompanhar suas atuações, decisões e posicionamentos. Essa escolha é opcional.
+            Você também pode escolher pessoas para acompanhar suas atuações, decisões e posicionamentos.
           </p>
           <div className="mt-5 flex min-h-14 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-center font-semibold text-white/95" aria-label="Exemplo visual: Escolher pessoas para acompanhar">
             Escolher pessoas para acompanhar <span aria-hidden="true" className="ml-2">⌄</span>
           </div>
+          <p className="mt-4 text-center text-sm leading-6 text-black/60">Não precisa escolher ninguém agora. Você continuará recebendo os avisos das novas edições.</p>
           <p className="mt-2 text-center text-xs text-black/50">Botão ilustrativo nesta simulação</p>
         </section>
         <section className="mt-8 rounded-2xl bg-black p-6 text-white">
