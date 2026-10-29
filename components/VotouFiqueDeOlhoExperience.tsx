@@ -533,7 +533,6 @@ export function VotouFiqueDeOlhoExperience() {
           <h3 className="text-xl font-bold">Quer acompanhar alguém na política?</h3>
           <p className="mt-3 leading-7 text-black/75">
             Você também pode escolher pessoas para acompanhar suas atuações, decisões e posicionamentos.
-            Essa escolha é opcional.
           </p>
           <button
             type="button"
@@ -545,6 +544,11 @@ export function VotouFiqueDeOlhoExperience() {
             {mostrarEscolhaFinal ? "Ocultar escolha de pessoas" : "Escolher pessoas para acompanhar"}
             <span aria-hidden="true"> {mostrarEscolhaFinal ? "⌃" : "⌄"}</span>
           </button>
+          {selecionadas.length === 0 && !mostrarEscolhaFinal ? (
+            <p className="mt-4 text-center text-sm leading-6 text-black/60">
+              Não precisa escolher ninguém agora. Você continuará recebendo os avisos das novas edições.
+            </p>
+          ) : null}
           {mostrarEscolhaFinal ? (
             <div id="escolha-final" className="mt-5">
               <CandidateSelector
