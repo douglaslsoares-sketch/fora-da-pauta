@@ -14,19 +14,19 @@ function InstitutionalHeader() {
   return (
     <header className="bg-black text-white">
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
-        <div className="flex min-h-[78px] items-center justify-between gap-5">
+        <div className="flex min-h-[68px] items-center justify-between gap-5">
           <Link
             href="/"
             aria-label="Fora da Pauta — página inicial"
             className="shrink-0"
           >
             <Image
-              src="/marca/fora-da-pauta-branca.png"
+              src="/icon.png"
               alt="Fora da Pauta"
-              width={180}
-              height={130}
+              width={48}
+              height={48}
               priority
-              className="h-auto w-[62px] sm:w-[70px]"
+              className="h-12 w-12 object-contain"
             />
           </Link>
 
