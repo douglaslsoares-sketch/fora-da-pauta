@@ -14,9 +14,10 @@ export function PreviewAudioReader() {
   const [atual, setAtual] = useState(0);
   const [total, setTotal] = useState(0);
   const sequencia = useRef(0);
-  const [velocidade, setVelocidade] = useState(1.2);
-  const velocidadeRef = useRef(1.2);
+  const [velocidade, setVelocidade] = useState(1.6);
+  const velocidadeRef = useRef(1.6);
   const [reiniciarAviso, setReiniciarAviso] = useState(false);
+  const [vozEmUso, setVozEmUso] = useState("");
 
   useEffect(() => {
     function iniciar(evento: Event) {
@@ -39,11 +40,19 @@ export function PreviewAudioReader() {
         .filter(Boolean);
 
       const partes = [detail.title, ...paragrafos];
+      // Prioriza vozes naturais em português brasileiro quando disponíveis.
+      const vozesPtBr = window.speechSynthesis.getVoices()
+        .filter(voz => voz.lang.toLowerCase().replace("_", "-").startsWith("pt-br"));
+      const vozPreferida = vozesPtBr.find(voz => /online|natural|neural|enhanced|google/i.test(voz.name))
+        ?? vozesPtBr.find(voz => voz.default)
+        ?? vozesPtBr[0];
+      setVozEmUso(vozPreferida?.name ?? "Padrão do navegador");
       const id = ++sequencia.current;
       window.speechSynthesis.cancel();
       setAtual(0);
       setTotal(partes.length);
       setSituacao("lendo");
+      setReiniciarAviso(false);
 
       function falar(indice: number) {
         if (sequencia.current !== id) return;
@@ -55,6 +64,7 @@ export function PreviewAudioReader() {
         setAtual(indice + 1);
         const fala = new SpeechSynthesisUtterance(partes[indice]);
         fala.lang = "pt-BR";
+        if (vozPreferida) fala.voice = vozPreferida;
         fala.rate = velocidadeRef.current;
         fala.onend = () => falar(indice + 1);
         fala.onerror = () => {
@@ -113,10 +123,11 @@ export function PreviewAudioReader() {
             <label htmlFor="velocidade-previa" className="text-sm font-medium">Velocidade</label>
             <select id="velocidade-previa" value={velocidade} onChange={evento => alterarVelocidade(Number(evento.target.value))} className="min-h-11 rounded-lg border border-black/30 bg-white px-3 py-2 text-sm">
               <option value={1}>Normal (1×)</option>
-              <option value={1.15}>Um pouco mais rápida (1,15×)</option>
-              <option value={1.2}>Conversada (1,2×)</option>
-              <option value={1.35}>Rápida (1,35×)</option>
-              <option value={1.5}>Muito rápida (1,5×)</option>
+              <option value={1.25}>1,25×</option>
+              <option value={1.5}>Rápida (1,5×)</option>
+              <option value={1.6}>Conversada rápida (1,6×) — padrão</option>
+              <option value={1.75}>Mais rápida (1,75×)</option>
+              <option value={2}>Muito rápida (2×)</option>
             </select>
           </div>
           {reiniciarAviso ? <p className="mt-1 text-xs text-black/60">A nova velocidade será aplicada a partir do próximo parágrafo.</p> : null}
@@ -133,7 +144,7 @@ export function PreviewAudioReader() {
           <button type="button" onClick={parar} className="mt-2 min-h-11 rounded-lg border border-black/30 px-4 py-2 font-semibold">Fechar</button>
         </div>
       )}
-      <p className="mt-3 text-xs text-black/55">A publicação usará o leitor neural do Fora da Pauta, sujeito a teste separado.</p>
+      <p className="mt-3 text-xs text-black/55">Voz: {vozEmUso || "do navegador"}. A naturalidade depende do navegador. O áudio definitivo usará a narração neural do Fora da Pauta.</p>
     </aside>
   );
 }
