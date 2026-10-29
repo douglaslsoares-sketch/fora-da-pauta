@@ -14,8 +14,8 @@ export function PreviewAudioReader() {
   const [atual, setAtual] = useState(0);
   const [total, setTotal] = useState(0);
   const sequencia = useRef(0);
-  const [velocidade, setVelocidade] = useState(1.6);
-  const velocidadeRef = useRef(1.6);
+  const [velocidade, setVelocidade] = useState(1.75);
+  const velocidadeRef = useRef(1.75);
   const [reiniciarAviso, setReiniciarAviso] = useState(false);
   const [vozEmUso, setVozEmUso] = useState("");
 
@@ -125,8 +125,8 @@ export function PreviewAudioReader() {
               <option value={1}>Normal (1×)</option>
               <option value={1.25}>1,25×</option>
               <option value={1.5}>Rápida (1,5×)</option>
-              <option value={1.6}>Conversada rápida (1,6×) — padrão</option>
-              <option value={1.75}>Mais rápida (1,75×)</option>
+              <option value={1.6}>Conversada rápida (1,6×)</option>
+              <option value={1.75}>Conversada rápida (1,75×) — padrão</option>
               <option value={2}>Muito rápida (2×)</option>
             </select>
           </div>
