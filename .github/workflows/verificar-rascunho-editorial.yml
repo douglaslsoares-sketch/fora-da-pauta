@@ -4,6 +4,8 @@ on:
     paths:
       - 'data/edicoes/rascunhos/lula-venceu-o-globo.ts'
       - 'components/CampaignPage.tsx'
+      - 'components/ExpandableCard.tsx'
+      - 'components/PreviewAudioReader.tsx'
       - 'tests/edicao-jogo-rascunho.test.cjs'
       - '.github/workflows/verificar-rascunho-editorial.yml'
 permissions:
