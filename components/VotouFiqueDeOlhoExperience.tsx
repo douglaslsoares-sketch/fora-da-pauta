@@ -525,7 +525,7 @@ export function VotouFiqueDeOlhoExperience() {
             <circle cx="12" cy="12" r="10" />
             <path d="m8 12 2.5 2.5L16 9" />
           </svg>
-          <h2 className="text-3xl font-bold">Pronto! Você está acompanhando o Fora da Pauta.</h2>
+          <h2 className="text-3xl font-bold">Pronto! Você já está de olho.</h2>
         </div>
         <p className="mt-4 leading-7">Aguarde a próxima novidade.</p>
 
