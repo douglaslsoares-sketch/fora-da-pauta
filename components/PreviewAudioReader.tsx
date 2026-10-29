@@ -62,6 +62,7 @@ export function PreviewAudioReader() {
           return;
         }
         setAtual(indice + 1);
+        setReiniciarAviso(false);
         const fala = new SpeechSynthesisUtterance(partes[indice]);
         fala.lang = "pt-BR";
         if (vozPreferida) fala.voice = vozPreferida;
