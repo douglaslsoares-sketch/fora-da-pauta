@@ -72,8 +72,9 @@ export default function Home() {
           <div className={styles.featureIntro}>
             <h1 id="home-titulo" className={styles.featureSubtitle}>Do povo para o povo.</h1>
             <p className={styles.featureTitle}>Decisões que afetam a sua vida.</p>
-            <p className={styles.featureBenefit}>Entenda o que os políticos dizem, votam e fazem.</p>
-            <p className={styles.featureInvitation}>Conheça como o jogo é jogado.</p>
+            <p className={styles.featureBenefit}>
+              Entenda o que os políticos dizem, votam e fazem e como o jogo é jogado.
+            </p>
           </div>
 
           <HomeTelegramButton
@@ -84,6 +85,7 @@ export default function Home() {
 
         </section>
 
+        {publicacoes.length > 0 && (
         <section
           id="edicoes"
           className={styles.section}
@@ -94,9 +96,6 @@ export default function Home() {
             <p>Leia ou ouça as edições anteriores do Fora da Pauta.</p>
           </div>
 
-          {publicacoes.length === 0 ? (
-            <p className={styles.emptyEditions}>As edições publicadas aparecerão aqui, da mais recente para a mais antiga.</p>
-          ) : (
           <div className={styles.publicationGrid}>
           {publicacoes.map((campaign) => (
             <article key={campaign.slug} className={styles.cardWrapper}>
@@ -119,8 +118,8 @@ export default function Home() {
             </article>
           ))}
           </div>
-          )}
         </section>
+        )}
 
         <footer className={styles.footer}>
           <p>Fora da Pauta</p>
