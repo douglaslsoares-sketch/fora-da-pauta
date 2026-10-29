@@ -625,6 +625,40 @@ export function VotouFiqueDeOlhoExperience() {
     );
   }
 
+  if (etapaAtual === "telegram" && inscricaoGeral) {
+    return (
+      <section className="mx-auto max-w-[760px] px-6 pb-12 pt-7 text-center">
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#e8f6ff] text-[#229ED9]">
+          <TelegramIcon className="h-10 w-10" />
+        </div>
+        <h2 className="mt-5 text-3xl font-bold leading-tight tracking-[-0.045em]">
+          Falta só um passo!
+        </h2>
+        <p className="mx-auto mt-5 max-w-[420px] text-base leading-7 text-black/75">
+          Abra o Telegram para concluir sua inscrição e começar a receber as novidades do Fora da Pauta.
+        </p>
+        {conferindoInscricao ? (
+          <p role="status" className="mt-6">Conferindo sua inscrição no Telegram...</p>
+        ) : (
+          <button
+            type="button"
+            onClick={() => void ativarTelegram()}
+            disabled={ativandoTelegram}
+            className="mt-7 flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#229ED9] px-5 text-base font-semibold text-white disabled:cursor-wait disabled:opacity-70"
+          >
+            <TelegramIcon className="h-6 w-6" />
+            <span>{ativandoTelegram ? "Abrindo Telegram..." : "Continuar no Telegram"}</span>
+          </button>
+        )}
+        <p className="mt-5 text-sm leading-6 text-black/60">
+          Você poderá escolher pessoas para acompanhar depois.
+        </p>
+        {erroTelegram ? <p role="alert" className="mt-3 text-sm font-medium text-red-700">{erroTelegram}</p> : null}
+        {avisoStorage ? <p role="alert" className="mt-3 text-sm text-black/60">{avisoStorage}</p> : null}
+      </section>
+    );
+  }
+
   if (etapaAtual === "telegram") {
     return (
       <section className="mx-auto max-w-[760px] px-6 pb-14 pt-6">
