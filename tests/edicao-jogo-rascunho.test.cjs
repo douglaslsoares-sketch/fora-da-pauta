@@ -45,3 +45,5 @@ test("a introdução e o áudio atendem à primeira edição", () => {
 });
 
 test("prévia usa leitor local e deixa catálogo e áudio neural intactos",()=>{const p=read("app/previa-editorial/lula-venceu-o-globo/page.tsx");const c=read("components/CampaignPage.tsx");const a=read("components/PreviewAudioReader.tsx");assert.match(p,/audioDemonstrativo/);assert.match(p,/PreviewAudioReader/);assert.match(c,/fdp:preview-audio-start/);assert.match(a,/speechSynthesis/);assert.doesNotMatch(a,/\/api\/audio\/ler/);});
+
+test("primeiro bloco aberto e áudio de IA identificado",()=>{const c=read("components/CampaignPage.tsx");const e=read("components/ExpandableCard.tsx");assert.match(c,/defaultOpen=\{ehArtigoOGlobo && index === 0\}/);assert.match(e,/open=\{defaultOpen\}/);assert.match(c,/Áudio de demonstração gerado digitalmente/);});
