@@ -59,7 +59,10 @@ export function CampaignPage({ campaign, audioDemonstrativo = false }: CampaignP
     >
       {/* CABEÃ‡ALHO EDITORIAL */}
       <section className="bg-black text-white">
-        <div className="mx-auto w-full max-w-6xl px-5 pb-10 pt-6 sm:px-8 sm:pb-14 sm:pt-8 lg:px-10">
+        <div className={ehArtigoOGlobo
+          ? "mx-auto w-full max-w-6xl px-5 pb-9 pt-7 sm:px-8 sm:pb-12 sm:pt-10 lg:px-10"
+          : "mx-auto w-full max-w-6xl px-5 pb-10 pt-6 sm:px-8 sm:pb-14 sm:pt-8 lg:px-10"}>
+          {!ehArtigoOGlobo ? (
           <header className="flex items-start justify-between gap-6">
             <Link
               href="/"
@@ -80,17 +83,24 @@ export function CampaignPage({ campaign, audioDemonstrativo = false }: CampaignP
               {ehEdicao01 ? "Edição 01" : "Edição"}
             </p>
           </header>
+          ) : null}
 
-          <div className="mt-16 border-t border-white/15 pt-5 sm:mt-20">
+          <div className={ehArtigoOGlobo
+            ? "border-t border-white/20 pt-4"
+            : "mt-16 border-t border-white/15 pt-5 sm:mt-20"}>
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/45">
-              Tema desta edição
+              {ehArtigoOGlobo ? "Edição" : "Tema desta edição"}
             </p>
 
-            <h1 className="mt-5 max-w-4xl text-[clamp(3rem,9vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.065em]">
+            <h1 className={ehArtigoOGlobo
+              ? "mt-4 max-w-5xl text-[clamp(2.3rem,5.2vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.052em]"
+              : "mt-5 max-w-4xl text-[clamp(3rem,9vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.065em]"}>
               {campaign.title}
             </h1>
 
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-white/65 sm:text-xl sm:leading-9">
+            <p className={ehArtigoOGlobo
+              ? "mt-5 max-w-2xl text-base leading-7 text-white/75 sm:text-lg sm:leading-8"
+              : "mt-7 max-w-2xl text-lg leading-8 text-white/65 sm:text-xl sm:leading-9"}>
               {campaign.statement}
             </p>
           </div>
