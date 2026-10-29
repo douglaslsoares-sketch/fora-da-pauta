@@ -22,6 +22,8 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
 
   const ehSeusInteresses =
     campaign.slug === "seus-interesses";
+  const ehArtigoOGlobo =
+    campaign.slug === "lula-venceu-o-globo";
 
   function ouvirEdicao() {
     const conteudo = document.getElementById("texto-editorial-edicao");
@@ -128,12 +130,13 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
               </p>
 
               <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-[1.05] tracking-[-0.045em] sm:text-4xl">
-                Vá além da frase.
+                {ehArtigoOGlobo ? "O que é notícia? O que é opinião?" : "Vá além da frase."}
               </h2>
 
               <p className="mt-5 max-w-2xl text-lg leading-8 text-black/55">
-                Veja o que está sendo proposto, os argumentos do debate,
-                as evidências disponíveis e em que ponto está a discussão.
+                {ehArtigoOGlobo
+                  ? "Entenda o que O Globo escreveu depois da eleição e por que José, do Portal do José, questionou esse editorial."
+                  : "Veja o que está sendo proposto, os argumentos do debate, as evidências disponíveis e em que ponto está a discussão."}
               </p>
 
               <button
