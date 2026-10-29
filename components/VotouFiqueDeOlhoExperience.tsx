@@ -831,6 +831,10 @@ export function VotouFiqueDeOlhoExperience() {
           onSelect={selecionar}
         />
 
+        <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
+          <HomeShareInvite />
+        </section>
+
         <div className="mt-7 border-t border-black/10 pt-6">
           <h3 className="text-xl font-bold">
             Sua lista atual ({selecionadas.length})
@@ -847,10 +851,6 @@ export function VotouFiqueDeOlhoExperience() {
             </button>
           ) : null}
         </div>
-
-        <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
-          <HomeShareInvite />
-        </section>
 
         {erroTelegram ? <p role="alert" className="mt-3 text-sm text-red-700">{erroTelegram}</p> : null}
 
@@ -978,11 +978,7 @@ export function VotouFiqueDeOlhoExperience() {
           onSelect={selecionar}
         />
 
-        {!conferindoInscricao && inscricaoAtiva ? (
-          <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
-            <HomeShareInvite />
-          </section>
-        ) : null}
+
 
 
           {!conferindoInscricao && !novasEdicoesAtivas ? (
