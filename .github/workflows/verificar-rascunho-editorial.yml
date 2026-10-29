@@ -13,6 +13,8 @@ on:
       - 'tests/audio-pacote-revisao.test.cjs'
       - 'scripts/audio/gerar-previa-local.cjs'
       - 'tests/audio-previa-local.test.cjs'
+      - 'scripts/audio/extrair-voz-live.cjs'
+      - 'tests/audio-extrair-live.test.cjs'
       - '.github/workflows/verificar-rascunho-editorial.yml'
 permissions:
   contents: read
@@ -32,4 +34,5 @@ jobs:
       - run: node --test tests/audio-roteiro-edicao.test.cjs
       - run: node --test tests/audio-pacote-revisao.test.cjs
       - run: node --test tests/audio-previa-local.test.cjs
+      - run: node --test tests/audio-extrair-live.test.cjs
       - run: node scripts/audio/preparar-roteiro-edicao.cjs --check
