@@ -21,10 +21,10 @@ export default function VotouFiqueDeOlhoPage() {
             className={styles.brandLink}
           >
             <Image
-              src="/marca/fora-da-pauta-branca.png"
+              src="/icon.png"
               alt="Fora da Pauta"
-              width={72}
-              height={72}
+              width={48}
+              height={48}
               priority
               className={styles.logo}
             />
