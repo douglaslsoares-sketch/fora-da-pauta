@@ -53,7 +53,7 @@ test("pode ficar inscrito nas edições sem selecionar ninguém", () => {
   assert.match(tela, /inscricaoGeral\s*\?\s*novasEdicoesAtivas/);
   assert.match(tela, /Essa escolha é opcional\./);
   assert.match(tela, /Escolher pessoas para acompanhar/);
-  assert.match(tela, /Aguarde a próxima novidade\./);
+  assert.match(tela, /Quando houver uma nova edição, você receberá um aviso pelo Telegram\./);
 });
 
 test("adicionar ou retirar pessoas usa sessão autenticada, nunca o protótipo", () => {
