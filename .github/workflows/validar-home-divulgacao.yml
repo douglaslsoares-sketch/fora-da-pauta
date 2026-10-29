@@ -4,6 +4,8 @@ on:
     paths:
       - 'app/page.tsx'
       - 'app/page.module.css'
+      - 'components/HomeTelegramButton.tsx'
+      - 'data/campanhas.ts'
       - 'components/CabecalhoFichaPublica.tsx'
       - 'lib/eleicoes/formatar-cargo.ts'
       - 'data/eleicoes/tipos.ts'
@@ -27,20 +29,24 @@ jobs:
       - run: npx eslint app/page.tsx components/CabecalhoFichaPublica.tsx lib/eleicoes/formatar-cargo.ts
       - name: Testes isolados do Telegram
         run: node --test tests/telegram-webhook.test.cjs tests/telegram-sessao.test.cjs tests/telegram-concluir.test.cjs
-      - name: Conferir frase aprovada e caminhos da home
+      - name: Conferir caminhos e integridade editorial da home
         run: |
           node - <<'NODE'
           const fs = require('fs');
           const assert = require('node:assert/strict');
-          const fonte = fs.readFileSync('app/page.tsx','utf8');
-          assert.ok(fonte.includes('Conhecer é importante. Entender como o jogo é jogado é fundamental.'));
-          assert.ok(fonte.includes('href="/votou-fique-de-olho"'));
-          assert.ok(fonte.includes('Edições já publicadas'));
-          assert.ok(fonte.includes('Receba novidades pelo Telegram'));
-          assert.ok(!fonte.includes('Decisões que afetam a sua vida.</p>'));
-          assert.ok(!fonte.includes('Próxima etapa aqui no site.'));
-          assert.ok(fonte.includes('<h1 id="home-titulo" className={styles.featureTitle}>Fique de Olho</h1>'));
-          assert.ok(fonte.includes('Do povo para o povo.'));
-          assert.ok(fonte.includes('campaign.slug !== "fim-escala-6x1"'));
-          console.log('Home aprovada: verificações básicas OK.');
+          const home = fs.readFileSync('app/page.tsx','utf8');
+          const telegram = fs.readFileSync('components/HomeTelegramButton.tsx','utf8');
+          assert.ok(home.includes('Conhecer é importante. Entender como o jogo é jogado é fundamental.'));
+          assert.ok(home.includes('href="/votou-fique-de-olho"'));
+          assert.ok(home.includes('href="/conheca-seu-candidato"'));
+          assert.ok(home.includes('Votou? Fique de olho.'));
+          assert.ok(home.includes('Conheça seu candidato'));
+          assert.ok(home.includes('Edições já publicadas'));
+          assert.ok(home.includes('publicacoes.length > 0'));
+          assert.ok(home.includes('campaign.publishedAt'));
+          assert.ok(home.includes('campaign.slug !== "fim-escala-6x1"'));
+          assert.ok(home.includes('campaign.slug !== "seus-interesses"'));
+          assert.ok(home.includes('Do povo para o povo.'));
+          assert.ok(telegram.includes('href="/votou-fique-de-olho"'));
+          console.log('Home: navegação, conteúdo editorial e ocultação aprovados.');
           NODE
