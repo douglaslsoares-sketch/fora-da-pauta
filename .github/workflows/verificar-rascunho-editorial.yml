@@ -19,6 +19,10 @@ on:
       - 'scripts/audio/gravador-aba.html'
       - 'scripts/audio/gravador-aba.js'
       - 'tests/audio-gravador-aba.test.cjs'
+      - 'lib/editorial/roteiro-narracao-live.ts'
+      - 'components/PainelRoteiroLive.tsx'
+      - 'app/previa-editorial/lula-venceu-o-globo/roteiro-live/page.tsx'
+      - 'tests/audio-roteiro-live.test.cjs'
       - '.github/workflows/verificar-rascunho-editorial.yml'
 permissions:
   contents: read
@@ -40,4 +44,5 @@ jobs:
       - run: node --test tests/audio-previa-local.test.cjs
       - run: node --test tests/audio-extrair-live.test.cjs
       - run: node --test tests/audio-gravador-aba.test.cjs
+      - run: node --test tests/audio-roteiro-live.test.cjs
       - run: node scripts/audio/preparar-roteiro-edicao.cjs --check
