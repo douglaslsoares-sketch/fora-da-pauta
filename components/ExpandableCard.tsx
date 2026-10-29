@@ -77,7 +77,7 @@ export function ExpandableCard({
         </div>
 
         {references?.length ? (
-          <div className="mt-8 border-t border-black/10 pt-5">
+          <div className="mt-8 border-t border-black/10 pt-5" data-editorial-ignore>
             <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-black/40">
               Fontes
             </p>
