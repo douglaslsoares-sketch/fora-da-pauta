@@ -14,6 +14,9 @@ export function PreviewAudioReader() {
   const [atual, setAtual] = useState(0);
   const [total, setTotal] = useState(0);
   const sequencia = useRef(0);
+  const [velocidade, setVelocidade] = useState(1.2);
+  const velocidadeRef = useRef(1.2);
+  const [reiniciarAviso, setReiniciarAviso] = useState(false);
 
   useEffect(() => {
     function iniciar(evento: Event) {
@@ -52,7 +55,7 @@ export function PreviewAudioReader() {
         setAtual(indice + 1);
         const fala = new SpeechSynthesisUtterance(partes[indice]);
         fala.lang = "pt-BR";
-        fala.rate = 1;
+        fala.rate = velocidadeRef.current;
         fala.onend = () => falar(indice + 1);
         fala.onerror = () => {
           if (sequencia.current === id) setSituacao("erro");
@@ -70,6 +73,14 @@ export function PreviewAudioReader() {
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
     };
   }, []);
+
+  function alterarVelocidade(nova: number) {
+    velocidadeRef.current = nova;
+    setVelocidade(nova);
+    // A Web Speech API não altera a velocidade de uma fala já iniciada.
+    // O novo ritmo entra no próximo parágrafo, sem interromper a leitura.
+    setReiniciarAviso(true);
+  }
 
   function alternarPausa() {
     if (!("speechSynthesis" in window)) return;
@@ -98,6 +109,17 @@ export function PreviewAudioReader() {
       {situacao === "lendo" || situacao === "pausada" ? (
         <>
           <p className="mt-1 text-xs text-black/65">{situacao === "pausada" ? "Leitura pausada" : "Lendo"} · trecho {atual} de {total}</p>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <label htmlFor="velocidade-previa" className="text-sm font-medium">Velocidade</label>
+            <select id="velocidade-previa" value={velocidade} onChange={evento => alterarVelocidade(Number(evento.target.value))} className="min-h-11 rounded-lg border border-black/30 bg-white px-3 py-2 text-sm">
+              <option value={1}>Normal (1×)</option>
+              <option value={1.15}>Um pouco mais rápida (1,15×)</option>
+              <option value={1.2}>Conversada (1,2×)</option>
+              <option value={1.35}>Rápida (1,35×)</option>
+              <option value={1.5}>Muito rápida (1,5×)</option>
+            </select>
+          </div>
+          {reiniciarAviso ? <p className="mt-1 text-xs text-black/60">A nova velocidade será aplicada a partir do próximo parágrafo.</p> : null}
           <div className="mt-3 flex flex-wrap gap-2">
             <button type="button" onClick={alternarPausa} className="min-h-11 rounded-lg bg-black px-4 py-2 font-semibold text-white">
               {situacao === "pausada" ? "Continuar" : "Pausar"}
