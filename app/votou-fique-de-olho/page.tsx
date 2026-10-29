@@ -21,10 +21,10 @@ export default function VotouFiqueDeOlhoPage() {
             className={styles.brandLink}
           >
             <Image
-              src="/icon.png"
+              src="/marca/fp-header-transparente.png"
               alt="Fora da Pauta"
-              width={48}
-              height={48}
+              width={36}
+              height={36}
               priority
               className={styles.logo}
             />
