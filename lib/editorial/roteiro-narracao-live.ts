@@ -32,7 +32,7 @@ const MAX_TEXTO = LIMITE_MENSAGEM_CARACTERES - INSTRUCAO_LEITURA_LIVE.length - 3
 
 function normalizar(texto: string) {
   // Remove somente a marcação tipográfica de negrito e espaços duplicados.
-  return texto.replace(/\*\*(.*?)\*\*/gs, "$1").replace(/\s+/g, " ").trim();
+  return texto.replace(/\*\*([\s\S]*?)\*\*/g, "$1").replace(/\s+/g, " ").trim();
 }
 
 function partirPalavras(texto: string, maximo: number) {
