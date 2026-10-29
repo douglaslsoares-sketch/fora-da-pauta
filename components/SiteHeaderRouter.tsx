@@ -26,19 +26,19 @@ export function SiteHeaderRouter({
 
   return (
     <header className="bg-black text-white">
-      <div className="mx-auto flex min-h-[80px] w-full max-w-[760px] items-center justify-between gap-5 px-6 py-2">
+      <div className="mx-auto flex min-h-[68px] w-full max-w-[760px] items-center justify-between gap-5 px-6 py-2">
         <Link
           href="/"
           aria-label="Fora da Pauta — página inicial"
           className="shrink-0"
         >
           <Image
-            src="/marca/fora-da-pauta-branca.png"
+            src="/icon.png"
             alt="Fora da Pauta"
-            width={72}
-            height={72}
+            width={48}
+            height={48}
             priority
-            className="h-14 w-14 object-contain"
+            className="h-12 w-12 object-contain"
           />
         </Link>
         <p className="text-right text-[15px] font-semibold leading-tight tracking-[-0.02em]">
