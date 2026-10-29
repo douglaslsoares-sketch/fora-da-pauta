@@ -18,7 +18,7 @@ test("prévia não é servida em produção", () => {
 test("rascunho distingue fontes e interpretação", () => {
  const draft=read("data/edicoes/rascunhos/lula-venceu-o-globo.ts");
  assert.match(draft,/Tribunal Superior Eleitoral/);
- assert.match(draft,/Essa é uma interpretação política atribuída a José/);
+ assert.match(draft,/Essa é a leitura política de José/);
  assert.match(draft,/live original/);
 });
 
@@ -28,4 +28,17 @@ test("coluna não é pública e artigo tem título próprio", () => {
  assert.match(coluna,/NODE_ENV !== "development"\) notFound\(\)/);
  assert.match(coluna,/O jogo sendo jogado/);
  assert.match(artigo,/Lula venceu\. O que O Globo disse no dia seguinte\?/);
+});
+
+test("a introdução e o áudio atendem à primeira edição", () => {
+ const page=read("components/CampaignPage.tsx");
+ const audio=read("components/EditorialAudioSystem.tsx");
+ const route=read("app/api/audio/ler/route.ts");
+ assert.match(page,/ehArtigoOGlobo/);
+ assert.match(page,/O que é notícia\? O que é opinião\?/);
+ assert.match(page,/onClick=\{ouvirEdicao\}/);
+ assert.match(page,/fdp:audio-start/);
+ assert.match(audio,/fdp:audio-start/);
+ assert.match(audio,/\/api\/audio\/ler/);
+ assert.match(route,/OPENAI_API_KEY/);
 });
