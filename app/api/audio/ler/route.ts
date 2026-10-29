@@ -60,8 +60,20 @@ gravada pela mesma pessoa, com o mesmo microfone,
 o mesmo volume percebido, a mesma projeção e o mesmo
 registro vocal.
 
-Use uma voz jornalística informativa, clara, sóbria,
-segura e natural.
+Use uma voz adulta brasileira, calorosa, médio-grave,
+clara e natural. Fale como alguém que conversa de igual
+para igual com outra pessoa, sem formalidade excessiva,
+com atenção, curiosidade genuína e confiança.
+
+Mantenha ritmo fluido e ágil, com articulação nítida
+e pausas curtas e naturais. Evite leitura arrastada,
+voz robotizada ou entusiasmo artificial. A agilidade
+não deve prejudicar a compreensão.
+
+Esta é uma leitura fiel de texto escrito, não uma
+conversa interativa. Não acrescente saudações,
+comentários espontâneos, respostas, perguntas,
+interjeições ou opiniões que não estejam no texto.
 
 Não use tom publicitário, chamada de telejornal,
 documentário dramático, cerimônia ou discurso político.
