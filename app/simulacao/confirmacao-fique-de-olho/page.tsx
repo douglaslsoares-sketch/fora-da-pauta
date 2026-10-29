@@ -27,7 +27,7 @@ export default function SimulacaoConfirmacaoFiqueDeOlho() {
           </svg>
           <h1 className="text-3xl font-bold leading-tight">Pronto! Você já está de olho.</h1>
         </div>
-        <p className="mt-5 text-center leading-7">Aguarde a próxima novidade.</p>
+        <p className="mt-5 text-center leading-7">Quando houver uma nova edição, você receberá um aviso pelo Telegram.</p>
         <section className="mt-8 border-t border-black/10 pt-7">
           <h2 className="text-xl font-bold">Quer acompanhar alguém na política?</h2>
           <p className="mt-3 leading-7 text-black/75">
