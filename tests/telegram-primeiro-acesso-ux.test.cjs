@@ -51,7 +51,7 @@ test("retorno autentica navegador por cookie, sem expor o ID do chat", () => {
 
 test("pode ficar inscrito nas edições sem selecionar ninguém", () => {
   assert.match(tela, /inscricaoGeral\s*\?\s*novasEdicoesAtivas/);
-  assert.match(tela, /Essa escolha é opcional\./);
+  assert.match(tela, /Não precisa escolher ninguém agora\. Você continuará recebendo os avisos das novas edições\./);
   assert.match(tela, /Escolher pessoas para acompanhar/);
   assert.match(tela, /Quando houver uma nova edição, você receberá um aviso pelo Telegram\./);
 });
