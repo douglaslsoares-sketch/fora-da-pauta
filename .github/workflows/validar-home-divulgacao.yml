@@ -43,13 +43,15 @@ jobs:
           assert.ok(home.includes('<HomeTelegramButton'));
           assert.ok(telegram.includes('Fique de olho'));
           assert.ok(!home.includes('Votou? Fique de olho.'));
-          assert.ok(home.includes('Conheça seu candidato'));
           assert.ok(home.includes('Edições já publicadas'));
           assert.ok(home.includes('publicacoes.length > 0'));
           assert.ok(home.includes('campaign.publishedAt'));
           assert.ok(home.includes('campaign.slug !== "fim-escala-6x1"'));
           assert.ok(home.includes('campaign.slug !== "seus-interesses"'));
           assert.ok(home.includes('Do povo para o povo.'));
+          assert.ok(home.includes('Entenda o que os políticos dizem, votam e fazem e como o jogo é jogado.'));
+          assert.ok(!home.includes('fazem — e como'));
+          assert.ok(!home.includes('className={styles.featureInvitation}'));
           assert.ok(telegram.includes('href="/votou-fique-de-olho"'));
           console.log('Home: navegação, conteúdo editorial e ocultação aprovados.');
           NODE
