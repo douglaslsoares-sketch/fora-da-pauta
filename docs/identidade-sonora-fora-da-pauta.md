@@ -1,5 +1,5 @@
 # Identidade sonora — Fora da Pauta
-Status: **proposta de voz, em avaliação; sem voz exclusiva criada e sem publicação**.
+Status: **Voz 01 personalizada criada e salva; primeiro teste de escuta aprovado pelo editor; ainda não integrada à narração dos artigos nem publicada**.
 Atualizado em: 29/10/2026.
 
 ## Conceito
@@ -14,6 +14,21 @@ A voz é um ativo editorial: deve funcionar em artigos, resumos de Telegram, cha
 > Create a distinctive **adult Brazilian Portuguese** voice for a public-interest explainer called Fora da Pauta. Native Brazilian Portuguese pronunciation, natural regional-neutral cadence, warm medium-low pitch, subtly textured and resonant timbre, clear diction without exaggerated enunciation. Conversational, alert, thoughtful, approachable and confident. The voice sounds like a knowledgeable neighbor discussing current events as an equal, never lecturing. Brisk, energetic, flowing speech; short natural pauses; genuine curiosity and a slight lift in meaningful questions. Expressive without being theatrical, sarcastic or promotional. Steady level, no forced smile, no radio-announcer or television-news cadence. Human, calm authority, approachable warmth. Designed for accessible civic education and longer-form listening. Do not imitate any existing voice, person or character.
 
 Este texto descreve a identidade acústica; instruções de leitura e os fatos do artigo devem ser fornecidos separadamente.
+
+## Voz salva e teste no GPT-Live — 29/10/2026
+
+- **Nome salvo:** Fora da Pauta — Voz 01.
+- **Origem:** criada a partir de descrição (prompt-to-voice) no Voice Playground e salva na biblioteca.
+- **Modelo usado no teste:** GPT-Live 1, no Live Playground. A configuração em código apresentava um objeto `audio.output.voice.id` com identificador começando por `voice_`; o identificador completo não foi registrado, e deve ser recuperado da própria biblioteca se necessário.
+- **Impressão do editor após ouvir:** "É uma voz feminina. Eu achei que ficou boa, natural, tranquila e com relação à velocidade também é agradável de ouvir, tá legal."
+- **Decisão editorial:** manter a **Voz 01 como referência sonora preferida**, sem gerar outra versão por enquanto. Esse é um parecer positivo de **escuta inicial em conversa ao vivo**, não uma aprovação da narração completa de um artigo longo, nem autorização para divulgação.
+- **Próxima validação:** testar um texto de artigo mais longo, conferir consistência do ritmo e das pausas; escutar também no celular.
+
+### Descrição usada na criação da Voz 01
+
+> Create an original adult voice speaking natural Brazilian Portuguese. Warm, medium-low pitch, clear and slightly textured timbre. Conversational, engaging and confident, with a lively, fluid pace and short natural pauses. Clear pronunciation without exaggerated articulation. Friendly, thoughtful and expressive, with genuine curiosity in questions. Consistent volume and a relaxed, natural delivery.
+
+**Limitação importante:** a voz criada *a partir de descrição* é suportada no GPT-Live, mas **não** no endpoint de fala `/v1/audio/speech` usado pelo site atualmente. Não substitua `marin` por este `voice_...` na rota de TTS; a viabilidade de áudio em artigos deve ser avaliada separadamente, preservando a versão do site em produção até aprovação. Para o público, identificar sempre a narração como gerada por IA.
 
 ## Duas variações para comparação
 
