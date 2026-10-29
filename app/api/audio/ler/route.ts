@@ -1,3 +1,6 @@
+import { createHash } from "node:crypto";
+import { LimiteDeAudioAtingido, obterOuGerarAudioCompartilhado } from "@/lib/audio-cache";
+
 export const runtime = "nodejs";
 
 const LIMITE_TEXTO = 4000;
@@ -261,80 +264,83 @@ export async function POST(
       );
     }
 
-    const resposta = await fetch(
-      "https://api.openai.com/v1/audio/speech",
-      {
-        method: "POST",
-
-        headers: {
-          Authorization:
-            `Bearer ${apiKey}`,
-          "Content-Type":
-            "application/json",
-        },
-
-        body: JSON.stringify({
-          model: "gpt-4o-mini-tts",
-          voice: "marin",
-          input: texto,
-          instructions:
-            criarInstrucoes(
-              continua,
-              estrutura,
-            ),
-          response_format: "mp3",
-          speed: 1,
-        }),
-      },
+    const instrucoes = criarInstrucoes(
+      continua,
+      estrutura,
     );
 
-    if (!resposta.ok) {
-      const detalhe =
-        await resposta.text();
+    // Uma versão do áudio é identificada por texto, modelo,
+    // voz, ritmo e instruções. Alterações geram novo arquivo.
+    const chave = createHash("sha256")
+      .update(JSON.stringify({
+        modelo: "gpt-4o-mini-tts",
+        voz: "marin",
+        velocidade: 1,
+        texto,
+        instrucoes,
+      }))
+      .digest("hex");
 
-      console.error(
-        "Falha ao gerar leitura neural:",
-        resposta.status,
-        detalhe,
-      );
+    const { arquivo, geradoAgora } =
+      await obterOuGerarAudioCompartilhado(
+        chave,
+        async () => {
+          const resposta = await fetch(
+            "https://api.openai.com/v1/audio/speech",
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${apiKey}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                model: "gpt-4o-mini-tts",
+                voice: "marin",
+                input: texto,
+                instructions: instrucoes,
+                response_format: "mp3",
+                speed: 1,
+              }),
+            },
+          );
 
-      return Response.json(
-        {
-          error:
-            "Não foi possível preparar a leitura em áudio.",
-        },
-        {
-          status: 502,
-        },
-      );
-    }
+          if (!resposta.ok) {
+            const detalhe = await resposta.text();
+            console.error(
+              "Falha ao gerar leitura neural:",
+              resposta.status,
+              detalhe,
+            );
+            throw new Error("Falha na geração da narração.");
+          }
 
-    if (!resposta.body) {
-      return Response.json(
-        {
-          error:
-            "A resposta de áudio veio vazia.",
-        },
-        {
-          status: 502,
+          return new Uint8Array(
+            await resposta.arrayBuffer(),
+          );
         },
       );
-    }
 
     return new Response(
-      resposta.body,
+      new Uint8Array(arquivo).buffer,
       {
         status: 200,
-
         headers: {
-          "Content-Type":
-            "audio/mpeg",
-          "Cache-Control":
-            "private, max-age=0",
+          "Content-Type": "audio/mpeg",
+          "Cache-Control": "private, max-age=0",
+          "X-FDP-Audio-Cache": geradoAgora
+            ? "gerado"
+            : "reutilizado",
         },
       },
     );
   } catch (error) {
+    if (error instanceof LimiteDeAudioAtingido) {
+      return Response.json(
+        { error: error.message },
+        { status: 429 },
+      );
+    }
+
     console.error(
       "Erro na rota de leitura neural:",
       error,
