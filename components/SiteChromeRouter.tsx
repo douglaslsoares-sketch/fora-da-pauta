@@ -9,7 +9,7 @@ export function SiteChromeRouter() {
   const pathname = usePathname();
 
   const isHome =
-    pathname === "/";
+    pathname === "/" || pathname === "/simulacao/confirmacao-fique-de-olho";
 
   const isCandidateIndex =
     pathname ===
