@@ -12,7 +12,8 @@ test("rascunho não entra na lista publicada", () => {
 });
 test("prévia não é servida em produção", () => {
  const route=read("app/previa-editorial/lula-venceu-o-globo/page.tsx");
- assert.match(route,/process\.env\.NODE_ENV === "production"\) notFound\(\)/);
+ assert.match(route,/process\.env\.VERCEL_ENV === "preview"/);
+ assert.match(route,/!ehDesenvolvimentoLocal && !ehPreviewVercel\) notFound\(\)/);
  assert.match(route,/index: false/);
 });
 test("rascunho distingue fontes e interpretação", () => {
