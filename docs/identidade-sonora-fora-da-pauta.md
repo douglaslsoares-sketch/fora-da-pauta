@@ -74,6 +74,18 @@ Este texto descreve a identidade acústica; instruções de leitura e os fatos d
 
 **Nota técnica:** a Voz 01 foi criada por descrição e, de acordo com a documentação da OpenAI, funciona no GPT-Live, **não** diretamente na rota de síntese `/v1/audio/speech`. Antes de implementar a voz nos artigos, decidir uma arquitetura de geração controlada de áudio e custos; não trocar `marin` por um `voice_...` na rota existente. Não publicar nem disparar Telegram.
 
+## Teste 02 — primeira avaliação após narração mais longa (29/10/2026)
+
+**Relato do editor:** "Eu senti que tá um pouco cansativo pra ouvir. Talvez se fosse dado um pouquinho mais de espaço entre... não sei se entre o parágrafo. Eu acho que entre as frases, sabe? Essa é a minha primeira avaliação."
+
+**Interpretação para o próximo ensaio:** a Voz 01 segue sendo a referência aprovada para conversação, mas **a narração longa ainda não está aprovada**. A sensação de cansaço parece associada às frases muito emendadas, não necessariamente a palavras pronunciadas rápido demais. Não mudar o timbre, o modelo nem diminuir globalmente a velocidade sem antes testar **micro-pausas naturais após pontos finais e interrogações**. Uma mudança de parágrafo pode ter um respiro um pouco maior, mas sem silêncios prolongados. Não acrescentar espaços artificiais dentro de expressões, nomes ou números.
+
+**Teste A/B recomendado:** repetir o *mesmo trecho* com a mesma voz, usando somente a instrução revisada abaixo. Comparar a facilidade de escuta do início ao fim com a primeira tentativa. O Live Playground pode interpretar parcialmente as instruções de pausa; não presumir duração exata ou narração literal garantida.
+
+> Leia novamente o mesmo trecho, sem mudar nenhuma palavra nem acrescentar comentários. Mantenha a naturalidade, o timbre e a velocidade geral das palavras da Voz 01. Faça uma respiração curta, um pouco mais perceptível após cada frase terminada em ponto final ou ponto de interrogação, para o ouvinte assimilar a ideia antes da próxima frase. Entre parágrafos, uma pausa ligeiramente maior, mas sem ficar lento ou teatral. Não emende frases. Preserve o fluxo de conversa e o volume constante.
+
+**Não concluir ainda:** leitura longa agradável, compatibilidade com síntese de áudio dos artigos, ou publicação. Obter nova avaliação do editor depois da repetição.
+
 ## Duas variações para comparação
 
 **B — Mais acolhedora:** mesmo texto da versão A, com tom ligeiramente mais quente e menos grave, mantendo andamento ágil e clareza. Evitar qualquer voz infantilizada ou terapêutica.
