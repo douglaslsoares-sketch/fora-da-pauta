@@ -25,8 +25,8 @@ test("rascunho distingue fontes e interpretação", () => {
 
 test("editorial oferece link original e reproducao, sem apresentar transcricao como video conferido", () => {
  const texto=read("data/edicoes/rascunhos/lula-venceu-o-globo.ts");
- assert.match(texto,/oglobo\\.globo\\.com\\/opiniao\\/editorial\\/coluna\\/2026\\/10\\/virada-da-a-lula/);
- assert.match(texto,/gilvanmelo\\.blogspot\\.com/);
+ assert.ok(texto.includes("https://oglobo.globo.com/opiniao/editorial/coluna/2026/10/virada-da-a-lula"));
+ assert.ok(texto.includes("gilvanmelo.blogspot.com"));
  assert.match(texto,/leitura direta nesse endereço não foi possível/);
  assert.match(texto,/transcrição automática fornecida pelo editor/);
  assert.match(texto,/conferir as falas diretamente no vídeo original/);
