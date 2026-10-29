@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { obterOuGerarAudioCompartilhado } from "@/lib/audio-cache";
+import { LimiteDeAudioAtingido, obterOuGerarAudioCompartilhado } from "@/lib/audio-cache";
 
 export const runtime = "nodejs";
 
@@ -334,6 +334,13 @@ export async function POST(
       },
     );
   } catch (error) {
+    if (error instanceof LimiteDeAudioAtingido) {
+      return Response.json(
+        { error: error.message },
+        { status: 429 },
+      );
+    }
+
     console.error(
       "Erro na rota de leitura neural:",
       error,
