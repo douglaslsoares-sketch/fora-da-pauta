@@ -16,7 +16,7 @@ type CampaignPageProps = {
   campaign: Campaign;
 };
 
-export function CampaignPage({ campaign }: CampaignPageProps) {
+export function CampaignPage({ campaign, audioDemonstrativo = false }: CampaignPageProps & { audioDemonstrativo?: boolean }) {
   const ehEdicao01 =
     campaign.slug === "fim-escala-6x1";
 
@@ -36,7 +36,7 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
     });
 
     window.requestAnimationFrame(() => {
-      window.dispatchEvent(new CustomEvent("fdp:audio-start", {
+      window.dispatchEvent(new CustomEvent(audioDemonstrativo ? "fdp:preview-audio-start" : "fdp:audio-start", {
         detail: {
           rootSelector: "#texto-editorial-edicao",
           title: campaign.title,
