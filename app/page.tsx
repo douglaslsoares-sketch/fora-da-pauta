@@ -121,10 +121,6 @@ export default function Home() {
         </section>
         )}
 
-        <p className={styles.closingMessage}>
-          Conhecer é importante. Entender como o jogo é jogado é fundamental.
-        </p>
-
         <footer className={styles.footer}>
           <p>Fora da Pauta</p>
         </footer>
