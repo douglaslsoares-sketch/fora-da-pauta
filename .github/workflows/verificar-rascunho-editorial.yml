@@ -15,6 +15,10 @@ on:
       - 'tests/audio-previa-local.test.cjs'
       - 'scripts/audio/extrair-voz-live.cjs'
       - 'tests/audio-extrair-live.test.cjs'
+      - 'scripts/audio/servidor-gravacao-local.cjs'
+      - 'scripts/audio/gravador-aba.html'
+      - 'scripts/audio/gravador-aba.js'
+      - 'tests/audio-gravador-aba.test.cjs'
       - '.github/workflows/verificar-rascunho-editorial.yml'
 permissions:
   contents: read
@@ -35,4 +39,5 @@ jobs:
       - run: node --test tests/audio-pacote-revisao.test.cjs
       - run: node --test tests/audio-previa-local.test.cjs
       - run: node --test tests/audio-extrair-live.test.cjs
+      - run: node --test tests/audio-gravador-aba.test.cjs
       - run: node scripts/audio/preparar-roteiro-edicao.cjs --check
