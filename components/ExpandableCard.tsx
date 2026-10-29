@@ -1,4 +1,5 @@
 type ExpandableCardProps = {
+  defaultOpen?: boolean;
   eyebrow?: string;
   title: string;
   paragraphs: string[];
@@ -41,9 +42,10 @@ export function ExpandableCard({
   title,
   paragraphs,
   references,
+  defaultOpen = false,
 }: ExpandableCardProps) {
   return (
-    <details className="group border-t border-black/15">
+    <details open={defaultOpen} className="group border-t border-black/15">
       <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-7 marker:content-none sm:py-9">
         <div className="min-w-0">
           {eyebrow ? (
