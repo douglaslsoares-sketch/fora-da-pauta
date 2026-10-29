@@ -218,15 +218,3 @@
   .card, .primaryLink { transition: none; }
 }
 
-/* Fechamento editorial da home, sem sugerir publicações inexistentes. */
-.closingMessage {
-  max-width: 920px;
-  margin: 0 auto 52px;
-  padding-top: 24px;
-  border-top: 1px solid #ffffff30;
-  font-size: clamp(17px, 2.4vw, 23px);
-  font-weight: 500;
-  line-height: 1.45;
-  text-align: center;
-  text-wrap: balance;
-}
