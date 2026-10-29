@@ -527,7 +527,7 @@ export function VotouFiqueDeOlhoExperience() {
           </svg>
           <h2 className="text-3xl font-bold">Pronto! Você já está de olho.</h2>
         </div>
-        <p className="mt-4 leading-7">Aguarde a próxima novidade.</p>
+        <p className="mt-4 leading-7">Quando houver uma nova edição, você receberá um aviso pelo Telegram.</p>
 
         <div className="mt-8 border-t border-black/10 pt-7">
           <h3 className="text-xl font-bold">Quer acompanhar alguém na política?</h3>
