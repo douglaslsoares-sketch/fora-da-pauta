@@ -17,9 +17,9 @@
 .headerInner {
   width: 100%;
   max-width: 760px;
-  min-height: 104px;
+  min-height: 72px;
   margin: 0 auto;
-  padding: 16px 24px;
+  padding: 9px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -32,8 +32,8 @@
 }
 
 .logo {
-  width: 72px;
-  height: 72px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 
@@ -49,12 +49,12 @@
 
 @media (min-width: 768px) {
   .headerInner {
-    min-height: 96px;
+    min-height: 72px;
   }
 
   .logo {
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
   }
 }
 
