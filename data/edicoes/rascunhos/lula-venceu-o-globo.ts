@@ -41,7 +41,7 @@ export const lulaVenceuOGloboRascunho: Campaign = {
       title: "E o que O Globo disse no dia seguinte?",
       paragraphs: [
         "Em 26 de outubro, O Globo publicou o editorial **“Virada dá a Lula lugar inédito na História do Brasil”**. O jornal reconhece o resultado histórico e afirma que Lula enfrentará um Congresso hostil.",
-        "O editorial recomenda que o presidente evite revanchismo, defende um ajuste fiscal mais forte e cobra ações na segurança pública e a apuração de denúncias. Também afirma que a imprensa deve seguir fiscalizando o governo.",
+        "O editorial recomenda que o presidente evite revanchismo, defende um ajuste fiscal mais forte e cobra ações na segurança pública. Também pede investigação de suspeitas de crimes eleitorais e independência da Polícia Federal na apuração de denúncias contra pessoas próximas a Lula. Afirma ainda que a imprensa deve seguir fiscalizando o governo.",
         "**Repare na diferença:** o resultado da eleição é um fato. Dizer o que o presidente deveria fazer depois da vitória é uma **posição do jornal**.",
         "Um editorial é a opinião institucional do veículo, diferente de uma reportagem sobre os acontecimentos. Jornais podem cobrar governos. O público também pode perguntar que interesses e argumentos estão por trás dessas cobranças.",
       ],
@@ -56,9 +56,9 @@ export const lulaVenceuOGloboRascunho: Campaign = {
       eyebrow: "A interpretação de José",
       title: "Mas José, do Portal do José, leu esse texto de outro jeito.",
       paragraphs: [
-        "Na live de 26 de outubro, José chama atenção para as advertências de O Globo contra ressentimentos e revanchismo. Ele questiona se a cobrança por investigações de possíveis crimes poderia ser tratada como revanchismo.",
-        "Na interpretação dele, grandes empresas de comunicação também são **estruturas de poder**, com interesses econômicos e de classe. Por isso, quando recomendam caminhos ao presidente, não estão só observando a política: também tentam influenciar os rumos do governo.",
-        "**Essa é a leitura política de José, não uma intenção comprovada de O Globo.** Alegações de favorecimento eleitoral ou de acordos entre empresas e candidatos precisariam ser demonstradas com outras provas. Não as apresentamos como fatos.",
+        "Na live de 26 de outubro, José chama atenção para as advertências de O Globo contra ressentimentos e revanchismo. Ele pergunta se cobrar a investigação de possíveis crimes cometidos por adversários políticos poderia acabar sendo apresentado como vingança.",
+        "Na interpretação dele, grandes empresas de comunicação também são **estruturas de poder**, com interesses econômicos e de classe. Por isso, quando recomendam caminhos ao presidente, não estão só observando a política: também tentam influenciar os rumos do governo. Vale uma pergunta adicional: **quando um editorial pede ajuste fiscal, quais escolhas do orçamento estão em disputa e quem será afetado por elas?**",
+        "**Essa é a leitura política de José, não uma intenção comprovada de O Globo.** O próprio editorial também defende que se investiguem suspeitas de crimes. Portanto, o desacordo não é simplesmente entre investigar ou deixar de investigar: envolve a linguagem empregada, as prioridades e a maneira como se cobram diferentes atores políticos. Alegações de favorecimento eleitoral ou de acordos entre empresas e candidatos precisariam ser demonstradas com provas independentes; não as apresentamos como fatos.",
         "A live original está indicada abaixo para que você possa conferir e formar sua própria avaliação. A transcrição automática foi usada como apoio e ainda exige conferência direta no vídeo antes da publicação final.",
       ],
       references: [
