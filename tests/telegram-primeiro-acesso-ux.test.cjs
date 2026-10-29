@@ -62,3 +62,11 @@ test("adicionar ou retirar pessoas usa sessão autenticada, nunca o protótipo",
   assert.match(sessao, /if \(!token\) return NextResponse\.json\(\{ erro: "Vincule o Telegram\."/);
   assert.match(sessao, /somente adiciona\/reativa|Somente adiciona\/reativa/);
 });
+
+test("segunda tela de inscrição geral prioriza botão sem texto redundante", () => {
+  assert.match(tela, /etapaAtual === "telegram" && inscricaoGeral/);
+  assert.match(tela, /Abra o Telegram para concluir sua inscrição/);
+  assert.match(tela, /Continuar no Telegram/);
+  assert.match(tela, /Você poderá escolher pessoas para acompanhar depois/);
+  assert.match(tela, /onClick=\{\(\) => void ativarTelegram\(\)\}/);
+});
