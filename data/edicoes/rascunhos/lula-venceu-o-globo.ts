@@ -53,6 +53,29 @@ export const lulaVenceuOGloboRascunho: Campaign = {
       ],
     },
     {
+      eyebrow: "Quem fala",
+      title: "De quem é O Globo?",
+      paragraphs: [
+        "O Globo é um jornal da Editora Globo, que faz parte do Grupo Globo. O grupo pertence à família Marinho. Isso não é segredo: dá para conferir quem controla o veículo e como a própria empresa apresenta sua estrutura.",
+        "Em 2026, a Globo informa que João Roberto Marinho preside o grupo e os conselhos de Administração e Editorial. Saber quem é dono do jornal **não prova** por que aquele editorial foi escrito nem quais intenções estavam por trás dele. Mas ajuda a entender quem participa da conversa pública e de onde fala.",
+        "**E você, quando lê que é preciso fazer um ajuste fiscal, pergunta o que exatamente seria ajustado?** Quais medidas estão sendo propostas? Quem seria afetado? É esse tipo de pergunta que nos ajuda a enxergar além da manchete.",
+      ],
+      references: [
+        {
+          label: "Media Ownership Monitor — propriedade do jornal O Globo (levantamento histórico)",
+          url: "https://brazil.mom-gmr.org/br/midia/detail/outlet/o-globo/",
+        },
+        {
+          label: "Memória Globo — Editora Globo é responsável pelo jornal O Globo",
+          url: "https://historia.globo.com/memoria-roberto-marinho/biografia/filhos-e-netos/noticia/roberto-irineu-marinho.ghtml",
+        },
+        {
+          label: "Memória Globo — estrutura de gestão do Grupo Globo em 2026",
+          url: "https://historia.globo.com/historia-grupo-globo/2015-2024/noticia/2026-criacao-da-holding-do-grupo-globo.ghtml",
+        },
+      ],
+    },
+    {
       eyebrow: "A interpretação de José",
       title: "Mas José, do Portal do José, leu esse texto de outro jeito.",
       paragraphs: [
