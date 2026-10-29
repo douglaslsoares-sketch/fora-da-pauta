@@ -488,9 +488,9 @@ export function VotouFiqueDeOlhoExperience() {
                 type="button"
                 onClick={() => void remover(pessoa)}
                 aria-label={`Remover ${pessoa.nomeUrna}`}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-2xl text-black/45 hover:bg-black/5"
+                className="min-h-11 shrink-0 rounded-lg border border-black/15 bg-white px-3 py-2 text-xs font-semibold text-black/70 hover:border-red-700 hover:text-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
               >
-                ×
+                Remover
               </button>
             ) : null}
           </div>
