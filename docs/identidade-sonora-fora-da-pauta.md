@@ -86,6 +86,20 @@ Este texto descreve a identidade acústica; instruções de leitura e os fatos d
 
 **Não concluir ainda:** leitura longa agradável, compatibilidade com síntese de áudio dos artigos, ou publicação. Obter nova avaliação do editor depois da repetição.
 
+## Teste 03 — ritmo reduzido aprovado para o trecho curto (29/10/2026)
+
+Depois de comparar a narração com mais espaço entre frases, o editor pediu uma redução discreta do ritmo. Foi aplicado, por **instrução textual** no GPT-Live, o pedido de falar aproximadamente **10% mais devagar**, conservando o mesmo timbre feminino, pausas curtas após frases e pausas um pouco maiores entre parágrafos. A tentativa com texto longo excedeu o limite de contexto de 500 tokens, então o teste válido foi realizado com um trecho mais curto.
+
+**Avaliação do editor após ouvir:** "Melhorou, gostei assim."
+
+**Referência sonora preferida, a partir deste teste:** Voz 01 feminina, natural, tranquila, palavras ligeiramente mais lentas do que na primeira narração, com micro-pausas entre frases e respiros um pouco maiores entre parágrafos, sem arrastar. Não alterar a voz salva para atingir esse efeito: usar instruções de narração. A comparação de 1,75× versus 1,60× é somente referência intuitiva a uma demonstração anterior no navegador; **o GPT-Live não aplicou nem confirmou uma velocidade numérica de 1,60×**.
+
+**Limite da aprovação:** o editor aprovou o conforto de escuta do **trecho curto revisado**. Permanecem pendentes a narração integral e fiel de um artigo, o teste de escuta no celular e a escolha técnica de geração e distribuição de áudio dos artigos. Nenhuma integração ou publicação está autorizada por esta aprovação.
+
+**Instrução padrão provisória de narração:**
+
+> Leia fielmente o texto recebido, sem acrescentar conteúdo. Mantenha a Voz 01 feminina, natural e tranquila. Pronuncie as palavras num ritmo levemente mais lento, aproximadamente 10% abaixo da primeira narração testada, preservando pequenos respiros ao final das frases e pausas um pouco maiores entre parágrafos. Não emende as frases, mas também não alongue silêncios nem dramatize. Use uma conversa clara e confortável, preservando perguntas, sentido e volume constante.
+
 ## Duas variações para comparação
 
 **B — Mais acolhedora:** mesmo texto da versão A, com tom ligeiramente mais quente e menos grave, mantendo andamento ágil e clareza. Evitar qualquer voz infantilizada ou terapêutica.
@@ -108,7 +122,7 @@ E é justamente aí que começa a nossa conversa."
 
 ## Ritmo e critérios de aprovação
 
-- Ritmo de referência aprovado na **demonstração com voz do navegador**: 1,75×. Essa taxa **não é automaticamente equivalente** à velocidade do GPT-Live ou de outra voz gerada. Ajustar por escuta, não converter mecanicamente.
+- Ritmo de demonstração inicial no navegador: 1,75×. Referência posterior de conforto na Voz 01 (GPT-Live): ritmo solicitado aproximadamente 10% mais lento, sem medição numérica exata, com micro-pausas entre frases. A taxa do navegador **não é automaticamente equivalente** à velocidade do GPT-Live. Ajustar por escuta, não converter mecanicamente.
 - Compreensão: 0 a 5 — palavras reconhecíveis na primeira audição.
 - Naturalidade: 0 a 5 — soa como conversa, não texto mecanicamente lido.
 - Proximidade: 0 a 5 — não fala de cima para baixo.
