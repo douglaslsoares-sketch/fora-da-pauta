@@ -5,6 +5,17 @@ import postgres from "postgres";
 let conexao: ReturnType<typeof postgres> | null = null;
 let criacaoTabela: Promise<void> | null = null;
 
+export class LimiteDeAudioAtingido extends Error {
+  constructor() {
+    super(
+      "Limite diário de novas narrações atingido. Áudios existentes continuam disponíveis.",
+    );
+    this.name = "LimiteDeAudioAtingido";
+  }
+}
+
+const LIMITE_GERACOES_DIA = 30;
+
 function obterConexao() {
   const url = (
     process.env.DATABASE_URL ||
@@ -39,6 +50,13 @@ async function garantirTabela() {
           chave TEXT PRIMARY KEY,
           arquivo BYTEA NOT NULL,
           criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `;
+
+      await sql`
+        CREATE TABLE IF NOT EXISTS fdp_audio_geracoes_diarias (
+          dia DATE PRIMARY KEY,
+          total INTEGER NOT NULL DEFAULT 0
         )
       `;
     })();
@@ -87,6 +105,27 @@ export async function obterOuGerarAudioCompartilhado(
         ),
         geradoAgora: false,
       };
+    }
+
+    // Contagem global: mesmo com muitos visitantes, novos textos
+    // não podem consumir créditos indefinidamente.
+    // A reserva é revertida automaticamente se a geração falhar.
+    await tx`
+      INSERT INTO fdp_audio_geracoes_diarias (dia, total)
+      VALUES (CURRENT_DATE, 0)
+      ON CONFLICT (dia) DO NOTHING
+    `;
+
+    const quota = await tx`
+      UPDATE fdp_audio_geracoes_diarias
+      SET total = total + 1
+      WHERE dia = CURRENT_DATE
+        AND total < ${LIMITE_GERACOES_DIA}
+      RETURNING total
+    `;
+
+    if (quota.length === 0) {
+      throw new LimiteDeAudioAtingido();
     }
 
     const arquivo = await gerar();
