@@ -84,39 +84,6 @@ export default function Home() {
 
         </section>
 
-        <section
-          id="comece"
-          className={styles.section}
-          aria-labelledby="comece-titulo"
-        >
-          <div className={styles.sectionHeading}>
-            <h2 id="comece-titulo">Por onde começar?</h2>
-            <p>Escolha o que você quer conhecer ou acompanhar.</p>
-          </div>
-
-          <div className={styles.publicationGrid}>
-            <article className={styles.cardWrapper}>
-              <Link href="/votou-fique-de-olho" className={styles.card}>
-                <h3>Votou? Fique de olho.</h3>
-                <p>Escolha quem acompanhar pelo Telegram. Você também pode receber avisos de novas edições sem selecionar ninguém.</p>
-                <span className={styles.cardAction}>
-                  Escolher quem acompanhar <span aria-hidden="true">→</span>
-                </span>
-              </Link>
-            </article>
-
-            <article className={styles.cardWrapper}>
-              <Link href="/conheca-seu-candidato" className={styles.card}>
-                <h3>Conheça seu candidato</h3>
-                <p>Busque uma pessoa, consulte a ficha política e confira os registros e as fontes disponíveis.</p>
-                <span className={styles.cardAction}>
-                  Consultar fichas políticas <span aria-hidden="true">→</span>
-                </span>
-              </Link>
-            </article>
-          </div>
-        </section>
-
         {publicacoes.length > 0 && (
         <section
           id="edicoes"
