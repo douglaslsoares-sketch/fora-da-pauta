@@ -67,6 +67,20 @@ function PeopleIcon({ className = "h-5 w-5" }: { className?: string }) {
     </svg>
   );
 }
+
+function AvisoInscricaoSemPessoas() {
+  return (
+    <section role="status" aria-label="Inscrição mantida" className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-950">
+      <p className="flex items-center gap-2 font-semibold">
+        <span aria-hidden="true" className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-sm text-white">✓</span>
+        Sua inscrição continua ativa.
+      </p>
+      <p className="mt-3 text-sm leading-6">Você não acompanha nenhuma pessoa no momento.</p>
+      <p className="mt-2 text-sm leading-6">Você continuará recebendo os avisos das novas edições.</p>
+    </section>
+  );
+}
+
 export function VotouFiqueDeOlhoExperience() {
   const bruto = useSyncExternalStore(
     observarSelecao,
@@ -153,6 +167,7 @@ export function VotouFiqueDeOlhoExperience() {
 
   const [etapa, setEtapa] = useState<Etapa>("busca");
   const [mostrarMinhasEscolhas, setMostrarMinhasEscolhas] = useState(false);
+  const [ultimaPessoaRemovida, setUltimaPessoaRemovida] = useState(false);
   const [mostrarEscolhaFinal, setMostrarEscolhaFinal] = useState(false);
   const [marcadasParaRemover, setMarcadasParaRemover] = useState<string[]>([]);
   const [removendoMarcadas, setRemovendoMarcadas] = useState(false);
@@ -280,6 +295,7 @@ export function VotouFiqueDeOlhoExperience() {
 
   function gravar(pessoas: PessoaSelecionada[]) {
     const persistiu = salvarSelecao(pessoas);
+    if (pessoas.length > 0) setUltimaPessoaRemovida(false);
 
     setAvisoStorage(
       persistiu
@@ -387,6 +403,9 @@ export function VotouFiqueDeOlhoExperience() {
     gravar(novaLista);
 
     if (novaLista.length === 0) {
+      setUltimaPessoaRemovida(true);
+      setMostrarMinhasEscolhas(false);
+      setPessoaConfirmada(null);
       setEtapa("busca");
     }
   }
@@ -420,7 +439,12 @@ export function VotouFiqueDeOlhoExperience() {
         edicoesLocaisPendentes.current = true;
         setEscolhasSalvas(false);
         gravar(novaLista);
-        if (novaLista.length === 0) setEtapa("busca");
+        if (novaLista.length === 0) {
+          setUltimaPessoaRemovida(true);
+          setMostrarMinhasEscolhas(false);
+          setPessoaConfirmada(null);
+          setEtapa("busca");
+        }
       }
       setMarcadasParaRemover((atual) => atual.filter((id) => !removidas.includes(id)));
       setRemovendoMarcadas(false);
@@ -507,6 +531,9 @@ export function VotouFiqueDeOlhoExperience() {
     (inscricaoGeral
       ? novasEdicoesAtivas
       : (escolhasSalvas || escolhasConfirmadas));
+  const mostrarAvisoSemPessoas =
+    ultimaPessoaRemovida && inscricaoAtiva && novasEdicoesAtivas &&
+    !conferindoInscricao && selecionadas.length === 0;
 
   if (etapaAtual === "telegram" && inscricaoConfirmada) {
     return (
@@ -585,6 +612,7 @@ export function VotouFiqueDeOlhoExperience() {
                   </Link>
                 </div>
               ) : null}
+              {mostrarAvisoSemPessoas ? <AvisoInscricaoSemPessoas /> : null}
               {salvandoEscolhas ? <p role="status" className="mt-3 text-sm">Salvando no Telegram...</p> : null}
               {aviso && !erroTelegram ? <p role="status" className="sr-only">{aviso}</p> : null}
               {erroTelegram ? <p role="alert" className="mt-3 text-sm text-red-700">{erroTelegram}</p> : null}
@@ -959,6 +987,7 @@ export function VotouFiqueDeOlhoExperience() {
                 ) : null}
               </>
             ) : null}
+            {mostrarAvisoSemPessoas ? <AvisoInscricaoSemPessoas /> : null}
           </div>
         ) : null}
 
