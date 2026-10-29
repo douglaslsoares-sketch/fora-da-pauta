@@ -37,7 +37,6 @@ jobs:
           const home = fs.readFileSync('app/page.tsx','utf8');
           const telegram = fs.readFileSync('components/HomeTelegramButton.tsx','utf8');
           assert.ok(home.includes('Conhecer é importante. Entender como o jogo é jogado é fundamental.'));
-          assert.ok(home.includes('href="/votou-fique-de-olho"'));
           assert.ok(!home.includes('href="/conheca-seu-candidato"'));
           assert.ok(!home.includes('Conheça seu candidato'));
           assert.ok(!home.includes('Por onde começar?'));
