@@ -38,8 +38,12 @@ jobs:
           const telegram = fs.readFileSync('components/HomeTelegramButton.tsx','utf8');
           assert.ok(home.includes('Conhecer é importante. Entender como o jogo é jogado é fundamental.'));
           assert.ok(home.includes('href="/votou-fique-de-olho"'));
-          assert.ok(home.includes('href="/conheca-seu-candidato"'));
-          assert.ok(home.includes('Votou? Fique de olho.'));
+          assert.ok(!home.includes('href="/conheca-seu-candidato"'));
+          assert.ok(!home.includes('Conheça seu candidato'));
+          assert.ok(!home.includes('Por onde começar?'));
+          assert.ok(home.includes('<HomeTelegramButton'));
+          assert.ok(telegram.includes('Fique de olho'));
+          assert.ok(!home.includes('Votou? Fique de olho.'));
           assert.ok(home.includes('Conheça seu candidato'));
           assert.ok(home.includes('Edições já publicadas'));
           assert.ok(home.includes('publicacoes.length > 0'));
