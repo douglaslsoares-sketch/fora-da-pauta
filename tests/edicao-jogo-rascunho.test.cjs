@@ -23,6 +23,15 @@ test("rascunho distingue fontes e interpretação", () => {
  assert.match(draft,/live original/);
 });
 
+test("propriedade do jornal aparece com fonte sem supor intenções", () => {
+ const texto=read("data/edicoes/rascunhos/lula-venceu-o-globo.ts");
+ assert.match(texto,/De quem é O Globo\?/);
+ assert.match(texto,/família Marinho/);
+ assert.match(texto,/Media Ownership Monitor/);
+ assert.match(texto,/historia\.globo\.com/);
+ assert.match(texto,/não prova/);
+});
+
 test("coluna não é pública e artigo tem título próprio", () => {
  const coluna=read("app/previa-editorial/o-jogo-sendo-jogado-coluna/page.tsx");
  const artigo=read("data/edicoes/rascunhos/lula-venceu-o-globo.ts");
