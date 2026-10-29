@@ -12,7 +12,7 @@ test("rascunho não entra na lista publicada", () => {
 });
 test("prévia não é servida em produção", () => {
  const route=read("app/previa-editorial/lula-venceu-o-globo/page.tsx");
- assert.match(route,/process\.env\.NODE_ENV !== "development"\) notFound\(\)/);
+ assert.match(route,/process\.env\.NODE_ENV === "production"\) notFound\(\)/);
  assert.match(route,/index: false/);
 });
 test("rascunho distingue fontes e interpretação", () => {
@@ -42,3 +42,5 @@ test("a introdução e o áudio atendem à primeira edição", () => {
  assert.match(audio,/\/api\/audio\/ler/);
  assert.match(route,/OPENAI_API_KEY/);
 });
+
+test("prévia usa leitor local e deixa catálogo e áudio neural intactos",()=>{const p=read("app/previa-editorial/lula-venceu-o-globo/page.tsx");const c=read("components/CampaignPage.tsx");const a=read("components/PreviewAudioReader.tsx");assert.match(p,/audioDemonstrativo/);assert.match(p,/PreviewAudioReader/);assert.match(c,/fdp:preview-audio-start/);assert.match(a,/speechSynthesis/);assert.doesNotMatch(a,/\/api\/audio\/ler/);});
