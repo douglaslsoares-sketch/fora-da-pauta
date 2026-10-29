@@ -100,6 +100,15 @@ Depois de comparar a narração com mais espaço entre frases, o editor pediu um
 
 > Leia fielmente o texto recebido, sem acrescentar conteúdo. Mantenha a Voz 01 feminina, natural e tranquila. Pronuncie as palavras num ritmo levemente mais lento, aproximadamente 10% abaixo da primeira narração testada, preservando pequenos respiros ao final das frases e pausas um pouco maiores entre parágrafos. Não emende as frases, mas também não alongue silêncios nem dramatize. Use uma conversa clara e confortável, preservando perguntas, sentido e volume constante.
 
+## Teste 04 — gravação real no Chrome e conversão MP3 (29/10/2026)
+
+- Captura realizada pelo próprio editor usando gravador privado de áudio da aba do GPT-Live no Chrome. Foi possível reproduzir o áudio capturado, salvar o WebM e ouvir o arquivo convertido para MP3.
+- A versão MP3 disponibilizada no teste durava aproximadamente 44 segundos e mantinha a velocidade e as pausas da captura. O corte removeu silêncio de início e fim, preservando as pausas internas.
+- **Avaliação do editor ao comparar MP3 e Playground:** "sutil diferença quase imperceptível".
+- **Decisão técnica:** a qualidade percebida da captura/conversão é suficientemente próxima para **continuar os testes com a Voz 01**, sem reconstruir outra voz neste momento. A pequena diferença relatada não justifica modificar timbre nem andamento antes de validar a narração integral.
+- **Limites:** esta avaliação não confirma reprodução literal de todas as palavras, nem constitui aprovação para colocar áudio em produção. Confirmar fidelidade ao roteiro, testar em celular e definir estratégia de gravação do artigo inteiro. O GPT-Live limita texto enviado por mensagem; dividir o roteiro em trechos curtos, manter a mesma voz e instrução, evitar textos diferentes e revisar possíveis variações entre sessões.
+- **Publicação:** nenhuma alteração no áudio da página pública ou envio no Telegram por conta desta avaliação.
+
 ## Duas variações para comparação
 
 **B — Mais acolhedora:** mesmo texto da versão A, com tom ligeiramente mais quente e menos grave, mantendo andamento ágil e clareza. Evitar qualquer voz infantilizada ou terapêutica.
