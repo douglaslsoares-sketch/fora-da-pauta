@@ -72,8 +72,9 @@ export default function Home() {
           <div className={styles.featureIntro}>
             <h1 id="home-titulo" className={styles.featureSubtitle}>Do povo para o povo.</h1>
             <p className={styles.featureTitle}>Decisões que afetam a sua vida.</p>
-            <p className={styles.featureBenefit}>Entenda o que os políticos dizem, votam e fazem.</p>
-            <p className={styles.featureInvitation}>Conheça como o jogo é jogado.</p>
+            <p className={styles.featureBenefit}>
+              Entenda o que os políticos dizem, votam e fazem e como o jogo é jogado.
+            </p>
           </div>
 
           <HomeTelegramButton
