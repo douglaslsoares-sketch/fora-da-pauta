@@ -23,6 +23,16 @@ test("rascunho distingue fontes e interpretação", () => {
  assert.match(draft,/live original/);
 });
 
+test("editorial oferece link original e reproducao, sem apresentar transcricao como video conferido", () => {
+ const texto=read("data/edicoes/rascunhos/lula-venceu-o-globo.ts");
+ assert.match(texto,/oglobo\\.globo\\.com\\/opiniao\\/editorial\\/coluna\\/2026\\/10\\/virada-da-a-lula/);
+ assert.match(texto,/gilvanmelo\\.blogspot\\.com/);
+ assert.match(texto,/leitura direta nesse endereço não foi possível/);
+ assert.match(texto,/transcrição automática fornecida pelo editor/);
+ assert.match(texto,/conferir as falas diretamente no vídeo original/);
+ assert.match(texto,/Polícia Federal e a Procuradoria-Geral da República/);
+});
+
 test("propriedade do jornal aparece com fonte sem supor intenções", () => {
  const texto=read("data/edicoes/rascunhos/lula-venceu-o-globo.ts");
  assert.match(texto,/De quem é O Globo\?/);
