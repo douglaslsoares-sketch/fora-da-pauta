@@ -14,7 +14,7 @@ type AudioStartDetail = {
 const SELECTOR_DE_LEITURA =
   "h1,h2,h3,h4,p,li,blockquote,dt,dd";
 
-const VELOCIDADES = [0.85, 1, 1.15, 1.3];
+const VELOCIDADES = [0.85, 1, 1.15, 1.3, 1.5, 1.75, 2];
 
 function limparTexto(texto: string) {
   return texto.replace(/\s+/g, " ").trim();
