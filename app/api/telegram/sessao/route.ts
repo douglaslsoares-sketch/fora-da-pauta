@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { telegramLiberadoNesteAmbiente, nomeBotTelegram } from "@/lib/telegram/ambiente";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { sql } from "@/lib/interesses/db";
@@ -11,7 +12,7 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const BOT = "ForaDaPautaAcompanhaBot";
+const BOT = nomeBotTelegram();
 const semCache = { "Cache-Control": "no-store" };
 
 function permitido(request: Request) {
@@ -87,6 +88,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (!telegramLiberadoNesteAmbiente()) return NextResponse.json({ erro: "Inscrição de ensaio indisponível nesta prévia." }, { status: 503 });
   if (!permitido(request)) return NextResponse.json({ erro: "Origem inválida" }, { status: 403 });
   const limite = await consumeRateLimit({
     request, scope: "telegram:sessao:iniciar", limit: 10, windowSeconds: 600,
