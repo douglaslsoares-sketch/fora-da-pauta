@@ -1,0 +1,30 @@
+name: Validar integração de áudio e Telegram
+on:
+  pull_request:
+    paths:
+      - 'lib/audio-cache.ts'
+      - 'app/api/audio/ler/route.ts'
+      - 'app/api/telegram/concluir/route.ts'
+      - 'app/api/telegram/webhook/route.ts'
+      - 'lib/telegram/processar-fila.ts'
+      - 'tests/integracao-audio-telegram.test.cjs'
+      - 'tests/telegram-concluir-antes-avisos.test.cjs'
+      - '.github/workflows/validar-integracao-audio-telegram.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npx tsc --noEmit
+      - run: node --test tests/integracao-audio-telegram.test.cjs tests/telegram-concluir-antes-avisos.test.cjs tests/edicoes-audio.test.cjs
