@@ -93,7 +93,6 @@ export async function processarFilaTelegram() {
             WHERE pendente.telegram_chat_id = f.telegram_chat_id
               AND pendente.vinculada_at IS NULL
               AND pendente.codigo_hash IS NOT NULL
-              AND pendente.expira_at > now()
           )
           AND (
             (f.tipo = 'candidato' AND EXISTS (
