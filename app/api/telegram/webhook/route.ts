@@ -803,12 +803,22 @@ export async function POST(
               status = 'ativo', updated_at = now(), cancelled_at = NULL
           `;
         }
+        const jaConfirmado = await tx<{ pronto: boolean }[]>`
+          SELECT EXISTS (
+            SELECT 1
+            FROM public.telegram_sessoes_site
+            WHERE telegram_chat_id = ${chatId}::bigint
+              AND vinculada_at IS NOT NULL
+              AND expira_at > now()
+          ) AS pronto
+        `;
         await tx`
           UPDATE public.telegram_sessoes_site
           SET telegram_chat_id = ${chatId}::bigint,
-              -- O vínculo do bot foi criado, mas a inscrição no site
-              -- ainda aguarda o botão "Concluir a inscrição".
-              vinculada_at = NULL, codigo_hash = ${hashRetorno},
+              -- Uma pessoa já inscrita não deve voltar a ficar pendente.
+              vinculada_at = CASE WHEN ${jaConfirmado[0]?.pronto === true}
+                THEN now() ELSE NULL END,
+              codigo_hash = ${hashRetorno},
               codigo_expira_at = now() + interval '7 days',
               candidaturas_pendentes = '{}'
           WHERE sessao_hash = ${vinculo.sessao_hash}
