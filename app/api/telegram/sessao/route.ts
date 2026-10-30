@@ -22,6 +22,7 @@ function permitido(request: Request) {
 }
 
 export async function GET() {
+  if (!telegramLiberadoNesteAmbiente()) return NextResponse.json({ ativo: false, novasEdicoes: false, ids: [], testeIndisponivel: true }, { headers: semCache });
   const token = await tokenSessao();
   const ativo = await inscricaoAtiva(token);
   if (!ativo || !token) {
