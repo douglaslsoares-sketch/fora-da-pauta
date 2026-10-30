@@ -218,3 +218,22 @@
   .card, .primaryLink { transition: none; }
 }
 
+
+/* Identidade visual aprovada: cabeçalho branco, corpo editorial preto. */
+.header {
+  margin: -32px calc(50% - 50vw) 0;
+  padding: 14px max(24px, calc((100vw - 1200px) / 2));
+  background: #fff;
+  color: #111;
+  border-bottom: 1px solid #e8e8e8;
+}
+.logo { width: clamp(204px, 29vw, 330px); height: auto; }
+.tagline { color: #646464; }
+@media (min-width: 768px) {
+  .header { margin-top: -40px; min-height: 88px; padding-top: 16px; padding-bottom: 16px; }
+}
+@media (max-width: 767px) {
+  .header { min-height: 70px; padding: 12px 18px; }
+  .logo { width: clamp(165px, 50vw, 220px); }
+  .tagline { max-width: 115px; font-size: 10px; letter-spacing: 0.035em; line-height: 1.3; }
+}

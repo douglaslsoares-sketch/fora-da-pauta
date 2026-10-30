@@ -22,7 +22,8 @@ export const metadata: Metadata = {
   description:
     "Informação, documentos, evidências e fontes verificáveis para ajudar cada pessoa a formar sua própria avaliação.",
   icons: {
-    icon: "/icon.png",
+    icon: [{ url: "/marca/fora-da-pauta-icone.svg", type: "image/svg+xml" }],
+    shortcut: "/marca/fora-da-pauta-icone.svg",
   },
   manifest: "/ler-depois/manifest.webmanifest",
 };

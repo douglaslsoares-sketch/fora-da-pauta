@@ -25,7 +25,7 @@ export function SiteHeaderRouter({
   }
 
   return (
-    <header className="bg-black text-white">
+    <header className="border-b border-black/10 bg-white text-black">
       <div className="mx-auto flex min-h-[58px] w-full max-w-[760px] items-center justify-between gap-5 px-6 py-1">
         <Link
           href="/"
@@ -33,12 +33,12 @@ export function SiteHeaderRouter({
           className="shrink-0"
         >
           <Image
-            src="/marca/fp-header-transparente.png"
+            src="/marca/fora-da-pauta-horizontal.svg"
             alt="Fora da Pauta"
-            width={36}
-            height={36}
+            width={930}
+            height={150}
             priority
-            className="h-9 w-9 object-contain"
+            className="h-auto w-[188px] object-contain sm:w-[250px]"
           />
         </Link>
         <p className="text-right text-[15px] font-semibold leading-tight tracking-[-0.02em]">

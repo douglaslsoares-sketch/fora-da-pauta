@@ -52,10 +52,10 @@ export default function Home() {
         <header className={styles.header}>
           <div className={styles.brand}>
             <Image
-              src="/marca/fora-da-pauta-branca.png"
+              src="/marca/fora-da-pauta-horizontal.svg"
               alt="Fora da Pauta"
-              width={230}
-              height={166}
+              width={930}
+              height={150}
               priority
               className={styles.logo}
             />
