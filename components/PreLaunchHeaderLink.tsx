@@ -11,21 +11,16 @@ export function PreLaunchHeaderLink() {
   }
 
   return (
-    <div className="border-t border-white/15 py-2.5">
+    <div className="border-t border-black/10 py-2.5">
       <Link
         href="/"
-        className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.04em] text-white/60 transition hover:text-white"
+        className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.04em] text-black/65 transition hover:text-black"
       >
-        <span className="text-[#FFC400]">
+        <span className="text-[#946b00]">
           Página inicial
         </span>
-
         <span aria-hidden="true">—</span>
-
-        <span>
-          Veja todas as publicações
-        </span>
-
+        <span>Veja todas as publicações</span>
         <span aria-hidden="true">→</span>
       </Link>
     </div>
