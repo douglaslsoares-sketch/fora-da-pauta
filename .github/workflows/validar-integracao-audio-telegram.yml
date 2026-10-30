@@ -10,6 +10,7 @@ on:
       - 'tests/integracao-audio-telegram.test.cjs'
       - 'tests/audio-cache-comportamento.test.cjs'
       - 'tests/integracao-postgres-real.test.cjs'
+      - 'tests/telegram-percurso-postgres-e2e.test.cjs'
       - 'tests/telegram-concluir-antes-avisos.test.cjs'
       - '.github/workflows/validar-integracao-audio-telegram.yml'
   workflow_dispatch:
@@ -46,4 +47,4 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npx tsc --noEmit
       - run: node --test tests/audio-cache-comportamento.test.cjs tests/integracao-audio-telegram.test.cjs tests/telegram-concluir-antes-avisos.test.cjs tests/edicoes-audio.test.cjs
-      - run: node --test tests/integracao-postgres-real.test.cjs
+      - run: node --test tests/integracao-postgres-real.test.cjs tests/telegram-percurso-postgres-e2e.test.cjs
