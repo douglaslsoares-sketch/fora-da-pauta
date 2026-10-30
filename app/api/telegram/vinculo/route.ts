@@ -1,3 +1,4 @@
+import { telegramLiberadoNesteAmbiente, nomeBotTelegram } from "@/lib/telegram/ambiente";
 import { createHash, randomBytes } from "node:crypto";
 
 import { NextResponse } from "next/server";
@@ -9,7 +10,7 @@ import { consumeRateLimit } from "@/lib/rateLimit";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const BOT_USERNAME = "ForaDaPautaAcompanhaBot";
+const BOT_USERNAME = nomeBotTelegram();
 const DURACAO_TOKEN_MINUTOS = 15;
 const LIMITE_ACOMPANHAMENTOS = 100;
 
@@ -53,6 +54,7 @@ function muitasRequisicoes(
 }
 
 export async function POST(request: Request) {
+  if (!telegramLiberadoNesteAmbiente()) return NextResponse.json({ erro: "Vínculo de ensaio indisponível nesta prévia." }, { status: 503 });
   let body: CorpoRequisicao;
 
   try {
