@@ -143,6 +143,7 @@ export async function POST(request: Request) {
 }
 
 export async function PUT(request: Request) {
+  if (!telegramLiberadoNesteAmbiente()) return NextResponse.json({ erro: "Inscrição de ensaio indisponível nesta prévia." }, { status: 503 });
   if (!permitido(request)) return NextResponse.json({ erro: "Origem inválida" }, { status: 403 });
   const limite = await consumeRateLimit({
     request, scope: "telegram:sessao:salvar", limit: 30, windowSeconds: 600,
@@ -212,6 +213,7 @@ export async function PUT(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  if (!telegramLiberadoNesteAmbiente()) return NextResponse.json({ erro: "Inscrição de ensaio indisponível nesta prévia." }, { status: 503 });
   if (!permitido(request)) return NextResponse.json({ erro: "Origem inválida." }, { status: 403, headers: semCache });
   const token = await tokenSessao();
   if (!token) return NextResponse.json({ erro: "Vínculo não confirmado." }, { status: 401, headers: semCache });
