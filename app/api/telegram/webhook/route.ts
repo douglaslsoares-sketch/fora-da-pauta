@@ -1,5 +1,5 @@
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
-import { telegramLiberadoNesteAmbiente, origemRetornoTelegram, tokenBotTelegram, segredoWebhookTelegram } from "@/lib/telegram/ambiente";
+import { telegramLiberadoNesteAmbiente, origemRetornoTelegram, nomeBotTelegram, tokenBotTelegram, segredoWebhookTelegram } from "@/lib/telegram/ambiente";
 
 import { NextResponse } from "next/server";
 
@@ -57,13 +57,7 @@ function obterVariavelObrigatoria(
 }
 
 function obterBotUsername() {
-  return (
-    process.env
-      .NEXT_PUBLIC_TELEGRAM_BOT_USERNAME
-      ?.trim()
-      .replace(/^@/, "") ||
-    "ForaDaPautaAcompanhaBot"
-  );
+  return nomeBotTelegram();
 }
 
 function segredoConfere(
@@ -410,7 +404,7 @@ async function mostrarPreferencias(chatId: string) {
       "\nPara parar tudo, envie /parar.",
     botoes: [[{
       text: "Voltar ao Fora da Pauta",
-      url: "https://foradapauta.org/",
+      url: `${origemRetornoTelegram()}/`,
     }]],
   });
 }
@@ -749,7 +743,7 @@ export async function POST(
             {
               text: "Voltar ao Fora da Pauta",
               url:
-                "https://foradapauta.org/",
+                `${origemRetornoTelegram()}/`,
             },
           ],
         ],
@@ -873,7 +867,7 @@ export async function POST(
           chatId,
           texto: "Suas escolhas j\u00e1 foram registradas com este link.\n\n" +
             "Para uma nova ativa\u00e7\u00e3o, gere outro link pelo site:\n\n" +
-            "https://www.foradapauta.org/",
+            `${origemRetornoTelegram()}/`,
         });
         return NextResponse.json({ ok: true });
       }
@@ -906,7 +900,7 @@ export async function POST(
             {
               text: "Voltar ao Fora da Pauta",
               url:
-                "https://foradapauta.org/",
+                `${origemRetornoTelegram()}/`,
             },
           ],
         ],
