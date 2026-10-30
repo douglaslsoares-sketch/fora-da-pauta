@@ -2,54 +2,94 @@ import type { Campaign } from "@/data/campanhas";
 
 /**
  * RASCUNHO — NÃO PUBLICAR.
- * Prévia interna, disponível somente no ambiente de desenvolvimento.
- * Não incluir no array campaigns nem no catálogo até a aprovação editorial.
- *
- * Revisão pendente: conferir as passagens da live no vídeo original;
- * buscar URL primária do editorial de O Globo (referência secundária abaixo);
- * testar a leitura em áudio e aprovar a versão final.
+ * 29/10/2026: resultado do TSE conferido; editorial de O Globo conferido
+ * em reprodução identificada; interpretação de José identificada na transcrição.
+ * 29/10/2026: endereço original do editorial encontrado em link de terceiro,
+ * porém a leitura direta nesse endereço não foi possível; reprodução conferida.
+ * Falas de José confrontadas com transcrição automática fornecida pelo editor.
+ * PENDÊNCIAS: conferir as falas diretamente no vídeo original, testar áudio
+ * no computador e no celular e obter aprovação editorial.
+ * Não inserir este artigo no catálogo nem nos avisos do Telegram.
  */
 export const lulaVenceuOGloboRascunho: Campaign = {
   slug: "lula-venceu-o-globo",
   brand: "Fora da Pauta",
   title: "Lula venceu. O que O Globo disse no dia seguinte?",
-  statement: "Quem conta a história também escolhe o que destacar.",
+  statement: "Lula venceu nas urnas. Quem tenta influenciar os rumos do governo?",
   sections: [
     {
-      title: "Mas você já pensou em uma coisa?",
+      title: "A eleição acabou. Mas a disputa pelas interpretações continua.",
       paragraphs: [
-        "Uma eleição termina. O povo escolhe o presidente. No dia seguinte, os jornais começam a dizer como ele deve governar.",
-        "**Quem são os donos desses jornais? Quais interesses eles representam? E por que determinados assuntos recebem tanto destaque enquanto outros quase não aparecem?**",
-        "São perguntas importantes para entender não apenas o resultado de uma eleição, mas também como esse resultado passa a ser contado para o país.",
+        "Lula ganhou a eleição. No dia seguinte, O Globo reconheceu a vitória — e passou a dizer o que esperava do novo governo.",
+        "**Quem decide como o presidente deve governar? O eleitor, o Congresso, os jornais?** E quando um jornal dá conselhos ao governante, está apenas informando ou também defendendo uma posição?",
+        "Vamos olhar para o que aconteceu, para a opinião do jornal e para uma interpretação diferente dessa mesma história.",
       ],
     },
     {
       eyebrow: "O fato",
-      title: "O que aconteceu",
+      title: "Primeiro, o que aconteceu nas urnas?",
       paragraphs: [
-        "No domingo, 25 de outubro de 2026, Lula foi reeleito presidente da República. Segundo o Tribunal Superior Eleitoral (TSE), recebeu **51,79% dos votos válidos**, contra **48,21% de Flávio Bolsonaro**.",
-        "Na segunda-feira, o jornal O Globo publicou um editorial sobre a vitória, intitulado **“Virada dá a Lula lugar inédito na História do Brasil”**. O texto reconhece o resultado eleitoral e apresenta recomendações sobre como Lula deveria se relacionar com o Congresso e conduzir o novo mandato.",
-        "**Editorial não é simplesmente a notícia sobre o que aconteceu. É a opinião institucional do jornal.** Distinguir uma coisa da outra é fundamental.",
+        "Em 25 de outubro de 2026, **Lula foi reeleito presidente**. Segundo o Tribunal Superior Eleitoral (TSE), recebeu **64.256.232 votos (51,79% dos válidos)**. Flávio Bolsonaro recebeu **59.826.041 votos (48,21%)**.",
+        "Esse é um resultado oficial. Não depende da opinião de O Globo, do Portal do José nem do Fora da Pauta.",
       ],
       references: [
         {
-          label: "TSE — anúncio oficial do resultado do segundo turno (26/10/2026)",
+          label: "TSE — anúncio oficial do segundo turno (26/10/2026)",
           url: "https://www.tse.jus.br/comunicacao/noticias/2026/Outubro/presidente-do-tse-anuncia-reeleicao-de-lula-e-faz-balanco-do-2o-turno-das-eleicoes-2026",
         },
+      ],
+    },
+    {
+      eyebrow: "A opinião do jornal",
+      title: "E o que O Globo disse no dia seguinte?",
+      paragraphs: [
+        "Em 26 de outubro, O Globo publicou o editorial **“Virada dá a Lula lugar inédito na História do Brasil”**. O jornal reconhece o resultado histórico e afirma que Lula enfrentará um Congresso hostil.",
+        "O editorial recomenda que o presidente evite revanchismo, defende um ajuste fiscal mais forte e cobra ações na segurança pública. Também pede investigação de suspeitas de crimes eleitorais e independência da Polícia Federal na apuração de denúncias contra pessoas próximas a Lula. Afirma ainda que a imprensa deve seguir fiscalizando o governo.",
+        "**Repare na diferença:** o resultado da eleição é um fato. Dizer o que o presidente deveria fazer depois da vitória é uma **posição do jornal**.",
+        "Um editorial é a opinião institucional do veículo, diferente de uma reportagem sobre os acontecimentos. Jornais podem cobrar governos. O público também pode perguntar que interesses e argumentos estão por trás dessas cobranças.",
+      ],
+      references: [
         {
-          label: "Editorial de O Globo (26/10/2026) — reprodução identificada, ainda sem link primário conferido",
+          label: "O Globo — endereço original do editorial de 26/10/2026 (identificado por link externo)",
+          url: "https://oglobo.globo.com/opiniao/editorial/coluna/2026/10/virada-da-a-lula-lugar-inedito-na-historia-do-brasil.ghtml",
+        },
+        {
+          label: "Reprodução identificada do editorial — texto usado na conferência",
           url: "https://gilvanmelo.blogspot.com/2026/10/o-que-midia-pensa-editoriaisopinioes.html?m=0",
         },
       ],
     },
     {
-      eyebrow: "A interpretação",
-      title: "Onde entra a análise de José",
+      eyebrow: "Quem fala",
+      title: "De quem é O Globo?",
       paragraphs: [
-        "Em sua live de 26 de outubro, no Portal do José, José comenta a cobertura do resultado e chama atenção para o editorial de O Globo.",
-        "Na interpretação apresentada por ele, quando um grande jornal aconselha o presidente sobre o que deveria ou não fazer após a eleição, o jornal não está apenas observando a política: **também participa da disputa sobre os rumos do governo**.",
-        "José interpreta as advertências contra ressentimentos e revanchismo à luz dos interesses de grupos de comunicação. **Essa é uma interpretação política atribuída a José, não um fato demonstrado pelo resultado da eleição.**",
-        "Você pode conferir os argumentos na live original. A transcrição automática foi usada apenas como apoio de trabalho e ainda exige conferência cuidadosa antes da publicação final.",
+        "O Globo é um jornal da Editora Globo, que faz parte do Grupo Globo. O grupo pertence à família Marinho. Isso não é segredo: dá para conferir quem controla o veículo e como a própria empresa apresenta sua estrutura.",
+        "Em 2026, a Globo informa que João Roberto Marinho preside o grupo e os conselhos de Administração e Editorial. Saber quem é dono do jornal **não prova** por que aquele editorial foi escrito nem quais intenções estavam por trás dele. Mas ajuda a entender quem participa da conversa pública e de onde fala.",
+        "**E você, quando lê que é preciso fazer um ajuste fiscal, pergunta o que exatamente seria ajustado?** Quais medidas estão sendo propostas? Quem seria afetado? É esse tipo de pergunta que nos ajuda a enxergar além da manchete.",
+      ],
+      references: [
+        {
+          label: "Media Ownership Monitor — propriedade do jornal O Globo (levantamento histórico)",
+          url: "https://brazil.mom-gmr.org/br/midia/detail/outlet/o-globo/",
+        },
+        {
+          label: "Memória Globo — Editora Globo é responsável pelo jornal O Globo",
+          url: "https://historia.globo.com/memoria-roberto-marinho/biografia/filhos-e-netos/noticia/roberto-irineu-marinho.ghtml",
+        },
+        {
+          label: "Memória Globo — estrutura de gestão do Grupo Globo em 2026",
+          url: "https://historia.globo.com/historia-grupo-globo/2015-2024/noticia/2026-criacao-da-holding-do-grupo-globo.ghtml",
+        },
+      ],
+    },
+    {
+      eyebrow: "A interpretação de José",
+      title: "Mas José, do Portal do José, leu esse texto de outro jeito.",
+      paragraphs: [
+        "Na live de 26 de outubro, José lê o título e a advertência de O Globo sobre ressentimentos. Ele questiona o uso da palavra **revanchismo**: na interpretação dele, cobrar que a Justiça investigue possíveis crimes não deveria ser tratado como vingança. José defende que a Polícia Federal e a Procuradoria-Geral da República cumpram suas responsabilidades e que não haja impunidade. Isso não significa declarar culpada qualquer pessoa sem processo e provas.",
+        "José também apresenta sua interpretação sobre a mídia: grandes grupos de comunicação são **estruturas de poder** e, na visão dele, defendem interesses econômicos e de classe. Por isso, quando recomendam caminhos ao presidente, não apenas observam a política: também procuram influenciar o debate sobre os rumos do país.",
+        "**Essa é a leitura política de José, não uma intenção comprovada de O Globo.** O próprio editorial também defende que se investiguem suspeitas de crimes. Portanto, o desacordo não é simplesmente entre investigar ou deixar de investigar: envolve a linguagem empregada, as prioridades e a maneira como se cobram diferentes atores políticos. Alegações de favorecimento eleitoral ou de acordos entre empresas e candidatos precisariam ser demonstradas com provas independentes; não as apresentamos como fatos.",
+        "A live original está indicada abaixo para que você possa conferir e formar sua própria avaliação. A transcrição automática foi usada como apoio e ainda exige conferência direta no vídeo antes da publicação final.",
       ],
       references: [
         {
@@ -60,33 +100,33 @@ export const lulaVenceuOGloboRascunho: Campaign = {
     },
     {
       eyebrow: "Por que isso importa?",
-      title: "E o que tudo isso tem a ver com a sua vida?",
+      title: "E o que isso tem a ver com sua vida?",
       paragraphs: [
-        "Muita gente passa o dia trabalhando e cuidando da casa e da família. Nem sempre sobra tempo para acompanhar todos os detalhes da política. Assim, uma manchete ou um comentário na televisão muitas vezes acaba servindo de resumo do que aconteceu.",
-        "**Uma coisa é informar que o presidente venceu a eleição. Outra é dizer como ele deveria agir depois da vitória.** Quando fato e opinião aparecem juntos, a diferença pode passar despercebida.",
-        "É por isso que vale observar não só o que uma notícia diz, mas também quem escolheu contar a história daquela maneira.",
+        "Quem trabalha, cuida da casa e corre para resolver os problemas do dia a dia nem sempre tem tempo de ler um jornal inteiro. Às vezes, só vê a manchete ou escuta um comentário.",
+        "**Uma coisa é informar que o presidente venceu. Outra é recomendar como ele deve governar.** Quando notícia e opinião chegam misturadas, a diferença pode passar despercebida.",
+        "A imprensa pode fiscalizar e criticar os governantes. E a população pode questionar a imprensa. As duas coisas fazem parte da democracia.",
       ],
     },
     {
       eyebrow: "Para refletir",
-      title: "Da próxima vez que você ler uma notícia...",
+      title: "Da próxima vez que você ler uma manchete...",
       paragraphs: [
         "**O que é fato e o que é opinião aqui?**",
-        "**Quem está falando?** Um repórter, um comentarista ou o próprio jornal, por meio de um editorial?",
-        "**Quais interesses podem estar envolvidos nessa interpretação?**",
+        "**Quem está falando?** Um repórter, um comentarista ou o próprio jornal?",
+        "**Que posição está sendo defendida? Quais interesses podem estar envolvidos?**",
         "**O que recebeu destaque? O que ficou de fora?**",
-        "Você não precisa concordar automaticamente com José, nem com O Globo. O importante é conseguir perceber **quem está interpretando a política para você**.",
+        "Você não precisa concordar automaticamente com José, com O Globo nem com a nossa leitura. O importante é perceber quem está interpretando a política para você.",
       ],
     },
     {
       eyebrow: "Nosso compromisso",
       title: "Conhecer é importante. Entender é fundamental.",
       paragraphs: [
-        "O Fora da Pauta compartilha essa discussão para ampliar o entendimento político, sempre distinguindo o resultado comprovado, a opinião publicada pelo jornal e a análise apresentada pelo Portal do José.",
+        "O Fora da Pauta distingue o resultado comprovado, a opinião institucional publicada por O Globo e a interpretação apresentada pelo Portal do José. Cada uma dessas coisas tem suas fontes e seus limites.",
         "**Conhecer é importante. Entender como o jogo é jogado é fundamental.**",
         "Fora da Pauta — Há mais para entender.",
       ],
     },
   ],
-  // Sem publishedAt: a edição NÃO está publicada.
+  // Sem data editorial de publicação: este conteúdo NÃO está publicado.
 };

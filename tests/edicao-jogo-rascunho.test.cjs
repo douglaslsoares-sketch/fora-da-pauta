@@ -12,14 +12,34 @@ test("rascunho não entra na lista publicada", () => {
 });
 test("prévia não é servida em produção", () => {
  const route=read("app/previa-editorial/lula-venceu-o-globo/page.tsx");
- assert.match(route,/process\.env\.NODE_ENV !== "development"\) notFound\(\)/);
+ assert.match(route,/process\.env\.VERCEL_ENV === "preview"/);
+ assert.match(route,/!ehDesenvolvimentoLocal && !ehPreviewVercel\) notFound\(\)/);
  assert.match(route,/index: false/);
 });
 test("rascunho distingue fontes e interpretação", () => {
  const draft=read("data/edicoes/rascunhos/lula-venceu-o-globo.ts");
  assert.match(draft,/Tribunal Superior Eleitoral/);
- assert.match(draft,/Essa é uma interpretação política atribuída a José/);
+ assert.match(draft,/Essa é a leitura política de José/);
  assert.match(draft,/live original/);
+});
+
+test("editorial oferece link original e reproducao, sem apresentar transcricao como video conferido", () => {
+ const texto=read("data/edicoes/rascunhos/lula-venceu-o-globo.ts");
+ assert.ok(texto.includes("https://oglobo.globo.com/opiniao/editorial/coluna/2026/10/virada-da-a-lula"));
+ assert.ok(texto.includes("gilvanmelo.blogspot.com"));
+ assert.match(texto,/leitura direta nesse endereço não foi possível/);
+ assert.match(texto,/transcrição automática fornecida pelo editor/);
+ assert.match(texto,/conferir as falas diretamente no vídeo original/);
+ assert.match(texto,/Polícia Federal e a Procuradoria-Geral da República/);
+});
+
+test("propriedade do jornal aparece com fonte sem supor intenções", () => {
+ const texto=read("data/edicoes/rascunhos/lula-venceu-o-globo.ts");
+ assert.match(texto,/De quem é O Globo\?/);
+ assert.match(texto,/família Marinho/);
+ assert.match(texto,/Media Ownership Monitor/);
+ assert.match(texto,/historia\.globo\.com/);
+ assert.match(texto,/não prova/);
 });
 
 test("coluna não é pública e artigo tem título próprio", () => {
@@ -29,3 +49,22 @@ test("coluna não é pública e artigo tem título próprio", () => {
  assert.match(coluna,/O jogo sendo jogado/);
  assert.match(artigo,/Lula venceu\. O que O Globo disse no dia seguinte\?/);
 });
+
+test("a introdução e o áudio atendem à primeira edição", () => {
+ const page=read("components/CampaignPage.tsx");
+ const audio=read("components/EditorialAudioSystem.tsx");
+ const route=read("app/api/audio/ler/route.ts");
+ assert.match(page,/ehArtigoOGlobo/);
+ assert.match(page,/O que é notícia\? O que é opinião\?/);
+ assert.match(page,/onClick=\{ouvirEdicao\}/);
+ assert.match(page,/fdp:audio-start/);
+ assert.match(audio,/fdp:audio-start/);
+ assert.match(audio,/\/api\/audio\/ler/);
+ assert.match(route,/OPENAI_API_KEY/);
+});
+
+test("prévia usa leitor local e deixa catálogo e áudio neural intactos",()=>{const p=read("app/previa-editorial/lula-venceu-o-globo/page.tsx");const c=read("components/CampaignPage.tsx");const a=read("components/PreviewAudioReader.tsx");assert.match(p,/audioDemonstrativo/);assert.match(p,/PreviewAudioReader/);assert.match(c,/fdp:preview-audio-start/);assert.match(a,/speechSynthesis/);assert.doesNotMatch(a,/\/api\/audio\/ler/);});
+
+test("audio da previa nao anuncia Fontes sem ler links e atualiza aviso de ritmo",()=>{const c=read("components/ExpandableCard.tsx");const a=read("components/PreviewAudioReader.tsx");assert.match(c,/data-editorial-ignore/);assert.match(a,/closest\("\[data-editorial-ignore\]"\)/);assert.match(a,/setReiniciarAviso\(false\)/);});
+
+test("primeiro bloco aberto e áudio de IA identificado",()=>{const c=read("components/CampaignPage.tsx");const e=read("components/ExpandableCard.tsx");assert.match(c,/defaultOpen=\{ehArtigoOGlobo && index === 0\}/);assert.match(e,/open=\{defaultOpen\}/);assert.match(c,/Áudio de demonstração gerado digitalmente/);});

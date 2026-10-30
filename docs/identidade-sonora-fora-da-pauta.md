@@ -1,0 +1,156 @@
+# Identidade sonora — Fora da Pauta
+Status: **Voz 01 personalizada criada e salva; primeiro teste de escuta aprovado pelo editor; ainda não integrada à narração dos artigos nem publicada**.
+Atualizado em: 29/10/2026.
+
+## Conceito
+**Uma conversa entre iguais.** A voz do Fora da Pauta ajuda pessoas com pouco tempo a entender os fatos, a disputa de versões e os interesses presentes nas decisões políticas. Não tenta impor conclusões.
+
+O timbre é brasileiro, adulto, médio-grave, natural, levemente encorpado e caloroso. A entrega é ágil, clara e curiosa; perguntas soam genuínas e as pausas não são arrastadas. A firmeza vem da clareza, não do volume. Sem voz de telejornal, sem propaganda, sem dramatização, sem caricatura de sotaques e sem imitação de qualquer pessoa ou personagem.
+
+A voz é um ativo editorial: deve funcionar em artigos, resumos de Telegram, chamadas curtas e perguntas ao público.
+
+## Prompt de criação da voz — GPT-Live (versão A, principal)
+
+> Create a distinctive **adult Brazilian Portuguese** voice for a public-interest explainer called Fora da Pauta. Native Brazilian Portuguese pronunciation, natural regional-neutral cadence, warm medium-low pitch, subtly textured and resonant timbre, clear diction without exaggerated enunciation. Conversational, alert, thoughtful, approachable and confident. The voice sounds like a knowledgeable neighbor discussing current events as an equal, never lecturing. Brisk, energetic, flowing speech; short natural pauses; genuine curiosity and a slight lift in meaningful questions. Expressive without being theatrical, sarcastic or promotional. Steady level, no forced smile, no radio-announcer or television-news cadence. Human, calm authority, approachable warmth. Designed for accessible civic education and longer-form listening. Do not imitate any existing voice, person or character.
+
+Este texto descreve a identidade acústica; instruções de leitura e os fatos do artigo devem ser fornecidos separadamente.
+
+## Voz salva e teste no GPT-Live — 29/10/2026
+
+- **Nome salvo:** Fora da Pauta — Voz 01.
+- **Origem:** criada a partir de descrição (prompt-to-voice) no Voice Playground e salva na biblioteca.
+- **Modelo usado no teste:** GPT-Live 1, no Live Playground. A configuração em código apresentava um objeto `audio.output.voice.id` com identificador começando por `voice_`; o identificador completo não foi registrado, e deve ser recuperado da própria biblioteca se necessário.
+- **Impressão do editor após ouvir:** "É uma voz feminina. Eu achei que ficou boa, natural, tranquila e com relação à velocidade também é agradável de ouvir, tá legal."
+- **Decisão editorial:** manter a **Voz 01 como referência sonora preferida**, sem gerar outra versão por enquanto. Esse é um parecer positivo de **escuta inicial em conversa ao vivo**, não uma aprovação da narração completa de um artigo longo, nem autorização para divulgação.
+- **Próxima validação:** testar um texto de artigo mais longo, conferir consistência do ritmo e das pausas; escutar também no celular.
+
+### Descrição usada na criação da Voz 01
+
+> Create an original adult voice speaking natural Brazilian Portuguese. Warm, medium-low pitch, clear and slightly textured timbre. Conversational, engaging and confident, with a lively, fluid pace and short natural pauses. Clear pronunciation without exaggerated articulation. Friendly, thoughtful and expressive, with genuine curiosity in questions. Consistent volume and a relaxed, natural delivery.
+
+**Limitação importante:** a voz criada *a partir de descrição* é suportada no GPT-Live, mas **não** no endpoint de fala `/v1/audio/speech` usado pelo site atualmente. Não substitua `marin` por este `voice_...` na rota de TTS; a viabilidade de áudio em artigos deve ser avaliada separadamente, preservando a versão do site em produção até aprovação. Para o público, identificar sempre a narração como gerada por IA.
+
+## Teste 02 — narrar um trecho da primeira edição
+
+**Objetivo:** avaliar se a Voz 01, já aprovada na conversa curta, mantém clareza, ritmo, pronúncia de números, continuidade e naturalidade durante aproximadamente 2–3 minutos de narração. Não é publicação nem validação factual adicional.
+
+**Como realizar no Live Playground:** abrir uma nova sessão com `Fora da Pauta — Voz 01` confirmada pela configuração `audio.output.voice.id`; depois que a sessão iniciar, usar o ícone de teclado do chat de áudio para **enviar** a instrução e o trecho a seguir, sem ditar o artigo pelo microfone. Encerrar a sessão ao terminar a audição para evitar custos adicionais.
+
+**Instrução ao modelo (não narrar esta instrução):** "Leia somente o texto abaixo em voz alta, em português brasileiro, preservando as palavras. Não faça comentários, resumos ou explicações adicionais. Use o ritmo conversado que você já tem, pausas curtas e naturais nas mudanças de parágrafo, perguntas expressivas sem dramatização e volume constante."
+
+**Texto do teste (adaptado somente para leitura, a partir do rascunho):**
+
+> Lula venceu. O que O Globo disse no dia seguinte?
+>
+> Lula ganhou a eleição. No dia seguinte, O Globo reconheceu a vitória — e passou a dizer o que esperava do novo governo.
+>
+> Quem decide como o presidente deve governar? O eleitor, o Congresso, os jornais? E quando um jornal dá conselhos ao governante, está apenas informando ou também defendendo uma posição?
+>
+> Vamos olhar para o que aconteceu, para a opinião do jornal e para uma interpretação diferente dessa mesma história.
+>
+> Primeiro, o que aconteceu nas urnas?
+>
+> Em 25 de outubro de 2026, Lula foi reeleito presidente. Segundo o Tribunal Superior Eleitoral, recebeu 64.256.232 votos, 51,79 por cento dos válidos. Flávio Bolsonaro recebeu 59.826.041 votos, 48,21 por cento.
+>
+> Esse é um resultado oficial. Não depende da opinião de O Globo, do Portal do José nem do Fora da Pauta.
+>
+> E o que O Globo disse no dia seguinte?
+>
+> Em 26 de outubro, O Globo publicou o editorial “Virada dá a Lula lugar inédito na História do Brasil”. O jornal reconhece o resultado histórico e afirma que Lula enfrentará um Congresso hostil.
+>
+> O editorial recomenda que o presidente evite revanchismo, defende um ajuste fiscal mais forte e cobra ações na segurança pública. Também pede investigação de suspeitas de crimes eleitorais e independência da Polícia Federal na apuração de denúncias contra pessoas próximas a Lula.
+>
+> Repare na diferença: o resultado da eleição é um fato. Dizer o que o presidente deveria fazer depois da vitória é uma posição do jornal.
+>
+> O Globo faz parte do Grupo Globo, pertencente à família Marinho. Saber quem é dono do jornal não prova por que aquele editorial foi escrito nem quais eram as intenções de seus autores. Mas ajuda a entender quem participa da conversa pública e de onde fala.
+>
+> E você, quando lê que é preciso fazer um ajuste fiscal, pergunta o que exatamente seria ajustado? Quais medidas estão sendo propostas? Quem seria afetado?
+>
+> José, do Portal do José, leu esse editorial de outro jeito. Para ele, grandes empresas de comunicação também são estruturas de poder, com interesses econômicos e de classe. Essa é a interpretação de José, não uma intenção comprovada de O Globo.
+>
+> Uma coisa é informar quem venceu a eleição. Outra é recomendar como o vencedor deve governar. Conhecer é importante. Entender como o jogo é jogado é fundamental.
+
+**Critérios de aprovação pela escuta do editor:** (1) naturalidade da voz ao longo do texto; (2) ritmo sem lentidão ou pressa; (3) números e nomes compreensíveis; (4) perguntas expressivas; (5) nenhuma troca inesperada de timbre; (6) fidelidade ao texto sem inventar frases. Se qualquer bloco for omitido ou parafraseado, registrar como falha do **modo de leitura** e não necessariamente da identidade vocal.
+
+**Nota técnica:** a Voz 01 foi criada por descrição e, de acordo com a documentação da OpenAI, funciona no GPT-Live, **não** diretamente na rota de síntese `/v1/audio/speech`. Antes de implementar a voz nos artigos, decidir uma arquitetura de geração controlada de áudio e custos; não trocar `marin` por um `voice_...` na rota existente. Não publicar nem disparar Telegram.
+
+## Teste 02 — primeira avaliação após narração mais longa (29/10/2026)
+
+**Relato do editor:** "Eu senti que tá um pouco cansativo pra ouvir. Talvez se fosse dado um pouquinho mais de espaço entre... não sei se entre o parágrafo. Eu acho que entre as frases, sabe? Essa é a minha primeira avaliação."
+
+**Interpretação para o próximo ensaio:** a Voz 01 segue sendo a referência aprovada para conversação, mas **a narração longa ainda não está aprovada**. A sensação de cansaço parece associada às frases muito emendadas, não necessariamente a palavras pronunciadas rápido demais. Não mudar o timbre, o modelo nem diminuir globalmente a velocidade sem antes testar **micro-pausas naturais após pontos finais e interrogações**. Uma mudança de parágrafo pode ter um respiro um pouco maior, mas sem silêncios prolongados. Não acrescentar espaços artificiais dentro de expressões, nomes ou números.
+
+**Teste A/B recomendado:** repetir o *mesmo trecho* com a mesma voz, usando somente a instrução revisada abaixo. Comparar a facilidade de escuta do início ao fim com a primeira tentativa. O Live Playground pode interpretar parcialmente as instruções de pausa; não presumir duração exata ou narração literal garantida.
+
+> Leia novamente o mesmo trecho, sem mudar nenhuma palavra nem acrescentar comentários. Mantenha a naturalidade, o timbre e a velocidade geral das palavras da Voz 01. Faça uma respiração curta, um pouco mais perceptível após cada frase terminada em ponto final ou ponto de interrogação, para o ouvinte assimilar a ideia antes da próxima frase. Entre parágrafos, uma pausa ligeiramente maior, mas sem ficar lento ou teatral. Não emende frases. Preserve o fluxo de conversa e o volume constante.
+
+**Não concluir ainda:** leitura longa agradável, compatibilidade com síntese de áudio dos artigos, ou publicação. Obter nova avaliação do editor depois da repetição.
+
+## Teste 03 — ritmo reduzido aprovado para o trecho curto (29/10/2026)
+
+Depois de comparar a narração com mais espaço entre frases, o editor pediu uma redução discreta do ritmo. Foi aplicado, por **instrução textual** no GPT-Live, o pedido de falar aproximadamente **10% mais devagar**, conservando o mesmo timbre feminino, pausas curtas após frases e pausas um pouco maiores entre parágrafos. A tentativa com texto longo excedeu o limite de contexto de 500 tokens, então o teste válido foi realizado com um trecho mais curto.
+
+**Avaliação do editor após ouvir:** "Melhorou, gostei assim."
+
+**Referência sonora preferida, a partir deste teste:** Voz 01 feminina, natural, tranquila, palavras ligeiramente mais lentas do que na primeira narração, com micro-pausas entre frases e respiros um pouco maiores entre parágrafos, sem arrastar. Não alterar a voz salva para atingir esse efeito: usar instruções de narração. A comparação de 1,75× versus 1,60× é somente referência intuitiva a uma demonstração anterior no navegador; **o GPT-Live não aplicou nem confirmou uma velocidade numérica de 1,60×**.
+
+**Limite da aprovação:** o editor aprovou o conforto de escuta do **trecho curto revisado**. Permanecem pendentes a narração integral e fiel de um artigo, o teste de escuta no celular e a escolha técnica de geração e distribuição de áudio dos artigos. Nenhuma integração ou publicação está autorizada por esta aprovação.
+
+**Instrução padrão provisória de narração:**
+
+> Leia fielmente o texto recebido, sem acrescentar conteúdo. Mantenha a Voz 01 feminina, natural e tranquila. Pronuncie as palavras num ritmo levemente mais lento, aproximadamente 10% abaixo da primeira narração testada, preservando pequenos respiros ao final das frases e pausas um pouco maiores entre parágrafos. Não emende as frases, mas também não alongue silêncios nem dramatize. Use uma conversa clara e confortável, preservando perguntas, sentido e volume constante.
+
+## Teste 04 — gravação real no Chrome e conversão MP3 (29/10/2026)
+
+- Captura realizada pelo próprio editor usando gravador privado de áudio da aba do GPT-Live no Chrome. Foi possível reproduzir o áudio capturado, salvar o WebM e ouvir o arquivo convertido para MP3.
+- A versão MP3 disponibilizada no teste durava aproximadamente 44 segundos e mantinha a velocidade e as pausas da captura. O corte removeu silêncio de início e fim, preservando as pausas internas.
+- **Avaliação do editor ao comparar MP3 e Playground:** "sutil diferença quase imperceptível".
+- **Decisão técnica:** a qualidade percebida da captura/conversão é suficientemente próxima para **continuar os testes com a Voz 01**, sem reconstruir outra voz neste momento. A pequena diferença relatada não justifica modificar timbre nem andamento antes de validar a narração integral.
+- **Limites:** esta avaliação não confirma reprodução literal de todas as palavras, nem constitui aprovação para colocar áudio em produção. Confirmar fidelidade ao roteiro, testar em celular e definir estratégia de gravação do artigo inteiro. O GPT-Live limita texto enviado por mensagem; dividir o roteiro em trechos curtos, manter a mesma voz e instrução, evitar textos diferentes e revisar possíveis variações entre sessões.
+- **Publicação:** nenhuma alteração no áudio da página pública ou envio no Telegram por conta desta avaliação.
+
+## Duas variações para comparação
+
+**B — Mais acolhedora:** mesmo texto da versão A, com tom ligeiramente mais quente e menos grave, mantendo andamento ágil e clareza. Evitar qualquer voz infantilizada ou terapêutica.
+
+**C — Mais investigativa:** mesmo texto da versão A, com articulação um pouco mais definida e curiosidade mais presente nas perguntas, sem suspense ou dramatização.
+
+As três versões devem usar **o mesmo roteiro** de teste, no mesmo idioma, sem alterar palavras, para permitir comparação justa.
+
+## Roteiro fixo de teste (aproximadamente 35 segundos, dependendo do ritmo)
+
+"Lula venceu a eleição. No dia seguinte, O Globo reconheceu a vitória — e passou a dizer o que esperava do novo governo.
+
+Mas você já pensou em uma coisa?
+
+Quem decide como o presidente deve governar? O eleitor? O Congresso? Os jornais?
+
+Uma coisa é informar quem venceu. Outra é recomendar o que o vencedor deveria fazer.
+
+E é justamente aí que começa a nossa conversa."
+
+## Ritmo e critérios de aprovação
+
+- Ritmo de demonstração inicial no navegador: 1,75×. Referência posterior de conforto na Voz 01 (GPT-Live): ritmo solicitado aproximadamente 10% mais lento, sem medição numérica exata, com micro-pausas entre frases. A taxa do navegador **não é automaticamente equivalente** à velocidade do GPT-Live. Ajustar por escuta, não converter mecanicamente.
+- Compreensão: 0 a 5 — palavras reconhecíveis na primeira audição.
+- Naturalidade: 0 a 5 — soa como conversa, não texto mecanicamente lido.
+- Proximidade: 0 a 5 — não fala de cima para baixo.
+- Perguntas: 0 a 5 — expressivas sem dramatização.
+- Identidade: 0 a 5 — soa adequada a diversos artigos do Fora da Pauta.
+- Avaliação em fones e alto-falante; computador e celular; ao menos um teste de artigo longo antes da aprovação.
+
+## Viabilidade técnica — situação em outubro de 2026
+
+1. **Prompt-to-voice** cria uma voz salva a partir de descrição na OpenAI API, mas funciona em **GPT-Live**, não na rota de Speech/TTS que o projeto usa hoje. Uma voz criada nessa modalidade **não deve ser inserida como** `voice` em `/v1/audio/speech`.
+2. **Voz personalizada via gravação** pode servir aos endpoints de TTS, mas exige amostra de voz autorizada, consentimento e acesso ao recurso. Não gravar nem clonar voz de terceiros sem autorização.
+3. O site usa atualmente `gpt-4o-mini-tts`, voz `marin`, em `/api/audio/ler`; a prévia editorial usa a voz do navegador. Uma eventual alteração para voz nova requer testes independentes.
+4. A documentação da OpenAI informa descontinuação do modelo `gpt-4o-mini-tts` em 06/01/2027; planejar migração de áudio antes disso.
+5. É necessário sinalizar ao público que a voz é **gerada por IA**.
+
+**NÃO EXECUTAR:** ativação para toda a audiência; criação automática de voz com uso de API; uso de chaves de produção em páginas de Preview; publicação de artigo ou disparo de Telegram sem aprovação.
+
+Fontes técnicas:
+- https://developers.openai.com/api/docs/guides/custom-voices
+- https://developers.openai.com/api/reference/resources/audio/subresources/voices/methods/create
+- https://developers.openai.com/api/docs/guides/text-to-speech
+- https://developers.openai.com/api/reference/resources/audio/subresources/speech/methods/create

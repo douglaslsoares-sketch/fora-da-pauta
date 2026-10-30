@@ -1,0 +1,48 @@
+name: Verificar rascunho editorial
+on:
+  pull_request:
+    paths:
+      - 'data/edicoes/rascunhos/lula-venceu-o-globo.ts'
+      - 'components/CampaignPage.tsx'
+      - 'components/ExpandableCard.tsx'
+      - 'components/PreviewAudioReader.tsx'
+      - 'tests/edicao-jogo-rascunho.test.cjs'
+      - 'scripts/audio/preparar-roteiro-edicao.cjs'
+      - 'tests/audio-roteiro-edicao.test.cjs'
+      - 'scripts/audio/validar-gravacao-edicao.cjs'
+      - 'tests/audio-pacote-revisao.test.cjs'
+      - 'scripts/audio/gerar-previa-local.cjs'
+      - 'tests/audio-previa-local.test.cjs'
+      - 'scripts/audio/extrair-voz-live.cjs'
+      - 'tests/audio-extrair-live.test.cjs'
+      - 'scripts/audio/servidor-gravacao-local.cjs'
+      - 'scripts/audio/gravador-aba.html'
+      - 'scripts/audio/gravador-aba.js'
+      - 'tests/audio-gravador-aba.test.cjs'
+      - 'lib/editorial/roteiro-narracao-live.ts'
+      - 'components/PainelRoteiroLive.tsx'
+      - 'app/previa-editorial/lula-venceu-o-globo/roteiro-live/page.tsx'
+      - 'tests/audio-roteiro-live.test.cjs'
+      - '.github/workflows/verificar-rascunho-editorial.yml'
+permissions:
+  contents: read
+jobs:
+  conferir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npx tsc --noEmit
+      - run: node --test tests/edicao-jogo-rascunho.test.cjs
+      - run: node --test tests/audio-roteiro-edicao.test.cjs
+      - run: node --test tests/audio-pacote-revisao.test.cjs
+      - run: node --test tests/audio-previa-local.test.cjs
+      - run: node --test tests/audio-extrair-live.test.cjs
+      - run: node --test tests/audio-gravador-aba.test.cjs
+      - run: node --test tests/audio-roteiro-live.test.cjs
+      - run: node scripts/audio/preparar-roteiro-edicao.cjs --check
