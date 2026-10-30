@@ -36,8 +36,10 @@ export async function GET(request: NextRequest) {
     `;
     await tx`
       UPDATE public.telegram_sessoes_site
-      SET codigo_hash = NULL, codigo_expira_at = NULL
-      WHERE codigo_hash = ${hashCodigo}
+      SET codigo_hash = NULL, codigo_expira_at = NULL,
+          vinculada_at = COALESCE(vinculada_at, now())
+      WHERE telegram_chat_id = ${chatId}::bigint
+        AND vinculada_at IS NULL
     `;
     return true;
   });

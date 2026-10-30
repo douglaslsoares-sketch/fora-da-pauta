@@ -497,6 +497,39 @@ async function registrarNovasEdicoes(
   `;
 }
 
+// Permite retomar o botão pelo Telegram sem refazer a inscrição.
+// O chat precisa estar autenticado pelo webhook e ter um vínculo
+// inicial ainda não concluído no site.
+async function renovarLinkDeConclusao(chatId: string) {
+  const codigoRetorno = randomBytes(24).toString("base64url");
+  const hashRetorno = hashToken(codigoRetorno);
+  const encontrado = await sql.begin(async tx => {
+    const sessoes = await tx<{ sessao_hash: string }[]>`
+      SELECT sessao_hash
+      FROM public.telegram_sessoes_site
+      WHERE telegram_chat_id = ${chatId}::bigint
+        AND vinculada_at IS NULL
+        AND codigo_hash IS NOT NULL
+        AND expira_at > now()
+      ORDER BY codigo_expira_at DESC NULLS LAST
+      LIMIT 1
+      FOR UPDATE
+    `;
+    if (!sessoes.length) return false;
+    await tx`
+      UPDATE public.telegram_sessoes_site
+      SET codigo_hash = ${hashRetorno},
+          codigo_expira_at = now() + interval '7 days'
+      WHERE sessao_hash = ${sessoes[0].sessao_hash}
+        AND vinculada_at IS NULL
+    `;
+    return true;
+  });
+  return encontrado
+    ? `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}`
+    : null;
+}
+
 async function cancelarTudo(
   chatId: string,
 ) {
@@ -627,6 +660,18 @@ export async function POST(
     }
 
 
+    if (/^\/concluir(?:@[A-Za-z0-9_]+)?\s*$/i.test(texto)) {
+      const link = await renovarLinkDeConclusao(chatId);
+      await enviarMensagemTelegram({
+        chatId,
+        texto: link
+          ? "Para terminar sua inscrição, volte ao Fora da Pauta pelo botão abaixo."
+          : "Não há uma inscrição aguardando conclusão. Se você já concluiu, seus avisos continuam ativos. Para conferir suas escolhas, envie /opcoes.",
+        ...(link ? { botoes: [[{ text: "Concluir a inscrição", url: link }]] } : {}),
+      });
+      return NextResponse.json({ ok: true });
+    }
+
     if (/^\/(?:opcoes|preferencias)(?:@[A-Za-z0-9_]+)?\s*$/i.test(texto)) {
       await mostrarPreferencias(chatId);
       return NextResponse.json({ ok: true });
@@ -681,6 +726,15 @@ export async function POST(
     }
 
     if (!payload) {
+      const linkPendente = await renovarLinkDeConclusao(chatId);
+      if (linkPendente) {
+        await enviarMensagemTelegram({
+          chatId,
+          texto: "Sua inscrição já foi iniciada. Falta apenas retornar ao Fora da Pauta para concluir.",
+          botoes: [[{ text: "Concluir a inscrição", url: linkPendente }]],
+        });
+        return NextResponse.json({ ok: true });
+      }
       await enviarMensagemTelegram({
         chatId,
         texto:
@@ -749,11 +803,23 @@ export async function POST(
               status = 'ativo', updated_at = now(), cancelled_at = NULL
           `;
         }
+        const jaConfirmado = await tx<{ pronto: boolean }[]>`
+          SELECT EXISTS (
+            SELECT 1
+            FROM public.telegram_sessoes_site
+            WHERE telegram_chat_id = ${chatId}::bigint
+              AND vinculada_at IS NOT NULL
+              AND expira_at > now()
+          ) AS pronto
+        `;
         await tx`
           UPDATE public.telegram_sessoes_site
           SET telegram_chat_id = ${chatId}::bigint,
-              vinculada_at = now(), codigo_hash = ${hashRetorno},
-              codigo_expira_at = now() + interval '15 minutes',
+              -- Uma pessoa já inscrita não deve voltar a ficar pendente.
+              vinculada_at = CASE WHEN ${jaConfirmado[0]?.pronto === true}
+                THEN now() ELSE NULL END,
+              codigo_hash = ${hashRetorno},
+              codigo_expira_at = now() + interval '7 days',
               candidaturas_pendentes = '{}'
           WHERE sessao_hash = ${vinculo.sessao_hash}
         `;
@@ -769,8 +835,9 @@ export async function POST(
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "Sua inscrição foi registrada no Telegram. " +
-          "Para finalizar e conferir suas escolhas no Fora da Pauta, toque no botão abaixo. " +
+          "Sua inscrição foi iniciada no Telegram. " +
+          "Para concluir e começar a receber os avisos, toque no botão abaixo. " +
+          "Se não puder fazer isso agora, envie /concluir nesta conversa para receber outro botão. " +
           "As novas edições são ativadas por padrão, sem reativar uma preferência que você tenha desativado. " +
           "As pessoas escolhidas ficam na mesma conversa. Envie /opcoes para consultar suas preferências.",
         botoes: [[{
