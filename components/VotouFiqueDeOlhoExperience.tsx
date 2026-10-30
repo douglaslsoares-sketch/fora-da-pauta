@@ -1007,8 +1007,9 @@ export function VotouFiqueDeOlhoExperience() {
           onSelect={selecionar}
         />
 
-
-
+        <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
+          <HomeShareInvite />
+        </section>
 
           {!conferindoInscricao && !novasEdicoesAtivas ? (
             <div className="mt-7 rounded-2xl border border-black/15 p-5">
