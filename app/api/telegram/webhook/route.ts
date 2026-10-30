@@ -1,4 +1,5 @@
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
+import { telegramLiberadoNesteAmbiente, origemRetornoTelegram, tokenBotTelegram, segredoWebhookTelegram } from "@/lib/telegram/ambiente";
 
 import { NextResponse } from "next/server";
 
@@ -100,10 +101,8 @@ async function enviarMensagemTelegram({
   texto: string;
   botoes?: TelegramButton[][];
 }) {
-  const botToken =
-    obterVariavelObrigatoria(
-      "TELEGRAM_BOT_TOKEN",
-    );
+  const botToken = tokenBotTelegram();
+  if (!botToken) throw new Error("TELEGRAM_BOT_TOKEN não configurado.");
 
   const response =
     await fetch(
@@ -526,7 +525,7 @@ async function renovarLinkDeConclusao(chatId: string) {
     return true;
   });
   return encontrado
-    ? `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}`
+    ? `${origemRetornoTelegram()}/api/telegram/concluir?codigo=${codigoRetorno}`
     : null;
 }
 
@@ -577,11 +576,10 @@ async function cancelarTudo(
 export async function POST(
   request: Request,
 ) {
+  if (!telegramLiberadoNesteAmbiente()) return NextResponse.json({ ok: false, erro: "Preview Telegram não configurada." }, { status: 503 });
   try {
-    const webhookSecret =
-      obterVariavelObrigatoria(
-        "TELEGRAM_WEBHOOK_SECRET",
-      );
+    const webhookSecret = segredoWebhookTelegram();
+    if (!webhookSecret) throw new Error("TELEGRAM_WEBHOOK_SECRET não configurado.");
 
     const secretRecebido =
       request.headers
@@ -842,7 +840,7 @@ export async function POST(
           "As pessoas escolhidas ficam na mesma conversa. Envie /opcoes para consultar suas preferências.",
         botoes: [[{
           text: "Concluir a inscrição",
-          url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}`,
+          url: `${origemRetornoTelegram()}/api/telegram/concluir?codigo=${codigoRetorno}`,
         }]],
       });
       return NextResponse.json({ ok: true });
