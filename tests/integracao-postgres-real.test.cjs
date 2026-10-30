@@ -28,6 +28,10 @@ function loadModule(filename, sql, globals = {}) {
     module, exports: module.exports,
     require(name) {
       if (name === "server-only") return {};
+      if (name === "./ambiente") return {
+        telegramLiberadoNesteAmbiente: () => true,
+        tokenBotTelegram: () => "token-ficticio",
+      };
       if (name === "@/lib/interesses/db" || name === "../interesses/db") return { sql };
       throw Error("Importação não autorizada no teste: " + name);
     },
