@@ -1,6 +1,13 @@
 import { createHash } from "node:crypto";
 import { LimiteDeAudioAtingido, obterOuGerarAudioCompartilhado } from "@/lib/audio-cache";
 
+class ChaveDeVozIndisponivel extends Error {
+  constructor() {
+    super("A leitura neural ainda não está configurada no servidor.");
+    this.name = "ChaveDeVozIndisponivel";
+  }
+}
+
 export const runtime = "nodejs";
 
 const LIMITE_TEXTO = 4000;
@@ -214,21 +221,6 @@ Somente no fim faça uma conclusão suave e discreta.
 export async function POST(
   request: Request,
 ) {
-  const apiKey =
-    process.env.OPENAI_API_KEY?.trim();
-
-  if (!apiKey) {
-    return Response.json(
-      {
-        error:
-          "A leitura neural ainda não está configurada no servidor.",
-      },
-      {
-        status: 503,
-      },
-    );
-  }
-
   try {
     const body =
       (await request.json()) as {
@@ -295,6 +287,13 @@ export async function POST(
       await obterOuGerarAudioCompartilhado(
         chave,
         async () => {
+          // Somente uma narração inédita precisa da chave da API.
+          // MP3s já armazenados continuam disponíveis sem ela.
+          const apiKey = process.env.OPENAI_API_KEY?.trim();
+          if (!apiKey) {
+            throw new ChaveDeVozIndisponivel();
+          }
+
           const resposta = await fetch(
             "https://api.openai.com/v1/audio/speech",
             {
@@ -344,6 +343,9 @@ export async function POST(
       },
     );
   } catch (error) {
+    if (error instanceof ChaveDeVozIndisponivel) {
+      return Response.json({ error: error.message }, { status: 503 });
+    }
     if (error instanceof LimiteDeAudioAtingido) {
       return Response.json(
         { error: error.message },
