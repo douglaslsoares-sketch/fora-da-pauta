@@ -131,6 +131,7 @@ function cenario() {
     },
     "@/lib/telegram/ambiente": {
       telegramLiberadoNesteAmbiente: () => true,
+      nomeBotTelegram: () => "ForaDaPautaAcompanhaBot",
       origemRetornoTelegram: () => "https://www.foradapauta.org",
       tokenBotTelegram: () => "token-teste",
       segredoWebhookTelegram: () => "segredo-teste",
