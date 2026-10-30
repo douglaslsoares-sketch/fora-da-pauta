@@ -20,7 +20,7 @@ test("fila mantém avisos pendentes até confirmação", () => {
   assert.match(fila, /AND NOT EXISTS \(/);
   assert.match(fila, /pendente\.vinculada_at IS NULL/);
   assert.match(fila, /pendente\.codigo_hash IS NOT NULL/);
-  assert.match(fila, /pendente\.expira_at > now\(\)/);
+  assert.doesNotMatch(fila, /pendente\.expira_at > now\(\)/);
 });
 
 test("retorno confirma todas as sessões pendentes da pessoa", () => {
@@ -34,4 +34,9 @@ test("reinscrição não bloqueia usuário anteriormente confirmado", () => {
   const webhook = ler("app/api/telegram/webhook/route.ts");
   assert.match(webhook, /jaConfirmado/);
   assert.match(webhook, /THEN now\(\) ELSE NULL END/);
+});
+
+test("inscrição ainda pendente não aparece como concluída no navegador", () => {
+  const sessao = ler("lib/telegram/sessao-site.ts");
+  assert.match(sessao, /AND s\.vinculada_at IS NOT NULL/);
 });
