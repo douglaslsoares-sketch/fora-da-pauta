@@ -13,6 +13,8 @@ function obterBotUsername() {
 }
 
 export function FloatingTelegramButton() {
+  // Não expor o bot público em prévias cujo ambiente Telegram ainda está isolado apenas no servidor.
+  if (process.env.NEXT_PUBLIC_VERCEL_ENV !== "production") return null;
   const pathname =
     usePathname();
 
