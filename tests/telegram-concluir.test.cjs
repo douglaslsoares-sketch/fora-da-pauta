@@ -48,6 +48,7 @@ function fixture() {
         }),
       },
     },
+    "@/lib/telegram/ambiente": { telegramLiberadoNesteAmbiente: () => true },
     "@/lib/interesses/db": { sql },
     "@/lib/telegram/sessao-site": {
       COOKIE_SESSAO_TELEGRAM: "fdp_tg_site_v1", DIAS_SESSAO: 180,
