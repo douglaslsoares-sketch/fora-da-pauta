@@ -129,6 +129,12 @@ function cenario() {
     "@/lib/eleicoes/identidade-politica": {
       buscarPessoaPoliticaConfirmadaPorCandidatura: () => null,
     },
+    "@/lib/telegram/ambiente": {
+      telegramLiberadoNesteAmbiente: () => true,
+      origemRetornoTelegram: () => "https://www.foradapauta.org",
+      tokenBotTelegram: () => "token-teste",
+      segredoWebhookTelegram: () => "segredo-teste",
+    },
     "@/lib/interesses/db": { sql },
   };
   vm.runInNewContext(compiled.outputText, {
