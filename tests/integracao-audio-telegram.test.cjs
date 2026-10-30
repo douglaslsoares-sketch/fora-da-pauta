@@ -61,3 +61,11 @@ test("retomada da inscrição não exige outro número de telefone", () => {
   assert.match(webhook, /text: "Concluir a inscrição"/);
   assert.match(webhook, /codigo_expira_at = now\(\) \+ interval '7 days'/);
 });
+
+test("MP3 existente pode ser reutilizado mesmo sem credencial de voz", () => {
+  const route = read("app/api/audio/ler/route.ts");
+  const callback = route.indexOf("async () => {", route.indexOf("obterOuGerarAudioCompartilhado"));
+  const key = route.indexOf("const apiKey = process.env.OPENAI_API_KEY", callback);
+  assert.ok(callback >= 0 && key > callback);
+  assert.match(route, /error instanceof ChaveDeVozIndisponivel/);
+});
