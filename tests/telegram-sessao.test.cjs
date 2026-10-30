@@ -75,6 +75,10 @@ function fixture() {
     "next/headers": { cookies: async () => ({
       get: name => name === "fdp_tg_site_v1" && state.token ? { value: state.token } : undefined,
     }) },
+    "@/lib/telegram/ambiente": {
+      telegramLiberadoNesteAmbiente: () => true,
+      nomeBotTelegram: () => "ForaDaPautaAcompanhaBot",
+    },
     "@/lib/interesses/db": { sql },
     "@/lib/rateLimit": { consumeRateLimit: async () =>
       state.rateLimited ? { allowed: false, retryAfterSeconds: 30 } : { allowed: true } },
