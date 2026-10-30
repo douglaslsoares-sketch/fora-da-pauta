@@ -1,4 +1,6 @@
-const HOME_PUBLICA = "https://www.foradapauta.org/";
+// URL exclusiva para o convite: força uma nova leitura da prévia pelo WhatsApp.
+// O destino e o conteúdo da home permanecem os mesmos.
+const HOME_PUBLICA = "https://www.foradapauta.org/?convite=olho-amarelo-20261030";
 const TEXTO = [
   "Conheça o Fora da Pauta.",
   "",
