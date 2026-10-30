@@ -4,7 +4,7 @@ import { SiteHeaderRouter } from "@/components/SiteHeaderRouter";
 
 function InstitutionalHeader() {
   return (
-    <header className="border-b border-black/10 bg-white text-black">
+    <header className="sticky top-0 z-40 border-b border-black/10 bg-white text-black">
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="flex min-h-[58px] items-center">
           <Link
