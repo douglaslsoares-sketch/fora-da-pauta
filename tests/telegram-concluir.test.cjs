@@ -28,7 +28,7 @@ function fixture() {
       return Promise.resolve([]);
     }
     if (query.startsWith("UPDATE public.telegram_sessoes_site")) {
-      if (args[0] !== state.returnHash) throw Error("Código inesperado");
+      if (String(args[0]) !== state.chatId) throw Error("Chat inesperado");
       state.returnHash = null;
       state.calls++;
       return Promise.resolve([]);
@@ -48,6 +48,7 @@ function fixture() {
         }),
       },
     },
+    "@/lib/telegram/ambiente": { telegramLiberadoNesteAmbiente: () => true },
     "@/lib/interesses/db": { sql },
     "@/lib/telegram/sessao-site": {
       COOKIE_SESSAO_TELEGRAM: "fdp_tg_site_v1", DIAS_SESSAO: 180,

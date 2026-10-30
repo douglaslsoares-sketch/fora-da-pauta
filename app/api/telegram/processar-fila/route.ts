@@ -1,3 +1,4 @@
+import { telegramLiberadoNesteAmbiente } from "@/lib/telegram/ambiente";
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 
@@ -6,6 +7,7 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
 export async function GET(request: Request) {
+  if (!telegramLiberadoNesteAmbiente()) return NextResponse.json({ ok: false, codigo: "PREVIEW_TELEGRAM_NAO_ISOLADA" }, { status: 503 });
   const segredo = process.env.CRON_SECRET?.trim();
 
   if (!segredo) {

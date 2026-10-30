@@ -146,6 +146,10 @@ function montarCenario() {
   }).registrarNovidadesNaFila;
   const processar = modulo("lib/telegram/processar-fila.ts", {
     "server-only": {},
+    "./ambiente": {
+      telegramLiberadoNesteAmbiente: () => true,
+      tokenBotTelegram: () => "token-totalmente-falso",
+    },
     "../interesses/db": { sql },
   }).processarFilaTelegram;
 

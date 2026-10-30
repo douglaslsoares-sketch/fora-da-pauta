@@ -1,0 +1,50 @@
+name: Validar integração de áudio e Telegram
+on:
+  pull_request:
+    paths:
+      - 'lib/audio-cache.ts'
+      - 'app/api/audio/ler/route.ts'
+      - 'app/api/telegram/concluir/route.ts'
+      - 'app/api/telegram/webhook/route.ts'
+      - 'lib/telegram/processar-fila.ts'
+      - 'tests/integracao-audio-telegram.test.cjs'
+      - 'tests/audio-cache-comportamento.test.cjs'
+      - 'tests/integracao-postgres-real.test.cjs'
+      - 'tests/telegram-percurso-postgres-e2e.test.cjs'
+      - 'tests/telegram-concluir-antes-avisos.test.cjs'
+      - '.github/workflows/validar-integracao-audio-telegram.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ci_teste
+          POSTGRES_PASSWORD: ci_somente_teste
+          POSTGRES_DB: fora_da_pauta_teste
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ci_teste -d fora_da_pauta_teste"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      FDP_TEST_DATABASE_URL: postgres://ci_teste:ci_somente_teste@localhost:5432/fora_da_pauta_teste
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npx tsc --noEmit
+      - run: node --test tests/audio-cache-comportamento.test.cjs tests/integracao-audio-telegram.test.cjs tests/telegram-concluir-antes-avisos.test.cjs tests/edicoes-audio.test.cjs
+      - run: node --test tests/integracao-postgres-real.test.cjs tests/telegram-percurso-postgres-e2e.test.cjs

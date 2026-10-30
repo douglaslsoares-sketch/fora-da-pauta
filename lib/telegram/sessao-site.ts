@@ -38,6 +38,9 @@ export async function inscricaoAtiva(token: string | null) {
     WHERE s.sessao_hash = ${hashSessao(token)}
       AND s.expira_at > now()
       AND s.telegram_chat_id IS NOT NULL
+      -- Vincular o chat ao bot ainda não conclui a inscrição:
+      -- o retorno ao site é necessário para autenticar e liberar avisos.
+      AND s.vinculada_at IS NOT NULL
     LIMIT 1
   `;
   return resultado[0]?.ativo === true;

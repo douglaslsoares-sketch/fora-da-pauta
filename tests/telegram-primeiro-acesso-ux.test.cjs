@@ -37,11 +37,11 @@ test("o webhook confirma, habilita edições e fornece retorno ao site", () => {
   assert.match(webhook, /if \(payload\.startsWith\("s_"\)\)/);
   assert.match(webhook, /INSERT INTO telegram_preferencias[\s\S]*?'novas_edicoes'/);
   assert.match(webhook, /Concluir a inscrição/);
-  assert.match(webhook, /https:\/\/www\.foradapauta\.org\/api\/telegram\/concluir\?codigo=/);
+  assert.match(webhook, /\$\{origemRetornoTelegram\(\)\}\/api\/telegram\/concluir\?codigo=\$\{codigoRetorno\}/);
 });
 
 test("retorno autentica navegador por cookie, sem expor o ID do chat", () => {
-  assert.match(retorno, /SET codigo_hash = NULL, codigo_expira_at = NULL/);
+  assert.match(retorno, /SET codigo_hash = NULL, codigo_expira_at = NULL,/);
   assert.match(retorno, /\/votou-fique-de-olho\?retorno=telegram/);
   assert.match(retorno, /httpOnly: true/);
   assert.match(retorno, /sameSite: "lax"/);
@@ -69,4 +69,18 @@ test("segunda tela de inscrição geral prioriza botão sem texto redundante", (
   assert.match(tela, /Continuar no Telegram/);
   assert.match(tela, /Você poderá escolher pessoas para acompanhar depois/);
   assert.match(tela, /onClick=\{\(\) => void ativarTelegram\(\)\}/);
+});
+
+test("preview recusa inscrição e envio quando falta isolamento do bot e banco", () => {
+  const ambiente = ler("lib/telegram/ambiente.ts");
+  const fila = ler("lib/telegram/processar-fila.ts");
+  const vinculo = ler("app/api/telegram/vinculo/route.ts");
+  assert.match(ambiente, /FDP_TELEGRAM_E2E_READY/);
+  assert.match(ambiente, /DATABASE_URL !== process\.env\.FDP_TELEGRAM_TEST_DATABASE_URL/);
+  assert.match(ambiente, /FDP_TELEGRAM_TEST_BOT_TOKEN/);
+  assert.match(sessao, /if \(!telegramLiberadoNesteAmbiente\(\)\)/);
+  assert.match(webhook, /if \(!telegramLiberadoNesteAmbiente\(\)\)/);
+  assert.match(retorno, /if \(!telegramLiberadoNesteAmbiente\(\)\)/);
+  assert.match(vinculo, /if \(!telegramLiberadoNesteAmbiente\(\)\)/);
+  assert.match(fila, /if \(!telegramLiberadoNesteAmbiente\(\)\)/);
 });

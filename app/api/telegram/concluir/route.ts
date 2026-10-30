@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { telegramLiberadoNesteAmbiente } from "@/lib/telegram/ambiente";
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/interesses/db";
 import { COOKIE_SESSAO_TELEGRAM, DIAS_SESSAO, hashSessao } from "@/lib/telegram/sessao-site";
@@ -7,6 +8,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
+  if (!telegramLiberadoNesteAmbiente()) return NextResponse.json({ erro: "Conclusão de ensaio indisponível nesta prévia." }, { status: 503 });
   const codigo = request.nextUrl.searchParams.get("codigo");
   if (!codigo || !/^[A-Za-z0-9_-]{32}$/.test(codigo)) {
     return NextResponse.redirect(new URL("/votou-fique-de-olho?retorno=telegram", request.url), 303);
@@ -36,8 +38,10 @@ export async function GET(request: NextRequest) {
     `;
     await tx`
       UPDATE public.telegram_sessoes_site
-      SET codigo_hash = NULL, codigo_expira_at = NULL
-      WHERE codigo_hash = ${hashCodigo}
+      SET codigo_hash = NULL, codigo_expira_at = NULL,
+          vinculada_at = COALESCE(vinculada_at, now())
+      WHERE telegram_chat_id = ${chatId}::bigint
+        AND vinculada_at IS NULL
     `;
     return true;
   });
