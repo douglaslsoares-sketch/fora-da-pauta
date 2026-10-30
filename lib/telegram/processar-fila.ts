@@ -1,6 +1,7 @@
 import "server-only";
 
 import { sql } from "../interesses/db";
+import { telegramLiberadoNesteAmbiente, tokenBotTelegram } from "./ambiente";
 
 type Aviso = {
   id: string;
@@ -16,7 +17,8 @@ type RespostaTelegram = {
 };
 
 export async function processarFilaTelegram() {
-  const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
+  if (!telegramLiberadoNesteAmbiente()) throw new Error("PREVIEW_TELEGRAM_NAO_ISOLADA");
+  const token = tokenBotTelegram();
   if (!token) {
     throw new Error("TELEGRAM_BOT_TOKEN não configurado.");
   }
