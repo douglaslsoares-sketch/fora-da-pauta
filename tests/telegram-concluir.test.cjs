@@ -28,7 +28,7 @@ function fixture() {
       return Promise.resolve([]);
     }
     if (query.startsWith("UPDATE public.telegram_sessoes_site")) {
-      if (args[0] !== state.returnHash) throw Error("Código inesperado");
+      if (String(args[0]) !== state.chatId) throw Error("Chat inesperado");
       state.returnHash = null;
       state.calls++;
       return Promise.resolve([]);
