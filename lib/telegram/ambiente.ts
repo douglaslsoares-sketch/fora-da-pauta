@@ -11,6 +11,7 @@ export function telegramLiberadoNesteAmbiente() {
   if (process.env.VERCEL_GIT_COMMIT_REF !== BRANCH_ENSAIO_TELEGRAM ||
       process.env.FDP_TELEGRAM_E2E_READY !== "isolated" ||
       !process.env.FDP_TELEGRAM_TEST_DATABASE_URL ||
+      process.env.DATABASE_URL !== process.env.FDP_TELEGRAM_TEST_DATABASE_URL ||
       !process.env.FDP_TELEGRAM_TEST_BOT_TOKEN ||
       !process.env.FDP_TELEGRAM_TEST_WEBHOOK_SECRET) return false;
   const bot = process.env.FDP_TELEGRAM_TEST_BOT_USERNAME?.trim() ?? "";
