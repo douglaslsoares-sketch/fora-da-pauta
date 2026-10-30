@@ -86,6 +86,15 @@ export async function processarFilaTelegram() {
         WHERE f.status IN ('pendente', 'erro')
           AND f.tentativas < 5
           AND f.proxima_tentativa_at <= now()
+          -- Não cancelar nem enviar avisos enquanto faltar
+          -- a conclusão pelo botão no Telegram.
+          AND NOT EXISTS (
+            SELECT 1 FROM public.telegram_sessoes_site AS pendente
+            WHERE pendente.telegram_chat_id = f.telegram_chat_id
+              AND pendente.vinculada_at IS NULL
+              AND pendente.codigo_hash IS NOT NULL
+              AND pendente.expira_at > now()
+          )
           AND (
             (f.tipo = 'candidato' AND EXISTS (
               SELECT 1 FROM public.telegram_acompanhamentos AS a
