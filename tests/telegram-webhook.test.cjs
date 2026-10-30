@@ -58,6 +58,9 @@ function cenario() {
       if (!db.edicoes.some(r => r.chat === chat)) db.edicoes.push({ chat, status: "ativo" });
       return Promise.resolve([]);
     }
+    if (q.includes("SELECT EXISTS (") && q.includes("FROM public.telegram_sessoes_site")) {
+      return Promise.resolve([{ pronto: false }]);
+    }
     if (q.includes("SELECT EXISTS (") && q.includes("FROM public.telegram_preferencias")) {
       return Promise.resolve([{ ativa: db.edicoes.some(r => r.chat === chat && r.status === "ativo") }]);
     }
@@ -69,10 +72,10 @@ function cenario() {
       return Promise.resolve([]);
     }
     if (q.startsWith("UPDATE public.telegram_sessoes_site")) {
-      const sessao = db.sessoes.find(s => s.sessao_hash === String(args[2]));
+      const sessao = db.sessoes.find(s => s.sessao_hash === String(args[3]));
       if (sessao) {
         sessao.telegram_chat_id = String(args[0]);
-        sessao.codigo_hash = String(args[1]);
+        sessao.codigo_hash = String(args[2]);
         gravacoes++;
       }
       return Promise.resolve([]);
@@ -231,7 +234,7 @@ test("confirma a inscricao via sessao do site no mesmo bot", async () => {
   const urlConclusao = new URL(c.mensagens.at(-1).reply_markup.inline_keyboard[0][0].url);
   assert.equal(c.db.sessoes[0].codigo_hash,
     crypto.createHash("sha256").update(urlConclusao.searchParams.get("codigo")).digest("hex"));
-  assert.match(c.mensagens.at(-1).text, /inscrição foi registrada no Telegram/i);
+  assert.match(c.mensagens.at(-1).text, /inscrição foi iniciada no Telegram/i);
   assert.equal(c.mensagens.at(-1).reply_markup.inline_keyboard[0][0].text, "Concluir a inscrição");
   assert.match(c.mensagens.at(-1).reply_markup.inline_keyboard[0][0].url,
     /^https:\/\/www\.foradapauta\.org\/api\/telegram\/concluir\?codigo=[A-Za-z0-9_-]{32}$/);
