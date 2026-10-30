@@ -4,10 +4,6 @@
   color: #111111;
 }
 
-:global(body):has(.page) > :global(header) {
-  display: none;
-}
-
 .header {
   background: #000000;
   color: #ffffff;
