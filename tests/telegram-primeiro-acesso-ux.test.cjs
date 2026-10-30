@@ -41,7 +41,7 @@ test("o webhook confirma, habilita edições e fornece retorno ao site", () => {
 });
 
 test("retorno autentica navegador por cookie, sem expor o ID do chat", () => {
-  assert.match(retorno, /SET codigo_hash = NULL, codigo_expira_at = NULL/);
+  assert.match(retorno, /SET codigo_hash = NULL, codigo_expira_at = NULL,/);
   assert.match(retorno, /\/votou-fique-de-olho\?retorno=telegram/);
   assert.match(retorno, /httpOnly: true/);
   assert.match(retorno, /sameSite: "lax"/);
