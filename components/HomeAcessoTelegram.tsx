@@ -8,7 +8,6 @@ type Situacao = { ativo?: boolean; ids?: string[] };
 const opcoes = [
   { titulo: "Acompanhar pessoas", descricao: "Escolha pessoas para acompanhar.", href: "/votou-fique-de-olho" },
   { titulo: "Minhas escolhas", descricao: "Veja ou remova pessoas acompanhadas.", href: "/votou-fique-de-olho?minhas=1", exigeEscolhas: true },
-  { titulo: "Buscar pessoas", descricao: "Encontre pessoas pelo nome.", href: "/votou-fique-de-olho" },
   { titulo: "Ver ficha política", descricao: "Pesquise e consulte uma ficha.", href: "/votou-fique-de-olho" },
   { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições.", href: "/edicoes" },
 ];
