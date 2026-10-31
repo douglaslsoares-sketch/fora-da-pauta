@@ -17,7 +17,7 @@ export default function FichaPoliticaBusca() {
           Encontre uma pessoa pelo nome e consulte sua ficha política.
         </p>
         <CandidateSelector mode="ficha" />
-        <Link href="/#opcoes" className="mx-auto mt-8 flex min-h-14 w-full max-w-[720px] items-center justify-center rounded-2xl bg-black px-5 py-3 text-center text-base font-semibold text-white">
+        <Link href="/#opcoes" className="mx-auto mt-8 flex min-h-14 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-center text-base font-semibold text-white">
           Voltar às opções
         </Link>
       </section>

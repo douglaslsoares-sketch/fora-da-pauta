@@ -17,8 +17,8 @@ export default function CamisetaPage() {
           <figcaption className="mt-3 text-center text-sm text-black/60">Montagem ilustrativa da camiseta Fora da Pauta.</figcaption>
         </figure>
         <p className="mt-5 text-center text-base leading-7">A compra da camiseta ajudará a financiar e manter o projeto Fora da Pauta.</p>
-        <a href="https://montink.com/fora-da-pauta/camiseta-fora-da-pauta-3p5n3" target="_blank" rel="noopener noreferrer" className="mx-auto mt-6 flex min-h-14 w-full max-w-[720px] items-center justify-center rounded-2xl bg-[#FFD700] px-5 py-3 text-center text-lg font-bold text-black transition hover:bg-[#ebc700]">Comprar camiseta</a>
-        <Link href="/#opcoes" className="mx-auto mt-8 flex min-h-14 w-full max-w-[720px] items-center justify-center rounded-2xl bg-black px-5 py-3 text-center text-base font-semibold text-white">Voltar às opções</Link>
+        <a href="https://montink.com/fora-da-pauta/camiseta-fora-da-pauta-3p5n3" target="_blank" rel="noopener noreferrer" className="mx-auto mt-6 flex min-h-14 w-full items-center justify-center rounded-2xl bg-[#FFD700] px-5 py-3 text-center text-lg font-bold text-black transition hover:bg-[#ebc700]">Comprar camiseta</a>
+        <Link href="/#opcoes" className="mx-auto mt-8 flex min-h-14 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-center text-base font-semibold text-white">Voltar às opções</Link>
       </div>
     </main>
   );
