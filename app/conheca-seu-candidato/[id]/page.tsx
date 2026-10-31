@@ -95,6 +95,22 @@ type PageProps = {
   }>;
 };
 
+export async function generateMetadata({ params }: PageProps) {
+  const { id } = await params;
+  const pessoa = candidaturas.find((item) => item.id === id);
+  if (!pessoa) return { title: "Ficha política | Fora da Pauta" };
+  const titulo = `Ficha política: ${pessoa.nomeUrna}`;
+  const descricao = `Conheça a trajetória e as informações públicas de ${pessoa.nomeUrna}. Confira as fontes no Fora da Pauta.`;
+  const imagem = `https://www.foradapauta.org/api/compartilhar/imagem?tipo=ficha&titulo=${encodeURIComponent(pessoa.nomeUrna)}&descricao=${encodeURIComponent(descricao)}`;
+  const url = `https://www.foradapauta.org/conheca-seu-candidato/${encodeURIComponent(id)}`;
+  return {
+    title: titulo,
+    description: descricao,
+    openGraph: { title: titulo, description: descricao, url, siteName: "Fora da Pauta", type: "profile" as const, images: [{ url: imagem, width: 1200, height: 630 }] },
+    twitter: { card: "summary_large_image" as const, title: titulo, description: descricao, images: [imagem] },
+  };
+}
+
 export default async function CandidatePage({
   params,
 }: PageProps) {
