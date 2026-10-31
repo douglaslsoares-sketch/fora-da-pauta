@@ -139,6 +139,14 @@ export async function processarFilaTelegram() {
             chat_id: aviso.chat_id,
             text: aviso.texto,
             disable_web_page_preview: true,
+            reply_markup: {
+              inline_keyboard: [[
+                {
+                  text: "Opções do Fora da Pauta",
+                  url: "https://www.foradapauta.org/telegram/acoes",
+                },
+              ]],
+            },
           }),
           cache: "no-store",
           signal: AbortSignal.timeout(8_000),
