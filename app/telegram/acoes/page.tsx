@@ -24,7 +24,7 @@ const opcoes: Opcao[] = [
   { titulo: "Minhas escolhas", descricao: "Consulte ou remova as pessoas que você acompanha.", href: "/votou-fique-de-olho?minhas=1", exigeEscolhas: true },
   { titulo: "Ver ficha política", descricao: "Pesquise uma pessoa e consulte sua ficha.", href: "/ficha-politica" },
   { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições disponíveis.", href: "/edicoes" },
-  { titulo: "Camiseta Fora da Pauta", descricao: "Ajude a financiar o projeto.", href: "/camiseta", indisponivel: true },
+  { titulo: "Camiseta Fora da Pauta", descricao: "Ajude a financiar o projeto.", href: "/camiseta" },
   { titulo: "Página inicial", descricao: "Voltar ao Fora da Pauta.", href: "/" },
 ];
 
