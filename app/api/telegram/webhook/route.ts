@@ -898,10 +898,7 @@ export async function POST(
           "Você receberá avisos das novas edições por aqui.",
         imagemUrl: "https://www.foradapauta.org/opengraph-image.jpg",
         botoes: [
-          [{ text: "Ver minhas escolhas", url: await criarLinkMinhasEscolhas(chatId) }],
-          [{ text: "Incluir novas pessoas", url: "https://www.foradapauta.org/votou-fique-de-olho" }],
-          [{ text: "Ver edições já publicadas", url: "https://www.foradapauta.org/" }],
-          [{ text: "Voltar ao site", url: "https://www.foradapauta.org/" }],
+          [{ text: "Continuar — ver opções", url: "https://www.foradapauta.org/telegram/acoes" }],
         ],
       });
       return NextResponse.json({ ok: true });
