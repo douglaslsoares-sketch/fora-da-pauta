@@ -26,7 +26,7 @@ export function HomeShareInvite() {
       </p>
       <div className="mt-4 overflow-hidden rounded-2xl border border-black/15 bg-white">
         <img
-          src="/compartilhar/olho"
+          src="/compartilhar/olho-v2"
           alt="Olho amarelo do Fora da Pauta sobre fundo preto, sem texto."
           width={1200}
           height={630}

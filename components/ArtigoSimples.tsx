@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { Campaign } from "@/data/campanhas";
+import { ConviteTelegramArtigo } from "@/components/ConviteTelegramArtigo";
 
 function comNegrito(paragrafo: string) {
   return paragrafo.split(/(\*\*.*?\*\*)/g).map((trecho, indice) =>
@@ -14,7 +15,7 @@ function comNegrito(paragrafo: string) {
 export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
   const url = `https://www.foradapauta.org/campanhas/${campaign.slug}`;
   const mensagem = `Fora da Pauta — ${campaign.title}\n\n${campaign.statement}\n\n${url}`;
-  const arteUrl = "/compartilhar/olho";
+  const arteUrl = "/compartilhar/olho-v2";
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
 
   function ouvir() {
@@ -57,6 +58,8 @@ export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
             </section>
           ))}
         </article>
+
+        <ConviteTelegramArtigo />
 
         <section aria-labelledby="compartilhar-artigo" className="mt-12 border-t border-black/15 pt-8">
           <h2 id="compartilhar-artigo" className="text-2xl font-bold tracking-tight">

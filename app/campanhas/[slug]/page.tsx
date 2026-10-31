@@ -29,10 +29,10 @@ export async function generateMetadata({
     `https://www.foradapauta.org/campanhas/${campaign.slug}`;
 
   const imageUrl = campaign.slug === "lula-venceu-o-globo"
-    ? "https://www.foradapauta.org/compartilhar/olho"
+    ? "https://www.foradapauta.org/compartilhar/olho-v2"
     : campaign.shareImage
       ? `https://www.foradapauta.org${campaign.shareImage}`
-      : "https://www.foradapauta.org/compartilhar/olho";
+      : "https://www.foradapauta.org/compartilhar/olho-v2";
 
   const ehEdicao01 =
     campaign.slug === "fim-escala-6x1";
