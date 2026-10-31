@@ -15,6 +15,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.foradapauta.org"),
+  openGraph: {
+    title: "Fora da Pauta — Há mais para entender.",
+    description: "Um espaço para entender melhor as decisões que afetam a nossa vida e o que está por trás das notícias.",
+    url: "https://www.foradapauta.org/",
+    siteName: "Fora da Pauta",
+    locale: "pt_BR",
+    type: "website",
+    images: [{ url: "/opengraph-image.jpg", width: 1200, height: 630, alt: "Olho amarelo, Fora da Pauta — Há mais para entender." }],
+  },
   title: {
     default: "Fora da Pauta",
     template: "%s | Fora da Pauta",

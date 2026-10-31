@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, useSyncExternalStore, useRef } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
+import { HomeShareInvite } from "@/components/HomeShareInvite";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import Link from "next/link";
 
@@ -668,6 +669,7 @@ export function VotouFiqueDeOlhoExperience() {
 
 
         <ConcluirNoTelegram />
+        <HomeShareInvite />
       </section>
     );
   }
@@ -933,6 +935,7 @@ export function VotouFiqueDeOlhoExperience() {
           {aviso}
         </p>
         {inscricaoAtiva ? <ConcluirNoTelegram /> : null}
+        <HomeShareInvite />
       </section>
     );
   }
@@ -1060,6 +1063,7 @@ export function VotouFiqueDeOlhoExperience() {
             </div>
           ) : null}
           {!conferindoInscricao && inscricaoAtiva ? <ConcluirNoTelegram /> : null}
+          {!conferindoInscricao && inscricaoAtiva ? <HomeShareInvite /> : null}
         </section>
       )}
     </>
