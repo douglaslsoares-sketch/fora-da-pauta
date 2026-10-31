@@ -41,10 +41,14 @@ export async function GET(request: NextRequest) {
     `;
     return true;
   });
-  const resposta = NextResponse.redirect(
-    new URL(vinculado ? "/votou-fique-de-olho?retorno=telegram" : "/votou-fique-de-olho?retorno=expirado", request.url),
-    303,
-  );
+  // Apenas destinos internos permitidos. O código não aceita URLs arbitrárias.
+  const destino = request.nextUrl.searchParams.get("destino");
+  const caminho = vinculado
+    ? destino === "minhas"
+      ? "/votou-fique-de-olho?minhas=1"
+      : "/votou-fique-de-olho?retorno=telegram"
+    : "/votou-fique-de-olho?retorno=expirado";
+  const resposta = NextResponse.redirect(new URL(caminho, request.url), 303);
   resposta.headers.set("Cache-Control", "no-store");
   resposta.headers.set("Referrer-Policy", "no-referrer");
   if (vinculado) resposta.cookies.set(COOKIE_SESSAO_TELEGRAM, tokenNovo, {
