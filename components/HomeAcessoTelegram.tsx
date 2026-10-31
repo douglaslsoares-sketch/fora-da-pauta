@@ -9,7 +9,7 @@ const opcoes = [
   { titulo: "Acompanhar pessoas", descricao: "Escolha pessoas para acompanhar.", href: "/votou-fique-de-olho" },
   { titulo: "Minhas escolhas", descricao: "Veja ou remova pessoas acompanhadas.", href: "/votou-fique-de-olho?minhas=1", exigeEscolhas: true },
   { titulo: "Ver ficha política", descricao: "Pesquise e consulte uma ficha.", href: "/conheca-seu-candidato" },
-  { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições.", href: "/edicoes" },
+  { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições.", href: "/edicoes", indisponivel: true },
 ];
 
 export function HomeAcessoTelegram() {
@@ -103,11 +103,11 @@ export function HomeAcessoTelegram() {
       </p>
       <nav aria-label="Opções do Fora da Pauta" className="mt-7 grid max-w-[640px] gap-3">
         {opcoes.map((item) => {
-          if (item.exigeEscolhas && (simulacao || quantidade === 0)) {
+          if (item.indisponivel || (item.exigeEscolhas && (simulacao || quantidade === 0))) {
             return (
               <div key={item.titulo} aria-disabled="true" className="cursor-not-allowed rounded-lg border border-white/15 bg-[#343434] px-5 py-4 text-white/45">
                 <span className="text-lg font-bold">{item.titulo} · Indisponível</span>
-                <span className="mt-1 block text-sm">Disponível quando você acompanhar alguém.</span>
+                <span className="mt-1 block text-sm">{item.indisponivel ? "Disponível quando publicarmos as edições." : "Disponível quando você acompanhar alguém."}</span>
               </div>
             );
           }
