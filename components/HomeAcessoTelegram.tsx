@@ -10,7 +10,7 @@ const opcoes = [
   { titulo: "Minhas escolhas", descricao: "Veja ou remova pessoas acompanhadas.", href: "/votou-fique-de-olho?minhas=1", exigeEscolhas: true },
   { titulo: "Ver ficha política", descricao: "Pesquise e consulte uma ficha.", href: "/ficha-politica" },
   { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições.", href: "/edicoes" },
-  { titulo: "Camiseta Fora da Pauta", descricao: "Ajude a financiar o projeto.", href: "/camiseta", indisponivel: true },
+  { titulo: "Camiseta Fora da Pauta", descricao: "Ajude a financiar o projeto.", href: "/camiseta" },
 ];
 export function HomeAcessoTelegram() {
   const [situacao, setSituacao] = useState<"verificando" | "inscrito" | "visitante">("verificando");
