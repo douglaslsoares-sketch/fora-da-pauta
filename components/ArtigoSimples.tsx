@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Campaign } from "@/data/campanhas";
 
 function comNegrito(paragrafo: string) {
-  return paragrafo.split(/(\\*\\*.*?\\*\\*)/g).map((trecho, indice) =>
+  return paragrafo.split(/(\*\*.*?\*\*)/g).map((trecho, indice) =>
     trecho.startsWith("**") && trecho.endsWith("**")
       ? <strong key={indice} className="font-semibold text-black">{trecho.slice(2, -2)}</strong>
       : trecho
