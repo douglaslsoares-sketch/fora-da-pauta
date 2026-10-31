@@ -370,6 +370,22 @@ async function registrarAcompanhamento(
 }
 
 
+async function criarLinkMinhasEscolhas(chatId: string) {
+  const codigo = randomBytes(24).toString("base64url");
+  const hash = hashToken(codigo);
+  const sessao = randomBytes(32).toString("base64url");
+  const sessaoHash = hashToken(sessao);
+  await sql`
+    INSERT INTO public.telegram_sessoes_site
+      (sessao_hash, telegram_chat_id, codigo_hash, codigo_expira_at,
+       candidaturas_pendentes, vinculada_at, expira_at)
+    VALUES
+      (${sessaoHash}, ${chatId}::bigint, ${hash},
+       now() + interval '15 minutes', '{}', now(), now() + interval '180 days')
+  `;
+  return `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigo}&destino=minhas`;
+}
+
 async function mostrarPreferencias(chatId: string) {
   const [pessoas, edicoes] = await Promise.all([
     sql<{ candidatura_id: string }[]>`
@@ -606,6 +622,15 @@ export async function POST(
     const chatId =
       String(chatIdRaw);
 
+    if (/^\/minhas(?:@[A-Za-z0-9_]+)?\s*$/i.test(texto)) {
+      await enviarMensagemTelegram({
+        chatId,
+        texto: "Suas escolhas no Fora da Pauta. Abra a lista pelo botão abaixo.",
+        botoes: [[{ text: "Abrir minhas escolhas", url: await criarLinkMinhasEscolhas(chatId) }]],
+      });
+      return NextResponse.json({ ok: true });
+    }
+
     // Menu demonstrativo, disponível a qualquer momento sem mudar preferências.
     if (/^\/(?:menu|teste)(?:@[A-Za-z0-9_]+)?\s*$/i.test(texto)) {
       await enviarMensagemTelegram({
@@ -615,7 +640,7 @@ export async function POST(
           "Esta é uma demonstração; nenhuma edição será notificada automaticamente.",
         botoes: [
           [{ text: "Voltar ao artigo", url: "https://www.foradapauta.org/teste-telegram" }],
-          [{ text: "Minhas escolhas", url: "https://www.foradapauta.org/votou-fique-de-olho" }],
+          [{ text: "Minhas escolhas", url: await criarLinkMinhasEscolhas(chatId) }],
           [{ text: "Buscar pessoas e fichas", url: "https://www.foradapauta.org/conheca-seu-candidato" }],
           [{ text: "Ver edição: escala 6×1", url: "https://www.foradapauta.org/campanhas/fim-escala-6x1" }],
         ],
@@ -702,7 +727,7 @@ export async function POST(
         botoes: [
           [{ text: "Receber próximas edições", url: `https://t.me/${botUsername}?start=projeto` }],
           [{ text: "Voltar ao artigo", url: "https://www.foradapauta.org/teste-telegram" }],
-          [{ text: "Minhas escolhas", url: "https://www.foradapauta.org/votou-fique-de-olho" }],
+          [{ text: "Minhas escolhas", url: await criarLinkMinhasEscolhas(chatId) }],
           [{ text: "Buscar pessoas e fichas", url: "https://www.foradapauta.org/conheca-seu-candidato" }],
           [{ text: "Ver edição: escala 6×1", url: "https://www.foradapauta.org/campanhas/fim-escala-6x1" }],
         ],
@@ -871,7 +896,7 @@ export async function POST(
           "Você receberá as próximas edições do Fora da Pauta nesta conversa.\n\n" +
           "O que deseja fazer agora? A qualquer momento envie /menu para rever estas opções.",
         botoes: [
-          [{ text: "Minhas escolhas", url: "https://www.foradapauta.org/votou-fique-de-olho" }],
+          [{ text: "Minhas escolhas", url: await criarLinkMinhasEscolhas(chatId) }],
           [{ text: "Buscar pessoas e fichas", url: "https://www.foradapauta.org/conheca-seu-candidato" }],
           [{ text: "Ver edição: escala 6×1", url: "https://www.foradapauta.org/campanhas/fim-escala-6x1" }],
           [{ text: "Voltar ao artigo de teste", url: "https://www.foradapauta.org/teste-telegram" }],
