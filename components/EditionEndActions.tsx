@@ -156,7 +156,7 @@ export function EditionEndActions({
           Compartilhar pelo WhatsApp
         </a>
         <Link
-          href="/telegram/acoes"
+          href="/#opcoes"
           className="flex min-h-14 items-center justify-center rounded-lg border border-black/20 bg-white px-5 py-3 text-center font-bold text-black"
         >
           Menu de opções
