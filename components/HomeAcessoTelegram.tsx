@@ -37,6 +37,14 @@ export function HomeAcessoTelegram() {
     return () => { montado = false; window.removeEventListener("focus", verificar); };
   }, []);
 
+  useEffect(() => {
+    if (situacao === "inscrito" && window.location.hash === "#opcoes") {
+      window.requestAnimationFrame(() => {
+        document.getElementById("opcoes")?.scrollIntoView({ block: "start", behavior: "instant" });
+      });
+    }
+  }, [situacao]);
+
   if (situacao === "carregando") {
     return <p role="status" className="mt-7 text-sm text-white/70">Conferindo sua inscrição...</p>;
   }
