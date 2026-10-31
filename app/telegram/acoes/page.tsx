@@ -24,6 +24,7 @@ const opcoes: Opcao[] = [
   { titulo: "Minhas escolhas", descricao: "Consulte ou remova as pessoas que você acompanha.", href: "/votou-fique-de-olho?minhas=1", exigeEscolhas: true },
   { titulo: "Ver ficha política", descricao: "Pesquise uma pessoa e consulte sua ficha.", href: "/ficha-politica" },
   { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições disponíveis.", href: "/edicoes" },
+  { titulo: "Camiseta Fora da Pauta", descricao: "Ajude a financiar o projeto.", href: "/camiseta", indisponivel: true },
   { titulo: "Página inicial", descricao: "Voltar ao Fora da Pauta.", href: "/" },
 ];
 
@@ -89,7 +90,7 @@ export default async function OpcoesTelegram() {
                 >
                   <span className="text-lg font-bold">{item.titulo} <span aria-hidden="true">🔒</span></span>
                   <span className="mt-1 text-sm">
-                    {item.indisponivel ? "Disponível quando publicarmos as edições." : autenticado ? "Disponível quando você acompanhar alguém." : "Disponível depois de confirmar sua inscrição neste navegador."}
+                    {item.indisponivel ? "Em breve. Sua compra ajudará a financiar o Fora da Pauta." : autenticado ? "Disponível quando você acompanhar alguém." : "Disponível depois de confirmar sua inscrição neste navegador."}
                   </span>
                 </div>
               );
