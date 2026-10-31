@@ -74,22 +74,6 @@ export function HomeAcessoTelegram() {
     );
   }
 
-  if (!simulacao && !mostrarMenu) {
-    return (
-      <div className="mt-10">
-        <button
-          type="button"
-          onClick={() => {
-            setMostrarMenu(true);
-            window.history.replaceState(null, "", "#opcoes");
-          }}
-          className="inline-flex min-h-14 items-center justify-center gap-3 rounded-lg bg-[#FFD700] px-7 py-4 text-lg font-bold text-black hover:bg-[#f0ca00]"
-        >
-          Continuar <span aria-hidden="true">→</span>
-        </button>
-      </div>
-    );
-  }
 
   return (
     <section id="opcoes" aria-labelledby="titulo-opcoes" className="mt-12 scroll-mt-6 border-t border-white/25 pt-10">
