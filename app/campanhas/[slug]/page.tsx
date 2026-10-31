@@ -28,9 +28,7 @@ export async function generateMetadata({
   const pageUrl =
     `https://www.foradapauta.org/campanhas/${campaign.slug}`;
 
-  const imageUrl = campaign.shareImage
-    ? `https://www.foradapauta.org${campaign.shareImage}`
-    : undefined;
+  const imageUrl = `https://www.foradapauta.org/api/compartilhar/imagem?tipo=artigo&titulo=${encodeURIComponent(campaign.title)}&descricao=${encodeURIComponent(campaign.statement)}`;
 
   const ehEdicao01 =
     campaign.slug === "fim-escala-6x1";
@@ -61,21 +59,14 @@ export async function generateMetadata({
       url: pageUrl,
       siteName: "Fora da Pauta",
       type: "website",
-      images: imageUrl
-        ? [
-            {
-              url: imageUrl,
-              alt: campaign.title,
-            },
-          ]
-        : [],
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: campaign.title }],
     },
 
     twitter: {
       card: "summary_large_image",
       title: socialTitle,
       description: socialDescription,
-      images: imageUrl ? [imageUrl] : [],
+      images: [imageUrl],
     },
   };
 }
