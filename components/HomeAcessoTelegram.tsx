@@ -17,6 +17,11 @@ export function HomeAcessoTelegram() {
   const [situacao, setSituacao] = useState<"inscrito" | "visitante">("visitante");
   const [quantidade, setQuantidade] = useState(0);
   const [mostrarMenu, setMostrarMenu] = useState(false);
+  const [simulacao, setSimulacao] = useState(false);
+
+  useEffect(() => {
+    setSimulacao(new URLSearchParams(window.location.search).get("simular") === "telegram");
+  }, []);
 
   useEffect(() => {
     let montado = true;
@@ -39,15 +44,26 @@ export function HomeAcessoTelegram() {
   }, []);
 
   useEffect(() => {
-    if (situacao === "inscrito" && window.location.hash === "#opcoes") {
+    if (!simulacao && situacao === "inscrito" && window.location.hash === "#opcoes") {
       setMostrarMenu(true);
       window.requestAnimationFrame(() => {
         document.getElementById("opcoes")?.scrollIntoView({ block: "start", behavior: "instant" });
       });
     }
-  }, [situacao]);
+  }, [situacao, simulacao]);
 
-  if (situacao === "visitante") {
+  if (simulacao && !mostrarMenu) {
+    return (
+      <div className="mt-10">
+        <p className="mb-4 text-lg leading-relaxed text-white/85">Receba as novidades do Fora da Pauta pelo Telegram.</p>
+        <button type="button" onClick={() => setMostrarMenu(true)} className="inline-flex min-h-14 items-center justify-center gap-3 rounded-lg bg-[#FFD700] px-7 py-4 text-lg font-bold text-black hover:bg-[#f0ca00]">
+          Acompanhe as novidades pelo Telegram <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    );
+  }
+
+  if (!simulacao && situacao === "visitante") {
     return (
       <div className="mt-10">
         <p className="mb-4 text-lg leading-relaxed text-white/85">
@@ -60,7 +76,7 @@ export function HomeAcessoTelegram() {
     );
   }
 
-  if (!mostrarMenu) {
+  if (!simulacao && !mostrarMenu) {
     return (
       <div className="mt-10">
         <button
@@ -83,13 +99,13 @@ export function HomeAcessoTelegram() {
         O que você quer fazer agora?
       </h2>
       <p className="mt-3 text-base leading-7 text-white/70">
-        {quantidade > 0
+        {!simulacao && quantidade > 0
           ? `Você acompanha ${quantidade} ${quantidade === 1 ? "pessoa" : "pessoas"}.`
           : "Você já está de olho. Escolha por onde começar."}
       </p>
       <nav aria-label="Opções do Fora da Pauta" className="mt-7 grid max-w-[640px] gap-3">
         {opcoes.map((item) => {
-          if (item.exigeEscolhas && quantidade === 0) {
+          if (item.exigeEscolhas && (simulacao || quantidade === 0)) {
             return (
               <div key={item.titulo} aria-disabled="true" className="cursor-not-allowed rounded-lg border border-white/15 bg-[#343434] px-5 py-4 text-white/45">
                 <span className="text-lg font-bold">{item.titulo} · Indisponível</span>
