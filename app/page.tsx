@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { HomeAcessoTelegram } from "@/components/HomeAcessoTelegram";
 import type { Metadata } from "next";
 import styles from "./page.module.css";
 
@@ -57,10 +57,7 @@ export default function Home() {
             <p>Decisões que afetam a sua vida.</p>
           </div>
 
-          <Link href="/votou-fique-de-olho" className={styles.primaryLink}>
-            <span>Fique de Olho</span>
-            <span aria-hidden="true" className={styles.arrow}>→</span>
-          </Link>
+          <HomeAcessoTelegram />
         </section>
       </div>
     </main>
