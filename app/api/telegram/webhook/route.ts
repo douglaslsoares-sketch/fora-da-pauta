@@ -95,10 +95,12 @@ async function enviarMensagemTelegram({
   chatId,
   texto,
   botoes = [],
+  imagemUrl,
 }: {
   chatId: string;
   texto: string;
   botoes?: TelegramButton[][];
+  imagemUrl?: string;
 }) {
   const botToken =
     obterVariavelObrigatoria(
@@ -107,7 +109,7 @@ async function enviarMensagemTelegram({
 
   const response =
     await fetch(
-      `https://api.telegram.org/bot${botToken}/sendMessage`,
+      `https://api.telegram.org/bot${botToken}/${imagemUrl ? "sendPhoto" : "sendMessage"}`,
       {
         method: "POST",
         headers: {
@@ -118,10 +120,9 @@ async function enviarMensagemTelegram({
           JSON.stringify({
             chat_id:
               chatId,
-            text:
-              texto,
-            disable_web_page_preview:
-              true,
+            ...(imagemUrl
+              ? { photo: imagemUrl, caption: texto }
+              : { text: texto, disable_web_page_preview: true }),
             reply_markup:
               botoes.length
                 ? {
@@ -894,12 +895,13 @@ export async function POST(
         texto:
           "Pronto, agora você está de olho!\n\n" +
           "Você receberá as próximas edições do Fora da Pauta nesta conversa.\n\n" +
-          "O que deseja fazer agora? A qualquer momento envie /menu para rever estas opções.",
+          "Você receberá avisos das novas edições por aqui.",
+        imagemUrl: "https://www.foradapauta.org/opengraph-image.jpg",
         botoes: [
-          [{ text: "Minhas escolhas", url: await criarLinkMinhasEscolhas(chatId) }],
-          [{ text: "Buscar pessoas e fichas", url: "https://www.foradapauta.org/conheca-seu-candidato" }],
-          [{ text: "Ver edição: escala 6×1", url: "https://www.foradapauta.org/campanhas/fim-escala-6x1" }],
-          [{ text: "Voltar ao artigo de teste", url: "https://www.foradapauta.org/teste-telegram" }],
+          [{ text: "Ver minhas escolhas", url: await criarLinkMinhasEscolhas(chatId) }],
+          [{ text: "Incluir novas pessoas", url: "https://www.foradapauta.org/votou-fique-de-olho" }],
+          [{ text: "Ver edições já publicadas", url: "https://www.foradapauta.org/" }],
+          [{ text: "Voltar ao site", url: "https://www.foradapauta.org/" }],
         ],
       });
       return NextResponse.json({ ok: true });
