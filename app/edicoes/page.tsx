@@ -28,7 +28,7 @@ export default function EdicoesPublicadas() {
             ))}
           </ul>
         ) : <p className="mt-8 rounded-xl bg-black/5 p-5">Ainda não há edições publicadas.</p>}
-        <Link href="/#opcoes" className="mx-auto mt-8 flex min-h-12 w-full max-w-sm items-center justify-center rounded-lg bg-black px-6 py-3 text-center text-base font-semibold text-white">Voltar às opções</Link>
+        <Link href="/#opcoes" className="mx-auto mt-8 flex min-h-14 w-full max-w-[720px] items-center justify-center rounded-2xl bg-black px-5 py-3 text-center text-base font-semibold text-white">Voltar às opções</Link>
       </section>
     </main>
   );
