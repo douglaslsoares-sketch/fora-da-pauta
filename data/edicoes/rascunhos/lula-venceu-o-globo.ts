@@ -7,6 +7,8 @@ export const lulaVenceuOGloboRascunho: Campaign = {
   brand: "Fora da Pauta",
   title: "Lula venceu. O que O Globo disse no dia seguinte?",
   statement: "Quem conta a história também escolhe o que destacar.",
+  // Imagem de prévia para o link enviado pelo WhatsApp.
+  shareImage: "/opengraph-image.jpg",
   sections: [
     {
       title: "Mas você já pensou em uma coisa?",
