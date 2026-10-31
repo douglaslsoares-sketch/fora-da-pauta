@@ -167,6 +167,12 @@ export function VotouFiqueDeOlhoExperience() {
 
   const [etapa, setEtapa] = useState<Etapa>("busca");
   const [mostrarMinhasEscolhas, setMostrarMinhasEscolhas] = useState(false);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("minhas") === "1") {
+      setMostrarMinhasEscolhas(true);
+    }
+  }, []);
   const [ultimaPessoaRemovida, setUltimaPessoaRemovida] = useState(false);
   const [mostrarEscolhaFinal, setMostrarEscolhaFinal] = useState(false);
   const [marcadasParaRemover, setMarcadasParaRemover] = useState<string[]>([]);
