@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState, useSyncExternalStore, useRef } from "reac
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import Link from "next/link";
-import { HomeShareInvite } from "@/components/HomeShareInvite";
+
 import {
   interpretarSelecao,
   lerSelecaoSerializada,
@@ -78,6 +78,22 @@ function AvisoInscricaoSemPessoas() {
       <p className="mt-3 text-sm leading-6">Você não acompanha nenhuma pessoa no momento.</p>
       <p className="mt-2 text-sm leading-6">Você continuará recebendo os avisos das novas edições.</p>
     </section>
+  );
+}
+
+function ConcluirNoTelegram() {
+  return (
+    <div className="mt-8 border-t border-black/10 pt-6">
+      <a
+        href="https://t.me/ForaDaPautaAcompanhaBot"
+        className="flex min-h-14 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-center font-semibold text-white"
+      >
+        Concluir e voltar ao Telegram
+      </a>
+      <p className="mt-3 text-center text-sm leading-6 text-black/60">
+        Se abriu esta página dentro do Telegram, você também pode tocar no X no alto da tela para voltar à conversa.
+      </p>
+    </div>
   );
 }
 
@@ -489,7 +505,7 @@ export function VotouFiqueDeOlhoExperience() {
               </p>
               <div className="mt-1 flex justify-end">
                 <Link
-                  href={`/conheca-seu-candidato/${pessoa.id}`}
+                  href={`/conheca-seu-candidato/${pessoa.id}?origem=minhas`}
                   aria-label={`Ver ficha de ${pessoa.nomeUrna}`}
                   className="inline-flex min-h-11 items-center gap-1 rounded-md px-2 text-xs font-medium text-black/60 underline decoration-black/25 underline-offset-4 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                 >
@@ -639,9 +655,8 @@ export function VotouFiqueDeOlhoExperience() {
           ) : null}
         </div>
 
-        <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
-          <HomeShareInvite />
-        </section>
+
+        <ConcluirNoTelegram />
       </section>
     );
   }
@@ -865,9 +880,7 @@ export function VotouFiqueDeOlhoExperience() {
           onSelect={selecionar}
         />
 
-        <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
-          <HomeShareInvite />
-        </section>
+
 
         <div className="mt-7 border-t border-black/10 pt-6">
           <h3 className="text-xl font-bold">
@@ -908,6 +921,7 @@ export function VotouFiqueDeOlhoExperience() {
         <p role="status" className="sr-only">
           {aviso}
         </p>
+        {inscricaoAtiva ? <ConcluirNoTelegram /> : null}
       </section>
     );
   }
@@ -1013,9 +1027,7 @@ export function VotouFiqueDeOlhoExperience() {
           onSelect={selecionar}
         />
 
-        <section aria-labelledby="convite-titulo" className="mt-8 rounded-2xl bg-black p-6 text-white">
-          <HomeShareInvite />
-        </section>
+
 
           {!conferindoInscricao && !novasEdicoesAtivas ? (
             <div className="mt-7 rounded-2xl border border-black/15 p-5">
@@ -1036,6 +1048,7 @@ export function VotouFiqueDeOlhoExperience() {
               </button>
             </div>
           ) : null}
+          {!conferindoInscricao && inscricaoAtiva ? <ConcluirNoTelegram /> : null}
         </section>
       )}
     </>
