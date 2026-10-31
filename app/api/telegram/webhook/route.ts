@@ -608,13 +608,13 @@ export async function POST(
 
     // Demonstração acionada apenas pela pessoa que digita /teste em seu chat privado.
     // Nunca envia a outros usuários nem adiciona avisos à fila.
-    if (/^\\/teste(?:@[A-Za-z0-9_]+)?\\s*$/i.test(texto)) {
+    if (/^\/teste(?:@[A-Za-z0-9_]+)?\s*$/i.test(texto)) {
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "TESTE — Fora da Pauta\\n\\n" +
-          "Esta é uma notificação demonstrativa, não uma edição publicada.\\n\\n" +
-          "Abra a leitura, volte ao Telegram e experimente as opções abaixo.\\n" +
+          "TESTE — Fora da Pauta\n\n" +
+          "Esta é uma notificação demonstrativa, não uma edição publicada.\n\n" +
+          "Abra a leitura, volte ao Telegram e experimente as opções abaixo.\n" +
           "Nenhuma notificação será enviada a outras pessoas.",
         botoes: [
           [{ text: "Ler artigo demonstrativo", url: "https://www.foradapauta.org/teste-telegram" }],
