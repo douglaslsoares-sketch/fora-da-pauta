@@ -146,6 +146,23 @@ export function EditionEndActions({
         ) : null}
       </section>
 
+      <nav aria-label="Ações após a leitura" className="grid gap-3 sm:grid-cols-2">
+        <a
+          href={`https://wa.me/?text=${encodeURIComponent(mensagem)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex min-h-14 items-center justify-center rounded-lg bg-[#FFD700] px-5 py-3 text-center font-bold text-black"
+        >
+          Compartilhar pelo WhatsApp
+        </a>
+        <Link
+          href="/telegram/acoes"
+          className="flex min-h-14 items-center justify-center rounded-lg border border-black/20 bg-white px-5 py-3 text-center font-bold text-black"
+        >
+          Menu de opções
+        </Link>
+      </nav>
+
       <section className="bg-black p-6 text-white sm:p-8">
         <h3 className="max-w-2xl text-2xl font-semibold tracking-[-0.035em] sm:text-3xl">
           Chegou ao Fora da Pauta por esta edição?
