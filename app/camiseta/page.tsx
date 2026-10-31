@@ -17,7 +17,7 @@ export default function CamisetaPage() {
         </div>
         <p className="mt-6 text-center text-sm text-black/60">Apresentação ilustrativa da camiseta.</p>
         <p className="mt-5 text-center text-base leading-7">A compra da camiseta ajudará a financiar e manter o projeto Fora da Pauta.</p>
-        <p className="mt-3 text-center text-sm font-semibold text-black/50">Aquisição ainda não disponível.</p>
+        <a href="https://montink.com/fora-da-pauta/camiseta-fora-da-pauta-3p5n3" target="_blank" rel="noopener noreferrer" className="mx-auto mt-6 flex min-h-12 w-full max-w-sm items-center justify-center rounded-lg bg-[#FFD700] px-6 py-3 text-center text-lg font-bold text-black transition hover:bg-[#ebc700]">Comprar camiseta</a>
         <Link href="/#opcoes" className="mt-10 inline-flex min-h-12 min-w-[210px] items-center justify-center rounded-lg bg-black px-5 py-3 text-center text-base font-semibold text-white">Voltar às opções</Link>
       </div>
     </main>
