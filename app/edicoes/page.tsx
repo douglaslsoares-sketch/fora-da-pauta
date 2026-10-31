@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default function EdicoesPublicadas() {
-  const edicoes = campaigns.filter((item) => Boolean(item.publishedAt))
+  const edicoes = campaigns.filter((item) => item.slug === "lula-venceu-o-globo" && Boolean(item.publishedAt))
     .sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""));
 
   return (
@@ -28,7 +28,7 @@ export default function EdicoesPublicadas() {
             ))}
           </ul>
         ) : <p className="mt-8 rounded-xl bg-black/5 p-5">Ainda não há edições publicadas.</p>}
-        <Link href="/telegram/acoes" className="mt-10 inline-block text-sm font-semibold underline underline-offset-4">Voltar às opções</Link>
+        <Link href="/#opcoes" className="mt-10 inline-block text-sm font-semibold underline underline-offset-4">Voltar às opções</Link>
       </section>
     </main>
   );
