@@ -35,7 +35,7 @@ export default async function ConfirmacaoTelegram() {
         <p className="mt-4 max-w-[42ch] text-base leading-7 text-black/65">
           Você já pode receber os avisos do Fora da Pauta pelo Telegram. Escolha o que deseja fazer.
         </p>
-        <Link href="/telegram/acoes" className="mt-8 inline-flex min-h-14 w-full items-center justify-center rounded-xl bg-[#FFD700] px-6 py-3 text-lg font-bold text-black hover:bg-[#ebc700]">
+        <Link href="/#opcoes" className="mt-8 inline-flex min-h-14 w-full items-center justify-center rounded-xl bg-[#FFD700] px-6 py-3 text-lg font-bold text-black hover:bg-[#ebc700]">
           Continuar →
         </Link>
       </section>
