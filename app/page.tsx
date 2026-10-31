@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { HomeAcessoTelegram } from "@/components/HomeAcessoTelegram";
 import type { Metadata } from "next";
 import styles from "./page.module.css";
@@ -30,36 +29,7 @@ export default function Home() {
 
       <div className={styles.watermark} aria-hidden="true" />
 
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <Image
-            src="/marca/fora-da-pauta-horizontal-branco.svg"
-            alt="Fora da Pauta"
-            width={2325}
-            height={374}
-            priority
-            className={styles.logo}
-          />
-        </header>
-
-        <section
-          className={styles.hero}
-          id="conteudo"
-          aria-labelledby="home-titulo"
-          tabIndex={-1}
-        >
-          <h1 id="home-titulo" className={styles.title}>
-            Há mais para entender.
-          </h1>
-
-          <div className={styles.statement}>
-            <p>Como o jogo é jogado.</p>
-            <p>Decisões políticas que afetam a sua vida.</p>
-          </div>
-
-          <HomeAcessoTelegram />
-        </section>
-      </div>
+      <HomeAcessoTelegram />
     </main>
   );
 }
