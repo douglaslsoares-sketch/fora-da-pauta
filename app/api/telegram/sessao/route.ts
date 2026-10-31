@@ -72,7 +72,7 @@ export async function GET() {
       nomeCompleto: pessoa.nomeCompleto,
       numero: pessoa.numero,
       cargo: pessoa.cargo,
-      cargoLabel: formatarCargo(pessoa.cargo),
+      cargoLabel: formatarCargo(pessoa.cargo, pessoa.genero),
       uf: pessoa.uf,
       siglaPartido: pessoa.siglaPartido,
       eleitoConfirmado: eleitos.has(id),
