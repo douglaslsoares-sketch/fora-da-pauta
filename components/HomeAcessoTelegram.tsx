@@ -10,6 +10,7 @@ const opcoes = [
   { titulo: "Minhas escolhas", descricao: "Veja ou remova pessoas acompanhadas.", href: "/votou-fique-de-olho?minhas=1", exigeEscolhas: true },
   { titulo: "Ver ficha política", descricao: "Pesquise e consulte uma ficha.", href: "/ficha-politica" },
   { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições.", href: "/edicoes" },
+  { titulo: "Camiseta Fora da Pauta", descricao: "Ajude a financiar o projeto.", href: "/camiseta", indisponivel: true },
 ];
 export function HomeAcessoTelegram() {
   const [situacao, setSituacao] = useState<"verificando" | "inscrito" | "visitante">("verificando");
@@ -88,11 +89,11 @@ export function HomeAcessoTelegram() {
           </p>
           <nav aria-label="Opções do Fora da Pauta" className="mt-7 grid gap-3">
             {opcoes.map(item => {
-              const desativado = Boolean(item.exigeEscolhas && (simulacao || quantidade === 0));
+              const desativado = Boolean(item.indisponivel || (item.exigeEscolhas && (simulacao || quantidade === 0)));
               return desativado ? (
                 <div key={item.titulo} aria-disabled="true" className="rounded-lg border border-white/15 bg-[#343434] px-5 py-4 text-white/45">
                   <span className="text-lg font-bold">{item.titulo} · Indisponível</span>
-                  <span className="mt-1 block text-sm">Disponível quando você acompanhar alguém.</span>
+                  <span className="mt-1 block text-sm">{item.indisponivel ? "Em breve. Sua compra ajudará a financiar o Fora da Pauta." : "Disponível quando você acompanhar alguém."}</span>
                 </div>
               ) : (
                 <Link key={item.titulo} href={item.href} className="block rounded-lg bg-[#FFD700] px-5 py-4 text-black hover:bg-[#ebc700]">
