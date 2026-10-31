@@ -606,22 +606,18 @@ export async function POST(
     const chatId =
       String(chatIdRaw);
 
-    // Demonstração acionada apenas pela pessoa que digita /teste em seu chat privado.
-    // Nunca envia a outros usuários nem adiciona avisos à fila.
-    if (/^\/teste(?:@[A-Za-z0-9_]+)?\s*$/i.test(texto)) {
+    // Menu demonstrativo, disponível a qualquer momento sem mudar preferências.
+    if (/^\/(?:menu|teste)(?:@[A-Za-z0-9_]+)?\s*$/i.test(texto)) {
       await enviarMensagemTelegram({
         chatId,
-        texto:
-          "TESTE — Fora da Pauta\n\n" +
-          "Esta é uma notificação demonstrativa, não uma edição publicada.\n\n" +
-          "Abra a leitura, volte ao Telegram e experimente as opções abaixo.\n" +
-          "Nenhuma notificação será enviada a outras pessoas.",
+        texto: "Fora da Pauta — menu de teste\n\n" +
+          "Você pode consultar opções e retornar ao artigo sem alterar sua inscrição.\n" +
+          "Esta é uma demonstração; nenhuma edição será notificada automaticamente.",
         botoes: [
-          [{ text: "Ler artigo demonstrativo", url: "https://www.foradapauta.org/teste-telegram" }],
+          [{ text: "Voltar ao artigo", url: "https://www.foradapauta.org/teste-telegram" }],
           [{ text: "Minhas escolhas", url: "https://www.foradapauta.org/votou-fique-de-olho" }],
           [{ text: "Buscar pessoas e fichas", url: "https://www.foradapauta.org/conheca-seu-candidato" }],
           [{ text: "Ver edição: escala 6×1", url: "https://www.foradapauta.org/campanhas/fim-escala-6x1" }],
-          [{ text: "Abrir o site", url: "https://www.foradapauta.org/" }],
         ],
       });
       return NextResponse.json({ ok: true });
@@ -695,6 +691,24 @@ export async function POST(
 
     const botUsername =
       obterBotUsername();
+
+    if (payload?.toLowerCase() === "artigo_teste") {
+      await enviarMensagemTelegram({
+        chatId,
+        texto: "Você chegou pelo artigo demonstrativo.\n\n" +
+          "Se ainda não se inscreveu, a opção de inscrição está abaixo.\n" +
+          "Se já acompanha o Fora da Pauta, basta usar o menu.\n\n" +
+          "Quando quiser, volte ao mesmo artigo ou consulte outras opções.",
+        botoes: [
+          [{ text: "Receber próximas edições", url: `https://t.me/${botUsername}?start=projeto` }],
+          [{ text: "Voltar ao artigo", url: "https://www.foradapauta.org/teste-telegram" }],
+          [{ text: "Minhas escolhas", url: "https://www.foradapauta.org/votou-fique-de-olho" }],
+          [{ text: "Buscar pessoas e fichas", url: "https://www.foradapauta.org/conheca-seu-candidato" }],
+          [{ text: "Ver edição: escala 6×1", url: "https://www.foradapauta.org/campanhas/fim-escala-6x1" }],
+        ],
+      });
+      return NextResponse.json({ ok: true });
+    }
 
     if (payload?.toLowerCase() === "opcoes") {
       await mostrarPreferencias(chatId);
