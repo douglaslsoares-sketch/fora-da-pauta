@@ -545,6 +545,20 @@ export function VotouFiqueDeOlhoExperience() {
     );
   }
 
+  // Enquanto a sessão do Telegram é conferida, não mostre a busca nem
+  // a inscrição inicial: isso faria a página errada piscar antes da lista.
+  if (conferindoInscricao) {
+    return (
+      <section
+        role="status"
+        aria-live="polite"
+        className="mx-auto max-w-[760px] px-6 pb-16 pt-16 text-center"
+      >
+        <p className="text-base text-black/65">Abrindo suas escolhas...</p>
+      </section>
+    );
+  }
+
   const escolhasConfirmadas =
     selecionadas.length > 0 &&
     selecionadas.every((pessoa) => idsConfirmados.includes(pessoa.id));
