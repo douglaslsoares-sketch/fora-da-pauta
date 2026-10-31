@@ -12,11 +12,11 @@ export const metadata: Metadata = {
     type: "website",
     locale: "pt_BR",
     siteName: "Fora da Pauta",
-    images: [{ url: "/opengraph-image.jpg", width: 1200, height: 630, alt: "Fora da Pauta — Há mais para entender." }],
+    images: [{ url: "/compartilhar/olho", width: 1200, height: 630, alt: "Olho amarelo do Fora da Pauta, sem texto." }],
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/opengraph-image.jpg"],
+    images: ["/compartilhar/olho"],
     title: "Fora da Pauta — Há mais para entender.",
     description: "Como o jogo é jogado. Decisões políticas que afetam a sua vida.",
   },

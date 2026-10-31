@@ -26,8 +26,8 @@ export function HomeShareInvite() {
       </p>
       <div className="mt-4 overflow-hidden rounded-2xl border border-black/15 bg-white">
         <img
-          src="/opengraph-image.jpg"
-          alt="Fora da Pauta: olho amarelo e a frase Há mais para entender."
+          src="/compartilhar/olho"
+          alt="Olho amarelo do Fora da Pauta sobre fundo preto, sem texto."
           width={1200}
           height={630}
           loading="lazy"

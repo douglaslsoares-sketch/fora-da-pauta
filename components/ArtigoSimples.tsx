@@ -14,7 +14,7 @@ function comNegrito(paragrafo: string) {
 export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
   const url = `https://www.foradapauta.org/campanhas/${campaign.slug}`;
   const mensagem = `Fora da Pauta — ${campaign.title}\n\n${campaign.statement}\n\n${url}`;
-  const arteUrl = campaign.shareImage ?? "/opengraph-image.jpg";
+  const arteUrl = "/compartilhar/olho";
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
 
   function ouvir() {
@@ -68,7 +68,7 @@ export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
           <div className="mt-5 overflow-hidden rounded-2xl border border-black/15 bg-white">
             <img
               src={arteUrl}
-              alt="Arte de compartilhamento do Fora da Pauta — Há mais para entender."
+              alt="Olho amarelo do Fora da Pauta sobre fundo preto, sem texto."
               width={1200}
               height={630}
               loading="lazy"
@@ -92,7 +92,7 @@ export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
           <p className="mt-3 text-sm leading-6 text-black/60">
             O botão abre o WhatsApp com a mensagem e o link do artigo. Para enviar a imagem em tamanho grande, baixe-a e anexe como foto na conversa.
           </p>
-          <a href={arteUrl} download={`fora-da-pauta-${campaign.slug}.jpg`}
+          <a href={arteUrl} download={`fora-da-pauta-${campaign.slug}.png`}
             className="mt-2 inline-flex min-h-10 items-center text-sm font-semibold text-black underline underline-offset-4">
             Baixar imagem para enviar pelo WhatsApp
           </a>

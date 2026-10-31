@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     siteName: "Fora da Pauta",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "/opengraph-image.jpg", width: 1200, height: 630, alt: "Olho amarelo, Fora da Pauta — Há mais para entender." }],
+    images: [{ url: "/compartilhar/olho", width: 1200, height: 630, alt: "Olho amarelo do Fora da Pauta sobre fundo preto, sem texto." }],
   },
   title: {
     default: "Fora da Pauta",
