@@ -55,7 +55,6 @@ export function HomeAcessoTelegram() {
   if (simulacao && !mostrarMenu) {
     return (
       <div className="mt-10">
-        <p className="mb-4 text-lg leading-relaxed text-white/85">Receba as novidades do Fora da Pauta pelo Telegram.</p>
         <button type="button" onClick={() => setMostrarMenu(true)} className="inline-flex min-h-14 items-center justify-center gap-3 rounded-lg bg-[#FFD700] px-7 py-4 text-lg font-bold text-black hover:bg-[#f0ca00]">
           Acompanhe as novidades pelo Telegram <span aria-hidden="true">→</span>
         </button>
