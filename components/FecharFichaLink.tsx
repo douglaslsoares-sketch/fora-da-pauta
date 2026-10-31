@@ -21,6 +21,13 @@ export function FecharFichaLink() {
       return;
     }
 
+    const parametros = new URLSearchParams(window.location.search);
+    if (parametros.get("origem") === "minhas") {
+      event.preventDefault();
+      router.push("/votou-fique-de-olho?minhas=1");
+      return;
+    }
+
     const abertaEmAbaSeparada = new URLSearchParams(window.location.search).get("aba") === "separada";
     if (abertaEmAbaSeparada) {
       event.preventDefault();
