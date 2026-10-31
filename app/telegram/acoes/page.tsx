@@ -9,9 +9,12 @@ export const metadata: Metadata = {
 };
 
 const botoes = [
-  { titulo: "Escolher pessoas para acompanhar", descricao: "Inclua ou consulte suas escolhas.", href: "/votou-fique-de-olho" },
-  { titulo: "Ver edições já publicadas", descricao: "Leia ou ouça as publicações disponíveis.", href: "/edicoes" },
-  { titulo: "Voltar ao Fora da Pauta", descricao: "Conheça a página inicial do projeto.", href: "/" },
+  { titulo: "Acompanhar pessoas", descricao: "Escolha novas pessoas para acompanhar.", href: "/votou-fique-de-olho" },
+  { titulo: "Minhas escolhas", descricao: "Consulte ou remova pessoas acompanhadas.", href: "/votou-fique-de-olho?minhas=1" },
+  { titulo: "Buscar pessoas", descricao: "Pesquise pelo nome.", href: "/votou-fique-de-olho" },
+  { titulo: "Ver ficha política", descricao: "Pesquise e abra a ficha de uma pessoa.", href: "/votou-fique-de-olho" },
+  { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições disponíveis.", href: "/edicoes" },
+  { titulo: "Página inicial", descricao: "Voltar ao Fora da Pauta.", href: "/" },
 ];
 
 export default function OpcoesTelegram() {
