@@ -1,3 +1,4 @@
+import { ArtigoSimples } from "@/components/ArtigoSimples";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -89,5 +90,7 @@ export default async function CampaignRoute({
     notFound();
   }
 
-  return <CampaignPage campaign={campaign} />;
+  return campaign.slug === "lula-venceu-o-globo"
+    ? <ArtigoSimples campaign={campaign} />
+    : <CampaignPage campaign={campaign} />;
 }
