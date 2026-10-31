@@ -606,6 +606,27 @@ export async function POST(
     const chatId =
       String(chatIdRaw);
 
+    // Demonstração acionada apenas pela pessoa que digita /teste em seu chat privado.
+    // Nunca envia a outros usuários nem adiciona avisos à fila.
+    if (/^\\/teste(?:@[A-Za-z0-9_]+)?\\s*$/i.test(texto)) {
+      await enviarMensagemTelegram({
+        chatId,
+        texto:
+          "TESTE — Fora da Pauta\\n\\n" +
+          "Esta é uma notificação demonstrativa, não uma edição publicada.\\n\\n" +
+          "Abra a leitura, volte ao Telegram e experimente as opções abaixo.\\n" +
+          "Nenhuma notificação será enviada a outras pessoas.",
+        botoes: [
+          [{ text: "Ler artigo demonstrativo", url: "https://www.foradapauta.org/teste-telegram" }],
+          [{ text: "Minhas escolhas", url: "https://www.foradapauta.org/votou-fique-de-olho" }],
+          [{ text: "Buscar pessoas e fichas", url: "https://www.foradapauta.org/conheca-seu-candidato" }],
+          [{ text: "Ver edição: escala 6×1", url: "https://www.foradapauta.org/campanhas/fim-escala-6x1" }],
+          [{ text: "Abrir o site", url: "https://www.foradapauta.org/" }],
+        ],
+      });
+      return NextResponse.json({ ok: true });
+    }
+
     if (
       /^\/parar(?:@[A-Za-z0-9_]+)?\s*$/i.test(
         texto,
