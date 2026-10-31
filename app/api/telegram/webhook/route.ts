@@ -863,28 +863,21 @@ export async function POST(
     }
 
     if (["edicoes", "projeto"].includes(payload.toLowerCase())) {
-      await registrarNovasEdicoes(
-        chatId,
-      );
-
+      await registrarNovasEdicoes(chatId);
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "Pronto. Você escolheu receber pelo Telegram as novidades editoriais do Fora da Pauta.\n\nVocê pode acompanhar políticos nesta mesma conversa, sem criar outra conta. Envie /opcoes para consultar suas escolhas.",
+          "Pronto, agora você está de olho!\n\n" +
+          "Você receberá as próximas edições do Fora da Pauta nesta conversa.\n\n" +
+          "O que deseja fazer agora? A qualquer momento envie /menu para rever estas opções.",
         botoes: [
-          [
-            {
-              text: "Voltar ao Fora da Pauta",
-              url:
-                "https://foradapauta.org/",
-            },
-          ],
+          [{ text: "Minhas escolhas", url: "https://www.foradapauta.org/votou-fique-de-olho" }],
+          [{ text: "Buscar pessoas e fichas", url: "https://www.foradapauta.org/conheca-seu-candidato" }],
+          [{ text: "Ver edição: escala 6×1", url: "https://www.foradapauta.org/campanhas/fim-escala-6x1" }],
+          [{ text: "Voltar ao artigo de teste", url: "https://www.foradapauta.org/teste-telegram" }],
         ],
       });
-
-      return NextResponse.json({
-        ok: true,
-      });
+      return NextResponse.json({ ok: true });
     }
 
     const seguirMatch =
