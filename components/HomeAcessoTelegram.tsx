@@ -81,6 +81,7 @@ export function HomeAcessoTelegram() {
       ) : null}
       {menu ? (
         <section id="opcoes" aria-labelledby="titulo-opcoes" className="my-auto w-full max-w-[680px] py-12" >
+          {!simulacao && situacao === "inscrito" ? <p className="mb-5 text-sm font-medium text-white/65">✓ Você está inscrito no Telegram.</p> : null}
           <h1 id="titulo-opcoes" className="text-3xl font-bold tracking-tight sm:text-4xl">O que você quer fazer agora?</h1>
           <p className="mt-3 text-base leading-7 text-white/70">
             {!simulacao && quantidade > 0
