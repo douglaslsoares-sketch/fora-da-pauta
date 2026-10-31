@@ -59,6 +59,7 @@ export async function POST(
       cargo: pessoa.cargo,
       cargoLabel: formatarCargo(
         pessoa.cargo,
+        pessoa.genero,
       ),
       uf: pessoa.uf,
       siglaPartido:
