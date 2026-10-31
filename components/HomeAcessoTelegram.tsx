@@ -16,6 +16,7 @@ const opcoes = [
 export function HomeAcessoTelegram() {
   const [situacao, setSituacao] = useState<"inscrito" | "visitante">("visitante");
   const [quantidade, setQuantidade] = useState(0);
+  const [mostrarMenu, setMostrarMenu] = useState(false);
 
   useEffect(() => {
     let montado = true;
@@ -39,6 +40,7 @@ export function HomeAcessoTelegram() {
 
   useEffect(() => {
     if (situacao === "inscrito" && window.location.hash === "#opcoes") {
+      setMostrarMenu(true);
       window.requestAnimationFrame(() => {
         document.getElementById("opcoes")?.scrollIntoView({ block: "start", behavior: "instant" });
       });
@@ -54,6 +56,23 @@ export function HomeAcessoTelegram() {
         <Link href="/votou-fique-de-olho" className="inline-flex min-h-14 items-center justify-center gap-3 rounded-lg bg-[#FFD700] px-7 py-4 text-lg font-bold text-black hover:bg-[#f0ca00]">
           Acompanhe as novidades pelo Telegram <span aria-hidden="true">→</span>
         </Link>
+      </div>
+    );
+  }
+
+  if (!mostrarMenu) {
+    return (
+      <div className="mt-10">
+        <button
+          type="button"
+          onClick={() => {
+            setMostrarMenu(true);
+            window.history.replaceState(null, "", "#opcoes");
+          }}
+          className="inline-flex min-h-14 items-center justify-center gap-3 rounded-lg bg-[#FFD700] px-7 py-4 text-lg font-bold text-black hover:bg-[#f0ca00]"
+        >
+          Continuar <span aria-hidden="true">→</span>
+        </button>
       </div>
     );
   }
