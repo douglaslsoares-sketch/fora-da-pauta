@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Fora da Pauta",
   description: "Como o jogo é jogado. Decisões políticas que afetam a sua vida.",
   openGraph: {
+    images: [{ url: "/api/compartilhar/imagem?tipo=home", width: 1200, height: 630, alt: "Fora da Pauta — Há mais para entender." }],
     title: "Fora da Pauta — Há mais para entender.",
     description: "Como o jogo é jogado. Decisões políticas que afetam a sua vida.",
     url: "https://www.foradapauta.org/",
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    images: ["/api/compartilhar/imagem?tipo=home"],
     title: "Fora da Pauta — Há mais para entender.",
     description: "Como o jogo é jogado. Decisões políticas que afetam a sua vida.",
   },
