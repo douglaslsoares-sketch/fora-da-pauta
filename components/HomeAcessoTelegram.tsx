@@ -13,6 +13,16 @@ const opcoes: Opcao[] = [
   { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições.", href: "/edicoes" },
   { titulo: "Camiseta Fora da Pauta", descricao: "Ajude a financiar o projeto.", href: "/camiseta" },
 ];
+function SeloTelegram() {
+  return (
+    <span aria-hidden="true" className="pointer-events-none absolute -right-3 -top-4 flex h-10 w-10 rotate-[-12deg] items-center justify-center rounded-full border-[3px] border-[#101010] bg-[#229ED9] shadow-md sm:h-11 sm:w-11">
+      <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6 text-white" aria-hidden="true">
+        <path d="M21.94 4.66a1.16 1.16 0 0 0-1.35-.15L2.65 11.43a1.1 1.1 0 0 0 .08 2.07l4.7 1.52 1.78 5.18a.88.88 0 0 0 1.46.32l2.56-2.5 4.58 3.36a1.16 1.16 0 0 0 1.82-.69l2.67-14.87a1.15 1.15 0 0 0-.36-1.16ZM9.3 14.56l8.93-6.76-7.2 8.04-.3 2.28-1.43-3.56Z" />
+      </svg>
+    </span>
+  );
+}
+
 export function HomeAcessoTelegram() {
   const [situacao, setSituacao] = useState<"verificando" | "inscrito" | "visitante">("verificando");
   const [quantidade, setQuantidade] = useState(0);
@@ -66,15 +76,15 @@ export function HomeAcessoTelegram() {
             {emVerificacao ? <p className="mt-10 text-white/70" role="status">Verificando inscrição...</p> : null}
             {visitante ? (
               <div className="mt-10">
-                <Link href="/votou-fique-de-olho" className="inline-flex min-h-14 items-center justify-center gap-3 rounded-lg bg-[#FFD700] px-7 py-4 text-lg font-bold text-black">
-                  Acompanhe as novidades pelo Telegram <span aria-hidden="true">→</span>
+                <Link href="/votou-fique-de-olho" className="relative inline-flex min-h-14 items-center justify-center gap-3 rounded-lg bg-[#FFD700] px-7 py-4 pr-10 text-lg font-bold text-black">
+                  Acompanhe as novidades pelo Telegram <span aria-hidden="true">→</span><SeloTelegram />
                 </Link>
               </div>
             ) : null}
             {simulacao && !mostrarMenuSimulado ? (
               <button type="button" onClick={() => setMostrarMenuSimulado(true)}
-                className="mt-10 inline-flex min-h-14 items-center justify-center rounded-lg bg-[#FFD700] px-7 py-4 text-lg font-bold text-black">
-                Acompanhe as novidades pelo Telegram →
+                className="relative mt-10 inline-flex min-h-14 items-center justify-center rounded-lg bg-[#FFD700] px-7 py-4 pr-10 text-lg font-bold text-black">
+                Acompanhe as novidades pelo Telegram →<SeloTelegram />
               </button>
             ) : null}
           </section>
