@@ -1,3 +1,4 @@
+import { lulaVenceuOGloboRascunho } from "./edicoes/rascunhos/lula-venceu-o-globo";
 import { lulaVenceuOGloboRascunho } from "@/data/edicoes/rascunhos/lula-venceu-o-globo";
 ﻿export type CampaignSection = {
   title: string;
@@ -51,6 +52,7 @@ export type Campaign = {
 };
 
 export const campaigns: Campaign[] = [
+  lulaVenceuOGloboRascunho,
   lulaVenceuOGloboRascunho,
   {
     slug: "seus-interesses",
