@@ -80,6 +80,13 @@ export function HomeAcessoTelegram() {
         </>
       ) : null}
       {menu ? (
+        <header className={styles.header}>
+          <Link href="/" aria-label="Fora da Pauta — página inicial">
+            <Image src="/marca/fora-da-pauta-horizontal-branco.svg" alt="Fora da Pauta" width={2325} height={374} priority className={styles.logo} />
+          </Link>
+        </header>
+      ) : null}
+      {menu ? (
         <section id="opcoes" aria-labelledby="titulo-opcoes" className="my-auto w-full max-w-[680px] py-12" >
           {!simulacao && situacao === "inscrito" ? <p className="mb-5 text-sm font-medium text-white/65">✓ Você está inscrito no Telegram.</p> : null}
           <h1 id="titulo-opcoes" className="text-3xl font-bold tracking-tight sm:text-4xl">O que você quer fazer agora?</h1>
