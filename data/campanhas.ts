@@ -52,7 +52,6 @@ export type Campaign = {
 
 export const campaigns: Campaign[] = [
   lulaVenceuOGloboRascunho,
-  lulaVenceuOGloboRascunho,
   {
     slug: "seus-interesses",
     brand: "Fora da Pauta",
