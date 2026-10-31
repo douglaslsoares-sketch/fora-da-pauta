@@ -16,13 +16,14 @@ type Opcao = {
   descricao: string;
   href: string;
   exigeEscolhas?: boolean;
+  indisponivel?: boolean;
 };
 
 const opcoes: Opcao[] = [
   { titulo: "Acompanhar pessoas", descricao: "Escolha pessoas para acompanhar pelo Telegram.", href: "/votou-fique-de-olho" },
   { titulo: "Minhas escolhas", descricao: "Consulte ou remova as pessoas que você acompanha.", href: "/votou-fique-de-olho?minhas=1", exigeEscolhas: true },
   { titulo: "Ver ficha política", descricao: "Pesquise uma pessoa e consulte sua ficha.", href: "/conheca-seu-candidato" },
-  { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições disponíveis.", href: "/edicoes" },
+  { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições disponíveis.", href: "/edicoes", indisponivel: true },
   { titulo: "Página inicial", descricao: "Voltar ao Fora da Pauta.", href: "/" },
 ];
 
@@ -77,7 +78,7 @@ export default async function OpcoesTelegram() {
         </p>
         <nav aria-label="Opções do Fora da Pauta" className="flex flex-col gap-4">
           {opcoes.map((item) => {
-            const desativado = item.exigeEscolhas && !temEscolhas;
+            const desativado = item.indisponivel || (item.exigeEscolhas && !temEscolhas);
 
             if (desativado) {
               return (
@@ -88,7 +89,7 @@ export default async function OpcoesTelegram() {
                 >
                   <span className="text-lg font-bold">{item.titulo} <span aria-hidden="true">🔒</span></span>
                   <span className="mt-1 text-sm">
-                    {autenticado ? "Disponível quando você acompanhar alguém." : "Disponível depois de confirmar sua inscrição neste navegador."}
+                    {item.indisponivel ? "Disponível quando publicarmos as edições." : autenticado ? "Disponível quando você acompanhar alguém." : "Disponível depois de confirmar sua inscrição neste navegador."}
                   </span>
                 </div>
               );
