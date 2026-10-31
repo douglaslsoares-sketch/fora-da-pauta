@@ -14,7 +14,7 @@ const opcoes = [
 ];
 
 export function HomeAcessoTelegram() {
-  const [situacao, setSituacao] = useState<"carregando" | "inscrito" | "visitante">("carregando");
+  const [situacao, setSituacao] = useState<"inscrito" | "visitante">("visitante");
   const [quantidade, setQuantidade] = useState(0);
 
   useEffect(() => {
@@ -45,10 +45,6 @@ export function HomeAcessoTelegram() {
     }
   }, [situacao]);
 
-  if (situacao === "carregando") {
-    return <p role="status" className="mt-7 text-sm text-white/70">Conferindo sua inscrição...</p>;
-  }
-
   if (situacao === "visitante") {
     return (
       <div className="mt-10">
@@ -56,7 +52,7 @@ export function HomeAcessoTelegram() {
           Receba as novidades do Fora da Pauta e acompanhe as decisões políticas que afetam a sua vida.
         </p>
         <Link href="/votou-fique-de-olho" className="inline-flex min-h-14 items-center justify-center gap-3 rounded-lg bg-[#FFD700] px-7 py-4 text-lg font-bold text-black hover:bg-[#f0ca00]">
-          Acompanhe pelo Telegram <span aria-hidden="true">→</span>
+          Acompanhe as novidades pelo Telegram <span aria-hidden="true">→</span>
         </Link>
       </div>
     );
