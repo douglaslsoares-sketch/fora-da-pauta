@@ -85,14 +85,11 @@ function ConcluirNoTelegram() {
   return (
     <div className="mt-8 border-t border-black/10 pt-6">
       <a
-        href="https://t.me/ForaDaPautaAcompanhaBot"
+        href="/#opcoes"
         className="flex min-h-14 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-center font-semibold text-white"
       >
-        Concluir e voltar ao Telegram
+        Voltar às opções
       </a>
-      <p className="mt-3 text-center text-sm leading-6 text-black/60">
-        Se abriu esta página dentro do Telegram, você também pode tocar no X no alto da tela para voltar à conversa.
-      </p>
     </div>
   );
 }
