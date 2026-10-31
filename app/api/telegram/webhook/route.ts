@@ -898,7 +898,7 @@ export async function POST(
           "Você receberá avisos das novas edições por aqui.",
         imagemUrl: "https://www.foradapauta.org/opengraph-image.jpg",
         botoes: [
-          [{ text: "Continuar — ver opções", url: "https://www.foradapauta.org/telegram/acoes" }],
+          [{ text: "Continuar — ver opções", url: "https://www.foradapauta.org/#opcoes" }],
         ],
       });
       return NextResponse.json({ ok: true });
