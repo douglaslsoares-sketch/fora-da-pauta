@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import styles from "@/app/page.module.css";
 
 type Situacao = { ativo?: boolean; ids?: string[] };
-const opcoes = [
+type Opcao = { titulo: string; descricao: string; href: string; exigeEscolhas?: boolean; indisponivel?: boolean };
+const opcoes: Opcao[] = [
   { titulo: "Acompanhar pessoas", descricao: "Escolha pessoas para acompanhar.", href: "/votou-fique-de-olho" },
   { titulo: "Minhas escolhas", descricao: "Veja ou remova pessoas acompanhadas.", href: "/votou-fique-de-olho?minhas=1", exigeEscolhas: true },
   { titulo: "Ver ficha política", descricao: "Pesquise e consulte uma ficha.", href: "/ficha-politica" },
