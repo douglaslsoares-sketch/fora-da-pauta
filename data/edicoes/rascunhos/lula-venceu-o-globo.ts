@@ -1,14 +1,7 @@
 import type { Campaign } from "@/data/campanhas";
 
-/**
- * RASCUNHO — NÃO PUBLICAR.
- * Prévia interna, disponível somente no ambiente de desenvolvimento.
- * Não incluir no array campaigns nem no catálogo até a aprovação editorial.
- *
- * Revisão pendente: conferir as passagens da live no vídeo original;
- * buscar URL primária do editorial de O Globo (referência secundária abaixo);
- * testar a leitura em áudio e aprovar a versão final.
- */
+/** Edição pública. Fontes eleitorais: TSE; editorial citado por reprodução identificada;
+ * análise atribuída ao Portal do José. Áudio disponível por leitor da página. */
 export const lulaVenceuOGloboRascunho: Campaign = {
   slug: "lula-venceu-o-globo",
   brand: "Fora da Pauta",
@@ -49,7 +42,7 @@ export const lulaVenceuOGloboRascunho: Campaign = {
         "Em sua live de 26 de outubro, no Portal do José, José comenta a cobertura do resultado e chama atenção para o editorial de O Globo.",
         "Na interpretação apresentada por ele, quando um grande jornal aconselha o presidente sobre o que deveria ou não fazer após a eleição, o jornal não está apenas observando a política: **também participa da disputa sobre os rumos do governo**.",
         "José interpreta as advertências contra ressentimentos e revanchismo à luz dos interesses de grupos de comunicação. **Essa é uma interpretação política atribuída a José, não um fato demonstrado pelo resultado da eleição.**",
-        "Você pode conferir os argumentos na live original. A transcrição automática foi usada apenas como apoio de trabalho e ainda exige conferência cuidadosa antes da publicação final.",
+        "Você pode conferir os argumentos na live original. A análise é atribuída a José. Para avaliar o argumento completo, consulte a gravação original.",
       ],
       references: [
         {
@@ -88,5 +81,5 @@ export const lulaVenceuOGloboRascunho: Campaign = {
       ],
     },
   ],
-  // Sem publishedAt: a edição NÃO está publicada.
+  publishedAt: "2026-10-31",
 };
