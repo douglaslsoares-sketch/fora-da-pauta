@@ -1,6 +1,6 @@
 import { lulaVenceuOGloboRascunho } from "./edicoes/rascunhos/lula-venceu-o-globo";
 import { lulaVenceuOGloboRascunho } from "@/data/edicoes/rascunhos/lula-venceu-o-globo";
-﻿export type CampaignSection = {
+export type CampaignSection = {
   title: string;
   eyebrow?: string;
   paragraphs: string[];
