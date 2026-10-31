@@ -21,7 +21,7 @@ type Opcao = {
 const opcoes: Opcao[] = [
   { titulo: "Acompanhar pessoas", descricao: "Escolha pessoas para acompanhar pelo Telegram.", href: "/votou-fique-de-olho" },
   { titulo: "Minhas escolhas", descricao: "Consulte ou remova as pessoas que você acompanha.", href: "/votou-fique-de-olho?minhas=1", exigeEscolhas: true },
-  { titulo: "Ver ficha política", descricao: "Pesquise uma pessoa e consulte sua ficha.", href: "/votou-fique-de-olho" },
+  { titulo: "Ver ficha política", descricao: "Pesquise uma pessoa e consulte sua ficha.", href: "/conheca-seu-candidato" },
   { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições disponíveis.", href: "/edicoes" },
   { titulo: "Página inicial", descricao: "Voltar ao Fora da Pauta.", href: "/" },
 ];
