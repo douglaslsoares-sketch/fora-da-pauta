@@ -9,7 +9,7 @@ const opcoes = [
   { titulo: "Acompanhar pessoas", descricao: "Escolha pessoas para acompanhar.", href: "/votou-fique-de-olho" },
   { titulo: "Minhas escolhas", descricao: "Veja ou remova pessoas acompanhadas.", href: "/votou-fique-de-olho?minhas=1", exigeEscolhas: true },
   { titulo: "Ver ficha política", descricao: "Pesquise e consulte uma ficha.", href: "/ficha-politica" },
-  { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições.", href: "/edicoes", indisponivel: true },
+  { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições.", href: "/edicoes" },
 ];
 
 export function HomeAcessoTelegram() {
