@@ -18,7 +18,7 @@ export default function CamisetaPage() {
         <p className="mt-6 text-center text-sm text-black/60">Apresentação ilustrativa da camiseta.</p>
         <p className="mt-5 text-center text-base leading-7">A compra da camiseta ajudará a financiar e manter o projeto Fora da Pauta.</p>
         <p className="mt-3 text-center text-sm font-semibold text-black/50">Aquisição ainda não disponível.</p>
-        <Link href="/#opcoes" className="mt-10 inline-flex min-h-12 items-center rounded-lg bg-black px-5 py-3 font-semibold text-white">Voltar às opções</Link>
+        <Link href="/#opcoes" className="mt-10 inline-flex min-h-12 min-w-[210px] items-center justify-center rounded-lg bg-black px-5 py-3 text-center text-base font-semibold text-white">Voltar às opções</Link>
       </div>
     </main>
   );
