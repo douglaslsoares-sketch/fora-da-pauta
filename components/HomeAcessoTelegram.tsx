@@ -53,7 +53,7 @@ export function HomeAcessoTelegram() {
 
   return (
     <div className={styles.container}>
-      {(!menu || emVerificacao) ? (
+      {(!menu && !emVerificacao) ? (
         <>
           <header className={styles.header}>
             <Image src="/marca/fora-da-pauta-horizontal-branco.svg" alt="Fora da Pauta" width={2325} height={374} priority className={styles.logo} />
