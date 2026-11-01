@@ -13,8 +13,11 @@ export default function EdicoesPublicadas() {
   // O artigo de apresentação aparece sempre primeiro, independentemente da data.
   // As demais edições públicas são exibidas da mais recente para a mais antiga.
   const apresentacao = campaigns.find((item) => item.slug === artigoFixo && Boolean(item.publishedAt));
+  // A pauta "O que você faria se fosse presidente?" fica preservada no sistema,
+  // mas não deve constar na listagem pública de edições.
+  const slugsOcultosNaListagem = new Set(["seus-interesses"]);
   const edicoes = campaigns
-    .filter((item) => item.slug !== artigoFixo && Boolean(item.publishedAt))
+    .filter((item) => item.slug !== artigoFixo && !slugsOcultosNaListagem.has(item.slug) && Boolean(item.publishedAt))
     .sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""));
 
   return (
