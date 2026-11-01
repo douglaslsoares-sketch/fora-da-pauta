@@ -36,6 +36,7 @@ export async function generateMetadata({
 
   const ehEdicao01 =
     campaign.slug === "fim-escala-6x1";
+  const ehApresentacao = campaign.slug === "quem-decide-o-que-chega-ate-voce";
 
   const socialTitle =
     ehEdicao01
@@ -45,10 +46,12 @@ export async function generateMetadata({
   const socialDescription =
     ehEdicao01
       ? "Entenda como funciona a escala 6x1, o que está em debate e quais são as propostas de mudança."
-      : `${campaign.statement} Entenda a mensagem. Confira os argumentos.`;
+      : ehApresentacao
+        ? campaign.statement
+        : `${campaign.statement} Entenda a mensagem. Confira os argumentos.`;
 
   return {
-    title: `${campaign.title} | Fora da Pauta`,
+    title: campaign.title,
     description: ehEdicao01
       ? socialDescription
       : campaign.statement,
@@ -92,7 +95,7 @@ export default async function CampaignRoute({
     notFound();
   }
 
-  return campaign.slug === "lula-venceu-o-globo"
+  return campaign.slug === "lula-venceu-o-globo" || campaign.slug === "quem-decide-o-que-chega-ate-voce"
     ? <ArtigoSimples campaign={campaign} />
     : <CampaignPage campaign={campaign} />;
 }
