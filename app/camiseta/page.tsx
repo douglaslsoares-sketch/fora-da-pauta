@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Camiseta Fora da Pauta",
-  description: "Conheça a camiseta do Fora da Pauta. A aquisição ainda não está disponível.",
+  description: "Conheça a camiseta oficial do Fora da Pauta e acesse a loja Montink para comprar.",
 };
 
 export default function CamisetaPage() {
