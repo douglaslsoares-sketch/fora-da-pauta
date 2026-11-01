@@ -27,8 +27,8 @@ export default async function ConfirmacaoTelegram() {
   return (
     <main className="min-h-[calc(100svh-58px)] bg-white px-6 py-12 text-black">
       <section className="mx-auto flex max-w-[560px] flex-col items-center text-center">
-        <Image src="/opengraph-image.jpg" alt="Fora da Pauta — Há mais para entender" width={1200} height={630}
-          className="mb-8 h-auto w-full rounded-xl" priority />
+        <Image src="/marca/fora-da-pauta-olho-dourado.svg" alt="Símbolo do Fora da Pauta" width={620} height={374}
+          className="mb-8 h-auto w-28" priority />
         <h1 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
           Pronto, agora você está de olho.
         </h1>
