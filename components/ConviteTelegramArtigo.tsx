@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { SeloTelegram } from "@/components/SeloTelegram";
 import { useEffect, useState } from "react";
 
 type SituacaoTelegram = { ativo?: boolean };
@@ -53,12 +54,13 @@ export function ConviteTelegramArtigo() {
       </p>
       <Link
         href="/votou-fique-de-olho"
-        className="mt-6 flex min-h-14 w-full items-center justify-center rounded-2xl bg-[#FFD700] px-5 py-3 text-center text-base font-bold text-black hover:bg-[#ebc700]"
+        className="relative mt-6 flex min-h-14 w-full items-center justify-center rounded-2xl bg-[#FFD700] px-5 py-3 text-center text-base font-bold text-black hover:bg-[#ebc700]"
       >
         Quero acompanhar pelo Telegram
+        <SeloTelegram />
       </Link>
       <p className="mt-3 text-center text-sm leading-6 text-black/60">
-        Ainda não tem o Telegram? Você poderá instalá-lo gratuitamente antes de concluir a inscrição.
+        O acompanhamento é feito pelo Telegram. Se ainda não tiver o aplicativo no celular, computador ou notebook, poderá instalá-lo gratuitamente.
       </p>
     </section>
   );

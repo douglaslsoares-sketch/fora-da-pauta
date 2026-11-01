@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "@/app/page.module.css";
+import { SeloTelegram } from "@/components/SeloTelegram";
 
 type Situacao = { ativo?: boolean; ids?: string[] };
 type Opcao = { titulo: string; descricao: string; href: string; exigeEscolhas?: boolean; indisponivel?: boolean };
@@ -13,16 +14,6 @@ const opcoes: Opcao[] = [
   { titulo: "Edições já publicadas", descricao: "Leia ou ouça as edições.", href: "/edicoes" },
   { titulo: "Camiseta Fora da Pauta", descricao: "Ajude a financiar o projeto.", href: "/camiseta" },
 ];
-function SeloTelegram() {
-  return (
-    <span aria-hidden="true" className="pointer-events-none absolute -right-2 -top-4 z-10 flex h-11 w-11 rotate-[-12deg] items-center justify-center rounded-full border-[3px] border-[#101010] bg-[#229ED9] shadow-md sm:h-11 sm:w-11">
-      <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6 text-white" aria-hidden="true">
-        <path d="M21.94 4.66a1.16 1.16 0 0 0-1.35-.15L2.65 11.43a1.1 1.1 0 0 0 .08 2.07l4.7 1.52 1.78 5.18a.88.88 0 0 0 1.46.32l2.56-2.5 4.58 3.36a1.16 1.16 0 0 0 1.82-.69l2.67-14.87a1.15 1.15 0 0 0-.36-1.16ZM9.3 14.56l8.93-6.76-7.2 8.04-.3 2.28-1.43-3.56Z" />
-      </svg>
-    </span>
-  );
-}
-
 export function HomeAcessoTelegram() {
   const [situacao, setSituacao] = useState<"verificando" | "inscrito" | "visitante">("verificando");
   const [quantidade, setQuantidade] = useState(0);
@@ -80,18 +71,20 @@ export function HomeAcessoTelegram() {
                   Acompanhe as novidades pelo Telegram <span aria-hidden="true">→</span><SeloTelegram />
                 </Link>
                 <p className="mt-3 max-w-[370px] text-center text-sm leading-6 text-white/75">
-                  Ainda não tem o Telegram? Você poderá instalá-lo gratuitamente antes de concluir a inscrição.
+                  O acompanhamento é feito pelo Telegram. Se ainda não tiver o aplicativo no celular, computador ou notebook, poderá instalá-lo gratuitamente.
                 </p>
               </div>
             ) : null}
             {simulacao && !mostrarMenuSimulado ? (
-              <button type="button" onClick={() => setMostrarMenuSimulado(true)}
-                className="relative mt-10 inline-flex min-h-14 w-full max-w-[370px] items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center text-base font-bold leading-snug text-black sm:w-auto sm:text-lg">
+              <div className="mt-10">
+                <button type="button" onClick={() => setMostrarMenuSimulado(true)}
+                className="relative inline-flex min-h-14 w-full max-w-[370px] items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center text-base font-bold leading-snug text-black sm:w-auto sm:text-lg">
                 Acompanhe as novidades pelo Telegram →<SeloTelegram />
               </button>
               <p className="mt-3 max-w-[370px] text-center text-sm leading-6 text-white/75">
-                Ainda não tem o Telegram? Você poderá instalá-lo gratuitamente antes de concluir a inscrição.
+                O acompanhamento é feito pelo Telegram. Se ainda não tiver o aplicativo no celular, computador ou notebook, poderá instalá-lo gratuitamente.
               </p>
+              </div>
             ) : null}
           </section>
         </>
