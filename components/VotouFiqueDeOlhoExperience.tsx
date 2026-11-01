@@ -95,6 +95,19 @@ function ConcluirNoTelegram() {
   );
 }
 
+function AbrirConfirmacaoTelegram() {
+  useEffect(() => {
+    // A confirmação final só aparece depois que a inscrição foi verificada.
+    window.location.replace("/telegram/pronto");
+  }, []);
+
+  return (
+    <section role="status" aria-live="polite" className="mx-auto max-w-[760px] px-6 py-16 text-center text-black/65">
+      Abrindo confirmação da inscrição...
+    </section>
+  );
+}
+
 export function VotouFiqueDeOlhoExperience() {
   const bruto = useSyncExternalStore(
     observarSelecao,
@@ -570,107 +583,7 @@ export function VotouFiqueDeOlhoExperience() {
     !conferindoInscricao && selecionadas.length === 0;
 
   if (etapaAtual === "telegram" && inscricaoConfirmada) {
-    return (
-      <section className="mx-auto max-w-[760px] px-6 pb-14 pt-8">
-        <div className="flex flex-col items-center gap-4 text-center">
-          <svg
-            viewBox="0 0 24 24"
-            className="h-12 w-12 text-emerald-700"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.9"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path d="m8 12 2.5 2.5L16 9" />
-          </svg>
-          <h2 className="text-3xl font-bold">Pronto! Você já está de olho.</h2>
-        </div>
-        <p className="mt-4 leading-7">Quando houver uma nova edição, você receberá um aviso pelo Telegram.</p>
-
-        <div className="mt-8 border-t border-black/10 pt-7">
-          <h3 className="text-xl font-bold">Quer acompanhar alguém na política?</h3>
-          <p className="mt-3 leading-7 text-black/75">
-            Você também pode escolher pessoas para acompanhar suas atuações, decisões e posicionamentos.
-          </p>
-          <button
-            type="button"
-            aria-expanded={mostrarEscolhaFinal}
-            aria-controls="escolha-final"
-            onClick={() => setMostrarEscolhaFinal((atual) => !atual)}
-            className="mt-5 min-h-14 w-full rounded-2xl bg-black px-5 py-3 font-semibold text-white"
-          >
-            {mostrarEscolhaFinal ? "Ocultar escolha de pessoas" : "Escolher pessoas para acompanhar"}
-            <span aria-hidden="true"> {mostrarEscolhaFinal ? "⌃" : "⌄"}</span>
-          </button>
-          {selecionadas.length === 0 && !mostrarEscolhaFinal ? (
-            <p className="mt-4 text-center text-sm leading-6 text-black/60">
-              Não precisa escolher ninguém agora. Você continuará recebendo os avisos das novas edições.
-            </p>
-          ) : null}
-          {mostrarEscolhaFinal ? (
-            <div id="escolha-final" className="mt-5">
-              <CandidateSelector
-                key={`final-${busca}`}
-                mode="follow"
-                selectedIds={selecionadas.map((pessoa) => pessoa.id)}
-                onSelect={selecionar}
-              />
-
-              {ultimoIdConfirmado && pessoaConfirmada?.id === ultimoIdConfirmado ? (
-                <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
-                  <p className="flex items-center gap-2 font-semibold text-emerald-950">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm text-white">
-                      ✓
-                    </span>
-                    Você já acompanha:
-                  </p>
-                  <div className="mt-4 flex items-center gap-3">
-                    <CandidatePhoto id={pessoaConfirmada.id} name={pessoaConfirmada.nomeUrna} />
-                    <div className="min-w-0 flex-1">
-                      <p className="font-semibold">{pessoaConfirmada.nomeUrna}</p>
-                      <p className="mt-1 text-sm leading-5 text-black/65">
-                        {pessoaConfirmada.cargoLabel} · {pessoaConfirmada.uf}
-                        <br />
-                        {pessoaConfirmada.siglaPartido} · Nº {pessoaConfirmada.numero}
-                      </p>
-                    </div>
-                  </div>
-                  <Link
-                    href={"/conheca-seu-candidato/" + pessoaConfirmada.id}
-                    className="mt-3 inline-flex min-h-10 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-2 text-xs font-bold text-black"
-                  >
-                    Ver ficha
-                  </Link>
-                </div>
-              ) : null}
-              {mostrarAvisoSemPessoas ? <AvisoInscricaoSemPessoas /> : null}
-              {salvandoEscolhas ? <p role="status" className="mt-3 text-sm">Salvando no Telegram...</p> : null}
-              {aviso && !erroTelegram ? <p role="status" className="sr-only">{aviso}</p> : null}
-              {erroTelegram ? <p role="alert" className="mt-3 text-sm text-red-700">{erroTelegram}</p> : null}
-              {selecionadas.length > 0 ? (
-                <div className="mt-6">
-                  <h4 className="font-semibold">Pessoas que você acompanha ({selecionadas.length})</h4>
-                  <ListaSelecionadas permitirRemocao={false} selecaoParaRemover />
-                  {marcadasParaRemover.length > 0 ? (
-                    <button type="button" disabled={removendoMarcadas}
-                      onClick={() => void removerMarcadas()}
-                      className="mt-4 min-h-12 w-full rounded-2xl border border-red-700 px-4 font-semibold text-red-800 disabled:opacity-60">
-                      {removendoMarcadas ? "Removendo..." : `Remover selecionados (${marcadasParaRemover.length})`}
-                    </button>
-                  ) : null}
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-        </div>
-
-
-        <ConcluirNoTelegram />
-      </section>
-    );
+    return <AbrirConfirmacaoTelegram />;
   }
 
   if (retornoTelegram && !conferindoInscricao && !inscricaoAtiva) {
