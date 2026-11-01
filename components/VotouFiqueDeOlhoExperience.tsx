@@ -718,9 +718,6 @@ export function VotouFiqueDeOlhoExperience() {
         {!conferindoInscricao ? (
           <p className="mt-3 text-sm leading-6 text-black/60">Ainda não tem o Telegram? Você poderá instalá-lo gratuitamente antes de concluir a inscrição.</p>
         ) : null}
-        <p className="mt-5 text-sm leading-6 text-black/60">
-          Você poderá escolher pessoas para acompanhar depois.
-        </p>
         {erroTelegram ? <p role="alert" className="mt-3 text-sm font-medium text-red-700">{erroTelegram}</p> : null}
         {avisoStorage ? <p role="alert" className="mt-3 text-sm text-black/60">{avisoStorage}</p> : null}
       </section>
