@@ -714,6 +714,9 @@ export function VotouFiqueDeOlhoExperience() {
             <span>{ativandoTelegram ? "Abrindo Telegram..." : "Continuar no Telegram"}</span>
           </button>
         )}
+        {!conferindoInscricao ? (
+          <p className="mt-3 text-sm leading-6 text-black/60">Ainda não tem o Telegram? Você poderá instalá-lo gratuitamente antes de concluir a inscrição.</p>
+        ) : null}
         <p className="mt-5 text-sm leading-6 text-black/60">
           Você poderá escolher pessoas para acompanhar depois.
         </p>
@@ -818,6 +821,7 @@ export function VotouFiqueDeOlhoExperience() {
               )}
           </span>
         </button>
+        <p className="mt-3 text-center text-sm leading-6 text-black/60">Ainda não tem o Telegram? Você poderá instalá-lo gratuitamente antes de concluir a inscrição.</p>
 
         </>
         )}
@@ -978,6 +982,7 @@ export function VotouFiqueDeOlhoExperience() {
           >
             Quero acompanhar o Fora da Pauta →
           </button>
+          <p className="mt-3 text-sm leading-6 text-black/60">Ainda não tem o Telegram? Você poderá instalá-lo gratuitamente antes de concluir a inscrição.</p>
         </section>
       ) : (
         <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
@@ -1057,6 +1062,7 @@ export function VotouFiqueDeOlhoExperience() {
               >
                 Quero acompanhar o Fora da Pauta
               </button>
+              <p className="mt-3 text-sm leading-6 text-black/60">Ainda não tem o Telegram? Você poderá instalá-lo gratuitamente antes de concluir a inscrição.</p>
             </div>
           ) : null}
           {!conferindoInscricao && inscricaoAtiva ? <ConcluirNoTelegram /> : null}

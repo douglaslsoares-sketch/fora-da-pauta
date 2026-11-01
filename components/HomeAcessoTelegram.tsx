@@ -79,6 +79,9 @@ export function HomeAcessoTelegram() {
                 <Link href="/votou-fique-de-olho" className="relative inline-flex min-h-14 w-full max-w-[370px] items-center justify-center gap-2 rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center text-base font-bold leading-snug text-black sm:w-auto sm:text-lg">
                   Acompanhe as novidades pelo Telegram <span aria-hidden="true">→</span><SeloTelegram />
                 </Link>
+                <p className="mt-3 max-w-[370px] text-center text-sm leading-6 text-white/75">
+                  Ainda não tem o Telegram? Você poderá instalá-lo gratuitamente antes de concluir a inscrição.
+                </p>
               </div>
             ) : null}
             {simulacao && !mostrarMenuSimulado ? (
@@ -86,6 +89,9 @@ export function HomeAcessoTelegram() {
                 className="relative mt-10 inline-flex min-h-14 w-full max-w-[370px] items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center text-base font-bold leading-snug text-black sm:w-auto sm:text-lg">
                 Acompanhe as novidades pelo Telegram →<SeloTelegram />
               </button>
+              <p className="mt-3 max-w-[370px] text-center text-sm leading-6 text-white/75">
+                Ainda não tem o Telegram? Você poderá instalá-lo gratuitamente antes de concluir a inscrição.
+              </p>
             ) : null}
           </section>
         </>

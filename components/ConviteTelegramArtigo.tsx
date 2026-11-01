@@ -57,6 +57,9 @@ export function ConviteTelegramArtigo() {
       >
         Quero acompanhar pelo Telegram
       </Link>
+      <p className="mt-3 text-center text-sm leading-6 text-black/60">
+        Ainda não tem o Telegram? Você poderá instalá-lo gratuitamente antes de concluir a inscrição.
+      </p>
     </section>
   );
 }
