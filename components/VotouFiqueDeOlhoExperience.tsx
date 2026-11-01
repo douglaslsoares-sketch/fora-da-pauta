@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore, useRef } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
+import { SeloTelegram } from "@/components/SeloTelegram";
 import Link from "next/link";
 
 import {
@@ -978,11 +979,14 @@ export function VotouFiqueDeOlhoExperience() {
               setEscolhasSalvas(false);
               setEtapa("telegram");
             }}
-            className="mt-9 min-h-14 w-full rounded-2xl bg-[#FFC400] px-5 py-3 font-semibold text-black"
+            className="relative mt-9 min-h-14 w-full rounded-2xl bg-[#FFC400] px-10 py-3 font-semibold text-black"
           >
             Quero acompanhar o Fora da Pauta →
+            <SeloTelegram />
           </button>
-          <p className="mt-3 text-sm leading-6 text-black/60">Ainda não tem o Telegram? Você poderá instalá-lo gratuitamente antes de concluir a inscrição.</p>
+          <p className="mx-auto mt-3 max-w-[570px] text-center text-sm leading-6 text-black/60">
+            O acompanhamento é feito pelo Telegram. Se ainda não tiver o aplicativo no celular, computador ou notebook, poderá instalá-lo gratuitamente.
+          </p>
         </section>
       ) : (
         <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
