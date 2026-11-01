@@ -93,12 +93,8 @@ export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
             </Link>
           </nav>
           <p className="mt-3 text-sm leading-6 text-black/60">
-            O botão abre o WhatsApp com a mensagem e o link do artigo. Para enviar a imagem em tamanho grande, baixe-a e anexe como foto na conversa.
+            O botão abre o WhatsApp com a mensagem e o link do artigo.
           </p>
-          <a href={arteUrl} download={`fora-da-pauta-${campaign.slug}.png`}
-            className="mt-2 inline-flex min-h-10 items-center text-sm font-semibold text-black underline underline-offset-4">
-            Baixar imagem para enviar pelo WhatsApp
-          </a>
         </section>
       </div>
     </main>
