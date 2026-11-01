@@ -62,7 +62,7 @@ export function HomeAcessoTelegram() {
             <h1 id="home-titulo" className={styles.title}>Há mais para entender.</h1>
             <div className={styles.statement}>
               <p>Como o jogo é jogado.</p>
-              <p>Decisões políticas que afetam a sua vida.</p>
+              <p>Decisões que afetam a sua vida.</p>
             </div>
             {emVerificacao ? <p className="mt-10 text-white/70" role="status">Verificando inscrição...</p> : null}
             {visitante ? (
