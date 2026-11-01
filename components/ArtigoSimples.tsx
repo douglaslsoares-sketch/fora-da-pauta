@@ -88,7 +88,7 @@ export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
               className="flex min-h-14 w-full items-center justify-center rounded-lg bg-[#FFD700] px-5 py-3 text-center font-bold text-black">
               Compartilhar pelo WhatsApp
             </a>
-            <Link href="/#opcoes" className="flex min-h-14 items-center justify-center rounded-lg border border-black/20 bg-white px-5 py-3 text-center font-bold text-black">
+            <Link href="/#opcoes" className="flex min-h-14 items-center justify-center rounded-lg bg-black px-5 py-3 text-center font-bold text-white hover:bg-black/85">
               Voltar às opções
             </Link>
           </nav>
