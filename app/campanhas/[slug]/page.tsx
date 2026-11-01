@@ -92,7 +92,7 @@ export default async function CampaignRoute({
     notFound();
   }
 
-  return campaign.slug === "lula-venceu-o-globo"
+  return campaign.slug === "lula-venceu-o-globo" || campaign.slug === "quem-decide-o-que-chega-ate-voce"
     ? <ArtigoSimples campaign={campaign} />
     : <CampaignPage campaign={campaign} />;
 }
