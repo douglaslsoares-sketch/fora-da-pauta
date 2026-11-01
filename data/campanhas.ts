@@ -1,4 +1,5 @@
 import { lulaVenceuOGloboRascunho } from "@/data/edicoes/rascunhos/lula-venceu-o-globo";
+import { artigoApresentacao } from "@/data/edicoes/artigo-apresentacao";
 export type CampaignSection = {
   title: string;
   eyebrow?: string;
@@ -51,6 +52,7 @@ export type Campaign = {
 };
 
 export const campaigns: Campaign[] = [
+  artigoApresentacao,
   lulaVenceuOGloboRascunho,
   {
     slug: "seus-interesses",
