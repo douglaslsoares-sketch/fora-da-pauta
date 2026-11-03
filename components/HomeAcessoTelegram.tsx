@@ -70,17 +70,12 @@ export function HomeAcessoTelegram() {
             {apresentacao && !emVerificacao ? (
               <div className="mt-10 w-full max-w-[540px] space-y-5 text-left">
                 <h2 className="text-2xl font-bold text-white">Como funciona o Fora da Pauta?</h2>
-                <p className="text-base leading-7 text-white/85">O Fora da Pauta ajuda você a entender as decisões que afetam a sua vida, com artigos em linguagem simples, que você pode ler ou ouvir.</p>
-                <p className="text-base leading-7 text-white/85">O caminho é simples: você conhece os conteúdos, escolhe quem quer acompanhar e recebe as novidades pelo Telegram. Quando quiser, pode voltar ao site para ler, ouvir e consultar as informações.</p>
-                <p className="text-base leading-7 text-white/85">O conteúdo é aberto. Você também pode compartilhar os artigos pelo WhatsApp.</p>
+                <p className="text-base leading-7 text-white/85">O Fora da Pauta ajuda você a entender as decisões que afetam a sua vida, com artigos que pode ler ou ouvir.</p>
+                <p className="text-base leading-7 text-white/90"><strong>O caminho é simples.</strong> Primeiro, você precisa se inscrever no nosso canal do Telegram. É por lá que avisamos quando uma nova edição do Fora da Pauta é publicada.</p>
+                <p className="text-base leading-7 text-white/85">Depois da inscrição, você poderá escolher as pessoas que deseja acompanhar, consultar informações e conhecer outras opções do Fora da Pauta.</p>
+                <p className="text-base leading-7 text-white/85">A inscrição é gratuita. Se você ainda não tiver o Telegram, receberá orientações para instalar o aplicativo e continuar. Não precisa procurá-lo antes.</p>
                 <Link href="/votou-fique-de-olho" className="relative inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center font-bold text-black">
-                  Quero acompanhar pelo Telegram <span aria-hidden="true">→</span><SeloTelegram />
-                </Link>
-                <h3 className="text-xl font-bold text-white">Como receber as novidades?</h3>
-                <p className="text-base leading-7 text-white/90">Para receber as novidades, você precisa se inscrever no nosso canal do Telegram.</p>
-                <p className="text-base leading-7 text-white/85">A inscrição é gratuita. Toque no botão abaixo. Se você ainda não tiver o Telegram, será orientado a instalar o aplicativo para continuar a inscrição. Não precisa procurar o Telegram antes.</p>
-                <Link href="/votou-fique-de-olho" className="relative inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center font-bold text-black">
-                  Quero me inscrever no Telegram <span aria-hidden="true">→</span><SeloTelegram />
+                  Clique aqui para se inscrever <span aria-hidden="true">→</span><SeloTelegram />
                 </Link>
               </div>
             ) : null}
