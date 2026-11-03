@@ -73,7 +73,7 @@ export function HomeAcessoTelegram() {
                 <p className="text-base leading-7 text-white/85">O Fora da Pauta ajuda você a entender as decisões que afetam a sua vida, com artigos que pode ler ou ouvir.</p>
                 <p className="text-base leading-7 text-white/90"><strong>O caminho é simples.</strong> Primeiro, você precisa se inscrever no nosso canal do Telegram. É por lá que avisamos quando uma nova edição do Fora da Pauta é publicada.</p>
                 <p className="text-base leading-7 text-white/85">Depois da inscrição, você poderá escolher as pessoas que deseja acompanhar, consultar informações e conhecer outras opções do Fora da Pauta.</p>
-                <p className="text-base leading-7 text-white/85">A inscrição é gratuita. Se você ainda não tiver o Telegram, receberá orientações para instalar o aplicativo e continuar. Não precisa procurá-lo antes.</p>
+                <p className="text-base leading-7 text-white/85">A inscrição é gratuita. E, se você ainda não tem o Telegram, não se preocupe! Vamos orientar você a instalar o aplicativo e continuar a inscrição. Não precisa sair daqui para procurar.</p>
                 <Link href="/votou-fique-de-olho" className="relative inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center font-bold text-black">
                   Clique aqui para se inscrever <span aria-hidden="true">→</span><SeloTelegram />
                 </Link>
