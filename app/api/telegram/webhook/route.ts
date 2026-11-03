@@ -830,13 +830,12 @@ export async function POST(
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "Sua inscrição foi registrada no Telegram. " +
-          "Para finalizar e conferir suas escolhas no Fora da Pauta, toque no botão abaixo. " +
-          "As novas edições são ativadas por padrão, sem reativar uma preferência que você tenha desativado. " +
-          "As pessoas escolhidas ficam na mesma conversa. Envie /opcoes para consultar suas preferências.",
+          "Pronto! Você está inscrito no Fora da Pauta.\n\n" +
+          "Agora é só voltar ao site para conhecer o que você pode fazer por lá.\n\n" +
+          "Toque no botão abaixo para voltar ao Fora da Pauta e conhecer as opções.",
         botoes: [[{
-          text: "Concluir a inscrição",
-          url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}`,
+          text: "Voltar ao Fora da Pauta e conhecer as opções",
+          url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=opcoes`,
         }]],
       });
       return NextResponse.json({ ok: true });
