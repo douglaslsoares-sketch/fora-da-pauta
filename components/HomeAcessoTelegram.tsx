@@ -76,7 +76,12 @@ export function HomeAcessoTelegram() {
                 <Link href="/votou-fique-de-olho" className="relative inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center font-bold text-black">
                   Quero acompanhar pelo Telegram <span aria-hidden="true">→</span><SeloTelegram />
                 </Link>
-                <p className="text-sm leading-6 text-white/70">O Telegram é gratuito. Se ainda não tiver o aplicativo, você poderá instalá-lo.</p>
+                <h3 className="text-xl font-bold text-white">Como receber as novidades?</h3>
+                <p className="text-base leading-7 text-white/90">Para receber as novidades, você precisa se inscrever no nosso canal do Telegram.</p>
+                <p className="text-base leading-7 text-white/85">A inscrição é gratuita. Toque no botão abaixo. Se você ainda não tiver o Telegram, será orientado a instalar o aplicativo para continuar a inscrição. Não precisa procurar o Telegram antes.</p>
+                <Link href="/votou-fique-de-olho" className="relative inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center font-bold text-black">
+                  Quero me inscrever no Telegram <span aria-hidden="true">→</span><SeloTelegram />
+                </Link>
               </div>
             ) : null}
             {visitante && !apresentacao ? (
