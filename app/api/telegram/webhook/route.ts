@@ -830,11 +830,10 @@ export async function POST(
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "Pronto! Você está inscrito no Fora da Pauta.\n\n" +
-          "Agora é só voltar ao site para conhecer o que você pode fazer por lá.\n\n" +
-          "Toque no botão abaixo para voltar ao Fora da Pauta e conhecer as opções.",
+          "Você está inscrito.\n\n" +
+          "Toque no botão abaixo para ir para o início.",
         botoes: [[{
-          text: "Voltar ao Fora da Pauta e conhecer as opções",
+          text: "Ir para o início",
           url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=opcoes`,
         }]],
       });
