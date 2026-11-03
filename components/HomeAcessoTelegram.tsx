@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "@/app/page.module.css";
 import { SeloTelegram } from "@/components/SeloTelegram";
+import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 
 type Situacao = { ativo?: boolean; ids?: string[] };
 type Opcao = { titulo: string; descricao: string; href: string; exigeEscolhas?: boolean; indisponivel?: boolean };
@@ -158,6 +159,7 @@ export function HomeAcessoTelegram() {
               );
             })}
           </nav>
+          <InstalarAplicativo />
         </section>
       ) : null}
     </div>
