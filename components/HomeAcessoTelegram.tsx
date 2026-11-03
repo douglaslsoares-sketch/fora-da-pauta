@@ -18,11 +18,13 @@ export function HomeAcessoTelegram() {
   const [situacao, setSituacao] = useState<"verificando" | "inscrito" | "visitante">("verificando");
   const [quantidade, setQuantidade] = useState(0);
   const [simulacao, setSimulacao] = useState(false);
+  const [apresentacao, setApresentacao] = useState(false);
   const [mostrarMenuSimulado, setMostrarMenuSimulado] = useState(false);
 
   useEffect(() => {
     const simulando = new URLSearchParams(window.location.search).get("simular") === "telegram";
     setSimulacao(simulando);
+    setApresentacao(new URLSearchParams(window.location.search).get("conhecer") === "1");
     let ativo = true;
     async function verificar() {
       try {
@@ -65,7 +67,19 @@ export function HomeAcessoTelegram() {
               <p>Decisões que afetam a sua vida.</p>
             </div>
             {emVerificacao ? <p className="mt-10 text-white/70" role="status">Verificando inscrição...</p> : null}
-            {visitante ? (
+            {apresentacao && !emVerificacao ? (
+              <div className="mt-10 w-full max-w-[540px] space-y-5 text-left">
+                <h2 className="text-2xl font-bold text-white">Como funciona o Fora da Pauta?</h2>
+                <p className="text-base leading-7 text-white/85">O Fora da Pauta ajuda você a entender as decisões que afetam a sua vida, com artigos em linguagem simples, que você pode ler ou ouvir.</p>
+                <p className="text-base leading-7 text-white/85">O caminho é simples: você conhece os conteúdos, escolhe quem quer acompanhar e recebe as novidades pelo Telegram. Quando quiser, pode voltar ao site para ler, ouvir e consultar as informações.</p>
+                <p className="text-base leading-7 text-white/85">O conteúdo é aberto. Você também pode compartilhar os artigos pelo WhatsApp.</p>
+                <Link href="/votou-fique-de-olho" className="relative inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center font-bold text-black">
+                  Quero acompanhar pelo Telegram <span aria-hidden="true">→</span><SeloTelegram />
+                </Link>
+                <p className="text-sm leading-6 text-white/70">O Telegram é gratuito. Se ainda não tiver o aplicativo, você poderá instalá-lo.</p>
+              </div>
+            ) : null}
+            {visitante && !apresentacao ? (
               <div className="mt-10">
                 <Link href="/votou-fique-de-olho" className="relative inline-flex min-h-14 w-full max-w-[370px] items-center justify-center gap-2 rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center text-base font-bold leading-snug text-black sm:w-auto sm:text-lg">
                   Acompanhe as novidades pelo Telegram <span aria-hidden="true">→</span><SeloTelegram />
@@ -75,7 +89,7 @@ export function HomeAcessoTelegram() {
                 </p>
               </div>
             ) : null}
-            {simulacao && !mostrarMenuSimulado ? (
+            {simulacao && !mostrarMenuSimulado && !apresentacao ? (
               <div className="mt-10">
                 <button type="button" onClick={() => setMostrarMenuSimulado(true)}
                 className="relative inline-flex min-h-14 w-full max-w-[370px] items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center text-base font-bold leading-snug text-black sm:w-auto sm:text-lg">
