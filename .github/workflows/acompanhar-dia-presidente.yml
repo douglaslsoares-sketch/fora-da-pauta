@@ -1,0 +1,39 @@
+name: Monitorar fontes do dia do presidente
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "12,42 * * * *"
+permissions: {}
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Ler publicações de canais oficiais configurados
+        env:
+          CANAIS: ${{ vars.FDP_CANAIS_OFICIAIS_YOUTUBE }}
+        run: |
+          node <<'NODE'
+          const ids = (process.env.CANAIS || "").split(",").map(s => s.trim()).filter(Boolean);
+          if (!ids.length) {
+            console.log("Configure FDP_CANAIS_OFICIAIS_YOUTUBE com IDs verificados dos canais oficiais.");
+            process.exit(0);
+          }
+          if (ids.some(id => !/^UC[A-Za-z0-9_-]{22}$/.test(id))) throw new Error("ID de canal inválido.");
+          (async () => {
+            for (const id of new Set(ids)) {
+              const response = await fetch("https://www.youtube.com/feeds/videos.xml?channel_id=" + id, {signal: AbortSignal.timeout(15000)});
+              if (!response.ok) throw new Error("Feed indisponível: HTTP " + response.status);
+              const xml = await response.text();
+              if (!xml.includes("<feed")) throw new Error("Resposta inválida do feed.");
+              const entries = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)];
+              console.log("Canal " + id + ": " + entries.length + " publicações recentes");
+              for (const [, item] of entries) {
+                const video = item.match(/<yt:videoId>([A-Za-z0-9_-]{11})<\/yt:videoId>/)?.[1];
+                const published = item.match(/<published>([^<]+)<\/published>/)?.[1];
+                if (video) console.log(JSON.stringify({ videoId: video, published, channelId: id }));
+              }
+            }
+            console.log("Somente descoberta: nenhum boletim ou mensagem foi enviado.");
+          })().catch(e => { console.error(e.message); process.exitCode = 1; });
+          NODE
