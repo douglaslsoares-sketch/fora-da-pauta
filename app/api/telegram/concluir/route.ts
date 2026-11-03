@@ -46,7 +46,9 @@ export async function GET(request: NextRequest) {
   const caminho = vinculado
     ? destino === "minhas"
       ? "/votou-fique-de-olho?minhas=1"
-      : "/telegram/pronto"
+      : destino === "opcoes"
+        ? "/#opcoes"
+        : "/telegram/pronto"
     : "/votou-fique-de-olho?retorno=expirado";
   const resposta = NextResponse.redirect(new URL(caminho, request.url), 303);
   resposta.headers.set("Cache-Control", "no-store");
