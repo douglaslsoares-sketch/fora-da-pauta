@@ -51,7 +51,7 @@ export function HomeAcessoTelegram() {
 
   const visitante = !simulacao && situacao === "visitante";
   const emVerificacao = !simulacao && situacao === "verificando";
-  const menu = (simulacao && mostrarMenuSimulado) || (!simulacao && situacao === "inscrito");
+  const menu = !apresentacao && ((simulacao && mostrarMenuSimulado) || (!simulacao && situacao === "inscrito"));
 
   return (
     <div className={styles.container}>
