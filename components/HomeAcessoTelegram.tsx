@@ -19,6 +19,8 @@ export function HomeAcessoTelegram() {
   const [quantidade, setQuantidade] = useState(0);
   const [simulacao, setSimulacao] = useState(false);
   const [apresentacao, setApresentacao] = useState(false);
+  const [abrindoTelegram, setAbrindoTelegram] = useState(false);
+  const [erroTelegram, setErroTelegram] = useState(false);
   const [mostrarMenuSimulado, setMostrarMenuSimulado] = useState(false);
 
   useEffect(() => {
@@ -49,6 +51,31 @@ export function HomeAcessoTelegram() {
     };
   }, []);
 
+  async function iniciarInscricao() {
+    if (abrindoTelegram) return;
+    setAbrindoTelegram(true);
+    setErroTelegram(false);
+    try {
+      const resposta = await fetch("/api/telegram/sessao", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: [] }),
+      });
+      if (!resposta.ok) throw new Error("Não foi possível iniciar a inscrição");
+      const dados = await resposta.json() as { url?: string };
+      const destino = new URL(dados.url ?? "");
+      if (destino.origin !== "https://t.me" ||
+          destino.pathname !== "/ForaDaPautaAcompanhaBot" ||
+          !/^\\?start=s_[A-Za-z0-9_-]{32}$/.test(destino.search)) {
+        throw new Error("Link de inscrição inválido");
+      }
+      window.location.assign(destino.toString());
+    } catch {
+      setErroTelegram(true);
+      setAbrindoTelegram(false);
+    }
+  }
+
   const visitante = !simulacao && situacao === "visitante";
   const emVerificacao = !simulacao && situacao === "verificando";
   const menu = !apresentacao && ((simulacao && mostrarMenuSimulado) || (!simulacao && situacao === "inscrito"));
@@ -74,9 +101,10 @@ export function HomeAcessoTelegram() {
                 <p className="text-base leading-7 text-white/90"><strong>O caminho é simples.</strong> Primeiro, você precisa se inscrever no nosso canal do Telegram. É por lá que avisamos quando uma nova edição do Fora da Pauta é publicada.</p>
                 <p className="text-base leading-7 text-white/85">Depois da inscrição, você poderá escolher as pessoas que deseja acompanhar, consultar informações e conhecer outras opções do Fora da Pauta.</p>
                 <p className="text-base leading-7 text-white/85">A inscrição é gratuita. E, se você ainda não tem o Telegram, não se preocupe! Vamos orientar você a instalar o aplicativo e continuar a inscrição. Não precisa sair daqui para procurar.</p>
-                <Link href="/votou-fique-de-olho" className="relative inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center font-bold text-black">
-                  Clique aqui para se inscrever <span aria-hidden="true">→</span><SeloTelegram />
-                </Link>
+                <button type="button" onClick={() => void iniciarInscricao()} disabled={abrindoTelegram} className="relative inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center font-bold text-black disabled:opacity-60">
+                  {abrindoTelegram ? "Abrindo Telegram..." : "Clique aqui para se inscrever"} <span aria-hidden="true">→</span><SeloTelegram />
+                </button>
+                {erroTelegram ? <p role="alert" className="text-sm text-white">Não foi possível abrir o Telegram. Tente novamente.</p> : null}
               </div>
             ) : null}
             {visitante && !apresentacao ? (
