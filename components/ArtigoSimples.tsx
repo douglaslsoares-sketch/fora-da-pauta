@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import type { Campaign } from "@/data/campanhas";
-import { ConviteTelegramArtigo } from "@/components/ConviteTelegramArtigo";
 
 function comNegrito(paragrafo: string) {
   return paragrafo.split(/(\*\*.*?\*\*)/g).map((trecho, indice) =>
@@ -15,7 +14,6 @@ function comNegrito(paragrafo: string) {
 export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
   const url = `https://www.foradapauta.org/campanhas/${campaign.slug}`;
   const mensagem = `Fora da Pauta — ${campaign.title}\n\n${campaign.statement}\n\n${url}`;
-  const arteUrl = "/compartilhar/olho-v2";
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
 
   function ouvir() {
@@ -57,45 +55,23 @@ export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
               ) : null}
             </section>
           ))}
+          <section id="conversa-final-artigo" aria-labelledby="conversa-final-titulo" className="space-y-4 border-t border-black/15 pt-8">
+            <h2 id="conversa-final-titulo" className="text-2xl font-bold">E aí, o que achou?</h2>
+            <p className="text-[17px] leading-8 text-black/80">Gostou do que acabou de ouvir?</p>
+            <p className="text-[17px] leading-8 text-black/80">Se quiser, pode mandar esse artigo para alguém pelo WhatsApp.</p>
+            <p className="text-[17px] leading-8 text-black/80">E tem mais uma coisa: se é a primeira vez que você chega aqui, queremos mostrar um pouco mais do Fora da Pauta para você.</p>
+            <p className="text-[17px] leading-8 text-black/80">É bem simples. É só tocar no botão Quero conhecer aqui embaixo que a gente mostra o caminho.</p>
+          </section>
         </article>
 
-        <ConviteTelegramArtigo />
-
-        <section aria-labelledby="compartilhar-artigo" className="mt-12 border-t border-black/15 pt-8">
-          <h2 id="compartilhar-artigo" className="text-2xl font-bold tracking-tight">
-            Compartilhe este artigo
-          </h2>
-          <p className="mt-2 text-base leading-7 text-black/65">
-            Envie esta mensagem a alguém que também queira entender como o jogo é jogado.
-          </p>
-          <div className="mt-5 overflow-hidden rounded-2xl border border-black/15 bg-white">
-            <img
-              src={arteUrl}
-              alt="Olho amarelo do Fora da Pauta sobre fundo preto, sem texto."
-              width={1200}
-              height={630}
-              loading="lazy"
-              className="block h-auto w-full"
-            />
-            <div className="p-5 sm:p-6">
-              <p className="whitespace-pre-line text-sm leading-7 text-black/80">
-                {mensagem}
-              </p>
-            </div>
-          </div>
-          <nav aria-label="Ações do artigo" className="mt-5 grid gap-3 sm:grid-cols-2">
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer"
-              className="flex min-h-14 w-full items-center justify-center rounded-lg bg-[#FFD700] px-5 py-3 text-center font-bold text-black">
-              Compartilhar pelo WhatsApp
-            </a>
-            <Link href="/#opcoes" className="flex min-h-14 items-center justify-center rounded-lg bg-black px-5 py-3 text-center font-bold text-white hover:bg-black/85">
-              Voltar às opções
-            </Link>
-          </nav>
-          <p className="mt-3 text-sm leading-6 text-black/60">
-            O botão abre o WhatsApp com a mensagem e o link do artigo.
-          </p>
-        </section>
+        <nav aria-label="O que fazer depois do artigo" className="mt-7 grid gap-3">
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-14 w-full items-center justify-center rounded-lg bg-[#238B51] px-5 py-3 text-center font-bold text-white">
+            Enviar pelo WhatsApp
+          </a>
+          <Link href="/votou-fique-de-olho" className="flex min-h-14 w-full items-center justify-center rounded-lg bg-black px-5 py-3 text-center font-bold text-white hover:bg-black/85">
+            Quero conhecer
+          </Link>
+        </nav>
       </div>
     </main>
   );
