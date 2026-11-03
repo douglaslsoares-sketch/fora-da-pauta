@@ -2,9 +2,9 @@ name: Backup diario criptografado do Neon
 
 on:
   schedule:
-    # 06:15 UTC = 03:15 no horario de Brasilia (UTC-3).
-    - cron: '15 6 * * *'
-  workflow_dispatch:
+    # 06:27 UTC = 03:27 no horario de Brasilia (UTC-3).
+    - cron: '27 6 * * *'
+    workflow_dispatch:
 
 permissions:
   contents: read
