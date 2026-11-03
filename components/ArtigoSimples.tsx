@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import type { Campaign } from "@/data/campanhas";
 
 function comNegrito(paragrafo: string) {
@@ -12,6 +13,25 @@ function comNegrito(paragrafo: string) {
 }
 
 export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
+  const [inscricao, setInscricao] = useState<"verificando" | "inscrito" | "visitante">("verificando");
+
+  useEffect(() => {
+    let ativo = true;
+    async function conferirInscricao() {
+      try {
+        const resposta = await fetch("/api/telegram/sessao", { cache: "no-store", credentials: "same-origin" });
+        if (!resposta.ok) throw new Error("Consulta indisponível");
+        const dados = await resposta.json() as { ativo?: boolean };
+        if (ativo) setInscricao(dados.ativo === true ? "inscrito" : "visitante");
+      } catch {
+        if (ativo) setInscricao("visitante");
+      }
+    }
+    void conferirInscricao();
+    window.addEventListener("focus", conferirInscricao);
+    return () => { ativo = false; window.removeEventListener("focus", conferirInscricao); };
+  }, []);
+
   const url = `https://www.foradapauta.org/campanhas/${campaign.slug}`;
   const mensagem = `Fora da Pauta — ${campaign.title}\n\n${campaign.statement}\n\n${url}`;
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
@@ -59,8 +79,12 @@ export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
             <h2 id="conversa-final-titulo" className="text-2xl font-bold">E aí, o que achou?</h2>
             <p className="text-[17px] leading-8 text-black/80">Gostou do que acabou de ouvir?</p>
             <p className="text-[17px] leading-8 text-black/80">Se quiser, pode mandar esse artigo para alguém pelo WhatsApp.</p>
-            <p className="text-[17px] leading-8 text-black/80">E tem mais uma coisa: se é a primeira vez que você chega aqui, queremos mostrar um pouco mais do Fora da Pauta para você.</p>
-            <p className="text-[17px] leading-8 text-black/80">É bem simples. É só tocar no botão Quero conhecer aqui embaixo que a gente mostra o caminho.</p>
+            {inscricao === "visitante" ? (
+              <>
+                <p className="text-[17px] leading-8 text-black/80">E tem mais uma coisa: se é a primeira vez que você chega aqui, queremos mostrar um pouco mais do Fora da Pauta para você.</p>
+                <p className="text-[17px] leading-8 text-black/80">É bem simples. É só tocar no botão Quero conhecer aqui embaixo que a gente mostra o caminho.</p>
+              </>
+            ) : null}
           </section>
         </article>
 
@@ -68,9 +92,11 @@ export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-14 w-full items-center justify-center rounded-lg bg-[#238B51] px-5 py-3 text-center font-bold text-white">
             Enviar pelo WhatsApp
           </a>
-          <Link href="/?conhecer=1" className="flex min-h-14 w-full items-center justify-center rounded-lg bg-black px-5 py-3 text-center font-bold text-white hover:bg-black/85">
-            Quero conhecer
-          </Link>
+          {inscricao === "visitante" ? (
+            <Link href="/?conhecer=1" className="flex min-h-14 w-full items-center justify-center rounded-lg bg-black px-5 py-3 text-center font-bold text-white hover:bg-black/85">
+              Quero conhecer
+            </Link>
+          ) : null}
         </nav>
       </div>
     </main>
