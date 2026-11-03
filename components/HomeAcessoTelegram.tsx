@@ -66,7 +66,7 @@ export function HomeAcessoTelegram() {
       const destino = new URL(dados.url ?? "");
       if (destino.origin !== "https://t.me" ||
           destino.pathname !== "/ForaDaPautaAcompanhaBot" ||
-          !/^\\?start=s_[A-Za-z0-9_-]{32}$/.test(destino.search)) {
+          !/^\?start=s_[A-Za-z0-9_-]{32}$/.test(destino.search)) {
         throw new Error("Link de inscrição inválido");
       }
       window.location.assign(destino.toString());
