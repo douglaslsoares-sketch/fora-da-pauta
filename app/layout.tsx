@@ -35,7 +35,8 @@ export const metadata: Metadata = {
     icon: [{ url: "/marca/fora-da-pauta-icone.svg", type: "image/svg+xml" }],
     shortcut: "/marca/fora-da-pauta-icone.svg",
   },
-  manifest: "/ler-depois/manifest.webmanifest",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: { capable: true, title: "Fora da Pauta", statusBarStyle: "black-translucent" },
 };
 
 export default function RootLayout({
