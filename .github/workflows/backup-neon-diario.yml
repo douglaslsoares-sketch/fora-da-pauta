@@ -86,3 +86,64 @@ jobs:
           if-no-files-found: error
           retention-days: 30
           compression-level: 0
+
+      - name: Enviar backup criptografado ao Google Drive
+        shell: bash
+        env:
+          BACKUP_WEB_APP_URL: ${{ secrets.BACKUP_WEB_APP_URL }}
+          BACKUP_UPLOAD_TOKEN: ${{ secrets.BACKUP_UPLOAD_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          python3 - <<'PY'
+          import os
+          import json
+          import base64
+          import hashlib
+          import sys
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          url = os.environ["BACKUP_WEB_APP_URL"]
+          token = os.environ["BACKUP_UPLOAD_TOKEN"]
+          caminho = Path(os.environ["ARCHIVE_FILE"])
+
+          if not url.startswith("https://script.google.com/macros/s/"):
+              sys.exit("URL do Google Apps Script invalida")
+
+          if not token:
+              sys.exit("Chave de autorizacao ausente")
+
+          conteudo = caminho.read_bytes()
+          resumo = hashlib.sha256(conteudo).hexdigest()
+
+          dados = {
+              "token": token,
+              "name": caminho.name,
+              "contentBase64": base64.b64encode(conteudo).decode("ascii"),
+              "sha256": resumo
+          }
+
+          requisicao = Request(
+              url,
+              data=json.dumps(dados).encode("utf-8"),
+              headers={"Content-Type": "application/json"},
+              method="POST"
+          )
+
+          try:
+              with urlopen(requisicao, timeout=120) as resposta:
+                  resultado = json.loads(resposta.read())
+          except Exception:
+              sys.exit("Falha ao enviar arquivo ao Google Drive")
+
+          if resultado.get("ok") is not True:
+              erro = resultado.get("erro", "resposta_invalida")
+              sys.exit("Envio nao confirmado: " + str(erro))
+
+          if (not resultado.get("jaExiste")
+                  and resultado.get("sha256") != resumo):
+              sys.exit("Falha na verificacao de integridade")
+
+          print("Backup confirmado no Google Drive")
+          PY
