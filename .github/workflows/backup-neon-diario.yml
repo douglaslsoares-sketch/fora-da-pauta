@@ -1,0 +1,88 @@
+name: Backup diario criptografado do Neon
+
+on:
+  schedule:
+    # 06:15 UTC = 03:15 no horario de Brasilia (UTC-3).
+    - cron: '15 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: backup-neon-diario
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    name: Exportar e criptografar banco
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PGHOST: ${{ secrets.NEON_BACKUP_HOST }}
+      PGUSER: ${{ secrets.NEON_BACKUP_USER }}
+      PGPASSWORD: ${{ secrets.NEON_BACKUP_PASSWORD }}
+      PGDATABASE: neondb
+      PGPORT: '5432'
+      PGSSLMODE: require
+      BACKUP_ENCRYPTION_PASSWORD: ${{ secrets.NEON_BACKUP_ENCRYPTION_PASSWORD }}
+    steps:
+      - name: Verificar configuracao dos segredos
+        shell: bash
+        run: |
+          set -euo pipefail
+          for variable in PGHOST PGUSER PGPASSWORD BACKUP_ENCRYPTION_PASSWORD; do
+            if [[ -z "${!variable:-}" ]]; then
+              echo "::error::Segredo obrigatorio ausente: $variable"
+              exit 1
+            fi
+          done
+
+      - name: Instalar 7-Zip
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq p7zip-full
+          command -v 7z
+
+      - name: Exportar Neon, criptografar e validar arquivo
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          timestamp="$(date -u +'%Y-%m-%dT%H-%M-%SZ')"
+          base="fora-da-pauta-neondb-${timestamp}"
+          original="${RUNNER_TEMP}/${base}.backup"
+          encrypted="${RUNNER_TEMP}/${base}.7z"
+          cleanup() { rm -f -- "$original"; }
+          trap cleanup EXIT
+
+          # Cliente PG18 funciona com servidores PostgreSQL de versao igual ou anterior.
+          # A senha do banco e transmitida apenas como variavel de ambiente.
+          docker run --rm \
+            --env PGHOST --env PGUSER --env PGPASSWORD \
+            --env PGDATABASE --env PGPORT --env PGSSLMODE \
+            postgres:18 \
+            pg_dump --no-password --format=custom --no-owner --no-acl > "$original"
+
+          test -s "$original"
+
+          # AES-256 no formato 7z; -mhe=on tambem oculta nomes de arquivos.
+          7z a -t7z -mhe=on -mx=5 \
+            "-p${BACKUP_ENCRYPTION_PASSWORD}" "$encrypted" "$original" > /dev/null
+
+          test -s "$encrypted"
+          7z t "-p${BACKUP_ENCRYPTION_PASSWORD}" "$encrypted" > /dev/null
+          printf 'ARCHIVE_FILE=%s\n' "$encrypted" >> "$GITHUB_ENV"
+          printf 'ARCHIVE_NAME=%s\n' "${base}" >> "$GITHUB_ENV"
+          echo "Backup criptografado criado e validado."
+
+      - name: Guardar backup criptografado por 30 dias no GitHub
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARCHIVE_NAME }}
+          path: ${{ env.ARCHIVE_FILE }}
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
