@@ -89,7 +89,7 @@ function ConcluirNoTelegram() {
         href="/#opcoes"
         className="flex min-h-14 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-center font-semibold text-white"
       >
-        Voltar ao início
+        Ir para o início
       </a>
     </div>
   );
