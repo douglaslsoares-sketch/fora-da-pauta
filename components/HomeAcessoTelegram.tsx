@@ -142,7 +142,6 @@ export function HomeAcessoTelegram() {
         <section id="opcoes" aria-labelledby="titulo-opcoes" className="my-auto w-full max-w-[680px] py-12" >
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-white/65">Início</p>
           <h1 id="titulo-opcoes" className="text-3xl font-bold tracking-tight sm:text-4xl">O que você quer fazer?</h1>
-          <p className="mt-3 text-base leading-7 text-white/70">Você já está de olho. Escolha por onde começar.</p>
           <nav aria-label="Opções do Fora da Pauta" className="mt-7 grid gap-3">
             {opcoes.map(item => {
               const desativado = Boolean(item.indisponivel || (item.exigeEscolhas && (simulacao || quantidade === 0)));
