@@ -159,7 +159,7 @@ export function EditionEndActions({
           href="/#opcoes"
           className="flex min-h-14 items-center justify-center rounded-lg border border-black/20 bg-white px-5 py-3 text-center font-bold text-black"
         >
-          <span aria-hidden="true" className="mr-2">→</span>Ir para o início
+          <span aria-hidden="true" className="mr-2">←</span>Voltar
         </Link>
       </nav>
 
