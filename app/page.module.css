@@ -1,23 +1,14 @@
 .page {
-  position: relative;
-  isolation: isolate;
   min-height: 100vh;
-  min-height: 100svh;
-  background: #000;
-  color: #fff;
-  overflow-x: clip;
-}
-
-.page a:focus-visible {
-  outline: 3px solid #ffd700;
-  outline-offset: 5px;
+  background: #fff;
+  color: #111;
 }
 
 .skipLink {
   position: absolute;
   top: -120px;
   left: 24px;
-  z-index: 5;
+  z-index: 50;
   padding: 12px 16px;
   background: #ffd700;
   color: #000;
@@ -25,144 +16,194 @@
 }
 .skipLink:focus { top: 16px; }
 
-.watermark {
+.watermark { display: none; }
+
+.apresentacao {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  min-height: 100svh;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding: clamp(28px, 5vh, 60px) clamp(22px, 6vw, 94px);
+  background: #050505;
+  color: white;
+  isolation: isolate;
+}
+
+.olhoFundo {
   position: absolute;
   z-index: -1;
-  top: 17%;
-  right: -29%;
-  width: min(100vw, 1550px);
+  right: -27%;
+  top: 14%;
+  width: min(108vw, 1220px);
   aspect-ratio: 620 / 374;
   background: url("/marca/fora-da-pauta-olho-dourado.svg") center / contain no-repeat;
-  opacity: .36;
+  opacity: .19;
   pointer-events: none;
 }
 
-.container {
-  width: min(100%, 1700px);
-  min-height: 100vh;
-  min-height: 100svh;
-  margin: 0 auto;
-  padding: clamp(26px, 5vh, 66px) clamp(25px, 5.2vw, 94px) clamp(44px, 8vh, 94px);
-  display: flex;
-  flex-direction: column;
-}
-
-.header {
+.cabecalho {
   position: relative;
   z-index: 1;
-  flex: 0 0 auto;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .logo {
   display: block;
-  width: clamp(290px, 37vw, 625px);
+  width: clamp(270px, 34vw, 515px);
+  max-width: 100%;
   height: auto;
 }
 
-.hero {
+.intro {
   position: relative;
   z-index: 1;
   width: 100%;
-  margin: auto 0;
-  padding: clamp(75px, 12vh, 160px) 0 clamp(30px, 5vh, 64px);
-  scroll-margin-top: 20px;
+  max-width: 1100px;
+  margin: auto auto;
+  padding: clamp(32px, 7vh, 68px) 0;
 }
 
-.title {
-  max-width: 1400px;
-  margin: 0;
-  font-size: clamp(50px, 7vw, 112px);
+.subtitulo {
+  margin: 0 0 18px;
+  color: #ffd700;
+  font-size: clamp(19px, 2.4vw, 32px);
+  font-weight: 750;
+  line-height: 1.24;
+}
+
+.chamada {
+  max-width: 940px;
+  margin: 0 0 27px;
+  font-size: clamp(32px, 4.7vw, 62px);
   font-weight: 800;
-  line-height: 1.06;
-  letter-spacing: -.052em;
+  line-height: 1.12;
+  letter-spacing: -.04em;
   text-wrap: balance;
 }
-.statement {
-  margin-top: clamp(28px, 4vh, 50px);
-  color: #ffd700;
-  font-size: clamp(25px, 3.15vw, 52px);
-  font-weight: 750;
-  line-height: 1.22;
-  letter-spacing: -.036em;
-}
-.statement p { margin: 0; }
 
-.primaryLink {
+.explicacao {
+  max-width: 720px;
+  margin: 0;
+  font-size: clamp(16px, 1.6vw, 21px);
+  line-height: 1.55;
+}
+
+.explicacao + .explicacao { margin-top: 10px; }
+
+.botaoInscricao {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 25px;
-  min-height: 68px;
-  margin-top: clamp(34px, 6vh, 62px);
-  padding: 16px 26px;
-  min-width: 282px;
+  width: min(100%, 405px);
+  min-height: 58px;
+  margin-top: 28px;
+  padding: 14px 44px 14px 20px;
+  border: 0;
+  border-radius: 9px;
   background: #ffd700;
-  border: 2px solid #ffd700;
-  border-radius: 7px;
   color: #000;
-  font-size: clamp(18px, 1.45vw, 22px);
-  font-weight: 800;
+  font-weight: 750;
+  font-size: 17px;
   line-height: 1.25;
-  text-decoration: none;
-  transition: background-color 150ms ease, border-color 150ms ease;
+  text-align: center;
+  cursor: pointer;
 }
-.primaryLink:hover {
-  background: #f0ca00;
-  border-color: #f0ca00;
-}
-.arrow {
-  font-size: 28px;
-  font-weight: 500;
-  line-height: 1;
+.botaoInscricao:hover { background: #edc700; }
+.botaoInscricao:disabled { opacity: .65; cursor: wait; }
+
+.aviso { margin-top: 12px; font-size: 15px; color: #fff; }
+
+.assinatura {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  color: #c6c6c6;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .11em;
 }
 
-@media (min-width: 1150px) {
-  .title { white-space: nowrap; }
+.areaBranca {
+  min-height: 100svh;
+  padding: clamp(42px, 7vh, 78px) 24px 70px;
+  background: #fff;
+  color: #111;
+  scroll-margin-top: 0;
 }
+
+.areaInterna {
+  width: 100%;
+  max-width: 740px;
+  margin: 0 auto;
+}
+
+.tituloArea {
+  margin: 0;
+  font-size: clamp(28px, 4.5vw, 42px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.035em;
+}
+
+.textoArea {
+  margin-top: 13px;
+  color: #444;
+  line-height: 1.5;
+}
+
+.listaBotoes {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.botaoOpcao {
+  display: flex;
+  min-height: 66px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid #e0bb00;
+  border-radius: 9px;
+  background: #ffd700;
+  padding: 14px 18px;
+  color: #111;
+  text-decoration: none;
+}
+.botaoOpcao:hover { background: #efc900; }
+.botaoOpcao strong { font-size: 17px; }
+.botaoOpcao span { font-size: 13px; line-height: 1.35; }
+
+.opcaoDesabilitada {
+  background: #f4f4f4;
+  border-color: #ddd;
+  color: #767676;
+}
+.opcaoDesabilitada span { color: #767676; }
+
+.separador {
+  height: 1px;
+  margin: 32px 0;
+  background: #e5e5e5;
+}
+
 @media (max-width: 767px) {
-  .container {
-    padding: 28px 25px 48px;
-  }
-  .logo {
-    width: min(88%, 440px);
-  }
-  .watermark {
-    top: 31%;
-    right: -82%;
-    width: 166%;
-    opacity: .22;
-  }
-  .hero {
-    padding: 82px 0 58px;
-  }
-  .title {
-    max-width: 15ch;
-    font-size: clamp(42px, 11vw, 67px);
-    line-height: 1.09;
-    letter-spacing: -.045em;
-  }
-  .statement {
-    max-width: 27ch;
-    margin-top: 30px;
-    font-size: clamp(23px, 6vw, 32px);
-    line-height: 1.27;
-  }
-  .statement p + p {
-    margin-top: 8px;
-  }
-  .primaryLink {
-    min-width: 240px;
-    width: min(100%, 330px);
-    min-height: 60px;
-    margin-top: 37px;
-    font-size: 18px;
-  }
+  .apresentacao { min-height: 100svh; }
+  .olhoFundo { right: -76%; top: 28%; width: 163%; opacity: .16; }
+  .intro { padding: 44px 0; }
+  .logo { width: min(88%, 370px); }
+  .chamada { font-size: clamp(31px, 8.5vw, 48px); }
+  .areaBranca { padding-inline: 20px; }
 }
-@media (max-width: 380px) {
-  .container { padding-inline: 20px; }
-  .title { font-size: 40px; }
-  .statement { font-size: 22px; }
-}
+
 @media (prefers-reduced-motion: reduce) {
-  .primaryLink { transition: none; }
+  .botaoInscricao, .botaoOpcao { transition: none; }
 }
