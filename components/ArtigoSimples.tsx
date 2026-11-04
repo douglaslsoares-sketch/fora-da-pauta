@@ -98,7 +98,7 @@ export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
             </Link>
           ) : inscricao === "inscrito" ? (
             <Link href="/#opcoes" className="flex min-h-14 w-full items-center justify-center rounded-lg bg-black px-5 py-3 text-center font-bold text-white hover:bg-black/85">
-              <span aria-hidden="true" className="mr-2">→</span>Ir para o início
+              <span aria-hidden="true" className="mr-2">←</span>Voltar
             </Link>
           ) : null}
         </nav>
