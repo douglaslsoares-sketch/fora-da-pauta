@@ -18,7 +18,7 @@ export default function FichaPoliticaBusca() {
         </p>
         <CandidateSelector mode="ficha" />
         <Link href="/#opcoes" className="mx-auto mt-8 flex min-h-14 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-center text-base font-semibold text-white">
-          <span aria-hidden="true" className="mr-2">→</span>Ir para o início
+          <span aria-hidden="true" className="mr-2">←</span>Voltar
         </Link>
       </section>
     </main>
