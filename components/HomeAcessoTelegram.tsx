@@ -218,29 +218,16 @@ export function HomeAcessoTelegram() {
           </p>
           <p className={styles.explicacao}>Você será avisado por lá.</p>
 
-          {conferindo ? (
-            <p role="status" className={styles.aviso}>Conferindo sua inscrição...</p>
-          ) : inscrito ? (
-            <a
-              href="https://t.me/ForaDaPautaAcompanhaBot"
-              className={styles.botaoInscricao}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Abrir o Telegram <span aria-hidden="true">→</span><SeloTelegram />
-            </a>
-          ) : (
-            <button
-              type="button"
-              onClick={() => void iniciarInscricao()}
-              disabled={abrindoTelegram}
-              className={styles.botaoInscricao}
-            >
-              {abrindoTelegram ? "Abrindo Telegram..." : "Inscrever no Telegram"}
-              <span aria-hidden="true"> →</span>
-              <SeloTelegram />
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => void iniciarInscricao()}
+            disabled={conferindo || inscrito || abrindoTelegram}
+            className={styles.botaoInscricao}
+          >
+            {abrindoTelegram ? "Abrindo Telegram..." : "Inscrever no Telegram"}
+            <span aria-hidden="true"> →</span>
+            <SeloTelegram />
+          </button>
           {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
         </div>
         <p className={styles.assinatura}>HÁ MAIS PARA ENTENDER.</p>
