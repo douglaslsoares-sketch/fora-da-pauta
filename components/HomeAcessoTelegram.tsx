@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
+import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import { SeloTelegram } from "@/components/SeloTelegram";
 import styles from "@/app/page.module.css";
 
@@ -302,7 +303,7 @@ export function HomeAcessoTelegram() {
           >
             Compartilhar pelo WhatsApp →
           </a>
-
+          <InstalarAplicativo oculto />
         </div>
       </section>
     </>
