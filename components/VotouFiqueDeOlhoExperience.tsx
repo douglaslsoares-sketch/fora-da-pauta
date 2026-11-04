@@ -616,7 +616,7 @@ export function VotouFiqueDeOlhoExperience() {
           href="/#opcoes"
           className="mt-7 flex min-h-14 w-full items-center justify-center rounded-xl bg-black px-5 py-3 text-center font-semibold text-white"
         >
-          Voltar
+          <span aria-hidden="true" className="mr-2">←</span>Voltar
         </Link>
       </section>
     );
