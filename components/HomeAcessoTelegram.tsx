@@ -89,11 +89,11 @@ export function HomeAcessoTelegram() {
           <header className={styles.header}>
             <Image src="/marca/fora-da-pauta-horizontal-branco.svg" alt="Fora da Pauta" width={2325} height={374} priority className={styles.logo} />
           </header>
-          <section className={styles.hero} id="conteudo" aria-labelledby="home-titulo">
-            <h1 id="home-titulo" className={styles.title}>Há mais para entender.</h1>
+          <section className={apresentacao ? `${styles.hero} ${styles.heroApresentacao}` : styles.hero} id="conteudo" aria-labelledby="home-titulo">
+            <h1 id="home-titulo" className={styles.title}>Decisões que afetam a sua vida.</h1>
             <div className={styles.statement}>
-              <p>Como o jogo é jogado.</p>
-              <p>Decisões que afetam a sua vida.</p>
+              <p>O jogo sendo jogado.</p>
+              <p>HÁ MAIS PARA ENTENDER.</p>
             </div>
             {emVerificacao ? <p className="mt-10 text-white/70" role="status">Verificando inscrição...</p> : null}
             {apresentacao && !emVerificacao ? (
@@ -112,7 +112,7 @@ export function HomeAcessoTelegram() {
             {visitante && !apresentacao ? (
               <div className="mt-10">
                 <Link href="/?conhecer=1" className="relative inline-flex min-h-14 w-full max-w-[370px] items-center justify-center gap-2 rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center text-base font-bold leading-snug text-black sm:w-auto sm:text-lg">
-                  Acompanhe as novidades pelo Telegram <span aria-hidden="true">→</span><SeloTelegram />
+                  Fique de Olho <span aria-hidden="true">→</span><SeloTelegram />
                 </Link>
                 <p className="mt-3 max-w-[370px] text-center text-sm leading-6 text-white/75">
                   O acompanhamento é feito pelo Telegram. Se ainda não tiver o aplicativo no celular, computador ou notebook, poderá instalá-lo gratuitamente.
@@ -123,7 +123,7 @@ export function HomeAcessoTelegram() {
               <div className="mt-10">
                 <button type="button" onClick={() => setMostrarMenuSimulado(true)}
                 className="relative inline-flex min-h-14 w-full max-w-[370px] items-center justify-center rounded-lg bg-[#FFD700] px-5 py-4 pr-10 text-center text-base font-bold leading-snug text-black sm:w-auto sm:text-lg">
-                Acompanhe as novidades pelo Telegram →<SeloTelegram />
+                Fique de Olho →<SeloTelegram />
               </button>
               <p className="mt-3 max-w-[370px] text-center text-sm leading-6 text-white/75">
                 O acompanhamento é feito pelo Telegram. Se ainda não tiver o aplicativo no celular, computador ou notebook, poderá instalá-lo gratuitamente.
