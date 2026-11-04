@@ -7,7 +7,7 @@ type EventoInstalacao = Event & {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 };
 
-export function InstalarAplicativo({ tema = "escuro" }: { tema?: "escuro" | "claro" }) {
+export function InstalarAplicativo({ tema = "escuro", oculto = false }: { tema?: "escuro" | "claro"; oculto?: boolean }) {
   const [evento, setEvento] = useState<EventoInstalacao | null>(null);
   const [instalado, setInstalado] = useState(false);
   const [instrucoes, setInstrucoes] = useState(false);
@@ -40,7 +40,7 @@ export function InstalarAplicativo({ tema = "escuro" }: { tema?: "escuro" | "cla
     if (escolha.outcome !== "accepted") setInstrucoes(true);
   }
 
-  if (instalado) return null;
+  if (instalado || oculto) return null;
   return (
     <div className="mt-7 w-full">
       <button type="button" onClick={() => void instalar()}
