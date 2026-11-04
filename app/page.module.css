@@ -59,6 +59,16 @@
   height: auto;
 }
 
+.cabecalho .subtitulo {
+  margin: 6px 0 0;
+  padding-left: clamp(78px, 9.9vw, 140px);
+  max-width: 760px;
+  color: #ffd700;
+  font-size: clamp(12px, 1.35vw, 20px);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
 .intro {
   position: relative;
   z-index: 1;
@@ -171,20 +181,20 @@
   flex-direction: column;
   justify-content: center;
   gap: 4px;
-  border: 1px solid #e0bb00;
+  border: 1px solid #d1d1d1;
   border-radius: 9px;
-  background: #ffd700;
+  background: #fff;
   padding: 14px 18px;
   color: #111;
   text-decoration: none;
 }
-.botaoOpcao:hover { background: #efc900; }
+.botaoOpcao:hover { background: #f5f5f5; border-color: #999; }
 .botaoOpcao strong { font-size: 17px; }
 .botaoOpcao span { font-size: 13px; line-height: 1.35; }
 
 .opcaoDesabilitada {
-  background: #f4f4f4;
-  border-color: #ddd;
+  background: #fafafa;
+  border-color: #e0e0e0;
   color: #767676;
 }
 .opcaoDesabilitada span { color: #767676; }
@@ -200,6 +210,10 @@
   .olhoFundo { right: -76%; top: 28%; width: 163%; opacity: .16; }
   .intro { padding: 44px 0; }
   .logo { width: min(88%, 370px); }
+  .cabecalho .subtitulo {
+    padding-left: clamp(65px, 20vw, 101px);
+    font-size: clamp(11px, 2.8vw, 15px);
+  }
   .chamada { font-size: clamp(31px, 8.5vw, 48px); }
   .areaBranca { padding-inline: 20px; }
 }
