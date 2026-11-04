@@ -143,7 +143,7 @@
 
 .areaBranca {
   min-height: 100svh;
-  padding: clamp(42px, 7vh, 78px) 24px 70px;
+  padding: 0;
   background: #fff;
   color: #111;
   scroll-margin-top: 0;
@@ -151,8 +151,9 @@
 
 .areaInterna {
   width: 100%;
-  max-width: 740px;
+  max-width: 788px;
   margin: 0 auto;
+  padding: clamp(30px, 5vh, 55px) 24px 70px;
 }
 
 .tituloArea {
@@ -215,7 +216,7 @@
     font-size: clamp(11px, 2.8vw, 15px);
   }
   .chamada { font-size: clamp(31px, 8.5vw, 48px); }
-  .areaBranca { padding-inline: 20px; }
+  .areaInterna { padding-inline: 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
