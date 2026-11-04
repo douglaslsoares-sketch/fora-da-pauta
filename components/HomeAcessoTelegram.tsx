@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import { SeloTelegram } from "@/components/SeloTelegram";
+import { SiteHeader } from "@/components/SiteHeader";
 import styles from "@/app/page.module.css";
 
 type PessoaAcompanhada = { id: string; nomeUrna: string };
@@ -206,7 +207,6 @@ export function HomeAcessoTelegram() {
             priority
             className={styles.logo}
           />
-          <p className={styles.subtitulo}>Decisões que afetam a sua vida.</p>
         </header>
         <div className={styles.intro} id="apresentacao">
           <h1 id="mensagem-principal" className={styles.chamada}>
@@ -221,8 +221,13 @@ export function HomeAcessoTelegram() {
           {conferindo ? (
             <p role="status" className={styles.aviso}>Conferindo sua inscrição...</p>
           ) : inscrito ? (
-            <a href="#opcoes" className={styles.botaoInscricao}>
-              Ir para minhas escolhas <span aria-hidden="true">↓</span>
+            <a
+              href="https://t.me/ForaDaPautaAcompanhaBot"
+              className={styles.botaoInscricao}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir o Telegram <span aria-hidden="true">→</span><SeloTelegram />
             </a>
           ) : (
             <button
@@ -247,6 +252,7 @@ export function HomeAcessoTelegram() {
         ref={areaAcompanhamento}
         aria-labelledby="titulo-opcoes"
       >
+        <SiteHeader />
         <div className={styles.areaInterna}>
           <h2 className={styles.tituloArea} id="titulo-opcoes">
             Quem você quer acompanhar?
@@ -303,7 +309,7 @@ export function HomeAcessoTelegram() {
           >
             Compartilhar pelo WhatsApp →
           </a>
-          <InstalarAplicativo oculto />
+          <InstalarAplicativo tema="claro" />
         </div>
       </section>
     </>
