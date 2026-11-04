@@ -194,9 +194,11 @@ export function VotouFiqueDeOlhoExperience() {
 
   const [etapa, setEtapa] = useState<Etapa>("busca");
   const [mostrarMinhasEscolhas, setMostrarMinhasEscolhas] = useState(false);
+  const [somenteMinhasEscolhas, setSomenteMinhasEscolhas] = useState(false);
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("minhas") === "1") {
+      setSomenteMinhasEscolhas(true);
       setMostrarMinhasEscolhas(true);
     }
   }, []);
@@ -581,6 +583,44 @@ export function VotouFiqueDeOlhoExperience() {
   const mostrarAvisoSemPessoas =
     ultimaPessoaRemovida && inscricaoAtiva && novasEdicoesAtivas &&
     !conferindoInscricao && selecionadas.length === 0;
+
+  // "Minhas escolhas" é uma tela de consulta, não uma segunda página de busca.
+  // A pesquisa e a seleção de novas pessoas ficam exclusivamente na home.
+  if (somenteMinhasEscolhas) {
+    return (
+      <section className="mx-auto w-full max-w-[760px] px-6 pb-16 pt-10 text-black">
+        <h1 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
+          Minhas escolhas
+        </h1>
+
+        {selecionadas.length > 0 ? (
+          <ListaSelecionadas />
+        ) : (
+          <p className="mt-5 text-base leading-7 text-black/70">
+            Você não acompanha nenhuma pessoa no momento.
+          </p>
+        )}
+
+        {erroTelegram ? (
+          <p role="alert" className="mt-4 text-sm font-medium text-red-700">
+            {erroTelegram}
+          </p>
+        ) : null}
+        {avisoStorage ? (
+          <p role="alert" className="mt-4 text-sm text-black/60">
+            {avisoStorage}
+          </p>
+        ) : null}
+
+        <Link
+          href="/#opcoes"
+          className="mt-7 flex min-h-14 w-full items-center justify-center rounded-xl bg-black px-5 py-3 text-center font-semibold text-white"
+        >
+          Voltar
+        </Link>
+      </section>
+    );
+  }
 
   if (etapaAtual === "telegram" && inscricaoConfirmada) {
     return <AbrirConfirmacaoTelegram />;
