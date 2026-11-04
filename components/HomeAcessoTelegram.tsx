@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
-import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import { SeloTelegram } from "@/components/SeloTelegram";
 import styles from "@/app/page.module.css";
 
@@ -29,7 +28,7 @@ const opcoes: Opcao[] = [
     exigeEscolhas: true,
   },
   {
-    titulo: "Ver ficha política",
+    titulo: "Ficha política",
     descricao: "Pesquise e consulte uma ficha.",
     href: "/ficha-politica",
   },
@@ -206,9 +205,9 @@ export function HomeAcessoTelegram() {
             priority
             className={styles.logo}
           />
+          <p className={styles.subtitulo}>Decisões que afetam a sua vida.</p>
         </header>
         <div className={styles.intro} id="apresentacao">
-          <p className={styles.subtitulo}>Decisões que afetam a sua vida.</p>
           <h1 id="mensagem-principal" className={styles.chamada}>
             Acompanhe o que seu representante faz depois de eleito.
           </h1>
@@ -231,7 +230,7 @@ export function HomeAcessoTelegram() {
               disabled={abrindoTelegram}
               className={styles.botaoInscricao}
             >
-              {abrindoTelegram ? "Abrindo Telegram..." : "Clique aqui para se inscrever"}
+              {abrindoTelegram ? "Abrindo Telegram..." : "Inscrever no Telegram"}
               <span aria-hidden="true"> →</span>
               <SeloTelegram />
             </button>
@@ -249,9 +248,7 @@ export function HomeAcessoTelegram() {
       >
         <div className={styles.areaInterna}>
           <h2 className={styles.tituloArea} id="titulo-opcoes">
-            {inscrito && ids.length > 0
-              ? "Quem mais você quer acompanhar?"
-              : "Quem você quer acompanhar?"}
+            Quem você quer acompanhar?
           </h2>
           {conferindo ? (
             <p className={styles.textoArea} role="status">Conferindo sua inscrição...</p>
@@ -260,15 +257,6 @@ export function HomeAcessoTelegram() {
               <p className={styles.textoArea}>
                 Digite o nome da pessoa e escolha quem deseja acompanhar.
               </p>
-              {ids.length > 0 ? (
-                <p className={styles.textoArea}>
-                  Você já acompanha {ids.length} {ids.length === 1 ? "pessoa" : "pessoas"}.
-                  {" "}
-                  <Link href="/votou-fique-de-olho?minhas=1" className="font-semibold underline">
-                    Ver minhas escolhas
-                  </Link>
-                </p>
-              ) : null}
               {erroEscolha ? <p role="alert" className="mt-4 text-sm text-red-700">{erroEscolha}</p> : null}
               {avisoEscolha ? <p role="status" className="mt-4 text-sm font-semibold text-green-800">{avisoEscolha}</p> : null}
               {salvandoEscolha ? <p role="status" className="mt-4 text-sm">Salvando sua escolha...</p> : null}
@@ -291,26 +279,23 @@ export function HomeAcessoTelegram() {
           )}
 
           <div className={styles.separador} role="separator" />
-          <h2 className={styles.tituloArea}>O que mais você quer fazer?</h2>
           <nav aria-label="Outras opções do Fora da Pauta" className={styles.listaBotoes}>
             {opcoes.map((opcao) => {
               const indisponivel = Boolean(opcao.exigeEscolhas && (!inscrito || ids.length === 0));
               return indisponivel ? (
                 <div key={opcao.titulo} className={styles.botaoOpcao + " " + styles.opcaoDesabilitada} aria-disabled="true">
-                  <strong>{opcao.titulo} · Indisponível</strong>
-                  <span>Disponível quando você acompanhar alguém.</span>
+                  <strong>{opcao.titulo}</strong>
                 </div>
               ) : (
                 <Link key={opcao.titulo} href={opcao.href} className={styles.botaoOpcao}>
                   <strong>{opcao.titulo} →</strong>
-                  <span>{opcao.descricao}</span>
                 </Link>
               );
             })}
           </nav>
 
           <a
-            className="mt-6 flex min-h-14 w-full items-center justify-center rounded-lg border border-[#16703a] bg-white px-5 py-3 text-center font-semibold text-[#12572e] hover:bg-[#f3fbf5]"
+            className="mt-6 flex min-h-14 w-full items-center justify-center rounded-lg border border-[#1da851] bg-[#25D366] px-5 py-3 text-center font-semibold text-[#082d16] hover:bg-[#1fc65d]"
             href={linkWhatsApp}
             target="_blank"
             rel="noopener noreferrer"
@@ -318,7 +303,6 @@ export function HomeAcessoTelegram() {
             Compartilhar pelo WhatsApp →
           </a>
 
-          <InstalarAplicativo tema="claro" />
         </div>
       </section>
     </>
