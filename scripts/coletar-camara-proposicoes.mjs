@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 // Coleta pública experimental da API de proposições da Câmara.
 // Não classifica relevância, não envia Telegram e não publica no site.
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { resolve, dirname } from "node:path";
 
 const endpoint = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?ordem=DESC&ordenarPor=id&itens=100";
 const inicio = new Date().toISOString();
 const destino = resolve(process.argv[2] || "relatorios/coleta-camara-proposicoes.json");
-const log = { fonte: "camara", endpoint, inicio, fim: null, status: "falha", quantidade: 0, erro: null };
+const fixture = process.env.FDP_COLETA_FIXTURE;
+const log = { fonte: "camara", endpoint, inicio, fim: null, status: "falha", modo: fixture ? "fixture-local-sem-consulta-externa" : "consulta-api", quantidade: 0, erro: null };
 try {
   const response = await fetch(endpoint, { headers: { accept: "application/json", "user-agent": "ForaDaPauta/1.0 (coleta documental)" }, signal: AbortSignal.timeout(30000) });
   if (!response.ok) throw new Error("HTTP " + response.status);
@@ -22,7 +23,7 @@ try {
   log.status = "sucesso";
   log.quantidade = itens.length;
   await mkdir(dirname(destino), { recursive: true });
-  await writeFile(destino, JSON.stringify({ tipo: "amostra-de-coleta-nao-e-cobertura-integral", coletadoEm: new Date().toISOString(), fonte: "Câmara dos Deputados — Dados Abertos", endpoint, observacao: "Consulta limitada aos 100 registros retornados pelo endpoint; não comprova cobertura de todas as proposições ou de outras fontes.", itens }, null, 2) + "\n");
+  await writeFile(destino, JSON.stringify({ tipo: "amostra-de-coleta-nao-e-cobertura-integral", modo: log.modo, coletadoEm: new Date().toISOString(), fonte: "Câmara dos Deputados — Dados Abertos", endpoint, observacao: "Consulta limitada aos 100 registros retornados pelo endpoint; não comprova cobertura de todas as proposições ou de outras fontes.", itens }, null, 2) + "\n");
 } catch (error) {
   log.erro = error instanceof Error ? error.message : "Erro desconhecido";
   process.exitCode = 1;
