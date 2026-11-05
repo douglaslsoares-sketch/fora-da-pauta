@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { campaigns } from "@/data/campanhas";
+import { versaoEdicoes } from "@/lib/novidades-publicacoes";
+import { RegistrarNovidadeVista } from "@/components/RegistrarNovidadeVista";
 
 export const metadata: Metadata = {
   title: "Edições já publicadas",
@@ -22,6 +24,7 @@ export default function EdicoesPublicadas() {
 
   return (
     <main className="min-h-[calc(100svh-58px)] bg-white px-6 py-10 text-black">
+      <RegistrarNovidadeVista secao="edicoes" versao={versaoEdicoes} />
       <section className="mx-auto max-w-[720px]">
         <h1 className="text-3xl font-bold tracking-tight">Edições já publicadas</h1>
         <p className="mt-3 text-base text-black/65">Comece conhecendo o projeto. Depois, escolha uma edição para ler ou ouvir.</p>
