@@ -494,37 +494,37 @@ export function VotouFiqueDeOlhoExperience() {
         {selecionadas.map((pessoa) => (
           <div
             key={pessoa.id}
-            className="flex items-center gap-3 rounded-2xl bg-black/[0.045] p-3"
+            className="rounded-2xl border border-black/10 bg-black/[0.045] p-4 sm:p-5"
           >
-            <CandidatePhoto
-              id={pessoa.id}
-              name={pessoa.nomeUrna}
-            />
-
-            <div className="min-w-0 flex-1">
-              <p className="font-semibold leading-5">
-                {pessoa.nomeUrna}
-              </p>
-
-
-              <p className="mt-1 text-sm leading-5 text-black/60">
-                {pessoa.cargoLabel} · {pessoa.uf}
-                <br />
-                {pessoa.siglaPartido} · Nº {pessoa.numero}
-              </p>
-              <div className="mt-1 flex justify-end">
-                <Link
-                  href={`/conheca-seu-candidato/${pessoa.id}?origem=minhas`}
-                  aria-label={`Ver ficha de ${pessoa.nomeUrna}`}
-                  className="inline-flex min-h-11 items-center gap-1 rounded-md px-2 text-xs font-medium text-black/60 underline decoration-black/25 underline-offset-4 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                >
-                  Ver ficha <span aria-hidden="true">↗</span>
-                </Link>
+            <div className="flex items-start gap-4">
+              <CandidatePhoto id={pessoa.id} name={pessoa.nomeUrna} />
+              <div className="min-w-0 flex-1">
+                <p className="break-words text-base font-semibold leading-6">{pessoa.nomeUrna}</p>
+                <p className="mt-2 text-sm leading-6 text-black/65">
+                  {pessoa.cargoLabel} · {pessoa.uf}
+                  <br />
+                  {pessoa.siglaPartido} · Nº {pessoa.numero}
+                </p>
               </div>
             </div>
-
+            <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <Link
+                href={`/conheca-seu-candidato/${pessoa.id}?origem=minhas`}
+                aria-label={`Ver ficha de ${pessoa.nomeUrna}`}
+                className="flex min-h-12 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-semibold"
+              >
+                Ver ficha →
+              </Link>
+              <Link
+                href={`/contato/${pessoa.id}`}
+                aria-label={`Entrar em contato com ${pessoa.nomeUrna}`}
+                className="flex min-h-12 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-semibold"
+              >
+                Entrar em contato →
+              </Link>
+            </div>
             {selecaoParaRemover ? (
-              <label className="flex shrink-0 cursor-pointer flex-col items-center gap-1 text-xs text-black/70">
+              <label className="mt-3 flex min-h-11 cursor-pointer items-center justify-end gap-2 text-sm text-black/70">
                 <input
                   type="checkbox"
                   checked={marcadasParaRemover.includes(pessoa.id)}
@@ -543,7 +543,7 @@ export function VotouFiqueDeOlhoExperience() {
                 type="button"
                 onClick={() => void remover(pessoa)}
                 aria-label={`Remover ${pessoa.nomeUrna}`}
-                className="min-h-11 shrink-0 rounded-lg border border-black/15 bg-white px-3 py-2 text-xs font-semibold text-black/70 hover:border-red-700 hover:text-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                className="mt-3 min-h-11 w-full rounded-xl border border-black/15 bg-white px-4 py-2 text-sm font-semibold text-black/70 hover:border-red-700 hover:text-red-800"
               >
                 Remover
               </button>
