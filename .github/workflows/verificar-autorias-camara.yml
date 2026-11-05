@@ -6,6 +6,7 @@ on:
       - quero-entender-melhor
     paths:
       - ".github/workflows/verificar-autorias-camara.yml"
+      - "scripts/cruzar-autorias-camara.mjs"
   workflow_dispatch:
 
 permissions:
