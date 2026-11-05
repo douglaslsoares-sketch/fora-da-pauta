@@ -26,6 +26,11 @@ type Opcao = {
 
 const opcoes: Opcao[] = [
   {
+    titulo: "Quero entender melhor",
+    descricao: "Envie uma pergunta para o Fora da Pauta.",
+    href: "/quero-entender-melhor",
+  },
+  {
     titulo: "Minhas escolhas",
     descricao: "Veja ou remova pessoas acompanhadas.",
     href: "/votou-fique-de-olho?minhas=1",
