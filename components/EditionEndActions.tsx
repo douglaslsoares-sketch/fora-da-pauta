@@ -153,7 +153,7 @@ export function EditionEndActions({
           rel="noopener noreferrer"
           className="flex min-h-14 items-center justify-center rounded-lg bg-[#238B51] px-5 py-3 text-center font-bold text-white"
         >
-          Enviar pelo WhatsApp →
+          Compartilhar essa edição →
         </a>
         <RetornarForaDaPauta />
       </nav>
