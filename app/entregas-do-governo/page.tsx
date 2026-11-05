@@ -1,5 +1,5 @@
+import { RetornarForaDaPauta } from "@/components/RetornarForaDaPauta";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { versaoEntregas } from "@/lib/novidades-publicacoes";
 import { RegistrarNovidadeVista } from "@/components/RegistrarNovidadeVista";
 export const metadata: Metadata = { title: "Entregas do governo", description: "Acompanhe o que o governo federal efetivamente realizou, com fontes verificáveis." };
@@ -15,7 +15,7 @@ export default function EntregasDoGoverno() {
         <h2 className="text-lg font-bold">Em preparação</h2>
         <p className="mt-2 leading-7 text-black/70">Ainda não há entregas verificadas publicadas. Os primeiros registros serão incluídos após conferência das fontes.</p>
       </div>
-      <Link href="/#opcoes" className="mx-auto mt-8 flex min-h-14 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-center font-semibold text-white"><span aria-hidden="true" className="mr-2">←</span>Voltar</Link>
+      <RetornarForaDaPauta />
     </section>
   </main>;
 }
