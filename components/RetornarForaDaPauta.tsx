@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FecharPaginaLink } from "@/components/FecharPaginaLink";
 import { useEffect, useState } from "react";
 
 /** Fecha a página interna e volta à home, que identifica a inscrição pelo Telegram. */
@@ -23,13 +24,21 @@ export function RetornarForaDaPauta() {
     setAcessoExterno(!veioDoSite && !navegacaoInterna);
   }, []);
 
+  if (!acessoExterno) {
+    return (
+      <div className="mt-7 flex w-full justify-end">
+        <FecharPaginaLink />
+      </div>
+    );
+  }
+
   return (
     <Link
       href="/"
-      aria-label={acessoExterno ? "Acesse o Fora da Pauta" : "Fechar e ir para a página inicial"}
+      aria-label="Acessar o Fora da Pauta"
       className="mx-auto mt-7 flex min-h-14 w-full items-center justify-center rounded-xl bg-black px-5 py-3 text-center text-base font-semibold text-white transition hover:bg-black/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
     >
-      {acessoExterno ? "Acesse o Fora da Pauta" : "Fechar"}
+      Acessar o Fora da Pauta
     </Link>
   );
 }
