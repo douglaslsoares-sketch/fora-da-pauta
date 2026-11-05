@@ -344,7 +344,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
             target="_blank"
             rel="noopener noreferrer"
           >
-            Compartilhar pelo WhatsApp →
+            Compartilhar o Fora da Pauta →
           </a>
           <InstalarAplicativo tema="claro" />
         </div>
