@@ -254,10 +254,17 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
                 Acompanhe o que o seu representante eleito está fazendo.
               </h1>
               <p className={styles.explicacao}>
-                Para ficar sabendo das novidades, inscreva-se gratuitamente
-                no canal do Fora da Pauta no Telegram.
+                Você não precisa acompanhar tudo. O Fora da Pauta ajuda você a ficar de olho.
               </p>
-              <p className={styles.explicacao}>Você será avisado por lá.</p>
+              <p className={styles.explicacao}>
+                Acompanhamos notícias e informações publicadas pelo governo, pelo Congresso e por outras fontes oficiais.
+              </p>
+              <p className={styles.explicacao}>
+                Quando surgem novidades sobre os assuntos e representantes que você escolheu acompanhar, avisamos pelo Telegram.
+              </p>
+              <p className={styles.explicacao}>
+                Assim, você fica sabendo o que está acontecendo e pode conferir as informações nas fontes originais.
+              </p>
 
               <button
                 type="button"
