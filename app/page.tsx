@@ -1,4 +1,5 @@
 import { HomeAcessoTelegram } from "@/components/HomeAcessoTelegram";
+import { versaoEdicoes, versaoEntregas } from "@/lib/novidades-publicacoes";
 import type { Metadata } from "next";
 import styles from "./page.module.css";
 
@@ -31,7 +32,7 @@ export default function Home() {
 
       <div className={styles.watermark} aria-hidden="true" />
 
-      <HomeAcessoTelegram />
+      <HomeAcessoTelegram versaoEdicoes={versaoEdicoes} versaoEntregas={versaoEntregas} />
     </main>
   );
 }
