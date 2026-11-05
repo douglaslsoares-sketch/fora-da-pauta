@@ -10,9 +10,14 @@ const destino = resolve(process.argv[2] || "relatorios/coleta-camara-proposicoes
 const fixture = process.env.FDP_COLETA_FIXTURE;
 const log = { fonte: "camara", endpoint, inicio, fim: null, status: "falha", modo: fixture ? "fixture-local-sem-consulta-externa" : "consulta-api", quantidade: 0, erro: null };
 try {
-  const response = await fetch(endpoint, { headers: { accept: "application/json", "user-agent": "ForaDaPauta/1.0 (coleta documental)" }, signal: AbortSignal.timeout(30000) });
-  if (!response.ok) throw new Error("HTTP " + response.status);
-  const payload = await response.json();
+  let payload;
+  if (fixture) {
+    payload = JSON.parse(await readFile(fixture, "utf8"));
+  } else {
+    const response = await fetch(endpoint, { headers: { accept: "application/json", "user-agent": "ForaDaPauta/1.0 (coleta documental)" }, signal: AbortSignal.timeout(30000) });
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    payload = await response.json();
+  }
   if (!Array.isArray(payload.dados)) throw new Error("Formato inesperado: dados ausentes");
   const itens = payload.dados.map(p => ({
     id: p.id, siglaTipo: p.siglaTipo ?? null, numero: p.numero ?? null,
