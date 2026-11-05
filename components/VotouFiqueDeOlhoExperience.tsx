@@ -5,6 +5,7 @@ import { CandidateSelector } from "@/components/CandidateSelector";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { SeloTelegram } from "@/components/SeloTelegram";
 import Link from "next/link";
+import { RetornarForaDaPauta } from "@/components/RetornarForaDaPauta";
 
 import {
   interpretarSelecao,
@@ -85,12 +86,7 @@ function AvisoInscricaoSemPessoas() {
 function ConcluirNoTelegram() {
   return (
     <div className="mt-8 border-t border-black/10 pt-6">
-      <a
-        href="/#opcoes"
-        className="flex min-h-14 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-center font-semibold text-white"
-      >
-        <span aria-hidden="true" className="mr-2">→</span>Ir para o início
-      </a>
+      <RetornarForaDaPauta />
     </div>
   );
 }
@@ -612,12 +608,7 @@ export function VotouFiqueDeOlhoExperience() {
           </p>
         ) : null}
 
-        <Link
-          href="/#opcoes"
-          className="mt-7 flex min-h-14 w-full items-center justify-center rounded-xl bg-black px-5 py-3 text-center font-semibold text-white"
-        >
-          <span aria-hidden="true" className="mr-2">←</span>Voltar
-        </Link>
+        <RetornarForaDaPauta />
       </section>
     );
   }
