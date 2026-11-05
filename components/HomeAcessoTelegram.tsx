@@ -26,6 +26,11 @@ type Opcao = {
 
 const opcoes: Opcao[] = [
   {
+    titulo: "Quem decide o que chega até você?",
+    descricao: "Comece por aqui · Artigo permanente de apresentação.",
+    href: "/campanhas/quem-decide-o-que-chega-ate-voce",
+  },
+  {
     titulo: "Minhas escolhas",
     descricao: "Veja ou remova pessoas acompanhadas.",
     href: "/votou-fique-de-olho?minhas=1",
