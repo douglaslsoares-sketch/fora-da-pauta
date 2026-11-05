@@ -7,6 +7,7 @@ import { CandidateSelector } from "@/components/CandidateSelector";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import { SeloTelegram } from "@/components/SeloTelegram";
 import { SiteHeader } from "@/components/SiteHeader";
+import { chaveNovidade } from "@/components/RegistrarNovidadeVista";
 import styles from "@/app/page.module.css";
 
 type PessoaAcompanhada = { id: string; nomeUrna: string };
@@ -20,6 +21,7 @@ type Opcao = {
   descricao: string;
   href: string;
   exigeEscolhas?: boolean;
+  novidade?: "edicoes" | "entregas";
 };
 
 const opcoes: Opcao[] = [
@@ -36,11 +38,13 @@ const opcoes: Opcao[] = [
   },
   {
     titulo: "Entregas do governo",
+    novidade: "entregas",
     descricao: "Acompanhe entregas e ações do governo federal.",
     href: "/entregas-do-governo",
   },
   {
     titulo: "Edições já publicadas",
+    novidade: "edicoes",
     descricao: "Leia ou ouça as edições.",
     href: "/edicoes",
   },
@@ -56,7 +60,7 @@ const mensagemWhatsApp = encodeURIComponent(
 );
 const linkWhatsApp = "https://wa.me/?text=" + mensagemWhatsApp;
 
-export function HomeAcessoTelegram() {
+export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEdicoes: string | null; versaoEntregas: string | null }) {
   const [situacao, setSituacao] = useState<"verificando" | "inscrito" | "visitante">("verificando");
   const [ids, setIds] = useState<string[]>([]);
   const [pessoas, setPessoas] = useState<PessoaAcompanhada[]>([]);
@@ -68,6 +72,7 @@ export function HomeAcessoTelegram() {
   const [erroEscolha, setErroEscolha] = useState("");
   const [avisoEscolha, setAvisoEscolha] = useState("");
   const [busca, setBusca] = useState(0);
+  const [novidades, setNovidades] = useState({ edicoes: false, entregas: false });
   const ancorouInscrito = useRef(false);
   const areaAcompanhamento = useRef<HTMLElement>(null);
 
@@ -117,6 +122,28 @@ export function HomeAcessoTelegram() {
       document.removeEventListener("visibilitychange", aoRetomar);
     };
   }, []);
+
+  useEffect(() => {
+    function atualizarNovidades() {
+      try {
+        setNovidades({
+          edicoes: Boolean(versaoEdicoes &&
+            window.localStorage.getItem(chaveNovidade("edicoes")) !== versaoEdicoes),
+          entregas: Boolean(versaoEntregas &&
+            window.localStorage.getItem(chaveNovidade("entregas")) !== versaoEntregas),
+        });
+      } catch {
+        setNovidades({ edicoes: false, entregas: false });
+      }
+    }
+    atualizarNovidades();
+    window.addEventListener("pageshow", atualizarNovidades);
+    window.addEventListener("focus", atualizarNovidades);
+    return () => {
+      window.removeEventListener("pageshow", atualizarNovidades);
+      window.removeEventListener("focus", atualizarNovidades);
+    };
+  }, [versaoEdicoes, versaoEntregas]);
 
   const inscrito = simulacao ? simuladoInscrito : situacao === "inscrito";
   const conferindo = situacao === "verificando" && !simulacao;
@@ -299,7 +326,12 @@ export function HomeAcessoTelegram() {
                 </div>
               ) : (
                 <Link key={opcao.titulo} href={opcao.href} className={styles.botaoOpcao}>
-                  <strong>{opcao.titulo} →</strong>
+                  <strong className={styles.rotuloOpcao}>
+                    <span>{opcao.titulo} →</span>
+                    {opcao.novidade && novidades[opcao.novidade] ? (
+                      <span className={styles.marcaNovidade}>Novidade</span>
+                    ) : null}
+                  </strong>
                 </Link>
               );
             })}
