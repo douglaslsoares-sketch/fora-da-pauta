@@ -250,6 +250,27 @@
 }
 .botaoOpcao:hover { background: #f5f5f5; border-color: #999; }
 .botaoOpcao strong { font-size: 17px; }
+.rotuloOpcao {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.marcaNovidade {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #fff2b8;
+  color: #513c00;
+  border: 1px solid #e6c860;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
 .botaoOpcao span { font-size: 13px; line-height: 1.35; }
 
 .opcaoDesabilitada {
