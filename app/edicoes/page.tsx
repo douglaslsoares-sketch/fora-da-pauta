@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RetornarForaDaPauta } from "@/components/RetornarForaDaPauta";
 import type { Metadata } from "next";
 import { campaigns } from "@/data/campanhas";
 import { versaoEdicoes } from "@/lib/novidades-publicacoes";
@@ -56,7 +57,7 @@ export default function EdicoesPublicadas() {
         ) : !apresentacao ? (
           <p className="mt-8 rounded-xl bg-black/5 p-5">Ainda não há edições publicadas.</p>
         ) : null}
-        <Link href="/#opcoes" className="mx-auto mt-8 flex min-h-14 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-center text-base font-semibold text-white"><span aria-hidden="true" className="mr-2">←</span>Voltar</Link>
+        <RetornarForaDaPauta />
       </section>
     </main>
   );
