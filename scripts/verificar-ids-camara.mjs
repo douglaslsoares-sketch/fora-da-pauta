@@ -8,5 +8,5 @@ const rows = ids.map(id => {
   const matches = links.filter(x => String(x.deputadoIdCamara) === id);
   return { id, matches: matches.length, linkedIdentityExists: matches.some(x => known.has(x.pessoaPoliticaId)) };
 });
-const candidatosDuda = identities.filter(x => /duda\s+salabert|salabert\s+rosa/i.test(JSON.stringify(x))).map(x => ({ pessoaPoliticaId: x.pessoaPoliticaId, situacaoIdentidade: x.situacaoIdentidade, candidaturas: (x.candidaturas ?? []).map(c => ({ candidaturaId: c.candidaturaId, anoEleicao: c.anoEleicao, cargo: c.cargo, uf: c.uf, nomeUrna: c.nomeUrna, nomeCompleto: c.nomeCompleto, numero: c.numero, partido: c.partido, situacao: c.situacao })) })).slice(0,20);
+const candidatosDuda = identities.filter(x => /duda\s+salabert|salabert\s+rosa/i.test(JSON.stringify(x))).map(x => ({ pessoaPoliticaId: x.pessoaPoliticaId, situacaoIdentidade: x.situacaoIdentidade, candidaturas: (x.candidaturas ?? []).map(c => ({ candidaturaId: c.candidaturaId, anoEleicao: c.anoEleicao, cargo: c.cargo, uf: c.uf, nomeUrna: c.nomeUrna, nomeCompleto: c.nomeCompleto, ano: c.ano, eleicao: c.eleicao, turno: c.turno, numero: c.numero, partido: c.partido, situacao: c.situacao })) })).slice(0,20);
 console.log(JSON.stringify({ candidatosDuda, identityCount: identities.length, linkCount: links.length, duda, rows }));
