@@ -47,6 +47,7 @@ if (process.argv[1] && import.meta.url === new URL("file://" + resolve(process.a
     semVinculo: autores.filter(a => a.situacaoVinculo === "sem-vinculo-documental").length,
     semIdentificadorDeputado: autores.filter(a => a.deputadoIdCamara == null).length,
     comIdentificadorSemCadastro: autores.filter(a => a.deputadoIdCamara != null && a.situacaoVinculo === "sem-vinculo-documental").length,
+    deputadosSemCadastro: [...new Map(autores.filter(a => a.deputadoIdCamara != null && a.situacaoVinculo === "sem-vinculo-documental").map(a => [String(a.deputadoIdCamara), { deputadoIdCamara: a.deputadoIdCamara, nomeInformadoPelaCamara: a.nomeFonte, fonteOficial: a.uriFonte }])).values()],
     tiposDeAutoria: Object.fromEntries([...new Set(autores.map(a => a.tipoFonte ?? "não informado"))].map(tipo => [tipo, autores.filter(a => (a.tipoFonte ?? "não informado") === tipo).length])),
   };
   await mkdir(dirname(saida), { recursive: true });
