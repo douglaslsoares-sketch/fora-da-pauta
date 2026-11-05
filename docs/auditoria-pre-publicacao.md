@@ -46,3 +46,12 @@ Não considerar concluído até existirem relatórios reais de pelo menos uma ex
 - Autoria: 20 consultas realizadas, 20 respostas processadas com sucesso, 0 falhas, conforme log da execução.
 - Artefato: `verificacao-autorias-42109339197`, ID `13452599268`.
 - **Limite:** êxito da consulta não significa que todos os registros contenham deputados identificáveis nem que já exista vínculo com as fichas do Fora da Pauta. Nenhum vínculo foi publicado automaticamente.
+
+## Diagnóstico de vínculos de autoria — 05/11/2026
+
+- Execução real: https://github.com/douglaslsoares-sketch/fora-da-pauta/actions/runs/42111607202
+- 20 consultas de autoria bem-sucedidas; 20 registros de autoria; 11 deputados distintos identificados por ID oficial.
+- 0 vínculos encontrados na tabela `vinculos-camara-identidades.json` para a amostra; todos os 20 registros de autoria ficaram sem correspondência.
+- IDs distintos sem correspondência na amostra: 153423, 220573, 204472, 220623, 220559, 204534, 220557, 204372, 220687, 88256, 220560.
+- **Não concluir que os deputados não existem no banco de identidades.** É necessário verificar se a tabela de vínculos está incompleta ou desatualizada, e confirmar a correspondência com registros de identidade antes de adicionar qualquer vínculo.
+- Nenhuma alteração foi feita nos vínculos existentes nem nas fichas públicas.
