@@ -37,6 +37,9 @@ if (process.argv[1] && import.meta.url === new URL("file://" + resolve(process.a
   const dados = JSON.parse(await readFile(entrada, "utf8"));
   const vinculos = JSON.parse(await readFile(vinculosPath, "utf8"));
   if (!Array.isArray(dados.registros) || !Array.isArray(vinculos)) throw Error("Formato inválido");
+  const identidades = JSON.parse(await readFile(resolve("data/eleicoes/gerado/identidades-politicas.json"), "utf8"));
+  if (!Array.isArray(identidades)) throw Error("Cadastro de identidades inválido");
+  const idsExistentes = new Set(identidades.map(x => x.pessoaPoliticaId).filter(Boolean));
   const registros = cruzarAutoria(dados.registros, vinculos);
   const autores = registros.flatMap(r => r.autores);
   const resumo = {
@@ -45,6 +48,8 @@ if (process.argv[1] && import.meta.url === new URL("file://" + resolve(process.a
     vinculosUnicos: autores.filter(a => a.situacaoVinculo === "vinculo-unico-por-id-oficial").length,
     ambiguos: autores.filter(a => a.situacaoVinculo === "ambiguidade-no-cadastro").length,
     semVinculo: autores.filter(a => a.situacaoVinculo === "sem-vinculo-documental").length,
+    vinculosComIdentidadeExistente: autores.filter(a => a.pessoaPoliticaId && idsExistentes.has(a.pessoaPoliticaId)).length,
+    vinculosComIdentidadeAusente: autores.filter(a => a.pessoaPoliticaId && !idsExistentes.has(a.pessoaPoliticaId)).length,
     semIdentificadorDeputado: autores.filter(a => a.deputadoIdCamara == null).length,
     comIdentificadorSemCadastro: autores.filter(a => a.deputadoIdCamara != null && a.situacaoVinculo === "sem-vinculo-documental").length,
     deputadosSemCadastro: [...new Map(autores.filter(a => a.deputadoIdCamara != null && a.situacaoVinculo === "sem-vinculo-documental").map(a => [String(a.deputadoIdCamara), { deputadoIdCamara: a.deputadoIdCamara, nomeInformadoPelaCamara: a.nomeFonte, fonteOficial: a.uriFonte }])).values()],
