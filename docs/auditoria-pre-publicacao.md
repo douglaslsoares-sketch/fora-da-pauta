@@ -38,3 +38,11 @@ Não considerar concluído até existirem relatórios reais de pelo menos uma ex
 - Artefato de resultados: `coleta-camara-42093905049`, ID `13446051860` (retido por 30 dias).
 - Limite: apenas uma amostra de 100 proposições da API, sem identificação de autoria nesta etapa; **não alimentar automaticamente fichas de políticos sem vínculo documental verificado**.
 - Ainda não há prova de coleta diária abrangente nem de integração com históricos.
+
+## Evidência de autoria — 05/11/2026
+
+- Execução: https://github.com/douglaslsoares-sketch/fora-da-pauta/actions/runs/42109339197
+- API da Câmara: 100 proposições consultadas com sucesso.
+- Autoria: 20 consultas realizadas, 20 respostas processadas com sucesso, 0 falhas, conforme log da execução.
+- Artefato: `verificacao-autorias-42109339197`, ID `13452599268`.
+- **Limite:** êxito da consulta não significa que todos os registros contenham deputados identificáveis nem que já exista vínculo com as fichas do Fora da Pauta. Nenhum vínculo foi publicado automaticamente.
