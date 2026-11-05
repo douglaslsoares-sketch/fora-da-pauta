@@ -1,6 +1,11 @@
 name: Verificar autoria das proposições da Câmara (prévia)
 
 on:
+  push:
+    branches:
+      - quero-entender-melhor
+    paths:
+      - ".github/workflows/verificar-autorias-camara.yml"
   workflow_dispatch:
 
 permissions:
