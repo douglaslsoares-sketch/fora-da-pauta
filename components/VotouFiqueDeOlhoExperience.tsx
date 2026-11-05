@@ -516,6 +516,13 @@ export function VotouFiqueDeOlhoExperience() {
                 Ver ficha →
               </Link>
               <Link
+                href={`/historico/${pessoa.id}`}
+                aria-label={`Ver histórico de atuação de ${pessoa.nomeUrna}`}
+                className="flex min-h-12 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-semibold"
+              >
+                Ver histórico →
+              </Link>
+              <Link
                 href={`/contato/${pessoa.id}`}
                 aria-label={`Entrar em contato com ${pessoa.nomeUrna}`}
                 className="flex min-h-12 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-semibold"
