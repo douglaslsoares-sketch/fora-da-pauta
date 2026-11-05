@@ -12,8 +12,8 @@ export default function EntregasDoGoverno() {
       <p className="mt-4 leading-7 text-black/75">Aqui vamos apresentar obras, serviços e programas, com datas, locais, beneficiários e fontes para conferência.</p>
       <p className="mt-4 leading-7 text-black/75">Vamos diferenciar anúncios, ações em andamento e entregas concluídas. A seção acompanha qualquer governo federal, independentemente de quem ocupe a Presidência.</p>
       <div className="mt-8 rounded-xl border border-black/15 bg-black/5 p-5">
-        <h2 className="text-lg font-bold">Em preparação</h2>
-        <p className="mt-2 leading-7 text-black/70">Ainda não há entregas verificadas publicadas. Os primeiros registros serão incluídos após conferência das fontes.</p>
+        <h2 className="text-lg font-bold">Histórico de entregas</h2>
+        <p className="mt-2 leading-7 text-black/70">Ainda não há entregas verificadas publicadas. Quando houver registros, eles serão listados aqui por data, com local, situação da entrega e fontes para conferência.</p>
       </div>
       <RetornarForaDaPauta />
     </section>
