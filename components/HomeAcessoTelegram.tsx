@@ -266,17 +266,20 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
                 Assim, você fica sabendo o que está acontecendo e pode conferir as informações nas fontes originais.
               </p>
 
-              <button
-                type="button"
-                onClick={() => void iniciarInscricao()}
-                disabled={conferindo || inscrito || abrindoTelegram}
+              <a
+                href="https://t.me/ForaDaPautaOficial"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={styles.botaoInscricao}
               >
-                {abrindoTelegram ? "Abrindo Telegram..." : "Inscrever no Telegram"}
+                Inscrever-se no canal do Telegram
                 <span aria-hidden="true"> →</span>
                 <SeloTelegram />
-              </button>
-              {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
+              </a>
+              <p className={styles.explicacao}>
+                Depois de entrar no canal, volte ao site pelo link fixado no canal
+                para escolher quem você quer acompanhar.
+              </p>
             </div>
 
             <div className={styles.qrArea}>
@@ -327,11 +330,19 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
           ) : (
             <>
               <p className={styles.textoArea}>
-                Para escolher quem você quer acompanhar, faça primeiro sua inscrição gratuita no Telegram.
+                Para salvar suas escolhas, identifique-se pelo bot do Telegram. É rápido e gratuito.
               </p>
-              <a href="#conteudo" className={styles.botaoOpcao}>
-                <strong>Ir para a inscrição ↑</strong>
-              </a>
+              <button
+                type="button"
+                onClick={() => void iniciarInscricao()}
+                disabled={abrindoTelegram}
+                className={styles.botaoInscricao}
+              >
+                {abrindoTelegram ? "Abrindo Telegram..." : "Identificar-me para acompanhar"}
+                <span aria-hidden="true"> →</span>
+                <SeloTelegram />
+              </button>
+              {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
             </>
           )}
 
