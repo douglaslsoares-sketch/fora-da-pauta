@@ -209,26 +209,43 @@ export function HomeAcessoTelegram() {
           />
         </header>
         <div className={styles.intro} id="apresentacao">
-          <h1 id="mensagem-principal" className={styles.chamada}>
-            Acompanhe o que seu representante faz depois de eleito.
-          </h1>
-          <p className={styles.explicacao}>
-            Para ficar sabendo das novidades, inscreva-se gratuitamente
-            no canal do Fora da Pauta no Telegram.
-          </p>
-          <p className={styles.explicacao}>Você será avisado por lá.</p>
+          <div className={styles.heroGrid}>
+            <div className={styles.heroTexto}>
+              <h1 id="mensagem-principal" className={styles.chamada}>
+                Acompanhe o que seu representante faz depois de eleito.
+              </h1>
+              <p className={styles.explicacao}>
+                Para ficar sabendo das novidades, inscreva-se gratuitamente
+                no canal do Fora da Pauta no Telegram.
+              </p>
+              <p className={styles.explicacao}>Você será avisado por lá.</p>
 
-          <button
-            type="button"
-            onClick={() => void iniciarInscricao()}
-            disabled={conferindo || inscrito || abrindoTelegram}
-            className={styles.botaoInscricao}
-          >
-            {abrindoTelegram ? "Abrindo Telegram..." : "Inscrever no Telegram"}
-            <span aria-hidden="true"> →</span>
-            <SeloTelegram />
-          </button>
-          {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
+              <button
+                type="button"
+                onClick={() => void iniciarInscricao()}
+                disabled={conferindo || inscrito || abrindoTelegram}
+                className={styles.botaoInscricao}
+              >
+                {abrindoTelegram ? "Abrindo Telegram..." : "Inscrever no Telegram"}
+                <span aria-hidden="true"> →</span>
+                <SeloTelegram />
+              </button>
+              {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
+            </div>
+
+            <div className={styles.qrArea}>
+              <div className={styles.qrCartao}>
+                <Image
+                  src="/qr/fora-da-pauta.svg"
+                  alt="QR Code para abrir o Fora da Pauta no celular"
+                  width={224}
+                  height={224}
+                  className={styles.qrImagem}
+                />
+              </div>
+              <p className={styles.qrInstrucao}>Aponte a câmera do celular para abrir o Fora da Pauta.</p>
+            </div>
+          </div>
         </div>
         <p className={styles.assinatura}>HÁ MAIS PARA ENTENDER.</p>
       </section>
