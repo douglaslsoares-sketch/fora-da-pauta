@@ -829,11 +829,9 @@ export async function POST(
       }
       await enviarMensagemTelegram({
         chatId,
-        texto:
-          "Você está inscrito.\n\n" +
-          "Toque no botão abaixo para ir para o início.",
+        texto: "Inscrição realizada com sucesso.",
         botoes: [[{
-          text: "Ir para o início",
+          text: "← Voltar ao Fora da Pauta",
           url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=opcoes`,
         }]],
       });
