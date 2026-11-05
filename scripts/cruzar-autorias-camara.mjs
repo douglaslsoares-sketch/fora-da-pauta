@@ -7,7 +7,7 @@ export function cruzarAutoria(registros, vinculos) {
   const indice = new Map();
   for (const v of vinculos) {
     const id = String(v.deputadoIdCamara ?? "");
-    if (!/^\\d+$/.test(id) || !v.pessoaPoliticaId) continue;
+    if (!/^\d+$/.test(id) || !v.pessoaPoliticaId) continue;
     const anteriores = indice.get(id) ?? [];
     anteriores.push(v);
     indice.set(id, anteriores);
