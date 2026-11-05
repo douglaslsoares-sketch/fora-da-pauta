@@ -64,7 +64,7 @@ export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
 
         <nav aria-label="O que fazer depois do artigo" className="mt-7 grid gap-3">
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-14 w-full items-center justify-center rounded-lg bg-[#238B51] px-5 py-3 text-center font-bold text-white">
-            Enviar pelo WhatsApp <span aria-hidden="true" className="ml-2">→</span>
+            Compartilhar essa edição <span aria-hidden="true" className="ml-2">→</span>
           </a>
           <RetornarForaDaPauta />
         </nav>
