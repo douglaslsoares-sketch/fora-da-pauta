@@ -37,7 +37,7 @@ const opcoes: Opcao[] = [
     href: "/ficha-politica",
   },
   {
-    titulo: "Entregas do governo",
+    titulo: "Entregas deste governo",
     novidade: "entregas",
     descricao: "Acompanhe entregas e ações do governo federal.",
     href: "/entregas-do-governo",
