@@ -156,8 +156,9 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
   useEffect(() => {
     if (!inscrito || ancorouInscrito.current) return;
     const url = new URL(window.location.href);
-    if (url.searchParams.get("conhecer") === "1" ||
-        url.hash === "#apresentacao" || url.hash === "#conteudo") return;
+    // Acesso normal, QR Code e ícone do aplicativo sempre mostram a apresentação.
+    // Somente retornos internos com destino explícito pulam para as opções.
+    if (url.hash !== "#opcoes") return;
     ancorouInscrito.current = true;
     const frame = window.requestAnimationFrame(() => {
       areaAcompanhamento.current?.scrollIntoView({
