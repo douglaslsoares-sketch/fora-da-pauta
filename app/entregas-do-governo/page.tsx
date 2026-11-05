@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { versaoEntregas } from "@/lib/novidades-publicacoes";
+import { RegistrarNovidadeVista } from "@/components/RegistrarNovidadeVista";
 export const metadata: Metadata = { title: "Entregas do governo", description: "Acompanhe o que o governo federal efetivamente realizou, com fontes verificáveis." };
 export default function EntregasDoGoverno() {
   return <main className="min-h-screen bg-white px-5 pb-16 pt-10 text-black sm:px-8">
+    <RegistrarNovidadeVista secao="entregas" versao={versaoEntregas} />
     <section className="mx-auto max-w-3xl">
       <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Entregas do governo</h1>
       <p className="mt-4 text-lg leading-7 text-black/80">O que o governo federal está fazendo e o que já entregou à população.</p>
