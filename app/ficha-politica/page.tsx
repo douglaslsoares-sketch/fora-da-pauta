@@ -1,5 +1,5 @@
+import { RetornarForaDaPauta } from "@/components/RetornarForaDaPauta";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { CandidateSelector } from "@/components/CandidateSelector";
 
 export const metadata: Metadata = {
@@ -17,9 +17,7 @@ export default function FichaPoliticaBusca() {
           Encontre uma pessoa pelo nome e consulte sua ficha política.
         </p>
         <CandidateSelector mode="ficha" />
-        <Link href="/#opcoes" className="mx-auto mt-8 flex min-h-14 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-center text-base font-semibold text-white">
-          <span aria-hidden="true" className="mr-2">←</span>Voltar
-        </Link>
+        <RetornarForaDaPauta />
       </section>
     </main>
   );
