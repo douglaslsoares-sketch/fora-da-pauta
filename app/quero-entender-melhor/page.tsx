@@ -4,7 +4,7 @@ import { PublicQuestionsExperience } from "@/components/PublicQuestionsExperienc
 
 export const metadata: Metadata = {
   title: "Quero entender melhor — Fora da Pauta",
-  description: "Envie sua dúvida. O Fora da Pauta pesquisa, verifica e publica esclarecimentos de interesse geral.",
+  description: "Envie sua dúvida. O Fora da Pauta pesquisa, verifica e publica resenhas e esclarecimentos com fontes, sem orientar conclusões.",
 };
 
 export default function QueroEntenderMelhorPage() {
@@ -17,11 +17,12 @@ export default function QueroEntenderMelhorPage() {
           Vamos analisar, pesquisar e verificar antes de publicar uma resposta.
         </p>
         <p className="mt-3 text-sm leading-6 text-black/65">
-          Perguntas de interesse geral poderão ser respondidas publicamente, sem divulgar
-          quem perguntou. As respostas também poderão ser compartilhadas no canal geral
-          do Telegram depois de revisão editorial.
+          As perguntas poderão dar origem a esclarecimentos públicos, sem divulgar
+          quem perguntou. Apresentaremos documentos, versões e fontes, sem dizer o que
+          você deve pensar. Após revisão, as respostas também poderão ser compartilhadas
+          no canal geral do Telegram.
         </p>
-        <p className="mt-4 text-sm font-semibold">Sem filtros de conveniência. Com responsabilidade e transparência.</p>
+        <p className="mt-4 text-sm font-semibold">O Fora da Pauta é uma ponte entre a informação e o entendimento.</p>
         <PublicQuestionsExperience />
         <Link href="/#opcoes" className="mt-8 inline-flex min-h-12 items-center justify-center rounded-lg border border-black/20 px-5 py-3 font-semibold">
           ← Ir para o início
