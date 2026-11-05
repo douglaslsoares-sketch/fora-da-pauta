@@ -29,3 +29,12 @@ Status: diagnóstico inicial do código; **não é comprovação de execução e
 
 ## Critério de aceite
 Não considerar concluído até existirem relatórios reais de pelo menos uma execução diária completa sobre as fontes cadastradas, testes automatizados e testes manuais da experiência, com lacunas declaradas. Cobertura deve ser ampliada continuamente sem filtragem por conveniência.
+
+## Evidência de coleta real — 05/11/2026
+
+- GitHub Actions: https://github.com/douglaslsoares-sketch/fora-da-pauta/actions/runs/42093905049
+- Execução concluída com sucesso; teste local, consulta real à API e envio do artefato concluídos.
+- Log da consulta: `modo=consulta-api`, `status=sucesso`, `quantidade=100`, `inicio=2026-11-05T19:26:40.575Z`, `fim=2026-11-05T19:26:42.371Z`.
+- Artefato de resultados: `coleta-camara-42093905049`, ID `13446051860` (retido por 30 dias).
+- Limite: apenas uma amostra de 100 proposições da API, sem identificação de autoria nesta etapa; **não alimentar automaticamente fichas de políticos sem vínculo documental verificado**.
+- Ainda não há prova de coleta diária abrangente nem de integração com históricos.
