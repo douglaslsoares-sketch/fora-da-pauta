@@ -78,6 +78,65 @@
   padding: clamp(32px, 7vh, 68px) 0;
 }
 
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 244px;
+  align-items: center;
+  gap: clamp(32px, 4vw, 68px);
+}
+
+.heroTexto {
+  min-width: 0;
+}
+
+.qrArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  justify-self: end;
+  width: 244px;
+}
+
+.qrCartao {
+  width: 224px;
+  height: 224px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 0;
+}
+
+.qrImagem {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 12px;
+}
+
+.qrInstrucao {
+  max-width: 230px;
+  margin: 0;
+  color: #dfdfdf;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+@media (max-width: 850px) {
+  .heroGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .qrArea {
+    width: 100%;
+    max-width: 320px;
+    justify-self: center;
+  }
+  .qrCartao { width: 180px; height: 180px; }
+  .qrInstrucao { max-width: 270px; }
+}
+
 .subtitulo {
   margin: 0 0 18px;
   color: #ffd700;
