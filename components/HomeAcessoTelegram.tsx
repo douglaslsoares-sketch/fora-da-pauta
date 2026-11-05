@@ -234,12 +234,13 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
             priority
             className={styles.logo}
           />
+          <p className={styles.subtitulo}>Decisões que afetam a sua vida.</p>
         </header>
         <div className={styles.intro} id="apresentacao">
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.chamada}>
-                Acompanhe o que seu representante faz depois de eleito.
+                Acompanhe o que o seu representante eleito faz.
               </h1>
               <p className={styles.explicacao}>
                 Para ficar sabendo das novidades, inscreva-se gratuitamente
