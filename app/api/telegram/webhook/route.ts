@@ -427,7 +427,7 @@ async function mostrarPreferencias(chatId: string) {
       "\n\nPara parar apenas novas edições, envie /parar_edicoes." +
       "\nPara parar tudo, envie /parar.",
     botoes: [[{
-      text: "Voltar ao Fora da Pauta",
+      text: "→ foradapauta.org",
       url: "https://foradapauta.org/",
     }]],
   });
@@ -756,7 +756,7 @@ export async function POST(
           ],
           [
             {
-              text: "Voltar ao Fora da Pauta",
+              text: "→ foradapauta.org",
               url:
                 "https://foradapauta.org/",
             },
@@ -831,7 +831,7 @@ export async function POST(
         chatId,
         texto: "Inscrição realizada com sucesso.",
         botoes: [[{
-          text: "← Voltar ao Fora da Pauta",
+          text: "→ foradapauta.org",
           url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=opcoes`,
         }]],
       });
@@ -894,7 +894,7 @@ export async function POST(
           "Você receberá avisos das novas edições por aqui.",
         imagemUrl: "https://www.foradapauta.org/opengraph-image.jpg",
         botoes: [
-          [{ text: "Continuar — ver opções", url: "https://www.foradapauta.org/#opcoes" }],
+          [{ text: "→ foradapauta.org", url: "https://www.foradapauta.org/" }],
         ],
       });
       return NextResponse.json({ ok: true });
