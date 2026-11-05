@@ -1,0 +1,25 @@
+name: Coleta experimental Câmara (prévia isolada)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  coletar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Consultar proposições e registrar execução
+        run: node scripts/coletar-camara-proposicoes.mjs relatorios/coleta-camara-proposicoes.json
+      - name: Guardar amostra e relatório, mesmo se houver falha
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coleta-camara-${{ github.run_id }}
+          path: relatorios/coleta-camara-proposicoes*.json
+          retention-days: 30
