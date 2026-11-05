@@ -1,0 +1,25 @@
+name: Testar coletor Câmara (sem rede externa)
+
+on:
+  push:
+    branches:
+      - quero-entender-melhor
+    paths:
+      - "scripts/coletar-camara-proposicoes.mjs"
+      - "tests/coleta-camara.test.mjs"
+      - ".github/workflows/testar-coleta-camara.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  testar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Executar teste local de coleta
+        run: node --test tests/coleta-camara.test.mjs
