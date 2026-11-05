@@ -25,10 +25,12 @@ jobs:
         env:
           FDP_LIMITE_AUTORIAS: "20"
         run: node scripts/enriquecer-autorias-camara.mjs relatorios/coleta-camara-proposicoes.json relatorios/coleta-camara-autorias.json
+      - name: Cruzar autores com identificadores oficiais cadastrados
+        run: node scripts/cruzar-autorias-camara.mjs relatorios/coleta-camara-autorias.json data/eleicoes/gerado/vinculos-camara-identidades.json relatorios/cruzamento-autorias-camara.json
       - name: Arquivar resultados, inclusive falhas
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: verificacao-autorias-${{ github.run_id }}
-          path: relatorios/coleta-camara-*.json
+          path: relatorios/*.json
           retention-days: 30
