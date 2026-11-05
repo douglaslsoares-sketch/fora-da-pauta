@@ -43,6 +43,11 @@ const opcoes: Opcao[] = [
     href: "/entregas-do-governo",
   },
   {
+    titulo: "O dia do presidente",
+    descricao: "Consulte o histórico de atividades públicas do presidente.",
+    href: "/o-dia-do-presidente",
+  },
+  {
     titulo: "Edições já publicadas",
     novidade: "edicoes",
     descricao: "Leia ou ouça as edições.",
