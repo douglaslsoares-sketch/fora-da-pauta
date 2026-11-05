@@ -21,6 +21,7 @@ export default function QueroEntenderMelhorPage() {
           quem perguntou. As respostas também poderão ser compartilhadas no canal geral
           do Telegram depois de revisão editorial.
         </p>
+        <p className="mt-4 text-sm font-semibold">Sem filtros de conveniência. Com responsabilidade e transparência.</p>
         <PublicQuestionsExperience />
         <Link href="/#opcoes" className="mt-8 inline-flex min-h-12 items-center justify-center rounded-lg border border-black/20 px-5 py-3 font-semibold">
           ← Ir para o início
