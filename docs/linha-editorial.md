@@ -2,6 +2,18 @@
 
 O Fora da Pauta explica aqui como trabalha, como as pessoas podem participar, como o projeto se sustenta e como presta contas dos recursos que recebe e utiliza.
 
+## Nosso compromisso: sem filtros de conveniência
+
+**Sem filtros de conveniência. Com responsabilidade e transparência.**
+
+O Fora da Pauta tem compromisso com a informação, não com a conveniência de governos, partidos, empresas ou grupos de interesse.
+
+Não escondemos fatos porque incomodam, nem destacamos informações apenas porque favorecem alguém. Verificamos os acontecimentos, apresentamos fontes e contexto e explicamos o que afeta a vida das pessoas.
+
+Diferenciamos **fatos comprovados**, **interpretações editoriais** e **informações ainda não verificadas**. Nossa perspectiva social é transparente, mas não determina quais fatos o público pode conhecer.
+
+Quando houver erro, faremos a correção com clareza. Não publicar sem filtro significa não submeter a informação a interesses particulares; nunca significa dispensar a verificação.
+
 ## O que o Fora da Pauta faz
 
 ### Para que existe
