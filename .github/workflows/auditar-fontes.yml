@@ -1,0 +1,26 @@
+name: Auditar cobertura das fontes (não é coleta)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 10 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  auditar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Verificar inventário e registrar lacunas
+        run: node scripts/auditar-fontes.mjs relatorios/auditoria-fontes.json
+      - name: Guardar relatório de auditoria
+        uses: actions/upload-artifact@v4
+        with:
+          name: auditoria-fontes-${{ github.run_id }}
+          path: relatorios/auditoria-fontes.json
+          retention-days: 30
