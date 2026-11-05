@@ -251,7 +251,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.chamada}>
-                Acompanhe o que o seu representante eleito está fazendo.
+                Acompanhe o que dizem e fazem seus representantes políticos e as principais lideranças mundiais.
               </h1>
               <p className={styles.explicacao}>
                 Você não precisa acompanhar tudo. O Fora da Pauta ajuda você a ficar de olho.
