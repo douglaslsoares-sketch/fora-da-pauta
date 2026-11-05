@@ -65,3 +65,11 @@ Não considerar concluído até existirem relatórios reais de pelo menos uma ex
 - A continuidade das candidaturas é corroborada por fontes eleitorais públicas; **não alterar automaticamente os identificadores existentes** até avaliar outras referências internas, dependências e testes de regressão.
 - Execução local de auditoria: https://github.com/douglaslsoares-sketch/fora-da-pauta/actions/runs/42119233292.
 - Pendência: decidir identidade canônica com migração auditável, preservando histórico de 2022 e 2026; nenhuma mudança em produção.
+
+### Auditoria geral de integridade dos vínculos da Câmara — 05/11/2026
+
+- Execução: https://github.com/douglaslsoares-sketch/fora-da-pauta/actions/runs/42131462865
+- Foram examinados **566 vínculos**: **24 apontam para identidades ausentes** no cadastro atual; **nenhum ID da Câmara aparece duplicado**.
+- A execução foi sinalizada como falha de propósito pelo verificador, pois detectou inconsistências; não é falha de coleta ou de execução do script.
+- Duda Salabert (Câmara `220623`) está entre os 24. Existem candidaturas de 2022 e 2026 em duas identidades separadas, ambas `EM_REVISAO`.
+- **Bloqueio de publicação**: não associar automaticamente atividades parlamentares a identidades inexistentes ou candidaturas em revisão; exigir reconciliação documentada e testes.
