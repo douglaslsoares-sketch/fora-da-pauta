@@ -55,3 +55,13 @@ Não considerar concluído até existirem relatórios reais de pelo menos uma ex
 - IDs distintos sem correspondência na amostra: 153423, 220573, 204472, 220623, 220559, 204534, 220557, 204372, 220687, 88256, 220560.
 - **Não concluir que os deputados não existem no banco de identidades.** É necessário verificar se a tabela de vínculos está incompleta ou desatualizada, e confirmar a correspondência com registros de identidade antes de adicionar qualquer vínculo.
 - Nenhuma alteração foi feita nos vínculos existentes nem nas fichas públicas.
+
+### Identidade de Duda Salabert — conferência documental (05/11/2026)
+
+- Câmara: deputada ID `220623`, nome civil `DUDA SALABERT ROSA` (https://www.camara.leg.br/deputados/220623).
+- Candidatura 2022: TSE `130001606697`, identidade local `politico-53f9882aecdfb406ce4b8511c428289e`, em revisão.
+- Candidatura 2026: TSE `130002539728`, identidade local `politico-d0c14890e50d932c5bd6592b2230606e`, em revisão.
+- Vínculo atual da Câmara aponta para `politico-2233b5e6baf14e12a6079c35741ac73e`, ausente do cadastro de identidades.
+- A continuidade das candidaturas é corroborada por fontes eleitorais públicas; **não alterar automaticamente os identificadores existentes** até avaliar outras referências internas, dependências e testes de regressão.
+- Execução local de auditoria: https://github.com/douglaslsoares-sketch/fora-da-pauta/actions/runs/42119233292.
+- Pendência: decidir identidade canônica com migração auditável, preservando histórico de 2022 e 2026; nenhuma mudança em produção.
