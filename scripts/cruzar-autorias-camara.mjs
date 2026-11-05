@@ -45,6 +45,9 @@ if (process.argv[1] && import.meta.url === new URL("file://" + resolve(process.a
     vinculosUnicos: autores.filter(a => a.situacaoVinculo === "vinculo-unico-por-id-oficial").length,
     ambiguos: autores.filter(a => a.situacaoVinculo === "ambiguidade-no-cadastro").length,
     semVinculo: autores.filter(a => a.situacaoVinculo === "sem-vinculo-documental").length,
+    semIdentificadorDeputado: autores.filter(a => a.deputadoIdCamara == null).length,
+    comIdentificadorSemCadastro: autores.filter(a => a.deputadoIdCamara != null && a.situacaoVinculo === "sem-vinculo-documental").length,
+    tiposDeAutoria: Object.fromEntries([...new Set(autores.map(a => a.tipoFonte ?? "não informado"))].map(tipo => [tipo, autores.filter(a => (a.tipoFonte ?? "não informado") === tipo).length])),
   };
   await mkdir(dirname(saida), { recursive: true });
   await writeFile(saida, JSON.stringify({ tipo: "auditoria-sem-publicacao", geradoEm: new Date().toISOString(), resumo, registros }, null, 2) + "\n");
