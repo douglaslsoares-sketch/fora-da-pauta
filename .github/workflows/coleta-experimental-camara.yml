@@ -1,6 +1,13 @@
 name: Coleta experimental Câmara (prévia isolada)
 
 on:
+  push:
+    branches:
+      - quero-entender-melhor
+    paths:
+      - "scripts/coletar-camara-proposicoes.mjs"
+      - "tests/coleta-camara.test.mjs"
+      - ".github/workflows/coleta-experimental-camara.yml"
   workflow_dispatch:
 
 permissions:
@@ -14,7 +21,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
+      - name: Validar coletor com dados locais
+        run: node --test tests/coleta-camara.test.mjs
       - name: Consultar proposições e registrar execução
+        env:
+          FDP_COLETA_FIXTURE: ""
         run: node scripts/coletar-camara-proposicoes.mjs relatorios/coleta-camara-proposicoes.json
       - name: Guardar amostra e relatório, mesmo se houver falha
         if: always()
