@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { RetornarForaDaPauta } from "@/components/RetornarForaDaPauta";
 import { useState } from "react";
 
 type EditionEndActionsProps = {
@@ -146,40 +146,17 @@ export function EditionEndActions({
         ) : null}
       </section>
 
-      <nav aria-label="Ações após a leitura" className="grid gap-3 sm:grid-cols-2">
+      <nav aria-label="Ações após a leitura" className="grid gap-3">
         <a
           href={`https://wa.me/?text=${encodeURIComponent(mensagem)}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex min-h-14 items-center justify-center rounded-lg bg-[#FFD700] px-5 py-3 text-center font-bold text-black"
+          className="flex min-h-14 items-center justify-center rounded-lg bg-[#238B51] px-5 py-3 text-center font-bold text-white"
         >
-          Compartilhar pelo WhatsApp
+          Enviar pelo WhatsApp →
         </a>
-        <Link
-          href="/#opcoes"
-          className="flex min-h-14 items-center justify-center rounded-lg border border-black/20 bg-white px-5 py-3 text-center font-bold text-black"
-        >
-          <span aria-hidden="true" className="mr-2">←</span>Voltar
-        </Link>
+        <RetornarForaDaPauta />
       </nav>
-
-      <section className="bg-black p-6 text-white sm:p-8">
-        <h3 className="max-w-2xl text-2xl font-semibold tracking-[-0.035em] sm:text-3xl">
-          Chegou ao Fora da Pauta por esta edição?
-        </h3>
-
-        <p className="mt-4 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
-          Conheça o projeto, veja como o Fora da Pauta trabalha
-          e encontre outras publicações.
-        </p>
-
-        <Link
-          href="/"
-          className="mt-6 inline-flex min-h-11 items-center justify-center bg-[#FFC400] px-5 py-3 text-sm font-semibold text-black transition hover:bg-[#e9b300]"
-        >
-          Conheça o Fora da Pauta
-        </Link>
-      </section>
     </div>
   );
 }
