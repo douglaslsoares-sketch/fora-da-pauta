@@ -280,19 +280,6 @@ export function CampaignPage({ campaign }: CampaignPageProps) {
       </section>
 
 
-      {/* VOLTAR PARA TODAS AS EDIÇÕES */}
-      <section className="border-t border-black/10 px-5 py-12 sm:px-8 sm:py-16 lg:px-10">
-        <div className="mx-auto w-full max-w-3xl">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-3 text-sm font-semibold"
-          >
-            <span aria-hidden="true">←</span>
-            Ver todas as edições
-          </Link>
-        </div>
-      </section>
-
       {/* RODAPÃ‰ */}
       <footer className="bg-black px-5 py-10 text-white sm:px-8 lg:px-10">
         <div className="mx-auto flex w-full max-w-6xl items-end justify-between gap-8">
