@@ -87,10 +87,15 @@ export async function GET(request: Request) {
         SELECT status, COUNT(*)::int AS total
         FROM public.telegram_fila_avisos GROUP BY status
       `,
-      sql<{ id: string; chat_id: string; tipo: string; status: string; tentativas: number; criado: string; enviado: string | null; erro: string | null; mensagem_confirmada: boolean }[]>`
+      sql<{ id: string; chat_id: string; tipo: string; status: string; tentativas: number; criado: string; enviado: string | null; erro: string | null; evento_categoria: string; mensagem_confirmada: boolean }[]>`
         SELECT id::text, telegram_chat_id::text AS chat_id, tipo, status, tentativas,
           created_at::text AS criado, enviado_at::text AS enviado,
-          ultimo_erro_codigo AS erro, telegram_message_id IS NOT NULL AS mensagem_confirmada
+          ultimo_erro_codigo AS erro,
+          CASE WHEN evento_id LIKE 'votacao:%' THEN 'Votação'
+               WHEN evento_id LIKE 'proposicao:%' THEN 'Proposição'
+               WHEN evento_id LIKE 'dossie:%' THEN 'Ficha política'
+               ELSE 'Outro registro' END AS evento_categoria,
+          telegram_message_id IS NOT NULL AS mensagem_confirmada
         FROM public.telegram_fila_avisos
         ORDER BY created_at DESC, id DESC LIMIT 50
       `,
@@ -106,7 +111,7 @@ export async function GET(request: Request) {
     const rotulo = (chatId: string) => "Contato " + createHmac("sha256", segredoIdentificacao).update(chatId).digest("hex").slice(0, 10).toUpperCase();
     const data = (valor: string | null) => valor && !Number.isNaN(Date.parse(valor)) ? new Date(valor).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" }) : "—";
     const seguro = (valor: string) => valor.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/\x27/g, "&#39;");
-    const linhasHistorico = historico.map(a => `<tr><td>${seguro(data(a.enviado ?? a.criado))}</td><td>${seguro(a.tipo)}</td><td>${seguro(a.status)}</td><td>${seguro(rotulo(a.chat_id))}</td><td>${a.tentativas}</td><td>${a.mensagem_confirmada ? "Sim" : "Não"}</td><td>${seguro(a.erro ?? "—")}</td></tr>`).join("");
+    const linhasHistorico = historico.map(a => `<tr><td>${seguro(data(a.enviado ?? a.criado))}</td><td>${seguro(a.tipo)}</td><td>${seguro(a.evento_categoria)}</td><td>${seguro(a.status)}</td><td>${seguro(rotulo(a.chat_id))}</td><td>${a.tentativas}</td><td>${a.mensagem_confirmada ? "Sim" : "Não"}</td><td>${seguro(a.erro ?? "—")}</td></tr>`).join("");
 
     const documento = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -134,7 +139,7 @@ export async function GET(request: Request) {
         <thead><tr><th>Estado no sistema</th><th>Quantidade</th></tr></thead>
         <tbody>${statusHtml || '<tr><td colspan="2">Nenhum aviso registrado</td></tr>'}</tbody></table>
       </section>
-      <section><h2>Histórico de notificações</h2><p class="note">Últimos 50 registros. Contatos identificados por códigos protegidos, sem exibir números ou identificadores do Telegram. Horários de Brasília.</p><div class="table-scroll"><table><thead><tr><th>Data</th><th>Tipo</th><th>Situação</th><th>Destinatário</th><th>Tentativas</th><th>Telegram confirmou</th><th>Erro</th></tr></thead><tbody>${linhasHistorico || '<tr><td colspan="7">Nenhum registro encontrado</td></tr>'}</tbody></table></div></section>
+      <section><h2>Histórico de notificações</h2><p class="note">Últimos 50 registros. Contatos identificados por códigos protegidos, sem exibir números ou identificadores do Telegram. Horários de Brasília.</p><div class="table-scroll"><table><thead><tr><th>Data</th><th>Tipo</th><th>Origem do aviso</th><th>Situação</th><th>Destinatário</th><th>Tentativas</th><th>Telegram confirmou</th><th>Erro</th></tr></thead><tbody>${linhasHistorico || '<tr><td colspan="8">Nenhum registro encontrado</td></tr>'}</tbody></table></div></section>
       <section><h2>Como interpretar</h2><p class="note">
       Estes números representam registros ativos vinculados ao bot do Fora da Pauta no banco de dados.
       Não são necessariamente a contagem de membros de um canal público do Telegram.
