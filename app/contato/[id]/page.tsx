@@ -43,7 +43,7 @@ export default async function ContatoRepresentante({ params }: Props) {
   return (
     <main className="min-h-screen bg-white px-5 py-10 text-black">
       <div className="mx-auto max-w-[720px]">
-        <Link href="/" className="text-sm font-semibold underline underline-offset-4">← Ir para o início</Link>
+        <Link href="/" className="text-sm font-semibold underline underline-offset-4">Fechar</Link>
         <h1 className="mt-8 text-3xl font-bold">Entrar em contato</h1>
         <p className="mt-4 text-xl font-semibold">{pessoa.nomeUrna}</p>
         <p className="mt-1 text-sm text-black/65">{cargo} · {pessoa.uf} · {pessoa.siglaPartido}</p>
