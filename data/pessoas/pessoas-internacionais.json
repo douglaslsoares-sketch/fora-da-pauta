@@ -37,7 +37,30 @@
         }
       }
     ],
-    "acontecimentos": []
+    "acontecimentos": [
+      {
+        "data": "2017-01-20",
+        "titulo": "Posse como 45º presidente dos Estados Unidos",
+        "categoria": "ato-oficial",
+        "natureza": "fato-documentado",
+        "fonte": {
+          "titulo": "Biblioteca Presidencial Donald J. Trump — biografia",
+          "url": "https://www.trumplibrary.gov/trumps/president-donald-j-trump",
+          "consultadoEm": "2026-11-06"
+        }
+      },
+      {
+        "data": "2025-01-20",
+        "titulo": "Início do segundo mandato presidencial, como 47º presidente",
+        "categoria": "ato-oficial",
+        "natureza": "fato-documentado",
+        "fonte": {
+          "titulo": "Biblioteca Presidencial Donald J. Trump — biografia",
+          "url": "https://www.trumplibrary.gov/trumps/president-donald-j-trump",
+          "consultadoEm": "2026-11-06"
+        }
+      }
+    ]
   },
   {
     "pessoaPoliticaId": "politico-int-il-benjamin-netanyahu",
@@ -88,6 +111,18 @@
         }
       }
     ],
-    "acontecimentos": []
+    "acontecimentos": [
+      {
+        "data": "2022-12-29",
+        "titulo": "Início do terceiro período como primeiro-ministro de Israel",
+        "categoria": "ato-oficial",
+        "natureza": "fato-documentado",
+        "fonte": {
+          "titulo": "Governo de Israel — histórico dos governos",
+          "url": "https://www.gov.il/apps/pmo/history/historygovernmentsen.html",
+          "consultadoEm": "2026-11-06"
+        }
+      }
+    ]
   }
 ]
