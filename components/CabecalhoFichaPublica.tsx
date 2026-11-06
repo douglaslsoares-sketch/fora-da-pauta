@@ -183,13 +183,7 @@ export function CabecalhoFichaPublica({
         </div>
       ) : resumo ? (
         <p className="mt-6 text-base leading-7 text-black/85">{resumo}</p>
-      ) : (
-        <p className="mt-6 text-sm leading-6 text-black/65">
-          A apresentação biográfica desta pessoa está em levantamento.
-          Os dados eleitorais oficiais e os registros disponíveis podem
-          ser consultados no aprofundamento abaixo.
-        </p>
-      )}
+      ) : null}
       <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold">
         <a className="text-black/65 underline decoration-black/25 underline-offset-4" href={candidato.fonteOficial} target="_blank" rel="noreferrer">Registro eleitoral — TSE ↗</a>
         {dados?.fonteDados ? <a className="text-black/65 underline decoration-black/25 underline-offset-4" href={dados.fonteDados.url} target="_blank" rel="noreferrer">{dados.fonteDados.titulo} ↗</a> : null}
