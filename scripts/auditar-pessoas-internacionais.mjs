@@ -21,6 +21,9 @@ for (const p of data) {
   for (const v of p.vinculos) {
     assert.ok(["cargo","partido","instituicao"].includes(v.tipo) && v.descricao?.trim() && /^[A-Z]{2}$/.test(v.pais), "Vínculo incompleto");
     fonte(v.fonte, "vínculo de " + p.nomePublico);
+    if (v.inicio !== undefined) assert.ok(iso.test(v.inicio) && !Number.isNaN(Date.parse(v.inicio)), "Data de início inválida");
+    if (v.fim !== undefined) assert.ok(iso.test(v.fim) && !Number.isNaN(Date.parse(v.fim)), "Data de fim inválida");
+    if (v.inicio && v.fim) assert.ok(v.inicio <= v.fim, "Período invertido");
   }
   for (const e of p.acontecimentos) {
     assert.ok(iso.test(e.data ?? "") && e.titulo?.trim(), "Acontecimento incompleto");
