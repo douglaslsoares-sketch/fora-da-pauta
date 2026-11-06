@@ -906,7 +906,7 @@ function CandidateFollowSelector({
               </div>
 
               <div className="flex shrink-0 flex-col gap-2">
-                <Link href={candidate.pessoaPoliticaId ? `/pessoas/${candidate.pessoaPoliticaId}?aba=separada` : `/conheca-seu-candidato/${candidate.id}?aba=separada`} target="_blank" rel="noopener noreferrer" className="rounded-xl border border-black/20 px-2.5 py-3 text-center text-xs font-bold">Ver ficha</Link>
+                <Link href={candidate.pessoaPoliticaId ? `/pessoas/${candidate.pessoaPoliticaId}?aba=separada` : `/conheca-seu-candidato/${candidate.id}?aba=separada`} className="rounded-xl border border-black/20 px-2.5 py-3 text-center text-xs font-bold">Ver ficha</Link>
               {!apenasFicha && onSelect ? <button
                 type="button"
                 onClick={() => onSelect(candidate)}
