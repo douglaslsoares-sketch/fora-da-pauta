@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
-import { SeloTelegram } from "@/components/SeloTelegram";
 import { SiteHeader } from "@/components/SiteHeader";
 import { chaveNovidade } from "@/components/RegistrarNovidadeVista";
 import styles from "@/app/page.module.css";
@@ -275,7 +274,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
               >
                 {abrindoTelegram ? "Abrindo Telegram..." : "Inscrever no Telegram"}
                 <span aria-hidden="true"> →</span>
-                <SeloTelegram />
+
               </button>
               {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
             </div>
