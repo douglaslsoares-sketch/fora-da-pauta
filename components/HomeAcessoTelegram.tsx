@@ -250,7 +250,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.chamada}>
-                Acompanhe o que dizem e fazem os seus representantes eleitos e as principais lideranças políticas mundiais.
+                Acompanhe o que dizem e fazem os políticos.
               </h1>
               <p className={styles.explicacao}>
                 Para ficar sabendo das novidades, inscreva-se gratuitamente
