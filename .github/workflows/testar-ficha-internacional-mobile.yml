@@ -54,6 +54,24 @@ jobs:
             await page.waitForURL('**/ficha-politica');
             console.log(nome+': ficha e retorno à busca funcionaram em 390px');
           }
+          for(const nome of ['Trump','Netanyahu']){
+            await page.goto('http://127.0.0.1:3100/ficha-politica',{waitUntil:'domcontentloaded'});
+            await page.getByRole('searchbox',{name:'Nome ou número'}).fill(nome);
+            await page.getByRole('button',{name:'Buscar',exact:true}).click();
+            const secao=page.getByRole('region',{name:'Personalidades internacionais'});
+            await secao.getByRole('link',{name:new RegExp(nome)}).waitFor({timeout:15000});
+            const link=secao.getByRole('link',{name:new RegExp(nome)});
+            const destino=await link.getAttribute('href');
+            assert.ok(destino?.startsWith('/pessoas/'),'Resultado não usa endereço permanente');
+            const popup=page.waitForEvent('popup',{timeout:10000}).catch(()=>null);
+            await link.click();
+            const novaAba=await popup;
+            const ficha=novaAba??page;
+            await ficha.getByRole('heading',{name:'Ficha política'}).waitFor();
+            await ficha.getByRole('heading',{name:new RegExp(nome)}).waitFor();
+            if(novaAba)await novaAba.close();
+            console.log(nome+': busca pelo nome e abertura da ficha funcionaram no celular');
+          }
           await browser.close();
           NODE
       - name: Mostrar logs em caso de falha
