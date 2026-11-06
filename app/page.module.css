@@ -467,3 +467,13 @@
     margin-bottom: clamp(8px, 1.5svh, 20px);
   }
 }
+
+/* QR centralizado no espaço livre abaixo do botão, sem perder a primeira dobra. */
+@media (max-width: 850px) {
+  .intro { align-items: stretch; }
+  .heroGrid { flex: 1 1 auto; min-height: 100%; }
+  .qrArea {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}
