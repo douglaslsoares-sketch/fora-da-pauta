@@ -21,16 +21,9 @@ type Opcao = {
 };
 
 const opcoes: Opcao[] = [
-  { titulo: "Comece por aqui", descricao: "Conheça o projeto.", href: "/campanhas/quem-decide-o-que-chega-ate-voce" },
-  { titulo: "Quero entender melhor", descricao: "Envie uma pergunta.", href: "/quero-entender-melhor" },
-  { titulo: "Escolha quem acompanhar", descricao: "Busque pessoas.", href: "/escolher-quem-acompanhar" },
-  { titulo: "Meus escolhidos", descricao: "Consulte seus acompanhamentos.", href: "/votou-fique-de-olho?minhas=1", exigeEscolhas: true },
-  { titulo: "Ficha política", descricao: "Consulte fichas.", href: "/ficha-politica" },
-  { titulo: "Entregas do governo", descricao: "Acompanhe entregas.", href: "/entregas-do-governo", novidade: "entregas" },
-  { titulo: "Edições publicadas", descricao: "Leia ou ouça.", href: "/edicoes", novidade: "edicoes" },
-  { titulo: "Camiseta Fora da Pauta", descricao: "Conheça a camiseta.", href: "/camiseta" },
+  { titulo: "Escolher políticos", descricao: "Escolha quem acompanhar.", href: "/escolher-quem-acompanhar" },
   { titulo: "Instalar Fora da Pauta", descricao: "Instale no celular.", href: "/instalar" },
-  { titulo: "Compartilhar no WhatsApp", descricao: "Compartilhe o projeto.", href: "/compartilhar" },
+  { titulo: "Compartilhar Fora da Pauta", descricao: "Compartilhe o projeto.", href: "/compartilhar" },
 ];
 
 const mensagemWhatsApp = encodeURIComponent(
@@ -308,7 +301,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
           <h2 className={styles.tituloMenu} id="titulo-opcoes">HÁ MAIS PARA ENTENDER.</h2>
           <nav aria-label="Opções do Fora da Pauta" className={styles.listaBotoes}>
             {opcoes.filter((opcao) => !opcao.exigeEscolhas || (inscrito && ids.length > 0)).map((opcao) => (
-              <Link key={opcao.titulo} href={opcao.href} className={`${styles.botaoOpcao} ${opcao.titulo === "Compartilhar no WhatsApp" ? styles.botaoWhatsApp : ""}`}>
+              <Link key={opcao.titulo} href={opcao.href} className={`${styles.botaoOpcao} ${opcao.titulo === "Compartilhar Fora da Pauta" ? styles.botaoWhatsApp : ""}`}>
                 <strong className={styles.rotuloOpcao}>
                   <span>{opcao.titulo} {opcao.titulo === "Instalar Fora da Pauta" ? "↓" : "→"}</span>
                   {opcao.novidade && novidades[opcao.novidade] ? (
