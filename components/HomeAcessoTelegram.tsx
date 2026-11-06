@@ -253,6 +253,15 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
                 Acompanhe o que os políticos dizem e fazem no dia a dia.
               </h1>
               <p className={styles.explicacao}>
+                Todos os dias, o Fora da Pauta acompanha as notícias, consulta os registros
+                oficiais da Câmara, do Senado e dos governos e observa o que os políticos
+                publicam nas redes sociais.
+              </p>
+              <p className={styles.explicacao}>
+                Depois, reúne e organiza essas informações para você entender o que eles
+                dizem, o que fazem e como suas decisões afetam a sua vida.
+              </p>
+              <p className={styles.explicacao}>
                 Para ficar sabendo das novidades, inscreva-se gratuitamente
                 no canal do Fora da Pauta no Telegram.
               </p>
