@@ -1,1 +1,93 @@
-[]
+[
+  {
+    "pessoaPoliticaId": "politico-int-us-donald-trump",
+    "nomePublico": "Donald Trump",
+    "nomeCompleto": "Donald John Trump",
+    "paises": [
+      "US"
+    ],
+    "situacaoIdentidade": "CONFIRMADA",
+    "fonteIdentidade": {
+      "titulo": "Casa Branca — Donald J. Trump",
+      "url": "https://www.whitehouse.gov/administration/donald-j-trump/",
+      "consultadoEm": "2026-11-06"
+    },
+    "vinculos": [
+      {
+        "tipo": "cargo",
+        "descricao": "45º presidente dos Estados Unidos",
+        "pais": "US",
+        "inicio": "2017-01-20",
+        "fim": "2021-01-20",
+        "fonte": {
+          "titulo": "Biblioteca Presidencial Donald J. Trump",
+          "url": "https://www.trumplibrary.gov/trumps/president-donald-j-trump",
+          "consultadoEm": "2026-11-06"
+        }
+      },
+      {
+        "tipo": "cargo",
+        "descricao": "47º presidente dos Estados Unidos",
+        "pais": "US",
+        "inicio": "2025-01-20",
+        "fonte": {
+          "titulo": "USAGov — Presidentes",
+          "url": "https://www.usa.gov/presidents",
+          "consultadoEm": "2026-11-06"
+        }
+      }
+    ],
+    "acontecimentos": []
+  },
+  {
+    "pessoaPoliticaId": "politico-int-il-benjamin-netanyahu",
+    "nomePublico": "Benjamin Netanyahu",
+    "paises": [
+      "IL"
+    ],
+    "situacaoIdentidade": "CONFIRMADA",
+    "fonteIdentidade": {
+      "titulo": "Knesset — Benjamin Netanyahu",
+      "url": "https://main.knesset.gov.il/en/apps/mk/mk-personal-details/90",
+      "consultadoEm": "2026-11-06"
+    },
+    "vinculos": [
+      {
+        "tipo": "cargo",
+        "descricao": "Primeiro-ministro de Israel",
+        "pais": "IL",
+        "inicio": "1996",
+        "fim": "1999",
+        "fonte": {
+          "titulo": "Knesset — Benjamin Netanyahu",
+          "url": "https://main.knesset.gov.il/en/apps/mk/mk-personal-details/90",
+          "consultadoEm": "2026-11-06"
+        }
+      },
+      {
+        "tipo": "cargo",
+        "descricao": "Primeiro-ministro de Israel",
+        "pais": "IL",
+        "inicio": "2009",
+        "fim": "2021",
+        "fonte": {
+          "titulo": "Knesset — Benjamin Netanyahu",
+          "url": "https://main.knesset.gov.il/en/apps/mk/mk-personal-details/90",
+          "consultadoEm": "2026-11-06"
+        }
+      },
+      {
+        "tipo": "cargo",
+        "descricao": "Primeiro-ministro de Israel",
+        "pais": "IL",
+        "inicio": "2022-12-29",
+        "fonte": {
+          "titulo": "Knesset — 37º governo",
+          "url": "https://m.knesset.gov.il/en/mk/government/pages/governments.aspx",
+          "consultadoEm": "2026-11-06"
+        }
+      }
+    ],
+    "acontecimentos": []
+  }
+]
