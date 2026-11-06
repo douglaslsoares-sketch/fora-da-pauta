@@ -27,6 +27,8 @@ for (const p of data) {
   }
   for (const e of p.acontecimentos) {
     assert.ok(iso.test(e.data ?? "") && e.titulo?.trim(), "Acontecimento incompleto");
+    if (e.categoria !== undefined) assert.ok(["decisao","declaracao","ato-oficial","eleicao","investigacao","processo","outro"].includes(e.categoria), "Categoria de acontecimento inválida");
+    if (e.natureza !== undefined) assert.ok(["fato-documentado","alegacao","declaracao-atribuida"].includes(e.natureza), "Natureza de acontecimento inválida");
     fonte(e.fonte, "acontecimento de " + p.nomePublico);
   }
 }
