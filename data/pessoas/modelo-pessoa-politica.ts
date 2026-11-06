@@ -16,6 +16,8 @@ export type AcontecimentoPolitico = {
   data: string;
   titulo: string;
   descricao?: string;
+  categoria?: "decisao" | "declaracao" | "ato-oficial" | "eleicao" | "investigacao" | "processo" | "outro";
+  natureza?: "fato-documentado" | "alegacao" | "declaracao-atribuida";
   fonte: FonteDocumental;
 };
 export type PessoaPoliticaInternacional = {
