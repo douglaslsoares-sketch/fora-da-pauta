@@ -507,29 +507,6 @@ export function VotouFiqueDeOlhoExperience() {
                 </p>
               </div>
             </div>
-            <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
-              <Link
-                href={`/conheca-seu-candidato/${pessoa.id}?origem=minhas`}
-                aria-label={`Ver ficha de ${pessoa.nomeUrna}`}
-                className="flex min-h-12 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-semibold"
-              >
-                Ver ficha →
-              </Link>
-              <Link
-                href={`/historico/${pessoa.id}`}
-                aria-label={`Ver histórico de atuação de ${pessoa.nomeUrna}`}
-                className="flex min-h-12 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-semibold"
-              >
-                Ver histórico →
-              </Link>
-              <Link
-                href={`/contato/${pessoa.id}`}
-                aria-label={`Entrar em contato com ${pessoa.nomeUrna}`}
-                className="flex min-h-12 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-semibold"
-              >
-                Entrar em contato →
-              </Link>
-            </div>
             {selecaoParaRemover ? (
               <label className="mt-3 flex min-h-11 cursor-pointer items-center justify-end gap-2 text-sm text-black/70">
                 <input
@@ -820,12 +797,7 @@ export function VotouFiqueDeOlhoExperience() {
                 </p>
               </div>
             </div>
-            <Link
-              href={"/conheca-seu-candidato/" + pessoaEmConfirmacao.id}
-              className="mt-3 inline-flex min-h-10 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-2 text-xs font-bold text-black"
-            >
-              Ver ficha
-            </Link>
+
           </div>
         ) : null}
 
