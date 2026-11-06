@@ -12,6 +12,7 @@ on:
       - data/pessoas/**
       - tests/rota-pessoa-politica.test.mjs
       - .github/workflows/verificar-fichas-politicas.yml
+      - .github/workflows/backup-neon-diario.yml
       - scripts/verificar-integracao-fichas-internacionais.mjs
   workflow_dispatch:
 permissions:
@@ -27,6 +28,9 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - name: Validar sintaxe dos fluxos GitHub sem acessar segredos
+        run: |
+          docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:latest -color .github/workflows/backup-neon-diario.yml
       - name: Verificar tipagem
         run: npx tsc --noEmit
       - name: Verificar arquivos alterados
