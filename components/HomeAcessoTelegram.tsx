@@ -22,6 +22,7 @@ type Opcao = {
 
 const opcoes: Opcao[] = [
   { titulo: "Escolher políticos", descricao: "Escolha quem acompanhar.", href: "/escolher-quem-acompanhar" },
+  { titulo: "Camiseta Fora da Pauta", descricao: "Conheça a camiseta.", href: "/camiseta" },
   { titulo: "Instalar Fora da Pauta", descricao: "Instale no celular.", href: "/instalar" },
   { titulo: "Compartilhar Fora da Pauta", descricao: "Compartilhe o projeto.", href: "/compartilhar" },
 ];
