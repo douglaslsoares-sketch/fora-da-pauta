@@ -380,3 +380,24 @@
 .botaoWhatsApp strong,
 .botaoWhatsApp span { color: #fff; }
 .botaoWhatsApp:hover { background: #0e783a; border-color: #0e783a; }
+
+/* Primeira dobra compacta em celulares: manter inscrição e QR visíveis. */
+@media (max-width: 850px) {
+  .apresentacao { justify-content: flex-start; padding-top: 22px; padding-bottom: 16px; }
+  .intro { margin: 0 auto; padding: 22px 0 0; }
+  .heroGrid { gap: 14px; }
+  .chamada { margin-bottom: 14px; font-size: clamp(27px, 7vw, 38px); line-height: 1.08; }
+  .explicacao { font-size: clamp(14px, 3.5vw, 16px); line-height: 1.38; }
+  .explicacao + .explicacao { margin-top: 7px; }
+  .botaoInscricao { min-height: 46px; margin-top: 14px; padding-block: 10px; font-size: 15px; }
+  .qrArea { gap: 4px; }
+  .qrCartao { width: 104px; height: 104px; }
+  .qrInstrucao { font-size: 11px; line-height: 1.2; }
+}
+@media (max-width: 420px) {
+  .apresentacao { padding-inline: 18px; }
+  .logo { width: min(80%, 320px); }
+  .cabecalho .subtitulo { font-size: 11px; }
+  .chamada { font-size: 27px; }
+  .qrCartao { width: 88px; height: 88px; }
+}
