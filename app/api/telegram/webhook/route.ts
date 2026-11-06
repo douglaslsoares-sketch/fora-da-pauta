@@ -796,7 +796,8 @@ export async function POST(
           INSERT INTO telegram_preferencias
             (telegram_chat_id, tipo, referencia, status, created_at, updated_at, cancelled_at)
           VALUES (${chatId}::bigint, 'novas_edicoes', '', 'ativo', now(), now(), NULL)
-          ON CONFLICT (telegram_chat_id, tipo, referencia) DO NOTHING
+          ON CONFLICT (telegram_chat_id, tipo, referencia) DO UPDATE SET
+            status = 'ativo', updated_at = now(), cancelled_at = NULL
         `;
         for (const id of pendentes) {
           const identidade = buscarPessoaPoliticaConfirmadaPorCandidatura(id);
@@ -829,7 +830,7 @@ export async function POST(
       }
       await enviarMensagemTelegram({
         chatId,
-        texto: "Pronto, você está inscrito! Você receberá as novidades gerais do Fora da Pauta por aqui. Depois, escolha no site os políticos que deseja acompanhar para receber também os avisos sobre eles. Você pode interromper os avisos quando quiser enviando /parar.",
+        texto: "Pronto, você está inscrito! Sua inscrição já habilita os avisos gerais e os avisos personalizados do Fora da Pauta. Você receberá as novidades gerais mesmo sem escolher ninguém. Quando escolher políticos para acompanhar, receberá também os avisos sobre eles, sem precisar se inscrever de novo. Para interromper os avisos, envie /parar.",
         botoes: [[{
           text: "→ foradapauta.org",
           url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=opcoes`,
