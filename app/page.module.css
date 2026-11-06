@@ -486,3 +486,7 @@
 @media (max-height: 680px) and (max-width: 850px) {
   .heroTexto { transform: translateY(-18px); }
 }
+
+/* Compartilhamento: legenda centralizada no botão verde. */
+.botaoWhatsApp { text-align: center; align-items: center; }
+.botaoWhatsApp .rotuloOpcao { width: 100%; justify-content: center; text-align: center; }
