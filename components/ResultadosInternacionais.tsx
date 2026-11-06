@@ -29,7 +29,7 @@ export function ResultadosInternacionais({ termo }: { termo: string }) {
     {carregando ? <p className="mt-2 text-sm">Consultando...</p> : null}
     {!carregando && resultado.erro ? <p role="alert" className="mt-2 text-sm">Não foi possível consultar as fichas internacionais.</p> : null}
     {!carregando && !resultado.erro && pessoas.length === 0 ? <p className="mt-2 text-sm text-black/60">Nenhuma ficha internacional encontrada nesta base.</p> : null}
-    <div className="mt-3 space-y-3">{pessoas.map(p => <Link key={p.pessoaPoliticaId} href={p.url} target="_blank" rel="noopener noreferrer" className="block rounded-xl border border-black/15 p-4">
+    <div className="mt-3 space-y-3">{pessoas.map(p => <Link key={p.pessoaPoliticaId} href={p.url}  className="block rounded-xl border border-black/15 p-4">
       <span className="block font-semibold">{p.nomePublico}</span>
       <span className="mt-1 block text-sm text-black/60">País: {p.paises.join(", ")} · Ver ficha política</span>
     </Link>)}</div>
