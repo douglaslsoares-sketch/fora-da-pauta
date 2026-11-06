@@ -1,0 +1,31 @@
+name: Compilar fichas politicas em ambiente de teste
+on:
+  push:
+    branches: [quero-entender-melhor]
+    paths:
+      - app/pessoas/**
+      - app/pessoa/**
+      - app/api/pessoas/**
+      - components/CandidateSelector.tsx
+      - components/ResultadosInternacionais.tsx
+      - components/FichaInternacional.tsx
+      - data/pessoas/**
+      - .github/workflows/compilar-fichas-politicas.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Compilar projeto sem publicar
+        run: npm run build
