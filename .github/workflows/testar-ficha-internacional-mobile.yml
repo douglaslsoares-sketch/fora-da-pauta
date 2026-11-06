@@ -29,7 +29,7 @@ jobs:
         run: |
           npm run start -- -p 3100 > /tmp/fora-da-pauta-mobile.log 2>&1 &
       - name: Instalar navegador de teste
-        run: npx playwright --version && npx playwright install --with-deps chromium
+        run: npm install --no-save --no-package-lock playwright && npx playwright install --with-deps chromium
       - name: Validar apresentação e navegação no celular
         run: |
           node --input-type=module <<'NODE'
