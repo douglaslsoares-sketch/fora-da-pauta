@@ -361,3 +361,5 @@
 .rotuloPeriodicidade { display: block; margin-bottom: 14px; font-size: clamp(17px,2vw,21px); line-height: 1.4; font-weight: 700; }
 .seletorPeriodicidade { display: block; width: 100%; min-height: 54px; padding: 12px 16px; border: 1px solid #aaa; border-radius: 9px; background: white; color: #111; font-size: 17px; }
 .notaPeriodicidade { margin: 12px 0 0; color: #555; font-size: 14px; line-height: 1.5; }
+
+.botaoMinhasEscolhas { margin-top: 16px; }
