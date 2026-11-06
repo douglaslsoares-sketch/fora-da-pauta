@@ -8,8 +8,8 @@
     ],
     "situacaoIdentidade": "CONFIRMADA",
     "fonteIdentidade": {
-      "titulo": "Casa Branca — Donald J. Trump",
-      "url": "https://www.whitehouse.gov/administration/donald-j-trump/",
+      "titulo": "Biblioteca Presidencial Donald J. Trump — Arquivos Nacionais dos EUA",
+      "url": "https://www.trumplibrary.gov/trumps/president-donald-j-trump",
       "consultadoEm": "2026-11-06"
     },
     "vinculos": [
@@ -20,7 +20,7 @@
         "inicio": "2017-01-20",
         "fim": "2021-01-20",
         "fonte": {
-          "titulo": "Biblioteca Presidencial Donald J. Trump",
+          "titulo": "Biblioteca Presidencial Donald J. Trump — Arquivos Nacionais dos EUA",
           "url": "https://www.trumplibrary.gov/trumps/president-donald-j-trump",
           "consultadoEm": "2026-11-06"
         }
@@ -31,8 +31,8 @@
         "pais": "US",
         "inicio": "2025-01-20",
         "fonte": {
-          "titulo": "USAGov — Presidentes",
-          "url": "https://www.usa.gov/presidents",
+          "titulo": "Biblioteca Presidencial Donald J. Trump — Arquivos Nacionais dos EUA",
+          "url": "https://www.trumplibrary.gov/trumps/president-donald-j-trump",
           "consultadoEm": "2026-11-06"
         }
       }
@@ -47,8 +47,8 @@
     ],
     "situacaoIdentidade": "CONFIRMADA",
     "fonteIdentidade": {
-      "titulo": "Knesset — Benjamin Netanyahu",
-      "url": "https://main.knesset.gov.il/en/apps/mk/mk-personal-details/90",
+      "titulo": "Governo de Israel — Primeiros-ministros de Israel",
+      "url": "https://www.gov.il/en/pages/prime-ministers-of-israel",
       "consultadoEm": "2026-11-06"
     },
     "vinculos": [
@@ -59,8 +59,8 @@
         "inicio": "1996-06-18",
         "fim": "1999-07-06",
         "fonte": {
-          "titulo": "Knesset — Benjamin Netanyahu",
-          "url": "https://main.knesset.gov.il/en/apps/mk/mk-personal-details/90",
+          "titulo": "Governo de Israel — Primeiros-ministros de Israel",
+          "url": "https://www.gov.il/en/pages/prime-ministers-of-israel",
           "consultadoEm": "2026-11-06"
         }
       },
@@ -71,8 +71,8 @@
         "inicio": "2009-03-31",
         "fim": "2021-06-13",
         "fonte": {
-          "titulo": "Knesset — Benjamin Netanyahu",
-          "url": "https://main.knesset.gov.il/en/apps/mk/mk-personal-details/90",
+          "titulo": "Governo de Israel — Primeiros-ministros de Israel",
+          "url": "https://www.gov.il/en/pages/prime-ministers-of-israel",
           "consultadoEm": "2026-11-06"
         }
       },
@@ -82,7 +82,7 @@
         "pais": "IL",
         "inicio": "2022-12-29",
         "fonte": {
-          "titulo": "Knesset — 37º governo",
+          "titulo": "Knesset — 37º governo de Israel",
           "url": "https://m.knesset.gov.il/en/mk/government/pages/governments.aspx",
           "consultadoEm": "2026-11-06"
         }
