@@ -361,9 +361,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
             </>
           ) : (
             <>
-              <p className={styles.textoArea}>
-                Para escolher quem você quer acompanhar, faça primeiro sua inscrição gratuita no Telegram.
-              </p>
+
 
             </>
           )}
