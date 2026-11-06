@@ -227,7 +227,11 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
   }
 
   async function selecionar(pessoa: { id: string; nomeUrna: string }) {
-    if (!inscrito || salvandoEscolha || ids.includes(pessoa.id)) return;
+    if (!inscrito) {
+      setErroEscolha("Para receber avisos sobre esta pessoa, primeiro confirme sua inscrição pelo bot do Telegram.");
+      return;
+    }
+    if (salvandoEscolha || ids.includes(pessoa.id)) return;
     setErroEscolha("");
     setAvisoEscolha("");
     setSalvandoEscolha(true);
@@ -342,30 +346,16 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
           <h2 className={styles.tituloArea} id="titulo-opcoes">
             Quem você quer acompanhar?
           </h2>
-          {conferindo ? (
-            <p className={styles.textoArea} role="status">Conferindo sua inscrição...</p>
-          ) : inscrito ? (
-            <>
-              <p className={styles.textoArea}>
-                Digite o nome da pessoa e escolha quem deseja acompanhar.
-              </p>
-              {erroEscolha ? <p role="alert" className="mt-4 text-sm text-red-700">{erroEscolha}</p> : null}
-              {avisoEscolha ? <p role="status" className="mt-4 text-sm font-semibold text-green-800">{avisoEscolha}</p> : null}
-              {salvandoEscolha ? <p role="status" className="mt-4 text-sm">Salvando sua escolha...</p> : null}
-              <CandidateSelector
-                key={busca}
-                mode="follow"
-                selectedIds={ids}
-                onSelect={selecionar}
-              />
-            </>
-          ) : (
-            <>
-
-
-            </>
-          )}
-
+          {conferindo ? <p className={styles.textoArea} role="status">Conferindo sua inscrição...</p> : null}
+          {erroEscolha ? <p role="alert" className="mt-4 text-sm text-red-700">{erroEscolha}</p> : null}
+          {avisoEscolha ? <p role="status" className="mt-4 text-sm font-semibold text-green-800">{avisoEscolha}</p> : null}
+          {salvandoEscolha ? <p role="status" className="mt-4 text-sm">Salvando sua escolha...</p> : null}
+          <CandidateSelector
+            key={busca}
+            mode="follow"
+            selectedIds={ids}
+            onSelect={selecionar}
+          />
           <div className={styles.configuracaoPeriodicidade}>
             <label htmlFor="periodicidade-avisos" className={styles.rotuloPeriodicidade}>
               Com que frequência você quer receber os avisos sobre os políticos que acompanha?
