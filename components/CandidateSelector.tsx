@@ -136,12 +136,14 @@ function CandidateBrowseSelector() {
 
   useEffect(() => {
     if (!podeBuscar) {
-      setResultados([]);
-      setTotal(0);
-      setPagina(1);
-      setTotalPaginas(1);
-      setErro("");
-      return;
+      const reset = window.setTimeout(() => {
+        setResultados([]);
+        setTotal(0);
+        setPagina(1);
+        setTotalPaginas(1);
+        setErro("");
+      }, 0);
+      return () => window.clearTimeout(reset);
     }
 
     const controller =
