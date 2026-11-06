@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { EditorialAudioSystem } from "@/components/EditorialAudioSystem";
 import { SiteChromeRouter } from "@/components/SiteChromeRouter";
+import { RodapePaginasInternas } from "@/components/RodapePaginasInternas";
 import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,6 +53,7 @@ export default function RootLayout({
       <body className="min-h-full bg-[#eeeee9] font-sans">
         <SiteChromeRouter />
         {children}
+        <RodapePaginasInternas />
         <EditorialAudioSystem />
         <Analytics />
       </body>
