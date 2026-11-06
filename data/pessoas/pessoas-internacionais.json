@@ -56,8 +56,8 @@
         "tipo": "cargo",
         "descricao": "Primeiro-ministro de Israel",
         "pais": "IL",
-        "inicio": "1996",
-        "fim": "1999",
+        "inicio": "1996-06-18",
+        "fim": "1999-07-06",
         "fonte": {
           "titulo": "Knesset — Benjamin Netanyahu",
           "url": "https://main.knesset.gov.il/en/apps/mk/mk-personal-details/90",
@@ -68,8 +68,8 @@
         "tipo": "cargo",
         "descricao": "Primeiro-ministro de Israel",
         "pais": "IL",
-        "inicio": "2009",
-        "fim": "2021",
+        "inicio": "2009-03-31",
+        "fim": "2021-06-13",
         "fonte": {
           "titulo": "Knesset — Benjamin Netanyahu",
           "url": "https://main.knesset.gov.il/en/apps/mk/mk-personal-details/90",
