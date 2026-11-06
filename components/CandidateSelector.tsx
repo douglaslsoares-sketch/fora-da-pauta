@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { CandidatePhoto } from "@/components/CandidatePhoto";
+import { ResultadosInternacionais } from "@/components/ResultadosInternacionais";
 
 import {
   useEffect,
@@ -923,6 +924,8 @@ function CandidateFollowSelector({
           );
         })}
       </div>
+
+      {apenasFicha ? <ResultadosInternacionais termo={buscaAtiva} /> : null}
 
       {pagina < totalPaginas && !erro ? (
         <button
