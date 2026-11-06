@@ -839,7 +839,7 @@ function CandidateFollowSelector({
       <p className="mt-2 text-base leading-6 text-black/70">
         {carregando
           ? `Buscando resultados para “${buscaAtiva}”...`
-          : `Encontramos ${total} ${
+          : `${apenasFicha ? "Candidaturas brasileiras: " : "Encontramos "}${total} ${
               total === 1 ? "resultado" : "resultados"
             } para “${buscaAtiva}”`}
       </p>
@@ -864,7 +864,7 @@ function CandidateFollowSelector({
 
       {!carregando && !erro && total === 0 ? (
         <p className="mt-6 rounded-2xl bg-black/[0.05] p-4 text-sm leading-6">
-          Nenhuma pessoa encontrada. Tente outra parte do nome ou o número completo.
+          {apenasFicha ? "Nenhuma candidatura brasileira encontrada nesta busca. Confira também as personalidades internacionais abaixo." : "Nenhuma pessoa encontrada. Tente outra parte do nome ou o número completo."}
         </p>
       ) : null}
 
