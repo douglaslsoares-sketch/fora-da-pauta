@@ -448,3 +448,22 @@
 @media (max-width: 420px) {
   .qrCartao { width: clamp(112px, 14svh, 152px); height: clamp(112px, 14svh, 152px); }
 }
+
+/* Dois blocos na home móvel: apresentação prioritária, QR secundário. */
+@media (max-width: 850px) {
+  .intro { align-items: stretch; }
+  .heroGrid {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: clamp(30px, 5svh, 70px);
+    min-height: 100%;
+  }
+  .heroTexto { flex: 0 0 auto; }
+  .qrArea {
+    flex: 0 0 auto;
+    align-self: center;
+    margin-top: auto;
+    margin-bottom: clamp(8px, 1.5svh, 20px);
+  }
+}
