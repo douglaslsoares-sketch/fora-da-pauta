@@ -829,7 +829,7 @@ export async function POST(
       }
       await enviarMensagemTelegram({
         chatId,
-        texto: "Inscrição realizada com sucesso.",
+        texto: "Pronto, você está inscrito! Você receberá as novidades gerais do Fora da Pauta por aqui. Depois, escolha no site os políticos que deseja acompanhar para receber também os avisos sobre eles. Você pode interromper os avisos quando quiser enviando /parar.",
         botoes: [[{
           text: "→ foradapauta.org",
           url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=opcoes`,
