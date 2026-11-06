@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
-import { SiteHeader } from "@/components/SiteHeader";
 import { chaveNovidade } from "@/components/RegistrarNovidadeVista";
 import styles from "@/app/page.module.css";
 
@@ -24,38 +23,14 @@ type Opcao = {
 };
 
 const opcoes: Opcao[] = [
-  {
-    titulo: "Quero entender melhor",
-    descricao: "Envie uma pergunta para o Fora da Pauta.",
-    href: "/quero-entender-melhor",
-  },
-  {
-    titulo: "Ficha política",
-    descricao: "Pesquise e consulte uma ficha.",
-    href: "/ficha-politica",
-  },
-  {
-    titulo: "Entregas do governo",
-    novidade: "entregas",
-    descricao: "Acompanhe entregas e ações do governo federal.",
-    href: "/entregas-do-governo",
-  },
-  {
-    titulo: "O dia do presidente",
-    descricao: "Consulte o histórico de atividades públicas do presidente.",
-    href: "/o-dia-do-presidente",
-  },
-  {
-    titulo: "Edições já publicadas",
-    novidade: "edicoes",
-    descricao: "Leia ou ouça as edições.",
-    href: "/edicoes",
-  },
-  {
-    titulo: "Camiseta Fora da Pauta",
-    descricao: "Ajude a financiar o projeto.",
-    href: "/camiseta",
-  },
+  { titulo: "Comece por aqui", descricao: "Conheça o projeto.", href: "/campanhas/quem-decide-o-que-chega-ate-voce" },
+  { titulo: "Quero entender melhor", descricao: "Envie uma pergunta.", href: "/quero-entender-melhor" },
+  { titulo: "Escolha quem acompanhar", descricao: "Busque pessoas.", href: "#acompanhar" },
+  { titulo: "Meus escolhidos", descricao: "Consulte seus acompanhamentos.", href: "/votou-fique-de-olho?minhas=1", exigeEscolhas: true },
+  { titulo: "Ficha política", descricao: "Consulte fichas.", href: "/ficha-politica" },
+  { titulo: "Entregas do governo", descricao: "Acompanhe entregas.", href: "/entregas-do-governo", novidade: "entregas" },
+  { titulo: "Edições publicadas", descricao: "Leia ou ouça.", href: "/edicoes", novidade: "edicoes" },
+  { titulo: "Camiseta Fora da Pauta", descricao: "Conheça a camiseta.", href: "/camiseta" },
 ];
 
 const mensagemWhatsApp = encodeURIComponent(
@@ -326,82 +301,57 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
             </div>
           </div>
         </div>
-        <p className={styles.assinatura}>HÁ MAIS PARA ENTENDER.</p>
       </section>
 
-      <section
-        id="opcoes"
-        className={styles.areaBranca}
-        ref={areaAcompanhamento}
-        aria-labelledby="titulo-opcoes"
-      >
-        <SiteHeader />
+      <section id="opcoes" className={styles.areaBranca} ref={areaAcompanhamento} aria-labelledby="titulo-opcoes">
         <div className={styles.areaInterna}>
-          <h2 className={styles.tituloArea} id="titulo-opcoes">
-            Quem você quer acompanhar?
-          </h2>
-          {conferindo ? <p className={styles.textoArea} role="status">Conferindo sua inscrição...</p> : null}
-          {erroEscolha ? <p role="alert" className="mt-4 text-sm text-red-700">{erroEscolha}</p> : null}
-          {avisoEscolha ? <p role="status" className="mt-4 text-sm font-semibold text-green-800">{avisoEscolha}</p> : null}
-          {salvandoEscolha ? <p role="status" className="mt-4 text-sm">Salvando sua escolha...</p> : null}
-          <CandidateSelector
-            key={busca}
-            mode="follow"
-            selectedIds={ids}
-            onSelect={selecionar}
-          />
-          {inscrito && ids.length > 0 ? (
-            <Link href="/votou-fique-de-olho?minhas=1" className={styles.botaoOpcao + " " + styles.botaoMinhasEscolhas}>
-              <strong>Minhas escolhas →</strong>
-            </Link>
-          ) : null}
-          <div className={styles.configuracaoPeriodicidade}>
-            <label htmlFor="periodicidade-avisos" className={styles.rotuloPeriodicidade}>
-              Com que frequência você quer receber os avisos sobre os políticos que acompanha?
-            </label>
-            <select id="periodicidade-avisos" className={styles.seletorPeriodicidade}
-              value={periodicidade}
-              onChange={(evento) => {
-                const valor = evento.target.value as "diaria" | "semanal" | "quinzenal";
-                setPeriodicidade(valor);
-                try { window.localStorage.setItem("fdp-periodicidade-previa", valor); } catch { /* Armazenamento indisponível. */ }
-              }}>
-              <option value="diaria">Diariamente</option>
-              <option value="semanal">Semanalmente</option>
-              <option value="quinzenal">Quinzenalmente</option>
-            </select>
-            <p className={styles.notaPeriodicidade}>Os avisos gerais continuam independentes. Esta escolha está em teste e ainda não altera a entrega real no Telegram.</p>
-          </div>
-          <div className={styles.separador} role="separator" />
-          <nav aria-label="Outras opções do Fora da Pauta" className={styles.listaBotoes}>
-            {opcoes.map((opcao) => {
-              const indisponivel = Boolean(opcao.exigeEscolhas && (!inscrito || ids.length === 0));
-              return indisponivel ? (
-                <div key={opcao.titulo} className={styles.botaoOpcao + " " + styles.opcaoDesabilitada} aria-disabled="true">
-                  <strong>{opcao.titulo}</strong>
-                </div>
-              ) : (
-                <Link key={opcao.titulo} href={opcao.href} className={styles.botaoOpcao}>
-                  <strong className={styles.rotuloOpcao}>
-                    <span>{opcao.titulo} →</span>
-                    {opcao.novidade && novidades[opcao.novidade] ? (
-                      <span className={styles.marcaNovidade}>Novidade</span>
-                    ) : null}
-                  </strong>
-                </Link>
-              );
-            })}
+          <h2 className={styles.tituloMenu} id="titulo-opcoes">HÁ MAIS PARA ENTENDER.</h2>
+          <nav aria-label="Opções do Fora da Pauta" className={styles.listaBotoes}>
+            {opcoes.filter((opcao) => !opcao.exigeEscolhas || (inscrito && ids.length > 0)).map((opcao) => (
+              <Link key={opcao.titulo} href={opcao.href} className={styles.botaoOpcao}>
+                <strong className={styles.rotuloOpcao}>
+                  <span>{opcao.titulo} →</span>
+                  {opcao.novidade && novidades[opcao.novidade] ? (
+                    <span className={styles.marcaNovidade}>Novidade</span>
+                  ) : null}
+                </strong>
+              </Link>
+            ))}
           </nav>
-
           <a
             className="mt-6 flex min-h-14 w-full items-center justify-center rounded-lg border border-[#1da851] bg-[#25D366] px-5 py-3 text-center font-semibold text-[#082d16] hover:bg-[#1fc65d]"
             href={linkWhatsApp}
             target="_blank"
             rel="noopener noreferrer"
-          >
-            Compartilhar o Fora da Pauta →
-          </a>
+          >Compartilhar no WhatsApp →</a>
           <InstalarAplicativo tema="claro" />
+
+          <section id="acompanhar" className={styles.areaBuscaAcompanhamento} aria-labelledby="titulo-acompanhar">
+            <h2 className={styles.tituloArea} id="titulo-acompanhar">Quem você quer acompanhar?</h2>
+            {conferindo ? <p className={styles.textoArea} role="status">Conferindo sua inscrição...</p> : null}
+            {erroEscolha ? <p role="alert" className="mt-4 text-sm text-red-700">{erroEscolha}</p> : null}
+            {avisoEscolha ? <p role="status" className="mt-4 text-sm font-semibold text-green-800">{avisoEscolha}</p> : null}
+            {salvandoEscolha ? <p role="status" className="mt-4 text-sm">Salvando sua escolha...</p> : null}
+            <CandidateSelector key={busca} mode="follow" selectedIds={ids} onSelect={selecionar} />
+            <div className={styles.configuracaoPeriodicidade}>
+              <label htmlFor="periodicidade-avisos" className={styles.rotuloPeriodicidade}>
+                Com que frequência você quer receber os avisos sobre os políticos que acompanha?
+              </label>
+              <select id="periodicidade-avisos" className={styles.seletorPeriodicidade}
+                value={periodicidade}
+                onChange={(evento) => {
+                  const valor = evento.target.value as "diaria" | "semanal" | "quinzenal";
+                  setPeriodicidade(valor);
+                  try { window.localStorage.setItem("fdp-periodicidade-previa", valor); } catch { /* Armazenamento indisponível. */ }
+                }}>
+                <option value="diaria">Diariamente</option>
+                <option value="semanal">Semanalmente</option>
+                <option value="quinzenal">Quinzenalmente</option>
+              </select>
+              <p className={styles.notaPeriodicidade}>Os avisos gerais continuam independentes. Esta escolha está em teste e ainda não altera a entrega real no Telegram.</p>
+            </div>
+            <Link href="#opcoes" className={styles.voltarMenu}>← Voltar às opções</Link>
+          </section>
         </div>
       </section>
     </>
