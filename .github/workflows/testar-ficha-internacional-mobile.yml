@@ -5,6 +5,9 @@ on:
     paths:
       - app/pessoas/**
       - components/FichaInternacional.tsx
+      - components/CandidateSelector.tsx
+      - components/ResultadosInternacionais.tsx
+      - app/ficha-politica/**
       - data/pessoas/**
       - .github/workflows/testar-ficha-internacional-mobile.yml
   workflow_dispatch:
@@ -74,6 +77,24 @@ jobs:
             await page.waitForURL('**/ficha-politica');
             console.log(nome+': busca pelo nome e abertura da ficha funcionaram no celular');
           }
+          const desktop=await browser.newPage({viewport:{width:1366,height:768}});
+          for(const nome of ['Trump','Netanyahu']){
+            await desktop.goto('http://127.0.0.1:3100/ficha-politica');
+            await desktop.getByRole('searchbox',{name:'Nome ou número'}).fill(nome);
+            await desktop.getByRole('button',{name:'Buscar',exact:true}).click();
+            const resultado=desktop.getByRole('region',{name:'Personalidades internacionais'}).getByRole('link',{name:new RegExp(nome)});
+            await resultado.waitFor({timeout:15000});
+            assert.notEqual(await resultado.getAttribute('target'),'_blank');
+            const quantidadeAbas=desktop.context().pages().length;
+            await resultado.click();
+            await desktop.waitForURL('**/pessoas/**');
+            await desktop.getByRole('heading',{name:new RegExp(nome)}).waitFor();
+            assert.equal(desktop.context().pages().length,quantidadeAbas,'Nova aba criada no computador');
+            await desktop.getByRole('link',{name:'← Voltar à busca'}).click();
+            await desktop.waitForURL('**/ficha-politica');
+            console.log(nome+': busca, ficha e retorno na mesma aba em computador');
+          }
+          await desktop.close();
           await browser.close();
           NODE
       - name: Mostrar logs em caso de falha
