@@ -30,7 +30,14 @@ export function FichaInternacional({ pessoa }: { pessoa: PessoaPoliticaInternaci
       </section>
       <section aria-labelledby="acontecimentos">
         <h3 id="acontecimentos" className="mt-8 text-xl font-semibold">Acontecimentos documentados</h3>
-        {pessoa.acontecimentos.length ? <ul className="mt-3 space-y-4">{pessoa.acontecimentos.map((e,i) => <li key={i}>{data(e.data)} · {e.titulo} · <a href={e.fonte.url} target="_blank" rel="noopener noreferrer" className="underline">Conferir fonte</a></li>)}</ul> : <p className="mt-2">Ainda não há acontecimentos documentados nesta base. Isso não significa ausência de atuação.</p>}
+        {pessoa.acontecimentos.length ? <ol className="mt-3 space-y-4">{[...pessoa.acontecimentos].sort((a,b) => b.data.localeCompare(a.data)).map((e,i) => <li key={`${e.data}-${i}`} className="border-b border-black/10 pb-3">
+          <p className="text-sm font-medium">{data(e.data)}{e.categoria ? ` · ${({decisao:"Decisão",declaracao:"Declaração","ato-oficial":"Ato oficial",eleicao:"Eleição",investigacao:"Investigação",processo:"Processo",outro:"Outro"} as Record<string,string>)[e.categoria]}` : ""}</p>
+          <p className="mt-1 font-semibold">{e.titulo}</p>
+          {e.natureza === "alegacao" ? <p className="text-sm font-medium">Alegação; não equivale a fato comprovado.</p> : null}
+          {e.natureza === "declaracao-atribuida" ? <p className="text-sm">Declaração atribuída à pessoa indicada.</p> : null}
+          {e.descricao ? <p className="mt-1 text-sm">{e.descricao}</p> : null}
+          <a href={e.fonte.url} target="_blank" rel="noopener noreferrer" className="text-sm underline">Conferir fonte</a>
+        </li>)}</ol> : <p className="mt-2">Ainda não há acontecimentos documentados nesta base. Isso não significa ausência de atuação.</p>}
       </section>
       <footer className="mt-10 border-t border-black/15 pt-6">
         <Link href="/ficha-politica" className="inline-flex min-h-11 items-center rounded-lg border border-black/20 px-5 font-medium">← Voltar à busca</Link>
