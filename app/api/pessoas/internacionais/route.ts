@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       pessoaPoliticaId: p.pessoaPoliticaId,
       nomePublico: p.nomePublico,
       paises: p.paises,
-      url: `/pessoa/${p.pessoaPoliticaId}`,
+      url: `/pessoas/${p.pessoaPoliticaId}`,
     }));
   return NextResponse.json({ resultados, total: resultados.length });
 }
