@@ -363,3 +363,8 @@
 .notaPeriodicidade { margin: 12px 0 0; color: #555; font-size: 14px; line-height: 1.5; }
 
 .botaoMinhasEscolhas { margin-top: 16px; }
+
+
+.tituloMenu { margin: 0 0 24px; color: #111; font-size: clamp(24px, 4.2vw, 36px); font-weight: 800; letter-spacing: .03em; line-height: 1.2; }
+.areaBuscaAcompanhamento { margin-top: 48px; padding-top: 28px; border-top: 1px solid #ddd; scroll-margin-top: 12px; }
+.voltarMenu { display: flex; align-items: center; justify-content: center; min-height: 54px; margin-top: 24px; border: 1px solid #ccc; border-radius: 9px; color: #111; font-weight: 700; text-decoration: none; }
