@@ -1,0 +1,21 @@
+name: Auditar fichas políticas internacionais
+on:
+  push:
+    branches: [quero-entender-melhor]
+    paths:
+      - data/pessoas/pessoas-internacionais.json
+      - scripts/auditar-pessoas-internacionais.mjs
+      - .github/workflows/auditar-pessoas-internacionais.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  conferir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Auditar estrutura e fontes
+        run: node scripts/auditar-pessoas-internacionais.mjs
