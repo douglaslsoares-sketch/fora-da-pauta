@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import FichaDaPessoa from "@/app/pessoa/[id]/page";
+import { FichaInternacional } from "@/components/FichaInternacional";
 import { consultarPessoaInternacionalConfirmada } from "@/data/pessoas/consultar-pessoa-internacional";
 import CandidatePage from "@/app/conheca-seu-candidato/[id]/page";
 import { idsAcompanhaveis } from "@/lib/eleicoes/acompanhamento-politico";
@@ -13,8 +13,9 @@ export default async function FichaPermanente({ params }: Props) {
   const { id } = await params;
   const candidaturaId = buscarCandidaturaConfirmadaDaPessoa(id, idsAcompanhaveis);
   if (!candidaturaId) {
-    if (!consultarPessoaInternacionalConfirmada(id)) notFound();
-    return FichaDaPessoa({ params: Promise.resolve({ id }) });
+    const pessoa = consultarPessoaInternacionalConfirmada(id);
+    if (!pessoa) notFound();
+    return <FichaInternacional pessoa={pessoa} />;
   }
 
   // Mantém a URL permanente da pessoa enquanto reaproveita a ficha editorial
