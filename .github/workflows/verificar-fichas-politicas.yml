@@ -1,0 +1,34 @@
+name: Verificar integracao das fichas politicas
+on:
+  push:
+    branches: [quero-entender-melhor]
+    paths:
+      - app/pessoas/**
+      - app/pessoa/**
+      - app/api/pessoas/**
+      - components/CandidateSelector.tsx
+      - components/ResultadosInternacionais.tsx
+      - components/FichaInternacional.tsx
+      - data/pessoas/**
+      - tests/rota-pessoa-politica.test.mjs
+      - .github/workflows/verificar-fichas-politicas.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integracao:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Verificar tipagem
+        run: npx tsc --noEmit
+      - name: Verificar arquivos alterados
+        run: npx eslint components/CandidateSelector.tsx components/ResultadosInternacionais.tsx components/FichaInternacional.tsx app/pessoas/'[id]'/page.tsx app/pessoa/'[id]'/page.tsx app/api/pessoas/internacionais/route.ts
+      - name: Validar cadastro e fontes
+        run: node scripts/auditar-pessoas-internacionais.mjs
