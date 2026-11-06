@@ -1,0 +1,56 @@
+name: Testar ficha internacional em tela de celular
+on:
+  push:
+    branches: [quero-entender-melhor]
+    paths:
+      - app/pessoas/**
+      - components/FichaInternacional.tsx
+      - data/pessoas/**
+      - .github/workflows/testar-ficha-internacional-mobile.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      DATABASE_URL: 'postgresql://teste:teste@127.0.0.1:65432/fora_da_pauta_teste'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Iniciar servidor local
+        run: |
+          npm run start -- -p 3100 > /tmp/fora-da-pauta-mobile.log 2>&1 &
+      - name: Instalar navegador de teste
+        run: npx playwright --version && npx playwright install --with-deps chromium
+      - name: Validar apresentação e navegação no celular
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { chromium } from 'playwright';
+          const browser = await chromium.launch({headless:true});
+          const page = await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true});
+          for(let i=0;i<30;i++){try{const r=await fetch('http://127.0.0.1:3100/api/pessoas/internacionais?nome=Trump');if(r.ok)break;}catch{}await new Promise(r=>setTimeout(r,1000));if(i===29)throw new Error('Servidor não iniciou');}
+          for(const nome of ['Trump','Netanyahu']){
+            const busca=await (await fetch('http://127.0.0.1:3100/api/pessoas/internacionais?nome='+nome)).json();
+            const pessoa=busca.resultados.find(p=>p.nomePublico.includes(nome));
+            assert.ok(pessoa,'Pessoa não encontrada');
+            await page.goto('http://127.0.0.1:3100'+pessoa.url,{waitUntil:'domcontentloaded'});
+            await page.getByRole('heading',{name:'Ficha política'}).waitFor();
+            await page.getByRole('heading',{name:pessoa.nomePublico}).waitFor();
+            const dimensoes=await page.evaluate(()=>({larguraDocumento:document.documentElement.scrollWidth,larguraTela:window.innerWidth}));
+            assert.ok(dimensoes.larguraDocumento<=dimensoes.larguraTela+2,'Rolagem horizontal no celular: '+nome);
+            console.log(nome+': ficha abriu e não apresenta rolagem horizontal em 390px');
+          }
+          await browser.close();
+          NODE
+      - name: Mostrar logs em caso de falha
+        if: failure()
+        run: tail -100 /tmp/fora-da-pauta-mobile.log || true
