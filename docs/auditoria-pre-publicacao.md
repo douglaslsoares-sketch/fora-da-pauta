@@ -73,3 +73,16 @@ Não considerar concluído até existirem relatórios reais de pelo menos uma ex
 - A execução foi sinalizada como falha de propósito pelo verificador, pois detectou inconsistências; não é falha de coleta ou de execução do script.
 - Duda Salabert (Câmara `220623`) está entre os 24. Existem candidaturas de 2022 e 2026 em duas identidades separadas, ambas `EM_REVISAO`.
 - **Bloqueio de publicação**: não associar automaticamente atividades parlamentares a identidades inexistentes ou candidaturas em revisão; exigir reconciliação documentada e testes.
+
+### Primeira medição de cobertura das fichas — 06/11/2026
+
+Execução: https://github.com/douglaslsoares-sketch/fora-da-pauta/actions/runs/42160523830
+
+- **43.522** identidades políticas; **49.771** candidaturas associadas.
+- **42.669** identidades confirmadas; **853** em revisão.
+- Arquivos de atuação: **517** federais e **63** estaduais, somando **580 arquivos** e **102.513 registros**.
+- Nenhum dos registros examinados estava sem campo de URL de fonte; isso **não comprova a validade, a pertinência nem a atualidade dos links**.
+- **24** vínculos da Câmara apontam para identidades ausentes; o teste retornou falha intencional por essa condição.
+- **Limitação crítica:** 580 arquivos de atuação **não significam 580 fichas completas**; não se deve usar 580/43.522 como taxa definitiva de cobertura, pois o universo de elegíveis à atuação parlamentar e os demais oito eixos ainda não foram auditados.
+- **Bloqueio de lançamento:** não há demonstração de cobertura suficiente de todas as pessoas pesquisáveis, nem comprovação documental de veracidade e atualização dos oito eixos. A campanha permanece bloqueada.
+- Próximas provas: mapear pessoas pesquisáveis e elegibilidade por cargo; medir campos obrigatórios dos oito eixos, validar links e datas de atualização, amostrar contra fontes oficiais e testar processos de atualização reais.
