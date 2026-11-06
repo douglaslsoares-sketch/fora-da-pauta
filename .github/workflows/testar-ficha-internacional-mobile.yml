@@ -47,7 +47,12 @@ jobs:
             await page.getByRole('heading',{name:pessoa.nomePublico}).waitFor();
             const dimensoes=await page.evaluate(()=>({larguraDocumento:document.documentElement.scrollWidth,larguraTela:window.innerWidth}));
             assert.ok(dimensoes.larguraDocumento<=dimensoes.larguraTela+2,'Rolagem horizontal no celular: '+nome);
-            console.log(nome+': ficha abriu e não apresenta rolagem horizontal em 390px');
+            const retorno=page.getByRole('link',{name:'← Voltar à busca'});
+            await retorno.waitFor();
+            assert.equal(await retorno.getAttribute('href'),'/ficha-politica');
+            await retorno.click();
+            await page.waitForURL('**/ficha-politica');
+            console.log(nome+': ficha e retorno à busca funcionaram em 390px');
           }
           await browser.close();
           NODE
