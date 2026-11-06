@@ -12,6 +12,7 @@ on:
       - data/pessoas/**
       - tests/rota-pessoa-politica.test.mjs
       - .github/workflows/verificar-fichas-politicas.yml
+      - scripts/verificar-integracao-fichas-internacionais.mjs
   workflow_dispatch:
 permissions:
   contents: read
@@ -30,5 +31,7 @@ jobs:
         run: npx tsc --noEmit
       - name: Verificar arquivos alterados
         run: npx eslint components/CandidateSelector.tsx components/ResultadosInternacionais.tsx components/FichaInternacional.tsx app/pessoas/'[id]'/page.tsx app/pessoa/'[id]'/page.tsx app/api/pessoas/internacionais/route.ts
+      - name: Verificar integração das rotas e busca
+        run: node scripts/verificar-integracao-fichas-internacionais.mjs
       - name: Validar cadastro e fontes
         run: node scripts/auditar-pessoas-internacionais.mjs
