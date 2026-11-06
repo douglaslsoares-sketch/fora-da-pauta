@@ -30,12 +30,6 @@ const opcoes: Opcao[] = [
     href: "/quero-entender-melhor",
   },
   {
-    titulo: "Minhas escolhas",
-    descricao: "Veja ou remova pessoas acompanhadas.",
-    href: "/votou-fique-de-olho?minhas=1",
-    exigeEscolhas: true,
-  },
-  {
     titulo: "Ficha política",
     descricao: "Pesquise e consulte uma ficha.",
     href: "/ficha-politica",
@@ -356,6 +350,11 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
             selectedIds={ids}
             onSelect={selecionar}
           />
+          {inscrito && ids.length > 0 ? (
+            <Link href="/votou-fique-de-olho?minhas=1" className={styles.botaoOpcao + " " + styles.botaoMinhasEscolhas}>
+              <strong>Minhas escolhas →</strong>
+            </Link>
+          ) : null}
           <div className={styles.configuracaoPeriodicidade}>
             <label htmlFor="periodicidade-avisos" className={styles.rotuloPeriodicidade}>
               Com que frequência você quer receber os avisos sobre os políticos que acompanha?
