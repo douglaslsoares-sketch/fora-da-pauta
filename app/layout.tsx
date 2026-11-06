@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { EditorialAudioSystem } from "@/components/EditorialAudioSystem";
 import { SiteChromeRouter } from "@/components/SiteChromeRouter";
 import { RodapePaginasInternas } from "@/components/RodapePaginasInternas";
+import { RegistrarOrigemNavegacao } from "@/components/RegistrarOrigemNavegacao";
 import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,6 +52,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-[#eeeee9] font-sans">
+        <RegistrarOrigemNavegacao />
         <SiteChromeRouter />
         {children}
         <RodapePaginasInternas />
