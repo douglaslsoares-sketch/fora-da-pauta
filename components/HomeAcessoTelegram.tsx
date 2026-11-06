@@ -78,6 +78,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
   const [abrindoTelegram, setAbrindoTelegram] = useState(false);
   const [erroTelegram, setErroTelegram] = useState("");
   const [avisoJaInscrito, setAvisoJaInscrito] = useState(false);
+  const [periodicidade, setPeriodicidade] = useState<"diaria" | "semanal" | "quinzenal">("semanal");
 
   const [salvandoEscolha, setSalvandoEscolha] = useState(false);
   const [erroEscolha, setErroEscolha] = useState("");
@@ -90,6 +91,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
   useEffect(() => {
     const simulando = new URLSearchParams(window.location.search).get("simular") === "telegram";
     setSimulacao(simulando);
+    try {
+      const salva = window.localStorage.getItem("fdp-periodicidade-previa");
+      if (salva === "diaria" || salva === "semanal" || salva === "quinzenal") setPeriodicidade(salva);
+    } catch { /* Armazenamento indisponível. */ }
     let ativo = true;
     async function verificar() {
       try {
@@ -363,6 +368,23 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
             </>
           )}
 
+          <div className={styles.configuracaoPeriodicidade}>
+            <label htmlFor="periodicidade-avisos" className={styles.rotuloPeriodicidade}>
+              Com que frequência você quer receber os avisos sobre os políticos que acompanha?
+            </label>
+            <select id="periodicidade-avisos" className={styles.seletorPeriodicidade}
+              value={periodicidade}
+              onChange={(evento) => {
+                const valor = evento.target.value as "diaria" | "semanal" | "quinzenal";
+                setPeriodicidade(valor);
+                try { window.localStorage.setItem("fdp-periodicidade-previa", valor); } catch { /* Armazenamento indisponível. */ }
+              }}>
+              <option value="diaria">Diariamente</option>
+              <option value="semanal">Semanalmente</option>
+              <option value="quinzenal">Quinzenalmente</option>
+            </select>
+            <p className={styles.notaPeriodicidade}>Os avisos gerais continuam independentes. Esta escolha está em teste e ainda não altera a entrega real no Telegram.</p>
+          </div>
           <div className={styles.separador} role="separator" />
           <nav aria-label="Outras opções do Fora da Pauta" className={styles.listaBotoes}>
             {opcoes.map((opcao) => {
