@@ -38,10 +38,15 @@ for (const arquivo of arquivos) {
   for (const achado of texto.matchAll(/<(?:Link|a)\b[^>]*>/gs)) {
     const tag = achado[0];
     if (!/target\s*=\s*["']_blank["']/.test(tag)) continue;
-    const destino = tag.match(/href\s*=\s*["']([^"']+)["']/)?.[1];
+    const literal = tag.match(/href\s*=\s*["']([^"']+)["']/)?.[1];
+    const template = tag.match(/href\s*=\s*\{\s*`([^`]*)`\s*\}/)?.[1];
+    const expression = tag.match(/href\s*=\s*\{\s*([^}]+)\s*\}/)?.[1];
+    const destino = literal ?? template;
+    const internoDinamico = Boolean(template?.startsWith("/") && !template.startsWith("//"));
+    const internoProvavel = !destino && Boolean(expression && /(?:^|\W)(?:router|pathname|internalHref|fichaHref|urlInterna)(?:\W|$)/.test(expression));
     const linha = texto.slice(0, achado.index).split("\n").length;
     const item = { arquivo, linha, destino: destino ?? "dinâmico" };
-    if (destino?.startsWith("/") && !destino.startsWith("//")) internos.push(item);
+    if ((destino?.startsWith("/") && !destino.startsWith("//")) || internoDinamico || internoProvavel) internos.push(item);
     else revisar.push(item);
   }
 }
