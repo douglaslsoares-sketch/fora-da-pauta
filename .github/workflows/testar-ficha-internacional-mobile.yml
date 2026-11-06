@@ -63,13 +63,15 @@ jobs:
             const link=secao.getByRole('link',{name:new RegExp(nome)});
             const destino=await link.getAttribute('href');
             assert.ok(destino?.startsWith('/pessoas/'),'Resultado não usa endereço permanente');
-            const popup=page.waitForEvent('popup',{timeout:10000}).catch(()=>null);
+            assert.notEqual(await link.getAttribute('target'),'_blank','Link não deve abrir nova aba');
+            const paginasAntes=page.context().pages().length;
             await link.click();
-            const novaAba=await popup;
-            const ficha=novaAba??page;
-            await ficha.getByRole('heading',{name:'Ficha política'}).waitFor();
-            await ficha.getByRole('heading',{name:new RegExp(nome)}).waitFor();
-            if(novaAba)await novaAba.close();
+            await page.waitForURL('**/pessoas/**');
+            await page.getByRole('heading',{name:'Ficha política'}).waitFor();
+            await page.getByRole('heading',{name:new RegExp(nome)}).waitFor();
+            assert.equal(page.context().pages().length,paginasAntes,'Não deve criar outra aba');
+            await page.getByRole('link',{name:'← Voltar à busca'}).click();
+            await page.waitForURL('**/ficha-politica');
             console.log(nome+': busca pelo nome e abertura da ficha funcionaram no celular');
           }
           await browser.close();
