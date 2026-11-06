@@ -22,7 +22,7 @@ export function FichaInternacional({ pessoa }: { pessoa: PessoaPoliticaInternaci
       </header>
       <section aria-labelledby="vinculos">
         <h3 id="vinculos" className="mt-8 text-xl font-semibold">Cargos, partidos e instituições</h3>
-        {pessoa.vinculos.length ? <ul className="mt-3 space-y-4">{pessoa.vinculos.map((v,i) => <li key={i} className="border-b border-black/10 pb-3">
+        {pessoa.vinculos.length ? <ul className="mt-3 space-y-4">{[...pessoa.vinculos].sort((a,b) => (b.inicio ?? '').localeCompare(a.inicio ?? '')).map((v,i) => <li key={i} className="border-b border-black/10 pb-3">
           <p className="font-medium">{v.descricao} — {pais(v.pais)}</p>
           <p className="text-sm">Início: {data(v.inicio)}. {v.fim ? `Fim: ${data(v.fim)}.` : "Fim: não registrado nesta base; confirmar situação atual na fonte."}</p>
           <a href={v.fonte.url} target="_blank" rel="noopener noreferrer" className="text-sm underline">Conferir fonte</a>
