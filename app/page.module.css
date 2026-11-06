@@ -477,3 +477,12 @@
     margin-bottom: auto;
   }
 }
+
+/* Ajuste aprovado: sobe apenas o bloco principal, preservando QR secundário. */
+@media (max-width: 850px) {
+  .heroTexto { transform: translateY(-clamp(32px, 5svh, 70px)); }
+  .qrArea { transform: none; }
+}
+@media (max-height: 680px) and (max-width: 850px) {
+  .heroTexto { transform: translateY(-18px); }
+}
