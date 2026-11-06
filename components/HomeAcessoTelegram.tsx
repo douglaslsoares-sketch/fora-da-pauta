@@ -77,6 +77,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
   const [simuladoInscrito, setSimuladoInscrito] = useState(false);
   const [abrindoTelegram, setAbrindoTelegram] = useState(false);
   const [erroTelegram, setErroTelegram] = useState("");
+  const [avisoJaInscrito, setAvisoJaInscrito] = useState(false);
   const [salvandoEscolha, setSalvandoEscolha] = useState(false);
   const [erroEscolha, setErroEscolha] = useState("");
   const [avisoEscolha, setAvisoEscolha] = useState("");
@@ -174,6 +175,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
 
   async function iniciarInscricao() {
     if (abrindoTelegram) return;
+    if (inscrito) {
+      setAvisoJaInscrito(true);
+      return;
+    }
     if (simulacao) {
       setSimuladoInscrito(true);
       return;
@@ -181,6 +186,16 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
     setAbrindoTelegram(true);
     setErroTelegram("");
     try {
+      const consulta = await fetch("/api/telegram/sessao", { cache: "no-store", credentials: "same-origin" });
+      if (consulta.ok) {
+        const sessao = await consulta.json() as Situacao;
+        if (sessao.ativo === true) {
+          setSituacao("inscrito");
+          setAvisoJaInscrito(true);
+          setAbrindoTelegram(false);
+          return;
+        }
+      }
       const resposta = await fetch("/api/telegram/sessao", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -232,6 +247,16 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
 
   return (
     <>
+      {avisoJaInscrito ? (
+        <div className={styles.fundoModalInscricao} role="presentation">
+          <div className={styles.modalInscricao} role="dialog" aria-modal="true" aria-labelledby="titulo-ja-inscrito">
+            <p id="titulo-ja-inscrito">Você já está inscrito.</p>
+            <button type="button" className={styles.fecharModalInscricao} onClick={() => setAvisoJaInscrito(false)}>
+              Fechar
+            </button>
+          </div>
+        </div>
+      ) : null}
       <section className={styles.apresentacao} id="conteudo" aria-labelledby="mensagem-principal">
         <div className={styles.olhoFundo} aria-hidden="true" />
         <header className={styles.cabecalho}>
@@ -269,7 +294,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
               <button
                 type="button"
                 onClick={() => void iniciarInscricao()}
-                disabled={conferindo || inscrito || abrindoTelegram}
+                disabled={conferindo || abrindoTelegram}
                 className={styles.botaoInscricao}
               >
                 {abrindoTelegram ? "Abrindo Telegram..." : "Inscrever no Telegram"}
