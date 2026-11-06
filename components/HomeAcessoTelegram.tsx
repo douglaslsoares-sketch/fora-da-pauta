@@ -78,7 +78,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
   const [abrindoTelegram, setAbrindoTelegram] = useState(false);
   const [erroTelegram, setErroTelegram] = useState("");
   const [avisoJaInscrito, setAvisoJaInscrito] = useState(false);
-  const [perguntaAvisos, setPerguntaAvisos] = useState(false);
 
   const [salvandoEscolha, setSalvandoEscolha] = useState(false);
   const [erroEscolha, setErroEscolha] = useState("");
@@ -185,7 +184,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
       if (simuladoInscrito) {
         setAvisoJaInscrito(true);
       } else {
-        setPerguntaAvisos(true);
+        setSimuladoInscrito(true);
       }
       return;
     }
@@ -253,21 +252,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
 
   return (
     <>
-      {perguntaAvisos ? (
-        <div className={styles.fundoModalInscricao} role="presentation">
-          <div className={styles.modalInscricao} role="dialog" aria-modal="true" aria-labelledby="titulo-avisos">
-            <p id="titulo-avisos">Você quer receber pelo Telegram avisos sobre o dia a dia dos políticos?</p>
-            <button type="button" className={styles.botaoConfirmarAvisos} onClick={() => {
-              setSimuladoInscrito(true);
-              setPerguntaAvisos(false);
-            }}>Sim, quero receber</button>
-            <button type="button" className={styles.botaoRecusarAvisos} onClick={() => {
-              setPerguntaAvisos(false);
-            }}>Agora não</button>
-            <p className={styles.notaSimulacao}>Simulação da conversa com o bot. Nenhuma notificação real será ativada neste teste.</p>
-          </div>
-        </div>
-      ) : null}
       {avisoJaInscrito ? (
         <div className={styles.fundoModalInscricao} role="presentation">
           <div className={styles.modalInscricao} role="dialog" aria-modal="true" aria-labelledby="titulo-ja-inscrito">
