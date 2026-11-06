@@ -20,6 +20,8 @@ jobs:
     timeout-minutes: 20
     env:
       NEXT_TELEMETRY_DISABLED: '1'
+      # URL sintática de teste; não aponta para serviço real e não permite acesso a dados.
+      DATABASE_URL: 'postgresql://teste:teste@127.0.0.1:65432/fora_da_pauta_teste'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
