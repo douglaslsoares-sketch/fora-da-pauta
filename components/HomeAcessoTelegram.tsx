@@ -250,7 +250,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.chamada}>
-                Acompanhe o que os políticos dizem e fazem no dia a dia.
+                Acompanhe o dia a dia dos políticos.
               </h1>
               <p className={styles.explicacao}>
                 Todos os dias, o Fora da Pauta acompanha as notícias, consulta os registros
