@@ -29,3 +29,11 @@
 - Prévia revisada e autorização expressa do responsável pelo projeto.
 
 **Estado:** roteiro de homologação; não significa que os itens já foram executados.
+
+## Evidências técnicas registradas em 06/11/2026
+- Compilação aprovada: https://github.com/douglaslsoares-sketch/fora-da-pauta/actions/runs/42201025431
+- Integração aprovada: https://github.com/douglaslsoares-sketch/fora-da-pauta/actions/runs/42201025448
+- Teste anterior de celular aprovado: https://github.com/douglaslsoares-sketch/fora-da-pauta/actions/runs/42200756037
+- Novo teste de celular após ordenação dos cargos: execução https://github.com/douglaslsoares-sketch/fora-da-pauta/actions/runs/42201025499 — em andamento no momento desta anotação.
+
+**Limite dos testes:** a automação atual abre as fichas por URL e testa o retorno à busca, mas **não preenche o campo de pesquisa da página**. Não marcar o fluxo completo de busca como homologado. O teste automatizado também não comprova o conteúdo histórico das fontes.
