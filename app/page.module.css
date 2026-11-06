@@ -401,3 +401,21 @@
   .chamada { font-size: 27px; }
   .qrCartao { width: 88px; height: 88px; }
 }
+
+/* Refinamento da primeira dobra: hierarquia visual e QR legível. */
+@media (max-width: 850px) {
+  .apresentacao { min-height: 100svh; justify-content: flex-start; padding-top: 18px; padding-bottom: 12px; }
+  .cabecalho .subtitulo { margin-top: 3px; }
+  .intro { margin: 0 auto; padding: 16px 0 0; }
+  .heroGrid { gap: 12px; }
+  .chamada { margin-bottom: 12px; }
+  .explicacao { line-height: 1.35; }
+  .explicacao + .explicacao { margin-top: 6px; }
+  .botaoInscricao { margin-top: 12px; }
+  .qrCartao { width: 112px; height: 112px; }
+  .qrInstrucao { max-width: 250px; font-size: 11px; }
+}
+@media (max-width: 420px) {
+  .chamada { font-size: clamp(27px, 7vw, 31px); }
+  .qrCartao { width: 108px; height: 108px; }
+}
