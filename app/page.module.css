@@ -589,11 +589,14 @@
 .linkInstalacao:hover { color: #444; }
 .linkInstalacao:focus-visible { outline: 3px solid #229ed9; outline-offset: 2px; border-radius: 6px; }
 
-/* A primeira dobra termina na borda inferior da tela, sem alterar os blocos internos. */
+/* A primeira seção cobre ao menos toda a área visível do celular.
+   O conteúdo conserva o fluxo normal e nunca fica cortado. */
 @media (max-width: 850px) {
   .apresentacao {
+    min-height: 100vh;
     min-height: 100svh;
     height: auto;
     box-sizing: border-box;
   }
+  .page { min-height: 100svh; }
 }
