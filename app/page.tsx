@@ -7,10 +7,10 @@ import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Fora da Pauta",
-  description: "Como o jogo é jogado. Decisões que afetam a sua vida.",
+  description: "Acompanhe o dia a dia dos políticos. Entenda como as decisões políticas afetam a nossa vida.",
   openGraph: {
     title: "Fora da Pauta — Há mais para entender.",
-    description: "Como o jogo é jogado. Decisões que afetam a sua vida.",
+    description: "Acompanhe o dia a dia dos políticos. Entenda como as decisões políticas afetam a nossa vida.",
     url: "https://www.foradapauta.org/",
     type: "website",
     locale: "pt_BR",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: ["/compartilhar/olho-v2"],
     title: "Fora da Pauta — Há mais para entender.",
-    description: "Como o jogo é jogado. Decisões que afetam a sua vida.",
+    description: "Acompanhe o dia a dia dos políticos. Entenda como as decisões políticas afetam a nossa vida.",
   },
 };
 
