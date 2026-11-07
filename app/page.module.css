@@ -533,5 +533,5 @@
 
 /* Refinamento da prévia: subir apenas o conjunto QR + endereço. */
 @media (max-width: 850px) {
-  .qrArea { transform: translateY(-clamp(32px, 4.5svh, 52px)); }
+  .qrArea { transform: translateY(-clamp(52px, 7svh, 82px)); }
 }
