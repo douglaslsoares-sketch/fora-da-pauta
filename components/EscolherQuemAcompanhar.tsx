@@ -66,6 +66,6 @@ export function EscolherQuemAcompanhar() {
       </select>
       <p className="mt-3 text-sm text-black/60">Esta opção está em teste e ainda não altera o envio real das notificações.</p>
     </div>
-    </>
+    </>}
   </div></main>;
 }
