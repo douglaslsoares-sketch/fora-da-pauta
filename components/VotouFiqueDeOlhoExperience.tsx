@@ -829,6 +829,22 @@ export function VotouFiqueDeOlhoExperience() {
           </div>
         ) : null}
 
+        {inscricaoAtiva ? (
+          <button
+            type="button"
+            onClick={() => {
+              setPessoaConfirmada(null);
+              setEtapa("busca");
+              setBusca((atual) => atual + 1);
+            }}
+            className="mt-7 min-h-14 w-full rounded-2xl bg-black px-5 py-3 font-semibold text-white"
+          >
+            Escolher outra pessoa
+          </button>
+        ) : null}
+
+        {!inscricaoAtiva ? (
+          <>
         <h2 className="mt-7 text-3xl font-bold leading-tight tracking-[-0.04em]">
           Quer acompanhar mais alguém?
         </h2>
@@ -885,7 +901,8 @@ export function VotouFiqueDeOlhoExperience() {
         <p role="status" className="sr-only">
           {aviso}
         </p>
-        {inscricaoAtiva ? <ConcluirNoTelegram /> : null}
+        </>
+        ) : null}
       </section>
     );
   }
