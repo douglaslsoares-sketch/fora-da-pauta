@@ -37,6 +37,9 @@ export default function Page() {
   const [gravando, setGravando] = useState(false);
   const [aviso, setAviso] = useState("");
   const [confirmacaoTeste, setConfirmacaoTeste] = useState(false);
+  const [enviando, setEnviando] = useState(false);
+  const [caminhoAcompanhamento, setCaminhoAcompanhamento] = useState<string | null>(null);
+  const ditouRef = useRef(false);
   const reconhecedorRef = useRef<SpeechInstance | null>(null);
   const escutaAtivaRef = useRef(false);
   const ultimoResultadoRef = useRef(0);
@@ -53,6 +56,7 @@ export default function Page() {
     const Classe = janela.SpeechRecognition ?? janela.webkitSpeechRecognition;
     if (!Classe) { setAviso("Seu navegador não oferece transcrição por voz. Você pode digitar sua pergunta."); return; }
     const voz = new Classe();
+    ditouRef.current = true;
     voz.lang = "pt-BR";
     voz.continuous = true;
     voz.interimResults = false;
@@ -92,26 +96,48 @@ export default function Page() {
       setAviso("Não foi possível iniciar o microfone.");
     }
   }
-  function enviar() {
-    if (!pergunta.trim()) { setAviso("Escreva ou dite sua dúvida antes de enviar."); return; }
+  async function enviar() {
+    const texto = pergunta.trim();
+    if (!texto) { setAviso("Escreva ou dite sua dúvida antes de enviar."); return; }
+    if (enviando) return;
+    setEnviando(true);
+    setAviso("");
     try {
-      const anterior = JSON.parse(localStorage.getItem("fdp-perguntas-teste") ?? "[]") as string[];
-      localStorage.setItem("fdp-perguntas-teste", JSON.stringify([...anterior.slice(-19), pergunta.trim()]));
-      setPergunta(""); setAviso(""); setConfirmacaoTeste(true);
-    } catch { setAviso("Não foi possível guardar a pergunta neste navegador."); }
+      const resposta = await fetch("/api/perguntas", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirmedText: texto, inputType: ditouRef.current ? "voice" : "text" }),
+      });
+      const dados = await resposta.json() as { error?: string; trackingPath?: string };
+      if (!resposta.ok || !dados.trackingPath || !dados.trackingPath.startsWith("/pergunta/")) {
+        throw new Error(dados.error || "Não foi possível enviar sua pergunta. Tente novamente.");
+      }
+      escutaAtivaRef.current = false;
+      reconhecedorRef.current?.stop();
+      setGravando(false);
+      setCaminhoAcompanhamento(dados.trackingPath);
+      setConfirmacaoTeste(true);
+    } catch (erro) {
+      setAviso(erro instanceof Error ? erro.message : "Não foi possível enviar sua pergunta. Tente novamente.");
+    } finally {
+      setEnviando(false);
+    }
   }
   const link = "flex min-h-14 items-center justify-center rounded-lg border border-black/20 bg-white px-5 py-3 text-center font-bold";
   return <main className="min-h-screen bg-white px-5 py-10 text-black"><div className="mx-auto max-w-2xl">
     {confirmacaoTeste ? <section aria-live="polite" className="rounded-xl border border-black/15 bg-[#fff9df] p-6">
-      <h1 className="text-2xl font-extrabold">Pronto! Sua pergunta foi guardada para o teste.</h1>
-      <p className="mt-3 font-semibold">Ela ainda não foi enviada ao Fora da Pauta.</p>
+      <h1 className="text-2xl font-extrabold">Pronto! Sua pergunta foi enviada ao Fora da Pauta.</h1>
+      <p className="mt-3 font-semibold">Ela foi registrada e poderá ser analisada antes de uma resposta pública.</p>
+      <p className="mt-3 whitespace-pre-wrap rounded-lg bg-white p-4">{pergunta}</p>
+      {caminhoAcompanhamento && <Link href={caminhoAcompanhamento} className="mt-4 inline-block font-bold underline underline-offset-4">Acompanhar minha pergunta</Link>}
       <p className="mt-5">Sabe por que o Fora da Pauta existe?</p>
       <p className="mt-3">Porque ninguém deveria fazer escolhas que prejudicam a própria vida por falta de informação.</p>
       <p className="mt-3">É por isso que estamos aqui: para entender o que acontece, esclarecer as dúvidas e compartilhar esse conhecimento com todo mundo.</p>
       <p className="mt-3">Sua pergunta pode ajudar muita gente a entender também.</p>
       <p className="mt-3 font-semibold">Acompanhe as respostas e novidades pelo Telegram.</p>
       <p className="mt-4 font-extrabold">HÁ MAIS PARA ENTENDER.</p>
-      <button type="button" onClick={() => setConfirmacaoTeste(false)} className="mt-6 min-h-12 rounded-lg bg-black px-5 text-white">Fazer outra pergunta</button>
+      <button type="button" onClick={() => { setConfirmacaoTeste(false); setPergunta(""); setCaminhoAcompanhamento(null); ditouRef.current = false; }} className="mt-6 min-h-12 rounded-lg bg-black px-5 text-white">Fazer outra pergunta</button>
     </section> : <>
     <h1 className="text-3xl font-extrabold">HÁ MAIS PARA ENTENDER.</h1>
     <h2 className="mt-7 text-2xl font-bold">O que você gostaria de entender?</h2>
@@ -119,9 +145,9 @@ export default function Page() {
     <label htmlFor="duvida" className="mt-6 block font-semibold">Sua pergunta (você pode corrigir a transcrição)</label>
     <textarea id="duvida" rows={5} value={pergunta} onChange={e => setPergunta(e.target.value)} placeholder="Escreva sua dúvida aqui..." className="mt-2 w-full rounded-lg border border-black/30 p-4" />
     <div className="mt-3 flex flex-wrap gap-3"><button type="button" onClick={ouvir} aria-pressed={gravando} className="min-h-14 rounded-lg bg-[#222] px-6 font-bold text-white">{gravando ? "■ Parar gravação" : "🎙 Ditar pergunta"}</button>
-    <button type="button" onClick={enviar} className="min-h-14 rounded-lg bg-[#ffd700] px-8 font-bold text-black">Enviar</button></div>
+    <button type="button" onClick={() => void enviar()} disabled={enviando} className="min-h-14 rounded-lg bg-[#ffd700] px-8 font-bold text-black disabled:opacity-60">{enviando ? "Enviando..." : "Enviar"}</button></div>
     {gravando && <p role="status" aria-live="polite" className="mt-3 flex items-center gap-2 text-base font-semibold text-black"><span aria-hidden="true" className="h-3 w-3 shrink-0 animate-pulse rounded-full bg-red-600" />Ouvindo sua pergunta...</p>}
-    <p className="mt-3 text-sm text-black/65">Teste: a pergunta fica salva apenas neste navegador. O envio à equipe ainda não está ativado.</p>
+    <p className="mt-3 text-sm text-black/65">A pergunta será enviada ao Fora da Pauta para análise. Confira o texto antes de enviar.</p>
     {aviso && <p role="status" className="mt-3 rounded-lg bg-black/5 p-4">{aviso}</p>}
     </>}
     <nav className="mt-9 grid gap-3" aria-label="Próximas opções">
