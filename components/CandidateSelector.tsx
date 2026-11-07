@@ -847,6 +847,19 @@ function CandidateFollowSelector({
             } para “${buscaAtiva}”`}
       </p>
 
+      {carregando ? (
+        <div role="status" aria-live="polite" className="mt-5 rounded-xl border border-black/10 bg-black/[0.03] p-4">
+          <div className="flex items-center gap-3 text-sm font-semibold text-black/75">
+            <span aria-hidden="true" className="h-4 w-4 shrink-0 animate-spin rounded-full border-2 border-black/20 border-t-[#FFC400]" />
+            Procurando políticos...
+          </div>
+          <div role="progressbar" aria-label="Pesquisa em andamento" className="mt-3 h-2 overflow-hidden rounded-full bg-black/10">
+            <div className="h-full w-1/3 animate-[pesquisa_1.4s_ease-in-out_infinite] rounded-full bg-[#FFC400] motion-reduce:animate-none" />
+          </div>
+          <style jsx>{`@keyframes pesquisa { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }`}</style>
+        </div>
+      ) : null}
+
       {erro ? (
         <div
           role="alert"
