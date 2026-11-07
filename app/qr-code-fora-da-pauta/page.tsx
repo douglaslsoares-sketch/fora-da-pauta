@@ -1,0 +1,3 @@
+import Image from "next/image";
+import { BotaoFecharRodape } from "@/components/BotaoFecharRodape";
+export default function Page(){return <main className="min-h-screen bg-white px-5 py-10 text-black"><div className="mx-auto max-w-xl text-center"><h1 className="text-3xl font-extrabold">QR Code do Fora da Pauta</h1><p className="mt-6 text-xl">Aponte a câmera e entre no site.</p><Image src="/qr/fora-da-pauta.svg" alt="QR Code do Fora da Pauta" width={280} height={280} className="mx-auto mt-7" /><p className="mt-4 font-bold">foradapauta.org</p><BotaoFecharRodape/></div></main>}
