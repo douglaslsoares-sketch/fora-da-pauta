@@ -520,3 +520,13 @@
   .botaoInscricao { margin-top: 18px; }
   .qrCartao { width: 108px; height: 108px; }
 }
+
+/* Ajuste de revisão: descer somente o bloco de texto e inscrição.
+   Cabeçalho e QR mantêm suas posições anteriores. */
+@media (max-width: 850px) {
+  .heroTexto { transform: translateY(clamp(20px, 3svh, 36px)); }
+  .qrArea { transform: none; }
+}
+@media (max-width: 850px) and (max-height: 680px) {
+  .heroTexto { transform: translateY(12px); }
+}
