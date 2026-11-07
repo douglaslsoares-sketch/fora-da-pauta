@@ -21,7 +21,7 @@ type Opcao = {
 };
 
 const opcoes: Opcao[] = [
-  { titulo: "Escolher políticos", descricao: "Escolha quem acompanhar.", href: "/escolher-quem-acompanhar" },
+  { titulo: "Políticos para acompanhar", descricao: "Escolha quem acompanhar.", href: "/escolher-quem-acompanhar" },
   { titulo: "Camiseta Fora da Pauta", descricao: "Conheça a camiseta.", href: "/camiseta" },
   { titulo: "Instalar Fora da Pauta", descricao: "Instale no celular.", href: "/instalar" },
   { titulo: "Compartilhar Fora da Pauta", descricao: "Compartilhe o projeto.", href: "/compartilhar" },
@@ -288,7 +288,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
                   className={styles.qrImagem}
                 />
               </div>
-              <p className={styles.qrInstrucao}>Aponte a câmera do celular para abrir o Fora da Pauta.</p>
+              <p className={styles.qrInstrucao}>foradapauta.org</p>
             </div>
           </div>
         </div>
