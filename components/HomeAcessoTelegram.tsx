@@ -301,7 +301,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
             {opcoes.filter((opcao) => !opcao.exigeEscolhas || (inscrito && ids.length > 0)).map((opcao) => (
               <Link key={opcao.titulo} href={opcao.href} className={opcao.titulo === "Instalar o Fora da Pauta" ? styles.linkInstalacao : `${styles.botaoOpcao} ${opcao.titulo === "Compartilhar o Fora da Pauta" ? styles.botaoWhatsApp : ""}`}>
                 {opcao.titulo === "Instalar o Fora da Pauta" ? (
-                  <span>{opcao.titulo}</span>
+                  <span aria-label="Instalar o Fora da Pauta">Instalar o Fora da Pauta</span>
                 ) : (
                   <strong className={styles.rotuloOpcao}>
                     <span>{opcao.titulo} →</span>
