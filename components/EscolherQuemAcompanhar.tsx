@@ -11,7 +11,7 @@ export function EscolherQuemAcompanhar() {
   const [salvando,setSalvando]=useState<string[]>([]);
   const [mensagem,setMensagem]=useState("");
   const [periodicidade,setPeriodicidade]=useState("semanal");
-  const [confirmada,setConfirmada]=useState<Pessoa|null>(null);
+
   useEffect(()=>{
     // Ao abrir a página, não herdar a posição de rolagem da home.
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
@@ -43,19 +43,11 @@ export function EscolherQuemAcompanhar() {
       const resposta=await fetch("/api/telegram/sessao",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({ids:[pessoa.id]})});
       if(!resposta.ok)throw Error();
       setIds(a=>a.includes(pessoa.id)?a:[...a,pessoa.id]);
-      setConfirmada(pessoa);
+      setMensagem(`${pessoa.nomeUrna} foi adicionado à sua lista de acompanhados.`);
     } catch {setMensagem("Não foi possível salvar sua escolha. Tente novamente.");}
     finally {setSalvando(a=>a.filter(id=>id!==pessoa.id));}
   }
   return <main className="min-h-screen scroll-mt-20 bg-white px-5 pt-10 pb-9 text-black"><div className="mx-auto max-w-2xl">
-    {confirmada ? <section aria-live="polite" className="pb-6">
-      <h1 className="flex items-center gap-3 text-3xl font-extrabold"><span aria-hidden="true" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-green-700 text-3xl text-white">✓</span>Escolha confirmada!</h1>
-      <h2 className="mt-8 text-xl font-bold">Você agora acompanha:</h2>
-      <div className="mt-4 rounded-xl bg-neutral-100 p-5"><p className="text-2xl font-extrabold">{confirmada.nomeUrna}</p><p className="mt-3 inline-flex items-center gap-2 rounded-lg bg-green-700 px-4 py-2 font-bold text-white"><span aria-hidden="true">✓</span> Acompanhando</p></div>
-      <p className="mt-6 text-lg leading-relaxed">Você receberá nossas análises e os principais movimentos dessa pessoa pelo Telegram.</p>
-      <button type="button" onClick={()=>setConfirmada(null)} className="mt-8 flex min-h-14 w-full items-center justify-center rounded-lg bg-black px-5 py-3 font-bold text-white">Acompanhar outra pessoa</button>
-      <Link href="/minhas-escolhas" className="mt-3 flex min-h-14 items-center justify-center rounded-lg border border-black px-5 py-3 font-bold">Ver minhas escolhas</Link>
-    </section> : <>
     <h1 className="mb-6 scroll-mt-24 text-3xl font-extrabold">Qual político você quer acompanhar?</h1>
     <CandidateSelector mode="follow" selectedIds={ids} savingIds={salvando} onSelect={selecionar}/>
     {mensagem?<div role="status" className="mt-4 rounded-lg bg-black/5 p-4"><p>{mensagem}</p>{vinculoUrl?<a className="mt-3 inline-block rounded-lg bg-[#229ed9] px-4 py-3 font-semibold text-white" href={vinculoUrl}>Confirmar no Telegram →</a>:null}</div>:null}
@@ -66,6 +58,5 @@ export function EscolherQuemAcompanhar() {
       </select>
       <p className="mt-3 text-sm text-black/60">Esta opção está em teste e ainda não altera o envio real das notificações.</p>
     </div>
-    </>}
   </div></main>;
 }
