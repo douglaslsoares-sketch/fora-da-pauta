@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     ? destino === "minhas"
       ? "/votou-fique-de-olho?minhas=1"
       : destino === "opcoes"
-        ? "/#opcoes"
+        ? "/escolher-quem-acompanhar"
         : "/telegram/pronto"
     : "/votou-fique-de-olho?retorno=expirado";
   const resposta = NextResponse.redirect(new URL(caminho, request.url), 303);
