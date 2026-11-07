@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { CandidatePhoto } from "@/components/CandidatePhoto";
+import { ResultadosInternacionais } from "@/components/ResultadosInternacionais";
 
 import {
   useEffect,
@@ -135,12 +136,14 @@ function CandidateBrowseSelector() {
 
   useEffect(() => {
     if (!podeBuscar) {
-      setResultados([]);
-      setTotal(0);
-      setPagina(1);
-      setTotalPaginas(1);
-      setErro("");
-      return;
+      const reset = window.setTimeout(() => {
+        setResultados([]);
+        setTotal(0);
+        setPagina(1);
+        setTotalPaginas(1);
+        setErro("");
+      }, 0);
+      return () => window.clearTimeout(reset);
     }
 
     const controller =
@@ -643,6 +646,7 @@ type CandidateSelectorProps =
   | {
       mode: "follow";
       selectedIds: readonly string[];
+      savingIds?: readonly string[];
       onSelect: (candidate: CandidateResult) => void;
     };
 
@@ -655,10 +659,12 @@ export function CandidateSelector(props: CandidateSelectorProps = {}) {
 
 function CandidateFollowSelector({
   selectedIds,
+  savingIds = [],
   onSelect,
   apenasFicha = false,
 }: {
   selectedIds: readonly string[];
+  savingIds?: readonly string[];
   onSelect?: (candidate: CandidateResult) => void;
   apenasFicha?: boolean;
 }) {
@@ -836,7 +842,7 @@ function CandidateFollowSelector({
       <p className="mt-2 text-base leading-6 text-black/70">
         {carregando
           ? `Buscando resultados para “${buscaAtiva}”...`
-          : `Encontramos ${total} ${
+          : `${apenasFicha ? "Candidaturas brasileiras: " : "Encontramos "}${total} ${
               total === 1 ? "resultado" : "resultados"
             } para “${buscaAtiva}”`}
       </p>
@@ -861,7 +867,7 @@ function CandidateFollowSelector({
 
       {!carregando && !erro && total === 0 ? (
         <p className="mt-6 rounded-2xl bg-black/[0.05] p-4 text-sm leading-6">
-          Nenhuma pessoa encontrada. Tente outra parte do nome ou o número completo.
+          {apenasFicha ? "Nenhuma candidatura brasileira encontrada nesta busca. Confira também as personalidades internacionais abaixo." : "Nenhuma pessoa encontrada. Tente outra parte do nome ou o número completo."}
         </p>
       ) : null}
 
@@ -871,8 +877,8 @@ function CandidateFollowSelector({
         aria-busy={carregando}
       >
         {resultados.map((candidate) => {
-          const selecionado =
-            selectedIds.includes(candidate.id);
+          const selecionado = selectedIds.includes(candidate.id);
+          const salvando = savingIds.includes(candidate.id);
 
           return (
             <div
@@ -903,26 +909,28 @@ function CandidateFollowSelector({
               </div>
 
               <div className="flex shrink-0 flex-col gap-2">
-                <Link href={candidate.pessoaPoliticaId ? `/pessoas/${candidate.pessoaPoliticaId}?aba=separada` : `/conheca-seu-candidato/${candidate.id}?aba=separada`} target="_blank" rel="noopener noreferrer" className="rounded-xl border border-black/20 px-2.5 py-3 text-center text-xs font-bold">Ver ficha</Link>
+                {apenasFicha ? <Link href={candidate.pessoaPoliticaId ? `/pessoas/${candidate.pessoaPoliticaId}?aba=separada` : `/conheca-seu-candidato/${candidate.id}?aba=separada`} className="rounded-xl border border-black/20 px-2.5 py-3 text-center text-xs font-bold">Ver ficha</Link> : null}
               {!apenasFicha && onSelect ? <button
                 type="button"
                 onClick={() => onSelect(candidate)}
-                disabled={selecionado}
+                disabled={selecionado || salvando}
                 className={`shrink-0 rounded-xl px-2.5 py-3 text-xs font-bold ${
                   selecionado
-                    ? "bg-black/5 text-black/40"
-                    : "bg-[#FFC400] text-black hover:bg-[#e9b300]"
+                    ? "bg-[#168449] text-white"
+                    : salvando ? "bg-[#f5df8b] text-black/70" : "bg-[#FFC400] text-black hover:bg-[#e9b300]"
                 }`}
               >
                 {selecionado
                   ? "Selecionado"
-                  : "Acompanhar"}
+                  : salvando ? "Salvando..." : "Acompanhar"}
               </button> : null}
               </div>
             </div>
           );
         })}
       </div>
+
+      {apenasFicha ? <ResultadosInternacionais termo={buscaAtiva} /> : null}
 
       {pagina < totalPaginas && !erro ? (
         <button

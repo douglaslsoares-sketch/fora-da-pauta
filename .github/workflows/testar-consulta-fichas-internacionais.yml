@@ -1,0 +1,63 @@
+name: Testar consulta real das fichas internacionais
+on:
+  push:
+    branches: [quero-entender-melhor]
+    paths:
+      - app/pessoas/**
+      - app/api/pessoas/internacionais/**
+      - components/FichaInternacional.tsx
+      - components/ResultadosInternacionais.tsx
+      - data/pessoas/**
+      - .github/workflows/testar-consulta-fichas-internacionais.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  consultar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      DATABASE_URL: 'postgresql://teste:teste@127.0.0.1:65432/fora_da_pauta_teste'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Iniciar servidor local sem banco real
+        run: |
+          npm run start -- -p 3100 > /tmp/fora-da-pauta-servidor.log 2>&1 &
+          echo $! > /tmp/fora-da-pauta-servidor.pid
+      - name: Testar busca HTTP e fichas
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          const base = 'http://127.0.0.1:3100';
+          for (let i=0;i<30;i++) {
+            try { const r=await fetch(base+'/api/pessoas/internacionais?nome=Trump'); if(r.ok) break; }
+            catch {}
+            await new Promise(resolve=>setTimeout(resolve,1000));
+            if(i===29) throw new Error('Servidor não iniciou');
+          }
+          for (const [termo,nome] of [['Trump','Donald Trump'],['Netanyahu','Benjamin Netanyahu']]) {
+            const resposta=await fetch(base+'/api/pessoas/internacionais?nome='+encodeURIComponent(termo));
+            assert.equal(resposta.status,200);
+            const json=await resposta.json();
+            const pessoa=json.resultados.find(p=>p.nomePublico===nome);
+            assert.ok(pessoa, 'Pessoa ausente na busca: '+nome);
+            assert.ok(pessoa.url.startsWith('/pessoas/'));
+            const ficha=await fetch(base+pessoa.url);
+            assert.equal(ficha.status,200, 'Ficha indisponível: '+nome);
+            const html=await ficha.text();
+            assert.ok(html.includes(nome),'Nome não aparece na ficha: '+nome);
+          }
+          const vazio=await (await fetch(base+'/api/pessoas/internacionais?nome=x')).json();
+          assert.equal(vazio.total,0);
+          console.log('Busca HTTP e duas fichas responderam corretamente em servidor local.');
+          NODE
+      - name: Exibir logs em caso de falha
+        if: failure()
+        run: tail -100 /tmp/fora-da-pauta-servidor.log || true

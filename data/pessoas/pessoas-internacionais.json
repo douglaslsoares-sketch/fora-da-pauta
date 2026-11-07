@@ -1,0 +1,152 @@
+[
+  {
+    "pessoaPoliticaId": "politico-int-us-donald-trump",
+    "nomePublico": "Donald Trump",
+    "nomeCompleto": "Donald John Trump",
+    "paises": [
+      "US"
+    ],
+    "situacaoIdentidade": "CONFIRMADA",
+    "fonteIdentidade": {
+      "titulo": "Biblioteca Presidencial Donald J. Trump — Arquivos Nacionais dos EUA",
+      "url": "https://www.trumplibrary.gov/trumps/president-donald-j-trump",
+      "consultadoEm": "2026-11-06"
+    },
+    "vinculos": [
+      {
+        "tipo": "cargo",
+        "descricao": "45º presidente dos Estados Unidos",
+        "pais": "US",
+        "inicio": "2017-01-20",
+        "fim": "2021-01-20",
+        "fonte": {
+          "titulo": "Biblioteca Presidencial Donald J. Trump — Arquivos Nacionais dos EUA",
+          "url": "https://www.trumplibrary.gov/trumps/president-donald-j-trump",
+          "consultadoEm": "2026-11-06"
+        }
+      },
+      {
+        "tipo": "cargo",
+        "descricao": "47º presidente dos Estados Unidos",
+        "pais": "US",
+        "inicio": "2025-01-20",
+        "fonte": {
+          "titulo": "Biblioteca Presidencial Donald J. Trump — Arquivos Nacionais dos EUA",
+          "url": "https://www.trumplibrary.gov/trumps/president-donald-j-trump",
+          "consultadoEm": "2026-11-06"
+        }
+      }
+    ],
+    "acontecimentos": [
+      {
+        "data": "2017-01-20",
+        "titulo": "Posse como 45º presidente dos Estados Unidos",
+        "categoria": "ato-oficial",
+        "natureza": "fato-documentado",
+        "fonte": {
+          "titulo": "Architect of the Capitol — cerimônias de posse presidenciais",
+          "url": "https://www.aoc.gov/what-we-do/programs-ceremonies/inauguration",
+          "consultadoEm": "2026-11-06"
+        }
+      },
+      {
+        "data": "2025-01-20",
+        "titulo": "Início do segundo mandato presidencial, como 47º presidente",
+        "categoria": "ato-oficial",
+        "natureza": "fato-documentado",
+        "fonte": {
+          "titulo": "Architect of the Capitol — cerimônias de posse presidenciais",
+          "url": "https://www.aoc.gov/what-we-do/programs-ceremonies/inauguration",
+          "consultadoEm": "2026-11-06"
+        }
+      }
+    ]
+  },
+  {
+    "pessoaPoliticaId": "politico-int-il-benjamin-netanyahu",
+    "nomePublico": "Benjamin Netanyahu",
+    "paises": [
+      "IL"
+    ],
+    "situacaoIdentidade": "CONFIRMADA",
+    "fonteIdentidade": {
+      "titulo": "Governo de Israel — Primeiros-ministros de Israel",
+      "url": "https://www.gov.il/en/pages/prime-ministers-of-israel",
+      "consultadoEm": "2026-11-06"
+    },
+    "vinculos": [
+      {
+        "tipo": "cargo",
+        "descricao": "Primeiro-ministro de Israel",
+        "pais": "IL",
+        "inicio": "1996-06-18",
+        "fim": "1999-07-06",
+        "fonte": {
+          "titulo": "Governo de Israel — Primeiros-ministros de Israel",
+          "url": "https://www.gov.il/en/pages/prime-ministers-of-israel",
+          "consultadoEm": "2026-11-06"
+        }
+      },
+      {
+        "tipo": "cargo",
+        "descricao": "Primeiro-ministro de Israel",
+        "pais": "IL",
+        "inicio": "2009-03-31",
+        "fim": "2021-06-13",
+        "fonte": {
+          "titulo": "Governo de Israel — Primeiros-ministros de Israel",
+          "url": "https://www.gov.il/en/pages/prime-ministers-of-israel",
+          "consultadoEm": "2026-11-06"
+        }
+      },
+      {
+        "tipo": "cargo",
+        "descricao": "Primeiro-ministro de Israel",
+        "pais": "IL",
+        "inicio": "2022-12-29",
+        "fonte": {
+          "titulo": "Knesset — 37º governo de Israel",
+          "url": "https://m.knesset.gov.il/en/mk/government/pages/governments.aspx",
+          "consultadoEm": "2026-11-06"
+        }
+      },
+      {
+        "tipo": "cargo",
+        "descricao": "Ministro das Finanças de Israel",
+        "pais": "IL",
+        "inicio": "2003-02-27",
+        "fim": "2005-08-09",
+        "fonte": {
+          "titulo": "Knesset — histórico de cargos no governo",
+          "url": "https://main.knesset.gov.il/mk/pages/mkgovroles.aspx?mkid=90",
+          "consultadoEm": "2026-11-06"
+        }
+      },
+      {
+        "tipo": "cargo",
+        "descricao": "Líder da oposição em Israel",
+        "pais": "IL",
+        "inicio": "2021-06-28",
+        "fim": "2022-12-29",
+        "fonte": {
+          "titulo": "Knesset — líderes da oposição desde 2000",
+          "url": "https://main.knesset.gov.il/EN/mk/Pages/HeadOfOpposition.aspx",
+          "consultadoEm": "2026-11-06"
+        }
+      }
+    ],
+    "acontecimentos": [
+      {
+        "data": "2022-12-29",
+        "titulo": "Início do terceiro período como primeiro-ministro de Israel",
+        "categoria": "ato-oficial",
+        "natureza": "fato-documentado",
+        "fonte": {
+          "titulo": "Knesset — 37º governo de Israel",
+          "url": "https://m.knesset.gov.il/en/mk/government/pages/governments.aspx",
+          "consultadoEm": "2026-11-06"
+        }
+      }
+    ]
+  }
+]

@@ -1,359 +1,46 @@
 "use client";
-
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { CandidateSelector } from "@/components/CandidateSelector";
-import { InstalarAplicativo } from "@/components/InstalarAplicativo";
-import { SeloTelegram } from "@/components/SeloTelegram";
-import { SiteHeader } from "@/components/SiteHeader";
-import { chaveNovidade } from "@/components/RegistrarNovidadeVista";
-import styles from "@/app/page.module.css";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-type PessoaAcompanhada = { id: string; nomeUrna: string };
-type Situacao = {
-  ativo?: boolean;
-  ids?: string[];
-  pessoas?: PessoaAcompanhada[];
-};
-type Opcao = {
-  titulo: string;
-  descricao: string;
-  href: string;
-  exigeEscolhas?: boolean;
-  novidade?: "edicoes" | "entregas";
-};
-
-const opcoes: Opcao[] = [
-  {
-    titulo: "Minhas escolhas",
-    descricao: "Veja ou remova pessoas acompanhadas.",
-    href: "/votou-fique-de-olho?minhas=1",
-    exigeEscolhas: true,
-  },
-  {
-    titulo: "Ficha política",
-    descricao: "Pesquise e consulte uma ficha.",
-    href: "/ficha-politica",
-  },
-  {
-    titulo: "Entregas do governo",
-    novidade: "entregas",
-    descricao: "Acompanhe entregas e ações do governo federal.",
-    href: "/entregas-do-governo",
-  },
-  {
-    titulo: "O dia do presidente",
-    descricao: "Consulte o histórico de atividades públicas do presidente.",
-    href: "/o-dia-do-presidente",
-  },
-  {
-    titulo: "Edições já publicadas",
-    novidade: "edicoes",
-    descricao: "Leia ou ouça as edições.",
-    href: "/edicoes",
-  },
-  {
-    titulo: "Camiseta Fora da Pauta",
-    descricao: "Ajude a financiar o projeto.",
-    href: "/camiseta",
-  },
-];
-
-const mensagemWhatsApp = encodeURIComponent(
-  "Conheça o Fora da Pauta. Acompanhe o que seu representante faz depois de eleito. https://www.foradapauta.org/",
-);
-const linkWhatsApp = "https://wa.me/?text=" + mensagemWhatsApp;
-
-export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEdicoes: string | null; versaoEntregas: string | null }) {
-  const [situacao, setSituacao] = useState<"verificando" | "inscrito" | "visitante">("verificando");
-  const [ids, setIds] = useState<string[]>([]);
-  const [pessoas, setPessoas] = useState<PessoaAcompanhada[]>([]);
-  const [simulacao, setSimulacao] = useState(false);
-  const [simuladoInscrito, setSimuladoInscrito] = useState(false);
-  const [abrindoTelegram, setAbrindoTelegram] = useState(false);
-  const [erroTelegram, setErroTelegram] = useState("");
-  const [salvandoEscolha, setSalvandoEscolha] = useState(false);
-  const [erroEscolha, setErroEscolha] = useState("");
-  const [avisoEscolha, setAvisoEscolha] = useState("");
-  const [busca, setBusca] = useState(0);
-  const [novidades, setNovidades] = useState({ edicoes: false, entregas: false });
-  const ancorouInscrito = useRef(false);
-  const areaAcompanhamento = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const simulando = new URLSearchParams(window.location.search).get("simular") === "telegram";
-    setSimulacao(simulando);
-    let ativo = true;
-    async function verificar() {
-      try {
-        const resposta = await fetch("/api/telegram/sessao", {
-          cache: "no-store",
-          credentials: "same-origin",
-        });
-        if (!resposta.ok) throw new Error("Sessão indisponível");
-        const dados = (await resposta.json()) as Situacao;
-        if (!ativo) return;
-        setSituacao(dados.ativo === true ? "inscrito" : "visitante");
-        setIds(
-          simulando ? [] : dados.ativo && Array.isArray(dados.ids)
-            ? dados.ids.filter((id): id is string =>
-                typeof id === "string" && /^[0-9]{8,20}$/.test(id))
-            : [],
-        );
-        setPessoas(
-          simulando ? [] : dados.ativo && Array.isArray(dados.pessoas)
-            ? dados.pessoas.filter((p): p is PessoaAcompanhada =>
-                typeof p.id === "string" && typeof p.nomeUrna === "string")
-            : [],
-        );
-      } catch {
-        if (ativo) {
-          setSituacao("visitante");
-          setIds([]);
-          setPessoas([]);
-        }
-      }
-    }
-    void verificar();
-    window.addEventListener("focus", verificar);
-    const aoRetomar = () => {
-      if (document.visibilityState === "visible") void verificar();
-    };
-    document.addEventListener("visibilitychange", aoRetomar);
-    return () => {
-      ativo = false;
-      window.removeEventListener("focus", verificar);
-      document.removeEventListener("visibilitychange", aoRetomar);
-    };
-  }, []);
-
-  useEffect(() => {
-    function atualizarNovidades() {
-      try {
-        setNovidades({
-          edicoes: Boolean(versaoEdicoes &&
-            window.localStorage.getItem(chaveNovidade("edicoes")) !== versaoEdicoes),
-          entregas: Boolean(versaoEntregas &&
-            window.localStorage.getItem(chaveNovidade("entregas")) !== versaoEntregas),
-        });
-      } catch {
-        setNovidades({ edicoes: false, entregas: false });
-      }
-    }
-    atualizarNovidades();
-    window.addEventListener("pageshow", atualizarNovidades);
-    window.addEventListener("focus", atualizarNovidades);
-    return () => {
-      window.removeEventListener("pageshow", atualizarNovidades);
-      window.removeEventListener("focus", atualizarNovidades);
-    };
-  }, [versaoEdicoes, versaoEntregas]);
-
-  const inscrito = simulacao ? simuladoInscrito : situacao === "inscrito";
-  const conferindo = situacao === "verificando" && !simulacao;
-
-  useEffect(() => {
-    if (!inscrito || ancorouInscrito.current) return;
-    const url = new URL(window.location.href);
-    if (url.searchParams.get("conhecer") === "1" ||
-        url.hash === "#apresentacao" || url.hash === "#conteudo") return;
-    ancorouInscrito.current = true;
-    const frame = window.requestAnimationFrame(() => {
-      areaAcompanhamento.current?.scrollIntoView({
-        block: "start",
-        behavior: "instant",
-      });
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [inscrito]);
-
-  async function iniciarInscricao() {
-    if (abrindoTelegram) return;
-    if (simulacao) {
-      setSimuladoInscrito(true);
-      return;
-    }
-    setAbrindoTelegram(true);
-    setErroTelegram("");
+export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _entregas }: { versaoEdicoes: string | null; versaoEntregas: string | null }) {
+  const router=useRouter();
+  const [estado,setEstado]=useState<"carregando"|"inscrito"|"visitante">("carregando");
+  const [abrindo,setAbrindo]=useState(false);
+  const [erro,setErro]=useState("");
+  useEffect(()=>{
+    let ativo=true;
+    fetch("/api/telegram/sessao",{credentials:"same-origin",cache:"no-store"})
+      .then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;if(d?.ativo===true){setEstado("inscrito");router.replace("/ha-mais-para-entender");}else{setEstado("visitante");}})
+      .catch(()=>{if(ativo)setEstado("visitante");});
+    return ()=>{ativo=false;};
+  },[router]);
+  async function inscrever(){
+    if(abrindo)return;
+    setAbrindo(true);setErro("");
     try {
-      const resposta = await fetch("/api/telegram/sessao", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids: [] }),
-      });
-      if (!resposta.ok) throw new Error("Falha ao iniciar inscrição");
-      const dados = await resposta.json() as { url?: string };
-      const destino = new URL(dados.url ?? "");
-      if (destino.origin !== "https://t.me" ||
-          destino.pathname !== "/ForaDaPautaAcompanhaBot" ||
-          !/^\?start=s_[A-Za-z0-9_-]{32}$/.test(destino.search)) {
-        throw new Error("Endereço do Telegram inválido");
-      }
+      const resposta=await fetch("/api/telegram/sessao",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({ids:[]})});
+      if(!resposta.ok){const detalhe=await resposta.json().catch(()=>({}));throw new Error(typeof detalhe?.erro==="string"?detalhe.erro:"Não foi possível iniciar a inscrição.");}
+      const dados=await resposta.json() as {url?:string};
+      const destino=new URL(dados.url??"");
+      if(destino.origin!=="https://t.me"||destino.pathname!=="/ForaDaPautaAcompanhaBot"||!/^\?start=s_[A-Za-z0-9_-]{32}$/.test(destino.search))throw Error();
       window.location.assign(destino.toString());
-    } catch {
-      setErroTelegram("Não foi possível abrir o Telegram. Tente novamente.");
-      setAbrindoTelegram(false);
-    }
+    }catch(e){setErro(e instanceof Error?e.message:"Não foi possível abrir o Telegram. Tente novamente.");setAbrindo(false);}
   }
-
-  async function selecionar(pessoa: { id: string; nomeUrna: string }) {
-    if (!inscrito || salvandoEscolha || ids.includes(pessoa.id)) return;
-    setErroEscolha("");
-    setAvisoEscolha("");
-    setSalvandoEscolha(true);
-    try {
-      if (!simulacao) {
-        const resposta = await fetch("/api/telegram/sessao", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ids: [pessoa.id] }),
-        });
-        if (!resposta.ok) throw new Error("Não foi possível salvar a escolha");
-      }
-      setIds((anteriores) => anteriores.includes(pessoa.id)
-        ? anteriores : [...anteriores, pessoa.id]);
-      setPessoas((anteriores) => anteriores.some((p) => p.id === pessoa.id)
-        ? anteriores : [...anteriores, pessoa]);
-      setAvisoEscolha(simulacao
-        ? "Simulação: " + pessoa.nomeUrna + " foi escolhido."
-        : "Pronto! Você já acompanha " + pessoa.nomeUrna + ".");
-      setBusca((anterior) => anterior + 1);
-    } catch {
-      setErroEscolha("Não foi possível salvar sua escolha no Telegram. Tente novamente.");
-    } finally {
-      setSalvandoEscolha(false);
-    }
-  }
-
-  return (
-    <>
-      <section className={styles.apresentacao} id="conteudo" aria-labelledby="mensagem-principal">
-        <div className={styles.olhoFundo} aria-hidden="true" />
-        <header className={styles.cabecalho}>
-          <Image
-            src="/marca/fora-da-pauta-horizontal-branco.svg"
-            alt="Fora da Pauta"
-            width={2325}
-            height={374}
-            priority
-            className={styles.logo}
-          />
-          <p className={styles.subtitulo}>Decisões que afetam a sua vida.</p>
-        </header>
-        <div className={styles.intro} id="apresentacao">
-          <div className={styles.heroGrid}>
-            <div className={styles.heroTexto}>
-              <h1 id="mensagem-principal" className={styles.chamada}>
-                Acompanhe o que o seu representante eleito faz.
-              </h1>
-              <p className={styles.explicacao}>
-                Para ficar sabendo das novidades, inscreva-se gratuitamente
-                no canal do Fora da Pauta no Telegram.
-              </p>
-              <p className={styles.explicacao}>Você será avisado por lá.</p>
-
-              <button
-                type="button"
-                onClick={() => void iniciarInscricao()}
-                disabled={conferindo || inscrito || abrindoTelegram}
-                className={styles.botaoInscricao}
-              >
-                {abrindoTelegram ? "Abrindo Telegram..." : "Inscrever no Telegram"}
-                <span aria-hidden="true"> →</span>
-                <SeloTelegram />
-              </button>
-              {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
-            </div>
-
-            <div className={styles.qrArea}>
-              <div className={styles.qrCartao}>
-                <Image
-                  src="/qr/fora-da-pauta.svg"
-                  alt="QR Code para abrir o Fora da Pauta no celular"
-                  width={224}
-                  height={224}
-                  className={styles.qrImagem}
-                />
-              </div>
-              <p className={styles.qrInstrucao}>Aponte a câmera do celular para abrir o Fora da Pauta.</p>
-            </div>
-          </div>
-        </div>
-        <p className={styles.assinatura}>HÁ MAIS PARA ENTENDER.</p>
-      </section>
-
-      <section
-        id="opcoes"
-        className={styles.areaBranca}
-        ref={areaAcompanhamento}
-        aria-labelledby="titulo-opcoes"
-      >
-        <SiteHeader />
-        <div className={styles.areaInterna}>
-          <h2 className={styles.tituloArea} id="titulo-opcoes">
-            Quem você quer acompanhar?
-          </h2>
-          {conferindo ? (
-            <p className={styles.textoArea} role="status">Conferindo sua inscrição...</p>
-          ) : inscrito ? (
-            <>
-              <p className={styles.textoArea}>
-                Digite o nome da pessoa e escolha quem deseja acompanhar.
-              </p>
-              {erroEscolha ? <p role="alert" className="mt-4 text-sm text-red-700">{erroEscolha}</p> : null}
-              {avisoEscolha ? <p role="status" className="mt-4 text-sm font-semibold text-green-800">{avisoEscolha}</p> : null}
-              {salvandoEscolha ? <p role="status" className="mt-4 text-sm">Salvando sua escolha...</p> : null}
-              <CandidateSelector
-                key={busca}
-                mode="follow"
-                selectedIds={ids}
-                onSelect={selecionar}
-              />
-            </>
-          ) : (
-            <>
-              <p className={styles.textoArea}>
-                Para escolher quem você quer acompanhar, faça primeiro sua inscrição gratuita no Telegram.
-              </p>
-              <a href="#conteudo" className={styles.botaoOpcao}>
-                <strong>Ir para a inscrição ↑</strong>
-              </a>
-            </>
-          )}
-
-          <div className={styles.separador} role="separator" />
-          <nav aria-label="Outras opções do Fora da Pauta" className={styles.listaBotoes}>
-            {opcoes.map((opcao) => {
-              const indisponivel = Boolean(opcao.exigeEscolhas && (!inscrito || ids.length === 0));
-              return indisponivel ? (
-                <div key={opcao.titulo} className={styles.botaoOpcao + " " + styles.opcaoDesabilitada} aria-disabled="true">
-                  <strong>{opcao.titulo}</strong>
-                </div>
-              ) : (
-                <Link key={opcao.titulo} href={opcao.href} className={styles.botaoOpcao}>
-                  <strong className={styles.rotuloOpcao}>
-                    <span>{opcao.titulo} →</span>
-                    {opcao.novidade && novidades[opcao.novidade] ? (
-                      <span className={styles.marcaNovidade}>Novidade</span>
-                    ) : null}
-                  </strong>
-                </Link>
-              );
-            })}
-          </nav>
-
-          <a
-            className="mt-6 flex min-h-14 w-full items-center justify-center rounded-lg border border-[#1da851] bg-[#25D366] px-5 py-3 text-center font-semibold text-[#082d16] hover:bg-[#1fc65d]"
-            href={linkWhatsApp}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Compartilhar o Fora da Pauta →
-          </a>
-          <InstalarAplicativo tema="claro" />
-        </div>
-      </section>
-    </>
-  );
+  if(estado==="carregando"||estado==="inscrito")return <main className="min-h-[100svh] bg-[#050505] text-white flex items-center justify-center p-6"><p>Verificando sua inscrição...</p></main>;
+  return <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#050505] px-6 py-9 text-white sm:px-12">
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[url('/marca/fora-da-pauta-olho-dourado.svg')] bg-[length:125%_auto] bg-[position:80%_65%] bg-no-repeat opacity-[.13]"/>
+    <div className="relative mx-auto w-full max-w-4xl">
+      <Image src="/marca/fora-da-pauta-horizontal-branco.svg" alt="Fora da Pauta" width={580} height={94} priority className="h-auto w-full max-w-[460px]"/>
+      <p className="mt-3 text-center font-bold text-[#ffd700] sm:text-left">Decisões que afetam a sua vida.</p>
+    </div>
+    <div className="relative mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center py-12">
+      <h1 className="max-w-2xl text-4xl font-extrabold leading-tight sm:text-6xl">Acompanhe o dia a dia dos políticos.</h1>
+      <p className="mt-7 max-w-2xl text-lg leading-relaxed">Todos os dias, o Fora da Pauta reúne informações sobre o jogo político e avalia seu impacto na vida da sociedade.</p>
+      <p className="mt-5 max-w-2xl text-lg leading-relaxed">Receba nossas análises pelo Telegram. <button type="button" onClick={()=>void inscrever()} disabled={abrindo} className="font-semibold text-[#58c7ff] underline underline-offset-4 disabled:opacity-60">Clique aqui</button> para se inscrever no canal.</p>
+      <button onClick={()=>void inscrever()} disabled={abrindo} className="mt-8 min-h-14 w-full max-w-md rounded-lg bg-[#229ed9] px-5 font-bold text-white disabled:opacity-60">{abrindo?"Abrindo Telegram...":"Inscrever no Telegram →"}</button>
+      {erro&&<p role="alert" className="mt-4">{erro}</p>}
+    </div>
+    <p className="relative mx-auto w-full max-w-4xl text-center text-xs font-bold tracking-widest text-white/70">FORA DA PAUTA / HÁ MAIS PARA ENTENDER.</p>
+  </section>;
 }

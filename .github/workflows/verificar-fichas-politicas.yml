@@ -1,0 +1,41 @@
+name: Verificar integracao das fichas politicas
+on:
+  push:
+    branches: [quero-entender-melhor]
+    paths:
+      - app/pessoas/**
+      - app/pessoa/**
+      - app/api/pessoas/**
+      - components/CandidateSelector.tsx
+      - components/ResultadosInternacionais.tsx
+      - components/FichaInternacional.tsx
+      - data/pessoas/**
+      - tests/rota-pessoa-politica.test.mjs
+      - .github/workflows/verificar-fichas-politicas.yml
+      - .github/workflows/backup-neon-diario.yml
+      - scripts/verificar-integracao-fichas-internacionais.mjs
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integracao:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Validar sintaxe dos fluxos GitHub sem acessar segredos
+        run: |
+          docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:latest -color .github/workflows/backup-neon-diario.yml
+      - name: Verificar tipagem
+        run: npx tsc --noEmit
+      - name: Verificar arquivos alterados
+        run: npx eslint components/CandidateSelector.tsx components/ResultadosInternacionais.tsx components/FichaInternacional.tsx app/pessoas/'[id]'/page.tsx app/pessoa/'[id]'/page.tsx app/api/pessoas/internacionais/route.ts
+      - name: Verificar integração das rotas e busca
+        run: node scripts/verificar-integracao-fichas-internacionais.mjs
+      - name: Validar cadastro e fontes
+        run: node scripts/auditar-pessoas-internacionais.mjs

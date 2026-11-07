@@ -66,6 +66,7 @@ export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-14 w-full items-center justify-center rounded-lg bg-[#238B51] px-5 py-3 text-center font-bold text-white">
             Compartilhar essa edição <span aria-hidden="true" className="ml-2">→</span>
           </a>
+          <a href="/quero-entender-melhor" className="flex min-h-14 w-full items-center justify-center rounded-lg border border-black/20 px-5 py-3 text-center font-bold text-black">Quero entender melhor este assunto →</a>
           <RetornarForaDaPauta />
         </nav>
       </div>

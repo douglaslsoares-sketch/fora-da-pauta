@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "descricao": "Inventário inicial. Presença no catálogo NÃO significa coleta implementada ou cobertura integral.",
+  "fontes": [
+    {
+      "id": "camara",
+      "nome": "Câmara dos Deputados — Dados Abertos",
+      "categoria": "legislativo-federal",
+      "url": "https://dadosabertos.camara.leg.br/api/v2/",
+      "situacao": "coleta-parcial-existente",
+      "rotina": ".github/workflows/atualizar-atuacao-camara.yml"
+    },
+    {
+      "id": "cldf",
+      "nome": "Câmara Legislativa do Distrito Federal",
+      "categoria": "legislativo-distrital",
+      "url": "https://www.cl.df.gov.br/",
+      "situacao": "coleta-parcial-condicional",
+      "rotina": ".github/workflows/atualizar-atuacao-cldf.yml"
+    },
+    {
+      "id": "tse",
+      "nome": "Tribunal Superior Eleitoral",
+      "categoria": "justica-eleitoral",
+      "url": "https://dadosabertos.tse.jus.br/",
+      "situacao": "script-existente-sem-agendamento-diario-comprovado",
+      "rotina": "scripts/atualizar-tse-2026.ps1"
+    },
+    {
+      "id": "dou",
+      "nome": "Diário Oficial da União",
+      "categoria": "diarios-oficiais",
+      "url": "https://www.in.gov.br/",
+      "situacao": "nao-integrado"
+    },
+    {
+      "id": "senado",
+      "nome": "Senado Federal",
+      "categoria": "legislativo-federal",
+      "url": "https://www12.senado.leg.br/dados-abertos",
+      "situacao": "nao-integrado"
+    },
+    {
+      "id": "planalto",
+      "nome": "Presidência da República",
+      "categoria": "executivo-federal",
+      "url": "https://www.gov.br/planalto/pt-br",
+      "situacao": "nao-integrado"
+    },
+    {
+      "id": "stf",
+      "nome": "Supremo Tribunal Federal",
+      "categoria": "judiciario",
+      "url": "https://portal.stf.jus.br/",
+      "situacao": "nao-integrado"
+    },
+    {
+      "id": "imprensa",
+      "nome": "Imprensa escrita, rádio, televisão e mídia alternativa",
+      "categoria": "imprensa",
+      "url": null,
+      "situacao": "fontes-individuais-a-cadastrar"
+    },
+    {
+      "id": "redes",
+      "nome": "Perfis públicos e declarações em redes sociais",
+      "categoria": "redes-sociais",
+      "url": null,
+      "situacao": "perfis-individuais-a-cadastrar"
+    },
+    {
+      "id": "analises",
+      "nome": "Análises de especialistas e entrevistas",
+      "categoria": "analises",
+      "url": null,
+      "situacao": "fontes-individuais-a-cadastrar"
+    }
+  ]
+}

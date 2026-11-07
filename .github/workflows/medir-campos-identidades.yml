@@ -1,0 +1,20 @@
+name: Auditar campos eleitorais e conflitos de identidade
+on:
+  push:
+    branches: [quero-entender-melhor]
+    paths:
+      - scripts/medir-campos-identidades.mjs
+      - .github/workflows/medir-campos-identidades.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  auditar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Medir campos e conflitos sem alterar dados
+        run: node scripts/medir-campos-identidades.mjs

@@ -1,0 +1,38 @@
+name: Verificar autoria das proposições da Câmara (prévia)
+
+on:
+  push:
+    branches:
+      - quero-entender-melhor
+    paths:
+      - ".github/workflows/verificar-autorias-camara.yml"
+      - "scripts/cruzar-autorias-camara.mjs"
+      - "scripts/enriquecer-autorias-camara.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Coletar amostra de proposições
+        run: node scripts/coletar-camara-proposicoes.mjs relatorios/coleta-camara-proposicoes.json
+      - name: Consultar autoria documentada das primeiras 20 proposições
+        env:
+          FDP_LIMITE_AUTORIAS: "20"
+        run: node scripts/enriquecer-autorias-camara.mjs relatorios/coleta-camara-proposicoes.json relatorios/coleta-camara-autorias.json
+      - name: Cruzar autores com identificadores oficiais cadastrados
+        run: node scripts/cruzar-autorias-camara.mjs relatorios/coleta-camara-autorias.json data/eleicoes/gerado/vinculos-camara-identidades.json relatorios/cruzamento-autorias-camara.json
+      - name: Arquivar resultados, inclusive falhas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verificacao-autorias-${{ github.run_id }}
+          path: relatorios/*.json
+          retention-days: 30

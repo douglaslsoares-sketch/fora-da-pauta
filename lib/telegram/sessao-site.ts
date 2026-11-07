@@ -18,27 +18,15 @@ export async function tokenSessao() {
 // Nao devolve dados de identidade ou chat Telegram ao cliente.
 export async function inscricaoAtiva(token: string | null) {
   if (!token) return false;
+  // A inscrição é o vínculo confirmado com o bot, independentemente
+  // de já existir uma escolha individual ou preferência de edições.
   const resultado = await sql<{ ativo: boolean }[]>`
-    SELECT (
-      EXISTS (
-        SELECT 1 FROM public.telegram_preferencias AS p
-        WHERE p.telegram_chat_id = s.telegram_chat_id
-          AND p.tipo = 'novas_edicoes'
-          AND p.status = 'ativo'
-          AND p.cancelled_at IS NULL
-      )
-      OR EXISTS (
-        SELECT 1 FROM public.telegram_acompanhamentos AS a
-        WHERE a.telegram_chat_id = s.telegram_chat_id
-          AND a.status IN ('ativo', 'aguardando_eleicao')
-          AND a.cancelled_at IS NULL
-      )
+    SELECT EXISTS (
+      SELECT 1 FROM public.telegram_sessoes_site
+      WHERE sessao_hash = ${hashSessao(token)}
+        AND expira_at > now()
+        AND telegram_chat_id IS NOT NULL
     ) AS ativo
-    FROM public.telegram_sessoes_site AS s
-    WHERE s.sessao_hash = ${hashSessao(token)}
-      AND s.expira_at > now()
-      AND s.telegram_chat_id IS NOT NULL
-    LIMIT 1
   `;
   return resultado[0]?.ativo === true;
 }

@@ -1,0 +1,20 @@
+name: Medir cobertura das fichas (diagnóstico)
+on:
+  push:
+    branches: [quero-entender-melhor]
+    paths:
+      - scripts/medir-cobertura-fichas.mjs
+      - .github/workflows/medir-cobertura-fichas.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  medir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Medir cobertura e lacunas sem modificar dados
+        run: node scripts/medir-cobertura-fichas.mjs

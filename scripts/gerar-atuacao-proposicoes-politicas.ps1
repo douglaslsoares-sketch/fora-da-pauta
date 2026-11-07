@@ -46,29 +46,54 @@ function Baixar-Arquivo(
   [string]$url,
   [string]$destino
 ) {
-
-  $tmp =
-    "$destino.tmp"
+  $tmp = "$destino.tmp"
+  $maxTentativas = 4
+  $ultimoErro = $null
 
   Write-Host "Baixando:"
   Write-Host $url
 
-  Invoke-WebRequest `
-    -Uri $url `
-    -OutFile $tmp `
-    -UseBasicParsing
+  for ($tentativa = 1; $tentativa -le $maxTentativas; $tentativa++) {
+    try {
+      if (Test-Path -LiteralPath $tmp) {
+        Remove-Item -LiteralPath $tmp -Force
+      }
 
-  if (
-    -not (Test-Path -LiteralPath $tmp) -or
-    (Get-Item -LiteralPath $tmp).Length -eq 0
-  ) {
-    throw "Download vazio: $url"
+      Invoke-WebRequest `
+        -Uri $url `
+        -OutFile $tmp `
+        -UseBasicParsing `
+        -TimeoutSec 180 `
+        -ErrorAction Stop
+
+      if (
+        -not (Test-Path -LiteralPath $tmp) -or
+        (Get-Item -LiteralPath $tmp).Length -eq 0
+      ) {
+        throw "Download vazio: $url"
+      }
+
+      Move-Item `
+        -LiteralPath $tmp `
+        -Destination $destino `
+        -Force
+
+      Write-Host "Download concluido na tentativa $tentativa."
+      return
+    }
+    catch {
+      $ultimoErro = $_
+      if (Test-Path -LiteralPath $tmp) {
+        Remove-Item -LiteralPath $tmp -Force
+      }
+      Write-Warning "Tentativa $tentativa de $maxTentativas falhou: $($_.Exception.Message)"
+      if ($tentativa -lt $maxTentativas) {
+        Start-Sleep -Seconds ([Math]::Min(30, 3 * [Math]::Pow(2, $tentativa - 1)))
+      }
+    }
   }
 
-  Move-Item `
-    -LiteralPath $tmp `
-    -Destination $destino `
-    -Force
+  throw "Falha apos $maxTentativas tentativas ao baixar $url. Erro: $ultimoErro"
 }
 
 function Encontrar-Coluna(

@@ -2,6 +2,32 @@
 
 O Fora da Pauta explica aqui como trabalha, como as pessoas podem participar, como o projeto se sustenta e como presta contas dos recursos que recebe e utiliza.
 
+## Nosso compromisso: uma ponte entre a informação e o entendimento
+
+**O Fora da Pauta é uma ponte entre a informação e o entendimento.**
+
+O projeto não diz ao cidadão o que pensar, qual opinião adotar, quem apoiar ou que decisão tomar. Seu papel é reunir, verificar, comparar, contextualizar e explicar informações, para que cada pessoa forme suas próprias conclusões.
+
+**Informar para compreender. Compreender para decidir.**
+
+### Resenhas informativas, sem opinião institucional
+
+O Fora da Pauta pode e deve produzir resenhas do que encontrou. Cada resenha apresenta acontecimentos, datas, documentos, declarações, versões divergentes, análises e opiniões de terceiros, com identificação das respectivas fontes. Não é um editorial de opinião: o projeto não recomenda uma interpretação nem escolhe qual versão o leitor deve preferir.
+
+Uma afirmação documentada, uma alegação ainda não comprovada e uma opinião devem aparecer identificadas como coisas distintas. A equipe pode conferir documentos, apontar contradições demonstráveis e corrigir erros, sem transformar a verificação em orientação sobre o que o cidadão deve concluir.
+
+### Sem filtros de conveniência
+
+Não cabe ao Fora da Pauta atribuir importância aos acontecimentos no lugar de quem recebe a informação. A coleta não deve excluir fatos ou fontes por orientação política, interesse econômico ou julgamento editorial de relevância. A organização por pessoa, assunto, data, tipo de registro e fonte serve para facilitar o acesso, não para determinar a opinião do leitor.
+
+### Compromisso com a varredura diária
+
+O projeto se compromete com a **varredura diária** das fontes públicas cadastradas, abrangendo progressivamente canais de governo e órgãos oficiais, diários e documentos públicos, mídia tradicional e alternativa, jornais escritos, rádio, televisão, redes sociais, entrevistas, declarações e análises de especialistas.
+
+Cada execução deve registrar data, fontes consultadas, resultados, falhas e lacunas. O sistema não deve afirmar que consultou uma fonte sem tê-la acessado, nem confundir uma rotina agendada com uma consulta realizada. Fontes privadas, indisponíveis, bloqueadas ou não cadastradas devem constar como limites de cobertura, sem promessa de acesso impossível.
+
+**Sem filtros de conveniência. Com responsabilidade e transparência.**
+
 ## O que o Fora da Pauta faz
 
 ### Para que existe

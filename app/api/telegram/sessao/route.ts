@@ -17,7 +17,11 @@ const semCache = { "Cache-Control": "no-store" };
 function permitido(request: Request) {
   const origin = request.headers.get("origin");
   if (!origin) return false;
-  return origin === new URL(request.url).origin;
+  const url = new URL(request.url);
+  const forwardedHost = request.headers.get("x-forwarded-host");
+  const host = forwardedHost || request.headers.get("host") || url.host;
+  const protocol = request.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
+  return origin === `${protocol}://${host}` || origin === url.origin;
 }
 
 export async function GET() {
