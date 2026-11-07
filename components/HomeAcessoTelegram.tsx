@@ -23,8 +23,8 @@ type Opcao = {
 const opcoes: Opcao[] = [
   { titulo: "Políticos para acompanhar", descricao: "Escolha quem acompanhar.", href: "/escolher-quem-acompanhar" },
   { titulo: "Camiseta Fora da Pauta", descricao: "Conheça a camiseta.", href: "/camiseta" },
-  { titulo: "Instalar Fora da Pauta", descricao: "Instale no celular.", href: "/instalar" },
-  { titulo: "Compartilhar Fora da Pauta", descricao: "Compartilhe o projeto.", href: "/compartilhar" },
+  { titulo: "Instalar o Fora da Pauta", descricao: "Instale no celular.", href: "/instalar" },
+  { titulo: "Compartilhar o Fora da Pauta", descricao: "Compartilhe o projeto.", href: "/compartilhar" },
 ];
 
 const mensagemWhatsApp = encodeURIComponent(
@@ -299,13 +299,17 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
           <h2 className={styles.tituloMenu} id="titulo-opcoes">HÁ MAIS PARA ENTENDER.</h2>
           <nav aria-label="Opções do Fora da Pauta" className={styles.listaBotoes}>
             {opcoes.filter((opcao) => !opcao.exigeEscolhas || (inscrito && ids.length > 0)).map((opcao) => (
-              <Link key={opcao.titulo} href={opcao.href} className={`${styles.botaoOpcao} ${opcao.titulo === "Compartilhar Fora da Pauta" ? styles.botaoWhatsApp : ""}`}>
-                <strong className={styles.rotuloOpcao}>
-                  <span>{opcao.titulo} {opcao.titulo === "Instalar Fora da Pauta" ? "↓" : "→"}</span>
-                  {opcao.novidade && novidades[opcao.novidade] ? (
-                    <span className={styles.marcaNovidade}>Novidade</span>
-                  ) : null}
-                </strong>
+              <Link key={opcao.titulo} href={opcao.href} className={opcao.titulo === "Instalar o Fora da Pauta" ? styles.linkInstalacao : `${styles.botaoOpcao} ${opcao.titulo === "Compartilhar o Fora da Pauta" ? styles.botaoWhatsApp : ""}`}>
+                {opcao.titulo === "Instalar o Fora da Pauta" ? (
+                  <span>{opcao.titulo}</span>
+                ) : (
+                  <strong className={styles.rotuloOpcao}>
+                    <span>{opcao.titulo} →</span>
+                    {opcao.novidade && novidades[opcao.novidade] ? (
+                      <span className={styles.marcaNovidade}>Novidade</span>
+                    ) : null}
+                  </strong>
+                )}
               </Link>
             ))}
           </nav>
