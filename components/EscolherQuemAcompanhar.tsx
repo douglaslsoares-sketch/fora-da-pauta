@@ -1,13 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { CandidateSelector } from "@/components/CandidateSelector";
-import { BotaoFecharRodape } from "@/components/BotaoFecharRodape";
 type Pessoa = { id: string; nomeUrna: string };
 export function EscolherQuemAcompanhar() {
   const [inscrito,setInscrito]=useState(false);
   const salvamentosPendentes = useRef(new Set<string>());
-  const [vinculoUrl,setVinculoUrl]=useState("");
   const [ids,setIds]=useState<string[]>([]);
   const [salvando,setSalvando]=useState<string[]>([]);
   const [mensagem,setMensagem]=useState("");
@@ -19,22 +16,15 @@ export function EscolherQuemAcompanhar() {
     try { const salva=localStorage.getItem("fdp-periodicidade-previa"); if(["diaria","semanal","quinzenal"].includes(salva??"")) setPeriodicidade(salva!); } catch {}
     let ativo=true;
     fetch("/api/telegram/sessao",{cache:"no-store",credentials:"same-origin"}).then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;setInscrito(d?.ativo===true);setIds(anteriores=>[...new Set([...anteriores,...(Array.isArray(d?.ids)?d.ids:[])])]);}).catch(()=>{if(ativo)setMensagem("Não foi possível verificar a inscrição no Telegram.");});
-    const atualizar=()=>{fetch("/api/telegram/sessao",{cache:"no-store",credentials:"same-origin"}).then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;if(d?.ativo===true){setInscrito(true);setIds(anteriores=>[...new Set([...anteriores,...(Array.isArray(d.ids)?d.ids:[])])]);setVinculoUrl("");setMensagem("");}}).catch(()=>{});};
+    const atualizar=()=>{fetch("/api/telegram/sessao",{cache:"no-store",credentials:"same-origin"}).then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;if(d?.ativo===true){setInscrito(true);setIds(anteriores=>[...new Set([...anteriores,...(Array.isArray(d.ids)?d.ids:[])])]);setMensagem("");}}).catch(()=>{});};
     window.addEventListener("focus",atualizar);
     document.addEventListener("visibilitychange",atualizar);
     return ()=>{ativo=false;window.removeEventListener("focus",atualizar);document.removeEventListener("visibilitychange",atualizar);};
   },[]);
   async function selecionar(pessoa:Pessoa) {
     if(!inscrito){
-      setSalvando(a=>[...a,pessoa.id]);
-      try {
-        const resposta=await fetch("/api/telegram/sessao",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify({ids:[pessoa.id]})});
-        if(!resposta.ok)throw Error();
-        const dados=await resposta.json();
-        setVinculoUrl(dados.url);
-        setMensagem("Sua escolha está reservada. Confirme no Telegram para concluir.");
-      } catch {setMensagem("Não foi possível iniciar a confirmação. Tente novamente."); window.scrollTo({top:0,behavior:"smooth"});}
-      finally {setSalvando(a=>a.filter(id=>id!==pessoa.id));}
+      setMensagem("Este navegador ainda não está vinculado à sua inscrição no Telegram. Volte ao site pelo botão recebido no Telegram para ativar suas escolhas.");
+      window.scrollTo({top:0,behavior:"smooth"});
       return;
     }
     if(ids.includes(pessoa.id)||salvamentosPendentes.current.has(pessoa.id))return;
@@ -53,7 +43,7 @@ export function EscolherQuemAcompanhar() {
   }
   return <main className="min-h-screen scroll-mt-20 bg-white px-5 pt-10 pb-9 text-black"><div className="mx-auto max-w-2xl">
     <h1 className="mb-6 scroll-mt-24 text-3xl font-extrabold">Qual político você quer acompanhar?</h1>
-    {mensagem?<div role="alert" aria-live="assertive" className="mb-4 rounded-lg border border-black/15 bg-[#fff6d5] p-4"><p>{mensagem}</p>{vinculoUrl?<a className="mt-3 inline-block rounded-lg bg-[#229ed9] px-4 py-3 font-semibold text-white" href={vinculoUrl}>Confirmar no Telegram →</a>:null}</div>:null}
+    {mensagem?<div role="alert" aria-live="assertive" className="mb-4 rounded-lg border border-black/15 bg-[#fff6d5] p-4"><p>{mensagem}</p></div>:null}
     <CandidateSelector mode="follow" selectedIds={ids} savingIds={salvando} onSelect={selecionar}/>
     <div className="mt-8 rounded-xl border border-black/15 bg-black/[0.03] p-5">
       <label htmlFor="frequencia" className="mb-3 block text-lg font-bold">Com que frequência você quer receber os avisos sobre os políticos que acompanha?</label>
