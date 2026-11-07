@@ -1,6 +1,8 @@
 import { HomeAcessoTelegram } from "@/components/HomeAcessoTelegram";
 import { versaoEdicoes, versaoEntregas } from "@/lib/novidades-publicacoes";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { tokenSessao, inscricaoAtiva } from "@/lib/telegram/sessao-site";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -23,7 +25,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
+  // Quem ja confirmou o Telegram neste navegador entra diretamente no menu.
+  const token = await tokenSessao();
+  if (token && await inscricaoAtiva(token)) redirect("/ha-mais-para-entender");
   return (
     <main className={styles.page}>
       <a className={styles.skipLink} href="#conteudo">
