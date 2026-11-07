@@ -549,3 +549,25 @@
     transform: none;
   }
 }
+
+/* Refinamento final da prévia: assinatura com respiro e sem vazio de rodapé. */
+@media (max-width: 850px) {
+  .apresentacao {
+    min-height: 0;
+    height: auto;
+    justify-content: flex-start;
+    padding-bottom: clamp(40px, 6svh, 64px);
+  }
+  .intro {
+    flex: 0 0 auto;
+    display: block;
+  }
+  .heroGrid {
+    min-height: 0;
+    gap: clamp(72px, 10svh, 106px);
+  }
+  .qrArea { margin: 0 auto; transform: none; }
+}
+@media (max-width: 850px) and (max-height: 740px) {
+  .heroGrid { gap: 56px; }
+}
