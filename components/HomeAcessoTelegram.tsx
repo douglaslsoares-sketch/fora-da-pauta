@@ -2,18 +2,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _entregas }: { versaoEdicoes: string | null; versaoEntregas: string | null }) {
+  const router=useRouter();
   const [estado,setEstado]=useState<"carregando"|"inscrito"|"visitante">("carregando");
   const [abrindo,setAbrindo]=useState(false);
   const [erro,setErro]=useState("");
   useEffect(()=>{
     let ativo=true;
     fetch("/api/telegram/sessao",{credentials:"same-origin",cache:"no-store"})
-      .then(r=>r.ok?r.json():null).then(d=>{if(ativo)setEstado(d?.ativo===true?"inscrito":"visitante");})
+      .then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;if(d?.ativo===true){setEstado("inscrito");router.replace("/ha-mais-para-entender");}else{setEstado("visitante");}})
       .catch(()=>{if(ativo)setEstado("visitante");});
     return ()=>{ativo=false;};
-  },[]);
+  },[router]);
   async function inscrever(){
     if(abrindo)return;
     setAbrindo(true);setErro("");
@@ -26,6 +28,7 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
       window.location.assign(destino.toString());
     }catch{setErro("Não foi possível abrir o Telegram. Tente novamente.");setAbrindo(false);}
   }
+  if(estado==="carregando"||estado==="inscrito")return <main className="min-h-[100svh] bg-[#050505] text-white flex items-center justify-center p-6"><p>Verificando sua inscrição...</p></main>;
   return <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#050505] px-6 py-9 text-white sm:px-12">
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[url('/marca/fora-da-pauta-olho-dourado.svg')] bg-[length:125%_auto] bg-[position:80%_65%] bg-no-repeat opacity-[.13]"/>
     <div className="relative mx-auto w-full max-w-4xl">
