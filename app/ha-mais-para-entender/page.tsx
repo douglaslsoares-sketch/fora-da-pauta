@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { BotaoFecharRodape } from "@/components/BotaoFecharRodape";
 
 type SpeechResult = { results: ArrayLike<ArrayLike<{ transcript: string }>> };
 type SpeechInstance = { lang: string; continuous: boolean; interimResults: boolean; onresult: ((e: SpeechResult) => void) | null; onerror: (() => void) | null; onend: (() => void) | null; start: () => void; stop: () => void };
@@ -63,6 +62,5 @@ export default function Page() {
       <Link className={link+" bg-[#25d366] text-white"} href="/compartilhar">Compartilhar o Fora da Pauta →</Link>
       <Link className={link} href="/instalar">Instalar o Fora da Pauta ↓</Link>
     </nav>
-    <BotaoFecharRodape />
   </div></main>;
 }
