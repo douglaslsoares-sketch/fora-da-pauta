@@ -9,6 +9,21 @@ type SpeechConstructor = new () => SpeechInstance;
 export default function Page() {
   const [pergunta, setPergunta] = useState("");
   const [temEscolhas, setTemEscolhas] = useState(false);
+  const [mostrarInstalacao, setMostrarInstalacao] = useState(false);
+  useEffect(() => {
+    const chave = "fdp-pwa-instalada";
+    const emAplicativo = () => window.matchMedia("(display-mode: standalone)").matches ||
+      (navigator as Navigator & {standalone?: boolean}).standalone === true;
+    const verificar = () => {
+      if (emAplicativo()) {try {localStorage.setItem(chave,"1");} catch {} setMostrarInstalacao(false);return;}
+      try {setMostrarInstalacao(localStorage.getItem(chave)!=="1");} catch {setMostrarInstalacao(true);}
+    };
+    const instalado = () => {try {localStorage.setItem(chave,"1");} catch {} setMostrarInstalacao(false);};
+    verificar();
+    window.addEventListener("appinstalled", instalado);
+    window.addEventListener("focus", verificar);
+    return () => {window.removeEventListener("appinstalled", instalado);window.removeEventListener("focus", verificar);};
+  }, []);
   useEffect(() => {
     let ativo = true;
     const verificar = () => fetch("/api/telegram/sessao", {credentials:"same-origin",cache:"no-store"})
@@ -73,8 +88,8 @@ export default function Page() {
         : <span aria-disabled="true" className={link+" cursor-not-allowed bg-[#eeeeee] text-black/40"}>Minhas escolhas</span>}
       <Link className={link} href="/qr-code-fora-da-pauta">QR Code</Link>
       <Link className={link} href="/camiseta">Camiseta</Link>
-      <a className={link+" border-[#25d366] bg-[#25d366] text-[#082d16]"} href={"https://wa.me/?text="+encodeURIComponent("Conheça o Fora da Pauta. Acompanhe o que seu representante faz depois de eleito. https://www.foradapauta.org/")}>Compartilhar</a>
+      <a className={link+" !border-[#25d366] !bg-[#25d366] !text-white"} href={"https://wa.me/?text="+encodeURIComponent("Conheça o Fora da Pauta. Acompanhe o que seu representante faz depois de eleito. https://www.foradapauta.org/")}>Compartilhar</a>
     </nav>
-    <div className="mt-5 text-center"><Link href="/instalar" className="inline-block py-3 text-sm font-semibold text-black/65 underline underline-offset-4">Instalar aplicativo</Link></div>
+    {mostrarInstalacao ? <div className="mt-5 text-center"><Link href="/instalar" className="inline-block py-3 text-sm font-semibold text-black/65 underline underline-offset-4">Instalar o Fora da Pauta</Link></div> : null}
   </div></main>;
 }
