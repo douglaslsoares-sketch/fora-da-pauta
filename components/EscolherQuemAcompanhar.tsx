@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { BotaoFecharRodape } from "@/components/BotaoFecharRodape";
 type Pessoa = { id: string; nomeUrna: string };
@@ -45,7 +46,7 @@ export function EscolherQuemAcompanhar() {
     finally {setSalvando(a=>a.filter(id=>id!==pessoa.id));}
   }
   return <main className="min-h-screen scroll-mt-20 bg-white px-5 pt-10 pb-9 text-black"><div className="mx-auto max-w-2xl">
-    <h1 className="mb-6 scroll-mt-24 text-3xl font-extrabold">Quem você quer acompanhar?</h1>
+    <h1 className="mb-6 scroll-mt-24 text-3xl font-extrabold">Qual político você quer acompanhar?</h1>
     <CandidateSelector mode="follow" selectedIds={ids} savingIds={salvando} onSelect={selecionar}/>
     {mensagem?<div role="status" className="mt-4 rounded-lg bg-black/5 p-4"><p>{mensagem}</p>{vinculoUrl?<a className="mt-3 inline-block rounded-lg bg-[#229ed9] px-4 py-3 font-semibold text-white" href={vinculoUrl}>Confirmar no Telegram →</a>:null}</div>:null}
     <div className="mt-8 rounded-xl border border-black/15 bg-black/[0.03] p-5">
@@ -55,6 +56,7 @@ export function EscolherQuemAcompanhar() {
       </select>
       <p className="mt-3 text-sm text-black/60">Esta opção está em teste e ainda não altera o envio real das notificações.</p>
     </div>
+    <Link href="/ha-mais-para-entender" className="mt-8 flex min-h-14 items-center justify-center rounded-lg bg-[#ffd700] px-5 text-center font-bold text-black">Há mais para entender →</Link>
     <BotaoFecharRodape/>
   </div></main>;
 }
