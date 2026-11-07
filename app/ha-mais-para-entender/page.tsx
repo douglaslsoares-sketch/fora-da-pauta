@@ -120,6 +120,7 @@ export default function Page() {
     <textarea id="duvida" rows={5} value={pergunta} onChange={e => setPergunta(e.target.value)} placeholder="Escreva sua dúvida aqui..." className="mt-2 w-full rounded-lg border border-black/30 p-4" />
     <div className="mt-3 flex flex-wrap gap-3"><button type="button" onClick={ouvir} aria-pressed={gravando} className="min-h-14 rounded-lg bg-[#222] px-6 font-bold text-white">{gravando ? "■ Parar gravação" : "🎙 Ditar pergunta"}</button>
     <button type="button" onClick={enviar} className="min-h-14 rounded-lg bg-[#ffd700] px-8 font-bold text-black">Enviar</button></div>
+    {gravando && <p role="status" aria-live="polite" className="mt-3 flex items-center gap-2 text-base font-semibold text-black"><span aria-hidden="true" className="h-3 w-3 shrink-0 animate-pulse rounded-full bg-red-600" />Ouvindo sua pergunta...</p>}
     <p className="mt-3 text-sm text-black/65">Teste: a pergunta fica salva apenas neste navegador. O envio à equipe ainda não está ativado.</p>
     {aviso && <p role="status" className="mt-3 rounded-lg bg-black/5 p-4">{aviso}</p>}
     </>}
