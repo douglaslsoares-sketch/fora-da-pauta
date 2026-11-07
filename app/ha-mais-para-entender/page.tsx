@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type SpeechResult = { results: ArrayLike<ArrayLike<{ transcript: string }>> };
 type SpeechInstance = { lang: string; continuous: boolean; interimResults: boolean; onresult: ((e: SpeechResult) => void) | null; onerror: (() => void) | null; onend: (() => void) | null; start: () => void; stop: () => void };
@@ -8,6 +8,17 @@ type SpeechConstructor = new () => SpeechInstance;
 
 export default function Page() {
   const [pergunta, setPergunta] = useState("");
+  const [temEscolhas, setTemEscolhas] = useState(false);
+  useEffect(() => {
+    let ativo = true;
+    const verificar = () => fetch("/api/telegram/sessao", {credentials:"same-origin",cache:"no-store"})
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {if(ativo) setTemEscolhas(d?.ativo===true && Array.isArray(d?.ids) && d.ids.length>0);})
+      .catch(() => {if(ativo) setTemEscolhas(false);});
+    void verificar();
+    window.addEventListener("focus", verificar);
+    return () => {ativo=false;window.removeEventListener("focus",verificar);};
+  }, []);
   const [gravando, setGravando] = useState(false);
   const [aviso, setAviso] = useState("");
   const [confirmacaoTeste, setConfirmacaoTeste] = useState(false);
@@ -56,11 +67,14 @@ export default function Page() {
     {aviso && <p role="status" className="mt-3 rounded-lg bg-black/5 p-4">{aviso}</p>}
     </>}
     <nav className="mt-9 grid gap-3" aria-label="Próximas opções">
-      <Link className={link} href="/escolher-quem-acompanhar">Escolher político →</Link>
-      <Link className={link} href="/minhas-escolhas">Minhas escolhas →</Link>
-      <Link className={link} href="/qr-code-fora-da-pauta">QR Code do Fora da Pauta →</Link>
-      <Link className={link+" bg-[#25d366] text-white"} href="/compartilhar">Compartilhar o Fora da Pauta →</Link>
-      <Link className={link} href="/instalar">Instalar o Fora da Pauta ↓</Link>
+      <Link className={link} href="/escolher-quem-acompanhar">Escolher político</Link>
+      {temEscolhas
+        ? <Link className={link} href="/minhas-escolhas">Minhas escolhas</Link>
+        : <span aria-disabled="true" className={link+" cursor-not-allowed bg-[#eeeeee] text-black/40"}>Minhas escolhas</span>}
+      <Link className={link} href="/qr-code-fora-da-pauta">QR Code</Link>
+      <Link className={link} href="/camiseta">Camiseta</Link>
+      <a className={link+" border-[#25d366] bg-[#25d366] text-[#082d16]"} href={"https://wa.me/?text="+encodeURIComponent("Conheça o Fora da Pauta. Acompanhe o que seu representante faz depois de eleito. https://www.foradapauta.org/")}>Compartilhar</a>
     </nav>
+    <div className="mt-5 text-center"><Link href="/instalar" className="inline-block py-3 text-sm font-semibold text-black/65 underline underline-offset-4">Instalar aplicativo</Link></div>
   </div></main>;
 }
