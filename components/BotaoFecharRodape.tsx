@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 const HOME = "/#opcoes";
 function destinoSeguro(path: string) {
+  if (path === "/qr-code-fora-da-pauta") return "/ha-mais-para-entender";
   if (path === "/edicoes") return HOME;
   if (path.startsWith("/campanhas/")) return "/edicoes";
   return HOME;
@@ -34,6 +35,7 @@ export function BotaoFecharRodape() {
       router.push(padrao);
       return;
     }
+    if (pathname === "/qr-code-fora-da-pauta") { router.push("/ha-mais-para-entender"); return; }
     if (origem && origem !== pathname && !origem.startsWith("/api/")) {
       router.push(origem === "/" ? HOME : origem);
       return;
