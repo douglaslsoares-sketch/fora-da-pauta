@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -21,12 +20,12 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
     setAbrindo(true);setErro("");
     try {
       const resposta=await fetch("/api/telegram/sessao",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({ids:[]})});
-      if(!resposta.ok)throw Error();
+      if(!resposta.ok){const detalhe=await resposta.json().catch(()=>({}));throw new Error(typeof detalhe?.erro==="string"?detalhe.erro:"Não foi possível iniciar a inscrição.");}
       const dados=await resposta.json() as {url?:string};
       const destino=new URL(dados.url??"");
       if(destino.origin!=="https://t.me"||destino.pathname!=="/ForaDaPautaAcompanhaBot"||!/^\?start=s_[A-Za-z0-9_-]{32}$/.test(destino.search))throw Error();
       window.location.assign(destino.toString());
-    }catch{setErro("Não foi possível abrir o Telegram. Tente novamente.");setAbrindo(false);}
+    }catch(e){setErro(e instanceof Error?e.message:"Não foi possível abrir o Telegram. Tente novamente.");setAbrindo(false);}
   }
   if(estado==="carregando"||estado==="inscrito")return <main className="min-h-[100svh] bg-[#050505] text-white flex items-center justify-center p-6"><p>Verificando sua inscrição...</p></main>;
   return <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#050505] px-6 py-9 text-white sm:px-12">
@@ -38,10 +37,8 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
     <div className="relative mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center py-12">
       <h1 className="max-w-2xl text-4xl font-extrabold leading-tight sm:text-6xl">Acompanhe o dia a dia dos políticos.</h1>
       <p className="mt-7 max-w-2xl text-lg leading-relaxed">Todos os dias, o Fora da Pauta reúne informações sobre o jogo político e os impactos na vida da sociedade.</p>
-      <p className="mt-5 max-w-2xl text-lg leading-relaxed">Receba as novidades pelo Telegram. <button type="button" onClick={()=>void inscrever()} disabled={abrindo||estado==="carregando"||estado==="inscrito"} className="font-semibold text-[#58c7ff] underline underline-offset-4 disabled:opacity-60">Clique aqui</button> para se inscrever no nosso canal.</p>
-      {estado==="inscrito"?
-        <Link href="/escolher-quem-acompanhar" className="mt-8 flex min-h-14 w-full max-w-md items-center justify-center rounded-lg bg-[#ffd700] px-5 text-center font-bold text-black">Continuar para a seleção →</Link>:
-        <button onClick={()=>void inscrever()} disabled={abrindo||estado==="carregando"} className="mt-8 min-h-14 w-full max-w-md rounded-lg bg-[#229ed9] px-5 font-bold text-white disabled:opacity-60">{abrindo?"Abrindo Telegram...":"Inscrever no Telegram →"}</button>}
+      <p className="mt-5 max-w-2xl text-lg leading-relaxed">Receba as novidades pelo Telegram. <button type="button" onClick={()=>void inscrever()} disabled={abrindo} className="font-semibold text-[#58c7ff] underline underline-offset-4 disabled:opacity-60">Clique aqui</button> para se inscrever no nosso canal.</p>
+      <button onClick={()=>void inscrever()} disabled={abrindo} className="mt-8 min-h-14 w-full max-w-md rounded-lg bg-[#229ed9] px-5 font-bold text-white disabled:opacity-60">{abrindo?"Abrindo Telegram...":"Inscrever no Telegram →"}</button>
       {erro&&<p role="alert" className="mt-4">{erro}</p>}
     </div>
     <p className="relative mx-auto w-full max-w-4xl text-center text-xs font-bold tracking-widest text-white/70">FORA DA PAUTA / HÁ MAIS PARA ENTENDER.</p>
