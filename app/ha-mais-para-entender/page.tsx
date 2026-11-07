@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-type SpeechResult = { results: ArrayLike<ArrayLike<{ transcript: string }>> };
+type SpeechResult = { resultIndex: number; results: ArrayLike<ArrayLike<{ transcript: string }> & { isFinal: boolean }> };
 type SpeechInstance = { lang: string; continuous: boolean; interimResults: boolean; onresult: ((e: SpeechResult) => void) | null; onerror: (() => void) | null; onend: (() => void) | null; start: () => void; stop: () => void };
 type SpeechConstructor = new () => SpeechInstance;
 
@@ -37,18 +37,60 @@ export default function Page() {
   const [gravando, setGravando] = useState(false);
   const [aviso, setAviso] = useState("");
   const [confirmacaoTeste, setConfirmacaoTeste] = useState(false);
-  const [reconhecedor, setReconhecedor] = useState<SpeechInstance | null>(null);
+  const reconhecedorRef = useRef<SpeechInstance | null>(null);
+  const escutaAtivaRef = useRef(false);
+  const ultimoResultadoRef = useRef(0);
+  useEffect(() => () => { escutaAtivaRef.current = false; reconhecedorRef.current?.stop(); }, []);
   function ouvir() {
-    if (gravando && reconhecedor) { reconhecedor.stop(); setGravando(false); return; }
+    if (escutaAtivaRef.current) {
+      escutaAtivaRef.current = false;
+      reconhecedorRef.current?.stop();
+      setGravando(false);
+      setAviso("Confira e corrija a transcrição antes de enviar.");
+      return;
+    }
     const janela = window as Window & { SpeechRecognition?: SpeechConstructor; webkitSpeechRecognition?: SpeechConstructor };
     const Classe = janela.SpeechRecognition ?? janela.webkitSpeechRecognition;
     if (!Classe) { setAviso("Seu navegador não oferece transcrição por voz. Você pode digitar sua pergunta."); return; }
-    const voz = new Classe(); voz.lang = "pt-BR"; voz.continuous = false; voz.interimResults = false;
-    voz.onresult = e => { const texto = Array.from(e.results).map(r => r[0]?.transcript ?? "").join(" "); setPergunta(p => [p, texto].filter(Boolean).join(" ").trim()); setAviso("Confira e corrija a transcrição antes de enviar."); };
-    voz.onerror = () => { setGravando(false); setAviso("Não foi possível reconhecer a voz. Você pode digitar."); };
-    voz.onend = () => setGravando(false);
-    setReconhecedor(voz); setAviso(""); setGravando(true);
-    try { voz.start(); } catch { setGravando(false); setAviso("Não foi possível iniciar o microfone."); }
+    const voz = new Classe();
+    voz.lang = "pt-BR";
+    voz.continuous = true;
+    voz.interimResults = false;
+    ultimoResultadoRef.current = 0;
+    escutaAtivaRef.current = true;
+    reconhecedorRef.current = voz;
+    voz.onresult = e => {
+      const partes: string[] = [];
+      for (let i = Math.max(e.resultIndex, ultimoResultadoRef.current); i < e.results.length; i++) {
+        if (e.results[i].isFinal) partes.push(e.results[i][0]?.transcript ?? "");
+      }
+      ultimoResultadoRef.current = e.results.length;
+      const texto = partes.join(" ").trim();
+      if (texto) setPergunta(p => [p, texto].filter(Boolean).join(" ").trim());
+    };
+    voz.onerror = () => {
+      escutaAtivaRef.current = false;
+      setGravando(false);
+      setAviso("O reconhecimento de voz foi interrompido. Você pode tentar novamente ou digitar.");
+    };
+    voz.onend = () => {
+      if (!escutaAtivaRef.current) { setGravando(false); return; }
+      // Alguns navegadores encerram uma sessão de reconhecimento após uma pausa.
+      // Recomeçamos enquanto a pessoa não tocar em "Parar gravação".
+      ultimoResultadoRef.current = 0;
+      try { voz.start(); } catch {
+        escutaAtivaRef.current = false;
+        setGravando(false);
+        setAviso("O navegador interrompeu a escuta. Toque em Ditar pergunta para continuar.");
+      }
+    };
+    setAviso("");
+    setGravando(true);
+    try { voz.start(); } catch {
+      escutaAtivaRef.current = false;
+      setGravando(false);
+      setAviso("Não foi possível iniciar o microfone.");
+    }
   }
   function enviar() {
     if (!pergunta.trim()) { setAviso("Escreva ou dite sua dúvida antes de enviar."); return; }
