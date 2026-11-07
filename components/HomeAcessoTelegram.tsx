@@ -253,16 +253,9 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
                 Acompanhe o dia a dia dos políticos.
               </h1>
               <p className={styles.explicacao}>
-                Todos os dias, o Fora da Pauta acompanha notícias, redes sociais
-                e atividades dos políticos no governo.
+                Todos os dias, o Fora da Pauta reúne informações sobre o jogo político e os impactos na vida da sociedade.
               </p>
-              <p className={styles.explicacao}>
-                Reúne essas informações para você saber o que eles dizem, o que
-                fazem e como suas decisões afetam sua vida.
-              </p>
-              <p className={styles.explicacao}>
-                Receba as novidades gratuitamente pelo Telegram.
-              </p>
+              <p className={styles.explicacao}>Receba as novidades pelo Telegram. Clique aqui para se inscrever no nosso canal.</p>
 
               <button
                 type="button"
@@ -290,12 +283,15 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
               <p className={styles.qrInstrucao}>foradapauta.org</p>
             </div>
           </div>
+          <p className={styles.assinatura}>FORA DA PAUTA / HÁ MAIS PARA ENTENDER.</p>
         </div>
       </section>
 
       <section id="opcoes" className={styles.areaBranca} ref={areaAcompanhamento} aria-labelledby="titulo-opcoes">
         <div className={styles.areaInterna}>
           <h2 className={styles.tituloMenu} id="titulo-opcoes">HÁ MAIS PARA ENTENDER.</h2>
+          <p className={styles.textoArea}>O que você gostaria de entender?</p>
+          <Link href="/ha-mais-para-entender" className={styles.botaoOpcao}><strong className={styles.rotuloOpcao}><span>Fazer uma pergunta →</span></strong></Link>
           <nav aria-label="Opções do Fora da Pauta" className={styles.listaBotoes}>
             <Link href="/escolher-quem-acompanhar" className={styles.botaoOpcao}>
               <strong className={styles.rotuloOpcao}><span>Políticos para acompanhar →</span></strong>
