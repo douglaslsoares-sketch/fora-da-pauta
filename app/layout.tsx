@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.foradapauta.org"),
   openGraph: {
     title: "Fora da Pauta — Há mais para entender.",
-    description: "Um espaço para entender melhor as decisões que afetam a nossa vida e o que está por trás das notícias.",
+    description: "Acompanhe o dia a dia dos políticos. Entenda como as decisões políticas afetam a nossa vida.",
     url: "https://www.foradapauta.org/",
     siteName: "Fora da Pauta",
     locale: "pt_BR",
