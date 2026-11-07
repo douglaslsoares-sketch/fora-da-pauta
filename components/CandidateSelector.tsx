@@ -646,6 +646,7 @@ type CandidateSelectorProps =
   | {
       mode: "follow";
       selectedIds: readonly string[];
+      savingIds?: readonly string[];
       onSelect: (candidate: CandidateResult) => void;
     };
 
@@ -658,10 +659,12 @@ export function CandidateSelector(props: CandidateSelectorProps = {}) {
 
 function CandidateFollowSelector({
   selectedIds,
+  savingIds = [],
   onSelect,
   apenasFicha = false,
 }: {
   selectedIds: readonly string[];
+  savingIds?: readonly string[];
   onSelect?: (candidate: CandidateResult) => void;
   apenasFicha?: boolean;
 }) {
@@ -874,8 +877,8 @@ function CandidateFollowSelector({
         aria-busy={carregando}
       >
         {resultados.map((candidate) => {
-          const selecionado =
-            selectedIds.includes(candidate.id);
+          const selecionado = selectedIds.includes(candidate.id);
+          const salvando = savingIds.includes(candidate.id);
 
           return (
             <div
@@ -910,16 +913,16 @@ function CandidateFollowSelector({
               {!apenasFicha && onSelect ? <button
                 type="button"
                 onClick={() => onSelect(candidate)}
-                disabled={selecionado}
+                disabled={selecionado || salvando}
                 className={`shrink-0 rounded-xl px-2.5 py-3 text-xs font-bold ${
                   selecionado
-                    ? "bg-black/5 text-black/40"
-                    : "bg-[#FFC400] text-black hover:bg-[#e9b300]"
+                    ? "bg-[#168449] text-white"
+                    : salvando ? "bg-[#f5df8b] text-black/70" : "bg-[#FFC400] text-black hover:bg-[#e9b300]"
                 }`}
               >
                 {selecionado
                   ? "Selecionado"
-                  : "Acompanhar"}
+                  : salvando ? "Salvando..." : "Acompanhar"}
               </button> : null}
               </div>
             </div>
