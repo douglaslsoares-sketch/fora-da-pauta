@@ -1,11 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { BotaoFecharRodape } from "@/components/BotaoFecharRodape";
 type Pessoa = { id: string; nomeUrna: string };
 export function EscolherQuemAcompanhar() {
   const [inscrito,setInscrito]=useState(false);
+  const salvamentosPendentes = useRef(new Set<string>());
   const [vinculoUrl,setVinculoUrl]=useState("");
   const [ids,setIds]=useState<string[]>([]);
   const [salvando,setSalvando]=useState<string[]>([]);
@@ -17,8 +18,8 @@ export function EscolherQuemAcompanhar() {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     try { const salva=localStorage.getItem("fdp-periodicidade-previa"); if(["diaria","semanal","quinzenal"].includes(salva??"")) setPeriodicidade(salva!); } catch {}
     let ativo=true;
-    fetch("/api/telegram/sessao",{cache:"no-store",credentials:"same-origin"}).then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;setInscrito(d?.ativo===true);setIds(Array.isArray(d?.ids)?d.ids:[]);}).catch(()=>{if(ativo)setMensagem("Não foi possível verificar a inscrição no Telegram.");});
-    const atualizar=()=>{fetch("/api/telegram/sessao",{cache:"no-store",credentials:"same-origin"}).then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;if(d?.ativo===true){setInscrito(true);setIds(Array.isArray(d.ids)?d.ids:[]);setVinculoUrl("");setMensagem("");}}).catch(()=>{});};
+    fetch("/api/telegram/sessao",{cache:"no-store",credentials:"same-origin"}).then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;setInscrito(d?.ativo===true);setIds(anteriores=>[...new Set([...anteriores,...(Array.isArray(d?.ids)?d.ids:[])])]);}).catch(()=>{if(ativo)setMensagem("Não foi possível verificar a inscrição no Telegram.");});
+    const atualizar=()=>{fetch("/api/telegram/sessao",{cache:"no-store",credentials:"same-origin"}).then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;if(d?.ativo===true){setInscrito(true);setIds(anteriores=>[...new Set([...anteriores,...(Array.isArray(d.ids)?d.ids:[])])]);setVinculoUrl("");setMensagem("");}}).catch(()=>{});};
     window.addEventListener("focus",atualizar);
     document.addEventListener("visibilitychange",atualizar);
     return ()=>{ativo=false;window.removeEventListener("focus",atualizar);document.removeEventListener("visibilitychange",atualizar);};
@@ -36,16 +37,19 @@ export function EscolherQuemAcompanhar() {
       finally {setSalvando(a=>a.filter(id=>id!==pessoa.id));}
       return;
     }
-    if(ids.includes(pessoa.id)||salvando.includes(pessoa.id))return;
+    if(ids.includes(pessoa.id)||salvamentosPendentes.current.has(pessoa.id))return;
+    salvamentosPendentes.current.add(pessoa.id);
     setSalvando(a=>[...a,pessoa.id]);
     setMensagem("");
     try {
       const resposta=await fetch("/api/telegram/sessao",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({ids:[pessoa.id]})});
-      if(!resposta.ok)throw Error();
+      if(!resposta.ok) { const dados=await resposta.json().catch(()=>null);throw Error(dados?.erro||"Não foi possível salvar sua escolha."); }
+      const dados=await resposta.json();
+      if(dados?.salvo!==true)throw Error("O servidor não confirmou o salvamento.");
       setIds(a=>a.includes(pessoa.id)?a:[...a,pessoa.id]);
       setMensagem(`${pessoa.nomeUrna} foi adicionado à sua lista de acompanhados.`);
-    } catch {setMensagem("Não foi possível salvar sua escolha. Tente novamente.");}
-    finally {setSalvando(a=>a.filter(id=>id!==pessoa.id));}
+    } catch (erro) {setMensagem(erro instanceof Error?erro.message:"Não foi possível salvar sua escolha. Tente novamente.");}
+    finally {salvamentosPendentes.current.delete(pessoa.id);setSalvando(a=>a.filter(id=>id!==pessoa.id));}
   }
   return <main className="min-h-screen scroll-mt-20 bg-white px-5 pt-10 pb-9 text-black"><div className="mx-auto max-w-2xl">
     <h1 className="mb-6 scroll-mt-24 text-3xl font-extrabold">Qual político você quer acompanhar?</h1>
