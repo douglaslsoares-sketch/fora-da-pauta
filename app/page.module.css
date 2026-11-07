@@ -535,3 +535,17 @@
 @media (max-width: 850px) {
   .qrArea { transform: translateY(-clamp(52px, 7svh, 82px)); }
 }
+
+/* Assinatura da home: QR no fluxo após o convite, não ancorado ao rodapé. */
+@media (max-width: 850px) {
+  .heroGrid {
+    justify-content: flex-start;
+    min-height: 0;
+    gap: clamp(38px, 6svh, 68px);
+  }
+  .qrArea {
+    margin-top: 0;
+    margin-bottom: 0;
+    transform: none;
+  }
+}
