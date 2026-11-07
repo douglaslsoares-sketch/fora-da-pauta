@@ -23,7 +23,6 @@ type Opcao = {
 const opcoes: Opcao[] = [
   { titulo: "Políticos para acompanhar", descricao: "Escolha quem acompanhar.", href: "/escolher-quem-acompanhar" },
   { titulo: "Camiseta Fora da Pauta", descricao: "Conheça a camiseta.", href: "/camiseta" },
-  { titulo: "Instalar o Fora da Pauta", descricao: "Instale no celular.", href: "/instalar" },
   { titulo: "Compartilhar o Fora da Pauta", descricao: "Compartilhe o projeto.", href: "/compartilhar" },
 ];
 
@@ -298,20 +297,18 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
         <div className={styles.areaInterna}>
           <h2 className={styles.tituloMenu} id="titulo-opcoes">HÁ MAIS PARA ENTENDER.</h2>
           <nav aria-label="Opções do Fora da Pauta" className={styles.listaBotoes}>
-            {opcoes.filter((opcao) => !opcao.exigeEscolhas || (inscrito && ids.length > 0)).map((opcao) => (
-              <Link key={opcao.titulo} href={opcao.href} className={opcao.titulo === "Instalar o Fora da Pauta" ? styles.linkInstalacao : `${styles.botaoOpcao} ${opcao.titulo === "Compartilhar o Fora da Pauta" ? styles.botaoWhatsApp : ""}`}>
-                {opcao.titulo === "Instalar o Fora da Pauta" ? (
-                  <span aria-label="Instalar o Fora da Pauta">Instalar o Fora da Pauta</span>
-                ) : (
-                  <strong className={styles.rotuloOpcao}>
-                    <span>{opcao.titulo} →</span>
-                    {opcao.novidade && novidades[opcao.novidade] ? (
-                      <span className={styles.marcaNovidade}>Novidade</span>
-                    ) : null}
-                  </strong>
-                )}
-              </Link>
-            ))}
+            <Link href="/escolher-quem-acompanhar" className={styles.botaoOpcao}>
+              <strong className={styles.rotuloOpcao}><span>Políticos para acompanhar →</span></strong>
+            </Link>
+            <Link href="/camiseta" className={styles.botaoOpcao}>
+              <strong className={styles.rotuloOpcao}><span>Camiseta Fora da Pauta →</span></strong>
+            </Link>
+            <Link href="/instalar" className={styles.linkInstalacao}>
+              Instalar o Fora da Pauta
+            </Link>
+            <Link href="/compartilhar" className={`${styles.botaoOpcao} ${styles.botaoWhatsApp}`}>
+              <strong className={styles.rotuloOpcao}><span>Compartilhar o Fora da Pauta →</span></strong>
+            </Link>
           </nav>
 
         </div>
