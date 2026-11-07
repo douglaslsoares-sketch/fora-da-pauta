@@ -530,3 +530,8 @@
 @media (max-width: 850px) and (max-height: 680px) {
   .heroTexto { transform: translateY(12px); }
 }
+
+/* Refinamento da prévia: subir apenas o conjunto QR + endereço. */
+@media (max-width: 850px) {
+  .qrArea { transform: translateY(-clamp(16px, 2.5svh, 30px)); }
+}
