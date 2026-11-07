@@ -10,6 +10,8 @@ export function EscolherQuemAcompanhar() {
   const [mensagem,setMensagem]=useState("");
   const [periodicidade,setPeriodicidade]=useState("semanal");
   useEffect(()=>{
+    // Ao abrir a página, não herdar a posição de rolagem da home.
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     try { const salva=localStorage.getItem("fdp-periodicidade-previa"); if(["diaria","semanal","quinzenal"].includes(salva??"")) setPeriodicidade(salva!); } catch {}
     let ativo=true;
     fetch("/api/telegram/sessao",{cache:"no-store",credentials:"same-origin"}).then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;setInscrito(d?.ativo===true);setIds(Array.isArray(d?.ids)?d.ids:[]);}).catch(()=>{if(ativo)setMensagem("Não foi possível verificar a inscrição no Telegram.");});
@@ -23,8 +25,8 @@ export function EscolherQuemAcompanhar() {
       setIds(a=>a.includes(pessoa.id)?a:[...a,pessoa.id]);setBusca(a=>a+1);setMensagem("Pronto! Você já acompanha "+pessoa.nomeUrna+".");
     } catch {setMensagem("Não foi possível salvar sua escolha. Tente novamente.");}
   }
-  return <main className="min-h-screen bg-white px-5 py-9 text-black"><div className="mx-auto max-w-2xl">
-    <h1 className="mb-6 text-3xl font-extrabold">Quem você quer acompanhar?</h1>
+  return <main className="min-h-screen scroll-mt-20 bg-white px-5 pt-10 pb-9 text-black"><div className="mx-auto max-w-2xl">
+    <h1 className="mb-6 scroll-mt-24 text-3xl font-extrabold">Quem você quer acompanhar?</h1>
     {mensagem?<p role="status" className="mb-4 rounded-lg bg-black/5 p-4">{mensagem}</p>:null}
     <CandidateSelector key={busca} mode="follow" selectedIds={ids} onSelect={selecionar}/>
     <div className="mt-8 rounded-xl border border-black/15 bg-black/[0.03] p-5">
