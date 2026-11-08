@@ -830,11 +830,12 @@ export async function POST(
       }
       await enviarMensagemTelegram({
         chatId,
-        texto: "Pronto, você está inscrito! Sua inscrição já habilita os avisos gerais e os avisos personalizados do Fora da Pauta. Você receberá as novidades gerais mesmo sem escolher ninguém. Quando escolher políticos para acompanhar, receberá também os avisos sobre eles, sem precisar se inscrever de novo. Para interromper os avisos, envie /parar.",
-        botoes: [[{
-          text: "→ foradapauta.org",
-          url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=opcoes`,
-        }]],
+        texto: "Pronto, sua inscrição está confirmada! Volte à mesma página do Fora da Pauta que você deixou aberta no navegador. Suas escolhas aparecerão automaticamente. Você receberá avisos gerais e, quando escolher políticos, avisos sobre eles. Para interromper os avisos, envie /parar.",
+        // A confirmação já vinculou o navegador que iniciou a inscrição.
+        // Não enviar um botão de retorno ao domínio de produção: quando a
+        // inscrição começa numa prévia, ele abre o site errado.
+        // O navegador original detecta o vínculo automaticamente.
+        botoes: [],
       });
       return NextResponse.json({ ok: true });
     }
