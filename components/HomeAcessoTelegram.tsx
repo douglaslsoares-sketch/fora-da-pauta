@@ -11,7 +11,7 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
   useEffect(()=>{
     let ativo=true;
     fetch("/api/telegram/sessao",{credentials:"same-origin",cache:"no-store"})
-      .then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;if(d?.ativo===true){setEstado("inscrito");router.replace("/ha-mais-para-entender");}else{setEstado("visitante");}})
+      .then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;if(d?.ativo===true){setEstado("inscrito");router.replace(sessionStorage.getItem("fdp_primeira_inscricao") === "1" ? "/api/telegram/primeira-inscricao" : "/ha-mais-para-entender");}else{setEstado("visitante");}})
       .catch(()=>{if(ativo)setEstado("visitante");});
     return ()=>{ativo=false;};
   },[router]);
@@ -24,6 +24,7 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
       const dados=await resposta.json() as {url?:string};
       const destino=new URL(dados.url??"");
       if(destino.origin!=="https://t.me"||destino.pathname!=="/ForaDaPautaAcompanhaBot"||!/^\?start=s_[A-Za-z0-9_-]{32}$/.test(destino.search))throw Error();
+      sessionStorage.setItem("fdp_primeira_inscricao", "1");
       window.location.assign(destino.toString());
     }catch(e){setErro(e instanceof Error?e.message:"Não foi possível abrir o Telegram. Tente novamente.");setAbrindo(false);}
   }
