@@ -143,6 +143,10 @@ export async function POST(request: Request) {
     url: `https://t.me/${BOT}?start=s_${codigo}`,
     vinculado: result[0]?.vinculado ?? false,
   }, { headers: semCache });
+  resposta.cookies.set("fdp_primeira_inscricao", "1", {
+    httpOnly: true, secure: process.env.NODE_ENV === "production",
+    sameSite: "lax", path: "/", maxAge: 3600,
+  });
   resposta.cookies.set(COOKIE_SESSAO_TELEGRAM, token, {
     httpOnly: true, secure: process.env.NODE_ENV === "production",
     sameSite: "lax", path: "/", maxAge: DIAS_SESSAO * 86400,
