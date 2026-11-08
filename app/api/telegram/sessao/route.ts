@@ -76,7 +76,7 @@ export async function GET() {
       nomeCompleto: pessoa.nomeCompleto,
       numero: pessoa.numero,
       cargo: pessoa.cargo,
-      // Ana Sagário (RJ, 77233, TSE 190002534112): gênero feminino confirmado\n      // na relação de candidaturas do Solidariedade e em dados eleitorais do TSE.\n      cargoLabel: formatarCargo(pessoa.cargo, pessoa.id === "190002534112" ? "feminino" : pessoa.id === "210002534604" ? "feminino" : pessoa.genero),
+      cargoLabel: formatarCargo(pessoa.cargo, pessoa.id === "210002534604" ? "feminino" : pessoa.genero),
       uf: pessoa.uf,
       siglaPartido: pessoa.siglaPartido,
       eleitoConfirmado: eleitos.has(id),
