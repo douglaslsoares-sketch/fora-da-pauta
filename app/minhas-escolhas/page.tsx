@@ -34,7 +34,7 @@ export default function Page(){
       const d=await r.json().catch(()=>null);
       if(!r.ok||typeof d?.url!=="string")throw Error(d?.erro||"Não foi possível iniciar o vínculo.");
       const url=new URL(d.url);
-      if(url.origin!=="https://t.me"||url.pathname!=="/ForaDaPautaAcompanhaBot"||!/^\\?start=s_[A-Za-z0-9_-]{32}$/.test(url.search))throw Error("Endereço do Telegram inválido.");
+      if(url.origin!=="https://t.me"||url.pathname!=="/ForaDaPautaAcompanhaBot"||!/^\?start=s_[A-Za-z0-9_-]{32}$/.test(url.search))throw Error("Endereço do Telegram inválido.");
       window.location.assign(url.toString());
     }catch(e){setErro(e instanceof Error?e.message:"Não foi possível abrir o Telegram.");setVinculando(false);}
   }
