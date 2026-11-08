@@ -17,18 +17,13 @@ export default function Page() {
     return () => {ativo=false;window.removeEventListener("focus",verificar);};
   }, []);
   useEffect(() => {
-    const chave = "fdp-pwa-instalada";
-    const emAplicativo = () => window.matchMedia("(display-mode: standalone)").matches ||
-      (navigator as Navigator & {standalone?: boolean}).standalone === true;
-    const verificar = () => {
-      if (emAplicativo()) {try {localStorage.setItem(chave,"1");} catch {} setMostrarInstalacao(false);return;}
-      try {setMostrarInstalacao(localStorage.getItem(chave)!=="1");} catch {setMostrarInstalacao(true);}
-    };
-    const instalado = () => {try {localStorage.setItem(chave,"1");} catch {} setMostrarInstalacao(false);};
+    const verificar = () => setMostrarInstalacao(
+      !window.matchMedia("(display-mode: standalone)").matches &&
+      (navigator as Navigator & { standalone?: boolean }).standalone !== true
+    );
     verificar();
-    window.addEventListener("appinstalled", instalado);
     window.addEventListener("focus", verificar);
-    return () => {window.removeEventListener("appinstalled", instalado);window.removeEventListener("focus", verificar);};
+    return () => window.removeEventListener("focus", verificar);
   }, []);
   return <main className="min-h-screen bg-black px-5 py-10 text-white"><div className="mx-auto max-w-2xl">
     <h1 className="text-3xl font-extrabold">HÁ MAIS PARA ENTENDER.</h1>
