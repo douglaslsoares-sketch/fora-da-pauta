@@ -69,7 +69,7 @@ export default function Page(){
           </button>
         </li>)}</ul>:
       <p className="mt-6">Você ainda não acompanha nenhum político.</p>}
-    {semVinculo?<div className="mt-6 rounded-lg border border-black/20 p-4"><p>Suas escolhas ficam vinculadas à sua conta do Telegram. Para recuperá-las nesta prévia, confirme sua conta no bot que você já utiliza. Isso não exige escolher os políticos novamente.</p><button type="button" disabled={vinculando} onClick={()=>void reconectar()} className="mt-4 min-h-12 w-full rounded-lg bg-[#229ed9] px-4 font-bold text-white disabled:opacity-50">{vinculando?"Abrindo Telegram...":"Reconectar meu Telegram"}</button><p className="mt-3 text-sm">Depois de confirmar no bot, volte a esta aba do Chrome. A lista será consultada novamente.</p></div>:null}
+    {semVinculo?<div className="mt-6 rounded-lg border border-black/20 p-4"><p>Suas escolhas ficam vinculadas à sua conta do Telegram. Para recuperá-las nesta prévia, confirme sua conta no bot que você já utiliza. Isso não exige escolher os políticos novamente.</p><button type="button" disabled={vinculando} onClick={()=>void reconectar()} className="mt-4 min-h-12 w-full rounded-lg bg-[#229ed9] px-4 font-bold text-white disabled:opacity-50">{vinculando?"Abrindo Telegram...":"Reconectar meu Telegram"}</button><p className="mt-3 text-sm">Depois da confirmação no bot, não toque no botão “foradapauta.org”. Volte à mesma aba do Chrome: esta página reconhecerá o vínculo e mostrará sua lista automaticamente.</p></div>:null}
     {erro?<p role="alert" className="mt-4 rounded-lg bg-[#fff2e8] p-4">{erro}</p>:null}
   </div></main>;
 }
