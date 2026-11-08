@@ -4,17 +4,14 @@ import { useEffect, useState } from "react";
 
 const botao = "flex min-h-14 items-center justify-center rounded-lg bg-white px-5 py-4 text-center font-bold text-black";
 export default function Page() {
-  const [temEscolhas, setTemEscolhas] = useState(false);
   const [sessaoAtiva, setSessaoAtiva] = useState<boolean | null>(null);
-  const [emPrevia, setEmPrevia] = useState(false);
   const [mostrarInstalacao, setMostrarInstalacao] = useState(false);
   useEffect(() => {
     let ativo = true;
-    setEmPrevia(window.location.hostname.endsWith(".vercel.app"));
     const verificar = () => fetch("/api/telegram/sessao", {credentials:"same-origin",cache:"no-store"})
       .then(r => r.ok ? r.json() : null)
-      .then(d => {if(ativo) {setSessaoAtiva(d?.ativo===true);setTemEscolhas(d?.ativo===true && Array.isArray(d?.ids) && d.ids.length>0);}})
-      .catch(() => {if(ativo) {setSessaoAtiva(null);setTemEscolhas(false);}});
+      .then(d => {if(ativo) {setSessaoAtiva(d?.ativo===true);}})
+      .catch(() => {if(ativo) {setSessaoAtiva(null);}});
     void verificar();
     window.addEventListener("focus", verificar);
     return () => {ativo=false;window.removeEventListener("focus",verificar);};
@@ -39,12 +36,12 @@ export default function Page() {
     <nav className="mt-5 grid gap-3" aria-label="Opções do Fora da Pauta">
       <Link className={botao+" !bg-[#ffd700]"} href="/fazer-uma-pergunta">Fazer uma pergunta</Link>
       <Link className={botao} href="/escolher-quem-acompanhar">Escolher político</Link>
-      <Link className={botao} href={emPrevia && sessaoAtiva===false ? "https://foradapauta.org/minhas-escolhas" : "/minhas-escolhas"}>Minhas escolhas</Link>
+      <Link className={botao} href="/minhas-escolhas">Minhas escolhas</Link>
       <Link className={botao} href="/qr-code-fora-da-pauta">QR Code</Link>
       <Link className={botao} href="/camiseta">Camiseta</Link>
       <a className={botao+" !bg-[#25d366] !text-white"} href={"https://wa.me/?text="+encodeURIComponent("Você sabe o que os políticos estão fazendo?\n\nO Fora da Pauta acompanha o dia a dia da política e ajuda você a entender como as decisões afetam a nossa vida.\n\nHá mais para entender.\n\nhttps://foradapauta.org")}>Compartilhar</a>
     </nav>
-    {sessaoAtiva===false ? <p role="status" className="mt-5 text-center text-sm text-white/75">Esta prévia não tem a sessão da sua inscrição. Suas escolhas não foram apagadas. Use “Minhas escolhas” para consultar a lista no endereço principal do Fora da Pauta, onde você se inscreveu.</p> : null}
+    {sessaoAtiva===false ? <p role="status" className="mt-5 text-center text-sm text-white/75">Este navegador ainda não tem uma sessão Telegram confirmada neste endereço. Para recuperar suas escolhas aqui, será necessário vincular sua inscrição existente. Não é preciso selecionar novamente os políticos.</p> : null}
     {mostrarInstalacao ? <div className="mt-5 text-center"><Link href="/instalar" className="inline-block py-3 text-sm font-semibold text-white/75 underline underline-offset-4">Instalar o Fora da Pauta</Link></div> : null}
   </div></main>;
 }
