@@ -10,7 +10,7 @@
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "/marca/fora-da-pauta-icone.svg",
+      "src": "/marca/fora-da-pauta-icone-instalacao.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
