@@ -22,11 +22,12 @@ export default function Page(){
         return;
       }
       setSemVinculo(false);
+      setVinculando(false);
       setPessoas(Array.isArray(dados.pessoas)?dados.pessoas:[]);
       setStatus("");
     }catch{setStatus("Não foi possível consultar suas escolhas agora.");}
   },[]);
-  useEffect(()=>{void carregar();const aoVoltar=()=>void carregar();window.addEventListener("focus",aoVoltar);return ()=>window.removeEventListener("focus",aoVoltar);},[carregar]);
+  useEffect(()=>{void carregar();const aoVoltar=()=>void carregar();window.addEventListener("focus",aoVoltar);const intervalo=window.setInterval(()=>{if(document.visibilityState==="visible")void carregar();},5000);return ()=>{window.removeEventListener("focus",aoVoltar);window.clearInterval(intervalo);};},[carregar]);
   async function reconectar(){
     if(vinculando)return;
     setVinculando(true);setErro("");
