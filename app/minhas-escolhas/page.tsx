@@ -7,21 +7,37 @@ export default function Page(){
   const [status,setStatus]=useState("Consultando suas escolhas...");
   const [removendo,setRemovendo]=useState<string[]>([]);
   const [erro,setErro]=useState("");
+  const [semVinculo,setSemVinculo]=useState(false);
+  const [vinculando,setVinculando]=useState(false);
   const carregar=useCallback(async()=>{
     try{
       const resposta=await fetch("/api/telegram/sessao",{cache:"no-store",credentials:"same-origin"});
       if(!resposta.ok)throw Error("Não foi possível consultar suas escolhas.");
       const dados=await resposta.json();
       if(dados.ativo!==true){
+        setSemVinculo(true);
         setPessoas([]);
         setStatus("Não foi possível consultar sua lista neste navegador.");
         return;
       }
+      setSemVinculo(false);
       setPessoas(Array.isArray(dados.pessoas)?dados.pessoas:[]);
       setStatus("");
     }catch{setStatus("Não foi possível consultar suas escolhas agora.");}
   },[]);
-  useEffect(()=>{void carregar();},[carregar]);
+  useEffect(()=>{void carregar();const aoVoltar=()=>void carregar();window.addEventListener("focus",aoVoltar);return ()=>window.removeEventListener("focus",aoVoltar);},[carregar]);
+  async function reconectar(){
+    if(vinculando)return;
+    setVinculando(true);setErro("");
+    try{
+      const r=await fetch("/api/telegram/sessao",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({ids:[]})});
+      const d=await r.json().catch(()=>null);
+      if(!r.ok||typeof d?.url!=="string")throw Error(d?.erro||"Não foi possível iniciar o vínculo.");
+      const url=new URL(d.url);
+      if(url.origin!=="https://t.me"||url.pathname!=="/ForaDaPautaAcompanhaBot"||!/^\\?start=s_[A-Za-z0-9_-]{32}$/.test(url.search))throw Error("Endereço do Telegram inválido.");
+      window.location.assign(url.toString());
+    }catch(e){setErro(e instanceof Error?e.message:"Não foi possível abrir o Telegram.");setVinculando(false);}
+  }
   async function remover(pessoa:Pessoa){
     if(removendo.includes(pessoa.id))return;
     setErro("");
@@ -52,6 +68,7 @@ export default function Page(){
           </button>
         </li>)}</ul>:
       <p className="mt-6">Você ainda não acompanha nenhum político.</p>}
+    {semVinculo?<div className="mt-6 rounded-lg border border-black/20 p-4"><p>Suas escolhas ficam vinculadas à sua conta do Telegram. Para recuperá-las nesta prévia, confirme sua conta no bot que você já utiliza. Isso não exige escolher os políticos novamente.</p><button type="button" disabled={vinculando} onClick={()=>void reconectar()} className="mt-4 min-h-12 w-full rounded-lg bg-[#229ed9] px-4 font-bold text-white disabled:opacity-50">{vinculando?"Abrindo Telegram...":"Reconectar meu Telegram"}</button><p className="mt-3 text-sm">Depois de confirmar no bot, volte a esta aba do Chrome. A lista será consultada novamente.</p></div>:null}
     {erro?<p role="alert" className="mt-4 rounded-lg bg-[#fff2e8] p-4">{erro}</p>:null}
   </div></main>;
 }
