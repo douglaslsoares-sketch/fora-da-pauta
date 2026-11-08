@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
+import { CandidatePhoto } from "@/components/CandidatePhoto";
 
 type Pessoa = { id: string; nomeUrna: string; cargoLabel?: string; uf?: string; siglaPartido?: string };
 export default function Page(){
@@ -59,11 +60,11 @@ export default function Page(){
     {status?<p role="status" className="mt-6">{status}</p>:pessoas.length?
       <ul className="mt-6 grid gap-3">{pessoas.map(p=>
         <li key={p.id} className="flex items-center justify-between gap-4 rounded-xl border border-black/20 bg-white p-4">
-          <div className="min-w-0"><p className="font-bold">{p.nomeUrna}</p>
-            {p.cargoLabel?<p className="mt-1 text-sm text-black/65">{p.cargoLabel}{p.uf?` · ${p.uf}`:""}{p.siglaPartido?` · ${p.siglaPartido}`:""}</p>:null}
+          <div className="flex min-w-0 items-start gap-3"><CandidatePhoto id={p.id} name={p.nomeUrna}/><div className="min-w-0"><p className="font-bold">{p.nomeUrna}</p>
+            {p.cargoLabel?<p className="mt-1 text-sm text-black/65">{p.cargoLabel}{p.uf?` · ${p.uf}`:""}{p.siglaPartido?` · ${p.siglaPartido}`:""}</p>:null}</div>
           </div>
           <button type="button" disabled={removendo.includes(p.id)} onClick={()=>void remover(p)}
-            className="min-h-12 shrink-0 rounded-lg border border-[#c62828] px-4 font-bold text-[#c62828] disabled:opacity-50">
+            className="min-h-12 shrink-0 rounded-lg border border-[#c62828] px-3 text-sm font-bold text-[#c62828] disabled:opacity-50 sm:px-4 sm:text-base">
             {removendo.includes(p.id)?"Removendo...":"Remover"}
           </button>
         </li>)}</ul>:
