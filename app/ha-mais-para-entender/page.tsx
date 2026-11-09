@@ -5,6 +5,18 @@ import { useEffect, useState } from "react";
 const botao = "flex min-h-14 items-center justify-center rounded-lg bg-white px-5 py-4 text-center font-bold text-black";
 export default function Page() {
   const [sessaoAtiva, setSessaoAtiva] = useState<boolean | null>(null);
+  const [temPerguntas, setTemPerguntas] = useState(false);
+  useEffect(() => {
+    const verificar = () => {
+      try {
+        const dados: unknown = JSON.parse(localStorage.getItem("fdp-minhas-perguntas-v1") || "[]");
+        setTemPerguntas(Array.isArray(dados) && dados.some(v => typeof v === "object" && v !== null && typeof v.path === "string" && v.path.startsWith("/pergunta/")));
+      } catch { setTemPerguntas(false); }
+    };
+    verificar();
+    window.addEventListener("focus", verificar);
+    return () => window.removeEventListener("focus", verificar);
+  }, []);
   const [mostrarInstalacao, setMostrarInstalacao] = useState(false);
   useEffect(() => {
     let ativo = true;
@@ -30,6 +42,7 @@ export default function Page() {
     <p className="mt-7 text-lg font-semibold">O que você gostaria de entender?</p>
     <nav className="mt-5 grid gap-3" aria-label="Opções do Fora da Pauta">
       <Link className={botao+" !bg-[#ffd700]"} href="/fazer-uma-pergunta">Fazer uma pergunta</Link>
+      {temPerguntas && <Link className={botao} href="/minhas-perguntas">Minhas perguntas</Link>}
       <Link className={botao} href="/escolher-quem-acompanhar">Escolher político</Link>
       <Link className={botao} href="/minhas-escolhas">Minhas escolhas</Link>
       <Link className={botao} href="/qr-code-fora-da-pauta">QR Code</Link>
