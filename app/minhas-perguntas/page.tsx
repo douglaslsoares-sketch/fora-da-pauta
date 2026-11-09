@@ -13,7 +13,12 @@ export default function Page() {
       const resposta = await fetch("/api/perguntas/minhas", {credentials:"same-origin",cache:"no-store"});
       if (resposta.ok) {
         const dados = await resposta.json();
-        if (dados.vinculado && Array.isArray(dados.questions)) {\n          const remotas = dados.questions as Pergunta[];\n          let locais: Pergunta[] = [];\n          try {const guardadas: unknown = JSON.parse(localStorage.getItem("fdp-minhas-perguntas-v1") || "[]"); if (Array.isArray(guardadas)) locais = guardadas.filter((v): v is Pergunta => typeof v === "object" && v !== null && typeof v.path === "string" && v.path.startsWith("/pergunta/") && typeof v.pergunta === "string" && typeof v.criadaEm === "string");} catch {}\n          setPerguntas([...new Map([...locais,...remotas].map(q=>[q.path,q])).values()].sort((a,b)=>Date.parse(b.criadaEm)-Date.parse(a.criadaEm)));return;\n        }
+        if (dados.vinculado && Array.isArray(dados.questions)) {
+          const remotas = dados.questions as Pergunta[];
+          let locais: Pergunta[] = [];
+          try {const guardadas: unknown = JSON.parse(localStorage.getItem("fdp-minhas-perguntas-v1") || "[]"); if (Array.isArray(guardadas)) locais = guardadas.filter((v): v is Pergunta => typeof v === "object" && v !== null && typeof v.path === "string" && v.path.startsWith("/pergunta/") && typeof v.pergunta === "string" && typeof v.criadaEm === "string");} catch {}
+          setPerguntas([...new Map([...locais,...remotas].map(q=>[q.path,q])).values()].sort((a,b)=>Date.parse(b.criadaEm)-Date.parse(a.criadaEm)));return;
+        }
         if (!dados.vinculado) setAviso("Para ver suas perguntas em outros aparelhos, entre com sua inscrição do Telegram. As perguntas guardadas neste navegador continuam abaixo.");
       }
     } catch {setAviso("Não foi possível consultar sua inscrição agora. Mostrando perguntas guardadas neste navegador.");}
