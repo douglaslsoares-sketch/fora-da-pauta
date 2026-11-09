@@ -35,6 +35,5 @@ export default function Page() {
         <p className="mt-2 text-sm text-black/60">Enviada em {new Date(item.criadaEm).toLocaleString("pt-BR")}</p>
         <Link href={item.path} className="mt-4 inline-block font-bold underline underline-offset-4">Ver situação e resposta</Link>
       </li>)}</ul>}
-    <Link href="/ha-mais-para-entender" className="mt-10 flex min-h-14 items-center justify-center rounded-lg bg-black px-5 py-4 text-center font-bold text-white">HÁ MAIS PARA ENTENDER.</Link>
   </div></main>;
 }
