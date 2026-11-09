@@ -48,7 +48,7 @@ export default function Page() {
       <Link className={botao} href="/qr-code-fora-da-pauta">QR Code</Link>
       <Link className={botao} href="/fazer-uma-pergunta">HÁ MAIS PARA ENTENDER</Link>
       <Link className={botao} href="/camiseta">Camiseta</Link>
-      <a className={botao+" !bg-[#c62828] !text-white"} href={"https://wa.me/?text="+encodeURIComponent("Você sabe o que os políticos estão fazendo?\n\nO Fora da Pauta acompanha o dia a dia da política e ajuda você a entender como as decisões afetam a nossa vida.\n\nHá mais para entender.\n\nhttps://foradapauta.org")}>Compartilhar</a>
+      <a className={botao+" !bg-[#25d366] !text-white"} href={"https://wa.me/?text="+encodeURIComponent("Você sabe o que os políticos estão fazendo?\n\nO Fora da Pauta acompanha o dia a dia da política e ajuda você a entender como as decisões afetam a nossa vida.\n\nHá mais para entender.\n\nhttps://foradapauta.org")}>Compartilhar</a>
     </nav>
     {sessaoAtiva===false ? <p role="status" className="mt-5 text-center text-sm text-white/75">Este navegador ainda não tem uma sessão Telegram confirmada neste endereço. Para recuperar suas escolhas aqui, será necessário vincular sua inscrição existente. Não é preciso selecionar novamente os políticos.</p> : null}
     {mostrarInstalacao ? <div className="mt-5 text-center"><Link href="/instalar" className="inline-block py-3 text-sm font-semibold text-white/75 underline underline-offset-4">Instalar o Fora da Pauta</Link></div> : null}
