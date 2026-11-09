@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 
 type Pessoa = { id: string; nomeUrna: string; cargoLabel?: string; uf?: string; siglaPartido?: string };
@@ -64,10 +65,10 @@ export default function Page(){
           <div className="flex min-w-0 items-start gap-3"><CandidatePhoto id={p.id} name={p.nomeUrna}/><div className="min-w-0"><p className="font-bold">{p.nomeUrna}</p>
             {p.cargoLabel?<p className="mt-1 text-sm text-black/65">{p.cargoLabel}{p.uf?` · ${p.uf}`:""}{p.siglaPartido?` · ${p.siglaPartido}`:""}</p>:null}</div>
           </div>
-          <button type="button" disabled={removendo.includes(p.id)} onClick={()=>void remover(p)}
+          <div className="flex shrink-0 flex-col gap-2"><Link href={`/fazer-uma-pergunta?politico=${encodeURIComponent(p.nomeUrna)}`} className="rounded-lg bg-[#ffd700] px-3 py-3 text-center text-sm font-bold text-black">Perguntar sobre este político</Link><button type="button" disabled={removendo.includes(p.id)} onClick={()=>void remover(p)}
             className="min-h-12 shrink-0 rounded-lg border border-[#c62828] px-3 text-sm font-bold text-[#c62828] disabled:opacity-50 sm:px-4 sm:text-base">
             {removendo.includes(p.id)?"Removendo...":"Remover"}
-          </button>
+          </button></div>
         </li>)}</ul>:
       <p className="mt-6">Você ainda não acompanha nenhum político.</p>}
     {semVinculo?<div className="mt-6 rounded-lg border border-black/20 p-4"><p>Suas escolhas ficam vinculadas à sua conta do Telegram. Para recuperá-las nesta prévia, confirme sua conta no bot que você já utiliza. Isso não exige escolher os políticos novamente.</p><button type="button" disabled={vinculando} onClick={()=>void reconectar()} className="mt-4 min-h-12 w-full rounded-lg bg-[#229ed9] px-4 font-bold text-white disabled:opacity-50">{vinculando?"Abrindo Telegram...":"Reconectar meu Telegram"}</button><p className="mt-3 text-sm">Depois da confirmação no bot, não toque no botão “foradapauta.org”. Volte à mesma aba do Chrome: esta página reconhecerá o vínculo e mostrará sua lista automaticamente.</p></div>:null}
