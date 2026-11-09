@@ -8,10 +8,41 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
   const [erro,setErro]=useState("");
   useEffect(()=>{
     let ativo=true;
-    fetch("/api/telegram/sessao",{credentials:"same-origin",cache:"no-store",signal:AbortSignal.timeout(5000)})
-      .then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;if(d?.ativo===true){setEstado("inscrito");}else{setEstado("visitante");}})
-      .catch(()=>{if(ativo)setEstado("visitante");});
-    return ()=>{ativo=false;};
+    let verificando=false;
+    async function verificar(){
+      if(verificando || !ativo || document.visibilityState==="hidden")return;
+      verificando=true;
+      try{
+        const resposta=await fetch("/api/telegram/sessao",{credentials:"same-origin",cache:"no-store",signal:AbortSignal.timeout(5000)});
+        const dados=resposta.ok?await resposta.json():null;
+        if(!ativo)return;
+        if(dados?.ativo===true){
+          setEstado("inscrito");
+          const primeira=sessionStorage.getItem("fdp_primeira_inscricao")==="1";
+          if(primeira){
+            sessionStorage.removeItem("fdp_primeira_inscricao");
+            window.location.replace("/escolher-quem-acompanhar");
+            return;
+          }
+          // Apenas o aplicativo instalado abre diretamente o menu nos acessos seguintes.
+          // QR Code e compartilhamentos continuam mostrando a apresentação.
+          const instalado=window.matchMedia("(display-mode: standalone)").matches ||
+            (navigator as Navigator & {standalone?:boolean}).standalone===true;
+          if(instalado)window.location.replace("/ha-mais-para-entender");
+        }else{
+          setEstado("visitante");
+        }
+      }catch{if(ativo)setEstado("visitante");}
+      finally{verificando=false;}
+    }
+    void verificar();
+    const intervalo=window.setInterval(()=>{
+      if(sessionStorage.getItem("fdp_primeira_inscricao")==="1")void verificar();
+    },3000);
+    const aoRetornar=()=>void verificar();
+    window.addEventListener("focus",aoRetornar);
+    document.addEventListener("visibilitychange",aoRetornar);
+    return ()=>{ativo=false;window.clearInterval(intervalo);window.removeEventListener("focus",aoRetornar);document.removeEventListener("visibilitychange",aoRetornar);};
   },[]);
   async function inscrever(){
     if(abrindo)return;
