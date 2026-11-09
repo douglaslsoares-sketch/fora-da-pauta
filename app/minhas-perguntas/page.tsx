@@ -9,7 +9,7 @@ export default function Page() {
   useEffect(() => {
     try {
       const dados: unknown = JSON.parse(localStorage.getItem("fdp-minhas-perguntas-v1") || "[]");
-      setPerguntas(Array.isArray(dados) ? dados.filter((v): v is Pergunta => typeof v === "object" && v !== null && typeof v.path === "string" && /^\\/pergunta\\/[A-Za-z0-9_-]+$/.test(v.path) && typeof v.pergunta === "string" && typeof v.criadaEm === "string") : []);
+      setPerguntas(Array.isArray(dados) ? dados.filter((v): v is Pergunta => typeof v === "object" && v !== null && typeof v.path === "string" && v.path.startsWith("/pergunta/") && typeof v.pergunta === "string" && typeof v.criadaEm === "string") : []);
     } catch { setPerguntas([]); }
   }, []);
   return <main className="min-h-screen bg-white px-5 py-10 text-black"><div className="mx-auto max-w-2xl">
