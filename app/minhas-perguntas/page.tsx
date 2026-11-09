@@ -13,7 +13,7 @@ export default function Page() {
       const resposta = await fetch("/api/perguntas/minhas", {credentials:"same-origin",cache:"no-store"});
       if (resposta.ok) {
         const dados = await resposta.json();
-        if (dados.vinculado && Array.isArray(dados.questions)) {setPerguntas(dados.questions);return;}
+        if (dados.vinculado && Array.isArray(dados.questions)) {\n          const remotas = dados.questions as Pergunta[];\n          let locais: Pergunta[] = [];\n          try {const guardadas: unknown = JSON.parse(localStorage.getItem("fdp-minhas-perguntas-v1") || "[]"); if (Array.isArray(guardadas)) locais = guardadas.filter((v): v is Pergunta => typeof v === "object" && v !== null && typeof v.path === "string" && v.path.startsWith("/pergunta/") && typeof v.pergunta === "string" && typeof v.criadaEm === "string");} catch {}\n          setPerguntas([...new Map([...locais,...remotas].map(q=>[q.path,q])).values()].sort((a,b)=>Date.parse(b.criadaEm)-Date.parse(a.criadaEm)));return;\n        }
         if (!dados.vinculado) setAviso("Para ver suas perguntas em outros aparelhos, entre com sua inscrição do Telegram. As perguntas guardadas neste navegador continuam abaixo.");
       }
     } catch {setAviso("Não foi possível consultar sua inscrição agora. Mostrando perguntas guardadas neste navegador.");}
@@ -29,7 +29,7 @@ export default function Page() {
     <p className="mt-4 text-black/70">Acompanhe suas perguntas e consulte as respostas.</p>
     {aviso && <p className="mt-4 text-sm text-black/65">{aviso}</p>}
     {perguntas===null ? <p className="mt-8">Carregando...</p> : perguntas.length===0 ?
-      <p className="mt-8">Nenhuma pergunta encontrada neste navegador. Se você enviou uma pergunta em outro aparelho ou guia anônima, utilize o link de acompanhamento recebido após o envio.</p> :
+      <p className="mt-8">Ainda não foi possível recuperar perguntas nesta sessão. As perguntas já enviadas não precisam ser cadastradas novamente.</p> :
       <ul className="mt-7 grid gap-4">{perguntas.map(item=><li key={item.path} className="rounded-lg border border-black/20 p-5">
         <p className="font-bold">{item.pergunta}</p>
         <p className="mt-2 text-sm text-black/60">Enviada em {new Date(item.criadaEm).toLocaleString("pt-BR")}</p>
