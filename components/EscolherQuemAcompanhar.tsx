@@ -45,7 +45,8 @@ export function EscolherQuemAcompanhar() {
     finally {salvamentosPendentes.current.delete(pessoa.id);setSalvando(a=>a.filter(id=>id!==pessoa.id));}
   }
   return <main className="min-h-screen scroll-mt-20 bg-white px-5 pt-10 pb-9 text-black"><div className="mx-auto max-w-2xl">
-    <h1 className="mb-6 scroll-mt-24 text-3xl font-extrabold">Qual político você quer acompanhar?</h1>
+    <h1 className="scroll-mt-24 text-3xl font-extrabold">Escolher mais políticos</h1>
+    <h2 className="mb-6 mt-5 text-xl font-semibold">Qual político você quer acompanhar?</h2>
     {verificando?<p className="mb-4">Verificando sua inscrição...</p>:null}
     {mensagem?<div role="alert" aria-live="assertive" className="mb-4 rounded-lg border border-black/15 bg-[#fff6d5] p-4"><p>{mensagem}</p></div>:null}
     <CandidateSelector mode="follow" selectedIds={ids} savingIds={salvando} onSelect={selecionar}/>
