@@ -5,6 +5,7 @@ import type {
 import {
   QuestionsAdminPanel,
 } from "@/components/QuestionsAdminPanel";
+import { InstalarAdmin } from "@/components/InstalarAdmin";
 
 export const metadata: Metadata = {
   title:
@@ -35,6 +36,7 @@ export default function QuestionsAdminPage() {
           Aqui é possível responder às perguntas recebidas e decidir separadamente se cada resposta também será publicada na página inicial.
         </p>
 
+        <InstalarAdmin />
         <QuestionsAdminPanel />
       </section>
     </main>
