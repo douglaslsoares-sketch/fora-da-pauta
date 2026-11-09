@@ -4,13 +4,7 @@ import { useEffect, useState } from "react";
 
 // Endereços publicados pela Assembleia Legislativa de Santa Catarina.
 // Nunca deduzir e-mail a partir do nome ou de dados fornecidos na URL.
-const contatos: Record<string, {email:string; fonte:string}> = {
-  "LUCIANE CARMINATTI": {email:"lucianecarminatti13@gmail.com",fonte:"https://www.alesc.sc.gov.br/deputado/luciane-carminatti/"},
-  "OSCAR GUTZ": {email:"gabineteoscargutz@alesc.sc.gov.br",fonte:"https://alesc.sc.gov.br/deputado/oscar-gutz/"},
-  "FERNANDO KRELLING": {email:"fernandokrelling@alesc.sc.gov.br",fonte:"https://www.alesc.sc.gov.br/deputado/fernando-krelling/"},
-  "SÉRGIO GUIMARÃES": {email:"sergioguimaraes@alesc.sc.gov.br",fonte:"https://alesc.sc.gov.br/deputado/sergio-guimaraes/"},
-  "MÁRIO MOTTA": {email:"secretariado@deputadomariomotta.com.br",fonte:"https://alesc.sc.gov.br/deputado/mario-motta/"}
-};
+const contatos: Record<string, {email:string; fonte:string}> = {};
 function normalizar(v:string){return v.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().trim().replace(/\s+/g," ");}
 const oficiais:Record<string,{email:string;fonte:string}>=Object.fromEntries(Object.entries(contatos).map(([nome,valor])=>[normalizar(nome),valor]));
 export default function ContatoPolitico() {
