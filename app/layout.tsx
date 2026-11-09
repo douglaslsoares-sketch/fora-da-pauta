@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { EditorialAudioSystem } from "@/components/EditorialAudioSystem";
 import { SiteChromeRouter } from "@/components/SiteChromeRouter";
+import { FecharAoFinalDoConteudo } from "@/components/FecharAoFinalDoConteudo";
 import { RodapePaginasInternas } from "@/components/RodapePaginasInternas";
 import { RegistrarOrigemNavegacao } from "@/components/RegistrarOrigemNavegacao";
 import "./globals.css";
@@ -55,6 +56,7 @@ export default function RootLayout({
         <RegistrarOrigemNavegacao />
         <SiteChromeRouter />
         {children}
+        <FecharAoFinalDoConteudo />
         <RodapePaginasInternas />
         <EditorialAudioSystem />
         <Analytics />
