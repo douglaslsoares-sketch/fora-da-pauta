@@ -73,5 +73,6 @@ export default function Page(){
       <p className="mt-6">Você ainda não acompanha nenhum político.</p>}
     {semVinculo?<div className="mt-6 rounded-lg border border-black/20 p-4"><p>Suas escolhas ficam vinculadas à sua conta do Telegram. Para recuperá-las nesta prévia, confirme sua conta no bot que você já utiliza. Isso não exige escolher os políticos novamente.</p><button type="button" disabled={vinculando} onClick={()=>void reconectar()} className="mt-4 min-h-12 w-full rounded-lg bg-[#229ed9] px-4 font-bold text-white disabled:opacity-50">{vinculando?"Abrindo Telegram...":"Reconectar meu Telegram"}</button><p className="mt-3 text-sm">Depois da confirmação no bot, não toque no botão “foradapauta.org”. Volte à mesma aba do Chrome: esta página reconhecerá o vínculo e mostrará sua lista automaticamente.</p></div>:null}
     {erro?<p role="alert" className="mt-4 rounded-lg bg-[#fff2e8] p-4">{erro}</p>:null}
+    <div className="mt-10 flex justify-center"><Link href="/ha-mais-para-entender" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-lg bg-[#c62828] px-8 py-3 text-lg font-bold text-white">✕ Fechar</Link></div>
   </div></main>;
 }
