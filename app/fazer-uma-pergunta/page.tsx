@@ -149,7 +149,7 @@ export default function Page() {
       <button type="button" onClick={() => { setConfirmacaoTeste(false); setPergunta(""); setCaminhoAcompanhamento(null); ditouRef.current = false; }} className="mt-6 min-h-12 rounded-lg bg-black px-5 text-white">Fazer outra pergunta</button>
     </section> : <>
     <h1 className="text-3xl font-extrabold">Pergunte ao Fora da Pauta</h1>
-    <h2 className="mt-7 text-2xl font-bold">{politico ? `O que você gostaria de perguntar sobre ${politico}?` : "O que você gostaria de entender?"}</h2>
+    <h2 className="mt-7 text-2xl font-bold">{politico ? `O que você gostaria de perguntar sobre ${politico}?` : "O que você gostaria de saber?"}</h2>
     {politico && <p className="mt-3 rounded-lg bg-[#fff9df] p-4 text-sm">Sua pergunta será recebida pelo Fora da Pauta. Ela não será enviada automaticamente ao político. O encaminhamento dependerá de um canal oficial verificado.</p>}
     <p className="mt-3">A sua dúvida pode esclarecer muitas outras pessoas com a mesma dúvida.</p>
     <label htmlFor="duvida" className="mt-6 block font-semibold">Sua pergunta (você pode corrigir a transcrição)</label>
