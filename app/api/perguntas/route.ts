@@ -432,8 +432,8 @@ export async function POST(
 
           if (chatId) {
             await tx`
-              INSERT INTO public.telegram_perguntas (question_id, telegram_chat_id, tracking_token)
-              VALUES (${question.id}::uuid, ${chatId}::bigint, ${trackingToken})
+              INSERT INTO public.public_question_events (question_id, event_type, event_data)
+              VALUES (${question.id}::uuid, 'telegram_linked', jsonb_build_object('chat_id', ${chatId}::text, 'tracking_token', ${trackingToken}::text))
             `;
           }
           return question;
