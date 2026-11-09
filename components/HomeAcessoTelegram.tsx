@@ -1,22 +1,21 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _entregas }: { versaoEdicoes: string | null; versaoEntregas: string | null }) {
-  const router=useRouter();
-  const [estado,setEstado]=useState<"carregando"|"inscrito"|"visitante">("carregando");
+  const [estado,setEstado]=useState<"carregando"|"inscrito"|"visitante">("visitante");
   const [abrindo,setAbrindo]=useState(false);
   const [erro,setErro]=useState("");
   useEffect(()=>{
     let ativo=true;
-    fetch("/api/telegram/sessao",{credentials:"same-origin",cache:"no-store"})
-      .then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;if(d?.ativo===true){setEstado("inscrito");router.replace(sessionStorage.getItem("fdp_primeira_inscricao") === "1" ? "/api/telegram/primeira-inscricao" : "/ha-mais-para-entender");}else{setEstado("visitante");}})
+    fetch("/api/telegram/sessao",{credentials:"same-origin",cache:"no-store",signal:AbortSignal.timeout(5000)})
+      .then(r=>r.ok?r.json():null).then(d=>{if(!ativo)return;if(d?.ativo===true){setEstado("inscrito");}else{setEstado("visitante");}})
       .catch(()=>{if(ativo)setEstado("visitante");});
     return ()=>{ativo=false;};
-  },[router]);
+  },[]);
   async function inscrever(){
     if(abrindo)return;
+    if(estado==="inscrito"){setErro("Você já está inscrito no Telegram.");return;}
     setAbrindo(true);setErro("");
     try {
       const resposta=await fetch("/api/telegram/sessao",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({ids:[]})});
@@ -28,7 +27,6 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
       window.location.assign(destino.toString());
     }catch(e){setErro(e instanceof Error?e.message:"Não foi possível abrir o Telegram. Tente novamente.");setAbrindo(false);}
   }
-  if(estado==="carregando"||estado==="inscrito")return <main className="min-h-[100svh] bg-[#050505] text-white flex items-center justify-center p-6"><p>Verificando sua inscrição...</p></main>;
   return <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#050505] px-6 py-9 text-white sm:px-12">
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[url('/marca/fora-da-pauta-olho-dourado.svg')] bg-[length:125%_auto] bg-[position:80%_65%] bg-no-repeat opacity-[.13]"/>
     <div className="relative mx-auto w-full max-w-4xl">
