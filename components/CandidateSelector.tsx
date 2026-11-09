@@ -678,6 +678,7 @@ function CandidateFollowSelector({
   const [erro, setErro] = useState("");
   const [tentativa, setTentativa] = useState(0);
   const [tela, setTela] = useState<"busca" | "resultados">("busca");
+  const [candidatoConfirmar,setCandidatoConfirmar] = useState<CandidateResult | null>(null);
 
   const podeBuscar = query.trim().length >= 2;
 
@@ -788,6 +789,11 @@ function CandidateFollowSelector({
     });
   }
 
+  if (candidatoConfirmar && !apenasFicha) {
+    const c=candidatoConfirmar;
+    const confirmado=selectedIds.includes(c.id);
+    return <section className="mt-5 rounded-xl border border-black/15 p-5"><h2 className="text-2xl font-bold">Conheça este político</h2><div className="mt-5 flex items-start gap-4"><CandidatePhoto id={c.id} name={c.nomeUrna}/><div><p className="text-xl font-bold">{c.nomeUrna}</p><p className="mt-2">{c.nomeCompleto}</p><p className="mt-2">{c.cargoLabel} · {c.siglaPartido} · {c.uf}</p>{c.situacaoEleitoral?<p className="mt-2">{c.situacaoEleitoral}</p>:null}</div></div><p className="mt-4 text-sm text-black/65">Confira os dados disponíveis antes de confirmar o acompanhamento.</p><button type="button" disabled={confirmado || savingIds.includes(c.id)} onClick={()=>onSelect?.(c)} className="mt-5 min-h-14 w-full rounded-lg bg-[#FFC400] px-4 font-bold disabled:bg-[#168449] disabled:text-white">{confirmado?"Selecionado":savingIds.includes(c.id)?"Salvando...":"Confirmar acompanhamento"}</button><button type="button" onClick={()=>setCandidatoConfirmar(null)} className="mt-3 min-h-12 w-full rounded-lg border border-black/20 font-bold">Nova busca / Voltar aos resultados</button></section>;
+  }
   if (tela === "busca") {
     return (
       <form
@@ -925,7 +931,7 @@ function CandidateFollowSelector({
                 {apenasFicha ? <Link href={candidate.pessoaPoliticaId ? `/pessoas/${candidate.pessoaPoliticaId}?aba=separada` : `/conheca-seu-candidato/${candidate.id}?aba=separada`} className="rounded-xl border border-black/20 px-2.5 py-3 text-center text-xs font-bold">Ver ficha</Link> : null}
               {!apenasFicha && onSelect ? <button
                 type="button"
-                onClick={() => onSelect(candidate)}
+                onClick={() => setCandidatoConfirmar(candidate)}
                 disabled={selecionado || salvando}
                 className={`shrink-0 rounded-xl px-2.5 py-3 text-xs font-bold ${
                   selecionado
