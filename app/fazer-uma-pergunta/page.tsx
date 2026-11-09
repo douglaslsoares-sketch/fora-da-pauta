@@ -117,6 +117,12 @@ export default function Page() {
       reconhecedorRef.current?.stop();
       setGravando(false);
       setCaminhoAcompanhamento(dados.trackingPath);
+      try {
+        const chave = "fdp-minhas-perguntas-v1";
+        const anterior: unknown = JSON.parse(localStorage.getItem(chave) || "[]");
+        const itens = Array.isArray(anterior) ? anterior.filter((v): v is {path:string;pergunta:string;criadaEm:string} => typeof v === "object" && v !== null && typeof v.path === "string" && v.path.startsWith("/pergunta/")) : [];
+        localStorage.setItem(chave, JSON.stringify([{path:dados.trackingPath,pergunta:texto,criadaEm:new Date().toISOString()},...itens.filter(v=>v.path!==dados.trackingPath)].slice(0,100)));
+      } catch { /* O link individual continua disponível. */ }
       setConfirmacaoTeste(true);
     } catch (erro) {
       setAviso(erro instanceof Error ? erro.message : "Não foi possível enviar sua pergunta. Tente novamente.");
