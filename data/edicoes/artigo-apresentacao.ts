@@ -69,6 +69,17 @@ export const artigoApresentacao: Campaign = {
       ],
     },
     {
+      title: "E o papel dos influenciadores digitais?",
+      paragraphs: [
+        "Além dos jornais e das plataformas, há pessoas que alcançam multidões pelas redes sociais. Influenciadores podem explicar assuntos importantes, trazer novas vozes para a conversa e ajudar a descobrir informações que passariam despercebidas.",
+        "Mas também podem espalhar boatos, repetir afirmações sem provas, atacar reputações ou mudar o foco de um debate. **Uma mensagem muito compartilhada não se torna verdadeira só porque muita gente a repetiu.** Isso vale para qualquer posição política.",
+        "Há mecanismos que merecem nossa atenção: a repetição pode tornar uma afirmação mais familiar; o medo e a indignação podem estimular compartilhamentos apressados; e o **viés de confirmação** pode nos levar a dar mais atenção ao que combina com aquilo em que já acreditamos.",
+        "Isso não significa que toda influência seja manipulação, nem que exista sempre uma intenção escondida. Para apontar uma campanha coordenada, um interesse financeiro ou uma mentira deliberada, precisamos de evidências específicas.",
+        "**Antes de compartilhar, vale perguntar:** quem publicou? Qual é a fonte original? O vídeo mostra a fala inteira? Há documentos? O que dizem outras fontes independentes? E o que ainda não foi comprovado?",
+        "No Fora da Pauta, vamos acompanhar também **como as narrativas circulam**, quem as amplifica e como mudam com o tempo. Separaremos fatos comprovados, opiniões, acusações e informações falsas ou não verificadas, mostrando as evidências para que cada pessoa tire suas próprias conclusões.",
+      ],
+    },
+    {
       title: "Quem controla as plataformas?",
       paragraphs: [
         "Outra pergunta faz parte dessa conversa: muitas das principais plataformas usadas no Brasil são controladas por empresas sediadas no exterior. Isso levanta questões sobre **soberania digital, transparência, proteção de direitos e participação dos brasileiros nas regras que afetam sua comunicação**.",

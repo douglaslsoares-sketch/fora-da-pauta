@@ -1,0 +1,19 @@
+name: Conferir base eleitoral 2026 das fichas
+on:
+  push:
+    branches: [quero-entender-melhor]
+    paths:
+      - scripts/medir-cobertura-candidaturas-2026.mjs
+      - .github/workflows/medir-cobertura-candidaturas-2026.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  medir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node scripts/medir-cobertura-candidaturas-2026.mjs

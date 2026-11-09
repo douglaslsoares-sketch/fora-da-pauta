@@ -1,0 +1,21 @@
+name: Conferir IDs da Câmara no cadastro (teste)
+on:
+  push:
+    branches:
+      - quero-entender-melhor
+    paths:
+      - ".github/workflows/verificar-ids-camara.yml"
+      - "scripts/verificar-ids-camara.mjs"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  conferir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Conferir IDs e identidades existentes sem alterar arquivos
+        run: node scripts/verificar-ids-camara.mjs

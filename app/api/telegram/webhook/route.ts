@@ -796,7 +796,8 @@ export async function POST(
           INSERT INTO telegram_preferencias
             (telegram_chat_id, tipo, referencia, status, created_at, updated_at, cancelled_at)
           VALUES (${chatId}::bigint, 'novas_edicoes', '', 'ativo', now(), now(), NULL)
-          ON CONFLICT (telegram_chat_id, tipo, referencia) DO NOTHING
+          ON CONFLICT (telegram_chat_id, tipo, referencia) DO UPDATE SET
+            status = 'ativo', updated_at = now(), cancelled_at = NULL
         `;
         for (const id of pendentes) {
           const identidade = buscarPessoaPoliticaConfirmadaPorCandidatura(id);
@@ -829,11 +830,12 @@ export async function POST(
       }
       await enviarMensagemTelegram({
         chatId,
-        texto: "Inscrição realizada com sucesso.",
-        botoes: [[{
-          text: "→ foradapauta.org",
-          url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=opcoes`,
-        }]],
+        texto: "Pronto, sua inscrição está confirmada! Volte à mesma página do Fora da Pauta que você deixou aberta no navegador. Suas escolhas aparecerão automaticamente. Você receberá avisos gerais e, quando escolher políticos, avisos sobre eles. Para interromper os avisos, envie /parar.",
+        // A confirmação já vinculou o navegador que iniciou a inscrição.
+        // Não enviar um botão de retorno ao domínio de produção: quando a
+        // inscrição começa numa prévia, ele abre o site errado.
+        // O navegador original detecta o vínculo automaticamente.
+        botoes: [],
       });
       return NextResponse.json({ ok: true });
     }

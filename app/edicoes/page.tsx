@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { RetornarForaDaPauta } from "@/components/RetornarForaDaPauta";
 import type { Metadata } from "next";
 import { campaigns } from "@/data/campanhas";
 import { versaoEdicoes } from "@/lib/novidades-publicacoes";
@@ -57,7 +56,6 @@ export default function EdicoesPublicadas() {
         ) : !apresentacao ? (
           <p className="mt-8 rounded-xl bg-black/5 p-5">Ainda não há edições publicadas.</p>
         ) : null}
-        <RetornarForaDaPauta />
       </section>
     </main>
   );

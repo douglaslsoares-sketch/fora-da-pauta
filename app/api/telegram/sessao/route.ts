@@ -17,7 +17,11 @@ const semCache = { "Cache-Control": "no-store" };
 function permitido(request: Request) {
   const origin = request.headers.get("origin");
   if (!origin) return false;
-  return origin === new URL(request.url).origin;
+  const url = new URL(request.url);
+  const forwardedHost = request.headers.get("x-forwarded-host");
+  const host = forwardedHost || request.headers.get("host") || url.host;
+  const protocol = request.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
+  return origin === `${protocol}://${host}` || origin === url.origin;
 }
 
 export async function GET() {
@@ -72,7 +76,13 @@ export async function GET() {
       nomeCompleto: pessoa.nomeCompleto,
       numero: pessoa.numero,
       cargo: pessoa.cargo,
-      cargoLabel: formatarCargo(pessoa.cargo, pessoa.id === "210002534604" ? "feminino" : pessoa.genero),
+      cargoLabel: formatarCargo(
+        pessoa.cargo,
+        pessoa.id === "210002534604" ||
+        pessoa.nomeUrna?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim() === "ANA SAGARIO"
+          ? "feminino"
+          : pessoa.genero,
+      ),
       uf: pessoa.uf,
       siglaPartido: pessoa.siglaPartido,
       eleitoConfirmado: eleitos.has(id),
@@ -133,6 +143,10 @@ export async function POST(request: Request) {
     url: `https://t.me/${BOT}?start=s_${codigo}`,
     vinculado: result[0]?.vinculado ?? false,
   }, { headers: semCache });
+  resposta.cookies.set("fdp_primeira_inscricao", "1", {
+    httpOnly: true, secure: process.env.NODE_ENV === "production",
+    sameSite: "lax", path: "/", maxAge: 3600,
+  });
   resposta.cookies.set(COOKIE_SESSAO_TELEGRAM, token, {
     httpOnly: true, secure: process.env.NODE_ENV === "production",
     sameSite: "lax", path: "/", maxAge: DIAS_SESSAO * 86400,

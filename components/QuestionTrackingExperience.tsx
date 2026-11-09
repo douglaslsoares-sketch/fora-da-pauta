@@ -153,7 +153,7 @@ export function QuestionTrackingExperience({
         </p>
 
         <Link
-          href="/#perguntas"
+          href="/ha-mais-para-entender"
           className="mt-6 inline-flex text-sm font-semibold underline underline-offset-4"
         >
           Voltar ao Fora da Pauta
@@ -243,7 +243,7 @@ export function QuestionTrackingExperience({
         </button>
 
         <Link
-          href="/#perguntas"
+          href="/ha-mais-para-entender"
           className="text-sm font-semibold underline underline-offset-4"
         >
           Voltar ao Fora da Pauta

@@ -4,16 +4,16 @@ import { SiteHeaderRouter } from "@/components/SiteHeaderRouter";
 
 function InstitutionalHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-black/10 bg-white text-black">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-black text-white">
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
-        <div className="flex min-h-[58px] items-center">
+        <div className="flex min-h-[60px] items-center">
           <Link
             href="/"
             aria-label="Fora da Pauta — página inicial"
             className="shrink-0"
           >
             <Image
-              src="/marca/fora-da-pauta-horizontal.svg"
+              src="/marca/fora-da-pauta-horizontal-branco.svg"
               alt="Fora da Pauta"
               width={930}
               height={150}

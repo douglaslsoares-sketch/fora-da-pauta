@@ -6,6 +6,7 @@ import {
 import { NextResponse } from "next/server";
 
 import { sql } from "@/lib/interesses/db";
+import { tokenSessao, hashSessao } from "@/lib/telegram/sessao-site";
 import {
   consumeRateLimit,
 } from "@/lib/rateLimit";
@@ -365,6 +366,14 @@ export async function POST(
       );
     }
 
+    const sessaoToken = await tokenSessao();
+    const vinculacao = sessaoToken ? await sql<{telegram_chat_id:string}[]>`
+      SELECT telegram_chat_id::text AS telegram_chat_id FROM public.telegram_sessoes_site
+      WHERE sessao_hash = ${hashSessao(sessaoToken)} AND expira_at > now() AND telegram_chat_id IS NOT NULL
+      LIMIT 1
+    ` : [];
+    const chatId = vinculacao[0]?.telegram_chat_id ?? null;
+
     const trackingToken =
       randomBytes(32)
         .toString("base64url");
@@ -416,7 +425,9 @@ export async function POST(
               'submitted',
               jsonb_build_object(
                 'input_type',
-                ${inputType}::text
+                ${inputType}::text,
+                'telegram_chat_id', ${chatId}::text,
+                'tracking_token', ${chatId ? trackingToken : null}::text
               )
             )
           `;

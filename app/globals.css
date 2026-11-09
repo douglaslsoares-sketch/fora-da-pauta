@@ -86,3 +86,12 @@ summary::-webkit-details-marker {
     transition: none;
   }
 }
+
+/* Nas páginas internas, o botão de retorno deve seguir o conteúdo,
+   não ficar preso ao fim da altura da tela. */
+body:has(> footer) > main.min-h-screen {
+  min-height: auto;
+}
+body:has(> footer) > main {
+  padding-bottom: 1rem;
+}

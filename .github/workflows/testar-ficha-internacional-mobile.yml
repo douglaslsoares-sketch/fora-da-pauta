@@ -1,0 +1,102 @@
+name: Testar ficha internacional em tela de celular
+on:
+  push:
+    branches: [quero-entender-melhor]
+    paths:
+      - app/pessoas/**
+      - components/FichaInternacional.tsx
+      - components/CandidateSelector.tsx
+      - components/ResultadosInternacionais.tsx
+      - app/ficha-politica/**
+      - data/pessoas/**
+      - .github/workflows/testar-ficha-internacional-mobile.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      DATABASE_URL: 'postgresql://teste:teste@127.0.0.1:65432/fora_da_pauta_teste'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Iniciar servidor local
+        run: |
+          npm run start -- -p 3100 > /tmp/fora-da-pauta-mobile.log 2>&1 &
+      - name: Instalar navegador de teste
+        run: npm install --no-save --no-package-lock playwright && npx playwright install --with-deps chromium
+      - name: Validar apresentação e navegação no celular
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { chromium } from 'playwright';
+          const browser = await chromium.launch({headless:true});
+          const page = await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true});
+          for(let i=0;i<30;i++){try{const r=await fetch('http://127.0.0.1:3100/api/pessoas/internacionais?nome=Trump');if(r.ok)break;}catch{}await new Promise(r=>setTimeout(r,1000));if(i===29)throw new Error('Servidor não iniciou');}
+          for(const nome of ['Trump','Netanyahu']){
+            const busca=await (await fetch('http://127.0.0.1:3100/api/pessoas/internacionais?nome='+nome)).json();
+            const pessoa=busca.resultados.find(p=>p.nomePublico.includes(nome));
+            assert.ok(pessoa,'Pessoa não encontrada');
+            await page.goto('http://127.0.0.1:3100'+pessoa.url,{waitUntil:'domcontentloaded'});
+            await page.getByRole('heading',{name:'Ficha política'}).waitFor();
+            await page.getByRole('heading',{name:pessoa.nomePublico}).waitFor();
+            const dimensoes=await page.evaluate(()=>({larguraDocumento:document.documentElement.scrollWidth,larguraTela:window.innerWidth}));
+            assert.ok(dimensoes.larguraDocumento<=dimensoes.larguraTela+2,'Rolagem horizontal no celular: '+nome);
+            const retorno=page.getByRole('link',{name:'← Voltar à busca'});
+            await retorno.waitFor();
+            assert.equal(await retorno.getAttribute('href'),'/ficha-politica');
+            await retorno.click();
+            await page.waitForURL('**/ficha-politica');
+            console.log(nome+': ficha e retorno à busca funcionaram em 390px');
+          }
+          for(const nome of ['Trump','Netanyahu']){
+            await page.goto('http://127.0.0.1:3100/ficha-politica',{waitUntil:'domcontentloaded'});
+            await page.getByRole('searchbox',{name:'Nome ou número'}).fill(nome);
+            await page.getByRole('button',{name:'Buscar',exact:true}).click();
+            const secao=page.getByRole('region',{name:'Personalidades internacionais'});
+            await secao.getByRole('link',{name:new RegExp(nome)}).waitFor({timeout:15000});
+            const link=secao.getByRole('link',{name:new RegExp(nome)});
+            const destino=await link.getAttribute('href');
+            assert.ok(destino?.startsWith('/pessoas/'),'Resultado não usa endereço permanente');
+            assert.notEqual(await link.getAttribute('target'),'_blank','Link não deve abrir nova aba');
+            const paginasAntes=page.context().pages().length;
+            await link.click();
+            await page.waitForURL('**/pessoas/**');
+            await page.getByRole('heading',{name:'Ficha política'}).waitFor();
+            await page.getByRole('heading',{name:new RegExp(nome)}).waitFor();
+            assert.equal(page.context().pages().length,paginasAntes,'Não deve criar outra aba');
+            await page.getByRole('link',{name:'← Voltar à busca'}).click();
+            await page.waitForURL('**/ficha-politica');
+            console.log(nome+': busca pelo nome e abertura da ficha funcionaram no celular');
+          }
+          const desktop=await browser.newPage({viewport:{width:1366,height:768}});
+          for(const nome of ['Trump','Netanyahu']){
+            await desktop.goto('http://127.0.0.1:3100/ficha-politica');
+            await desktop.getByRole('searchbox',{name:'Nome ou número'}).fill(nome);
+            await desktop.getByRole('button',{name:'Buscar',exact:true}).click();
+            const resultado=desktop.getByRole('region',{name:'Personalidades internacionais'}).getByRole('link',{name:new RegExp(nome)});
+            await resultado.waitFor({timeout:15000});
+            assert.notEqual(await resultado.getAttribute('target'),'_blank');
+            const quantidadeAbas=desktop.context().pages().length;
+            await resultado.click();
+            await desktop.waitForURL('**/pessoas/**');
+            await desktop.getByRole('heading',{name:new RegExp(nome)}).waitFor();
+            assert.equal(desktop.context().pages().length,quantidadeAbas,'Nova aba criada no computador');
+            await desktop.getByRole('link',{name:'← Voltar à busca'}).click();
+            await desktop.waitForURL('**/ficha-politica');
+            console.log(nome+': busca, ficha e retorno na mesma aba em computador');
+          }
+          await desktop.close();
+          await browser.close();
+          NODE
+      - name: Mostrar logs em caso de falha
+        if: failure()
+        run: tail -100 /tmp/fora-da-pauta-mobile.log || true

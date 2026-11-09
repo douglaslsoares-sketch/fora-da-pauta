@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { EditorialAudioSystem } from "@/components/EditorialAudioSystem";
 import { SiteChromeRouter } from "@/components/SiteChromeRouter";
+import { RodapePaginasInternas } from "@/components/RodapePaginasInternas";
+import { RegistrarOrigemNavegacao } from "@/components/RegistrarOrigemNavegacao";
 import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +20,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.foradapauta.org"),
   openGraph: {
     title: "Fora da Pauta — Há mais para entender.",
-    description: "Um espaço para entender melhor as decisões que afetam a nossa vida e o que está por trás das notícias.",
+    description: "Acompanhe o dia a dia dos políticos. Entenda como as decisões políticas afetam a nossa vida.",
     url: "https://www.foradapauta.org/",
     siteName: "Fora da Pauta",
     locale: "pt_BR",
@@ -50,8 +52,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-[#eeeee9] font-sans">
+        <RegistrarOrigemNavegacao />
         <SiteChromeRouter />
         {children}
+        <RodapePaginasInternas />
         <EditorialAudioSystem />
         <Analytics />
       </body>

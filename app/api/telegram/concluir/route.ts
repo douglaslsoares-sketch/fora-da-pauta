@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   const codigo = request.nextUrl.searchParams.get("codigo");
   if (!codigo || !/^[A-Za-z0-9_-]{32}$/.test(codigo)) {
-    return NextResponse.redirect(new URL("/votou-fique-de-olho?retorno=telegram", request.url), 303);
+    return NextResponse.redirect(new URL("/ha-mais-para-entender?telegram=confirmacao-invalida", request.url), 303);
   }
   const tokenNovo = randomBytes(32).toString("base64url");
   const hashNovo = hashSessao(tokenNovo);
@@ -45,11 +45,11 @@ export async function GET(request: NextRequest) {
   const destino = request.nextUrl.searchParams.get("destino");
   const caminho = vinculado
     ? destino === "minhas"
-      ? "/votou-fique-de-olho?minhas=1"
+      ? "/minhas-escolhas"
       : destino === "opcoes"
-        ? "/#opcoes"
-        : "/telegram/pronto"
-    : "/votou-fique-de-olho?retorno=expirado";
+        ? "/ha-mais-para-entender"
+        : "/ha-mais-para-entender"
+    : "/ha-mais-para-entender?telegram=expirado";
   const resposta = NextResponse.redirect(new URL(caminho, request.url), 303);
   resposta.headers.set("Cache-Control", "no-store");
   resposta.headers.set("Referrer-Policy", "no-referrer");

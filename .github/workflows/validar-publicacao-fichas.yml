@@ -1,0 +1,20 @@
+name: Validar dados antes de publicar fichas
+on:
+  workflow_dispatch:
+  push:
+    branches: [quero-entender-melhor]
+    paths:
+      - data/eleicoes/gerado/atuacao-candidatos/**
+      - scripts/verificar-publicacao-fichas.mjs
+      - .github/workflows/validar-publicacao-fichas.yml
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/verificar-publicacao-fichas.mjs
