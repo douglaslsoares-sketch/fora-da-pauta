@@ -42,16 +42,13 @@ export default function Page() {
     return () => window.removeEventListener("focus", verificar);
   }, []);
   return <main className="min-h-screen bg-black px-5 py-10 text-white"><div className="mx-auto max-w-2xl">
-    <h1 className="text-3xl font-extrabold">HÁ MAIS PARA ENTENDER.</h1>
-    <p className="mt-7 text-lg font-semibold">O que você gostaria de entender?</p>
-    <nav className="mt-5 grid gap-3" aria-label="Opções do Fora da Pauta">
-      <Link className={botao+" !bg-[#ffd700]"} href="/fazer-uma-pergunta">Perguntar ao Fora da Pauta</Link>
-      <Link className={botao} href="/minhas-perguntas">Minhas perguntas</Link>
-      <Link className={botao} href="/escolher-quem-acompanhar">Escolher político</Link>
+    <nav className="grid gap-3" aria-label="Opções do Fora da Pauta">
       <Link className={botao} href="/minhas-escolhas">Minhas escolhas</Link>
+      <Link className={botao} href="/escolher-quem-acompanhar">Escolher mais políticos</Link>
       <Link className={botao} href="/qr-code-fora-da-pauta">QR Code</Link>
+      <Link className={botao} href="/fazer-uma-pergunta">HÁ MAIS PARA ENTENDER</Link>
       <Link className={botao} href="/camiseta">Camiseta</Link>
-      <a className={botao+" !bg-[#25d366] !text-white"} href={"https://wa.me/?text="+encodeURIComponent("Você sabe o que os políticos estão fazendo?\n\nO Fora da Pauta acompanha o dia a dia da política e ajuda você a entender como as decisões afetam a nossa vida.\n\nHá mais para entender.\n\nhttps://foradapauta.org")}>Compartilhar</a>
+      <a className={botao+" !bg-[#c62828] !text-white"} href={"https://wa.me/?text="+encodeURIComponent("Você sabe o que os políticos estão fazendo?\n\nO Fora da Pauta acompanha o dia a dia da política e ajuda você a entender como as decisões afetam a nossa vida.\n\nHá mais para entender.\n\nhttps://foradapauta.org")}>Compartilhar</a>
     </nav>
     {sessaoAtiva===false ? <p role="status" className="mt-5 text-center text-sm text-white/75">Este navegador ainda não tem uma sessão Telegram confirmada neste endereço. Para recuperar suas escolhas aqui, será necessário vincular sua inscrição existente. Não é preciso selecionar novamente os políticos.</p> : null}
     {mostrarInstalacao ? <div className="mt-5 text-center"><Link href="/instalar" className="inline-block py-3 text-sm font-semibold text-white/75 underline underline-offset-4">Instalar o Fora da Pauta</Link></div> : null}
