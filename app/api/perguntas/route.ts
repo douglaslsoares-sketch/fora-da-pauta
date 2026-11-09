@@ -432,8 +432,9 @@ export async function POST(
 
           if (chatId) {
             await tx`
-              INSERT INTO public.public_question_events (question_id, event_type, event_data)
-              VALUES (${question.id}::uuid, 'telegram_linked', jsonb_build_object('chat_id', ${chatId}::text, 'tracking_token', ${trackingToken}::text))
+              UPDATE public.public_question_events
+              SET event_data = event_data || jsonb_build_object('telegram_chat_id', ${chatId}::text, 'tracking_token', ${trackingToken}::text)
+              WHERE question_id = ${question.id}::uuid AND event_type = 'submitted'
             `;
           }
           return question;
