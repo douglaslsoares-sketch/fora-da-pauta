@@ -58,14 +58,14 @@ export default function Page(){
     finally{setRemovendo(a=>a.filter(id=>id!==pessoa.id));}
   }
   return <main className="min-h-screen bg-white px-5 py-10 text-black"><div className="mx-auto max-w-2xl">
-    <h1 className="text-3xl font-extrabold">Minhas escolhas</h1>
+    <h1 className="text-3xl font-extrabold">Políticos escolhidos</h1>
     {status?<p role="status" className="mt-6">{status}</p>:pessoas.length?
       <ul className="mt-6 grid gap-3">{pessoas.map(p=>
-        <li key={p.id} className="flex items-center justify-between gap-4 rounded-xl border border-black/20 bg-white p-4">
+        <li key={p.id} className="flex flex-col gap-4 rounded-xl border border-black/20 bg-white p-4">
           <div className="flex min-w-0 items-start gap-3"><CandidatePhoto id={p.id} name={p.nomeUrna}/><div className="min-w-0"><p className="font-bold">{p.nomeUrna}</p>
             {p.cargoLabel?<p className="mt-1 text-sm text-black/65">{p.cargoLabel}{p.uf?` · ${p.uf}`:""}{p.siglaPartido?` · ${p.siglaPartido}`:""}</p>:null}</div>
           </div>
-          <div className="flex shrink-0 flex-col gap-2"><Link href={`/fazer-uma-pergunta?politico=${encodeURIComponent(p.nomeUrna)}`} className="rounded-lg bg-[#ffd700] px-3 py-3 text-center text-sm font-bold text-black">Perguntar sobre este político</Link><button type="button" disabled={removendo.includes(p.id)} onClick={()=>void remover(p)}
+          <div className="flex w-full flex-col gap-2"><Link href={`/fazer-uma-pergunta?politico=${encodeURIComponent(p.nomeUrna)}`} className="rounded-lg bg-[#ffd700] px-3 py-3 text-center text-sm font-bold text-black">Perguntar sobre este político</Link><button type="button" disabled={removendo.includes(p.id)} onClick={()=>void remover(p)}
             className="min-h-12 shrink-0 rounded-lg border border-[#c62828] px-3 text-sm font-bold text-[#c62828] disabled:opacity-50 sm:px-4 sm:text-base">
             {removendo.includes(p.id)?"Removendo...":"Remover"}
           </button></div>
