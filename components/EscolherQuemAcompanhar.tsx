@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { CandidateSelector } from "@/components/CandidateSelector";
 type Pessoa = { id: string; nomeUrna: string };
 export function EscolherQuemAcompanhar() {
@@ -55,5 +56,6 @@ export function EscolherQuemAcompanhar() {
       </select>
       <p className="mt-3 text-sm text-black/60">Esta opção está em teste e ainda não altera o envio real das notificações.</p>
     </div>
+    <div className="mt-8 flex justify-center"><Link href="/ha-mais-para-entender" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-lg bg-[#c62828] px-8 py-3 text-lg font-bold text-white">✕ Fechar</Link></div>
   </div></main>;
 }
