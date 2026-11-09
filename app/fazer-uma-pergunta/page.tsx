@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 type SpeechResult = { resultIndex: number; results: ArrayLike<ArrayLike<{ transcript: string }> & { isFinal: boolean }> };
@@ -7,6 +8,7 @@ type SpeechInstance = { lang: string; continuous: boolean; interimResults: boole
 type SpeechConstructor = new () => SpeechInstance;
 
 export default function Page() {
+  const politico = useSearchParams().get("politico")?.slice(0,120).trim() || "";
   const [pergunta, setPergunta] = useState("");
   const [temEscolhas, setTemEscolhas] = useState(false);
   const [mostrarInstalacao, setMostrarInstalacao] = useState(false);
@@ -97,7 +99,7 @@ export default function Page() {
     }
   }
   async function enviar() {
-    const texto = pergunta.trim();
+    const texto = politico ? `Pergunta sobre ${politico}: ${pergunta.trim()}` : pergunta.trim();
     if (!texto) { setAviso("Escreva ou dite sua dúvida antes de enviar."); return; }
     if (enviando) return;
     setEnviando(true);
@@ -133,7 +135,8 @@ export default function Page() {
   
   return <main className="min-h-screen bg-white px-5 py-10 text-black"><div className="mx-auto max-w-2xl">
     {confirmacaoTeste ? <section aria-live="polite" className="rounded-xl border border-black/15 bg-[#fff9df] p-6">
-      <h1 className="text-2xl font-extrabold">Pronto! Sua pergunta foi enviada ao Fora da Pauta.</h1>
+      <h1 className="text-2xl font-extrabold">Sua pergunta foi recebida!</h1>
+      <Link href="/ha-mais-para-entender" className="mt-4 flex min-h-14 items-center justify-center rounded-lg bg-[#c62828] px-5 font-bold text-white">✕ Fechar e voltar ao menu</Link>
       <p className="mt-3 font-semibold">Ela foi registrada e poderá ser analisada antes de uma resposta pública.</p>
       <p className="mt-3 whitespace-pre-wrap rounded-lg bg-white p-4">{pergunta}</p>
       {caminhoAcompanhamento && <Link href={caminhoAcompanhamento} className="mt-4 inline-block font-bold underline underline-offset-4">Acompanhar minha pergunta</Link>}
@@ -146,7 +149,8 @@ export default function Page() {
       <button type="button" onClick={() => { setConfirmacaoTeste(false); setPergunta(""); setCaminhoAcompanhamento(null); ditouRef.current = false; }} className="mt-6 min-h-12 rounded-lg bg-black px-5 text-white">Fazer outra pergunta</button>
     </section> : <>
     <h1 className="text-3xl font-extrabold">HÁ MAIS PARA ENTENDER.</h1>
-    <h2 className="mt-7 text-2xl font-bold">O que você gostaria de entender?</h2>
+    <h2 className="mt-7 text-2xl font-bold">{politico ? `O que você gostaria de perguntar sobre ${politico}?` : "O que você gostaria de entender?"}</h2>
+    {politico && <p className="mt-3 rounded-lg bg-[#fff9df] p-4 text-sm">Sua pergunta será recebida pelo Fora da Pauta. Ela não será enviada automaticamente ao político. O encaminhamento dependerá de um canal oficial verificado.</p>}
     <p className="mt-3">A sua dúvida pode esclarecer muitas outras pessoas com a mesma dúvida.</p>
     <label htmlFor="duvida" className="mt-6 block font-semibold">Sua pergunta (você pode corrigir a transcrição)</label>
     <textarea id="duvida" rows={5} value={pergunta} onChange={e => setPergunta(e.target.value)} placeholder="Escreva sua dúvida aqui..." className="mt-2 w-full rounded-lg border border-black/30 p-4" />
