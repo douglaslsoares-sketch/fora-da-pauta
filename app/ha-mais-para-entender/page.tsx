@@ -43,7 +43,7 @@ export default function Page() {
   }, []);
   return <main className="min-h-screen bg-black px-5 py-10 text-white"><div className="mx-auto max-w-2xl">
     <nav className="grid gap-3" aria-label="Opções do Fora da Pauta">
-      <Link className={botao} href="/minhas-escolhas">Minhas escolhas</Link>
+      <Link className={botao} href="/minhas-escolhas">Políticos escolhidos</Link>
       <Link className={botao} href="/escolher-quem-acompanhar">Escolher mais políticos</Link>
       <Link className={botao} href="/qr-code-fora-da-pauta">QR Code</Link>
       <Link className={botao} href="/fazer-uma-pergunta">HÁ MAIS PARA ENTENDER</Link>
