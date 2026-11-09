@@ -22,10 +22,9 @@ export function InstalarAdmin(){
    setEvento(null);
    if(resultado.outcome!=="accepted")setOrientacao(true);
  }
- if(instalado)return null;
  return <div className="mt-7 mb-7 border border-black/15 bg-white p-4">
   <p className="mb-3 text-sm text-black/70">Acesso rápido ao painel administrativo, separado do aplicativo principal.</p>
-  <button type="button" onClick={()=>void instalar()} className="min-h-14 w-full bg-black px-4 py-3 font-bold text-white">Instalar ícone Admin</button>
-  {orientacao?<p role="status" className="mt-3 text-sm leading-6">A instalação automática não está disponível neste navegador neste momento. O Android só permite instalar pelo botão quando o Chrome oferece essa opção. Se não aparecer, não foi instalado; não é necessário repetir o procedimento que já falhou.</p>:null}
+  {instalado ? <><p className="mb-3 text-sm font-semibold">Esta página está aberta dentro de um aplicativo instalado. Para criar um segundo ícone independente, abra o endereço abaixo diretamente no Chrome.</p><p className="mb-3 break-all text-sm">https://foradapauta.org/admin/perguntas</p><button type="button" onClick={()=>{void navigator.clipboard?.writeText("https://foradapauta.org/admin/perguntas");setOrientacao(true);}} className="min-h-14 w-full bg-black px-4 py-3 font-bold text-white">Copiar endereço do Admin</button></> : <button type="button" onClick={()=>void instalar()} className="min-h-14 w-full bg-black px-4 py-3 font-bold text-white">Instalar ícone Admin</button>}
+  {orientacao?<p role="status" className="mt-3 text-sm leading-6">{instalado ? "Endereço copiado. Abra o Chrome fora do aplicativo e cole na barra de endereços. Um aplicativo já instalado não pode instalar outro diretamente." : "O Chrome ainda não disponibilizou a instalação automática neste navegador. O ícone não foi instalado."}</p>:null}
  </div>;
 }
