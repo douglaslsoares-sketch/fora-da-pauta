@@ -78,7 +78,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
   const [avisoEscolha, setAvisoEscolha] = useState("");
   const [busca, setBusca] = useState(0);
   const [novidades, setNovidades] = useState({ edicoes: false, entregas: false });
-  const ancorouInscrito = useRef(false);
   const areaAcompanhamento = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -155,20 +154,9 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
   const inscrito = simulacao ? simuladoInscrito : situacao === "inscrito";
   const conferindo = situacao === "verificando" && !simulacao;
 
-  useEffect(() => {
-    if (!inscrito || ancorouInscrito.current) return;
-    const url = new URL(window.location.href);
-    if (url.searchParams.get("conhecer") === "1" ||
-        url.hash === "#apresentacao" || url.hash === "#conteudo") return;
-    ancorouInscrito.current = true;
-    const frame = window.requestAnimationFrame(() => {
-      areaAcompanhamento.current?.scrollIntoView({
-        block: "start",
-        behavior: "instant",
-      });
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [inscrito]);
+  // Aberturas pelo ícone, QR Code ou endereço inicial devem permanecer
+  // na apresentação. A navegação até as escolhas é sempre voluntária.
+
 
   async function iniciarInscricao() {
     if (abrindoTelegram) return;
