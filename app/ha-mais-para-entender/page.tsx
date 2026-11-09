@@ -46,7 +46,8 @@ export default function Page() {
       <Link className={botao} href="/minhas-escolhas">Políticos que eu acompanho</Link>
       <Link className={botao} href="/escolher-quem-acompanhar">Escolher mais políticos</Link>
       <Link className={botao} href="/qr-code-fora-da-pauta">QR Code</Link>
-      <Link className={botao} href="/fazer-uma-pergunta">HÁ MAIS PARA ENTENDER</Link>
+      <Link className={botao} href="/edicoes">HÁ MAIS PARA ENTENDER</Link>
+      <Link className={botao} href="/fazer-uma-pergunta">Pergunte ao Fora da Pauta</Link>
       <Link className={botao} href="/camiseta">Camiseta</Link>
       <a className={botao+" !bg-[#25d366] !text-white"} href={"https://wa.me/?text="+encodeURIComponent("Você sabe o que os políticos estão fazendo?\n\nO Fora da Pauta acompanha o dia a dia da política e ajuda você a entender como as decisões afetam a nossa vida.\n\nHá mais para entender.\n\nhttps://foradapauta.org")}>Compartilhar</a>
     </nav>
