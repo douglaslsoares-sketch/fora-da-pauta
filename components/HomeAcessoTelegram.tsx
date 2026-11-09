@@ -38,7 +38,7 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
     <div className="relative mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center py-12">
       <h1 className="max-w-2xl text-4xl font-extrabold leading-tight sm:text-6xl">Acompanhe o dia a dia dos políticos.</h1>
       <p className="mt-7 max-w-2xl text-lg leading-relaxed">Todos os dias, o Fora da Pauta reúne informações sobre o jogo político e avalia seu impacto na vida da sociedade.</p>
-      <p className="mt-5 max-w-2xl text-lg leading-relaxed">Receba nossas análises pelo Telegram. <button type="button" onClick={()=>void inscrever()} disabled={abrindo} className="font-semibold text-[#58c7ff] underline underline-offset-4 disabled:opacity-60">Clique aqui</button> para se inscrever no canal.</p>
+      <p className="mt-5 max-w-2xl text-lg leading-relaxed">Receba análises especializadas pelo Telegram. <button type="button" onClick={()=>void inscrever()} disabled={abrindo} className="font-semibold text-[#58c7ff] underline underline-offset-4 disabled:opacity-60">Clique aqui</button> para se inscrever no canal.</p>
       <button onClick={()=>void inscrever()} disabled={abrindo} className="mt-8 min-h-14 w-full max-w-md rounded-lg bg-[#229ed9] px-5 font-bold text-white disabled:opacity-60">{abrindo?"Abrindo Telegram...":"Inscrever no Telegram →"}</button>
       {erro&&<p role="alert" className="mt-4">{erro}</p>}
     </div>
