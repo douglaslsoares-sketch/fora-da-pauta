@@ -7,7 +7,11 @@ export default function Page() {
   const [sessaoAtiva, setSessaoAtiva] = useState<boolean | null>(null);
   const [temPerguntas, setTemPerguntas] = useState(false);
   useEffect(() => {
-    const verificar = () => {
+    const verificar = async () => {
+      try {
+        const resposta = await fetch("/api/perguntas/minhas", {credentials:"same-origin",cache:"no-store"});
+        if (resposta.ok) {const dados = await resposta.json(); if (dados.vinculado) {setTemPerguntas(Array.isArray(dados.questions) && dados.questions.length>0);return;}}
+      } catch {}
       try {
         const dados: unknown = JSON.parse(localStorage.getItem("fdp-minhas-perguntas-v1") || "[]");
         setTemPerguntas(Array.isArray(dados) && dados.some(v => typeof v === "object" && v !== null && typeof v.path === "string" && v.path.startsWith("/pergunta/")));
