@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 type SpeechResult = { resultIndex: number; results: ArrayLike<ArrayLike<{ transcript: string }> & { isFinal: boolean }> };
@@ -8,7 +7,8 @@ type SpeechInstance = { lang: string; continuous: boolean; interimResults: boole
 type SpeechConstructor = new () => SpeechInstance;
 
 export default function Page() {
-  const politico = useSearchParams().get("politico")?.slice(0,120).trim() || "";
+  const [politico,setPolitico] = useState("");
+  useEffect(()=>{setPolitico(new URLSearchParams(window.location.search).get("politico")?.slice(0,120).trim() || "");},[]);
   const [pergunta, setPergunta] = useState("");
   const [temEscolhas, setTemEscolhas] = useState(false);
   const [mostrarInstalacao, setMostrarInstalacao] = useState(false);
