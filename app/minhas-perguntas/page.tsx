@@ -6,15 +6,28 @@ type Pergunta = {path:string;pergunta:string;criadaEm:string};
 
 export default function Page() {
   const [perguntas,setPerguntas] = useState<Pergunta[] | null>(null);
+  const [aviso,setAviso] = useState("");
   useEffect(() => {
+    const carregar = async () => {
+    try {
+      const resposta = await fetch("/api/perguntas/minhas", {credentials:"same-origin",cache:"no-store"});
+      if (resposta.ok) {
+        const dados = await resposta.json();
+        if (dados.vinculado && Array.isArray(dados.questions)) {setPerguntas(dados.questions);return;}
+        if (!dados.vinculado) setAviso("Para ver suas perguntas em outros aparelhos, entre com sua inscrição do Telegram. As perguntas guardadas neste navegador continuam abaixo.");
+      }
+    } catch {setAviso("Não foi possível consultar sua inscrição agora. Mostrando perguntas guardadas neste navegador.");}
     try {
       const dados: unknown = JSON.parse(localStorage.getItem("fdp-minhas-perguntas-v1") || "[]");
       setPerguntas(Array.isArray(dados) ? dados.filter((v): v is Pergunta => typeof v === "object" && v !== null && typeof v.path === "string" && v.path.startsWith("/pergunta/") && typeof v.pergunta === "string" && typeof v.criadaEm === "string") : []);
     } catch { setPerguntas([]); }
+    };
+    void carregar();
   }, []);
   return <main className="min-h-screen bg-white px-5 py-10 text-black"><div className="mx-auto max-w-2xl">
     <h1 className="text-3xl font-extrabold">Minhas perguntas</h1>
-    <p className="mt-4 text-black/70">Acompanhe as perguntas enviadas neste navegador.</p>
+    <p className="mt-4 text-black/70">Acompanhe suas perguntas e consulte as respostas.</p>
+    {aviso && <p className="mt-4 text-sm text-black/65">{aviso}</p>}
     {perguntas===null ? <p className="mt-8">Carregando...</p> : perguntas.length===0 ?
       <p className="mt-8">Nenhuma pergunta encontrada neste navegador. Se você enviou uma pergunta em outro aparelho ou guia anônima, utilize o link de acompanhamento recebido após o envio.</p> :
       <ul className="mt-7 grid gap-4">{perguntas.map(item=><li key={item.path} className="rounded-lg border border-black/20 p-5">
