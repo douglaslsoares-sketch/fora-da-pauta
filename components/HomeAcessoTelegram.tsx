@@ -87,9 +87,11 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
     let ativo = true;
     async function verificar() {
       try {
+        // A consulta de inscrição não pode bloquear a entrada de visitantes no 4G.
         const resposta = await fetch("/api/telegram/sessao", {
           cache: "no-store",
           credentials: "same-origin",
+          signal: AbortSignal.timeout(5000),
         });
         if (!resposta.ok) throw new Error("Sessão indisponível");
         const dados = (await resposta.json()) as Situacao;
