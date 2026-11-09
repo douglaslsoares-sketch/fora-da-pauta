@@ -21,7 +21,7 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
           const primeira=sessionStorage.getItem("fdp_primeira_inscricao")==="1";
           if(primeira){
             sessionStorage.removeItem("fdp_primeira_inscricao");
-            window.location.replace("/escolher-quem-acompanhar");
+            window.location.replace("/ha-mais-para-entender");
             return;
           }
           // Apenas o aplicativo instalado abre diretamente o menu nos acessos seguintes.
