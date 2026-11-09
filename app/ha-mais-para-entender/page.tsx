@@ -45,7 +45,7 @@ export default function Page() {
     <h1 className="text-3xl font-extrabold">HÁ MAIS PARA ENTENDER.</h1>
     <p className="mt-7 text-lg font-semibold">O que você gostaria de entender?</p>
     <nav className="mt-5 grid gap-3" aria-label="Opções do Fora da Pauta">
-      <Link className={botao+" !bg-[#ffd700]"} href="/fazer-uma-pergunta">Fazer uma pergunta</Link>
+      <Link className={botao+" !bg-[#ffd700]"} href="/fazer-uma-pergunta">Perguntar ao Fora da Pauta</Link>
       <Link className={botao} href="/minhas-perguntas">Minhas perguntas</Link>
       <Link className={botao} href="/escolher-quem-acompanhar">Escolher político</Link>
       <Link className={botao} href="/minhas-escolhas">Minhas escolhas</Link>
