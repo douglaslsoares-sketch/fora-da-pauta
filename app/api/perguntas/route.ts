@@ -425,18 +425,13 @@ export async function POST(
               'submitted',
               jsonb_build_object(
                 'input_type',
-                ${inputType}::text
+                ${inputType}::text,
+                'telegram_chat_id', ${chatId}::text,
+                'tracking_token', ${chatId ? trackingToken : null}::text
               )
             )
           `;
 
-          if (chatId) {
-            await tx`
-              UPDATE public.public_question_events
-              SET event_data = event_data || jsonb_build_object('telegram_chat_id', ${chatId}::text, 'tracking_token', ${trackingToken}::text)
-              WHERE question_id = ${question.id}::uuid AND event_type = 'submitted'
-            `;
-          }
           return question;
         },
       );
