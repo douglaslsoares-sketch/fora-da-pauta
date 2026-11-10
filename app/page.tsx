@@ -1,4 +1,4 @@
-import { HomeAcessoTelegram } from "@/components/HomeAcessoTelegram";
+import { NovaHomeFiqueDeOlho } from "@/components/NovaHomeFiqueDeOlho";
 import { versaoEdicoes, versaoEntregas } from "@/lib/novidades-publicacoes";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -41,7 +41,7 @@ export default async function Home() {
 
       <div className={styles.watermark} aria-hidden="true" />
 
-      <HomeAcessoTelegram versaoEdicoes={versaoEdicoes} versaoEntregas={versaoEntregas} />
+      <NovaHomeFiqueDeOlho />
     </main>
   );
 }
