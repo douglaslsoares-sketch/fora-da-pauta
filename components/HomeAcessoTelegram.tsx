@@ -69,7 +69,7 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
   return <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#050505] px-6 py-9 text-white sm:px-12">
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[url('/marca/fora-da-pauta-olho-dourado.svg')] bg-[length:125%_auto] bg-[position:80%_65%] bg-no-repeat opacity-[.13]"/>
     <div className="relative mx-auto w-full max-w-4xl">
-      <Image src="/marca/fora-da-pauta-horizontal-branco.svg" alt="Fora da Pauta" width={580} height={94} priority className="h-auto w-full max-w-[460px]"/>
+      <Image src="/marca/fora-da-pauta-horizontal-branco.svg" alt="Fique de Olho" width={580} height={94} priority className="h-auto w-full max-w-[460px]"/>
       <p className="mt-3 text-center font-bold text-[#ffd700] sm:text-left">Decisões que afetam a sua vida.</p>
     </div>
     <div className="relative mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center py-12">
