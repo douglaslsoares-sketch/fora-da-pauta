@@ -577,13 +577,6 @@ export function EditorialAudioSystem() {
     }
 
     if (
-      tipoAnterior === "titulo" &&
-      tipoAtual === "subtitulo"
-    ) {
-      return "\n\n\n\n\n\n";
-    }
-
-    if (
       tipoAnterior === "subtitulo" &&
       (
         tipoAtual === "paragrafo" ||
