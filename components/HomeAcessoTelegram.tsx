@@ -69,7 +69,7 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
   return <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-black px-5 pb-10 pt-7 text-white sm:px-12">
     <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-[27%] bg-gradient-to-t from-[#292929] via-[#111] to-transparent opacity-60"/>
     <div className="relative mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center py-6 text-center">
-      <Image src="/marca/olho-home-previa.svg" alt="Olho em preto e branco" width={700} height={265} priority className="h-auto w-full max-w-[490px]"/>
+      <Image src="/marca/olho-aprovado.svg" alt="Olho em preto e branco" width={320} height={320} priority className="-my-12 h-auto w-full max-w-[390px]"/>
       <p className="-mt-2 text-[clamp(2.6rem,9vw,5.5rem)] font-extrabold leading-none tracking-tight">Fique de Olho</p>
       <div className="mt-3 h-[5px] w-3/5 rounded-full bg-[#ffd700]"/>
       <h1 className="mt-8 max-w-2xl text-[clamp(2rem,6.5vw,4rem)] font-extrabold leading-[1.12] tracking-tight">Saiba o que os políticos <span className="text-[#ffd700]">estão fazendo.</span></h1>
