@@ -569,6 +569,13 @@ export function EditorialAudioSystem() {
      * Tudo continua dentro da mesma geração
      * de áudio para preservar a mesma voz.
      */
+    // Um novo subtítulo marca a entrada em outro assunto.
+    // A pausa é maior que a separação comum de parágrafos,
+    // sem iniciar uma nova geração de voz.
+    if (tipoAtual === "subtitulo") {
+      return "\n\n\n\n\n\n\n\n";
+    }
+
     if (
       tipoAnterior === "titulo" &&
       tipoAtual === "subtitulo"
@@ -639,6 +646,12 @@ export function EditorialAudioSystem() {
       texto &&
       !/[.!?…]$/.test(texto)
     ) {
+      return `${texto}.`;
+    }
+
+    // Fechamento natural de todos os subtítulos sem pontuação,
+    // evitando que soem como continuação do parágrafo anterior.
+    if (tipo === "subtitulo" && texto && !/[.!?…]$/.test(texto)) {
       return `${texto}.`;
     }
 
