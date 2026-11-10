@@ -58,8 +58,8 @@ export default function Page(){
     finally{setRemovendo(a=>a.filter(id=>id!==pessoa.id));}
   }
   return <main className="min-h-screen bg-white px-5 py-10 text-black"><div className="mx-auto max-w-2xl">
-    <h1 className="text-3xl font-extrabold">Políticos que eu acompanho</h1>
-    {status?<p role="status" className="mt-6">{status}</p>:pessoas.length?
+    
+    {status?<p role="status" className="mb-6 text-lg">{status}</p>:pessoas.length?
       <ul className="mt-6 grid gap-3">{pessoas.map(p=>
         <li key={p.id} className="flex flex-col gap-4 rounded-xl border border-black/20 bg-white p-4">
           <div className="flex min-w-0 items-start gap-3"><CandidatePhoto id={p.id} name={p.nomeUrna}/><div className="min-w-0"><p className="font-bold">{p.nomeUrna}</p>
