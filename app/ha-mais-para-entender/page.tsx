@@ -44,10 +44,10 @@ export default function Page() {
   return <main className="min-h-screen bg-black px-5 py-10 text-white"><div className="mx-auto max-w-2xl">
     <nav className="grid gap-3" aria-label="Opções do Fique de Olho">
       <Link className={botao+" !bg-[#ffd700] !text-black"} href="/escolher-quem-acompanhar">Escolher político</Link>
-      <Link className={botao} href="/minhas-escolhas">Políticos que eu acompanho</Link>
-      <Link className={botao} href="/qr-code-fora-da-pauta">QR Code</Link>
-      <Link className={botao} href="/edicoes">HÁ MAIS PARA ENTENDER</Link>
-      <Link className={botao} href="/fazer-uma-pergunta">Pergunte ao Fique de Olho</Link>
+      <Link className={botao} href="/minhas-escolhas">Políticos que acompanho</Link>
+      <Link className={botao} href="/qr-code-fora-da-pauta">Mostrar QR Code</Link>
+      <Link className={botao} href="/edicoes">Entender melhor</Link>
+      <Link className={botao} href="/fazer-uma-pergunta">Fazer uma pergunta</Link>
       <Link className={botao} href="/camiseta">Camiseta</Link>
       <a className={botao+" !bg-[#25d366] !text-white"} href={"https://wa.me/?text="+encodeURIComponent("Você sabe o que os políticos estão fazendo?\n\nO Fique de Olho acompanha o dia a dia da política e ajuda você a entender como as decisões afetam a nossa vida.\n\nHá mais para entender.\n\nhttps://foradapauta.org")}>Compartilhar</a>
     </nav>
