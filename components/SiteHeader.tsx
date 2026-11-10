@@ -9,12 +9,12 @@ function InstitutionalHeader() {
         <div className="flex min-h-[60px] items-center justify-between gap-3">
           <Link
             href="/"
-            aria-label="Fora da Pauta — página inicial"
+            aria-label="Fique de Olho — página inicial"
             className="shrink-0"
           >
             <Image
               src="/marca/fora-da-pauta-horizontal-branco.svg"
-              alt="Fora da Pauta"
+              alt="Fique de Olho"
               width={930}
               height={150}
               priority
