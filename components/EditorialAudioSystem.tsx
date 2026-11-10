@@ -59,7 +59,7 @@ function obterBlocos(root: Element) {
 }
 
 const PAUSA_ENTRE_TRECHOS_MS = 180;
-const LIMITE_TRECHO_AUDIO = 3400;
+const LIMITE_TRECHO_AUDIO = 3800;
 
 type TipoBlocoLeitura =
   | "titulo"
@@ -880,21 +880,11 @@ export function EditorialAudioSystem() {
         tipo === "subtitulo";
 
       /*
-       * Um novo título editorial começa
-       * uma nova seção somente quando
-       * já existe corpo textual anterior.
-       *
-       * Assim, título principal + subtítulo
-       * consecutivo permanecem juntos.
+       * Não dividir a gravação só porque começa um título.
+       * Cada nova geração neural pode variar o timbre, mesmo
+       * usando a mesma voz. Preservamos títulos e parágrafos
+       * na mesma geração sempre que couberem no limite.
        */
-      if (
-        ehTitulo &&
-        temCorpo &&
-        partesAtuais.length
-      ) {
-        fecharTrecho();
-      }
-
       /*
        * Segurança para elementos muito longos.
        */
