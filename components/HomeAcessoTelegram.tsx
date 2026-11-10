@@ -66,17 +66,16 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
     }catch(e){setErro(e instanceof Error?e.message:"Não foi possível abrir o Telegram. Tente novamente.");setAbrindo(false);}
   }
   if(instalando)return <main className="flex min-h-[100svh] flex-col justify-center bg-[#050505] px-6 py-10 text-white"><div className="mx-auto w-full max-w-md"><h1 className="text-3xl font-extrabold">Vamos instalar o Telegram</h1><p className="mt-5 text-lg">É gratuito. Vamos ajudar você, um passo de cada vez.</p><p className="mt-6 text-lg"><strong>1.</strong> Toque no botão azul abaixo.</p><p className="mt-4 text-lg"><strong>2.</strong> Na tela que vai abrir, toque em <strong>Instalar</strong> e espere terminar.</p><p className="mt-4 text-lg"><strong>3.</strong> Depois que instalar, volte nesta tela e toque no botão amarelo para continuar a inscrição.</p><a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank" rel="noopener noreferrer" className="mt-7 flex min-h-14 items-center justify-center rounded-lg bg-[#229ed9] px-4 text-center font-bold">Instalar Telegram</a><button type="button" disabled={abrindo} onClick={()=>void abrirTelegram()} className="mt-3 min-h-14 w-full rounded-lg bg-[#ffd700] px-4 font-bold text-black disabled:opacity-50">{abrindo?"Preparando inscrição...":"Continuar inscrição"}</button>{linkTelegram?<a href={linkTelegram} className="mt-4 block text-center text-[#58c7ff] underline">Não abriu? Abrir inscrição pelo navegador</a>:null}{erro?<p role="alert" className="mt-4">{erro}</p>:null}<button type="button" onClick={()=>setInstalando(false)} className="mt-8 w-full py-2 underline">Voltar</button></div></main>;
-  return <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#050505] px-6 py-9 text-white sm:px-12">
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[url('/marca/fora-da-pauta-olho-dourado.svg')] bg-[length:125%_auto] bg-[position:80%_65%] bg-no-repeat opacity-[.13]"/>
-    <div className="relative mx-auto w-full max-w-4xl">
-      <Image src="/marca/fora-da-pauta-horizontal-branco.svg" alt="Fique de Olho" width={580} height={94} priority className="h-auto w-full max-w-[460px]"/>
-      <p className="mt-3 text-center font-bold text-[#ffd700] sm:text-left">Decisões que afetam a sua vida.</p>
-    </div>
-    <div className="relative mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center py-12">
-      <h1 className="max-w-2xl text-4xl font-extrabold leading-tight sm:text-6xl">Saiba o que os políticos estão fazendo.</h1>
-      <p className="mt-7 max-w-2xl text-lg leading-relaxed">Receba notícias e explicações simples sobre o que acontece na política e como isso afeta a sua vida.</p>
-      <p className="mt-5 max-w-2xl text-lg leading-relaxed">É gratuito. Para começar, toque no botão abaixo.</p>
-      <button onClick={()=>void inscrever()} disabled={abrindo} className="mt-8 min-h-14 w-full max-w-md rounded-lg bg-[#229ed9] px-5 font-bold text-white disabled:opacity-60">{mostrarOpcoes?"Escolha uma opção abaixo":"Quero receber as notícias"}</button>
+  return <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-black px-5 pb-10 pt-7 text-white sm:px-12">
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-[27%] bg-gradient-to-t from-[#292929] via-[#111] to-transparent opacity-60"/>
+    <div className="relative mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center py-6 text-center">
+      <Image src="/marca/olho-home-previa.svg" alt="Olho em preto e branco" width={700} height={265} priority className="h-auto w-full max-w-[490px]"/>
+      <p className="-mt-2 text-[clamp(2.6rem,9vw,5.5rem)] font-extrabold leading-none tracking-tight">Fique de Olho</p>
+      <div className="mt-3 h-[5px] w-3/5 rounded-full bg-[#ffd700]"/>
+      <h1 className="mt-8 max-w-2xl text-[clamp(2rem,6.5vw,4rem)] font-extrabold leading-[1.12] tracking-tight">Saiba o que os políticos <span className="text-[#ffd700]">estão fazendo.</span></h1>
+      <p className="mt-6 max-w-2xl text-[clamp(1.1rem,3.8vw,1.6rem)] leading-relaxed">Receba notícias e explicações simples sobre o que acontece na política e como isso afeta a sua vida.</p>
+      <p className="mt-7 max-w-2xl text-[clamp(1rem,3.5vw,1.4rem)] leading-relaxed"><strong className="text-[#ffd700]">É gratuito.</strong> Para começar, toque no botão abaixo.</p>
+      <button onClick={()=>void inscrever()} disabled={abrindo} className="mt-7 min-h-16 w-full max-w-xl rounded-2xl bg-gradient-to-b from-[#1eaff7] to-[#0667e7] px-5 py-4 text-[clamp(1.1rem,4vw,1.65rem)] font-extrabold text-white shadow-lg disabled:opacity-60">{mostrarOpcoes?"Escolha uma opção abaixo":"Quero receber as notícias"}</button>
       {mostrarOpcoes?<div className="mt-5 w-full max-w-md rounded-xl border border-white/30 bg-black/80 p-5">
         <h2 className="text-xl font-bold">Vamos receber as notícias?</h2>
         <p className="mt-2 text-sm text-white/80">Para receber as notícias, vamos usar um aplicativo gratuito chamado Telegram. Você já tem esse aplicativo no celular?</p>
