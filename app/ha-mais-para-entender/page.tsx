@@ -43,7 +43,7 @@ export default function Page() {
   }, []);
   return <main className="min-h-screen bg-black px-5 py-10 text-white"><div className="mx-auto max-w-2xl">
     <nav className="grid gap-3" aria-label="Opções do Fique de Olho">
-      <Link className={botao+" !bg-[#ffd700] !text-black"} href="/escolher-quem-acompanhar">Escolher político</Link>
+      <Link className={botao+" !bg-[#ffd700] !text-black"} href="/escolher-quem-acompanhar">Escolher um político</Link>
       <Link className={botao} href="/minhas-escolhas">Políticos que acompanho</Link>
       <Link className={botao} href="/qr-code-fora-da-pauta">Mostrar QR Code</Link>
       <Link className={botao} href="/edicoes">Entender melhor</Link>
