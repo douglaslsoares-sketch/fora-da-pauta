@@ -53,99 +53,41 @@ function nomeDoTipo(
 }
 
 const INSTRUCOES_BASE = `
-Fale em português brasileiro.
+Fale em português brasileiro, com voz feminina adulta, segura e acolhedora.
 
-Leia todo o conteúdo como uma única passagem contínua,
-gravada pela mesma pessoa, com o mesmo microfone,
-o mesmo volume percebido, a mesma projeção e o mesmo
-registro vocal.
+Imagine que você está contando e explicando uma notícia a uma única
+pessoa conhecida, numa conversa tranquila pelo telefone. Não apresente
+um programa nem faça um discurso. Fale de igual para igual, com
+espontaneidade, clareza e interesse genuíno pelo assunto.
 
-Use uma voz adulta brasileira, calorosa, médio-grave,
-clara e natural. Fale como alguém que conversa de igual
-para igual com outra pessoa, sem formalidade excessiva,
-com atenção, curiosidade genuína e confiança.
+A interpretação deve soar como uma resposta falada naturalmente,
+e não como um texto sendo declamado. Use variações discretas e
+orgânicas de entonação, pequenas pausas para dar sentido às frases
+e um ritmo vivo, sem pressa excessiva. Não force uma voz doce,
+infantilizada, sorridente ou teatral.
 
-Mantenha ritmo fluido e ágil, com articulação nítida
-e pausas curtas e naturais. Evite leitura arrastada,
-voz robotizada ou entusiasmo artificial. A agilidade
-não deve prejudicar a compreensão.
+Em notícias políticas, transmita credibilidade e serenidade.
+Não enfatize palavras para persuadir, não dramatize denúncias,
+não celebre nem condene personagens. Mantenha neutralidade na
+interpretação, mesmo quando o texto contiver críticas ou elogios.
 
-Esta é uma leitura fiel de texto escrito, não uma
-conversa interativa. Não acrescente saudações,
-comentários espontâneos, respostas, perguntas,
-interjeições ou opiniões que não estejam no texto.
+Evite a cadência típica de telejornal, locução publicitária,
+audiolivro solene, leitura escolar e voz robótica.
+Não faça finais cantados nem aumente artificialmente o entusiasmo
+nos títulos. Use o mesmo timbre, volume e proximidade em todo o áudio.
 
-Não use tom publicitário, chamada de telejornal,
-documentário dramático, cerimônia ou discurso político.
+Títulos e subtítulos devem soar como partes da conversa,
+não como manchetes anunciadas. Marque transições com pausas
+naturais, geralmente breves; entre seções maiores, faça uma pausa
+um pouco mais perceptível. Respeite a pontuação e a compreensão.
 
-Não mude de personagem, timbre ou intensidade quando
-o texto passar de título para parágrafo, de parágrafo
-para lista ou entre itens.
+Leia fielmente o conteúdo recebido. Não acrescente saudações,
+comentários, interjeições, opiniões ou explicações não escritas.
+Não omita, não resuma, não reescreva e não invente informações.
 
-Não transforme títulos em chamadas.
-
-Não abaixe a voz nos parágrafos.
-
-Não aumente o entusiasmo nos títulos.
-
-Não dê aos itens de lista uma voz diferente da narração
-principal.
-
-A diferença entre as partes do texto deve ser marcada
-principalmente pela pausa e pela articulação, e não pela
-mudança de voz.
-
-As pausas abaixo são referências aproximadas.
-Elas devem soar naturais, e não mecanicamente cronometradas.
-
-Use apenas dois níveis principais de pausa editorial.
-
-NÍVEL 1 — DIVISÃO EDITORIAL:
-aproximadamente 0,55 a 0,65 segundo.
-
-Use esse nível:
-- entre o TÍTULO PRINCIPAL e o primeiro tópico;
-- entre um SUBTÍTULO OU TÍTULO DE SEÇÃO e o primeiro parágrafo;
-- antes de um novo tópico numerado;
-- na passagem de uma seção editorial para outra.
-
-Essas pausas devem soar equivalentes entre si.
-
-A passagem:
-
-título -> tópico
-
-deve ter aproximadamente a mesma duração da passagem:
-
-tópico -> primeiro parágrafo.
-
-NÍVEL 2 — FLUXO NORMAL:
-aproximadamente 0,30 a 0,40 segundo.
-
-Use esse nível:
-- entre parágrafos comuns;
-- entre itens consecutivos de uma lista;
-- na passagem entre um parágrafo e uma lista quando não houver
-  mudança de seção;
-- na passagem de uma lista de volta ao texto normal.
-
-Evite variar arbitrariamente a duração das pausas.
-
-Não faça uma divisão editorial com pausa muito curta em um ponto
-e muito longa em outro ponto equivalente.
-
-Em condições normais, não ultrapasse aproximadamente 0,7 segundo
-entre dois blocos consecutivos.
-
-Não emende um título ao tópico seguinte.
-
-Não transforme uma mudança estrutural em silêncio prolongado.
-
-Respeite naturalmente a pontuação interna de cada frase.
-
-Preserve rigorosamente o conteúdo fornecido.
-Não acrescente, não omita, não resuma e não reformule.
-`.trim();
+Mantenha uma identidade vocal consistente entre todos os trechos
+do mesmo artigo e entre artigos diferentes.
+`.trim();;
 
 function criarInstrucoes(
   continua: boolean,
