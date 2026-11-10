@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 const fonteAlesc = "https://www.alesc.sc.gov.br/deputados/";
 type Situacao = "nao_eleito_sem_mandato" | "eleito_aguardando_posse" | "sem_mandato" | "mandato_ativo";
 // Registros individuais somente após conferência; não inferir resultado eleitoral pelo nome ou cargo.
-const situacoesVerificadas: Record<string,Situacao> = {"SC:AANDERSON BATATA":"sem_mandato"};
+const situacoesVerificadas: Record<string,Situacao> = {"SC:AANDERSON BATATA":"sem_mandato","MG:CLAYSON FELIZOLA":"nao_eleito_sem_mandato"};
 const contatosSC: Record<string,string> = {};
 function normalizar(v:string){return v.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().trim().replace(/\s+/g," ");}
 export default function ContatoPolitico() {
@@ -20,7 +20,7 @@ export default function ContatoPolitico() {
   },[]);
   const nomeNormalizado=normalizar(dados.nome);
   const situacao=situacoesVerificadas[dados.uf.toUpperCase()+":"+nomeNormalizado];
-  const aviso=situacao==="nao_eleito_sem_mandato"?"Este político não foi eleito e não exerce mandato atualmente. Por isso, o Fora da Pauta não disponibiliza contato institucional.":situacao==="eleito_aguardando_posse"?"Este político foi eleito, mas ainda não tomou posse. O contato institucional ficará disponível após a posse, quando tivermos um endereço oficial verificado.":situacao==="sem_mandato"?"Este político não exerce mandato atualmente. Por isso, o Fora da Pauta não disponibiliza contato institucional.":"Ainda não foi possível confirmar o exercício atual de mandato e um e-mail institucional para este político. O contato ficará indisponível até a verificação.";
+  const aviso=situacao==="nao_eleito_sem_mandato"?"Este candidato não foi eleito nas eleições de 2026 e não exerce mandato atualmente. Por isso, o Fora da Pauta não disponibiliza contato institucional.":situacao==="eleito_aguardando_posse"?"Este político foi eleito, mas ainda não tomou posse. O contato institucional ficará disponível após a posse, quando tivermos um endereço oficial verificado.":situacao==="sem_mandato"?"Este político não exerce mandato atualmente. Por isso, o Fora da Pauta não disponibiliza contato institucional.":"Ainda não foi possível confirmar o exercício atual de mandato e um e-mail institucional para este político. O contato ficará indisponível até a verificação.";
   const emailOficial=dados.uf.toUpperCase()==="SC" && /deputad/i.test(dados.cargo) && situacao==="mandato_ativo" ? contatosSC[nomeNormalizado] : undefined;
   const assunto="Mensagem de cidadão para "+dados.nome;
   const email=emailOficial ? "mailto:"+emailOficial+"?subject="+encodeURIComponent(assunto)+"&body="+encodeURIComponent(mensagem) : "";
