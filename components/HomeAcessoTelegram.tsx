@@ -88,6 +88,5 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
       </div>:null}
       {erro&&<p role="alert" className="mt-4">{erro}</p>}
     </div>
-    <p className="relative mx-auto w-full max-w-4xl text-center text-xs font-bold tracking-widest text-white/70">FORA DA PAUTA / HÁ MAIS PARA ENTENDER.</p>
   </section>;
 }
