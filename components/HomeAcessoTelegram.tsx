@@ -6,6 +6,8 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
   const [estado,setEstado]=useState<"carregando"|"inscrito"|"visitante">("visitante");
   const [abrindo,setAbrindo]=useState(false);
   const [erro,setErro]=useState("");
+  const [mostrarOpcoes,setMostrarOpcoes]=useState(false);
+  const [linkTelegram,setLinkTelegram]=useState("");
   useEffect(()=>{
     let ativo=true;
     let verificando=false;
@@ -44,7 +46,8 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
     document.addEventListener("visibilitychange",aoRetornar);
     return ()=>{ativo=false;window.clearInterval(intervalo);window.removeEventListener("focus",aoRetornar);document.removeEventListener("visibilitychange",aoRetornar);};
   },[]);
-  async function inscrever(){
+  function inscrever(){setMostrarOpcoes(true);}
+  async function abrirTelegram(){
     if(abrindo)return;
     if(estado==="inscrito"){setErro("Você já está inscrito no Telegram.");return;}
     setAbrindo(true);setErro("");
@@ -55,7 +58,9 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
       const destino=new URL(dados.url??"");
       if(destino.origin!=="https://t.me"||destino.pathname!=="/ForaDaPautaAcompanhaBot"||!/^\?start=s_[A-Za-z0-9_-]{32}$/.test(destino.search))throw Error();
       sessionStorage.setItem("fdp_primeira_inscricao", "1");
-      window.location.assign(destino.toString());
+      setLinkTelegram(destino.toString());
+      setAbrindo(false);
+      window.location.href="tg://resolve?domain=ForaDaPautaAcompanhaBot&start="+encodeURIComponent(destino.searchParams.get("start")||"");
     }catch(e){setErro(e instanceof Error?e.message:"Não foi possível abrir o Telegram. Tente novamente.");setAbrindo(false);}
   }
   return <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#050505] px-6 py-9 text-white sm:px-12">
@@ -68,7 +73,16 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
       <h1 className="max-w-2xl text-4xl font-extrabold leading-tight sm:text-6xl">Acompanhe o dia a dia dos políticos.</h1>
       <p className="mt-7 max-w-2xl text-lg leading-relaxed">Todos os dias, o Fora da Pauta reúne informações sobre o jogo político e avalia seu impacto na vida da sociedade.</p>
       <p className="mt-5 max-w-2xl text-lg leading-relaxed">Receba análises especializadas pelo Telegram.{" "}<button type="button" onClick={()=>void inscrever()} disabled={abrindo} className="font-semibold text-[#58c7ff] underline underline-offset-4 disabled:opacity-60">Clique aqui</button>{" "}para se inscrever no canal.</p>
-      <button onClick={()=>void inscrever()} disabled={abrindo} className="mt-8 min-h-14 w-full max-w-md rounded-lg bg-[#229ed9] px-5 font-bold text-white disabled:opacity-60">{abrindo?"Abrindo Telegram...":"Inscrever no Telegram"}</button>
+      <button onClick={()=>void inscrever()} disabled={abrindo} className="mt-8 min-h-14 w-full max-w-md rounded-lg bg-[#229ed9] px-5 font-bold text-white disabled:opacity-60">{mostrarOpcoes?"Escolha uma opção abaixo":"Inscrever no Telegram"}</button>
+      {mostrarOpcoes?<div className="mt-5 w-full max-w-md rounded-xl border border-white/30 bg-black/80 p-5">
+        <h2 className="text-xl font-bold">Vamos receber as notícias?</h2>
+        <p className="mt-2 text-sm text-white/80">Escolha uma opção:</p>
+        <button type="button" disabled={abrindo} onClick={()=>void abrirTelegram()} className="mt-5 min-h-14 w-full rounded-lg bg-[#229ed9] px-4 py-3 font-bold disabled:opacity-50">{abrindo?"Preparando inscrição...":"Já tenho Telegram — abrir aplicativo"}</button>
+        <a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank" rel="noopener noreferrer" className="mt-3 flex min-h-14 w-full items-center justify-center rounded-lg border border-white/60 px-4 py-3 text-center font-bold">Não tenho Telegram — instalar</a>
+        <p className="mt-3 text-sm text-white/80">Depois de instalar, volte a esta página e toque em “Já tenho Telegram”. No aplicativo, toque em Iniciar para confirmar.</p>
+        {linkTelegram?<a href={linkTelegram} className="mt-4 block text-center text-sm font-bold text-[#58c7ff] underline">Não abriu? Tentar pelo navegador</a>:null}
+        <button type="button" onClick={()=>setMostrarOpcoes(false)} className="mt-4 w-full py-2 text-sm underline">Voltar</button>
+      </div>:null}
       {erro&&<p role="alert" className="mt-4">{erro}</p>}
     </div>
     <p className="relative mx-auto w-full max-w-4xl text-center text-xs font-bold tracking-widest text-white/70">FORA DA PAUTA / HÁ MAIS PARA ENTENDER.</p>
