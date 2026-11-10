@@ -20,17 +20,17 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.foradapauta.org"),
   openGraph: {
-    title: "Fora da Pauta — Há mais para entender.",
+    title: "Fique de Olho — Saiba o que os políticos estão fazendo.",
     description: "Acompanhe o dia a dia dos políticos. Entenda como as decisões políticas afetam a nossa vida.",
     url: "https://www.foradapauta.org/",
-    siteName: "Fora da Pauta",
+    siteName: "Fique de Olho",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "/compartilhar/olho-v2", width: 1200, height: 630, alt: "Olho amarelo do Fora da Pauta sobre fundo preto, sem texto." }],
+    images: [{ url: "/compartilhar/olho-v2", width: 1200, height: 630, alt: "Olho amarelo do Fique de Olho sobre fundo preto, sem texto." }],
   },
   title: {
-    default: "Fora da Pauta",
-    template: "%s | Fora da Pauta",
+    default: "Fique de Olho",
+    template: "%s | Fique de Olho",
   },
   description:
     "Informação, documentos, evidências e fontes verificáveis para ajudar cada pessoa a formar sua própria avaliação.",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     shortcut: "/marca/fora-da-pauta-icone.svg",
   },
   manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, title: "Fora da Pauta", statusBarStyle: "black-translucent" },
+  appleWebApp: { capable: true, title: "Fique de Olho", statusBarStyle: "black-translucent" },
 };
 
 export default function RootLayout({
