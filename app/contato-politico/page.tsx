@@ -6,31 +6,7 @@ import { useEffect, useState } from "react";
 // Contatos e exercício do mandato conferidos na relação da legislatura atual da ALESC.
 // Adicionar outros parlamentares somente após verificar exercício atual e endereço institucional.
 const fonteAlesc = "https://www.alesc.sc.gov.br/deputados/";
-const contatosSC: Record<string,string> = {
-  "ALTAIR SILVA":"dep.altairsilva@alesc.sc.gov.br",
-  "ANTIDIO LUNELLI":"depantidiolunelli@alesc.sc.gov.br",
-  "BERLANDA":"deputadoberlanda@alesc.sc.gov.br",
-  "CARLOS HUMBERTO":"deputadocarloshumberto@alesc.sc.gov.br",
-  "FERNANDO KRELLING":"fernandokrelling@alesc.sc.gov.br",
-  "JESSE LOPES":"dep.jesselopes@alesc.sc.gov.br",
-  "JULIO GARCIA":"juliogarcia@alesc.sc.gov.br",
-  "JUNIOR CARDOSO":"deputadojuniorcardoso@alesc.sc.gov.br",
-  "LUCIANE CARMINATTI":"lucianecarminatti13@gmail.com",
-  "MARCIUS MACHADO":"marcius.machado@alesc.sc.gov.br",
-  "MARCOS DA ROSA":"depmarcosdarosa@alesc.sc.gov.br",
-  "MARCOS VIEIRA":"marcosvieira@alesc.sc.gov.br",
-  "MARIO MOTTA":"secretariado@deputadomariomotta.com.br",
-  "MAURICIO PEIXER":"deputadopeixer@alesc.sc.gov.br",
-  "MAURO DE NADAL":"maurodenadal@alesc.sc.gov.br",
-  "OSCAR GUTZ":"gabineteoscargutz@alesc.sc.gov.br",
-  "PEPE COLLACO":"pepe.collaco@alesc.sc.gov.br",
-  "RODRIGO MINOTTO":"rodrigominotto@alesc.sc.gov.br",
-  "SARGENTO LIMA":"dep.sargentolima@alesc.sc.gov.br",
-  "SERGIO GUIMARAES":"sergioguimaraes@alesc.sc.gov.br",
-  "SERGIO MOTTA":"depsergiomotta@alesc.sc.gov.br",
-  "TIAGO ZILLI":"deptiagozilli@alesc.sc.gov.br",
-  "VOLNEI WEBER":"volneiweber@alesc.sc.gov.br"
-};
+const contatosSC: Record<string,string> = {};
 function normalizar(v:string){return v.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().trim().replace(/\s+/g," ");}
 export default function ContatoPolitico() {
   const [dados,setDados]=useState({id:"",nome:"",cargo:"",uf:"",partido:""});
