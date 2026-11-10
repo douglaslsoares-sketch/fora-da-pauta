@@ -2,48 +2,39 @@
 import Link from "next/link";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { useEffect, useState } from "react";
-
-// Estados eleitorais e de mandato devem vir de fontes verificadas, nunca do cargo na URL.
-// Um político pode perder a eleição e ainda exercer um mandato anterior.
-type ContatoMandato = {email:string;cargoAtual:string;fonte:string;eleitoPara?:string};
-const contatosMandato: Record<string,ContatoMandato> = {
-  "PR:RENATO FREITAS": {email:"renatofreitas@assembleia.pr.leg.br",cargoAtual:"deputado estadual do Paraná",eleitoPara:"deputado federal",fonte:"https://www.gcau-consulta.casacivil.pr.gov.br/gcau_internet/servicoLivreConsultaAgrupadorInternet.do?action=pesquisarPorAgrupadorInternet&codAgrupadorInternet=149"}
-};
-type Situacao = "nao_eleito_sem_mandato" | "eleito_aguardando_posse" | "sem_mandato" | "mandato_ativo";
-// Registros individuais somente após conferência; não inferir resultado eleitoral pelo nome ou cargo.
-const situacoesVerificadas: Record<string,Situacao> = {"SC:AANDERSON BATATA":"sem_mandato","MG:CLAYSON FELIZOLA":"nao_eleito_sem_mandato"};
-
-function normalizar(v:string){return v.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().trim().replace(/\s+/g," ");}
-export default function ContatoPolitico() {
-  const [dados,setDados]=useState({id:"",nome:"",cargo:"",uf:"",partido:""});
+type Resultado={nome:string;cargo:string;uf:string;partido:string;situacao:"mandato_atual"|"eleito_aguardando_posse"|"nao_eleito"|"nao_confirmado";contato:{email:string;cargo:string;fonte:string}|null};
+export default function ContatoPolitico(){
+  const [id,setId]=useState("");
+  const [dados,setDados]=useState<Resultado|null>(null);
+  const [carregando,setCarregando]=useState(true);
   const [mensagem,setMensagem]=useState("");
   useEffect(()=>{
-    const p=new URLSearchParams(window.location.search);
-    setDados({id:(p.get("id")||"").slice(0,60),nome:(p.get("nome")||"").slice(0,120),cargo:(p.get("cargo")||"").slice(0,100),uf:(p.get("uf")||"").slice(0,2),partido:(p.get("partido")||"").slice(0,30)});
+    const idAtual=new URLSearchParams(window.location.search).get("id")||"";
+    setId(idAtual);
+    if(!/^\d{8,20}$/.test(idAtual)){setCarregando(false);return;}
+    const controller=new AbortController();
+    fetch("/api/contato-politico?id="+encodeURIComponent(idAtual),{signal:controller.signal,cache:"no-store"})
+      .then(r=>{if(!r.ok)throw Error("Falha na consulta");return r.json();})
+      .then((d:Resultado)=>setDados(d))
+      .catch(()=>setDados(null))
+      .finally(()=>setCarregando(false));
+    return ()=>controller.abort();
   },[]);
-  const nomeNormalizado=normalizar(dados.nome);
-  const chave=dados.uf.toUpperCase()+":"+nomeNormalizado;
-  const contatoAtual=contatosMandato[chave];
-  const situacao=contatoAtual?"mandato_ativo":situacoesVerificadas[chave];
-  const aviso=situacao==="nao_eleito_sem_mandato"?"Este candidato não foi eleito nas eleições de 2026 e não exerce mandato atualmente. Por isso, o Fora da Pauta não disponibiliza contato institucional.":situacao==="eleito_aguardando_posse"?"Este político foi eleito, mas ainda não tomou posse. O contato institucional ficará disponível após a posse, quando tivermos um endereço oficial verificado.":situacao==="sem_mandato"?"Este político não exerce mandato atualmente. Por isso, o Fora da Pauta não disponibiliza contato institucional.":"Ainda não foi possível confirmar o exercício atual de mandato e um e-mail institucional para este político. O contato ficará indisponível até a verificação.";
-  const emailOficial=situacao==="mandato_ativo" ? contatoAtual?.email : undefined;
-  const assunto="Mensagem de cidadão para "+dados.nome;
-  const email=emailOficial ? "mailto:"+emailOficial+"?subject="+encodeURIComponent(assunto)+"&body="+encodeURIComponent(mensagem) : "";
+  const aviso=dados?.situacao==="nao_eleito"?"Este candidato não foi eleito nas eleições de 2026. Se não exerce outro mandato, não há contato institucional a disponibilizar.":dados?.situacao==="eleito_aguardando_posse"?"Este político foi eleito, mas ainda não tomou posse no novo cargo. Não encontramos um contato institucional verificado de mandato atualmente exercido.":dados?.situacao==="nao_confirmado"?"O resultado eleitoral ou o exercício de mandato atual ainda não foi confirmado. O contato institucional ficará indisponível até a verificação.":"Não foi possível consultar os dados deste político agora.";
+  const contato=dados?.contato;
+  const email=contato?"mailto:"+contato.email+"?subject="+encodeURIComponent("Mensagem de cidadão para "+dados?.nome)+"&body="+encodeURIComponent(mensagem):"";
   return <main className="min-h-screen bg-white px-5 pb-10 pt-24 text-black"><section className="mx-auto max-w-2xl">
     <h1 className="text-3xl font-extrabold">Entrar em contato</h1>
-    {dados.nome?<div className="mt-6 flex items-start gap-4">{dados.id?<CandidatePhoto id={dados.id} name={dados.nome}/>:null}<div className="min-w-0"><h2 className="text-2xl font-bold">{dados.nome}</h2><p className="mt-2 text-black/70">{[dados.cargo,dados.uf,dados.partido].filter(Boolean).join(" · ")}</p></div></div>:null}
-    {emailOficial ? <>
-      {contatoAtual?<div className="mt-7 rounded-xl border border-black/15 bg-black/[0.04] p-4"><p className="font-bold">Mandato atualmente exercido: {contatoAtual.cargoAtual}.</p>{contatoAtual.eleitoPara?<p className="mt-2">Eleito para {contatoAtual.eleitoPara}, mas ainda não tomou posse nesse cargo. O contato abaixo é do mandato atual.</p>:null}</div>:null}
+    {dados?<div className="mt-6 flex items-start gap-4">{id?<CandidatePhoto id={id} name={dados.nome}/>:null}<div className="min-w-0"><h2 className="text-2xl font-bold">{dados.nome}</h2><p className="mt-2 text-black/70">{[dados.cargo,dados.uf,dados.partido].filter(Boolean).join(" · ")}</p></div></div>:null}
+    {carregando?<p className="mt-8" role="status">Verificando resultado eleitoral e mandato...</p>:contato?<>
+      <div className="mt-7 rounded-xl border border-black/15 bg-black/[0.04] p-4"><p className="font-bold">Mandato atual: {contato.cargo}.</p><p className="mt-2">O contato abaixo corresponde ao mandato atualmente exercido, não necessariamente ao cargo disputado em 2026.</p></div>
       <label htmlFor="mensagem-politico" className="mt-8 block text-xl font-bold">O que você gostaria de dizer a este político?</label>
       <textarea id="mensagem-politico" value={mensagem} onChange={e=>setMensagem(e.target.value)} maxLength={5000} rows={7} placeholder="Escreva aqui sua pergunta, sugestão ou cobrança..." className="mt-4 w-full rounded-xl border border-black/30 p-4 text-lg"/>
-      <p className="mt-4 text-base">E-mail de contato divulgado pelo órgão público: <strong className="break-all">{emailOficial}</strong></p>
-      <p className="mt-2 text-sm text-black/60">Fonte: <a className="underline" href={contatoAtual?.fonte || "#"} target="_blank" rel="noopener noreferrer">cadastro oficial do órgão público</a></p>
+      <p className="mt-4">E-mail institucional: <strong className="break-all">{contato.email}</strong></p>
+      <a href={contato.fonte} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block underline">Fonte institucional</a>
       <a href={mensagem.trim()?email:undefined} aria-disabled={!mensagem.trim()} onClick={e=>{if(!mensagem.trim())e.preventDefault();}} className={"mt-6 flex min-h-14 items-center justify-center rounded-lg px-5 py-3 text-center font-bold "+(mensagem.trim()?"bg-[#ffd700] text-black":"bg-black/10 text-black/40")}>Preparar e-mail para enviar</a>
-      <p className="mt-3 text-sm text-black/60">Seu aplicativo de e-mail será aberto com o destinatário e a mensagem preenchidos. Confira e toque em Enviar no aplicativo. O Fora da Pauta não envia automaticamente.</p>
-    </> : <div className="mt-8 rounded-xl border border-black/15 bg-black/[0.04] p-5">
-      <h3 className="text-xl font-bold">Contato indisponível</h3>
-      <p className="mt-3 leading-7">{aviso}</p>
-    </div>}
+      <p className="mt-3 text-sm text-black/60">Seu aplicativo de e-mail abrirá com a mensagem preenchida. Confira e confirme o envio.</p>
+    </>:<div className="mt-8 rounded-xl border border-black/15 bg-black/[0.04] p-5"><h3 className="text-xl font-bold">Contato indisponível</h3><p className="mt-3 leading-7">{aviso}</p></div>}
     <div className="mt-10 flex justify-center"><Link href="/minhas-escolhas" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-lg bg-[#c62828] px-8 py-3 text-lg font-bold text-white">✕ Fechar</Link></div>
   </section></main>;
 }
