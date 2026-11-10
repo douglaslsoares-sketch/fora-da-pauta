@@ -46,8 +46,10 @@ export async function GET(request: NextRequest) {
   const caminho = vinculado
     ? destino === "minhas"
       ? "/minhas-escolhas"
-      : destino === "opcoes"
-        ? "/ha-mais-para-entender"
+      : destino === "escolher"
+        ? "/escolher-quem-acompanhar"
+        : destino === "opcoes"
+          ? "/ha-mais-para-entender"
         : "/ha-mais-para-entender"
     : "/ha-mais-para-entender?telegram=expirado";
   const resposta = NextResponse.redirect(new URL(caminho, request.url), 303);
