@@ -65,7 +65,7 @@ export default function Page(){
           <div className="flex min-w-0 items-start gap-3"><CandidatePhoto id={p.id} name={p.nomeUrna}/><div className="min-w-0"><p className="font-bold">{p.nomeUrna}</p>
             {p.cargoLabel?<p className="mt-1 text-sm text-black/65">{p.cargoLabel}{p.uf?` · ${p.uf}`:""}{p.siglaPartido?` · ${p.siglaPartido}`:""}</p>:null}</div>
           </div>
-          <div className="flex w-full flex-col gap-2"><Link href={`/contato-politico?id=${encodeURIComponent(p.id)}&nome=${encodeURIComponent(p.nomeUrna)}&cargo=${encodeURIComponent(p.cargoLabel || "")}&uf=${encodeURIComponent(p.uf || "")}&partido=${encodeURIComponent(p.siglaPartido || "")}`} className="rounded-lg bg-[#ffd700] px-3 py-3 text-center text-sm font-bold text-black">Mandar recado</Link><button type="button" disabled={removendo.includes(p.id)} onClick={()=>void remover(p)}
+          <div className="flex w-full flex-col gap-2"><Link href={`/contato-politico?id=${encodeURIComponent(p.id)}&nome=${encodeURIComponent(p.nomeUrna)}&cargo=${encodeURIComponent(p.cargoLabel || "")}&uf=${encodeURIComponent(p.uf || "")}&partido=${encodeURIComponent(p.siglaPartido || "")}`} className="rounded-lg bg-[#ffd700] px-3 py-3 text-center text-sm font-bold text-black">Mandar um recado</Link><button type="button" disabled={removendo.includes(p.id)} onClick={()=>void remover(p)}
             className="min-h-12 shrink-0 rounded-lg border border-[#c62828] px-3 text-sm font-bold text-[#c62828] disabled:opacity-50 sm:px-4 sm:text-base">
             {removendo.includes(p.id)?"Removendo...":"Remover"}
           </button></div>
