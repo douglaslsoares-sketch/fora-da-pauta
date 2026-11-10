@@ -3,9 +3,12 @@ import Link from "next/link";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { useEffect, useState } from "react";
 
-// Contatos e exercício do mandato conferidos na relação da legislatura atual da ALESC.
-// Adicionar outros parlamentares somente após verificar exercício atual e endereço institucional.
+// Estados eleitorais e de mandato devem vir de fontes verificadas, nunca do cargo na URL.
+// Um político pode perder a eleição e ainda exercer um mandato anterior.
 const fonteAlesc = "https://www.alesc.sc.gov.br/deputados/";
+type Situacao = "nao_eleito_sem_mandato" | "eleito_aguardando_posse" | "sem_mandato" | "mandato_ativo";
+// Registros individuais somente após conferência; não inferir resultado eleitoral pelo nome ou cargo.
+const situacoesVerificadas: Record<string,Situacao> = {"SC:AANDERSON BATATA":"sem_mandato"};
 const contatosSC: Record<string,string> = {};
 function normalizar(v:string){return v.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().trim().replace(/\s+/g," ");}
 export default function ContatoPolitico() {
@@ -16,8 +19,9 @@ export default function ContatoPolitico() {
     setDados({id:(p.get("id")||"").slice(0,60),nome:(p.get("nome")||"").slice(0,120),cargo:(p.get("cargo")||"").slice(0,100),uf:(p.get("uf")||"").slice(0,2),partido:(p.get("partido")||"").slice(0,30)});
   },[]);
   const nomeNormalizado=normalizar(dados.nome);
-  const semMandato=nomeNormalizado==="AANDERSON BATATA" && dados.uf.toUpperCase()==="SC";
-  const emailOficial=dados.uf.toUpperCase()==="SC" && /deputad/i.test(dados.cargo) && !semMandato ? contatosSC[nomeNormalizado] : undefined;
+  const situacao=situacoesVerificadas[dados.uf.toUpperCase()+":"+nomeNormalizado];
+  const aviso=situacao==="nao_eleito_sem_mandato"?"Este político não foi eleito e não exerce mandato atualmente. Por isso, o Fora da Pauta não disponibiliza contato institucional.":situacao==="eleito_aguardando_posse"?"Este político foi eleito, mas ainda não tomou posse. O contato institucional ficará disponível após a posse, quando tivermos um endereço oficial verificado.":situacao==="sem_mandato"?"Este político não exerce mandato atualmente. Por isso, o Fora da Pauta não disponibiliza contato institucional.":"Ainda não foi possível confirmar o exercício atual de mandato e um e-mail institucional para este político. O contato ficará indisponível até a verificação.";
+  const emailOficial=dados.uf.toUpperCase()==="SC" && /deputad/i.test(dados.cargo) && situacao==="mandato_ativo" ? contatosSC[nomeNormalizado] : undefined;
   const assunto="Mensagem de cidadão para "+dados.nome;
   const email=emailOficial ? "mailto:"+emailOficial+"?subject="+encodeURIComponent(assunto)+"&body="+encodeURIComponent(mensagem) : "";
   return <main className="min-h-screen bg-white px-5 py-10 text-black"><section className="mx-auto max-w-2xl">
@@ -32,7 +36,7 @@ export default function ContatoPolitico() {
       <p className="mt-3 text-sm text-black/60">Seu aplicativo de e-mail será aberto com o destinatário e a mensagem preenchidos. Confira e toque em Enviar no aplicativo. O Fora da Pauta não envia automaticamente.</p>
     </> : <div className="mt-8 rounded-xl border border-black/15 bg-black/[0.04] p-5">
       <h3 className="text-xl font-bold">Contato indisponível</h3>
-      <p className="mt-3 leading-7">{semMandato?"Este político não exerce mandato atualmente. Por isso, o Fora da Pauta não disponibiliza um canal de contato institucional.":"Ainda não foi possível confirmar o exercício de mandato e um e-mail institucional para este político. O contato ficará indisponível até a verificação."}</p>
+      <p className="mt-3 leading-7">{aviso}</p>
     </div>}
     <div className="mt-10 flex justify-center"><Link href="/minhas-escolhas" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-lg bg-[#c62828] px-8 py-3 text-lg font-bold text-white">✕ Fechar</Link></div>
   </section></main>;
