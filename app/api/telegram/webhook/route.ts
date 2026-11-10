@@ -835,10 +835,10 @@ export async function POST(
           (message?.from?.first_name?.trim()
             ? `Olá, ${message.from.first_name.trim().slice(0, 60)}! 👋\n\n`
             : "Olá! 👋\n\n") +
-          "Sua inscrição no Fora da Pauta está confirmada!\n\n" +
+          "Sua inscrição no Fique de Olho está confirmada!\n\n" +
           "Agora você pode acompanhar os políticos que quiser.\n\n" +
-          "Toque no botão abaixo para escolher o político que você quer acompanhar.",
-        imagemUrl: new URL("/opengraph-image.jpg", request.url).toString(),
+          "Toque no botão abaixo para escolher um político.",
+        imagemUrl: new URL("/api/telegram/imagem", request.url).toString(),
         botoes: [[{
           text: "Escolher político",
           url: new URL(`/api/telegram/concluir?codigo=${codigoRetorno}&destino=escolher`, request.url).toString(),
