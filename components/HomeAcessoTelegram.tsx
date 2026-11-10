@@ -8,6 +8,7 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
   const [erro,setErro]=useState("");
   const [mostrarOpcoes,setMostrarOpcoes]=useState(false);
   const [linkTelegram,setLinkTelegram]=useState("");
+  const [instalando,setInstalando]=useState(false);
   useEffect(()=>{
     let ativo=true;
     let verificando=false;
@@ -47,6 +48,7 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
     return ()=>{ativo=false;window.clearInterval(intervalo);window.removeEventListener("focus",aoRetornar);document.removeEventListener("visibilitychange",aoRetornar);};
   },[]);
   function inscrever(){setMostrarOpcoes(true);}
+  function instalarTelegram(){setInstalando(true);setErro("");}
   async function abrirTelegram(){
     if(abrindo)return;
     if(estado==="inscrito"){setErro("Você já está inscrito no Telegram.");return;}
@@ -63,6 +65,7 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
       window.location.href="tg://resolve?domain=ForaDaPautaAcompanhaBot&start="+encodeURIComponent(destino.searchParams.get("start")||"");
     }catch(e){setErro(e instanceof Error?e.message:"Não foi possível abrir o Telegram. Tente novamente.");setAbrindo(false);}
   }
+  if(instalando)return <main className="flex min-h-[100svh] flex-col justify-center bg-[#050505] px-6 py-10 text-white"><div className="mx-auto w-full max-w-md"><h1 className="text-3xl font-extrabold">Vamos instalar o Telegram</h1><p className="mt-5 text-lg">É gratuito. Vamos orientar você, um passo por vez.</p><p className="mt-6 text-lg"><strong>1.</strong> Toque em “Instalar Telegram”. Na loja, toque em Instalar e espere terminar.</p><a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank" rel="noopener noreferrer" className="mt-5 flex min-h-14 items-center justify-center rounded-lg bg-[#229ed9] px-4 text-center font-bold">Instalar Telegram</a><p className="mt-8 text-lg"><strong>2.</strong> Quando terminar, volte a esta tela e toque no botão abaixo. Vamos abrir a inscrição diretamente no aplicativo.</p><button type="button" disabled={abrindo} onClick={()=>void abrirTelegram()} className="mt-5 min-h-14 w-full rounded-lg bg-[#ffd700] px-4 font-bold text-black disabled:opacity-50">{abrindo?"Preparando inscrição...":"Já instalei — continuar inscrição"}</button>{linkTelegram?<a href={linkTelegram} className="mt-4 block text-center text-[#58c7ff] underline">Não abriu? Abrir inscrição pelo navegador</a>:null}{erro?<p role="alert" className="mt-4">{erro}</p>:null}<button type="button" onClick={()=>setInstalando(false)} className="mt-8 w-full py-2 underline">Voltar</button></div></main>;
   return <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#050505] px-6 py-9 text-white sm:px-12">
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[url('/marca/fora-da-pauta-olho-dourado.svg')] bg-[length:125%_auto] bg-[position:80%_65%] bg-no-repeat opacity-[.13]"/>
     <div className="relative mx-auto w-full max-w-4xl">
@@ -78,8 +81,8 @@ export function HomeAcessoTelegram({ versaoEdicoes: _edicoes, versaoEntregas: _e
         <h2 className="text-xl font-bold">Vamos receber as notícias?</h2>
         <p className="mt-2 text-sm text-white/80">Para receber as notícias, vamos usar um aplicativo gratuito chamado Telegram. Você já tem esse aplicativo no celular?</p>
         <button type="button" disabled={abrindo} onClick={()=>void abrirTelegram()} className="mt-5 min-h-14 w-full rounded-lg bg-[#229ed9] px-4 py-3 font-bold disabled:opacity-50">{abrindo?"Preparando inscrição...":"Sim, já tenho."}</button>
-        <a href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank" rel="noopener noreferrer" className="mt-3 flex min-h-14 w-full items-center justify-center rounded-lg border border-white/60 px-4 py-3 text-center font-bold">Não tenho.</a>
-        <p className="mt-3 text-sm text-white/80">Se não tiver, vamos orientar você na instalação, um passo por vez. Depois de instalar, volte a esta página e toque em “Sim, já tenho”. No aplicativo, toque em Iniciar para confirmar.</p>
+        <button type="button" onClick={instalarTelegram} className="mt-3 flex min-h-14 w-full items-center justify-center rounded-lg border border-white/60 px-4 py-3 text-center font-bold">Não tenho.</button>
+        <p className="mt-3 text-sm text-white/80">Se não tiver, vamos orientar você na instalação, um passo por vez.</p>
         {linkTelegram?<a href={linkTelegram} className="mt-4 block text-center text-sm font-bold text-[#58c7ff] underline">Não abriu? Tentar pelo navegador</a>:null}
         <button type="button" onClick={()=>setMostrarOpcoes(false)} className="mt-4 w-full py-2 text-sm underline">Voltar</button>
       </div>:null}
