@@ -17,7 +17,6 @@ type TelegramChat = {
 
 type TelegramMessage = {
   from?: { first_name?: string };
-  from?: { first_name?: string };
   text?: string;
   chat?: TelegramChat;
 };
