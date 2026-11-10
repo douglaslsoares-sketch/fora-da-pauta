@@ -16,6 +16,7 @@ type TelegramChat = {
 };
 
 type TelegramMessage = {
+  from?: { first_name?: string };
   text?: string;
   chat?: TelegramChat;
 };
@@ -830,12 +831,18 @@ export async function POST(
       }
       await enviarMensagemTelegram({
         chatId,
-        texto: "Pronto, sua inscrição está confirmada! Volte à mesma página do Fora da Pauta que você deixou aberta no navegador. Suas escolhas aparecerão automaticamente. Você receberá avisos gerais e, quando escolher políticos, avisos sobre eles. Para interromper os avisos, envie /parar.",
-        // A confirmação já vinculou o navegador que iniciou a inscrição.
-        // Não enviar um botão de retorno ao domínio de produção: quando a
-        // inscrição começa numa prévia, ele abre o site errado.
-        // O navegador original detecta o vínculo automaticamente.
-        botoes: [],
+        texto:
+          (message?.from?.first_name?.trim()
+            ? `Olá, ${message.from.first_name.trim().slice(0, 60)}! 👋\n\n`
+            : "Olá! 👋\n\n") +
+          "Sua inscrição no Fora da Pauta está confirmada!\n\n" +
+          "Agora você pode acompanhar os políticos que quiser.\n\n" +
+          "Toque no botão abaixo para escolher o político que você quer acompanhar.",
+        imagemUrl: new URL("/opengraph-image.jpg", request.url).toString(),
+        botoes: [[{
+          text: "Escolher político",
+          url: new URL(`/api/telegram/concluir?codigo=${codigoRetorno}&destino=escolher`, request.url).toString(),
+        }]],
       });
       return NextResponse.json({ ok: true });
     }
