@@ -8,7 +8,7 @@ function InstitutionalHeader() {
     <header className="relative z-40 border-0 bg-[#050505] text-white shadow-none">
       <div className="mx-auto flex w-full items-center justify-center px-4 pb-5 pt-3 md:pb-[23px] md:pt-5">
         <Link href="/central" aria-label="Voltar à Central do EU VIGIO" className="block">
-          <span className="relative block w-[min(78vw,360px)] overflow-hidden md:w-[400px]" style={{ aspectRatio: "660 / 215" }}>
+          <span className="relative block w-[min(70vw,300px)] overflow-hidden md:w-[300px]" style={{ aspectRatio: "660 / 215" }}>
             <Image
               src="/marca/eu-vigio-original.svg"
               alt="Olho realista com íris dourada do EU VIGIO"
