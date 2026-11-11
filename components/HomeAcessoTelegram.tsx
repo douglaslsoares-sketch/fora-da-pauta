@@ -241,7 +241,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
                 Quero receber as notícias
               </button>
-              <p className={styles.explicacao}>Receba as notificações pelo Telegram.</p>
+              <p className={styles.explicacao}>É gratuito. Receba nossas notícias pelo Telegram.</p>
               {mostrarOrientacoesTelegram ? (
                 <div id="orientacao-telegram" className={styles.quadroTelegram}>
                   <h2 className={styles.perguntaTelegram}>Você já tem Telegram instalado no celular?</h2>
