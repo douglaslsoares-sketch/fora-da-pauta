@@ -5,3 +5,7 @@
 
 /* Navegação entre home e menu: mesmo padrão visual nas duas telas. */
 .menu a.voltarInicio { color:#fff; font-size:16px; font-weight:600; text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:5px; border-radius:0; }
+
+/* Mesmo tamanho do olho da home, em todas as larguras de tela. */
+.olho { width:min(70vw,300px); }
+@media(min-width:768px) { .olho { width:300px; } }
