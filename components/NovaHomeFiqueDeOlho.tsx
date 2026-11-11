@@ -26,7 +26,7 @@ export function NovaHomeFiqueDeOlho(){
   }catch(e){setErro(e instanceof Error?e.message:"Não foi possível abrir o Telegram.");}
   finally{setAbrindo(false);}
  }
- return <section translate="no" className="notranslate relative isolate flex min-h-[100svh] flex-col overflow-x-hidden bg-black text-white">
+ return <section translate="no" className="fdp-home-compact notranslate relative isolate flex min-h-[100svh] flex-col overflow-x-hidden bg-black text-white">
   <div className="relative z-10 mx-auto flex w-full max-w-[680px] flex-1 flex-col items-center justify-start px-[5%] pb-[24px] pt-[8px] text-center md:pb-4 md:pt-0">
    <Image src="/marca/1000215822(2).png" alt="Olho humano em preto e branco" width={240} height={240} priority unoptimized className="-mb-[60px] -mt-[55px] w-[min(92vw,520px)] object-contain md:-mb-[88px] md:-mt-[60px] md:w-[340px]"/>
    <div className="relative z-10 w-full">
