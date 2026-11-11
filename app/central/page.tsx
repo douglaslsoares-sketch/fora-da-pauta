@@ -28,6 +28,7 @@ export default function Central() {
         <Link className={styles.botao} href="/qr/fora-da-pauta.svg">QR Code</Link>
         <a className={styles.compartilhar} href={compartilhar} target="_blank" rel="noopener noreferrer">Compartilhar</a>
         <InstalarAplicativo tema="escuro" />
+        <Link className={styles.voltarInicio} href="/">Ir para o início</Link>
       </nav>
     </main>
   );
