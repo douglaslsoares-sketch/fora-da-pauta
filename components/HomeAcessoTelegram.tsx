@@ -312,7 +312,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <CandidateSelector
                 mode="follow"
                 selectedIds={ids}
-                selectedPeople={pessoas}
                 onSelect={selecionar}
               />
             </>
