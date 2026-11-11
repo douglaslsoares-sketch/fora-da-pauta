@@ -301,7 +301,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
           ) : inscrito ? (
             <>
               {erroEscolha ? <p role="alert" className="mt-4 text-sm text-red-700">{erroEscolha}</p> : null}
-              {avisoEscolha ? <p role="status" className="mt-4 text-sm font-semibold text-green-800">{avisoEscolha}</p> : null}
               {salvandoEscolha ? <p role="status" className="mt-4 text-sm">Salvando sua escolha...</p> : null}
               <CandidateSelector
                 mode="follow"
