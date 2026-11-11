@@ -289,16 +289,11 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
         aria-labelledby="titulo-opcoes"
       >
         <div className={styles.areaInterna}>
-          <h2 className={styles.tituloArea} id="titulo-opcoes">
-            Quem você quer acompanhar?
-          </h2>
+          <p className={styles.textoArea} id="titulo-opcoes">Selecione o político que você quer acompanhar.</p>
           {conferindo ? (
             <p className={styles.textoArea} role="status">Conferindo sua inscrição...</p>
           ) : inscrito ? (
             <>
-              <p className={styles.textoArea}>
-                Digite o nome da pessoa e escolha quem deseja acompanhar.
-              </p>
               {erroEscolha ? <p role="alert" className="mt-4 text-sm text-red-700">{erroEscolha}</p> : null}
               {avisoEscolha ? <p role="status" className="mt-4 text-sm font-semibold text-green-800">{avisoEscolha}</p> : null}
               {salvandoEscolha ? <p role="status" className="mt-4 text-sm">Salvando sua escolha...</p> : null}
