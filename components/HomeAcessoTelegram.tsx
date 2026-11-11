@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
+import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import { SeloTelegram } from "@/components/SeloTelegram";
 import { chaveNovidade } from "@/components/RegistrarNovidadeVista";
@@ -76,7 +77,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
   const [erroTelegram, setErroTelegram] = useState("");
   const [salvandoEscolha, setSalvandoEscolha] = useState(false);
   const [erroEscolha, setErroEscolha] = useState("");
-  const [avisoEscolha, setAvisoEscolha] = useState("");
   const [busca, setBusca] = useState(0);
   const [novidades, setNovidades] = useState({ edicoes: false, entregas: false });
   const areaAcompanhamento = useRef<HTMLElement>(null);
@@ -191,7 +191,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
   async function selecionar(pessoa: { id: string; nomeUrna: string }) {
     if (!inscrito || salvandoEscolha) return;
     setErroEscolha("");
-    setAvisoEscolha("");
     setSalvandoEscolha(true);
     const removendo = ids.includes(pessoa.id);
     try {
@@ -209,9 +208,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
       setPessoas((anteriores) => removendo
         ? anteriores.filter((p) => p.id !== pessoa.id)
         : anteriores.some((p) => p.id === pessoa.id) ? anteriores : [...anteriores, pessoa]);
-      setAvisoEscolha(removendo
-        ? "Você deixou de acompanhar " + pessoa.nomeUrna + "."
-        : "Pronto! Você já acompanha " + pessoa.nomeUrna + ".");
     } catch {
       setErroEscolha("Não foi possível salvar sua escolha no Telegram. Tente novamente.");
     } finally {
@@ -295,6 +291,17 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
         aria-labelledby="titulo-opcoes"
       >
         <div className={styles.areaInterna}>
+          {inscrito && pessoas.filter((p) => ids.includes(p.id)).length > 0 ? (
+            <div className="mb-6 space-y-3" aria-label="Políticos selecionados">
+              {pessoas.filter((p) => ids.includes(p.id)).map((p) => (
+                <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-black/10 bg-white p-3 shadow-sm">
+                  <CandidatePhoto id={p.id} name={p.nomeUrna} />
+                  <p className="min-w-0 flex-1 break-words font-semibold">{p.nomeUrna}</p>
+                  <button type="button" onClick={() => void selecionar(p)} disabled={salvandoEscolha} className="shrink-0 rounded-xl bg-green-600 px-3 py-3 text-sm font-bold text-white disabled:opacity-50">Selecionado</button>
+                </div>
+              ))}
+            </div>
+          ) : null}
           <p className={styles.textoArea} id="titulo-opcoes">Selecione o político que você quer acompanhar.</p>
           {conferindo ? (
             <p className={styles.textoArea} role="status">Conferindo sua inscrição...</p>
