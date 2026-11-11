@@ -32,10 +32,10 @@ export const metadata: Metadata = {
   description:
     "Informação, documentos, evidências e fontes verificáveis para ajudar cada pessoa a formar sua própria avaliação.",
   icons: {
-    icon: [{ url: "/marca/fora-da-pauta-icone.svg", type: "image/svg+xml" }],
-    shortcut: "/marca/fora-da-pauta-icone.svg",
+    icon: [{ url: "/marca/fora-da-pauta-icone.svg?v=olho-humano-2", type: "image/svg+xml" }],
+    shortcut: "/marca/fora-da-pauta-icone.svg?v=olho-humano-2",
   },
-  manifest: "/manifest.webmanifest",
+  manifest: "/manifest.webmanifest?v=olho-humano-2",
   appleWebApp: { capable: true, title: "Fora da Pauta", statusBarStyle: "black-translucent" },
 };
 
