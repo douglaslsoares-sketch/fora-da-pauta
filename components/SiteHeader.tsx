@@ -6,9 +6,9 @@ import { SiteHeaderRouter } from "@/components/SiteHeaderRouter";
 function InstitutionalHeader() {
   return (
     <header className="relative z-40 border-0 bg-[#050505] text-white shadow-none">
-      <div className="mx-auto flex w-full items-center justify-center px-4 py-3">
+      <div className="mx-auto flex w-full items-center justify-center px-4 pb-2 pt-6 md:pt-[35px]">
         <Link href="/central" aria-label="Voltar à Central do EU VIGIO" className="block">
-          <span className="relative block w-[220px] overflow-hidden sm:w-[280px]" style={{ aspectRatio: "660 / 215" }}>
+          <span className="relative block w-[min(78vw,360px)] overflow-hidden md:w-[400px]" style={{ aspectRatio: "660 / 215" }}>
             <Image
               src="/marca/eu-vigio-original.svg"
               alt="Olho realista com íris dourada do EU VIGIO"
