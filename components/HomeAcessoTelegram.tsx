@@ -234,7 +234,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
                 Acompanhe o dia a dia<br />dos políticos.
               </h1>
               <p className={styles.explicacao}>
-                Todos os dias, reunimos informações sobre o jogo político e seu impacto na vida da sociedade.
+                Informações sobre o jogo político e seu impacto na vida da sociedade.
               </p>
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
                 Quero receber as notícias
