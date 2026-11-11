@@ -222,15 +222,11 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
       <section className={styles.apresentacao} id="conteudo" aria-labelledby="mensagem-principal">
         <div className={styles.olhoFundo} aria-hidden="true" />
         <header className={styles.cabecalho}>
-          <Image
-            src="/marca/fora-da-pauta-horizontal-branco.svg"
-            alt="Fora da Pauta"
-            width={2325}
-            height={374}
-            priority
-            className={styles.logo}
-          />
-          <p className={styles.subtitulo}>Decisões que afetam a sua vida.</p>
+          <div className={styles.marcaEuVigio}>
+            <Image src="/marca/fora-da-pauta-olho-dourado.svg" alt="Olho dourado, símbolo de EU VIGIO" width={620} height={374} priority className={styles.olhoEuVigio} />
+            <strong className={styles.nomeEuVigio}>EU VIGIO</strong>
+            <p className={styles.assinaturaEuVigio}>Decisões que afetam minha vida.</p>
+          </div>
         </header>
         <div className={styles.intro} id="apresentacao">
           <div className={styles.heroGrid}>
