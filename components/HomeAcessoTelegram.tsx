@@ -72,6 +72,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
   const [simulacao, setSimulacao] = useState(false);
   const [simuladoInscrito, setSimuladoInscrito] = useState(false);
   const [abrindoTelegram, setAbrindoTelegram] = useState(false);
+  const [mostrarOrientacoesTelegram, setMostrarOrientacoesTelegram] = useState(false);
   const [erroTelegram, setErroTelegram] = useState("");
   const [salvandoEscolha, setSalvandoEscolha] = useState(false);
   const [erroEscolha, setErroEscolha] = useState("");
@@ -235,24 +236,30 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.chamada}>
-                Acompanhe o que o seu representante eleito faz.
+                Acompanhe o dia a dia dos políticos.
               </h1>
               <p className={styles.explicacao}>
-                Para ficar sabendo das novidades, inscreva-se gratuitamente
-                no canal do Fora da Pauta no Telegram.
+                Todos os dias, reunimos informações sobre o jogo político e seu impacto na vida da sociedade.
               </p>
-              <p className={styles.explicacao}>Você será avisado por lá.</p>
-
-              <button
-                type="button"
-                onClick={() => void iniciarInscricao()}
-                disabled={conferindo || inscrito || abrindoTelegram}
-                className={styles.botaoInscricao}
-              >
-                {abrindoTelegram ? "Abrindo Telegram..." : "Inscrever no Telegram"}
-                <span aria-hidden="true"> →</span>
-                <SeloTelegram />
-              </button>
+              {!mostrarOrientacoesTelegram ? (
+                <>
+                  <button type="button" onClick={() => setMostrarOrientacoesTelegram(true)} className={styles.botaoInscricao}>
+                    Quero receber as notícias
+                  </button>
+                  <p className={styles.explicacao}>Receba as notificações pelo Telegram.</p>
+                </>
+              ) : (
+                <div aria-label="Orientações para inscrição no Telegram">
+                  <p className={styles.explicacao}>A inscrição é gratuita. Se você já tem Telegram, toque em Continuar inscrição.</p>
+                  <p className={styles.explicacao}>Se ainda não tem, toque em Instalar o Telegram. Na tela que abrir, toque em Instalar e espere terminar. Depois volte aqui e toque em Continuar inscrição.</p>
+                  <a href="https://telegram.org/apps" target="_blank" rel="noopener noreferrer" className={styles.botaoInscricao} style={{display:"block",textAlign:"center",textDecoration:"none",marginBottom:12}}>
+                    Instalar o Telegram
+                  </a>
+                  <button type="button" onClick={() => void iniciarInscricao()} disabled={conferindo || inscrito || abrindoTelegram} className={styles.botaoInscricao} style={{backgroundColor:"#e5b82e",color:"#111"}}>
+                    {abrindoTelegram ? "Abrindo Telegram..." : "Continuar inscrição"}
+                  </button>
+                </div>
+              )}
               {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
             </div>
 
