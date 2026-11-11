@@ -233,7 +233,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.chamada}>
-                Acompanhe o dia a dia<br />de todos os políticos.
+                Acompanhe o dia a dia<br />dos políticos.
               </h1>
               <p className={styles.explicacao}>
                 Todos os dias, reunimos informações sobre o jogo político e seu impacto na vida da sociedade.
