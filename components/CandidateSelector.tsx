@@ -643,7 +643,7 @@ type CandidateSelectorProps =
   | {
       mode: "follow";
       selectedIds: readonly string[];
-      selectedPeople?: readonly CandidateResult[];
+      selectedPeople?: readonly { id: string; nomeUrna: string; cargoLabel?: string; uf?: string; siglaPartido?: string }[];
       onSelect: (candidate: CandidateResult) => void;
     };
 
@@ -661,7 +661,7 @@ function CandidateFollowSelector({
   apenasFicha = false,
 }: {
   selectedIds: readonly string[];
-  selectedPeople?: readonly CandidateResult[];
+  selectedPeople?: readonly { id: string; nomeUrna: string; cargoLabel?: string; uf?: string; siglaPartido?: string }[];
   onSelect?: (candidate: CandidateResult) => void;
   apenasFicha?: boolean;
 }) {
@@ -839,7 +839,7 @@ function CandidateFollowSelector({
                 <p className="text-[15px] font-semibold">{p.nomeUrna}</p>
                 <p className="text-sm text-black/60">{p.cargoLabel} · {p.uf} · {p.siglaPartido}</p>
               </div>
-              <button type="button" onClick={() => onSelect?.(p)} className="shrink-0 rounded-xl bg-green-600 px-3 py-3 text-xs font-bold text-white">Selecionado</button>
+              <button type="button" onClick={() => onSelect?.({ ...p, nomeCompleto: p.nomeUrna, numero: 0, cargo: "", cargoLabel: p.cargoLabel ?? "", uf: p.uf ?? "", siglaPartido: p.siglaPartido ?? "" })} className="shrink-0 rounded-xl bg-green-600 px-3 py-3 text-xs font-bold text-white">Selecionado</button>
             </div>
           ))}
         </div>
