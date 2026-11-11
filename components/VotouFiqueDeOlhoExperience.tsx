@@ -509,25 +509,11 @@ export function VotouFiqueDeOlhoExperience() {
             </div>
             <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
               <Link
-                href={`/conheca-seu-candidato/${pessoa.id}?origem=minhas`}
-                aria-label={`Ver ficha de ${pessoa.nomeUrna}`}
-                className="flex min-h-12 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-semibold"
-              >
-                Ver ficha →
-              </Link>
-              <Link
-                href={`/historico/${pessoa.id}`}
-                aria-label={`Ver histórico de atuação de ${pessoa.nomeUrna}`}
-                className="flex min-h-12 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-semibold"
-              >
-                Ver histórico →
-              </Link>
-              <Link
                 href={`/contato/${pessoa.id}`}
-                aria-label={`Entrar em contato com ${pessoa.nomeUrna}`}
+                aria-label={`Mandar um recado para ${pessoa.nomeUrna}`}
                 className="flex min-h-12 items-center justify-center rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-semibold"
               >
-                Entrar em contato →
+                Mandar um recado
               </Link>
             </div>
             {selecaoParaRemover ? (
