@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { SiteHeader } from "@/components/SiteHeader";
 import Link from "next/link";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import type { Metadata } from "next";
@@ -16,11 +16,7 @@ const compartilhar = "https://wa.me/?text=" + encodeURIComponent(
 export default function Central() {
   return (
     <main className={styles.pagina}>
-      <header className={styles.cabecalho} aria-label="Central EU VIGIO">
-        <div className={styles.olho}>
-          <Image src="/marca/eu-vigio-original.svg" alt="Olho realista de íris dourada, símbolo do EU VIGIO" width={660} height={440} priority unoptimized />
-        </div>
-      </header>
+      <SiteHeader />
       <nav className={styles.menu} aria-label="Menu central">
         <Link className={styles.principal} href="/acompanhar">Escolher um político</Link>
         <Link className={styles.botao} href="/votou-fique-de-olho?minhas=1">Políticos que eu acompanho</Link>
