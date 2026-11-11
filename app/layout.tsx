@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  other: { google: "notranslate" },
   metadataBase: new URL("https://www.foradapauta.org"),
   openGraph: {
     title: "Fique de Olho — Saiba o que os políticos estão fazendo.",
