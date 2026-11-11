@@ -223,18 +223,21 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
 
         <header className={styles.cabecalho}>
           <div className={styles.marcaEuVigio}>
-            <Image src="/marca/eu-vigio-original.svg" alt="EU VIGIO — olho realista com íris dourada e frase Decisões que afetam minha vida." width={660} height={440} priority unoptimized className={styles.logoOriginalEuVigio} />
+            <Image src="/marca/fora-da-pauta-olho-dourado.svg" alt="Olho dourado do Fora da Pauta" width={620} height={374} priority unoptimized className={styles.logoOriginalEuVigio} />
+            <h2 className={styles.nomeProjeto}>FORA DA PAUTA</h2>
+            <p className={styles.fraseProjeto}>Decisões que afetam a sua vida.</p>
           </div>
         </header>
         <div className={styles.intro} id="apresentacao">
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.chamada}>
-                Acompanhe o dia a dia<br />dos políticos.
+                Existe muito mais por trás das notícias.
               </h1>
               <p className={styles.explicacao}>
-                Informações sobre o jogo político e seu impacto na vida da sociedade.
+                O Fora da Pauta mostra o que nem sempre é contado, investiga os interesses por trás dos acontecimentos e ajuda você a entender como as decisões políticas afetam a sua vida.
               </p>
+              <p className={styles.explicacao}>Acompanhe os políticos, saiba o que fazem e entenda o que está em jogo.</p>
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
                 Quero receber as notícias
               </button>
@@ -262,7 +265,8 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 </div>
               ) : null}
               {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
-              <Link href="/central" className={styles.linkSegundaPagina}>Ir para a Central</Link>
+              <p className={styles.dominioProjeto}>foradapauta.org</p>
+              <Link href="/central" className={styles.linkSegundaPagina}>Ir para o menu</Link>
             </div>
 
             <div className={styles.qrArea}>
