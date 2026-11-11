@@ -343,3 +343,10 @@
   .apresentacao:has(.logoOriginalEuVigio) { padding-inline:clamp(14px,4vw,24px); }
   .apresentacao:has(.logoOriginalEuVigio) .chamada { margin-bottom:12px; }
 }
+
+/* Segunda página: cabeçalho preto com somente o olho da marca */
+.cabecalhoOlho { background:#050505; display:flex; justify-content:center; align-items:center; min-height:180px; padding:20px 16px; }
+.recorteOlho { position:relative; overflow:hidden; width:min(86vw,420px); aspect-ratio:660 / 260; }
+.recorteOlho img { position:absolute; display:block; width:100%; height:auto; max-width:none; top:0; left:0; }
+.linkSegundaPagina { display:inline-flex; justify-content:center; align-items:center; min-height:48px; margin-top:22px; padding:10px 20px; color:#fff; text-decoration:underline; text-underline-offset:4px; font-weight:600; }
+@media(max-width:600px) { .cabecalhoOlho { min-height:150px; padding:16px; } }
