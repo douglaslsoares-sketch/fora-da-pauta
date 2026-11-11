@@ -18,8 +18,8 @@ export default function Central() {
     <main className={styles.pagina}>
       <SiteHeader />
       <nav className={styles.menu} aria-label="Menu central">
-        <Link className={styles.principal} href="/acompanhar">Escolher um político</Link>
-        <Link className={styles.botao} href="/votou-fique-de-olho?minhas=1">Políticos que eu acompanho</Link>
+        <Link className={styles.principal} href="/acompanhar">Escolher político para acompanhar</Link>
+        <Link className={styles.botao} href="/votou-fique-de-olho?minhas=1">Minhas escolhas</Link>
         <Link className={styles.botao} href="/fazer-uma-pergunta">Fazer uma pergunta</Link>
         <Link className={styles.botao} href="/edicoes">Entender Melhor</Link>
         <Link className={styles.botao} href="/camiseta">Camiseta</Link>
