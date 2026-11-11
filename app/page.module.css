@@ -317,3 +317,18 @@
 .apresentacao:has(.marcaEuVigio) .explicacao { font-size:clamp(15px,2vw,18px); }
 .apresentacao:has(.marcaEuVigio) .qrArea { display:none; }
 @media(max-width:600px) { .olhoEuVigio { max-height:145px; } .nomeEuVigio { font-size:clamp(44px,12vw,65px); } .apresentacao:has(.marcaEuVigio) .botaoInscricao { margin-top:18px; } }
+
+/* Fluxo de orientação Telegram sob o CTA */
+.apresentacao:has(.marcaEuVigio) .botaoInscricao { background:#1976d2; color:white; padding:14px 18px; width:min(100%,580px); font-weight:750; }
+.apresentacao:has(.marcaEuVigio) .botaoInscricao:hover { background:#1265b8; }
+.apresentacao:has(.marcaEuVigio) .botaoInscricao + .explicacao { margin-top:12px; }
+.assinaturaEuVigio { margin-top:20px; }
+.quadroTelegram { display:flex; flex-direction:column; gap:12px; width:min(100%,580px); margin-top:22px; padding:22px 16px; border:1px solid #484848; border-radius:14px; background:#141414; }
+.perguntaTelegram { font-size:clamp(17px,3vw,22px); line-height:1.35; font-weight:700; text-align:center; margin:0 0 6px; }
+.opcaoTelegram,.opcaoTelegramSecundaria { display:flex; align-items:center; justify-content:center; min-height:52px; width:100%; border:0; border-radius:9px; padding:12px; text-align:center; text-decoration:none; font-weight:750; font-size:16px; cursor:pointer; }
+.opcaoTelegram { background:#218747; color:#fff; }
+.opcaoTelegramSecundaria { background:#f0c32b; color:#111; }
+.opcaoTelegram:disabled,.opcaoTelegramSecundaria:disabled { opacity:.6; }
+.instrucoesTelegram { display:flex; flex-direction:column; gap:10px; text-align:left; font-size:15px; line-height:1.45; }
+.instrucoesTelegram p { margin:0; }
+@media(max-width:600px){ .apresentacao:has(.marcaEuVigio) .chamada { font-size:clamp(26px,6vw,36px); line-height:1.2; } }
