@@ -3,7 +3,9 @@ import Image from "next/image";
 import {useEffect,useRef,useState} from "react";
 
 export function NovaHomeFiqueDeOlho(){
- const painelRef=useRef<HTMLDivElement>(null);\n const [passo,setPasso]=useState<"inicio"|"opcoes"|"instalar">("inicio");\n useEffect(()=>{if(passo!=="inicio")requestAnimationFrame(()=>painelRef.current?.scrollIntoView({behavior:"smooth",block:"start"}));},[passo]);
+ const painelRef=useRef<HTMLDivElement>(null);
+ const [passo,setPasso]=useState<"inicio"|"opcoes"|"instalar">("inicio");
+ useEffect(()=>{if(passo!=="inicio")requestAnimationFrame(()=>painelRef.current?.scrollIntoView({behavior:"smooth",block:"start"}));},[passo]);
  const [abrindo,setAbrindo]=useState(false);
  const [erro,setErro]=useState("");
  const [link,setLink]=useState("");
