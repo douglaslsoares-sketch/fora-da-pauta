@@ -9,9 +9,7 @@ export const metadata: Metadata = {
   description: "Escolha políticos para acompanhar e encontre as opções do Fora da Pauta.",
 };
 
-const compartilhar = "https://wa.me/?text=" + encodeURIComponent(
-  "Conheça o Fora da Pauta. Acompanhe o dia a dia dos políticos. https://foradapauta.org"
-);
+const compartilhar = "https://wa.me/?text=" + encodeURIComponent("👁️ *FORA DA PAUTA*\n\n*Existe muito mais por trás das notícias.*\n\nQuem toma as decisões? Quais interesses estão em jogo? Como tudo isso afeta a nossa vida?\n\nO Fora da Pauta ajuda você a entender o que está acontecendo, acompanhar os políticos e tirar suas próprias conclusões.\n\nÉ gratuito.\n\n👉 https://www.foradapauta.org/?compartilhar=whatsapp");
 
 export default function Central() {
   return (
