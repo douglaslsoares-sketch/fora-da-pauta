@@ -36,9 +36,9 @@ export function NovaHomeFiqueDeOlho(){
    <div className="fdp-hero-message w-full">
     <h1 className="max-w-[620px] text-[clamp(1.85rem,7vw,3.1rem)] font-black leading-[1.1] tracking-[-.035em]">Decisões políticas <span className="text-[#ffdf00]">afetam a sua vida.</span></h1>
     <p className="fdp-hero-description mx-auto max-w-[580px] text-[clamp(1rem,3.8vw,1.4rem)] leading-[1.4]">Receba notícias e explicações simples sobre o que os políticos estão fazendo.</p>
+    <p className="fdp-hero-instruction mx-auto max-w-[580px] text-[clamp(1rem,3.6vw,1.35rem)] leading-[1.4]"><strong className="font-extrabold text-[#ffdf00]">É gratuito.</strong> Para começar, toque no botão abaixo.</p>
    </div>
    <div className="fdp-hero-action w-full">
-    <p className="mx-auto max-w-[580px] text-[clamp(1rem,3.6vw,1.35rem)] leading-[1.4]"><strong className="font-extrabold text-[#ffdf00]">É gratuito.</strong> Para começar, toque no botão abaixo.</p>
     <button type="button" onClick={()=>setPasso("opcoes")} className="notranslate fdp-hero-cta mx-auto flex min-h-[66px] w-full max-w-[620px] items-center justify-center rounded-full border border-[#65d6ff] bg-gradient-to-b from-[#22baff] via-[#0a95ff] to-[#0560e1] px-3 py-4 text-center text-[clamp(1.05rem,4.25vw,1.8rem)] font-extrabold leading-tight shadow-[0_12px_24px_rgba(0,0,0,.5)]"><span className="block whitespace-normal break-normal">Quero receber as notícias</span></button>
    </div>
    {passo!=="inicio"&&<div ref={painelRef} className="mt-5 mb-12 w-full max-w-xl scroll-mt-5 rounded-xl border border-white/40 bg-[#111] p-5 text-center">
