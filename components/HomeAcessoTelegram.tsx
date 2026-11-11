@@ -73,6 +73,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
   const [simuladoInscrito, setSimuladoInscrito] = useState(false);
   const [abrindoTelegram, setAbrindoTelegram] = useState(false);
   const [mostrarOrientacoesTelegram, setMostrarOrientacoesTelegram] = useState(false);
+  const [precisaInstalarTelegram, setPrecisaInstalarTelegram] = useState(false);
   const [erroTelegram, setErroTelegram] = useState("");
   const [salvandoEscolha, setSalvandoEscolha] = useState(false);
   const [erroEscolha, setErroEscolha] = useState("");
@@ -220,7 +221,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
   return (
     <>
       <section className={styles.apresentacao} id="conteudo" aria-labelledby="mensagem-principal">
-        <div className={styles.olhoFundo} aria-hidden="true" />
+
         <header className={styles.cabecalho}>
           <div className={styles.marcaEuVigio}>
             <Image src="/marca/fora-da-pauta-olho-dourado.svg" alt="Olho dourado, símbolo de EU VIGIO" width={620} height={374} priority className={styles.olhoEuVigio} />
@@ -232,30 +233,37 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.chamada}>
-                Acompanhe o dia a dia dos políticos.
+                Acompanhe o dia a dia<br />de todos os políticos.
               </h1>
               <p className={styles.explicacao}>
                 Todos os dias, reunimos informações sobre o jogo político e seu impacto na vida da sociedade.
               </p>
-              {!mostrarOrientacoesTelegram ? (
-                <>
-                  <button type="button" onClick={() => setMostrarOrientacoesTelegram(true)} className={styles.botaoInscricao}>
-                    Quero receber as notícias
+              <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
+                Quero receber as notícias
+              </button>
+              <p className={styles.explicacao}>Receba as notificações pelo Telegram.</p>
+              {mostrarOrientacoesTelegram ? (
+                <div id="orientacao-telegram" className={styles.quadroTelegram}>
+                  <h2 className={styles.perguntaTelegram}>Você já tem Telegram instalado no celular?</h2>
+                  <button type="button" onClick={() => void iniciarInscricao()} disabled={conferindo || inscrito || abrindoTelegram} className={styles.opcaoTelegram}>
+                    {abrindoTelegram ? "Abrindo Telegram..." : "Sim, já tenho Telegram"}
                   </button>
-                  <p className={styles.explicacao}>Receba as notificações pelo Telegram.</p>
-                </>
-              ) : (
-                <div aria-label="Orientações para inscrição no Telegram">
-                  <p className={styles.explicacao}>A inscrição é gratuita. Se você já tem Telegram, toque em Continuar inscrição.</p>
-                  <p className={styles.explicacao}>Se ainda não tem, toque em Instalar o Telegram. Na tela que abrir, toque em Instalar e espere terminar. Depois volte aqui e toque em Continuar inscrição.</p>
-                  <a href="https://telegram.org/apps" target="_blank" rel="noopener noreferrer" className={styles.botaoInscricao} style={{display:"block",textAlign:"center",textDecoration:"none",marginBottom:12}}>
-                    Instalar o Telegram
-                  </a>
-                  <button type="button" onClick={() => void iniciarInscricao()} disabled={conferindo || inscrito || abrindoTelegram} className={styles.botaoInscricao} style={{backgroundColor:"#e5b82e",color:"#111"}}>
-                    {abrindoTelegram ? "Abrindo Telegram..." : "Continuar inscrição"}
+                  <button type="button" onClick={() => setPrecisaInstalarTelegram((anterior) => !anterior)} className={styles.opcaoTelegramSecundaria} aria-expanded={precisaInstalarTelegram}>
+                    Não, preciso instalar
                   </button>
+                  {precisaInstalarTelegram ? (
+                    <div className={styles.instrucoesTelegram}>
+                      <p>1. Toque em Instalar o Telegram.</p>
+                      <p>2. Na tela que vai abrir, toque em Instalar e espere terminar.</p>
+                      <p>3. Depois volte aqui e toque em Continuar inscrição.</p>
+                      <a href="https://telegram.org/apps" target="_blank" rel="noopener noreferrer" className={styles.opcaoTelegram}>Instalar o Telegram</a>
+                      <button type="button" onClick={() => void iniciarInscricao()} disabled={conferindo || inscrito || abrindoTelegram} className={styles.opcaoTelegramSecundaria}>
+                        {abrindoTelegram ? "Abrindo Telegram..." : "Continuar inscrição"}
+                      </button>
+                    </div>
+                  ) : null}
                 </div>
-              )}
+              ) : null}
               {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
             </div>
 
@@ -273,7 +281,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
             </div>
           </div>
         </div>
-        <p className={styles.assinatura}>HÁ MAIS PARA ENTENDER.</p>
+
       </section>
 
       <section
