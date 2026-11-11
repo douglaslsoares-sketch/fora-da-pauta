@@ -837,7 +837,7 @@ export async function POST(
         imagemUrl: "https://www.foradapauta.org/compartilhar/olho-v2?v=3",
         botoes: [[{
           text: "Escolher político",
-          url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=opcoes`,
+          url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=escolher`,
         }]],
       });
       return NextResponse.json({ ok: true });
