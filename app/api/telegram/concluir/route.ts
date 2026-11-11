@@ -46,6 +46,8 @@ export async function GET(request: NextRequest) {
   const caminho = vinculado
     ? destino === "minhas"
       ? "/votou-fique-de-olho?minhas=1"
+      : destino === "escolher"
+        ? "/acompanhar"
       : destino === "opcoes"
         ? "/#opcoes"
         : "/telegram/pronto"
