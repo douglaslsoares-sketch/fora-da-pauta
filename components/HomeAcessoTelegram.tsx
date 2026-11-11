@@ -262,7 +262,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 </div>
               ) : null}
               {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
-              <Link href="/acompanhar" className={styles.linkSegundaPagina}>Ir para a página de acompanhamento</Link>
+              <Link href="/central" className={styles.linkSegundaPagina}>Ir para a Central</Link>
             </div>
 
             <div className={styles.qrArea}>
