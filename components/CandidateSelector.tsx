@@ -790,6 +790,20 @@ function CandidateFollowSelector({
   if (tela === "busca") {
     return (
       <div className="mt-5">
+      {selecionadosVisiveis.length > 0 && (
+        <div className="mb-5 space-y-3" aria-label="Políticos selecionados">
+          {selecionadosVisiveis.map((p) => (
+            <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-black/10 bg-white p-3 shadow-sm">
+              <CandidatePhoto id={p.id} name={p.nomeUrna} />
+              <div className="min-w-0 flex-1">
+                <p className="text-[15px] font-semibold">{p.nomeUrna}</p>
+                <p className="text-sm text-black/60">{p.cargoLabel} · {p.uf} · {p.siglaPartido}</p>
+              </div>
+              <button type="button" onClick={() => onSelect?.({ ...p, nomeCompleto: p.nomeUrna, numero: 0, cargo: "", cargoLabel: p.cargoLabel ?? "", uf: p.uf ?? "", siglaPartido: p.siglaPartido ?? "" })} className="shrink-0 rounded-xl bg-green-600 px-3 py-3 text-xs font-bold text-white">Selecionado</button>
+            </div>
+          ))}
+        </div>
+      )}
       <form
         onSubmit={executarBusca}
         className="mt-5"
@@ -830,8 +844,14 @@ function CandidateFollowSelector({
           Buscar
         </button>
       </form>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-1" data-follow-results="true">
       {selecionadosVisiveis.length > 0 && (
-        <div className="mt-5 space-y-3" aria-label="Políticos selecionados">
+        <div className="mb-5 space-y-3" aria-label="Políticos selecionados">
           {selecionadosVisiveis.map((p) => (
             <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-black/10 bg-white p-3 shadow-sm">
               <CandidatePhoto id={p.id} name={p.nomeUrna} />
@@ -844,12 +864,7 @@ function CandidateFollowSelector({
           ))}
         </div>
       )}
-      </div>
-    );
-  }
 
-  return (
-    <div className="mt-1" data-follow-results="true">
       <h2 className="w-full min-w-0 break-words text-2xl font-bold leading-tight tracking-normal sm:text-3xl">
         Resultado da busca
       </h2>
