@@ -189,27 +189,29 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
   }
 
   async function selecionar(pessoa: { id: string; nomeUrna: string }) {
-    if (!inscrito || salvandoEscolha || ids.includes(pessoa.id)) return;
+    if (!inscrito || salvandoEscolha) return;
     setErroEscolha("");
     setAvisoEscolha("");
     setSalvandoEscolha(true);
+    const removendo = ids.includes(pessoa.id);
     try {
       if (!simulacao) {
         const resposta = await fetch("/api/telegram/sessao", {
-          method: "PUT",
+          method: removendo ? "DELETE" : "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ids: [pessoa.id] }),
+          body: JSON.stringify(removendo ? { id: pessoa.id } : { ids: [pessoa.id] }),
         });
         if (!resposta.ok) throw new Error("Não foi possível salvar a escolha");
       }
-      setIds((anteriores) => anteriores.includes(pessoa.id)
-        ? anteriores : [...anteriores, pessoa.id]);
-      setPessoas((anteriores) => anteriores.some((p) => p.id === pessoa.id)
-        ? anteriores : [...anteriores, pessoa]);
-      setAvisoEscolha(simulacao
-        ? "Simulação: " + pessoa.nomeUrna + " foi escolhido."
+      setIds((anteriores) => removendo
+        ? anteriores.filter((id) => id !== pessoa.id)
+        : anteriores.includes(pessoa.id) ? anteriores : [...anteriores, pessoa.id]);
+      setPessoas((anteriores) => removendo
+        ? anteriores.filter((p) => p.id !== pessoa.id)
+        : anteriores.some((p) => p.id === pessoa.id) ? anteriores : [...anteriores, pessoa]);
+      setAvisoEscolha(removendo
+        ? "Você deixou de acompanhar " + pessoa.nomeUrna + "."
         : "Pronto! Você já acompanha " + pessoa.nomeUrna + ".");
-      setBusca((anterior) => anterior + 1);
     } catch {
       setErroEscolha("Não foi possível salvar sua escolha no Telegram. Tente novamente.");
     } finally {
@@ -302,9 +304,9 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               {avisoEscolha ? <p role="status" className="mt-4 text-sm font-semibold text-green-800">{avisoEscolha}</p> : null}
               {salvandoEscolha ? <p role="status" className="mt-4 text-sm">Salvando sua escolha...</p> : null}
               <CandidateSelector
-                key={busca}
                 mode="follow"
                 selectedIds={ids}
+                selectedPeople={pessoas}
                 onSelect={selecionar}
               />
             </>
