@@ -5,21 +5,21 @@ import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Fora da Pauta",
-  description: "Como o jogo é jogado. Decisões que afetam a sua vida.",
+  description: "Entenda o que acontece, acompanhe os políticos e tire suas próprias conclusões.",
   openGraph: {
-    title: "Fora da Pauta — Há mais para entender.",
-    description: "Como o jogo é jogado. Decisões que afetam a sua vida.",
+    title: "Fora da Pauta — Existe muito mais por trás das notícias.",
+    description: "Entenda o que acontece, acompanhe os políticos e tire suas próprias conclusões.",
     url: "https://www.foradapauta.org/",
     type: "website",
     locale: "pt_BR",
     siteName: "Fora da Pauta",
-    images: [{ url: "/compartilhar/olho-v2", width: 1200, height: 630, alt: "Olho amarelo do Fora da Pauta, sem texto." }],
+    images: [{ url: "/compartilhar/olho-v2?v=3", width: 1200, height: 630, alt: "Olho humano dourado e nome Fora da Pauta sobre fundo preto." }],
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/compartilhar/olho-v2"],
-    title: "Fora da Pauta — Há mais para entender.",
-    description: "Como o jogo é jogado. Decisões que afetam a sua vida.",
+    images: ["/compartilhar/olho-v2?v=3"],
+    title: "Fora da Pauta — Existe muito mais por trás das notícias.",
+    description: "Entenda o que acontece, acompanhe os políticos e tire suas próprias conclusões.",
   },
 };
 
