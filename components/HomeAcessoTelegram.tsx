@@ -223,7 +223,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
 
         <header className={styles.cabecalho}>
           <div className={styles.marcaEuVigio}>
-            <Image src="/marca/fora-da-pauta-olho-dourado.svg" alt="Olho dourado do Fora da Pauta" width={620} height={374} priority unoptimized className={styles.logoOriginalEuVigio} />
+            <Image src="/marca/eu-vigio-original.svg" alt="Olho realista dourado do Fora da Pauta" width={660} height={440} priority unoptimized className={styles.logoOriginalEuVigio} />
             <h2 className={styles.nomeProjeto}>FORA DA PAUTA</h2>
             <p className={styles.fraseProjeto}>Decisões que afetam a sua vida.</p>
           </div>
