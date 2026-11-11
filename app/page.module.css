@@ -359,3 +359,8 @@
 .apresentacao:has(.nomeProjeto) .chamada { color:#f4c542; font-size:clamp(25px,5vw,38px); }
 .apresentacao:has(.nomeProjeto) .explicacao + .explicacao { margin-top:14px; }
 .apresentacao:has(.nomeProjeto) .intro { padding:12px 0 20px; }
+
+/* Recortar a arte original: exibir somente o olho, sem EU VIGIO nem slogan incorporado. */
+.recorteOlhoReal { position:relative; overflow:hidden; width:min(70vw,300px); aspect-ratio:660 / 215; margin:0 auto; }
+.apresentacao:has(.nomeProjeto) .recorteOlhoReal .logoOriginalEuVigio { position:absolute; top:0; left:0; display:block; width:100%; max-height:none; height:auto; max-width:none; }
+.fraseGratuidade { margin:14px 0 0; color:#f4c542; font-size:clamp(15px,2vw,18px); font-weight:600; line-height:1.45; text-align:center; }
