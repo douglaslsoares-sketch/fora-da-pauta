@@ -28,7 +28,7 @@ export function NovaHomeFiqueDeOlho(){
  }
  return <section className="relative isolate flex min-h-[100svh] flex-col overflow-x-hidden bg-black text-white">
   <div className="relative z-10 mx-auto flex w-full max-w-[680px] flex-1 flex-col items-center justify-start px-[5%] pb-[24px] pt-[8px] text-center">
-   <Image src="/marca/olho-aprovado.svg" alt="Olho humano em preto e branco" width={240} height={240} priority unoptimized className="-mb-[60px] -mt-[55px] w-[min(92vw,520px)] object-contain"/>
+   <Image src="/marca/1000215822(2).png" alt="Olho humano em preto e branco" width={240} height={240} priority unoptimized className="-mb-[60px] -mt-[55px] w-[min(92vw,520px)] object-contain"/>
    <div className="relative z-10 w-full">
     <p className="whitespace-nowrap text-[clamp(2.55rem,9.5vw,4.7rem)] font-black leading-[1.08] tracking-[-.045em]">Fique de Olho</p>
     <svg aria-hidden="true" viewBox="0 0 480 35" preserveAspectRatio="none" className="mx-auto mt-1 h-[28px] w-[76%]"><path d="M8 31 Q240 -10 472 31 Q240 7 8 31" fill="#ffdf00"/></svg>
