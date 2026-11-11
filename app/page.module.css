@@ -302,3 +302,18 @@
 @media (prefers-reduced-motion: reduce) {
   .botaoInscricao, .botaoOpcao { transition: none; }
 }
+
+/* Identidade EU VIGIO — primeira dobra */
+.marcaEuVigio { display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px; width:100%; }
+.olhoEuVigio { display:block; width:min(75vw,390px); height:auto; max-height:210px; object-fit:contain; }
+.nomeEuVigio { font-size:clamp(48px,10vw,86px); font-weight:900; line-height:1; letter-spacing:-.045em; color:#fff; }
+.assinaturaEuVigio { margin:8px 0 0; color:#f4c529; font-size:clamp(14px,2.5vw,20px); font-weight:500; line-height:1.4; }
+.apresentacao:has(.marcaEuVigio) { justify-content:flex-start; gap:clamp(16px,3vh,32px); padding-top:clamp(18px,4vh,44px); }
+.apresentacao:has(.marcaEuVigio) .intro { margin:0 auto; padding:12px 0 24px; }
+.apresentacao:has(.marcaEuVigio) .cabecalho { max-width:800px; }
+.apresentacao:has(.marcaEuVigio) .heroGrid { grid-template-columns:minmax(0,1fr); max-width:760px; margin:auto; text-align:center; }
+.apresentacao:has(.marcaEuVigio) .heroTexto { display:flex; flex-direction:column; align-items:center; }
+.apresentacao:has(.marcaEuVigio) .chamada { font-size:clamp(25px,4vw,40px); margin-bottom:14px; }
+.apresentacao:has(.marcaEuVigio) .explicacao { font-size:clamp(15px,2vw,18px); }
+.apresentacao:has(.marcaEuVigio) .qrArea { display:none; }
+@media(max-width:600px) { .olhoEuVigio { max-height:145px; } .nomeEuVigio { font-size:clamp(44px,12vw,65px); } .apresentacao:has(.marcaEuVigio) .botaoInscricao { margin-top:18px; } }
