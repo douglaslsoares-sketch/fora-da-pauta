@@ -30,7 +30,7 @@ export function NovaHomeFiqueDeOlho(){
   <div className="relative z-10 mx-auto flex w-full max-w-[680px] flex-1 flex-col items-center justify-start px-[5%] pb-[24px] pt-[8px] text-center md:pb-4 md:pt-0">
    <Image src="/marca/1000215822(2).png" alt="Olho humano em preto e branco" width={240} height={240} priority unoptimized className="-mb-[60px] -mt-[55px] w-[min(92vw,520px)] object-contain md:-mb-[88px] md:-mt-[60px] md:w-[340px]"/>
    <div className="relative z-10 w-full">
-    <p style={{textTransform:"none"}} className="normal-case whitespace-nowrap text-[clamp(2.55rem,9.5vw,4.7rem)] md:text-[3.6rem] font-black leading-[1.08] tracking-[-.045em]">Fique de Olho</p>
+    <p style={{textTransform:"none"}} className="normal-case whitespace-nowrap text-[clamp(2.55rem,9.5vw,4.7rem)] md:text-[3.6rem] font-black leading-[1.08] tracking-[-.045em]"><span className="inline-block" style={{textTransform:"uppercase"}}>F</span>ique de Olho</p>
     <svg aria-hidden="true" viewBox="0 0 480 35" preserveAspectRatio="none" className="mx-auto mt-1 h-[28px] w-[76%]"><path d="M8 31 Q240 -10 472 31 Q240 7 8 31" fill="#ffdf00"/></svg>
    </div>
    <h1 className="mt-[10px] max-w-[620px] md:mt-1 md:text-[2.7rem] text-[clamp(2rem,7.1vw,3.3rem)] font-black leading-[1.08] tracking-[-.035em]">Saiba o que os políticos <span className="text-[#ffdf00]">estão fazendo.</span></h1>
