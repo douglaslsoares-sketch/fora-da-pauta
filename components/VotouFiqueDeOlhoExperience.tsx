@@ -578,10 +578,6 @@ export function VotouFiqueDeOlhoExperience() {
   if (somenteMinhasEscolhas) {
     return (
       <section className="mx-auto w-full max-w-[760px] px-6 pb-16 pt-10 text-black">
-        <h1 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
-          Minhas escolhas
-        </h1>
-
         {selecionadas.length > 0 ? (
           <ListaSelecionadas />
         ) : (
