@@ -643,6 +643,7 @@ type CandidateSelectorProps =
   | {
       mode: "follow";
       selectedIds: readonly string[];
+      selectedPeople?: readonly CandidateResult[];
       onSelect: (candidate: CandidateResult) => void;
     };
 
@@ -655,10 +656,12 @@ export function CandidateSelector(props: CandidateSelectorProps = {}) {
 
 function CandidateFollowSelector({
   selectedIds,
+  selectedPeople = [],
   onSelect,
   apenasFicha = false,
 }: {
   selectedIds: readonly string[];
+  selectedPeople?: readonly CandidateResult[];
   onSelect?: (candidate: CandidateResult) => void;
   apenasFicha?: boolean;
 }) {
@@ -672,6 +675,8 @@ function CandidateFollowSelector({
   const [erro, setErro] = useState("");
   const [tentativa, setTentativa] = useState(0);
   const [tela, setTela] = useState<"busca" | "resultados">("busca");
+
+  const selecionadosVisiveis = selectedPeople.filter((p) => selectedIds.includes(p.id));
 
   const podeBuscar = query.trim().length >= 2;
 
@@ -784,6 +789,7 @@ function CandidateFollowSelector({
 
   if (tela === "busca") {
     return (
+      <div className="mt-5">
       <form
         onSubmit={executarBusca}
         className="mt-5"
@@ -824,6 +830,21 @@ function CandidateFollowSelector({
           Buscar
         </button>
       </form>
+      {selecionadosVisiveis.length > 0 && (
+        <div className="mt-5 space-y-3" aria-label="Políticos selecionados">
+          {selecionadosVisiveis.map((p) => (
+            <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-black/10 bg-white p-3 shadow-sm">
+              <CandidatePhoto id={p.id} name={p.nomeUrna} />
+              <div className="min-w-0 flex-1">
+                <p className="text-[15px] font-semibold">{p.nomeUrna}</p>
+                <p className="text-sm text-black/60">{p.cargoLabel} · {p.uf} · {p.siglaPartido}</p>
+              </div>
+              <button type="button" onClick={() => onSelect?.(p)} className="shrink-0 rounded-xl bg-green-600 px-3 py-3 text-xs font-bold text-white">Selecionado</button>
+            </div>
+          ))}
+        </div>
+      )}
+      </div>
     );
   }
 
@@ -906,10 +927,9 @@ function CandidateFollowSelector({
               {!apenasFicha && onSelect ? <button
                 type="button"
                 onClick={() => onSelect(candidate)}
-                disabled={selecionado}
                 className={`shrink-0 rounded-xl px-2.5 py-3 text-xs font-bold ${
                   selecionado
-                    ? "bg-black/5 text-black/40"
+                    ? "bg-green-600 text-white hover:bg-green-700"
                     : "bg-[#FFC400] text-black hover:bg-[#e9b300]"
                 }`}
               >
