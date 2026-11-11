@@ -58,6 +58,7 @@ export function FormularioRecado({ candidaturaId }: { candidaturaId: string }) {
       setStatus("Escreva ou dite um recado de pelo menos 15 caracteres.");
       return;
     }
+    if (!window.confirm("Autoriza o Fora da Pauta a registrar este recado e, após verificação, encaminhá-lo ao político?")) return;
     setEnviando(true);
     setStatus("");
     try {
