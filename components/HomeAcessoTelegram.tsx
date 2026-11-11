@@ -65,7 +65,7 @@ const mensagemWhatsApp = encodeURIComponent(
 );
 const linkWhatsApp = "https://wa.me/?text=" + mensagemWhatsApp;
 
-export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEdicoes: string | null; versaoEntregas: string | null }) {
+export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "inicio" }: { versaoEdicoes: string | null; versaoEntregas: string | null; pagina?: "inicio" | "opcoes" }) {
   const [situacao, setSituacao] = useState<"verificando" | "inscrito" | "visitante">("verificando");
   const [ids, setIds] = useState<string[]>([]);
   const [pessoas, setPessoas] = useState<PessoaAcompanhada[]>([]);
@@ -220,7 +220,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
 
   return (
     <>
-      <section className={styles.apresentacao} id="conteudo" aria-labelledby="mensagem-principal">
+      {pagina === "inicio" ? <section className={styles.apresentacao} id="conteudo" aria-labelledby="mensagem-principal">
 
         <header className={styles.cabecalho}>
           <div className={styles.marcaEuVigio}>
@@ -263,6 +263,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
                 </div>
               ) : null}
               {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
+              <Link href="/acompanhar" className={styles.linkSegundaPagina}>Ir para a página de acompanhamento</Link>
             </div>
 
             <div className={styles.qrArea}>
@@ -280,15 +281,17 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
           </div>
         </div>
 
-      </section>
+      </section> : null}
 
-      <section
+      {pagina === "opcoes" ? <section
         id="opcoes"
         className={styles.areaBranca}
         ref={areaAcompanhamento}
         aria-labelledby="titulo-opcoes"
       >
-        <SiteHeader />
+        <header className={styles.cabecalhoOlho} aria-label="EU VIGIO">
+          <div className={styles.recorteOlho}><Image src="/marca/eu-vigio-original.svg" alt="Olho realista com íris dourada, símbolo do EU VIGIO" width={660} height={440} unoptimized priority /></div>
+        </header>
         <div className={styles.areaInterna}>
           <h2 className={styles.tituloArea} id="titulo-opcoes">
             Quem você quer acompanhar?
@@ -352,7 +355,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
           </a>
           <InstalarAplicativo tema="claro" />
         </div>
-      </section>
+      </section> : null}
     </>
   );
 }
