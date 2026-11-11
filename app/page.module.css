@@ -350,3 +350,12 @@
 .recorteOlho img { position:absolute; display:block; width:100%; height:auto; max-width:none; top:0; left:0; }
 .linkSegundaPagina { display:inline-flex; justify-content:center; align-items:center; min-height:48px; margin-top:22px; padding:10px 20px; color:#fff; text-decoration:underline; text-underline-offset:4px; font-weight:600; }
 @media(max-width:600px) { .cabecalhoOlho { min-height:150px; padding:16px; } }
+
+/* Identidade editorial Fora da Pauta */
+.nomeProjeto { margin:0; color:#fff; font-size:clamp(29px,6vw,54px); font-weight:850; letter-spacing:.035em; text-align:center; }
+.fraseProjeto { margin:4px 0 0; color:#f4c542; font-size:clamp(14px,2.6vw,19px); font-weight:650; text-align:center; }
+.dominioProjeto { margin:20px 0 0; color:#aaa; font-size:13px; letter-spacing:.04em; }
+.apresentacao:has(.nomeProjeto) .logoOriginalEuVigio { width:min(62vw,240px); max-height:135px; }
+.apresentacao:has(.nomeProjeto) .chamada { color:#f4c542; font-size:clamp(25px,5vw,38px); }
+.apresentacao:has(.nomeProjeto) .explicacao + .explicacao { margin-top:14px; }
+.apresentacao:has(.nomeProjeto) .intro { padding:12px 0 20px; }
