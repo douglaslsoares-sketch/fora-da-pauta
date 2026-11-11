@@ -10,9 +10,8 @@ export default function PaginaQRCode() {
   return (
     <main className="min-h-screen bg-white text-black">
       <section className="mx-auto max-w-2xl px-5 pb-14 pt-10 text-center">
-        <h1 className="text-3xl font-bold sm:text-4xl">QR Code do Fora da Pauta</h1>
-        <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-black/70">
-          Mostre este código para outra pessoa. Basta apontar a câmera do celular para acessar o Fora da Pauta.
+        <p className="mx-auto max-w-lg text-base leading-relaxed text-black/70">
+          Aponte a câmera do celular.
         </p>
         <div className="mx-auto mt-8 w-full max-w-[340px] rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
           <Image src="/qr/fora-da-pauta.svg" alt="QR Code para acessar foradapauta.org" width={370} height={370} className="h-auto w-full" unoptimized priority />
