@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata = {
   title: "QR Code | Fora da Pauta",
@@ -10,7 +9,6 @@ export const metadata = {
 export default function PaginaQRCode() {
   return (
     <main className="min-h-screen bg-white text-black">
-      <SiteHeader />
       <section className="mx-auto max-w-2xl px-5 pb-14 pt-10 text-center">
         <h1 className="text-3xl font-bold sm:text-4xl">QR Code do Fora da Pauta</h1>
         <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-black/70">
