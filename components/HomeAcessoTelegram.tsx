@@ -77,6 +77,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
   const [erroTelegram, setErroTelegram] = useState("");
   const [salvandoEscolha, setSalvandoEscolha] = useState(false);
   const [erroEscolha, setErroEscolha] = useState("");
+  const [confirmadoAgora, setConfirmadoAgora] = useState<PessoaAcompanhada | null>(null);
   const [busca, setBusca] = useState(0);
   const [novidades, setNovidades] = useState({ edicoes: false, entregas: false });
   const areaAcompanhamento = useRef<HTMLElement>(null);
@@ -192,22 +193,19 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
     if (!inscrito || salvandoEscolha) return;
     setErroEscolha("");
     setSalvandoEscolha(true);
-    const removendo = ids.includes(pessoa.id);
+    if (ids.includes(pessoa.id)) return;
     try {
       if (!simulacao) {
         const resposta = await fetch("/api/telegram/sessao", {
-          method: removendo ? "DELETE" : "PUT",
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(removendo ? { id: pessoa.id } : { ids: [pessoa.id] }),
+          body: JSON.stringify({ ids: [pessoa.id] }),
         });
         if (!resposta.ok) throw new Error("Não foi possível salvar a escolha");
       }
-      setIds((anteriores) => removendo
-        ? anteriores.filter((id) => id !== pessoa.id)
-        : anteriores.includes(pessoa.id) ? anteriores : [...anteriores, pessoa.id]);
-      setPessoas((anteriores) => removendo
-        ? anteriores.filter((p) => p.id !== pessoa.id)
-        : anteriores.some((p) => p.id === pessoa.id) ? anteriores : [...anteriores, pessoa]);
+      setIds((anteriores) => anteriores.includes(pessoa.id) ? anteriores : [...anteriores, pessoa.id]);
+      setPessoas((anteriores) => anteriores.some((p) => p.id === pessoa.id) ? anteriores : [...anteriores, pessoa]);
+      setConfirmadoAgora(pessoa);
     } catch {
       setErroEscolha("Não foi possível salvar sua escolha no Telegram. Tente novamente.");
     } finally {
@@ -291,28 +289,32 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
         aria-labelledby="titulo-opcoes"
       >
         <div className={styles.areaInterna}>
-          {inscrito && pessoas.filter((p) => ids.includes(p.id)).length > 0 ? (
-            <div className="mb-6 space-y-3" aria-label="Políticos selecionados">
-              {pessoas.filter((p) => ids.includes(p.id)).map((p) => (
-                <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-black/10 bg-white p-3 shadow-sm">
-                  <CandidatePhoto id={p.id} name={p.nomeUrna} />
-                  <p className="min-w-0 flex-1 break-words font-semibold">{p.nomeUrna}</p>
-                  <button type="button" onClick={() => void selecionar(p)} disabled={salvandoEscolha} className="shrink-0 rounded-xl bg-green-600 px-3 py-3 text-sm font-bold text-white disabled:opacity-50">Selecionado</button>
-                </div>
-              ))}
-            </div>
-          ) : null}
           {conferindo ? (
             <p className={styles.textoArea} role="status">Conferindo sua inscrição...</p>
           ) : inscrito ? (
             <>
               {erroEscolha ? <p role="alert" className="mt-4 text-sm text-red-700">{erroEscolha}</p> : null}
               {salvandoEscolha ? <p role="status" className="mt-4 text-sm">Salvando sua escolha...</p> : null}
-              <CandidateSelector
-                mode="follow"
-                selectedIds={ids}
-                onSelect={selecionar}
-              />
+              {confirmadoAgora ? (
+                <div className="space-y-4" role="status" aria-live="polite">
+                  <div className="flex items-center gap-3 rounded-2xl border border-green-600/30 bg-white p-4 shadow-sm">
+                    <CandidatePhoto id={confirmadoAgora.id} name={confirmadoAgora.nomeUrna} />
+                    <div className="min-w-0 flex-1">
+                      <p className="break-words text-lg font-bold">{confirmadoAgora.nomeUrna}</p>
+                      <p className="mt-2 text-sm font-semibold text-green-700">✓ Agora você acompanha este político.</p>
+                    </div>
+                  </div>
+                  <button type="button" onClick={() => setConfirmadoAgora(null)} className="min-h-12 w-full rounded-xl bg-[#FFC400] px-4 py-3 font-bold text-black">
+                    Escolher outro político
+                  </button>
+                </div>
+              ) : (
+                <CandidateSelector
+                  mode="follow"
+                  selectedIds={ids}
+                  onSelect={selecionar}
+                />
+              )}
             </>
           ) : (
             <>
