@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import { SeloTelegram } from "@/components/SeloTelegram";
-import { SiteHeader } from "@/components/SiteHeader";
 import { chaveNovidade } from "@/components/RegistrarNovidadeVista";
 import styles from "@/app/page.module.css";
 
@@ -318,9 +317,9 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <p className={styles.textoArea}>
                 Para escolher quem você quer acompanhar, faça primeiro sua inscrição gratuita no Telegram.
               </p>
-              <a href="#conteudo" className={styles.botaoOpcao}>
+              <Link href="/" className={styles.botaoOpcao}>
                 <strong>Ir para a inscrição ↑</strong>
-              </a>
+              </Link>
             </>
           )}
 
