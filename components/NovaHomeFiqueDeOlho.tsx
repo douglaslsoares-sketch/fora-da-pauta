@@ -33,8 +33,8 @@ export function NovaHomeFiqueDeOlho(){
     <p style={{textTransform:"none"}} className="normal-case whitespace-nowrap text-[clamp(2.55rem,9.5vw,4.7rem)] md:text-[3.6rem] font-black leading-[1.08] tracking-[-.045em]"><span className="inline-block" style={{textTransform:"uppercase"}}>F</span>ique de Olho</p>
     <svg aria-hidden="true" viewBox="0 0 480 35" preserveAspectRatio="none" className="mx-auto mt-1 h-[28px] w-[76%]"><path d="M8 31 Q240 -10 472 31 Q240 7 8 31" fill="#ffdf00"/></svg>
    </div>
-   <h1 className="mt-[10px] max-w-[620px] md:mt-1 md:text-[2.7rem] text-[clamp(2rem,7.1vw,3.3rem)] font-black leading-[1.08] tracking-[-.035em]">Saiba o que os políticos <span className="text-[#ffdf00]">estão fazendo.</span></h1>
-   <p className="mt-[22px] max-w-[620px] md:mt-3 md:text-[1.15rem] text-[clamp(1rem,3.85vw,1.5rem)] leading-[1.28]">Receba notícias e explicações simples sobre o que acontece na política e como isso afeta a sua vida.</p>
+   <h1 className="mt-[10px] max-w-[620px] md:mt-1 md:text-[2.7rem] text-[clamp(2rem,7.1vw,3.3rem)] font-black leading-[1.08] tracking-[-.035em]">Decisões políticas <span className="text-[#ffdf00]">afetam a sua vida.</span></h1>
+   <p className="mt-[22px] max-w-[620px] md:mt-3 md:text-[1.15rem] text-[clamp(1rem,3.85vw,1.5rem)] leading-[1.28]">Receba notícias e explicações simples sobre o que os políticos estão fazendo.</p>
    <p className="mt-[22px] max-w-[620px] text-[clamp(1rem,3.65vw,1.45rem)] leading-[1.35]"><strong className="text-[#ffdf00]">É gratuito.</strong> Para começar, toque no botão abaixo.</p>
    <button type="button" onClick={()=>setPasso("opcoes")} className="mt-[25px] flex min-h-[66px] md:mt-4 md:min-h-[58px] w-full max-w-[620px] items-center justify-center rounded-[24px] border border-[#65d6ff] bg-gradient-to-b from-[#22baff] via-[#0a95ff] to-[#0560e1] px-3 py-4 text-center text-[clamp(1.05rem,4.25vw,1.8rem)] font-extrabold leading-tight shadow-[0_12px_24px_rgba(0,0,0,.5)]">Quero receber as notícias</button>
    {passo!=="inicio"&&<div ref={painelRef} className="mt-5 mb-12 w-full max-w-xl scroll-mt-5 rounded-xl border border-white/40 bg-[#111] p-5 text-center">
