@@ -45,11 +45,11 @@ export function InstalarAplicativo({ tema = "escuro", oculto = false }: { tema?:
     <div className="mt-7 w-full">
       <button type="button" onClick={() => void instalar()}
         className={`flex min-h-14 w-full items-center justify-center rounded-lg border px-5 py-3 text-center font-semibold ${tema === "claro" ? "border-black/25 bg-white text-black" : "border-white/35 text-white"}`}>
-        Instalar o Fora da Pauta <span aria-hidden="true" className="ml-2">→</span>
+        Instalar o EU VIGIO <span aria-hidden="true" className="ml-2">→</span>
       </button>
       {instrucoes ? (
         <p className={`mt-3 text-sm leading-6 ${tema === "claro" ? "text-black/70" : "text-white/80"}`} role="status">
-          Para colocar o Fora da Pauta na tela inicial, abra o menu do navegador e escolha
+          Para colocar o EU VIGIO na tela inicial, abra o menu do navegador e escolha
           “Instalar aplicativo” ou “Adicionar à tela inicial”.
           No iPhone, use Compartilhar e depois “Adicionar à Tela de Início”.
         </p>
