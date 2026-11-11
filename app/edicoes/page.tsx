@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { RetornarForaDaPauta } from "@/components/RetornarForaDaPauta";
 import type { Metadata } from "next";
 import { campaigns } from "@/data/campanhas";
 import { versaoEdicoes } from "@/lib/novidades-publicacoes";
@@ -57,7 +56,11 @@ export default function EdicoesPublicadas() {
         ) : !apresentacao ? (
           <p className="mt-8 rounded-xl bg-black/5 p-5">Ainda não há edições publicadas.</p>
         ) : null}
-        <RetornarForaDaPauta />
+        <div className="mt-8 flex w-full justify-center">
+          <Link href="/central" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-red-600 px-7 py-3 text-center font-semibold text-white hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+            <span aria-hidden="true" className="text-xl leading-none">×</span> Fechar
+          </Link>
+        </div>
       </section>
     </main>
   );
