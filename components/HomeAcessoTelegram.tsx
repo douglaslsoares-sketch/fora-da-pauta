@@ -302,7 +302,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               ))}
             </div>
           ) : null}
-          <p className={styles.textoArea} id="titulo-opcoes">Selecione o político que você quer acompanhar.</p>
           {conferindo ? (
             <p className={styles.textoArea} role="status">Conferindo sua inscrição...</p>
           ) : inscrito ? (
