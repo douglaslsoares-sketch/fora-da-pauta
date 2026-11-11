@@ -43,7 +43,7 @@ export function FormularioPergunta() {
         </div>
       ) : (
         <form onSubmit={(evento) => void enviar(evento)} className="flex flex-col gap-4">
-          <label htmlFor="pergunta-publica" className="text-base font-medium">O que você quer saber?</label>
+          <label htmlFor="pergunta-publica" className="text-base font-medium">O que você gostaria de saber?</label>
           <textarea id="pergunta-publica" rows={5} maxLength={2000} required value={pergunta} onChange={(evento) => setPergunta(evento.target.value)} placeholder="Escreva sua pergunta aqui..." className="w-full rounded-xl border border-black/25 bg-white p-4 text-base outline-offset-2" />
           {erro ? <p role="alert" className="text-sm text-red-700">{erro}</p> : null}
           <button type="submit" disabled={enviando || !pergunta.trim()} className="min-h-12 rounded-lg bg-[#f3c72d] px-5 py-3 font-semibold disabled:opacity-50">{enviando ? "Mandando..." : "Mandar pergunta"}</button>
