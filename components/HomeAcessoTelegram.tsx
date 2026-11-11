@@ -223,7 +223,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
 
         <header className={styles.cabecalho}>
           <div className={styles.marcaEuVigio}>
-            <Image src="/marca/eu-vigio-original.svg" alt="Olho realista dourado do Fora da Pauta" width={660} height={440} priority unoptimized className={styles.logoOriginalEuVigio} />
+            <div className={styles.recorteOlhoReal}><Image src="/marca/eu-vigio-original.svg" alt="Olho realista dourado do Fora da Pauta" width={660} height={440} priority unoptimized className={styles.logoOriginalEuVigio} /></div>
             <h2 className={styles.nomeProjeto}>FORA DA PAUTA</h2>
             <p className={styles.fraseProjeto}>Decisões que afetam a sua vida.</p>
           </div>
@@ -241,7 +241,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
                 Quero receber as notícias
               </button>
-              <p className={styles.explicacao}>É gratuito. Receba nossas notícias pelo Telegram.</p>
+              <p className={styles.fraseGratuidade}>É gratuito. Receba nossas notícias pelo Telegram.</p>
               {mostrarOrientacoesTelegram ? (
                 <div id="orientacao-telegram" className={styles.quadroTelegram}>
                   <h2 className={styles.perguntaTelegram}>Você já tem Telegram instalado no celular?</h2>
