@@ -320,36 +320,11 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
             </>
           )}
 
-          <div className={styles.separador} role="separator" />
-          <nav aria-label="Outras opções do Fora da Pauta" className={styles.listaBotoes}>
-            {opcoes.map((opcao) => {
-              const indisponivel = Boolean(opcao.exigeEscolhas && (!inscrito || ids.length === 0));
-              return indisponivel ? (
-                <div key={opcao.titulo} className={styles.botaoOpcao + " " + styles.opcaoDesabilitada} aria-disabled="true">
-                  <strong>{opcao.titulo}</strong>
-                </div>
-              ) : (
-                <Link key={opcao.titulo} href={opcao.href} className={styles.botaoOpcao}>
-                  <strong className={styles.rotuloOpcao}>
-                    <span>{opcao.titulo} →</span>
-                    {opcao.novidade && novidades[opcao.novidade] ? (
-                      <span className={styles.marcaNovidade}>Novidade</span>
-                    ) : null}
-                  </strong>
-                </Link>
-              );
-            })}
-          </nav>
-
-          <a
-            className="mt-6 flex min-h-14 w-full items-center justify-center rounded-lg border border-[#1da851] bg-[#25D366] px-5 py-3 text-center font-semibold text-[#082d16] hover:bg-[#1fc65d]"
-            href={linkWhatsApp}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Compartilhar o Fora da Pauta →
-          </a>
-          <InstalarAplicativo tema="claro" />
+          <div className="mt-8 flex justify-center">
+            <Link href="/central" className="inline-flex min-h-12 items-center justify-center rounded-lg bg-red-600 px-7 py-3 text-center font-semibold text-white hover:bg-red-700">
+              <span aria-hidden="true" className="mr-2">×</span> Fechar
+            </Link>
+          </div>
         </div>
       </section> : null}
     </>
