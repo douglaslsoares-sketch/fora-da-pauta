@@ -829,9 +829,14 @@ export async function POST(
       }
       await enviarMensagemTelegram({
         chatId,
-        texto: "Inscrição realizada com sucesso.",
+        texto:
+          "👁️ Sua inscrição no Fora da Pauta está confirmada!\n\n" +
+          "Existe muito mais por trás das notícias.\n\n" +
+          "Aqui você vai entender melhor o que acontece, conhecer os interesses por trás das decisões e acompanhar os políticos.\n\n" +
+          "Agora escolha quem você quer acompanhar.",
+        imagemUrl: "https://www.foradapauta.org/compartilhar/olho-v2?v=3",
         botoes: [[{
-          text: "→ foradapauta.org",
+          text: "Escolher político",
           url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=opcoes`,
         }]],
       });
@@ -889,12 +894,13 @@ export async function POST(
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "Pronto, agora você está de olho!\n\n" +
-          "Você receberá as próximas edições do Fora da Pauta nesta conversa.\n\n" +
-          "Você receberá avisos das novas edições por aqui.",
-        imagemUrl: "https://www.foradapauta.org/opengraph-image.jpg",
+          "👁️ Sua inscrição no Fora da Pauta está confirmada!\n\n" +
+          "Existe muito mais por trás das notícias.\n\n" +
+          "Aqui você vai entender melhor o que acontece, conhecer os interesses por trás das decisões e acompanhar os políticos.\n\n" +
+          "Agora escolha quem você quer acompanhar.",
+        imagemUrl: "https://www.foradapauta.org/compartilhar/olho-v2?v=3",
         botoes: [
-          [{ text: "→ foradapauta.org", url: "https://www.foradapauta.org/" }],
+          [{ text: "Escolher político", url: "https://www.foradapauta.org/acompanhar" }],
         ],
       });
       return NextResponse.json({ ok: true });
