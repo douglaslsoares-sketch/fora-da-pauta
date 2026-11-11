@@ -597,7 +597,15 @@ export function VotouFiqueDeOlhoExperience() {
           </p>
         ) : null}
 
-        <RetornarForaDaPauta />
+        <div className="mt-7 flex justify-center">
+          <Link
+            href="/central"
+            aria-label="Fechar lista e voltar à Central"
+            className="inline-flex min-h-12 items-center justify-center rounded-lg bg-red-600 px-7 py-3 text-center font-semibold text-white hover:bg-red-700"
+          >
+            <span aria-hidden="true" className="mr-2">×</span> Fechar
+          </Link>
+        </div>
       </section>
     );
   }
