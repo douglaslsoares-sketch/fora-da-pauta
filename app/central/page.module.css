@@ -2,3 +2,6 @@
 
 /* Link discreto no final do menu, retornando à apresentação. */
 .menu a.voltarInicio { background:transparent; color:#fff; text-decoration:underline; text-underline-offset:5px; font-size:16px; font-weight:600; min-height:44px; margin-top:12px; }
+
+/* Navegação entre home e menu: mesmo padrão visual nas duas telas. */
+.menu a.voltarInicio { color:#fff; font-size:16px; font-weight:600; text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:5px; border-radius:0; }
