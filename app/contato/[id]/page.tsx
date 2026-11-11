@@ -4,6 +4,7 @@ import { candidaturas } from "@/data/eleicoes/candidaturas";
 import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { FormularioRecado } from "@/components/FormularioRecado";
+import { SiteHeader } from "@/components/SiteHeader";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Mandar um recado — Fora da Pauta", robots: { index: false, follow: false } };
@@ -16,6 +17,8 @@ export default async function ContatoRepresentante({ params }: Props) {
   if (!pessoa) notFound();
   const cargo = formatarCargo(pessoa.cargo, pessoa.genero);
   return (
+    <>
+    <SiteHeader />
     <main className="min-h-screen bg-white px-5 py-10 text-black">
       <div className="mx-auto max-w-[720px]">
         <div className="flex items-center gap-4 rounded-2xl border border-black/15 p-4 shadow-sm">
@@ -33,5 +36,6 @@ export default async function ContatoRepresentante({ params }: Props) {
         </div>
       </div>
     </main>
+    </>
   );
 }
