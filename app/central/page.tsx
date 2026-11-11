@@ -23,7 +23,7 @@ export default function Central() {
         <Link className={styles.botao} href="/votou-fique-de-olho?minhas=1">Políticos que eu acompanho</Link>
         <Link className={styles.botao} href="/fazer-uma-pergunta">O que você gostaria de perguntar?</Link>
         <Link className={styles.botao} href="/camiseta">Camiseta</Link>
-        <Link className={styles.botao} href="/qr/fora-da-pauta.svg">QR Code</Link>
+        <Link className={styles.botao} href="/qr-code">QR Code</Link>
         <a className={styles.compartilhar} href={compartilhar} target="_blank" rel="noopener noreferrer">Compartilhar</a>
         <InstalarAplicativo tema="escuro" />
         <Link className={styles.voltarInicio} href="/">Ir para o início</Link>
