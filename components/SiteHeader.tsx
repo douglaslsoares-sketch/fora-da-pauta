@@ -2,35 +2,29 @@ import Image from "next/image";
 import Link from "next/link";
 import { SiteHeaderRouter } from "@/components/SiteHeaderRouter";
 
+/** Cabeçalho comum às páginas internas: somente o olho da marca EU VIGIO. */
 function InstitutionalHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-black/10 bg-white text-black">
-      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
-        <div className="flex min-h-[58px] items-center">
-          <Link
-            href="/"
-            aria-label="Fora da Pauta — página inicial"
-            className="shrink-0"
-          >
+    <header className="relative z-40 bg-[#050505] text-white">
+      <div className="mx-auto flex w-full items-center justify-center px-4 py-3">
+        <Link href="/central" aria-label="Voltar à Central do EU VIGIO" className="block">
+          <span className="relative block w-[220px] overflow-hidden sm:w-[280px]" style={{ aspectRatio: "660 / 255" }}>
             <Image
-              src="/marca/fora-da-pauta-horizontal.svg"
-              alt="Fora da Pauta"
-              width={930}
-              height={150}
+              src="/marca/eu-vigio-original.svg"
+              alt="Olho realista com íris dourada do EU VIGIO"
+              width={660}
+              height={440}
+              unoptimized
               priority
-              className="h-auto w-[188px] object-contain sm:w-[260px]"
+              className="absolute left-0 top-0 block h-auto w-full max-w-none"
             />
-          </Link>
-        </div>
+          </span>
+        </Link>
       </div>
     </header>
   );
 }
 
 export function SiteHeader() {
-  return (
-    <SiteHeaderRouter>
-      <InstitutionalHeader />
-    </SiteHeaderRouter>
-  );
+  return <SiteHeaderRouter><InstitutionalHeader /></SiteHeaderRouter>;
 }
