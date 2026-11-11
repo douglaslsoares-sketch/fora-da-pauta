@@ -224,9 +224,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas }: { versaoEd
 
         <header className={styles.cabecalho}>
           <div className={styles.marcaEuVigio}>
-            <Image src="/marca/fora-da-pauta-olho-dourado.svg" alt="Olho dourado, símbolo de EU VIGIO" width={620} height={374} priority className={styles.olhoEuVigio} />
-            <strong className={styles.nomeEuVigio}>EU VIGIO</strong>
-            <p className={styles.assinaturaEuVigio}>Decisões que afetam minha vida.</p>
+            <Image src="/marca/eu-vigio-original.svg" alt="EU VIGIO — olho realista com íris dourada e frase Decisões que afetam minha vida." width={660} height={440} priority unoptimized className={styles.logoOriginalEuVigio} />
           </div>
         </header>
         <div className={styles.intro} id="apresentacao">
