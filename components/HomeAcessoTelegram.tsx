@@ -288,9 +288,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
         ref={areaAcompanhamento}
         aria-labelledby="titulo-opcoes"
       >
-        <header className={styles.cabecalhoOlho} aria-label="EU VIGIO">
-          <div className={styles.recorteOlho}><Image src="/marca/eu-vigio-original.svg" alt="Olho realista com íris dourada, símbolo do EU VIGIO" width={660} height={440} unoptimized priority /></div>
-        </header>
         <div className={styles.areaInterna}>
           <h2 className={styles.tituloArea} id="titulo-opcoes">
             Quem você quer acompanhar?
