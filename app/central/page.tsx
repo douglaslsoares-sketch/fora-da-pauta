@@ -20,7 +20,6 @@ export default function Central() {
       <nav className={styles.menu} aria-label="Menu central">
         <Link className={styles.principal} href="/acompanhar">Escolher um político</Link>
         <Link className={styles.botao} href="/votou-fique-de-olho?minhas=1">Políticos que eu acompanho</Link>
-        <Link className={styles.botao} href="/votou-fique-de-olho">Mandar um recado</Link>
         <Link className={styles.botao} href="/edicoes">Entender Melhor</Link>
         <Link className={styles.botao} href="/camiseta">Camiseta</Link>
         <Link className={styles.botao} href="/qr/fora-da-pauta.svg">QR Code</Link>
