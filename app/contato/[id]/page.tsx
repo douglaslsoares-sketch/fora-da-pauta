@@ -11,7 +11,7 @@ type Props = { params: Promise<{ id: string }> };
 
 export default async function ContatoRepresentante({ params }: Props) {
   const { id } = await params;
-  if (!/^\\d{8,20}$/.test(id)) notFound();
+  if (!/^\d{8,20}$/.test(id)) notFound();
   const pessoa = candidaturas.find(item => item.id === id);
   if (!pessoa) notFound();
   const cargo = formatarCargo(pessoa.cargo, pessoa.genero);
