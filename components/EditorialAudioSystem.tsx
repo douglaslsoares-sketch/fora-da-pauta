@@ -59,7 +59,7 @@ function obterBlocos(root: Element) {
 }
 
 const PAUSA_ENTRE_TRECHOS_MS = 800;
-const PAUSA_MUDANCA_SECAO_MS = 4000;
+const PAUSA_MUDANCA_SECAO_MS = 2000;
 const LIMITE_TRECHO_AUDIO = 3400;
 
 type TipoBlocoLeitura =
@@ -1551,7 +1551,7 @@ export function EditorialAudioSystem() {
         }
 
         const PAUSA_ALVO_MS =
-          estrutura[0] === "subtitulo" ? 2750 : 600;
+          estrutura[0] === "subtitulo" ? 1500 : 600;
 
         /*
          * Se a própria narração já entregou
@@ -1575,7 +1575,7 @@ export function EditorialAudioSystem() {
          */
         const silencioSeguroMs =
           Math.min(
-            estrutura[0] === "subtitulo" ? 2700 : 500,
+            estrutura[0] === "subtitulo" ? 1450 : 500,
             Math.max(
               0,
               silencioExtraMs,
