@@ -1,16 +1,44 @@
-import Link from "next/link";
+"use client";
 
-/** Ícone universal de fechar: sempre retorna à home e respeita a sessão Telegram. */
-export function FecharPaginaLink({ className = "" }: { className?: string }) {
+import Link from "next/link";
+import { FecharPaginaLink } from "@/components/FecharPaginaLink";
+import { useEffect, useState } from "react";
+
+/** Fecha a página interna e volta à home, que identifica a inscrição pelo Telegram. */
+export function RetornarForaDaPauta() {
+  const [acessoExterno, setAcessoExterno] = useState(false);
+
+  useEffect(() => {
+    // Quem chega diretamente a uma edição compartilhada recebe um convite
+    // para conhecer o projeto, em vez de um simples "Fechar".
+    if (!window.location.pathname.startsWith("/campanhas/")) return;
+    let veioDoSite = false;
+    try {
+      veioDoSite = Boolean(document.referrer) &&
+        new URL(document.referrer).origin === window.location.origin;
+    } catch {
+      veioDoSite = false;
+    }
+    const navegacaoInterna = typeof window.history.state?.idx === "number" &&
+      window.history.state.idx > 0;
+    setAcessoExterno(!veioDoSite && !navegacaoInterna);
+  }, []);
+
+  if (!acessoExterno) {
+    return (
+      <div className="mt-7 flex w-full justify-center">
+        <FecharPaginaLink />
+      </div>
+    );
+  }
+
   return (
     <Link
       href="/"
-      aria-label="Fechar e voltar ao início"
-      title="Fechar e voltar ao início"
-      className={`inline-flex min-h-12 min-w-12 items-center justify-center rounded-full border border-black/20 bg-white text-black transition hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${className}`}
+      aria-label="Acessar o Fora da Pauta"
+      className="mx-auto mt-7 flex min-h-14 w-full items-center justify-center rounded-xl bg-black px-5 py-3 text-center text-base font-semibold text-white transition hover:bg-black/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
     >
-      <span aria-hidden="true" className="text-[28px] font-normal leading-none">×</span>
-      <span className="sr-only">Fechar</span>
+      Acessar o Fora da Pauta
     </Link>
   );
 }
