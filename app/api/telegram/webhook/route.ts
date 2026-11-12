@@ -6,6 +6,7 @@ import { candidaturas } from "@/data/eleicoes/candidaturas";
 import { idsAcompanhaveis } from "@/lib/eleicoes/acompanhamento-politico";
 import { buscarPessoaPoliticaConfirmadaPorCandidatura } from "@/lib/eleicoes/identidade-politica";
 import { sql } from "@/lib/interesses/db";
+import { imagemCompartilhamentoAbsoluta } from "@/lib/compartilhamento";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -830,11 +831,13 @@ export async function POST(
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "👁️ Sua inscrição no Fora da Pauta está confirmada!\n\n" +
+          "Sua inscrição no Fora da Pauta está confirmada!\n\n" +
           "Existe muito mais por trás das notícias.\n\n" +
-          "Aqui você vai entender melhor o que acontece, conhecer os interesses por trás das decisões e acompanhar os políticos.\n\n" +
-          "Agora escolha quem você quer acompanhar.",
-        imagemUrl: "https://www.foradapauta.org/compartilhar/olho-v2?v=3",
+          "Vamos investigar os acontecimentos, mostrar os interesses em jogo e explicar como tudo isso afeta a sua vida.\n\n" +
+          "Sempre com fontes para você conferir e tirar suas próprias conclusões.\n\n" +
+          "Você receberá aqui os avisos das novas publicações.\n\n" +
+          "Quer acompanhar algum político também? Toque no botão abaixo e faça sua escolha.",
+        imagemUrl: imagemCompartilhamentoAbsoluta,
         botoes: [[{
           text: "Escolher político",
           url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=escolher`,
@@ -894,11 +897,13 @@ export async function POST(
       await enviarMensagemTelegram({
         chatId,
         texto:
-          "👁️ Sua inscrição no Fora da Pauta está confirmada!\n\n" +
+          "Sua inscrição no Fora da Pauta está confirmada!\n\n" +
           "Existe muito mais por trás das notícias.\n\n" +
-          "Aqui você vai entender melhor o que acontece, conhecer os interesses por trás das decisões e acompanhar os políticos.\n\n" +
-          "Agora escolha quem você quer acompanhar.",
-        imagemUrl: "https://www.foradapauta.org/compartilhar/olho-v2?v=3",
+          "Vamos investigar os acontecimentos, mostrar os interesses em jogo e explicar como tudo isso afeta a sua vida.\n\n" +
+          "Sempre com fontes para você conferir e tirar suas próprias conclusões.\n\n" +
+          "Você receberá aqui os avisos das novas publicações.\n\n" +
+          "Quer acompanhar algum político também? Toque no botão abaixo e faça sua escolha.",
+        imagemUrl: imagemCompartilhamentoAbsoluta,
         botoes: [
           [{ text: "Escolher político", url: "https://www.foradapauta.org/acompanhar" }],
         ],
