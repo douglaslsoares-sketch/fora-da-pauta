@@ -60,11 +60,6 @@ const opcoes: Opcao[] = [
   },
 ];
 
-const mensagemWhatsApp = encodeURIComponent(
-  "Conheça o Fora da Pauta. Acompanhe o que seu representante faz depois de eleito. https://www.foradapauta.org/",
-);
-const linkWhatsApp = "https://wa.me/?text=" + mensagemWhatsApp;
-
 export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "inicio" }: { versaoEdicoes: string | null; versaoEntregas: string | null; pagina?: "inicio" | "opcoes" }) {
   const [situacao, setSituacao] = useState<"verificando" | "inscrito" | "visitante">("verificando");
   const [ids, setIds] = useState<string[]>([]);
