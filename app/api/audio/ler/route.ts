@@ -148,7 +148,7 @@ export async function POST(
       );
     }
 
-    const vozesTeste = new Set(["marin", "nova", "onyx", "echo", "shimmer", "coral", "sage", "ballad"]);
+    const vozesTeste = new Set(["marin", "alloy", "ash", "fable", "verse"]);
     const voz =
       typeof body.voz === "string" && vozesTeste.has(body.voz)
         ? body.voz
