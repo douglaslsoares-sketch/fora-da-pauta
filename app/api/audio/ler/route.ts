@@ -75,6 +75,19 @@ não de um efeito teatral para cada tipo de bloco.
 
 Respeite a pontuação: vírgulas pedem pequenas inflexões; pontos
 encerram a ideia; perguntas devem soar como perguntas reais.
+
+ATENÇÃO ESPECIAL ÀS PERGUNTAS: quando uma frase terminar em ponto
+de interrogação, dê a ela a curva melódica de uma pergunta genuína,
+como quem realmente quer despertar a curiosidade do ouvinte.
+Exemplo de intenção (não leia este exemplo): "Você já reparou em
+uma coisa?" deve soar interessado, leve e convidativo, jamais
+como uma afirmação seca ou um título anunciado.
+
+Nos parágrafos explicativos, conserve a MESMA suavidade e o mesmo
+calor humano da abertura. Não endureça o timbre nem passe para
+uma leitura burocrática depois de uma pergunta ou mudança de assunto.
+Faça pequenas variações naturais de ênfase dentro de cada frase,
+sem perder a unidade da voz.
 Não emende o fim de um parágrafo ao começo do próximo.
 Entre parágrafos comuns, faça uma pausa audível de aproximadamente
 0,6 a 0,8 segundo. Antes de uma nova seção ou depois de um título,
