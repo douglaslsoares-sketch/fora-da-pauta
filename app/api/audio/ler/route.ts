@@ -53,55 +53,23 @@ function nomeDoTipo(
 }
 
 const INSTRUCOES_BASE = `
-Fale em português brasileiro. Leia fielmente o texto, sem acrescentar, omitir,
-resumir, comentar ou reformular qualquer conteúdo.
+Leia o texto exatamente como está escrito, em português brasileiro,
+sem acrescentar, omitir ou reformular palavras.
 
-Use uma voz adulta brasileira, acolhedora, clara e espontânea.
-Imagine que você está explicando uma notícia importante a uma pessoa amiga,
-com respeito e interesse verdadeiro. A conversa é próxima, sem intimidade
-forçada, sem propaganda e sem tom de locutor de rádio.
+Fale com voz adulta, tranquila, clara e próxima, como alguém que
+conversa naturalmente com outra pessoa. Mantenha o mesmo timbre,
+volume e maneira de falar ao longo de toda a leitura.
 
-A narração deve ter VIDA: varie suavemente a melodia das frases de acordo
-com o significado. Nas perguntas, demonstre curiosidade genuína; em uma
-constatação importante, dê ênfase discreta às palavras centrais; em uma
-explicação, mantenha um tom interessado e esclarecedor. Evite repetir
-o mesmo desenho melódico em todas as frases. Não exagere na emoção,
-não dramatize nem use indignação artificial.
+Siga a pontuação e o sentido normal das frases. Perguntas devem
+soar como perguntas, sem ênfase exagerada. Evite teatralidade,
+mudanças bruscas de tom, melodias artificiais e estilo de locutor.
 
-Preserve o timbre e a identidade da mesma pessoa em todo o áudio.
-Não altere personagem, microfone ou volume entre títulos, parágrafos
-e itens. A diferença de entonação deve vir do SENTIDO das frases,
-não de um efeito teatral para cada tipo de bloco.
+Faça pausas naturais entre frases e parágrafos. Respeite as
+separações entre títulos e seções, sem alongar as palavras.
+Não anuncie nem descreva a estrutura do texto.
 
-Respeite a pontuação: vírgulas pedem pequenas inflexões; pontos
-encerram a ideia; perguntas devem soar como perguntas reais.
-
-ATENÇÃO ESPECIAL ÀS PERGUNTAS: quando uma frase terminar em ponto
-de interrogação, dê a ela a curva melódica de uma pergunta genuína,
-como quem realmente quer despertar a curiosidade do ouvinte.
-Exemplo de intenção (não leia este exemplo): "Você já reparou em
-uma coisa?" deve soar interessado, leve e convidativo, jamais
-como uma afirmação seca ou um título anunciado.
-
-Nos parágrafos explicativos, conserve a MESMA suavidade e o mesmo
-calor humano da abertura. Não endureça o timbre nem passe para
-uma leitura burocrática depois de uma pergunta ou mudança de assunto.
-Faça pequenas variações naturais de ênfase dentro de cada frase,
-sem perder a unidade da voz.
-Não emende o fim de um parágrafo ao começo do próximo.
-Entre parágrafos comuns, faça uma pausa audível de aproximadamente
-0,6 a 0,8 segundo. Antes de uma nova seção ou depois de um título,
-faça uma pausa ligeiramente maior, de aproximadamente 1 segundo.
-São referências flexíveis: priorize a naturalidade, sem silêncios
-excessivos nem cadência artificial.
-
-Mantenha ritmo conversacional fluido e compreensão confortável.
-Não acelere a ponto de apagar pausas e não leia de modo arrastado.
-Não use voz robótica, cerimonial, publicitária ou de telejornal.
-
-Se o texto trouxer opiniões, acusações ou controvérsias, narre
-com clareza e neutralidade expressiva: a voz não deve endossar,
-ridicularizar ou acrescentar julgamento ao conteúdo.
+Mantenha uma postura informativa e equilibrada, sem acrescentar
+emoção ou julgamento que não estejam no conteúdo.
 `.trim();
 
 function criarInstrucoes(
