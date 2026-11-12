@@ -377,3 +377,8 @@
 .apresentacao:has(.nomeProjeto) .explicacao { max-width:650px; line-height:1.55; }
 .apresentacao:has(.nomeProjeto) .fraseGratuidade { margin-top:14px; }
 .apresentacao:has(.nomeProjeto) .intro { padding:0 0 28px; }
+
+/* Ajuste final da distribuição vertical em celulares: preservar hierarquia e respiro. */
+@media (max-width: 600px) {
+  .apresentacao:has(.nomeProjeto) { padding-top:clamp(54px,9svh,105px); }
+}
