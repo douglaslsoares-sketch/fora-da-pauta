@@ -3,14 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 
 const VOZES = [
-  { id: "nova", titulo: "Feminina — Nova (favorita provisória)" },
-  { id: "shimmer", titulo: "Feminina — Shimmer" },
-  { id: "coral", titulo: "Feminina — Coral" },
-  { id: "sage", titulo: "Sage — alternativa de timbre" },
-  { id: "ballad", titulo: "Ballad — alternativa de timbre" },
-  { id: "marin", titulo: "Feminina — Marin (referência anterior)" },
-  { id: "onyx", titulo: "Masculina — Onyx" },
-  { id: "echo", titulo: "Masculina — Echo" },
+  { id: "marin", titulo: "Feminina — Marin (sua escolhida)" },
+  { id: "alloy", titulo: "Nova opção — Alloy" },
+  { id: "ash", titulo: "Nova opção — Ash" },
+  { id: "fable", titulo: "Nova opção — Fable" },
+  { id: "verse", titulo: "Nova opção — Verse" },
 ] as const;
 
 const TEXTO = "Você já parou para pensar em quem decide quais notícias chegam até você? Todos os dias, acontecimentos importantes afetam a nossa vida. Mas nem sempre conhecemos os interesses que estão por trás dessas decisões.";
