@@ -624,6 +624,18 @@ export function EditorialAudioSystem() {
       parte.trim();
 
     /*
+     * Fecha a entonação do título desta seção na narração.
+     * O texto exibido na página permanece inalterado.
+     */
+    if (
+      tipo === "subtitulo" &&
+      texto.toLocaleLowerCase("pt-BR") ===
+        "as decisões que afetam a nossa vida"
+    ) {
+      return `${texto}.`;
+    }
+
+    /*
      * Única exceção:
      *
      * o TÍTULO PRINCIPAL recebe um ponto final
