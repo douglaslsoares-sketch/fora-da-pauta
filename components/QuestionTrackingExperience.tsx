@@ -156,7 +156,7 @@ export function QuestionTrackingExperience({
           href="/#perguntas"
           className="mt-6 inline-flex text-sm font-semibold underline underline-offset-4"
         >
-          Voltar ao Fora da Pauta
+          × Fechar
         </Link>
       </div>
     );
@@ -164,10 +164,6 @@ export function QuestionTrackingExperience({
 
   return (
     <div>
-      <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-black/40">
-        Acompanhamento
-      </p>
-
       <h1 className="mt-3 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
         Sua pergunta
       </h1>
@@ -193,7 +189,7 @@ export function QuestionTrackingExperience({
           </p>
 
           <p className="mt-2 text-sm leading-7 text-black/55">
-            Quando a resposta for publicada, este mesmo link passará a mostrá-la.
+            Quando a resposta estiver pronta, ela aparecerá aqui.
           </p>
         </div>
       ) : data.status ===
@@ -231,7 +227,7 @@ export function QuestionTrackingExperience({
         </div>
       )}
 
-      <div className="mt-10 flex flex-wrap gap-5">
+      <div className="mt-10 flex flex-col items-center gap-7">
         <button
           type="button"
           onClick={() => {
@@ -243,10 +239,10 @@ export function QuestionTrackingExperience({
         </button>
 
         <Link
-          href="/#perguntas"
-          className="text-sm font-semibold underline underline-offset-4"
+          href="/central"
+          className="inline-flex min-h-12 items-center justify-center rounded-lg bg-red-600 px-7 py-3 text-base font-semibold text-white"
         >
-          Voltar ao Fora da Pauta
+          × Fechar
         </Link>
       </div>
     </div>
