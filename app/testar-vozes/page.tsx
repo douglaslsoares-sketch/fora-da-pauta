@@ -3,8 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 
 const VOZES = [
-  { id: "marin", titulo: "Feminina — Marin" },
-  { id: "nova", titulo: "Feminina — Nova" },
+  { id: "nova", titulo: "Feminina — Nova (favorita provisória)" },
+  { id: "shimmer", titulo: "Feminina — Shimmer" },
+  { id: "coral", titulo: "Feminina — Coral" },
+  { id: "sage", titulo: "Sage — alternativa de timbre" },
+  { id: "ballad", titulo: "Ballad — alternativa de timbre" },
+  { id: "marin", titulo: "Feminina — Marin (referência anterior)" },
   { id: "onyx", titulo: "Masculina — Onyx" },
   { id: "echo", titulo: "Masculina — Echo" },
 ] as const;
@@ -69,7 +73,7 @@ export default function TestarVozes() {
     <main style={{ maxWidth: 640, margin: "0 auto", padding: "32px 20px", fontFamily: "Arial, sans-serif" }}>
       <h1>Experimente as vozes</h1>
       <p>Fora da Pauta — teste de narração natural</p>
-      <p>Ouça o mesmo texto com quatro vozes diferentes. Nenhuma delas altera a voz oficial do site.</p>
+      <p>Ouça o mesmo texto com outras opções de voz. Nenhuma delas altera a voz oficial do site.</p>
       <blockquote style={{ borderLeft: "4px solid #e6b800", margin: "24px 0", padding: "8px 16px", lineHeight: 1.6 }}>{TEXTO}</blockquote>
       <div style={{ display: "grid", gap: 12 }}>
         {VOZES.map(({ id, titulo }) => (
