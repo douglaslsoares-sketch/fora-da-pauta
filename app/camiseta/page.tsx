@@ -13,7 +13,7 @@ export default function CamisetaPage() {
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Camiseta Fora da Pauta</h1>
         <p className="mt-3 text-base leading-7 text-black/65">Vista a ideia. Ajude a levar o Fora da Pauta mais longe.</p>
         <figure className="mx-auto mt-8 max-w-xl">
-          <img src="/camiseta/montagem-camiseta-fora-da-pauta.webp" alt="Montagem ilustrativa da camiseta Fora da Pauta: homem e mulher usando, vista das costas e detalhe da estampa Há mais para entender." width="400" height="267" loading="lazy" className="block h-auto w-full rounded-xl" />
+          <img src="/camiseta/montagem-camiseta-nova.svg" alt="Montagem ilustrativa da nova camiseta Fora da Pauta: olho natural dourado e nome na faixa preta, sem slogan." width="400" height="267" loading="lazy" className="block h-auto w-full rounded-xl" />
           <figcaption className="mt-3 text-center text-sm text-black/60">Montagem ilustrativa da camiseta Fora da Pauta.</figcaption>
         </figure>
         <p className="mt-5 text-center text-base leading-7">A compra da camiseta ajudará a financiar e manter o projeto Fora da Pauta.</p>
