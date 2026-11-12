@@ -239,7 +239,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               {mostrarOrientacoesTelegram ? (
                 <div id="orientacao-telegram" className={styles.quadroTelegram}>
                   <h2 className={styles.perguntaTelegram}>Você já tem Telegram instalado no celular?</h2>
-                  <button type="button" onClick={() => void iniciarInscricao()} disabled={conferindo || inscrito || abrindoTelegram} className={styles.opcaoTelegram}>
+                  <button type="button" onClick={() => void iniciarInscricao()} disabled={abrindoTelegram} className={styles.opcaoTelegram}>
                     {abrindoTelegram ? "Abrindo Telegram..." : "Sim, já tenho Telegram"}
                   </button>
                   <button type="button" onClick={() => setPrecisaInstalarTelegram((anterior) => !anterior)} className={styles.opcaoTelegramSecundaria} aria-expanded={precisaInstalarTelegram}>
@@ -251,7 +251,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                       <p>2. Na tela que vai abrir, toque em Instalar e espere terminar.</p>
                       <p>3. Depois volte aqui e toque em Continuar inscrição.</p>
                       <a href="https://telegram.org/apps" target="_blank" rel="noopener noreferrer" className={styles.opcaoTelegram}>Instalar o Telegram</a>
-                      <button type="button" onClick={() => void iniciarInscricao()} disabled={conferindo || inscrito || abrindoTelegram} className={styles.opcaoTelegramSecundaria}>
+                      <button type="button" onClick={() => void iniciarInscricao()} disabled={abrindoTelegram} className={styles.opcaoTelegramSecundaria}>
                         {abrindoTelegram ? "Abrindo Telegram..." : "Continuar inscrição"}
                       </button>
                     </div>
