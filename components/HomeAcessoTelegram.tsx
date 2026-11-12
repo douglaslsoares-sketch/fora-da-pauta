@@ -205,7 +205,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
       }
       setIds((anteriores) => anteriores.includes(pessoa.id) ? anteriores : [...anteriores, pessoa.id]);
       setPessoas((anteriores) => anteriores.some((p) => p.id === pessoa.id) ? anteriores : [...anteriores, pessoa]);
-      setConfirmadoAgora(pessoa);
+      setConfirmadoAgora(null);
     } catch {
       setErroEscolha("Não foi possível salvar sua escolha no Telegram. Tente novamente.");
     } finally {
