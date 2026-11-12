@@ -73,54 +73,12 @@ emoção ou julgamento que não estejam no conteúdo.
 `.trim();
 
 function criarInstrucoes(
-  continua: boolean,
-  estrutura: TipoBlocoLeitura[],
+  _continua: boolean,
+  _estrutura: TipoBlocoLeitura[],
 ) {
-  const mapa =
-    estrutura.length
-      ? estrutura
-          .map(
-            (tipo, indice) =>
-              `${indice + 1}. ${nomeDoTipo(tipo)}`,
-          )
-          .join("\n")
-      : "Estrutura não informada.";
-
-  const contexto = `
-${INSTRUCOES_BASE}
-
-O conteúdo recebido está dividido em blocos separados
-por uma linha em branco.
-
-A ordem estrutural desses blocos é:
-
-${mapa}
-
-Essas descrições estruturais são apenas instruções.
-NÃO fale nem anuncie os nomes "título", "subtítulo",
-"parágrafo" ou "item".
-
-Use a sequência acima apenas para decidir a pausa
-e a articulação entre os blocos.
-`.trim();
-
-  if (continua) {
-    return `
-${contexto}
-
-Este áudio ainda não é o final do texto completo.
-
-Ao final, não faça entonação de despedida ou conclusão.
-`.trim();
-  }
-
-  return `
-${contexto}
-
-Este é o último trecho do texto.
-
-Somente no fim faça uma conclusão suave e discreta.
-`.trim();
+  // Mesmas instruções em todos os trechos: evita mudanças de
+  // personagem ou estilo entre gerações independentes.
+  return INSTRUCOES_BASE;
 }
 
 export async function POST(
