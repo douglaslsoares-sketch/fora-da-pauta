@@ -1631,6 +1631,50 @@ export function EditorialAudioSystem() {
       return blob;
     }
   }
+  /*
+   * Guarda o áudio já gerado no armazenamento local do navegador.
+   * A versão invalida gravações feitas com instruções de voz antigas.
+   * É uma otimização: a leitura continua funcionando sem CacheStorage.
+   */
+  const VERSAO_CACHE_AUDIO = "conversa-20261112-v3";
+
+  async function enderecoCacheAudio(chave: string) {
+    const bytes = new TextEncoder().encode(
+      VERSAO_CACHE_AUDIO + "::" + chave,
+    );
+    const digest = await crypto.subtle.digest("SHA-256", bytes);
+    const hash = Array.from(new Uint8Array(digest))
+      .map((n) => n.toString(16).padStart(2, "0"))
+      .join("");
+    return `/audio-cache-local/${hash}`;
+  }
+
+  async function lerAudioPersistido(chave: string): Promise<Blob | null> {
+    try {
+      if (!("caches" in window)) return null;
+      const cache = await caches.open("fdp-audio-v3");
+      const resposta = await cache.match(await enderecoCacheAudio(chave));
+      return resposta ? await resposta.blob() : null;
+    } catch {
+      return null;
+    }
+  }
+
+  async function salvarAudioPersistido(chave: string, blob: Blob) {
+    try {
+      if (!("caches" in window)) return;
+      const cache = await caches.open("fdp-audio-v3");
+      await cache.put(
+        await enderecoCacheAudio(chave),
+        new Response(blob, {
+          headers: { "Content-Type": blob.type || "audio/mpeg" },
+        }),
+      );
+    } catch {
+      // Armazenamento opcional, sujeito à quota do navegador.
+    }
+  }
+
   async function obterAudioNeural(
     texto: string,
     estrutura: TipoBlocoLeitura[],
@@ -1663,6 +1707,12 @@ export function EditorialAudioSystem() {
 
     const requisicao =
       (async () => {
+        const persistido = await lerAudioPersistido(chaveCache);
+        if (persistido) {
+          cacheAudioRef.current.set(chaveCache, persistido);
+          return persistido;
+        }
+
         const resposta =
           await fetch(
             "/api/audio/ler",
@@ -1722,6 +1772,7 @@ export function EditorialAudioSystem() {
           blob,
         );
 
+        void salvarAudioPersistido(chaveCache, blob);
         return blob;
       })();
 
