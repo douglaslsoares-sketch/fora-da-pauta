@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { candidaturas } from "@/data/eleicoes/candidaturas";
 import { formatarCargo } from "@/lib/eleicoes/formatar-cargo";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
-import { FormularioRecado } from "@/components/FormularioRecado";
 import { SiteHeader } from "@/components/SiteHeader";
 
 export const dynamic = "force-dynamic";
@@ -18,9 +17,9 @@ export default async function ContatoRepresentante({ params }: Props) {
   const cargo = formatarCargo(pessoa.cargo, pessoa.genero);
   return (
     <>
-    <SiteHeader />
     <main className="min-h-screen bg-white px-5 py-10 text-black">
       <div className="mx-auto max-w-[720px]">
+        <h1 className="mb-6 text-3xl font-bold">Mandar um recado</h1>
         <div className="flex items-center gap-4 rounded-2xl border border-black/15 p-4 shadow-sm">
           <CandidatePhoto id={pessoa.id} name={pessoa.nomeUrna} />
           <div className="min-w-0">
@@ -28,7 +27,7 @@ export default async function ContatoRepresentante({ params }: Props) {
             <p className="mt-1 text-sm text-black/65">{cargo} · {pessoa.uf} · {pessoa.siglaPartido}</p>
           </div>
         </div>
-        <FormularioRecado candidaturaId={pessoa.id} />
+        <p role="status" className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-base text-black/80">Contato indisponível no momento. Ainda não confirmamos um canal oficial de contato e o exercício atual do mandato deste político. Nenhum recado será enviado.</p>
         <div className="mt-8 flex justify-center">
           <Link href="/central" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-red-600 px-7 py-3 font-semibold text-white hover:bg-red-700">
             <span aria-hidden="true">×</span> Fechar
