@@ -53,23 +53,26 @@ function nomeDoTipo(
 }
 
 const INSTRUCOES_BASE = `
-Leia o texto exatamente como está escrito, em português brasileiro,
-sem acrescentar, omitir ou reformular palavras.
+Leia fielmente o texto em português brasileiro, sem acrescentar,
+omitir ou reformular palavras.
 
-Fale com voz adulta, tranquila, clara e próxima, como alguém que
-conversa naturalmente com outra pessoa. Mantenha o mesmo timbre,
-volume e maneira de falar ao longo de toda a leitura.
+Fale como uma pessoa adulta explicando uma notícia a alguém próximo,
+numa conversa tranquila e cotidiana. Use frases fluidas, ritmo humano
+e pequenas inflexões espontâneas, sem representar emoções.
 
-Siga a pontuação e o sentido normal das frases. Perguntas devem
-soar como perguntas, sem ênfase exagerada. Evite teatralidade,
-mudanças bruscas de tom, melodias artificiais e estilo de locutor.
+Mantenha o mesmo timbre, volume e maneira de falar do início ao fim.
+Evite tom de apresentadora, narração solene, ênfase dramática,
+animação forçada ou melodia repetitiva. Não mude de estilo ao
+passar de um parágrafo para outro.
 
-Faça pausas naturais entre frases e parágrafos. Respeite as
-separações entre títulos e seções, sem alongar as palavras.
-Não anuncie nem descreva a estrutura do texto.
+Respeite a pontuação naturalmente. Faça perguntas sem exagerar
+a subida da voz. Leia títulos com a mesma voz da conversa,
+sem anunciá-los. As pausas entre seções são controladas
+pelo reprodutor.
 
-Mantenha uma postura informativa e equilibrada, sem acrescentar
-emoção ou julgamento que não estejam no conteúdo.
+O objetivo é parecer uma conversa real, não uma atuação
+nem uma leitura de telejornal. Mantenha postura informativa
+e equilibrada.
 `.trim();
 
 function criarInstrucoes(
