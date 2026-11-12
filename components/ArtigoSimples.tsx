@@ -1,6 +1,6 @@
 "use client";
 
-import { RetornarForaDaPauta } from "@/components/RetornarForaDaPauta";
+import Link from "next/link";
 import type { Campaign } from "@/data/campanhas";
 
 function comNegrito(paragrafo: string) {
@@ -57,16 +57,16 @@ export function ArtigoSimples({ campaign }: { campaign: Campaign }) {
           ))}
           <section id="conversa-final-artigo" aria-labelledby="conversa-final-titulo" className="space-y-4 border-t border-black/15 pt-8">
             <h2 id="conversa-final-titulo" className="text-2xl font-bold">E aí, o que achou?</h2>
-            <p className="text-[17px] leading-8 text-black/80">Gostou do que acabou de ouvir?</p>
+            <p className="text-[17px] leading-8 text-black/80">Gostou do que acabou de ler ou ouvir?</p>
             <p className="text-[17px] leading-8 text-black/80">Se quiser, pode mandar esse artigo para alguém pelo WhatsApp.</p>
           </section>
         </article>
 
         <nav aria-label="O que fazer depois do artigo" className="mt-7 grid gap-3">
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-14 w-full items-center justify-center rounded-lg bg-[#238B51] px-5 py-3 text-center font-bold text-white">
-            Compartilhar essa edição <span aria-hidden="true" className="ml-2">→</span>
+            Compartilhar
           </a>
-          <RetornarForaDaPauta />
+          <div className="mt-7 flex w-full justify-center"><Link href="/edicoes" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-red-600 px-7 py-3 font-semibold text-white hover:bg-red-700"><span aria-hidden="true" className="text-xl">×</span><span>Fechar</span></Link></div>
         </nav>
       </div>
     </main>
