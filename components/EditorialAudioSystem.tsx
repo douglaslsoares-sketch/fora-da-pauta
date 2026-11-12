@@ -1636,7 +1636,7 @@ export function EditorialAudioSystem() {
    * A versão invalida gravações feitas com instruções de voz antigas.
    * É uma otimização: a leitura continua funcionando sem CacheStorage.
    */
-  const VERSAO_CACHE_AUDIO = "conversa-20261112-v3";
+  const VERSAO_CACHE_AUDIO = "marin-oficial-20261112-v4";
 
   async function enderecoCacheAudio(chave: string) {
     const bytes = new TextEncoder().encode(
@@ -1652,7 +1652,7 @@ export function EditorialAudioSystem() {
   async function lerAudioPersistido(chave: string): Promise<Blob | null> {
     try {
       if (!("caches" in window)) return null;
-      const cache = await caches.open("fdp-audio-v3");
+      const cache = await caches.open("fdp-audio-v4");
       const resposta = await cache.match(await enderecoCacheAudio(chave));
       return resposta ? await resposta.blob() : null;
     } catch {
