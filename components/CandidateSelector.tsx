@@ -894,16 +894,10 @@ function CandidateFollowSelector({
                   {candidate.nomeUrna}
                 </p>
 
-                {candidate.situacaoEleitoral ? (
-                  <p className="mt-1 text-xs font-semibold text-black/70">{candidate.situacaoEleitoral}</p>
-                ) : null}
-                <p className="mt-1 text-sm leading-5 text-black/60">
-                  {candidate.cargoLabel}
+                <p className="mt-2 text-sm leading-5 text-black/60">
+                  {candidate.cargoLabel} · {candidate.uf}
                   <br />
-                  {candidate.uf}
-                  <br />
-                  {candidate.siglaPartido} · Nº{" "}
-                  {candidate.numero}
+                  {candidate.siglaPartido} · Nº {candidate.numero}
                 </p>
               </div>
 
