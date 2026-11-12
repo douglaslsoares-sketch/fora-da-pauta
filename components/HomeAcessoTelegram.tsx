@@ -219,7 +219,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
 
         <header className={styles.cabecalho}>
           <div className={styles.marcaEuVigio}>
-            <div className={styles.recorteOlhoReal}><Image src="/marca/eu-vigio-original.svg" alt="Olho realista dourado do Fora da Pauta" width={660} height={440} priority unoptimized className={styles.logoOriginalEuVigio} /></div>
             <h2 className={styles.nomeProjeto}>FORA DA PAUTA</h2>
             <p className={styles.fraseProjeto}>Decisões que afetam a sua vida.</p>
           </div>
@@ -231,13 +230,12 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 Existe muito mais por trás das notícias.
               </h1>
               <p className={styles.explicacao}>
-                O Fora da Pauta mostra o que nem sempre é contado, investiga os interesses por trás dos acontecimentos e ajuda você a entender como as decisões políticas afetam a sua vida.
+                Investigamos o que está por trás dos acontecimentos e explicamos como as decisões políticas afetam a sua vida.
               </p>
-              <p className={styles.explicacao}>Acompanhe os políticos, saiba o que fazem e entenda o que está em jogo.</p>
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
                 Quero receber as notícias
               </button>
-              <p className={styles.fraseGratuidade}>É gratuito. Receba nossas notícias pelo Telegram.</p>
+              <p className={styles.fraseGratuidade}>É gratuito.</p>
               {mostrarOrientacoesTelegram ? (
                 <div id="orientacao-telegram" className={styles.quadroTelegram}>
                   <h2 className={styles.perguntaTelegram}>Você já tem Telegram instalado no celular?</h2>
@@ -261,7 +259,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 </div>
               ) : null}
               {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
-              <p className={styles.dominioProjeto}>foradapauta.org</p>
               <Link href="/central" className={styles.linkSegundaPagina}>Ir para o menu</Link>
             </div>
 
