@@ -1,24 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
 import { SiteHeaderRouter } from "@/components/SiteHeaderRouter";
 
-/** Cabeçalho comum às páginas internas: somente o olho da marca EU VIGIO. */
+/** Cabeçalho comum às páginas internas: identidade tipográfica Fora da Pauta. */
 function InstitutionalHeader() {
   return (
     <header className="relative z-40 border-0 bg-[#050505] text-white shadow-none">
       <div className="mx-auto flex w-full items-center justify-center px-4 pb-5 pt-3 md:pb-[23px] md:pt-5">
-        <Link href="/central" aria-label="Voltar à Central do EU VIGIO" className="block">
-          <span className="relative block w-[min(70vw,300px)] overflow-hidden md:w-[300px]" style={{ aspectRatio: "660 / 215" }}>
-            <Image
-              src="/marca/eu-vigio-original.svg"
-              alt="Olho realista com íris dourada do EU VIGIO"
-              width={660}
-              height={440}
-              unoptimized
-              priority
-              className="absolute left-0 top-0 block h-auto w-full max-w-none"
-            />
-          </span>
+        <Link href="/central" aria-label="Voltar ao menu do Fora da Pauta" className="block">
+          <span className="block text-center text-[clamp(25px,6vw,42px)] font-extrabold tracking-[0.015em]">FORA DA PAUTA</span>
         </Link>
       </div>
     </header>
