@@ -531,7 +531,11 @@ export function VotouFiqueDeOlhoExperience() {
             ) : permitirRemocao ? (
               <button
                 type="button"
-                onClick={() => void remover(pessoa)}
+                onClick={() => {
+                  if (window.confirm(`Remover ${pessoa.nomeUrna} da sua lista de políticos acompanhados?`)) {
+                    void remover(pessoa);
+                  }
+                }}
                 aria-label={`Remover ${pessoa.nomeUrna}`}
                 className="mt-3 min-h-11 w-full rounded-xl border border-black/15 bg-white px-4 py-2 text-sm font-semibold text-black/70 hover:border-red-700 hover:text-red-800"
               >
