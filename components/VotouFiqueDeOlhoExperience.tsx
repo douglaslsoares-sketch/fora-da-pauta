@@ -927,23 +927,6 @@ export function VotouFiqueDeOlhoExperience() {
         <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
         {!conferindoInscricao && inscricaoAtiva ? (
           <div className="votou-intro-only mb-7">
-            <div className="mb-6 flex flex-col items-center gap-2">
-              <svg
-                viewBox="0 0 24 24"
-                width="58"
-                height="58"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M2 12s3.7-7 10-7 10 7 10 7-3.7 7-10 7S2 12 2 12Z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-              <p className="text-base font-semibold text-black">Você está de olho.</p>
-            </div>
             {selecionadas.length > 0 ? (
               <>
                 <button
@@ -967,9 +950,7 @@ export function VotouFiqueDeOlhoExperience() {
         ) : null}
 
         <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
-          {!conferindoInscricao && inscricaoAtiva && selecionadas.length > 0
-            ? "Quem mais você quer acompanhar?"
-            : "Quem você quer acompanhar?"}
+          "Escolher político"
         </h2>
 
         {erroTelegram ? <p role="alert" className="mb-3 text-sm text-red-700">{erroTelegram}</p> : null}
