@@ -1883,13 +1883,7 @@ export function EditorialAudioSystem() {
       );
     }
 
-    const tempoEstimado =
-      aviso.dataset.tempoEstimado;
-
-    aviso.textContent =
-      tempoEstimado
-        ? `Tempo estimado de leitura: ${tempoEstimado} · Preparando áudio…`
-        : "Preparando áudio…";
+    aviso.textContent = "Preparando o áudio…";
   }
 
   function ocultarAvisoPreparandoAudio() {
@@ -1985,7 +1979,7 @@ export function EditorialAudioSystem() {
           () => {
             mostrarAvisoPreparandoAudio();
           },
-          0,
+          150,
         );
 
       let blob: Blob;
@@ -2250,23 +2244,6 @@ export function EditorialAudioSystem() {
         ),
       );
 
-    mostrarAvisoPreparandoAudio();
-
-    const avisoTempoFdp =
-      document.getElementById(
-        "fdp-audio-preparando",
-      );
-
-    if (avisoTempoFdp) {
-      const estimativaFdp =
-        `~${minutosEstimadosFdp} min`;
-
-      avisoTempoFdp.dataset.tempoEstimado =
-        estimativaFdp;
-
-      avisoTempoFdp.textContent =
-        `Tempo estimado de leitura: ${estimativaFdp} · Preparando áudio…`;
-    }
 
     void falarTrecho(indiceInicial);
   }
