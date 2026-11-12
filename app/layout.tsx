@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { EditorialAudioSystem } from "@/components/EditorialAudioSystem";
 import { SiteChromeRouter } from "@/components/SiteChromeRouter";
 import "./globals.css";
+import { imagemCompartilhamento } from "@/lib/compartilhamento";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
     siteName: "Fora da Pauta",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "/compartilhar/olho-v2?v=3", width: 1200, height: 630, alt: "Olho humano dourado e nome Fora da Pauta sobre fundo preto." }],
+    images: [{ url: imagemCompartilhamento, width: 1200, height: 630, alt: "Fora da Pauta em branco e chamada editorial em amarelo sobre fundo preto." }],
   },
   title: {
     default: "Fora da Pauta",
