@@ -498,7 +498,7 @@ export function VotouFiqueDeOlhoExperience() {
               <div className="min-w-0 flex-1">
                 <p className="break-words text-base font-semibold leading-6">{pessoa.nomeUrna}</p>
                 <p className="mt-2 text-sm leading-6 text-black/65">
-                  Cargo/candidatura: {pessoa.cargoLabel} · {pessoa.uf}
+                  Candidatura: {pessoa.cargoLabel} · {pessoa.uf}
                   <br />
                   {pessoa.siglaPartido}
                 </p>
