@@ -104,7 +104,6 @@ export const artigoApresentacao: Campaign = {
       paragraphs: [
         "Vamos perguntar, pesquisar, comparar e explicar. Quando houver diferenças entre fontes, vamos mostrá-las. Quando errarmos, vamos corrigir. E você sempre poderá consultar as referências para formar sua própria avaliação.",
         "**Conhecer é importante. Entender é fundamental.**",
-        "**FORA DA PAUTA — HÁ MAIS PARA ENTENDER.**",
       ],
     },
   ],
