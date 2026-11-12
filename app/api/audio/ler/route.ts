@@ -60,10 +60,19 @@ gravada pela mesma pessoa, com o mesmo microfone,
 o mesmo volume percebido, a mesma projeção e o mesmo
 registro vocal.
 
-Use uma voz adulta brasileira, calorosa, médio-grave,
-clara e natural. Fale como alguém que conversa de igual
-para igual com outra pessoa, sem formalidade excessiva,
-com atenção, curiosidade genuína e confiança.
+Use uma voz adulta brasileira, calorosa, acolhedora,
+médio-grave, clara e natural. Fale como alguém que
+conversa de igual para igual com outra pessoa, sem
+formalidade excessiva, com atenção, curiosidade genuína
+e confiança.
+
+Soa como um amigo que lê uma novidade interessante
+diretamente para outro amigo. O acolhimento aparece
+na gentileza, na proximidade e no respeito por quem escuta,
+sem tom maternal, paternalista ou sentimental.
+Não fale como locutor, apresentador ou atendente.
+O acolhimento não exige falar mais devagar nem acrescentar
+expressões informais que não constem no texto.
 
 Mantenha ritmo fluido e ágil, com articulação nítida
 e pausas curtas e naturais. Evite leitura arrastada,
