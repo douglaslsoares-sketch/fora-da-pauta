@@ -386,10 +386,8 @@ export function VotouFiqueDeOlhoExperience() {
         setPessoaConfirmada(confirmada);
         setUltimoIdConfirmado(pessoa.id);
         setAviso(`Você já acompanha ${pessoa.nomeUrna}.`);
-        setBusca((atual) => atual + 1);
-        // Fora da tela final, abrir confirmação com foto e dados.
-        // Na tela final, exibir a confirmação junto à busca.
-        if (!(etapa === "telegram" && mostrarEscolhaFinal)) setEtapa("selecionados");
+        // Permanecer na lista: o cartão selecionado muda de estado sem nova tela.
+        setEtapa("busca");
       } catch {
         setErroTelegram("Não foi possível salvar no Telegram. Tente novamente.");
       } finally {
@@ -403,8 +401,7 @@ export function VotouFiqueDeOlhoExperience() {
     gravar(novaLista);
     setPessoaConfirmada(confirmada);
     setAviso(`${pessoa.nomeUrna} foi adicionado à sua lista.`);
-    setBusca((atual) => atual + 1);
-    setEtapa("selecionados");
+    setEtapa("busca");
   }
 
   async function remover(pessoa: PessoaSelecionada) {
