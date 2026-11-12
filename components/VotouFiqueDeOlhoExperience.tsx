@@ -498,9 +498,9 @@ export function VotouFiqueDeOlhoExperience() {
               <div className="min-w-0 flex-1">
                 <p className="break-words text-base font-semibold leading-6">{pessoa.nomeUrna}</p>
                 <p className="mt-2 text-sm leading-6 text-black/65">
-                  {pessoa.cargoLabel} · {pessoa.uf}
+                  Cargo/candidatura: {pessoa.cargoLabel} · {pessoa.uf}
                   <br />
-                  {pessoa.siglaPartido} · Nº {pessoa.numero}
+                  {pessoa.siglaPartido}
                 </p>
               </div>
             </div>
@@ -575,6 +575,7 @@ export function VotouFiqueDeOlhoExperience() {
   if (somenteMinhasEscolhas) {
     return (
       <section className="mx-auto w-full max-w-[760px] px-6 pb-16 pt-10 text-black">
+        <h1 className="mb-6 text-3xl font-bold tracking-tight">Políticos que eu acompanho</h1>
         {selecionadas.length > 0 ? (
           <ListaSelecionadas />
         ) : (
