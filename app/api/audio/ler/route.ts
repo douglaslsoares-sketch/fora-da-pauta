@@ -105,6 +105,7 @@ export async function POST(
         texto?: unknown;
         continua?: unknown;
         estrutura?: unknown;
+        voz?: unknown;
       };
 
     const texto =
@@ -144,6 +145,12 @@ export async function POST(
       );
     }
 
+    const vozesTeste = new Set(["marin", "nova", "onyx", "echo"]);
+    const voz =
+      typeof body.voz === "string" && vozesTeste.has(body.voz)
+        ? body.voz
+        : "marin";
+
     const resposta = await fetch(
       "https://api.openai.com/v1/audio/speech",
       {
@@ -158,7 +165,7 @@ export async function POST(
 
         body: JSON.stringify({
           model: "gpt-4o-mini-tts",
-          voice: "marin",
+          voice: voz,
           input: texto,
           instructions:
             criarInstrucoes(
