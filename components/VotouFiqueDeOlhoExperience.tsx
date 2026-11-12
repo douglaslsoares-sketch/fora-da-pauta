@@ -925,8 +925,12 @@ export function VotouFiqueDeOlhoExperience() {
         </section>
       ) : (
         <section className="votou-search-stage mx-auto max-w-[760px] px-6 pb-12 pt-7">
+        <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
+          Escolher político
+        </h2>
+
         {!conferindoInscricao && inscricaoAtiva ? (
-          <div className="votou-intro-only mb-7">
+          <div className="votou-intro-only mt-5 mb-4">
             {selecionadas.length > 0 ? (
               <>
                 <button
@@ -948,10 +952,6 @@ export function VotouFiqueDeOlhoExperience() {
             {mostrarAvisoSemPessoas ? <AvisoInscricaoSemPessoas /> : null}
           </div>
         ) : null}
-
-        <h2 className="text-3xl font-bold leading-tight tracking-[-0.04em]">
-          "Escolher político"
-        </h2>
 
         {erroTelegram ? <p role="alert" className="mb-3 text-sm text-red-700">{erroTelegram}</p> : null}
         {salvandoEscolhas ? <p role="status" className="mb-3 text-sm">Salvando acompanhamento no Telegram...</p> : null}
