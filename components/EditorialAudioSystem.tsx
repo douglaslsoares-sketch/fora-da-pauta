@@ -58,7 +58,8 @@ function obterBlocos(root: Element) {
   });
 }
 
-const PAUSA_ENTRE_TRECHOS_MS = 180;
+const PAUSA_ENTRE_TRECHOS_MS = 800;
+const PAUSA_MUDANCA_SECAO_MS = 1100;
 const LIMITE_TRECHO_AUDIO = 3400;
 
 type TipoBlocoLeitura =
@@ -1996,7 +1997,10 @@ export function EditorialAudioSystem() {
                   novoIndice + 1,
                 );
               },
-              PAUSA_ENTRE_TRECHOS_MS,
+              trechosRef.current[novoIndice + 1]?.estrutura[0] === "titulo" ||
+              trechosRef.current[novoIndice + 1]?.estrutura[0] === "subtitulo"
+                ? PAUSA_MUDANCA_SECAO_MS
+                : PAUSA_ENTRE_TRECHOS_MS,
             );
 
           return;
