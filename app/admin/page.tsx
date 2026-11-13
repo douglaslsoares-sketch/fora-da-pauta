@@ -47,7 +47,7 @@ export default async function AdminPage() {
             </div>
           ))}
         </div>
-        <p className="mt-8 text-sm text-black/55">A central não publica artigos nem envia notificações automaticamente. Essas ações exigirão controles próprios e confirmação.</p>
+        <p className="mt-8 text-sm text-black/55">A central não publica artigos nem envia notificações automaticamente. A publicação exige confirmação no módulo Artigos; o envio geral de notificações permanece desativado.</p>
         <div className="mt-8 flex justify-center"><Link href="/central" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-red-600 px-7 py-3 font-semibold text-white"><span aria-hidden="true">×</span> Fechar</Link></div>
       </section>
     </main>
