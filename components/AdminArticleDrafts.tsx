@@ -41,7 +41,7 @@ export default function AdminArticleDrafts({ acervo = [] }: { acervo?: LegacyArt
     setResumo(original.resumo);
     setConteudo(original.conteudo);
     setFontes(original.fontes);
-    setNotice("Cópia do acervo preparada no editor. Confira o texto e as fontes antes de salvar. O original permanece intacto; nada foi publicado.");
+    setNotice(original.fontes.trim() ? "Cópia do acervo preparada no editor. Confira o texto e as fontes antes de salvar. O original permanece intacto; nada foi publicado." : "Cópia preparada, mas este item do acervo não contém referências cadastradas. Acrescente e confira as fontes antes de enviar para revisão. O original permanece intacto; nada foi publicado.");
     document.getElementById("editor-rascunho")?.scrollIntoView({ behavior: "smooth" });
   }, [acervo]);
   function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setNotice(""); }
