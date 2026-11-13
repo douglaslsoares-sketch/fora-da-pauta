@@ -14,19 +14,35 @@ export async function POST(request: Request) {
   const status = body?.status;
   if (!id || (status !== "revisao" && status !== "rascunho")) return NextResponse.json({ erro: "Solicitação inválida." }, { status: 400 });
   try {
+    await sql`
+      CREATE TABLE IF NOT EXISTS public.admin_artigos_historico (
+        id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+        artigo_id uuid NOT NULL,
+        acao text NOT NULL,
+        registrado_em timestamptz NOT NULL DEFAULT now()
+      )
+    `;
     const rows = status === "revisao"
       ? await sql<{ id: string }[]>`
+          WITH updated AS (
           UPDATE public.admin_artigos
           SET status = 'revisao', updated_at = now()
           WHERE id = ${id}::uuid AND status = 'rascunho'
             AND length(trim(titulo)) > 0 AND length(trim(conteudo)) > 0 AND length(trim(fontes)) > 0
-          RETURNING id::text
+          RETURNING id
+          )
+          INSERT INTO public.admin_artigos_historico (artigo_id, acao)
+          SELECT id, 'revisao' FROM updated RETURNING artigo_id::text AS id
         `
       : await sql<{ id: string }[]>`
+          WITH updated AS (
           UPDATE public.admin_artigos
           SET status = 'rascunho', updated_at = now()
           WHERE id = ${id}::uuid AND status = 'revisao'
-          RETURNING id::text
+          RETURNING id
+          )
+          INSERT INTO public.admin_artigos_historico (artigo_id, acao)
+          SELECT id, 'rascunho' FROM updated RETURNING artigo_id::text AS id
         `;
     if (!rows.length) return NextResponse.json({ erro: status === "revisao" ? "Inclua título, texto e fontes antes de enviar para revisão." : "Artigo indisponível para voltar a rascunho." }, { status: 409 });
     return NextResponse.json({ ok: true, status });
