@@ -24,6 +24,25 @@ function normalizeConnectionIdentity(value: string) {
   return url.toString();
 }
 
+// Em prévias, alterações administrativas só são permitidas na ramificação
+// de revisão e quando o banco isolado possui host diferente do oficial.
+// Sem essas garantias, o painel permanece somente para consulta.
+export function administrativeDatabaseWritesAllowed() {
+  if (process.env.VERCEL_ENV !== "preview") return true;
+  if (process.env.VERCEL_GIT_COMMIT_REF !== "revisao-admin-20261113") return false;
+  const testUrl = process.env.FDP_TESTES_DATABASE_URL;
+  const productionUrl = process.env.DATABASE_URL;
+  if (!testUrl || !productionUrl) return false;
+  try {
+    const test = new URL(testUrl);
+    const production = new URL(productionUrl);
+    return ["postgres:", "postgresql:"].includes(test.protocol)
+      && test.hostname !== production.hostname;
+  } catch {
+    return false;
+  }
+}
+
 function normalizeDatabaseUrl(value: string) {
   const url = new URL(value);
 
