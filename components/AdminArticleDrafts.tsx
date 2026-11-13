@@ -1,11 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; status: string; updated_at: string };
 
 type LegacyArticle = { slug: string; titulo: string; resumo: string; conteudo: string; fontes: string };
 export default function AdminArticleDrafts({ acervo = [] }: { acervo?: LegacyArticle[] }) {
+  const importedSlug = useRef<string | null>(null);
   const [items, setItems] = useState<Draft[]>([]);
   const [id, setId] = useState<string | null>(null);
   const [titulo, setTitulo] = useState("");
@@ -31,9 +32,10 @@ export default function AdminArticleDrafts({ acervo = [] }: { acervo?: LegacyArt
   useEffect(() => { void reload(); }, []);
   useEffect(() => {
     const slug = new URLSearchParams(window.location.search).get("importar");
-    if (!slug) return;
+    if (!slug || importedSlug.current === slug) return;
     const original = acervo.find((item) => item.slug === slug);
     if (!original) return;
+    importedSlug.current = slug;
     setId(null);
     setTitulo(original.titulo);
     setResumo(original.resumo);
