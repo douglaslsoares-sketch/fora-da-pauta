@@ -29,7 +29,8 @@ async function ensureTable() {
 export async function GET() {
   if (!(await authorized())) return reply({ erro: "Acesso não autorizado." }, 401);
   try {
-    if (administrativeDatabaseWritesAllowed()) await ensureTable();
+    // Consultas na prévia não devem criar nem alterar tabelas.
+    if (process.env.VERCEL_ENV !== "preview") await ensureTable();
     const artigos = await sql<{ id: string; titulo: string; resumo: string; conteudo: string; fontes: string; status: string; updated_at: string }[]>`
       SELECT id::text, titulo, resumo, conteudo, fontes, status, updated_at::text
       FROM public.admin_artigos ORDER BY updated_at DESC LIMIT 100
