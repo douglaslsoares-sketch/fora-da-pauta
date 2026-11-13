@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { sql } from "@/lib/interesses/db";
+import { sql, administrativeDatabaseWritesAllowed } from "@/lib/interesses/db";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -8,7 +8,7 @@ export async function POST(request: Request) {
   if (request.headers.get("origin") !== new URL(request.url).origin) return NextResponse.json({ erro: "Origem inválida." }, { status: 403 });
   const store = await cookies();
   if (!verifyQuestionsAdminSessionToken(store.get(QUESTIONS_ADMIN_COOKIE)?.value)) return NextResponse.json({ erro: "Acesso negado." }, { status: 401 });
-  if (process.env.VERCEL_ENV === "preview") return NextResponse.json({ erro: "Gravações bloqueadas na prévia até configurar um banco de testes isolado." }, { status: 403 });
+  if (!administrativeDatabaseWritesAllowed()) return NextResponse.json({ erro: "Gravações permitidas apenas na versão de testes com banco isolado." }, { status: 403 });
   const body = await request.json().catch(() => null) as { id?: unknown; action?: unknown; confirmation?: unknown } | null;
   const id = typeof body?.id === "string" && /^[a-f0-9-]{36}$/i.test(body.id) ? body.id : null;
   const action = body?.action;
