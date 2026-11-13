@@ -30,6 +30,16 @@ export default function AdminArticleDrafts() {
     setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setNotice("");
     document.getElementById("editor-rascunho")?.scrollIntoView({ behavior: "smooth" });
   }
+  async function changeStatus(item: Draft, status: "revisao" | "rascunho") {
+    setNotice("");
+    try {
+      const response = await fetch("/api/admin/artigos/status", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: item.id, status }) });
+      const data = await response.json() as { ok?: boolean; erro?: string };
+      if (!response.ok || !data.ok) throw new Error(data.erro || "Não foi possível alterar a situação.");
+      setNotice(status === "revisao" ? "Artigo encaminhado para revisão. Não foi publicado." : "Artigo devolvido aos rascunhos.");
+      await reload();
+    } catch (error) { setNotice(error instanceof Error ? error.message : "Falha na alteração."); }
+  }
   async function save() {
     if (!titulo.trim() || saving) return;
     setSaving(true); setNotice("");
@@ -79,7 +89,13 @@ export default function AdminArticleDrafts() {
               <p className="font-semibold">{item.titulo}</p>
               <p className="mt-1 text-sm text-black/60">{item.resumo}</p>
               <p className="mt-2 text-xs text-black/50">Situação: {item.status}</p>
-              {item.status === "rascunho" && <button type="button" onClick={() => edit(item)} className="mt-3 min-h-11 rounded-lg bg-black px-5 py-2 font-semibold text-white">Continuar edição</button>}
+              <div className="mt-3 flex flex-wrap gap-2">
+                {item.status === "rascunho" && <>
+                  <button type="button" onClick={() => edit(item)} className="min-h-11 rounded-lg bg-black px-5 py-2 font-semibold text-white">Continuar edição</button>
+                  <button type="button" onClick={() => changeStatus(item, "revisao")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Enviar para revisão</button>
+                </>}
+                {item.status === "revisao" && <button type="button" onClick={() => changeStatus(item, "rascunho")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Voltar a rascunho</button>}
+              </div>
             </div>
           ))}
         </div>
