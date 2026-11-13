@@ -1,3 +1,4 @@
+import { MarkdownDocument } from "@/components/MarkdownDocument";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect, notFound } from "next/navigation";
@@ -24,7 +25,6 @@ export default async function PreviewArticle({ params }: { params: Promise<{ id:
     return <main className="mx-auto max-w-3xl p-8"><p>Não foi possível carregar a prévia neste momento.</p><Link href="/admin/artigos" className="underline">Voltar aos artigos</Link></main>;
   }
   if (!article) notFound();
-  const paragraphs = article.conteudo.split(/\n\s*\n/).filter(Boolean);
   const sources = article.fontes.split("\n").map(s => s.trim()).filter(Boolean);
   return (
     <main className="min-h-screen bg-white px-5 py-10 text-[#171717]">
@@ -34,7 +34,7 @@ export default async function PreviewArticle({ params }: { params: Promise<{ id:
         <h1 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">{article.titulo}</h1>
         {article.resumo && <p className="mt-5 text-lg leading-8 text-black/70">{article.resumo}</p>}
         <div className="mt-10 space-y-6 text-base leading-8">
-          {paragraphs.map((paragraph, i) => <p key={i} className="whitespace-pre-line">{paragraph}</p>)}
+          <MarkdownDocument markdown={article.conteudo} />
         </div>
         <section className="mt-12 border-t border-black/20 pt-7">
           <h2 className="text-xl font-bold">Fontes e referências</h2>
