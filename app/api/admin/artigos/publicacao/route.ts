@@ -14,19 +14,35 @@ export async function POST(request: Request) {
   const confirmation = action === "publicar" ? "PUBLICAR ARTIGO" : "ARQUIVAR ARTIGO";
   if (!id || (action !== "publicar" && action !== "arquivar") || body?.confirmation !== confirmation) return NextResponse.json({ erro: "Confirmação inválida." }, { status: 400 });
   try {
+    await sql`
+      CREATE TABLE IF NOT EXISTS public.admin_artigos_historico (
+        id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+        artigo_id uuid NOT NULL,
+        acao text NOT NULL,
+        registrado_em timestamptz NOT NULL DEFAULT now()
+      )
+    `;
     const rows = action === "publicar"
       ? await sql<{ id: string }[]>`
+          WITH updated AS (
           UPDATE public.admin_artigos
           SET status = 'publicado', updated_at = now()
           WHERE id = ${id}::uuid AND status = 'revisao'
             AND length(trim(titulo)) > 0 AND length(trim(conteudo)) > 0 AND length(trim(fontes)) > 0
-          RETURNING id::text
+          RETURNING id
+          )
+          INSERT INTO public.admin_artigos_historico (artigo_id, acao)
+          SELECT id, 'publicado' FROM updated RETURNING artigo_id::text AS id
         `
       : await sql<{ id: string }[]>`
+          WITH updated AS (
           UPDATE public.admin_artigos
           SET status = 'arquivado', updated_at = now()
           WHERE id = ${id}::uuid AND status = 'publicado'
-          RETURNING id::text
+          RETURNING id
+          )
+          INSERT INTO public.admin_artigos_historico (artigo_id, acao)
+          SELECT id, 'arquivado' FROM updated RETURNING artigo_id::text AS id
         `;
     if (!rows.length) return NextResponse.json({ erro: "Situação do artigo não permite esta operação." }, { status: 409 });
     return NextResponse.json({ ok: true, status: action === "publicar" ? "publicado" : "arquivado" });
