@@ -14,6 +14,9 @@ export default function AdminArticleDrafts() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
+  const [historyId, setHistoryId] = useState<string | null>(null);
+  const [history, setHistory] = useState<{ acao: string; registrado_em: string }[]>([]);
+  const [historyError, setHistoryError] = useState("");
   async function reload() {
     try {
       const response = await fetch("/api/admin/artigos", { cache: "no-store", credentials: "same-origin" });
@@ -30,6 +33,16 @@ export default function AdminArticleDrafts() {
     if (item.status !== "rascunho") return;
     setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setNotice("");
     document.getElementById("editor-rascunho")?.scrollIntoView({ behavior: "smooth" });
+  }
+  async function showHistory(item: Draft) {
+    if (historyId === item.id) { setHistoryId(null); return; }
+    setHistoryId(item.id); setHistory([]); setHistoryError("");
+    try {
+      const response = await fetch(`/api/admin/artigos/historico?id=${encodeURIComponent(item.id)}`, { cache: "no-store", credentials: "same-origin" });
+      const data = await response.json() as { historico?: { acao: string; registrado_em: string }[]; erro?: string };
+      if (!response.ok) throw new Error(data.erro || "Falha ao consultar histórico.");
+      setHistory(data.historico || []);
+    } catch (error) { setHistoryError(error instanceof Error ? error.message : "Histórico indisponível."); }
   }
   async function changeStatus(item: Draft, status: "revisao" | "rascunho") {
     setNotice("");
@@ -103,6 +116,7 @@ export default function AdminArticleDrafts() {
               <p className="mt-1 text-sm text-black/60">{item.resumo}</p>
               <p className="mt-2 text-xs text-black/50">Situação: {item.status}</p>
               <div className="mt-3 flex flex-wrap gap-2">
+                <button type="button" onClick={() => showHistory(item)} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">{historyId === item.id ? "Ocultar histórico" : "Ver histórico"}</button>
                 <Link href={`/admin/artigos/previa/${item.id}`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">Visualizar prévia</Link>
                 {item.status === "rascunho" && <>
                   <button type="button" onClick={() => edit(item)} className="min-h-11 rounded-lg bg-black px-5 py-2 font-semibold text-white">Continuar edição</button>
@@ -117,6 +131,10 @@ export default function AdminArticleDrafts() {
                   <button type="button" onClick={() => changePublication(item, "arquivar")} className="min-h-11 rounded-lg bg-red-700 px-5 py-2 font-semibold text-white">Arquivar artigo</button>
                 </>}
               </div>
+              {historyId === item.id && <div className="mt-4 border-t border-black/10 pt-4 text-sm">
+                <p className="font-semibold">Histórico editorial</p>
+                {historyError ? <p className="mt-2 text-red-700">{historyError}</p> : history.length === 0 ? <p className="mt-2 text-black/60">Nenhuma mudança de situação registrada.</p> : <ul className="mt-2 space-y-2">{history.map((entry, i) => <li key={i}>{entry.acao} — {new Date(entry.registrado_em).toLocaleString("pt-BR")}</li>)}</ul>}
+              </div>}
             </div>
           ))}
         </div>
