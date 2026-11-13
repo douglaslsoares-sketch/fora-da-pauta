@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-type Draft = { id: string; titulo: string; resumo: string; conteudo: string; status: string; updated_at: string };
+type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; status: string; updated_at: string };
 
 export default function AdminArticleDrafts() {
   const [items, setItems] = useState<Draft[]>([]);
@@ -9,6 +9,7 @@ export default function AdminArticleDrafts() {
   const [titulo, setTitulo] = useState("");
   const [resumo, setResumo] = useState("");
   const [conteudo, setConteudo] = useState("");
+  const [fontes, setFontes] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
@@ -23,10 +24,10 @@ export default function AdminArticleDrafts() {
     } finally { setLoading(false); }
   }
   useEffect(() => { void reload(); }, []);
-  function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setNotice(""); }
+  function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setNotice(""); }
   function edit(item: Draft) {
     if (item.status !== "rascunho") return;
-    setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setNotice("");
+    setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setNotice("");
     document.getElementById("editor-rascunho")?.scrollIntoView({ behavior: "smooth" });
   }
   async function save() {
@@ -36,7 +37,7 @@ export default function AdminArticleDrafts() {
       const response = await fetch("/api/admin/artigos", {
         method: "POST", credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, titulo, resumo, conteudo }),
+        body: JSON.stringify({ id, titulo, resumo, conteudo, fontes }),
       });
       const data = await response.json() as { ok?: boolean; id?: string; erro?: string };
       if (!response.ok || !data.ok) throw new Error(data.erro || "Não foi possível salvar.");
@@ -60,6 +61,9 @@ export default function AdminArticleDrafts() {
         </label>
         <label className="mt-4 block text-sm font-semibold">Texto
           <textarea value={conteudo} onChange={e => setConteudo(e.target.value)} rows={12} className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
+        </label>
+        <label className="mt-4 block text-sm font-semibold">Fontes e referências (uma por linha)
+          <textarea value={fontes} onChange={e => setFontes(e.target.value)} rows={5} maxLength={20000} placeholder="Endereço da fonte e descrição do documento" className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
         </label>
         <div className="mt-5 flex flex-wrap gap-3">
           <button type="button" onClick={save} disabled={!titulo.trim() || saving} className="min-h-12 rounded-lg bg-black px-6 py-3 font-semibold text-white disabled:opacity-40">{saving ? "Salvando…" : "Salvar rascunho"}</button>
