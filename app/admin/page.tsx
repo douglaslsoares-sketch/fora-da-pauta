@@ -1,0 +1,45 @@
+import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Administração | Fora da Pauta",
+  description: "Central administrativa do Fora da Pauta.",
+  robots: { index: false, follow: false },
+};
+
+const modulos = [
+  { nome: "Perguntas recebidas", descricao: "Responder perguntas e decidir quais respostas serão públicas.", href: "/admin/perguntas", ativo: true },
+  { nome: "Artigos", descricao: "Preparar, revisar, publicar e arquivar análises.", ativo: false },
+  { nome: "Notificações", descricao: "Testar envios individuais, preparar avisos e consultar o histórico.", ativo: false },
+  { nome: "Inscrições", descricao: "Consultar inscrições e preferências de recebimento.", ativo: false },
+  { nome: "Políticos acompanhados", descricao: "Verificar acompanhamentos e atualizações.", ativo: false },
+  { nome: "Configurações", descricao: "Acompanhar rotinas, integrações e possíveis falhas.", ativo: false },
+];
+
+export default function AdminPage() {
+  return (
+    <main className="min-h-[calc(100svh-58px)] bg-[#eeeee9] px-5 py-12 text-[#151515] sm:px-8">
+      <section className="mx-auto max-w-4xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-black/50">Área administrativa</p>
+        <h1 className="mt-3 text-3xl font-bold tracking-tight">Painel do Fora da Pauta</h1>
+        <p className="mt-4 max-w-2xl leading-7 text-black/65">Um lugar para administrar o projeto. As funções ainda não disponíveis estão identificadas como em preparação.</p>
+        <div className="mt-9 grid gap-4 sm:grid-cols-2">
+          {modulos.map((modulo) => (
+            <div key={modulo.nome} className="flex flex-col justify-between rounded-xl border border-black/10 bg-white p-5">
+              <div>
+                <div className="flex items-start justify-between gap-3">
+                  <h2 className="text-xl font-semibold">{modulo.nome}</h2>
+                  {!modulo.ativo && <span className="shrink-0 text-xs text-black/45">Em preparação</span>}
+                </div>
+                <p className="mt-3 text-sm leading-6 text-black/65">{modulo.descricao}</p>
+              </div>
+              {modulo.ativo && modulo.href && <Link href={modulo.href} className="mt-5 inline-flex min-h-11 items-center justify-center rounded-lg bg-black px-5 py-3 font-semibold text-white">Abrir</Link>}
+            </div>
+          ))}
+        </div>
+        <p className="mt-8 text-sm text-black/55">A central não publica artigos nem envia notificações automaticamente. Essas ações exigirão controles próprios e confirmação.</p>
+        <div className="mt-8 flex justify-center"><Link href="/central" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-red-600 px-7 py-3 font-semibold text-white"><span aria-hidden="true">×</span> Fechar</Link></div>
+      </section>
+    </main>
+  );
+}
