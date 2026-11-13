@@ -61,6 +61,10 @@ export default function AdminArticleDrafts({ acervo = [] }: { acervo?: LegacyArt
     } catch (error) { setHistoryError(error instanceof Error ? error.message : "Histórico indisponível."); }
   }
   async function changeStatus(item: Draft, status: "revisao" | "rascunho") {
+    if (status === "revisao" && (!item.titulo.trim() || !item.conteudo.trim() || !item.fontes.trim())) {
+      setNotice("Para enviar à revisão, o artigo precisa ter título, texto e fontes. Continue a edição e salve as informações.");
+      return;
+    }
     setNotice("");
     try {
       const response = await fetch("/api/admin/artigos/status", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: item.id, status }) });
@@ -124,8 +128,8 @@ export default function AdminArticleDrafts({ acervo = [] }: { acervo?: LegacyArt
         </div>
         {notice && <p role="status" className="mt-4 text-sm font-semibold">{notice}</p>}
       </div>
-      <h3 className="mt-9 text-xl font-bold">Rascunhos salvos</h3>
-      {loading ? <p className="mt-4">Carregando…</p> : items.length === 0 ? <p className="mt-4 text-sm text-black/60">Nenhum rascunho salvo ainda.</p> : (
+      <h3 className="mt-9 text-xl font-bold">Artigos cadastrados</h3>
+      {loading ? <p className="mt-4">Carregando…</p> : items.length === 0 ? <p className="mt-4 text-sm text-black/60">Nenhum artigo cadastrado ainda.</p> : (
         <div className="mt-4 space-y-3">
           {items.map(item => (
             <div key={item.id} className="rounded-lg border border-black/10 bg-white p-5">
