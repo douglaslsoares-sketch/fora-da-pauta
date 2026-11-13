@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function NotificationDraft() {
   const [title, setTitle] = useState("");
@@ -9,6 +9,8 @@ export default function NotificationDraft() {
   const [result, setResult] = useState("");
   const [message, setMessage] = useState("");
   const [articleUrl, setArticleUrl] = useState("");
+  const [published, setPublished] = useState<{id:string;titulo:string}[]>([]);
+  useEffect(() => { fetch("/api/admin/artigos", { credentials: "same-origin", cache: "no-store" }).then(r => r.ok ? r.json() : { artigos: [] }).then(data => setPublished((data.artigos || []).filter((a: {status:string}) => a.status === "publicado"))).catch(() => setPublished([])); }, []);
   const [audience, setAudience] = useState<"individual" | "all">("individual");
   const safeUrl = (() => {
     try {
@@ -51,6 +53,12 @@ export default function NotificationDraft() {
       </label>
       <label className="mt-4 block text-sm font-semibold">Mensagem
         <textarea value={message} onChange={(e) => setMessage(e.target.value)} maxLength={1000} rows={4} className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="Texto do aviso" />
+      </label>
+      <label className="mt-4 block text-sm font-semibold">Escolher artigo publicado
+        <select value="" onChange={e => { const a = published.find(item => item.id === e.target.value); if (a) { setArticleUrl(`https://foradapauta.org/edicoes/${a.id}`); setTitle(a.titulo); setConfirmed(false); } }} className="mt-2 block w-full rounded-lg border border-black/20 bg-white p-3">
+          <option value="">Selecione um artigo</option>
+          {published.map(a => <option key={a.id} value={a.id}>{a.titulo}</option>)}
+        </select>
       </label>
       <label className="mt-4 block text-sm font-semibold">Link do artigo no site
         <input value={articleUrl} onChange={(e) => setArticleUrl(e.target.value)} className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="https://foradapauta.org/..." />
