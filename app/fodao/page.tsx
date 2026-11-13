@@ -73,7 +73,7 @@ export default function PergunteAoFodao() {
           <h1 className="text-3xl font-black sm:text-4xl">Pergunte ao FODÃO</h1>
         </div>
         <p className="mx-auto mt-4 max-w-xl text-center leading-7 text-white/75">
-          A inteligência do Fora da Pauta. Uma conversa para entender melhor a política e as decisões que afetam sua vida.
+          Cara, manda sua pergunta. Aqui a gente explica a política e as decisões que afetam sua vida, sem enrolação.
         </p>
         <p className="mt-4 text-center text-sm text-[#f2ca3b]">O nome é uma brincadeira. As respostas são assunto sério.</p>
 
@@ -124,7 +124,7 @@ export default function PergunteAoFodao() {
           <label htmlFor="pergunta-fodao" className="block text-sm font-bold">Sua pergunta</label>
           <textarea id="pergunta-fodao" rows={3} maxLength={1200} value={pergunta}
             onChange={(e) => setPergunta(e.target.value)}
-            placeholder="O que você gostaria de entender?" required
+            placeholder="Pergunta aí, cara. O que você quer entender?" required
             className="mt-2 w-full resize-y rounded-lg bg-white p-3 text-base text-[#111] outline-offset-4"/>
           <div className="mt-3 flex items-center justify-between gap-3">
             <span className="text-xs text-white/60">{pergunta.length}/1200</span>
