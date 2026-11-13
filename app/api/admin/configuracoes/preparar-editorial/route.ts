@@ -7,6 +7,7 @@ export async function POST(request: Request) {
   if (request.headers.get("origin") !== new URL(request.url).origin) return NextResponse.json({ erro: "Origem inválida." }, { status: 403 });
   const store = await cookies();
   if (!verifyQuestionsAdminSessionToken(store.get(QUESTIONS_ADMIN_COOKIE)?.value)) return NextResponse.json({ erro: "Acesso negado." }, { status: 401 });
+  if (process.env.VERCEL_ENV === "preview") return NextResponse.json({ erro: "Alterações no banco bloqueadas no ambiente de prévia." }, { status: 403 });
   const body = await request.json().catch(() => null);
   if (body?.confirmation !== "PREPARAR ESTRUTURA") return NextResponse.json({ erro: "Confirmação necessária." }, { status: 400 });
   try {
