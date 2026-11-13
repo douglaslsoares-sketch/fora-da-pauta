@@ -6,7 +6,7 @@ import { campaigns } from "@/data/campanhas";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 
 function formatarNegrito(texto: string) {
-  return texto.split(/(\\*\\*[^*]+\\*\\*)/g).map((trecho, indice) =>
+  return texto.split(/(\*\*[^*]+\*\*)/g).map((trecho, indice) =>
     trecho.startsWith("**") && trecho.endsWith("**")
       ? <strong key={indice}>{trecho.slice(2, -2)}</strong>
       : trecho
