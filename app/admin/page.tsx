@@ -16,7 +16,7 @@ const modulos = [
   { nome: "Notificações", descricao: "Preparar testes individuais; envio geral aos inscritos ainda desativado.", href: "/admin/notificacoes", ativo: true },
   { nome: "Inscrições", descricao: "Consultar indicadores agregados de inscrições e acompanhamentos.", href: "/admin/inscricoes", ativo: true },
   { nome: "Políticos acompanhados", descricao: "Consultar quantidade de contas por político acompanhado.", href: "/admin/politicos", ativo: true },
-  { nome: "Configurações", descricao: "Acompanhar rotinas, integrações e possíveis falhas.", ativo: false },
+  { nome: "Configurações", descricao: "Consultar o estado das integrações e dos serviços essenciais.", href: "/admin/configuracoes", ativo: true },
 ];
 
 export const dynamic = "force-dynamic";
