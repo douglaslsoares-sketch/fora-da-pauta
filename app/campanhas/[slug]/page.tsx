@@ -1,101 +1,12 @@
-import { ArtigoSimples } from "@/components/ArtigoSimples";
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
-import { CampaignPage } from "@/components/CampaignPage";
-import { campaigns, getCampaign } from "@/data/campanhas";
-
-type CampaignRouteProps = {
-  params: Promise<{ slug: string }>;
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
 };
 
-export function generateStaticParams() {
-  return campaigns.map((campaign) => ({
-    slug: campaign.slug,
-  }));
-}
-
-export async function generateMetadata({
-  params,
-}: CampaignRouteProps): Promise<Metadata> {
-  const { slug } = await params;
-  const campaign = getCampaign(slug);
-
-  if (!campaign) {
-    return {};
-  }
-
-  const pageUrl =
-    `https://www.foradapauta.org/campanhas/${campaign.slug}`;
-
-  const imageUrl = campaign.slug === "lula-venceu-o-globo"
-    ? "https://www.foradapauta.org/compartilhar/olho-v2"
-    : campaign.shareImage
-      ? `https://www.foradapauta.org${campaign.shareImage}`
-      : "https://www.foradapauta.org/compartilhar/olho-v2";
-
-  const ehEdicao01 =
-    campaign.slug === "fim-escala-6x1";
-  const ehApresentacao = campaign.slug === "quem-decide-o-que-chega-ate-voce";
-
-  const socialTitle =
-    ehEdicao01
-      ? "Você trabalha 6 dias para descansar 1?"
-      : campaign.title;
-
-  const socialDescription =
-    ehEdicao01
-      ? "Entenda como funciona a escala 6x1, o que está em debate e quais são as propostas de mudança."
-      : ehApresentacao
-        ? campaign.statement
-        : `${campaign.statement} Entenda a mensagem. Confira os argumentos.`;
-
-  return {
-    title: campaign.title,
-    description: ehEdicao01
-      ? socialDescription
-      : campaign.statement,
-
-    alternates: {
-      canonical: pageUrl,
-    },
-
-    openGraph: {
-      title: socialTitle,
-      description: socialDescription,
-      url: pageUrl,
-      siteName: "Fora da Pauta",
-      type: "website",
-      images: imageUrl
-        ? [
-            {
-              url: imageUrl,
-              alt: campaign.title,
-            },
-          ]
-        : [],
-    },
-
-    twitter: {
-      card: "summary_large_image",
-      title: socialTitle,
-      description: socialDescription,
-      images: imageUrl ? [imageUrl] : [],
-    },
-  };
-}
-
-export default async function CampaignRoute({
-  params,
-}: CampaignRouteProps) {
-  const { slug } = await params;
-  const campaign = getCampaign(slug);
-
-  if (!campaign) {
-    notFound();
-  }
-
-  return campaign.slug === "lula-venceu-o-globo" || campaign.slug === "quem-decide-o-que-chega-ate-voce"
-    ? <ArtigoSimples campaign={campaign} />
-    : <CampaignPage campaign={campaign} />;
+export default function CampaignRoute() {
+  // As edições anteriores permanecem arquivadas no repositório.
+  // Nenhum artigo antigo deve ser acessível por URL direta.
+  notFound();
 }
