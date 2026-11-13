@@ -1,3 +1,4 @@
+import { MarkdownDocument } from "@/components/MarkdownDocument";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -25,7 +26,7 @@ export default async function PublicArticle({ params }: { params: Promise<{ id: 
         <p className="text-sm font-bold uppercase tracking-widest">Fora da Pauta</p>
         <h1 className="mt-4 text-3xl font-bold leading-tight sm:text-4xl">{artigo.titulo}</h1>
         {artigo.resumo && <p className="mt-5 text-lg leading-8 text-black/70">{artigo.resumo}</p>}
-        <div className="mt-10 space-y-6 leading-8">{artigo.conteudo.split(/\n\s*\n/).filter(Boolean).map((p,i) => <p key={i} className="whitespace-pre-line">{p}</p>)}</div>
+        <div className="mt-10 space-y-6 leading-8"><MarkdownDocument markdown={artigo.conteudo} /></div>
         <section className="mt-12 border-t border-black/20 pt-7">
           <h2 className="text-xl font-bold">Fontes e referências</h2>
           <ul className="mt-4 list-disc space-y-3 pl-6">{artigo.fontes.split("\n").map(s=>s.trim()).filter(Boolean).map((s,i)=><li key={i} className="break-words">{s}</li>)}</ul>
