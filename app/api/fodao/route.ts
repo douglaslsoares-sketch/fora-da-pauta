@@ -25,13 +25,13 @@ function normalizar(texto: string) {
 async function obterArtigos(pergunta: string) {
   let artigos: Artigo[] = [];
   try {
-    artigos = await sql<Artigo[]>\`
+    artigos = await sql<Artigo[]>`
       SELECT id::text, titulo, resumo, conteudo, fontes
       FROM public.admin_artigos
       WHERE status = 'publicado'
       ORDER BY updated_at DESC
       LIMIT 40
-    \`;
+    `;
   } catch {
     // Falha de acervo nao autoriza inventar fontes.
     return [];
