@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
-import { sql } from "@/lib/interesses/db";
+import { sql, administrativeDatabaseWritesAllowed } from "@/lib/interesses/db";
 import { consumeRateLimit } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
@@ -31,6 +31,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ erro: "Origem inválida." }, { status: 403, headers: noStore });
   }
   if (!await autorizado()) return NextResponse.json({ erro: "Acesso restrito." }, { status: 401, headers: noStore });
+  if (!administrativeDatabaseWritesAllowed()) return NextResponse.json({ erro: "Alterações permitidas apenas com banco de testes isolado." }, { status: 403, headers: noStore });
   if (Number(request.headers.get("content-length") ?? 0) > 8192) {
     return NextResponse.json({ erro: "Requisição muito grande." }, { status: 413, headers: noStore });
   }
