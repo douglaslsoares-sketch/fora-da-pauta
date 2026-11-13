@@ -9,6 +9,14 @@ export async function GET(request: Request) {
   const id = new URL(request.url).searchParams.get("id");
   if (!id || !/^[a-f0-9-]{36}$/i.test(id)) return NextResponse.json({ erro: "Artigo inválido." }, { status: 400 });
   try {
+    await sql`
+      CREATE TABLE IF NOT EXISTS public.admin_artigos_historico (
+        id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+        artigo_id uuid NOT NULL,
+        acao text NOT NULL,
+        registrado_em timestamptz NOT NULL DEFAULT now()
+      )
+    `;
     const historico = await sql<{ acao: string; registrado_em: string }[]>`
       SELECT acao, registrado_em::text FROM public.admin_artigos_historico
       WHERE artigo_id = ${id}::uuid ORDER BY registrado_em DESC, id DESC LIMIT 100
