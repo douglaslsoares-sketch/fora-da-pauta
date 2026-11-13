@@ -29,9 +29,11 @@ export default async function AdminArtigosPage() {
           resumo: item.statement,
           conteudo: [
             ...(item.comparison ? [
+              ...(item.comparison.eyebrow ? [`### ${item.comparison.eyebrow}`] : []),
               `## ${item.comparison.title}`,
               `### ${item.comparison.left.label}`,
               ...item.comparison.left.lines,
+              item.comparison.connector,
               `### ${item.comparison.right.label}`,
               ...item.comparison.right.lines,
               ...(item.comparison.right.emphasis ? [item.comparison.right.emphasis] : []),
@@ -52,7 +54,7 @@ export default async function AdminArtigosPage() {
               <h2 className="text-lg font-semibold">{item.title}</h2>
               <p className="mt-2 text-sm text-black/60">{item.statement}</p>
               <p className="mt-3 text-xs text-black/50">Arquivo: {item.slug} · {item.sections.length} seções · Não publicado</p>
-              <div className="mt-4 flex flex-wrap gap-2"><Link href={`/admin/artigos/${item.slug}`} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-black px-5 py-2 font-semibold text-white">Visualizar artigo</Link><Link href={`/admin/artigos?importar=${encodeURIComponent(item.slug)}`} className="inline-flex min-h-11 items-center justify-center rounded-lg border border-black/20 px-5 py-2 font-semibold">Preparar cópia no editor</Link></div>
+              <div className="mt-4 flex flex-wrap gap-2"><Link href={`/admin/artigos/${item.slug}`} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-black px-5 py-2 font-semibold text-white">Visualizar artigo</Link><a href={`/admin/artigos?importar=${encodeURIComponent(item.slug)}`} className="inline-flex min-h-11 items-center justify-center rounded-lg border border-black/20 px-5 py-2 font-semibold">Preparar cópia no editor</a></div>
             </article>
           ))}
         </div>
