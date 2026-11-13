@@ -41,6 +41,18 @@ export default function AdminArticleDrafts() {
       await reload();
     } catch (error) { setNotice(error instanceof Error ? error.message : "Falha na alteração."); }
   }
+  async function changePublication(item: Draft, action: "publicar" | "arquivar") {
+    const confirmation = action === "publicar" ? "PUBLICAR ARTIGO" : "ARQUIVAR ARTIGO";
+    if (!window.confirm(action === "publicar" ? `Publicar "${item.titulo}" no site público? Nenhuma notificação será enviada.` : `Retirar "${item.titulo}" da área pública?`)) return;
+    setNotice("");
+    try {
+      const response = await fetch("/api/admin/artigos/publicacao", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: item.id, action, confirmation }) });
+      const data = await response.json() as { ok?: boolean; erro?: string };
+      if (!response.ok || !data.ok) throw new Error(data.erro || "Operação não concluída.");
+      setNotice(action === "publicar" ? "Artigo publicado. Nenhuma notificação foi enviada." : "Artigo arquivado e retirado da lista pública.");
+      await reload();
+    } catch (error) { setNotice(error instanceof Error ? error.message : "Falha na operação."); }
+  }
   async function save() {
     if (!titulo.trim() || saving) return;
     setSaving(true); setNotice("");
@@ -96,7 +108,14 @@ export default function AdminArticleDrafts() {
                   <button type="button" onClick={() => edit(item)} className="min-h-11 rounded-lg bg-black px-5 py-2 font-semibold text-white">Continuar edição</button>
                   <button type="button" onClick={() => changeStatus(item, "revisao")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Enviar para revisão</button>
                 </>}
-                {item.status === "revisao" && <button type="button" onClick={() => changeStatus(item, "rascunho")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Voltar a rascunho</button>}
+                {item.status === "revisao" && <>
+                  <button type="button" onClick={() => changeStatus(item, "rascunho")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Voltar a rascunho</button>
+                  <button type="button" onClick={() => changePublication(item, "publicar")} className="min-h-11 rounded-lg bg-green-700 px-5 py-2 font-semibold text-white">Publicar artigo</button>
+                </>}
+                {item.status === "publicado" && <>
+                  <Link href={`/edicoes/${item.id}`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">Abrir artigo público</Link>
+                  <button type="button" onClick={() => changePublication(item, "arquivar")} className="min-h-11 rounded-lg bg-red-700 px-5 py-2 font-semibold text-white">Arquivar artigo</button>
+                </>}
               </div>
             </div>
           ))}
