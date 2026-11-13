@@ -1,63 +1,26 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { campaigns } from "@/data/campanhas";
-import { versaoEdicoes } from "@/lib/novidades-publicacoes";
-import { RegistrarNovidadeVista } from "@/components/RegistrarNovidadeVista";
 
 export const metadata: Metadata = {
-  title: "Edições já publicadas",
-  description: "Comece pelo artigo de apresentação e confira as edições publicadas do Fora da Pauta.",
+  title: "Edições | Fora da Pauta",
+  description: "As novas análises serão publicadas conforme os acontecimentos justificarem uma investigação.",
+  robots: { index: false, follow: true },
 };
 
-const artigoFixo = "quem-decide-o-que-chega-ate-voce";
-
 export default function EdicoesPublicadas() {
-  // O artigo de apresentação aparece sempre primeiro, independentemente da data.
-  // As demais edições públicas são exibidas da mais recente para a mais antiga.
-  const apresentacao = campaigns.find((item) => item.slug === artigoFixo && Boolean(item.publishedAt));
-  // A pauta "O que você faria se fosse presidente?" fica preservada no sistema,
-  // mas não deve constar na listagem pública de edições.
-  const slugsOcultosNaListagem = new Set(["seus-interesses"]);
-  const edicoes = campaigns
-    .filter((item) => item.slug !== artigoFixo && !slugsOcultosNaListagem.has(item.slug) && Boolean(item.publishedAt))
-    .sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""));
-
   return (
     <main className="min-h-[calc(100svh-58px)] bg-white px-6 py-10 text-black">
-      <RegistrarNovidadeVista secao="edicoes" versao={versaoEdicoes} />
       <section className="mx-auto max-w-[720px]">
-        <p className="text-base text-black/65">Comece conhecendo o projeto. Depois, escolha uma edição para ler ou ouvir.</p>
-
-        {apresentacao ? (
-          <Link
-            href={`/campanhas/${apresentacao.slug}`}
-            className="mt-8 block rounded-xl border-2 border-[#b28d00] bg-[#fffdf4] px-5 py-6 hover:bg-[#fff8df] focus-visible:outline-2 focus-visible:outline-[#b28d00]"
-          >
-            <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#755900]">
-              <span aria-hidden="true">◆</span> Comece por aqui · Artigo fixo
-            </span>
-            <span className="mt-3 block text-xl font-bold">{apresentacao.title} <span aria-hidden="true">→</span></span>
-            <span className="mt-2 block text-sm leading-6 text-black/70">{apresentacao.statement}</span>
-          </Link>
-        ) : null}
-
-        {edicoes.length > 0 ? (
-          <ul className={`${apresentacao ? "mt-5" : "mt-8"} flex flex-col gap-4`}>
-            {edicoes.map((item) => (
-              <li key={item.slug}>
-                <Link href={`/campanhas/${item.slug}`} className="block rounded-xl border border-black/15 px-5 py-5 hover:border-[#b28d00] focus-visible:outline-2 focus-visible:outline-[#b28d00]">
-                  <span className="block text-lg font-bold">{item.title} <span aria-hidden="true">→</span></span>
-                  <span className="mt-2 block text-sm leading-6 text-black/65">{item.statement}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        ) : !apresentacao ? (
-          <p className="mt-8 rounded-xl bg-black/5 p-5">Ainda não há edições publicadas.</p>
-        ) : null}
-        <div className="mt-8 flex w-full justify-center">
-          <Link href="/central" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-red-600 px-7 py-3 text-center font-semibold text-white hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
-            <span aria-hidden="true" className="text-xl leading-none">×</span> Fechar
+        <h1 className="text-2xl font-bold">Novas análises em preparação</h1>
+        <p className="mt-5 text-base leading-7">
+          O Fora da Pauta investiga o que existe por trás dos acontecimentos,
+          apresenta fontes e explica como as decisões afetam a vida das pessoas.
+          As novas análises aparecerão aqui quando houver fatos que justifiquem
+          uma investigação.
+        </p>
+        <div className="mt-8 flex justify-center">
+          <Link href="/central" className="inline-flex min-h-12 items-center justify-center rounded-lg bg-red-600 px-7 py-3 font-semibold text-white">
+            Fechar
           </Link>
         </div>
       </section>
