@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const modulos = [
   { nome: "Perguntas recebidas", descricao: "Responder perguntas e decidir quais respostas serão públicas.", href: "/admin/perguntas", ativo: true },
-  { nome: "Artigos", descricao: "Preparar, revisar, publicar e arquivar análises.", ativo: false },
+  { nome: "Artigos", descricao: "Consultar o acervo preservado; publicação em preparação.", href: "/admin/artigos", ativo: true },
   { nome: "Notificações", descricao: "Testar envios individuais, preparar avisos e consultar o histórico.", ativo: false },
   { nome: "Inscrições", descricao: "Consultar inscrições e preferências de recebimento.", ativo: false },
   { nome: "Políticos acompanhados", descricao: "Verificar acompanhamentos e atualizações.", ativo: false },
