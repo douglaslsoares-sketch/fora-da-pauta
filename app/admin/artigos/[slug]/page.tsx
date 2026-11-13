@@ -25,9 +25,18 @@ export default async function PreviaArtigo({ params }: { params: Promise<{ slug:
   return (
     <main className="min-h-screen bg-white px-5 py-10 text-black">
       <article className="mx-auto max-w-3xl">
-        <p className="text-xs font-bold uppercase tracking-widest text-black/50">Prévia administrativa — não publicado</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-black/50">Consulta administrativa — acervo anterior</p>
         <h1 className="mt-4 text-3xl font-bold leading-tight">{artigo.title}</h1>
         <p className="mt-4 text-lg leading-8 text-black/70">{artigo.statement}</p>
+        {artigo.comparison && <section className="mt-9 rounded-lg border border-black/15 bg-[#f5f5f0] p-6">
+          {artigo.comparison.eyebrow && <p className="text-xs font-semibold uppercase tracking-widest text-black/50">{artigo.comparison.eyebrow}</p>}
+          <h2 className="mt-2 text-xl font-bold">{artigo.comparison.title}</h2>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-lg bg-white p-4"><h3 className="font-bold">{artigo.comparison.left.label}</h3>{artigo.comparison.left.lines.map((line, i) => <p key={i} className="mt-2">{line}</p>)}</div>
+            <div className="rounded-lg bg-white p-4"><h3 className="font-bold">{artigo.comparison.right.label}</h3>{artigo.comparison.right.lines.map((line, i) => <p key={i} className="mt-2">{line}</p>)}{artigo.comparison.right.emphasis && <p className="mt-3 font-semibold">{artigo.comparison.right.emphasis}</p>}</div>
+          </div>
+          {artigo.comparison.summary && <p className="mt-5 leading-7">{formatarNegrito(artigo.comparison.summary)}</p>}
+        </section>}
         {artigo.sections.map((section, index) => (
           <section key={index} className="mt-9 border-t border-black/10 pt-6">
             {section.eyebrow && <p className="text-xs font-semibold uppercase tracking-widest text-black/50">{section.eyebrow}</p>}
