@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import type {
   Metadata,
 } from "next";
@@ -34,6 +36,8 @@ export default function QuestionsAdminPage() {
         <p className="mt-5 max-w-2xl text-base leading-7 text-black/55">
           Aqui é possível responder às perguntas recebidas e decidir separadamente se cada resposta também será publicada na página inicial.
         </p>
+
+        <div className="mt-6"><Link href="/admin" className="inline-flex min-h-11 items-center rounded-lg border border-black/20 bg-white px-5 py-3 font-semibold">← Painel administrativo</Link></div>
 
         <QuestionsAdminPanel />
       </section>
