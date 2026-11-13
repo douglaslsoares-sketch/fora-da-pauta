@@ -33,6 +33,7 @@ export default async function AdminPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-black/50">Área administrativa</p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight">Painel do Fora da Pauta</h1>
         <p className="mt-4 max-w-2xl leading-7 text-black/65">Um lugar para administrar o projeto. As funções ainda não disponíveis estão identificadas como em preparação.</p>
+        {process.env.VERCEL_ENV === "preview" && <div role="alert" className="mt-7 rounded-lg border border-amber-500 bg-amber-50 p-4 text-sm leading-6 text-amber-950"><strong>Atenção: ambiente de prévia.</strong> A conexão com o banco pode ser compartilhada com a produção. Não crie, publique, arquive ou altere artigos nem execute envios de teste até confirmar um banco separado.</div>}
         <div className="mt-9 grid gap-4 sm:grid-cols-2">
           {modulos.map((modulo) => (
             <div key={modulo.nome} className="flex flex-col justify-between rounded-xl border border-black/10 bg-white p-5">
