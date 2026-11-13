@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import AdminNotificationDraft from "@/components/AdminNotificationDraft";
+import AdminTelegramLinkStatus from "@/components/AdminTelegramLinkStatus";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 
 export const dynamic = "force-dynamic";
@@ -32,6 +33,7 @@ export default async function AdminNotificacoesPage() {
             <p className="mt-5 text-xs font-semibold uppercase tracking-wide text-black/45">Envio desativado — integração em preparação</p>
           </section>
         </div>
+        <AdminTelegramLinkStatus />
         <AdminNotificationDraft />
         <p className="mt-7 text-sm leading-6 text-black/60">Publicar um artigo não autoriza automaticamente o envio de mensagens. O teste individual e o envio geral terão controles separados e confirmação explícita.</p>
         <div className="mt-8 flex justify-center"><Link href="/admin" className="inline-flex min-h-12 items-center rounded-lg bg-red-600 px-7 py-3 font-semibold text-white">× Fechar</Link></div>
