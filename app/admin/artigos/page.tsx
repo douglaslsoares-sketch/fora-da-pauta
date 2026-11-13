@@ -23,7 +23,17 @@ export default async function AdminArtigosPage() {
         <p className="text-xs font-semibold uppercase tracking-widest text-black/50">Área administrativa</p>
         <h1 className="mt-3 text-3xl font-bold">Artigos</h1>
         <p className="mt-4 leading-7 text-black/65">Crie e salve rascunhos pelo painel. Os artigos do acervo anterior continuam disponíveis para consulta privada. Salvar um rascunho não publica o texto nem envia notificações.</p>
-        <AdminArticleDrafts />
+        <AdminArticleDrafts acervo={campaigns.map((item) => ({
+          slug: item.slug,
+          titulo: item.title,
+          resumo: item.statement,
+          conteudo: item.sections.map((section) => [
+            section.eyebrow ? `### ${section.eyebrow}` : "",
+            `## ${section.title}`,
+            ...section.paragraphs,
+          ].filter(Boolean).join("\\n\\n")).join("\\n\\n"),
+          fontes: item.sections.flatMap((section) => section.references || []).map((ref) => `${ref.label} — ${ref.url}`).join("\\n"),
+        }))} />
         <h2 className="mt-12 text-2xl font-bold">Acervo anterior</h2>
         <div className="mt-8 space-y-3">
           {campaigns.map((item) => (
@@ -31,7 +41,7 @@ export default async function AdminArtigosPage() {
               <h2 className="text-lg font-semibold">{item.title}</h2>
               <p className="mt-2 text-sm text-black/60">{item.statement}</p>
               <p className="mt-3 text-xs text-black/50">Arquivo: {item.slug} · {item.sections.length} seções · Não publicado</p>
-              <Link href={`/admin/artigos/${item.slug}`} className="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg bg-black px-5 py-2 font-semibold text-white">Visualizar artigo</Link>
+              <div className="mt-4 flex flex-wrap gap-2"><Link href={`/admin/artigos/${item.slug}`} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-black px-5 py-2 font-semibold text-white">Visualizar artigo</Link><Link href={`/admin/artigos?importar=${encodeURIComponent(item.slug)}`} className="inline-flex min-h-11 items-center justify-center rounded-lg border border-black/20 px-5 py-2 font-semibold">Preparar cópia no editor</Link></div>
             </article>
           ))}
         </div>
