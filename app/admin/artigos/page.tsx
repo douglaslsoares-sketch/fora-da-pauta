@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { campaigns } from "@/data/campanhas";
+import AdminArticleDrafts from "@/components/AdminArticleDrafts";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 
 export const dynamic = "force-dynamic";
@@ -21,7 +22,9 @@ export default async function AdminArtigosPage() {
       <section className="mx-auto max-w-4xl">
         <p className="text-xs font-semibold uppercase tracking-widest text-black/50">Área administrativa</p>
         <h1 className="mt-3 text-3xl font-bold">Artigos</h1>
-        <p className="mt-4 leading-7 text-black/65">Acervo preservado para consulta editorial. Nenhum item desta lista está publicado na página de análises. A publicação e o envio de notificações continuam desativados até a implementação dos controles de revisão e teste individual.</p>
+        <p className="mt-4 leading-7 text-black/65">Crie e salve rascunhos pelo painel. Os artigos do acervo anterior continuam disponíveis para consulta privada. Salvar um rascunho não publica o texto nem envia notificações.</p>
+        <AdminArticleDrafts />
+        <h2 className="mt-12 text-2xl font-bold">Acervo anterior</h2>
         <div className="mt-8 space-y-3">
           {campaigns.map((item) => (
             <article key={item.slug} className="rounded-lg border border-black/10 bg-white p-5">
