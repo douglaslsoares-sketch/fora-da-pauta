@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { X } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -21,7 +20,7 @@ export default function EdicoesPublicadas() {
         </p>
         <div className="mt-8 flex justify-center">
           <Link href="/central" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-red-600 px-7 py-3 font-semibold text-white">
-            <X aria-hidden="true" size={20} strokeWidth={3} />
+            <span aria-hidden="true" className="text-xl leading-none">×</span>
             Fechar
           </Link>
         </div>
