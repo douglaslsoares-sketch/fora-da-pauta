@@ -28,6 +28,7 @@ export default async function AdminArtigosPage() {
               <h2 className="text-lg font-semibold">{item.title}</h2>
               <p className="mt-2 text-sm text-black/60">{item.statement}</p>
               <p className="mt-3 text-xs text-black/50">Arquivo: {item.slug} · {item.sections.length} seções · Não publicado</p>
+              <Link href={`/admin/artigos/${item.slug}`} className="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg bg-black px-5 py-2 font-semibold text-white">Visualizar artigo</Link>
             </article>
           ))}
         </div>
