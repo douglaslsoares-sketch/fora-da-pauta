@@ -35,6 +35,7 @@ export default async function PreviaArtigo({ params }: { params: Promise<{ slug:
             <div className="rounded-lg bg-white p-4"><h3 className="font-bold">{artigo.comparison.left.label}</h3>{artigo.comparison.left.lines.map((line, i) => <p key={i} className="mt-2">{line}</p>)}</div>
             <div className="rounded-lg bg-white p-4"><h3 className="font-bold">{artigo.comparison.right.label}</h3>{artigo.comparison.right.lines.map((line, i) => <p key={i} className="mt-2">{line}</p>)}{artigo.comparison.right.emphasis && <p className="mt-3 font-semibold">{artigo.comparison.right.emphasis}</p>}</div>
           </div>
+          <p className="mt-4 text-center text-sm font-bold uppercase tracking-wide">{artigo.comparison.connector}</p>
           {artigo.comparison.summary && <p className="mt-5 leading-7">{formatarNegrito(artigo.comparison.summary)}</p>}
         </section>}
         {artigo.sections.map((section, index) => (
