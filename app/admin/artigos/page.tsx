@@ -27,11 +27,22 @@ export default async function AdminArtigosPage() {
           slug: item.slug,
           titulo: item.title,
           resumo: item.statement,
-          conteudo: item.sections.map((section) => [
+          conteudo: [
+            ...(item.comparison ? [
+              `## ${item.comparison.title}`,
+              `### ${item.comparison.left.label}`,
+              ...item.comparison.left.lines,
+              `### ${item.comparison.right.label}`,
+              ...item.comparison.right.lines,
+              ...(item.comparison.right.emphasis ? [item.comparison.right.emphasis] : []),
+              ...(item.comparison.summary ? [item.comparison.summary] : []),
+            ] : []),
+            ...item.sections.map((section) => [
             section.eyebrow ? `### ${section.eyebrow}` : "",
             `## ${section.title}`,
             ...section.paragraphs,
-          ].filter(Boolean).join("\n\n")).join("\n\n"),
+          ].filter(Boolean).join("\n\n")),
+          ].join("\n\n"),
           fontes: item.sections.flatMap((section) => section.references || []).map((ref) => `${ref.label} — ${ref.url}`).join("\n"),
         }))} />
         <h2 className="mt-12 text-2xl font-bold">Acervo anterior</h2>
