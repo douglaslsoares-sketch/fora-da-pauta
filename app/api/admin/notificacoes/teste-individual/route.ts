@@ -27,7 +27,7 @@ export async function POST(request: Request) {
   if (!title || title.length > 140 || !message || message.length > 1000) return json({ ok: false, error: "Título ou mensagem inválidos." }, 400);
   let url: URL;
   try { url = new URL(articleUrl); } catch { return json({ ok: false, error: "Link inválido." }, 400); }
-  if (url.protocol !== "https:" || !["foradapauta.org", "www.foradapauta.org"].includes(url.hostname) || url.username || url.password || url.port || url.search || url.hash || !/^\\/edicoes\\/[a-f0-9-]{36}\\/?$/i.test(url.pathname)) {
+  if (url.protocol !== "https:" || !["foradapauta.org", "www.foradapauta.org"].includes(url.hostname) || url.username || url.password || url.port || url.search || url.hash || !url.pathname.startsWith("/edicoes/") || !/^[a-f0-9-]{36}$/i.test(url.pathname.slice(9).replace(/\/$/, ""))) {
     return json({ ok: false, error: "Escolha um artigo publicado na página de edições." }, 400);
   }
   const articleId = url.pathname.split("/")[2];
