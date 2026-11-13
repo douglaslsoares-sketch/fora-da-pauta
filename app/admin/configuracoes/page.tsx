@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PrepararEditorial from "@/components/AdminPrepararEditorial";
+import PrepararBancoTestes from "@/components/PrepararBancoTestes";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
@@ -63,7 +64,8 @@ export default async function AdminConfiguracoes() {
         <p className="text-xs font-semibold uppercase tracking-widest text-black/50">Área administrativa</p>
         <h1 className="mt-3 text-3xl font-bold">Configurações e serviços</h1>
         <p className="mt-4 leading-7 text-black/65">Visão de diagnóstico. Esta página não modifica configurações, não revela senhas e não executa tarefas automáticas.</p>
-        {editorial !== "Tabelas de artigos e histórico presentes" && database === "disponivel" && <PrepararEditorial />}
+        {isPreview && isolated && database === "disponivel" && otherTables !== "Tabelas essenciais presentes" && <PrepararBancoTestes />}
+        {editorial !== "Tabelas de artigos e histórico presentes" && database === "disponivel" && !isPreview && <PrepararEditorial />}
         <div className="mt-8 space-y-4">
           {checks.map(check => (
             <section key={check.nome} className="rounded-xl border border-black/10 bg-white p-5">
