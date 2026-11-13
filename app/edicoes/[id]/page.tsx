@@ -31,7 +31,7 @@ export default async function PublicArticle({ params }: { params: Promise<{ id: 
           <h2 className="text-xl font-bold">Fontes e referências</h2>
           <ul className="mt-4 list-disc space-y-3 pl-6">{artigo.fontes.split("\n").map(s=>s.trim()).filter(Boolean).map((s,i)=><li key={i} className="break-words">{s}</li>)}</ul>
         </section>
-        <div className="mt-12 flex justify-center"><Link href="/edicoes" className="rounded-lg bg-red-600 px-7 py-3 font-semibold text-white">× Fechar</Link></div>
+        <div className="mt-12 flex justify-center"><Link href="/edicoes" className="inline-flex min-h-12 items-center rounded-lg bg-red-600 px-7 py-3 font-semibold text-white">× Fechar</Link></div>
       </article>
     </main>
   );
