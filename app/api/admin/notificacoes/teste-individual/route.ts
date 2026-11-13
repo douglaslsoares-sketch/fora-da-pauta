@@ -27,11 +27,10 @@ export async function POST(request: Request) {
   if (!title || title.length > 140 || !message || message.length > 1000) return json({ ok: false, error: "Título ou mensagem inválidos." }, 400);
   let url: URL;
   try { url = new URL(articleUrl); } catch { return json({ ok: false, error: "Link inválido." }, 400); }
-  if (url.protocol !== "https:" || !["foradapauta.org", "www.foradapauta.org"].includes(url.hostname) || url.username || url.password || url.search || url.hash || !url.pathname.startsWith("/campanhas/")) {
-    return json({ ok: false, error: "Use o link público de um artigo do Fora da Pauta." }, 400);
+  if (url.protocol !== "https:" || !["foradapauta.org", "www.foradapauta.org"].includes(url.hostname) || url.username || url.password || url.port || url.search || url.hash || !/^\\/edicoes\\/[a-f0-9-]{36}\\/?$/i.test(url.pathname)) {
+    return json({ ok: false, error: "Escolha um artigo publicado na página de edições." }, 400);
   }
-  const slug = url.pathname.slice("/campanhas/".length).replace(/\/$/, "");
-  if (!/^[a-z0-9-]{1,100}$/.test(slug)) return json({ ok: false, error: "Artigo inválido." }, 400);
+  const articleId = url.pathname.split("/")[2];
   const limit = await consumeRateLimit({ request, scope: "admin:telegram:teste-individual", limit: 2, windowSeconds: 3600 });
   if (!limit.allowed) return json({ ok: false, error: "Limite de testes atingido. Aguarde antes de tentar novamente." }, 429);
   try {
@@ -50,6 +49,11 @@ export async function POST(request: Request) {
         )
       LIMIT 1
     `;
+    const articles = await sql<{ id: string }[]>`
+      SELECT id::text FROM public.admin_artigos
+      WHERE id = ${articleId}::uuid AND status = 'publicado' LIMIT 1
+    `;
+    if (!articles.length) return json({ ok: false, error: "Artigo não publicado ou já arquivado." }, 409);
     const chatId = rows[0]?.telegram_chat_id;
     if (!chatId) return json({ ok: false, error: "Inscrição em novas edições não encontrada para este navegador." }, 403);
     // Impede testes com links inexistentes ou ainda privados.
