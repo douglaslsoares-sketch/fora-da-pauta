@@ -10,6 +10,7 @@ export default function NotificationDraft() {
   const [message, setMessage] = useState("");
   const [articleUrl, setArticleUrl] = useState("");
   const [published, setPublished] = useState<{id:string;titulo:string}[]>([]);
+  const [selectedId, setSelectedId] = useState("");
   useEffect(() => { fetch("/api/admin/artigos", { credentials: "same-origin", cache: "no-store" }).then(r => r.ok ? r.json() : { artigos: [] }).then(data => setPublished((data.artigos || []).filter((a: {status:string}) => a.status === "publicado"))).catch(() => setPublished([])); }, []);
   const [audience, setAudience] = useState<"individual" | "all">("individual");
   const safeUrl = (() => {
@@ -55,14 +56,15 @@ export default function NotificationDraft() {
         <textarea value={message} onChange={(e) => setMessage(e.target.value)} maxLength={1000} rows={4} className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="Texto do aviso" />
       </label>
       <label className="mt-4 block text-sm font-semibold">Escolher artigo publicado
-        <select value="" onChange={e => { const a = published.find(item => item.id === e.target.value); if (a) { setArticleUrl(`https://foradapauta.org/edicoes/${a.id}`); setTitle(a.titulo); setConfirmed(false); } }} className="mt-2 block w-full rounded-lg border border-black/20 bg-white p-3">
+        <select value={selectedId} onChange={e => { const a = published.find(item => item.id === e.target.value); setSelectedId(a?.id || ""); if (a) { setArticleUrl(`https://foradapauta.org/edicoes/${a.id}`); setTitle(a.titulo); setConfirmed(false); } else { setArticleUrl(""); setConfirmed(false); } }} className="mt-2 block w-full rounded-lg border border-black/20 bg-white p-3">
           <option value="">Selecione um artigo</option>
           {published.map(a => <option key={a.id} value={a.id}>{a.titulo}</option>)}
         </select>
       </label>
       <label className="mt-4 block text-sm font-semibold">Link do artigo no site
-        <input value={articleUrl} onChange={(e) => setArticleUrl(e.target.value)} className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="https://foradapauta.org/..." />
+        <input value={articleUrl} readOnly className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="https://foradapauta.org/..." />
       </label>
+      {published.length === 0 && <p className="mt-2 text-sm text-black/60">Não há artigos publicados disponíveis para selecionar.</p>}
       {articleUrl && !safeUrl && <p className="mt-2 text-sm text-red-700">Informe um link HTTPS do domínio foradapauta.org.</p>}
       <div className="mt-6 rounded-lg border border-black/15 bg-[#eeeee9] p-5">
         <p className="text-xs font-semibold uppercase tracking-widest text-black/50">Prévia — {audience === "individual" ? "teste individual" : "inscritos"}</p>
