@@ -16,8 +16,24 @@ export default async function AdminConfiguracoes() {
     const result = await sql<{ ok: number }[]>`SELECT 1 AS ok`;
     if (result[0]?.ok === 1) database = "disponivel";
   } catch { /* Não revelar detalhes de conexão. */ }
+  let editorial = "Não foi possível verificar";
+  if (database === "disponivel") {
+    try {
+      const tables = await sql<{ nome: string }[]>`
+        SELECT table_name AS nome FROM information_schema.tables
+        WHERE table_schema = 'public' AND table_name IN ('admin_artigos', 'admin_artigos_historico')
+      `;
+      const found = new Set(tables.map(t => t.nome));
+      editorial = found.has("admin_artigos") && found.has("admin_artigos_historico")
+        ? "Tabelas de artigos e histórico presentes"
+        : found.has("admin_artigos")
+          ? "Tabela de artigos presente; histórico ainda não inicializado"
+          : "Tabelas editoriais ainda não inicializadas";
+    } catch { editorial = "Não foi possível verificar as tabelas editoriais"; }
+  }
   const checks = [
     { nome: "Banco de dados", situacao: database === "disponivel" ? "Conexão disponível" : "Não foi possível confirmar a conexão", descricao: "Usado por artigos, inscrições e preferências." },
+    { nome: "Estrutura editorial", situacao: editorial, descricao: "Confere a existência das tabelas de artigos e histórico sem alterar dados." },
     { nome: "Bot do Telegram", situacao: process.env.TELEGRAM_BOT_TOKEN ? "Credencial configurada" : "Credencial não configurada", descricao: "A presença da credencial não confirma a entrega de mensagens." },
     { nome: "Acesso administrativo", situacao: "Sessão autenticada", descricao: "Acesso restrito à área administrativa." },
     { nome: "Notificações gerais", situacao: "Envio pelo painel desativado", descricao: "Nenhuma mensagem geral pode ser disparada por este painel nesta etapa." },
