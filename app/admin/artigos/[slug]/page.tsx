@@ -5,6 +5,14 @@ import type { Metadata } from "next";
 import { campaigns } from "@/data/campanhas";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 
+function formatarNegrito(texto: string) {
+  return texto.split(/(\\*\\*[^*]+\\*\\*)/g).map((trecho, indice) =>
+    trecho.startsWith("**") && trecho.endsWith("**")
+      ? <strong key={indice}>{trecho.slice(2, -2)}</strong>
+      : trecho
+  );
+}
+
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Prévia editorial | Fora da Pauta", robots: { index: false, follow: false } };
 
@@ -24,7 +32,7 @@ export default async function PreviaArtigo({ params }: { params: Promise<{ slug:
           <section key={index} className="mt-9 border-t border-black/10 pt-6">
             {section.eyebrow && <p className="text-xs font-semibold uppercase tracking-widest text-black/50">{section.eyebrow}</p>}
             <h2 className="mt-2 text-xl font-bold">{section.title}</h2>
-            {section.paragraphs.map((paragraph, i) => <p key={i} className="mt-4 whitespace-pre-line leading-8">{paragraph}</p>)}
+            {section.paragraphs.map((paragraph, i) => <p key={i} className="mt-4 whitespace-pre-line leading-8">{formatarNegrito(paragraph)}</p>)}
             {section.references && section.references.length > 0 && <div className="mt-5"><h3 className="font-semibold">Fontes</h3><ul className="mt-2 space-y-2">{section.references.map((reference, i) => <li key={i}><a className="break-words text-blue-700 underline" href={reference.url} target="_blank" rel="noopener noreferrer">{reference.label}</a></li>)}</ul></div>}
           </section>
         ))}
