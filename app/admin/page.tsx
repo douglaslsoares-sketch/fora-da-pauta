@@ -15,7 +15,7 @@ const modulos = [
   { nome: "Artigos", descricao: "Consultar o acervo preservado; publicação em preparação.", href: "/admin/artigos", ativo: true },
   { nome: "Notificações", descricao: "Preparar testes individuais e avisos aos inscritos; envios ainda desativados.", href: "/admin/notificacoes", ativo: true },
   { nome: "Inscrições", descricao: "Consultar indicadores agregados de inscrições e acompanhamentos.", href: "/admin/inscricoes", ativo: true },
-  { nome: "Políticos acompanhados", descricao: "Verificar acompanhamentos e atualizações.", ativo: false },
+  { nome: "Políticos acompanhados", descricao: "Consultar quantidade de contas por político acompanhado.", href: "/admin/politicos", ativo: true },
   { nome: "Configurações", descricao: "Acompanhar rotinas, integrações e possíveis falhas.", ativo: false },
 ];
 
