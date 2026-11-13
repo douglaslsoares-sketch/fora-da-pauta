@@ -31,8 +31,8 @@ export default async function AdminArtigosPage() {
             section.eyebrow ? `### ${section.eyebrow}` : "",
             `## ${section.title}`,
             ...section.paragraphs,
-          ].filter(Boolean).join("\\n\\n")).join("\\n\\n"),
-          fontes: item.sections.flatMap((section) => section.references || []).map((ref) => `${ref.label} — ${ref.url}`).join("\\n"),
+          ].filter(Boolean).join("\n\n")).join("\n\n"),
+          fontes: item.sections.flatMap((section) => section.references || []).map((ref) => `${ref.label} — ${ref.url}`).join("\n"),
         }))} />
         <h2 className="mt-12 text-2xl font-bold">Acervo anterior</h2>
         <div className="mt-8 space-y-3">
