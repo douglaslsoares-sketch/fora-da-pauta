@@ -4,7 +4,8 @@ import Link from "next/link";
 
 type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; status: string; updated_at: string };
 
-export default function AdminArticleDrafts() {
+type LegacyArticle = { slug: string; titulo: string; resumo: string; conteudo: string; fontes: string };
+export default function AdminArticleDrafts({ acervo = [] }: { acervo?: LegacyArticle[] }) {
   const [items, setItems] = useState<Draft[]>([]);
   const [id, setId] = useState<string | null>(null);
   const [titulo, setTitulo] = useState("");
@@ -28,6 +29,19 @@ export default function AdminArticleDrafts() {
     } finally { setLoading(false); }
   }
   useEffect(() => { void reload(); }, []);
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("importar");
+    if (!slug) return;
+    const original = acervo.find((item) => item.slug === slug);
+    if (!original) return;
+    setId(null);
+    setTitulo(original.titulo);
+    setResumo(original.resumo);
+    setConteudo(original.conteudo);
+    setFontes(original.fontes);
+    setNotice("Cópia do acervo preparada no editor. Confira o texto e as fontes antes de salvar. O original permanece intacto; nada foi publicado.");
+    document.getElementById("editor-rascunho")?.scrollIntoView({ behavior: "smooth" });
+  }, [acervo]);
   function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setNotice(""); }
   function edit(item: Draft) {
     if (item.status !== "rascunho") return;
@@ -86,6 +100,7 @@ export default function AdminArticleDrafts() {
   return (
     <section className="mt-10 border-t border-black/15 pt-8">
       <h2 className="text-2xl font-bold">Rascunhos editoriais</h2>
+      <p className="mt-2 text-sm text-black/60">Ao preparar uma cópia do acervo, o artigo original não é modificado. Confira as fontes antes de enviar para revisão.</p>
       <p className="mt-3 text-sm leading-6 text-black/65">Escreva e salve seus textos. Os rascunhos ficam no banco de dados e não aparecem no site público.</p>
       <div id="editor-rascunho" className="mt-6 rounded-xl border border-black/10 bg-white p-5">
         <h3 className="text-lg font-semibold">{id ? "Editar rascunho" : "Novo artigo"}</h3>
