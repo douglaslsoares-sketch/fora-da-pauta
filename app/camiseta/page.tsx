@@ -3,8 +3,13 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Camiseta Fora da Pauta",
-  description: "Conheça a camiseta oficial do Fora da Pauta e acesse a loja Montink para comprar.",
+  description: "Conheça os dois modelos de camiseta do Fora da Pauta.",
 };
+
+const modelos = [
+  { imagem: "/camiseta/modelo-discreto.svg", descricao: "Estampa discreta no lado esquerdo do peito" },
+  { imagem: "/camiseta/modelo-centralizado.svg", descricao: "Estampa centralizada no peito" },
+];
 
 export default function CamisetaPage() {
   return (
@@ -12,14 +17,18 @@ export default function CamisetaPage() {
       <div className="mx-auto max-w-3xl">
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Camiseta Fora da Pauta</h1>
         <p className="mt-3 text-base leading-7 text-black/65">Vista a ideia. Ajude a levar o Fora da Pauta mais longe.</p>
-        <figure className="mx-auto mt-8 max-w-xl">
-          <img src="/camiseta/montagem-camiseta-nova.svg" alt="Montagem ilustrativa da nova camiseta Fora da Pauta: olho natural dourado e nome na faixa preta, sem slogan." width="400" height="267" loading="lazy" className="block h-auto w-full rounded-xl" />
-          <figcaption className="mt-3 text-center text-sm text-black/60">Montagem ilustrativa da camiseta Fora da Pauta.</figcaption>
-        </figure>
-        <p className="mt-5 text-center text-base leading-7">A compra da camiseta ajudará a financiar e manter o projeto Fora da Pauta.</p>
-        <a href="https://montink.com/fora-da-pauta/camiseta-fora-da-pauta-3p5n3" target="_blank" rel="noopener noreferrer" className="mx-auto mt-6 flex min-h-14 w-full items-center justify-center rounded-2xl bg-[#FFD700] px-5 py-3 text-center text-lg font-bold text-black transition hover:bg-[#ebc700]">Comprar camiseta</a>
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5">
+          {modelos.map((modelo) => (
+            <figure key={modelo.imagem}>
+              <img src={modelo.imagem} alt={modelo.descricao} width="600" height="650" loading="lazy" className="block h-auto w-full rounded-xl" />
+            </figure>
+          ))}
+        </div>
+        <p className="mt-4 text-center text-sm text-black/60">Ilustrações dos dois modelos. As imagens finais dos produtos serão exibidas quando estiverem cadastrados na loja.</p>
+        <p className="mt-6 text-center text-base leading-7">A compra das camisetas ajudará a financiar e manter o projeto Fora da Pauta.</p>
+        <p className="mt-4 text-center text-sm text-black/60">Os links individuais de compra serão disponibilizados após o cadastro dos dois modelos na Montink.</p>
         <div className="mt-8 flex justify-center">
-          <Link href="/central" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-red-600 px-7 py-3 text-center font-semibold text-white hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+          <Link href="/central" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-red-600 px-7 py-3 text-center font-semibold text-white hover:bg-red-700">
             <span aria-hidden="true" className="text-xl leading-none">×</span> Fechar
           </Link>
         </div>
