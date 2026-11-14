@@ -37,9 +37,8 @@ export default function QuestionsAdminPage() {
           Aqui é possível responder às perguntas recebidas e decidir separadamente se cada resposta também será publicada na página inicial.
         </p>
 
-        <div className="mt-6"><Link href="/admin" className="inline-flex min-h-11 items-center rounded-lg border border-black/20 bg-white px-5 py-3 font-semibold">← Painel administrativo</Link></div>
-
         <QuestionsAdminPanel />
+        <div className="mt-10 flex justify-center"><Link href="/admin" className="inline-flex min-h-12 items-center rounded-lg bg-red-600 px-7 py-3 font-semibold text-white">× Fechar</Link></div>
       </section>
     </main>
   );

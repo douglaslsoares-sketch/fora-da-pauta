@@ -44,16 +44,16 @@ export default function NotificationDraft() {
       <h2 className="text-xl font-bold">Preparar aviso</h2>
       <p className="mt-2 text-sm leading-6 text-black/60">Preencha e confira a mensagem. Confira a prévia. O teste individual exige confirmação e só pode ser enviado para a conta Telegram vinculada a este navegador.</p>
       <label className="mt-5 block text-sm font-semibold">Destinatários
-        <select value={audience} onChange={(e) => setAudience(e.target.value as "individual" | "all")} className="mt-2 block w-full rounded-lg border border-black/20 bg-white p-3">
+        <select value={audience} onChange={(e) => { setAudience(e.target.value as "individual" | "all"); setConfirmed(false); setResult(""); }} className="mt-2 block w-full rounded-lg border border-black/20 bg-white p-3">
           <option value="individual">Somente minha conta — teste</option>
           <option value="all">Inscritos — envio geral</option>
         </select>
       </label>
       <label className="mt-4 block text-sm font-semibold">Título
-        <input value={title} onChange={(e) => setTitle(e.target.value)} maxLength={140} className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="Título do artigo" />
+        <input value={title} onChange={(e) => { setTitle(e.target.value); setConfirmed(false); }} maxLength={140} className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="Título do artigo" />
       </label>
       <label className="mt-4 block text-sm font-semibold">Mensagem
-        <textarea value={message} onChange={(e) => setMessage(e.target.value)} maxLength={1000} rows={4} className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="Texto do aviso" />
+        <textarea value={message} onChange={(e) => { setMessage(e.target.value); setConfirmed(false); }} maxLength={1000} rows={4} className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="Texto do aviso" />
       </label>
       <label className="mt-4 block text-sm font-semibold">Escolher artigo publicado
         <select value={selectedId} onChange={e => { const a = published.find(item => item.id === e.target.value); setSelectedId(a?.id || ""); if (a) { setArticleUrl(`https://foradapauta.org/edicoes/${a.id}`); setTitle(a.titulo); setConfirmed(false); } else { setArticleUrl(""); setConfirmed(false); } }} className="mt-2 block w-full rounded-lg border border-black/20 bg-white p-3">

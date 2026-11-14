@@ -13,6 +13,7 @@ import {
   consumeRateLimit,
   inspectRateLimit,
 } from "@/lib/rateLimit";
+import { sql, administrativeDatabaseWritesAllowed } from "@/lib/interesses/db";
 
 export const dynamic =
   "force-dynamic";
@@ -169,6 +170,33 @@ export async function POST(
    *
    * Esta consulta nao incrementa contador.
    */
+  // Inicialização mínima apenas no banco isolado de testes; credencial da prévia revalidada.
+  if (process.env.VERCEL_ENV === "preview") {
+    if (!administrativeDatabaseWritesAllowed()) {
+      return noStoreJson({ ok: false, error: "Banco de testes não validado." }, 503);
+    }
+    try {
+      await sql`
+        CREATE TABLE IF NOT EXISTS public.rate_limit_buckets (
+          scope text NOT NULL,
+          subject_hash text NOT NULL,
+          window_start timestamptz NOT NULL,
+          window_seconds integer NOT NULL,
+          hit_count integer NOT NULL DEFAULT 1,
+          expires_at timestamptz NOT NULL,
+          PRIMARY KEY (scope, subject_hash, window_start, window_seconds)
+        )
+      `;
+    } catch (error) {
+      const code = typeof error === "object" && error !== null && "code" in error
+        && typeof error.code === "string" && /^[A-Z0-9]{5}$/.test(error.code)
+        ? error.code : "SEM_CODIGO";
+      console.error("Falha ao criar contador de login na prévia", { code });
+      return noStoreJson({ ok: false, error: "Não foi possível preparar o acesso de teste.", diagnostic: code }, 503);
+    }
+  }
+
+
   const shortStatus =
     await inspectRateLimit({
       request,

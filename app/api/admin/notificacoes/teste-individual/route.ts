@@ -17,6 +17,7 @@ export async function POST(request: Request) {
   if (!origin || origin !== new URL(request.url).origin) return json({ ok: false, error: "Origem não autorizada." }, 403);
   const store = await cookies();
   if (!verifyQuestionsAdminSessionToken(store.get(QUESTIONS_ADMIN_COOKIE)?.value)) return json({ ok: false, error: "Acesso administrativo necessário." }, 401);
+  if (process.env.VERCEL_ENV === "preview") return json({ ok: false, error: "Envios desativados no ambiente de prévia." }, 403);
   const token = await tokenSessao();
   if (!token) return json({ ok: false, error: "Vincule o Telegram neste navegador." }, 403);
   const body = await request.json().catch(() => null) as { title?: unknown; message?: unknown; articleUrl?: unknown; confirmation?: unknown } | null;

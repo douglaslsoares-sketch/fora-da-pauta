@@ -1,10 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; status: string; updated_at: string };
 
-export default function AdminArticleDrafts() {
+type LegacyArticle = { slug: string; titulo: string; resumo: string; conteudo: string; fontes: string };
+export default function AdminArticleDrafts({ acervo = [] }: { acervo?: LegacyArticle[] }) {
+  const importedSlug = useRef<string | null>(null);
   const [items, setItems] = useState<Draft[]>([]);
   const [id, setId] = useState<string | null>(null);
   const [titulo, setTitulo] = useState("");
@@ -28,6 +30,20 @@ export default function AdminArticleDrafts() {
     } finally { setLoading(false); }
   }
   useEffect(() => { void reload(); }, []);
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("importar");
+    if (!slug || importedSlug.current === slug) return;
+    const original = acervo.find((item) => item.slug === slug);
+    if (!original) return;
+    importedSlug.current = slug;
+    setId(null);
+    setTitulo(original.titulo);
+    setResumo(original.resumo);
+    setConteudo(original.conteudo);
+    setFontes(original.fontes);
+    setNotice(original.fontes.trim() ? "Cópia do acervo preparada no editor. Confira o texto e as fontes antes de salvar. O original permanece intacto; nada foi publicado." : "Cópia preparada, mas este item do acervo não contém referências cadastradas. Acrescente e confira as fontes antes de enviar para revisão. O original permanece intacto; nada foi publicado.");
+    document.getElementById("editor-rascunho")?.scrollIntoView({ behavior: "smooth" });
+  }, [acervo]);
   function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setNotice(""); }
   function edit(item: Draft) {
     if (item.status !== "rascunho") return;
@@ -45,6 +61,10 @@ export default function AdminArticleDrafts() {
     } catch (error) { setHistoryError(error instanceof Error ? error.message : "Histórico indisponível."); }
   }
   async function changeStatus(item: Draft, status: "revisao" | "rascunho") {
+    if (status === "revisao" && (!item.titulo.trim() || !item.conteudo.trim() || !item.fontes.trim())) {
+      setNotice("Para enviar à revisão, o artigo precisa ter título, texto e fontes. Continue a edição e salve as informações.");
+      return;
+    }
     setNotice("");
     try {
       const response = await fetch("/api/admin/artigos/status", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: item.id, status }) });
@@ -86,6 +106,7 @@ export default function AdminArticleDrafts() {
   return (
     <section className="mt-10 border-t border-black/15 pt-8">
       <h2 className="text-2xl font-bold">Rascunhos editoriais</h2>
+      <p className="mt-2 text-sm text-black/60">Ao preparar uma cópia do acervo, o artigo original não é modificado. Confira as fontes antes de enviar para revisão.</p>
       <p className="mt-3 text-sm leading-6 text-black/65">Escreva e salve seus textos. Os rascunhos ficam no banco de dados e não aparecem no site público.</p>
       <div id="editor-rascunho" className="mt-6 rounded-xl border border-black/10 bg-white p-5">
         <h3 className="text-lg font-semibold">{id ? "Editar rascunho" : "Novo artigo"}</h3>
@@ -107,8 +128,8 @@ export default function AdminArticleDrafts() {
         </div>
         {notice && <p role="status" className="mt-4 text-sm font-semibold">{notice}</p>}
       </div>
-      <h3 className="mt-9 text-xl font-bold">Rascunhos salvos</h3>
-      {loading ? <p className="mt-4">Carregando…</p> : items.length === 0 ? <p className="mt-4 text-sm text-black/60">Nenhum rascunho salvo ainda.</p> : (
+      <h3 className="mt-9 text-xl font-bold">Artigos cadastrados</h3>
+      {loading ? <p className="mt-4">Carregando…</p> : items.length === 0 ? <p className="mt-4 text-sm text-black/60">Nenhum artigo cadastrado ainda.</p> : (
         <div className="mt-4 space-y-3">
           {items.map(item => (
             <div key={item.id} className="rounded-lg border border-black/10 bg-white p-5">
