@@ -391,8 +391,16 @@ export async function POST(
           CHECK (expires_at > window_start)
         )
       `;
-    } catch {
-      return noStoreJson({ ok: false, error: "Não foi possível preparar o acesso de teste." }, 503);
+    } catch (error) {
+      const code = typeof error === "object" && error !== null && "code" in error
+        && typeof error.code === "string" && /^[A-Z0-9]{5}$/.test(error.code)
+        ? error.code : "SEM_CODIGO";
+      console.error("Falha ao criar contador de login na prévia", { code });
+      return noStoreJson({
+        ok: false,
+        error: "Não foi possível preparar o acesso de teste.",
+        diagnostic: code,
+      }, 503);
     }
   }
 
