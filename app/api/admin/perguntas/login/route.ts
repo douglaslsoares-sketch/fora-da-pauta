@@ -172,12 +172,30 @@ export async function POST(
     try {
       await sql`
         CREATE TABLE IF NOT EXISTS public.rate_limit_buckets (
-          scope text NOT NULL CHECK (length(trim(scope)) BETWEEN 1 AND 80),
-          subject_hash text NOT NULL CHECK (subject_hash ~ '^[0-9a-f]{64}
+          scope text NOT NULL,
+          subject_hash text NOT NULL,
+          window_start timestamptz NOT NULL,
+          window_seconds integer NOT NULL,
+          hit_count integer NOT NULL DEFAULT 1,
+          expires_at timestamptz NOT NULL,
+          PRIMARY KEY (scope, subject_hash, window_start, window_seconds)
+        )
+      `;
+    } catch (error) {
+      const code = typeof error === "object" && error !== null && "code" in error
+        && typeof error.code === "string" && /^[A-Z0-9]{5}$/.test(error.code)
+        ? error.code : "SEM_CODIGO";
+      console.error("Falha ao criar contador de login na prévia", { code });
+      return noStoreJson({ ok: false, error: "Não foi possível preparar o acesso de teste.", diagnostic: code }, 503);
+    }
+  }
+
+  /*
+   * Antes de comparar o codigo, consulta se esta origem
    * ja acumulou falhas suficientes para estar bloqueada.
-   *
    * Esta consulta nao incrementa contador.
    */
+
   const shortStatus =
     await inspectRateLimit({
       request,
