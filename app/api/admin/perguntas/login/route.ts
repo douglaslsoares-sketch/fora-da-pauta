@@ -164,8 +164,7 @@ export async function POST(
     );
   }
 
-  // O banco de testes nasce vazio. Só na ramificação isolada, preparar
-  // os contadores necessários para que o login protegido funcione.
+  // Banco de testes vazio: criar apenas o contador de tentativas de login.
   if (process.env.VERCEL_ENV === "preview") {
     if (!administrativeDatabaseWritesAllowed()) {
       return noStoreJson({ ok: false, error: "Banco de testes não validado." }, 503);
