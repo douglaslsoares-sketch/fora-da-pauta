@@ -170,7 +170,7 @@ export async function POST(
    *
    * Esta consulta nao incrementa contador.
    */
-  // Inicialização mínima apenas no banco isolado de testes.
+  // Inicialização mínima apenas no banco isolado de testes; credencial da prévia revalidada.
   if (process.env.VERCEL_ENV === "preview") {
     if (!administrativeDatabaseWritesAllowed()) {
       return noStoreJson({ ok: false, error: "Banco de testes não validado." }, 503);
