@@ -17,7 +17,7 @@ const exemplos = [
   "Como acompanhar o voto de um deputado?",
 ];
 
-export default function PergunteAoFodao() {
+export default function PergunteAoOtto() {
   const [mensagens, setMensagens] = useState<Mensagem[]>([]);
   const [pergunta, setPergunta] = useState("");
   const [enviando, setEnviando] = useState(false);
@@ -36,7 +36,7 @@ export default function PergunteAoFodao() {
     setErro("");
     setEnviando(true);
     try {
-      const resposta = await fetch("/api/fodao", {
+      const resposta = await fetch("/api/otto", {
         method: "POST",
         credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
@@ -70,14 +70,14 @@ export default function PergunteAoFodao() {
         <p className="text-center text-xs font-bold uppercase tracking-[0.25em] text-[#f2ca3b]">Fora da Pauta</p>
         <div className="mt-5 flex items-center justify-center gap-3">
           <span aria-hidden="true" className="text-4xl text-[#f2ca3b]">◉</span>
-          <h1 className="text-3xl font-black sm:text-4xl">Pergunte ao FODÃO</h1>
+          <h1 className="text-3xl font-black sm:text-4xl">Pergunte ao Otto</h1>
         </div>
         <p className="mx-auto mt-4 max-w-xl text-center leading-7 text-white/75">
           Cara, manda sua pergunta. Aqui a gente explica a política e as decisões que afetam sua vida, sem enrolação.
         </p>
-        <p className="mt-4 text-center text-sm text-[#f2ca3b]">O nome é uma brincadeira. As respostas são assunto sério.</p>
+        <p className="mt-4 text-center text-sm text-[#f2ca3b]">Um papo direto, sem enrolação — com compromisso com os fatos.</p>
 
-        <section aria-label="Conversa com FODÃO" className="mt-8 space-y-4">
+        <section aria-label="Conversa com Otto" className="mt-8 space-y-4">
           {mensagens.length === 0 ? (
             <div className="rounded-xl border border-white/20 bg-white p-5 text-[#161616]">
               <p className="font-bold">Pode perguntar com suas palavras.</p>
@@ -98,7 +98,7 @@ export default function PergunteAoFodao() {
                 ? "ml-8 rounded-xl border border-[#f2ca3b]/40 bg-[#292314] p-4"
                 : "mr-3 rounded-xl bg-white p-5 text-[#161616] sm:mr-8"}>
               <p className="mb-2 text-xs font-black uppercase tracking-wider opacity-60">
-                {mensagem.role === "user" ? "Você" : "FODÃO"}
+                {mensagem.role === "user" ? "Você" : "Otto"}
               </p>
               <p className="whitespace-pre-wrap leading-7">{mensagem.content}</p>
               {mensagem.role === "assistant" ? (

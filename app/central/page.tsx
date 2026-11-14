@@ -18,7 +18,7 @@ export default function Central() {
         <Link className={styles.principal} href="/edicoes">Últimas notícias e análises</Link>
         <Link className={styles.principal} href="/acompanhar">Escolher político para acompanhar</Link>
         <Link className={styles.botao} href="/votou-fique-de-olho?minhas=1">Políticos que eu acompanho</Link>
-        <Link className={styles.botao} href="/fodao">Pergunte ao FODÃO (experimental)</Link>
+        <Link className={styles.botao} href="/otto">Pergunte ao Otto (experimental)</Link>
         <Link className={styles.botao} href="/fazer-uma-pergunta">O que você gostaria de perguntar?</Link>
         <Link className={styles.botao} href="/camiseta">Camiseta</Link>
         <Link className={styles.botao} href="/qr-code">Mostrar QR Code</Link>
