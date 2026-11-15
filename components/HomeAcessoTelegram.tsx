@@ -311,23 +311,28 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               {mostrarOrientacoesTelegram ? (
                 <div id="orientacao-telegram" className={styles.quadroTelegram}>
                   <h2 className={styles.perguntaTelegram}>Você já tem o Telegram instalado?</h2>
-                  <button type="button" onClick={() => { setJaTemTelegram(true); setPrecisaInstalarTelegram(false); }} aria-expanded={jaTemTelegram} className={styles.opcaoTelegram}>
-                    Sim, já tenho Telegram
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (jaTemTelegram) {
+                        void iniciarInscricao();
+                      } else {
+                        setJaTemTelegram(true);
+                        setPrecisaInstalarTelegram(false);
+                      }
+                    }}
+                    disabled={jaTemTelegram && abrindoTelegram}
+                    className={`${styles.opcaoTelegram} ${jaTemTelegram ? styles.opcaoTelegramInscrever : ""}`}
+                    aria-label={jaTemTelegram ? "Realizar minha inscrição no Fora da Pauta pelo Telegram" : "Sim, já tenho o Telegram"}
+                  >
+                    {jaTemTelegram ? (abrindoTelegram ? "Abrindo Telegram..." : "Realizar minha inscrição") : "Sim, já tenho Telegram"}
                   </button>
+                  {!jaTemTelegram ? (
                   <button type="button" onClick={() => { setPrecisaInstalarTelegram(anterior => !anterior); setJaTemTelegram(false); }} className={styles.opcaoTelegramSecundaria} aria-expanded={precisaInstalarTelegram}>
                     Não, preciso instalar
                   </button>
-                  {jaTemTelegram ? (
-                    <button
-                      type="button"
-                      onClick={() => void iniciarInscricao()}
-                      disabled={abrindoTelegram}
-                      className={styles.opcaoTelegramSecundaria}
-                      aria-label="Iniciar inscrição e abrir a conversa Fora da Pauta — Avisos no Telegram"
-                    >
-                      {abrindoTelegram ? "Abrindo Telegram..." : "INICIAR"}
-                    </button>
                   ) : null}
+                  
                   {precisaInstalarTelegram ? (
                     <OrientacoesInstalacaoTelegram
                       plataforma={plataformaTelegram}
@@ -403,23 +408,28 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               </p>
               <div className={styles.quadroTelegram}>
                 <h2 className={styles.perguntaTelegram}>Você já tem o Telegram instalado?</h2>
-                <button type="button" onClick={() => { setJaTemTelegram(true); setPrecisaInstalarTelegram(false); }} aria-expanded={jaTemTelegram} className={styles.opcaoTelegram}>
-                    Sim, já tenho Telegram
+                <button
+                    type="button"
+                    onClick={() => {
+                      if (jaTemTelegram) {
+                        void iniciarInscricao();
+                      } else {
+                        setJaTemTelegram(true);
+                        setPrecisaInstalarTelegram(false);
+                      }
+                    }}
+                    disabled={jaTemTelegram && abrindoTelegram}
+                    className={`${styles.opcaoTelegram} ${jaTemTelegram ? styles.opcaoTelegramInscrever : ""}`}
+                    aria-label={jaTemTelegram ? "Realizar minha inscrição no Fora da Pauta pelo Telegram" : "Sim, já tenho o Telegram"}
+                  >
+                    {jaTemTelegram ? (abrindoTelegram ? "Abrindo Telegram..." : "Realizar minha inscrição") : "Sim, já tenho Telegram"}
                   </button>
-                <button type="button" onClick={() => { setPrecisaInstalarTelegram(anterior => !anterior); setJaTemTelegram(false); }} className={styles.opcaoTelegramSecundaria} aria-expanded={precisaInstalarTelegram}>
+                {!jaTemTelegram ? (
+                  <button type="button" onClick={() => { setPrecisaInstalarTelegram(anterior => !anterior); setJaTemTelegram(false); }} className={styles.opcaoTelegramSecundaria} aria-expanded={precisaInstalarTelegram}>
                   Não, preciso instalar
                 </button>
-                {jaTemTelegram ? (
-                    <button
-                      type="button"
-                      onClick={() => void iniciarInscricao()}
-                      disabled={abrindoTelegram}
-                      className={styles.opcaoTelegramSecundaria}
-                      aria-label="Iniciar inscrição e abrir a conversa Fora da Pauta — Avisos no Telegram"
-                    >
-                      {abrindoTelegram ? "Abrindo Telegram..." : "INICIAR"}
-                    </button>
                   ) : null}
+                
                   {precisaInstalarTelegram ? (
                     <OrientacoesInstalacaoTelegram
                       plataforma={plataformaTelegram}
