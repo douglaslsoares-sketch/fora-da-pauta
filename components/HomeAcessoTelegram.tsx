@@ -311,9 +311,9 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <p className={styles.fraseGratuidade}>É gratuito.</p>
               {mostrarOrientacoesTelegram ? (
                 <div id="orientacao-telegram" className={styles.quadroTelegram}>
-                  <h2 className={styles.perguntaTelegram}>Você já tem o Telegram instalado?</h2>
+                  <h2 className={styles.perguntaTelegram}>{precisaInstalarTelegram ? "Telegram" : "Você já tem o Telegram instalado?"}</h2>
                   {jaTemTelegram ? <p className={styles.respostaTelegramSim}>Sim!</p> : null}
-                  {precisaInstalarTelegram && !jaTemTelegram ? <p className={styles.respostaTelegramSim}>Não!</p> : null}
+                  
                   {!precisaInstalarTelegram ? (
                   <button
                     type="button"
@@ -412,9 +412,9 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 Para acompanhar um político, primeiro você precisa se inscrever no Telegram. É gratuito.
               </p>
               <div className={styles.quadroTelegram}>
-                <h2 className={styles.perguntaTelegram}>Você já tem o Telegram instalado?</h2>
+                <h2 className={styles.perguntaTelegram}>{precisaInstalarTelegram ? "Telegram" : "Você já tem o Telegram instalado?"}</h2>
                   {jaTemTelegram ? <p className={styles.respostaTelegramSim}>Sim!</p> : null}
-                  {precisaInstalarTelegram && !jaTemTelegram ? <p className={styles.respostaTelegramSim}>Não!</p> : null}
+                  
                 {!precisaInstalarTelegram ? (
                   <button
                     type="button"

@@ -40,7 +40,7 @@ export function TelegramDownloadSimples({ plataforma, abrindoTelegram, onContinu
       {downloadAberto ? (
         <>
           <p className={styles.perguntaRetornoTelegram}>
-            Conseguiu baixar o Telegram?
+            Conseguiu baixar?
           </p>
           {!conseguiuBaixar ? (
             <>
