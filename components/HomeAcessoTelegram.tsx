@@ -219,17 +219,17 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <h2 className={styles.nomeProjeto}>FORA DA PAUTA</h2>
               <TracosMarca className={styles.tracosMarca} />
             </div>
-            <p className={styles.fraseProjeto}>As decisões que afetam a nossa vida.</p>
+            <p className={styles.fraseProjeto}>Conhecer é importante. Entender é fundamental.</p>
           </div>
         </header>
         <div className={styles.intro} id="apresentacao">
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.chamada}>
-                Existe muito mais por trás das notícias.
+                As decisões que afetam a nossa vida.
               </h1>
               <p className={styles.explicacao}>
-                Investigamos o que está por trás dos acontecimentos e explicamos como as decisões políticas afetam a sua vida.
+                Todos os dias, reunimos informações sobre o jogo político e seu impacto na vida da sociedade.
               </p>
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
                 Quero receber as notícias
