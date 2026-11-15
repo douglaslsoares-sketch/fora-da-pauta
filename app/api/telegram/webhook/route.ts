@@ -884,7 +884,7 @@ export async function POST(
         texto:
           "Sua inscrição no Fora da Pauta está confirmada!\n\n" +
           "Existe muito mais por trás das notícias.\n\n" +
-          "Vamos investigar os acontecimentos, mostrar os interesses em jogo e explicar como tudo isso afeta a sua vida.\n\n" +
+          "Vamos investigar os acontecimentos, mostrar os interesses em jogo e explicar como tudo isso afeta as nossas vidas.\n\n" +
           "Sempre com fontes para você conferir e tirar suas próprias conclusões.\n\n" +
           "Você receberá aqui os avisos das novas publicações.\n\n" +
           "Quer acompanhar algum político também? Toque no botão abaixo e faça sua escolha.",
@@ -950,7 +950,7 @@ export async function POST(
         texto:
           "Sua inscrição no Fora da Pauta está confirmada!\n\n" +
           "Existe muito mais por trás das notícias.\n\n" +
-          "Vamos investigar os acontecimentos, mostrar os interesses em jogo e explicar como tudo isso afeta a sua vida.\n\n" +
+          "Vamos investigar os acontecimentos, mostrar os interesses em jogo e explicar como tudo isso afeta as nossas vidas.\n\n" +
           "Sempre com fontes para você conferir e tirar suas próprias conclusões.\n\n" +
           "Você receberá aqui os avisos das novas publicações.\n\n" +
           "Quer acompanhar algum político também? Toque no botão abaixo e faça sua escolha.",
