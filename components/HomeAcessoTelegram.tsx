@@ -303,7 +303,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 As decisões que afetam a nossa vida.
               </h1>
               <p className={styles.explicacao}>
-                Todos os dias, reunimos informações sobre o jogo político e seu impacto na vida da sociedade.
+                Todos os dias, reunimos informações sobre o jogo político e seu impacto na vida da sociedade. Você também pode acompanhar o mandato dos políticos que escolher.
               </p>
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
                 Quero acompanhar
