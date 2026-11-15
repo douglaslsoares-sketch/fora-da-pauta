@@ -403,3 +403,15 @@
 .orientacaoDepoisInstalacao { display:flex; flex-direction:column; gap:9px; padding:13px; border:1px solid #555; border-radius:10px; background:#202020; line-height:1.5; }
 .orientacaoDepoisInstalacao p { margin:0; }
 .imagemConversaTelegram { width:238px; max-width:100%; height:auto; border-radius:7px; display:block; }
+
+/* Prévia ilustrativa do botão INICIAR antes da abertura do Telegram. */
+.telaTelegramExemplo { width:100%; overflow:hidden; border:1px solid #777; border-radius:10px; background:#e7f0e5; color:#1b2830; }
+.telegramExemploTopo { display:flex; align-items:center; gap:10px; padding:10px 12px; background:#fff; }
+.telegramExemploTopo > div { display:flex; flex-direction:column; gap:1px; line-height:1.3; }
+.telegramExemploTopo strong { font-size:14px; }
+.telegramExemploTopo small { font-size:12px; color:#555; }
+.telegramExemploIcone { display:block; flex:none; border-radius:50%; }
+.telegramExemploCorpo { display:flex; min-height:112px; flex-direction:column; align-items:center; justify-content:flex-end; gap:8px; padding:14px; background:linear-gradient(135deg,#e0e9da,#d1e7d6); }
+.telegramExemploDica { color:#173949; font-size:13px; font-weight:750; text-align:center; }
+.telegramExemploBotao { width:100%; max-width:240px; border-radius:7px; padding:12px 8px; background:#1687d7; color:#fff; font-size:16px; font-weight:800; letter-spacing:.035em; text-align:center; }
+.telegramLegendaExemplo { color:#ccc; font-size:12px; line-height:1.45; }
