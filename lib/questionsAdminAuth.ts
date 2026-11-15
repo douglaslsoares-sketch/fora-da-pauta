@@ -8,7 +8,7 @@ export const QUESTIONS_ADMIN_COOKIE =
   "fdp_questions_admin";
 
 export const QUESTIONS_ADMIN_SESSION_MAX_AGE_SECONDS =
-  8 * 60 * 60;
+  process.env.VERCEL_ENV === "preview" ? 7 * 24 * 60 * 60 : 8 * 60 * 60;
 
 type SessionPayload = {
   version: 1;
