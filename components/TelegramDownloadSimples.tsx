@@ -18,31 +18,41 @@ export function TelegramDownloadSimples({ plataforma, abrindoTelegram, onContinu
   return (
     <div className={styles.resumoDownloadTelegram}>
       {downloadAberto ? (
-        <button
-          type="button"
-          className={styles.opcaoTelegramInscrever}
-          onClick={onContinuar}
-          disabled={abrindoTelegram}
-        >
-          {abrindoTelegram ? "Abrindo Telegram..." : "Continuar inscrição"}
-        </button>
+        <>
+          <p className={styles.resumoDownloadTexto}>
+            <strong>Agora, conclua sua inscrição.</strong> Depois de instalar e abrir o Telegram,
+            entre na sua conta e <strong>volte a esta guia do Fora da Pauta</strong>.
+            Toque no botão azul abaixo para receber a confirmação da inscrição no Telegram.
+          </p>
+          <button
+            type="button"
+            className={styles.opcaoTelegramInscrever}
+            onClick={onContinuar}
+            disabled={abrindoTelegram}
+          >
+            {abrindoTelegram ? "Abrindo Telegram..." : "Continuar inscrição"}
+          </button>
+          <a href="/instalar-telegram" target="_blank" rel="noopener noreferrer" className={styles.linkBaixarNovamente}>
+            Ainda não instalou? Baixar o Telegram novamente
+          </a>
+        </>
       ) : (
-        <a
-          href="/instalar-telegram"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.opcaoTelegramInscrever}
-          onClick={() => setDownloadAberto(true)}
-        >
-          Baixar o Telegram
-        </a>
+        <>
+          <a
+            href="/instalar-telegram"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.opcaoTelegramInscrever}
+            onClick={() => setDownloadAberto(true)}
+          >
+            Baixar o Telegram
+          </a>
+          <p className={styles.resumoDownloadTexto}>
+            Depois de instalar, <strong>abra o Telegram, entre na sua conta e volte a esta guia do Fora da Pauta</strong>.
+            Aqui aparecerá o botão <strong>Continuar inscrição</strong> para finalizar.
+          </p>
+        </>
       )}
-
-      <p className={styles.resumoDownloadTexto}>
-        {downloadAberto
-          ? "Depois de instalar e abrir o Telegram, volte aqui e toque em Continuar inscrição."
-          : "Depois de instalar, volte aqui para continuar sua inscrição."}
-      </p>
 
       <details className={styles.ajudaDownloadTelegram}>
         <summary>Precisa de ajuda para instalar?</summary>

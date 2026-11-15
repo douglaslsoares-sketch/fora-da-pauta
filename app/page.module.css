@@ -442,3 +442,6 @@
 .ajudaDownloadConteudo { margin-top:8px; padding:12px; background:#252525; border-radius:8px; text-align:left; line-height:1.6; }
 .ajudaDownloadConteudo p { margin:0 0 10px; }
 .ajudaDownloadConteudo p:last-child { margin-bottom:0; }
+
+.linkBaixarNovamente { color:#dedede; font-size:13px; text-align:center; text-decoration:underline; text-underline-offset:3px; }
+.linkBaixarNovamente:hover { color:white; }
