@@ -33,10 +33,14 @@ export const metadata: Metadata = {
   description:
     "Informação, documentos, evidências e fontes verificáveis para ajudar cada pessoa a formar sua própria avaliação.",
   icons: {
-    icon: [{ url: "/marca/fora-da-pauta-icone.svg?v=marca-tipografica-1", type: "image/svg+xml" }],
-    shortcut: "/marca/fora-da-pauta-icone.svg?v=marca-tipografica-1",
+    icon: [
+      { url: "/marca/fora-da-pauta-icone.svg?v=dois-tracos-1", type: "image/svg+xml" },
+      { url: "/favicon.ico?v=dois-tracos-1", sizes: "any", type: "image/x-icon" },
+    ],
+    shortcut: "/favicon.ico?v=dois-tracos-1",
+    apple: [{ url: "/marca/fora-da-pauta-apple-180.png?v=dois-tracos-1", sizes: "180x180", type: "image/png" }],
   },
-  manifest: "/manifest.webmanifest?v=marca-tipografica-1",
+  manifest: "/manifest.webmanifest?v=dois-tracos-1",
   appleWebApp: { capable: true, title: "Fora da Pauta", statusBarStyle: "black-translucent" },
 };
 

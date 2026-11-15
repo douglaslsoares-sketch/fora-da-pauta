@@ -1,5 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Fora da Pauta">
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 1024 1024" role="img" aria-label="Fora da Pauta">
   <title>Fora da Pauta</title>
-  <text x="256" y="260" text-anchor="middle" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="800" letter-spacing="-1.2" textLength="448" lengthAdjust="spacingAndGlyphs">FORA DA PAUTA</text>
-  <rect x="226" y="281" width="60" height="6" rx="3" fill="#F8C52C"/>
+  <rect width="1024" height="1024" fill="#000000"/>
+  <path d="M 210 390 H 850 L 813 482 H 173 Z" fill="#FFFFFF"/>
+  <path d="M 210 532 H 720 L 683 624 H 173 Z" fill="#FFE000"/>
 </svg>
