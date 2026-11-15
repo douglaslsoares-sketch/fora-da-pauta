@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { TracosMarca } from "@/components/TracosMarca";
-import { OrientacoesInstalacaoTelegram, type PlataformaTelegram } from "@/components/OrientacoesInstalacaoTelegram";
+import type { PlataformaTelegram } from "@/components/OrientacoesInstalacaoTelegram";
+import { TelegramDownloadSimples } from "@/components/TelegramDownloadSimples";
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -312,6 +313,8 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 <div id="orientacao-telegram" className={styles.quadroTelegram}>
                   <h2 className={styles.perguntaTelegram}>Você já tem o Telegram instalado?</h2>
                   {jaTemTelegram ? <p className={styles.respostaTelegramSim}>Sim!</p> : null}
+                  {precisaInstalarTelegram && !jaTemTelegram ? <p className={styles.respostaTelegramSim}>Não!</p> : null}
+                  {!precisaInstalarTelegram ? (
                   <button
                     type="button"
                     onClick={() => {
@@ -328,21 +331,22 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                   >
                     {jaTemTelegram ? (abrindoTelegram ? "Abrindo Telegram..." : "Realizar minha inscrição") : "Sim, já tenho Telegram"}
                   </button>
-                  {!jaTemTelegram ? (
-                  <button type="button" onClick={() => { setPrecisaInstalarTelegram(anterior => !anterior); setJaTemTelegram(false); }} className={styles.opcaoTelegramSecundaria} aria-expanded={precisaInstalarTelegram}>
-                    Não, preciso instalar
-                  </button>
+                  ) : null}
+                  {!jaTemTelegram && !precisaInstalarTelegram ? (
+                    <button
+                      type="button"
+                      onClick={() => { setPrecisaInstalarTelegram(true); setJaTemTelegram(false); }}
+                      className={styles.opcaoTelegramSecundaria}
+                    >
+                      Não, preciso instalar
+                    </button>
                   ) : null}
                   
-                  {precisaInstalarTelegram ? (
-                    <OrientacoesInstalacaoTelegram
+                  {precisaInstalarTelegram && !jaTemTelegram ? (
+                    <TelegramDownloadSimples
                       plataforma={plataformaTelegram}
                       abrindoTelegram={abrindoTelegram}
                       onContinuar={() => void iniciarInscricao()}
-                      comandoPendente={comandoInscricaoPendente}
-                      comandoCopiado={comandoInscricaoCopiado}
-                      erroCopia={erroCopiaComando}
-                      onCopiar={() => void copiarComandoInscricao()}
                     />
                   ) : null}
                 </div>
@@ -410,7 +414,9 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <div className={styles.quadroTelegram}>
                 <h2 className={styles.perguntaTelegram}>Você já tem o Telegram instalado?</h2>
                   {jaTemTelegram ? <p className={styles.respostaTelegramSim}>Sim!</p> : null}
-                <button
+                  {precisaInstalarTelegram && !jaTemTelegram ? <p className={styles.respostaTelegramSim}>Não!</p> : null}
+                {!precisaInstalarTelegram ? (
+                  <button
                     type="button"
                     onClick={() => {
                       if (jaTemTelegram) {
@@ -426,21 +432,22 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                   >
                     {jaTemTelegram ? (abrindoTelegram ? "Abrindo Telegram..." : "Realizar minha inscrição") : "Sim, já tenho Telegram"}
                   </button>
-                {!jaTemTelegram ? (
-                  <button type="button" onClick={() => { setPrecisaInstalarTelegram(anterior => !anterior); setJaTemTelegram(false); }} className={styles.opcaoTelegramSecundaria} aria-expanded={precisaInstalarTelegram}>
-                  Não, preciso instalar
-                </button>
+                  ) : null}
+                {!jaTemTelegram && !precisaInstalarTelegram ? (
+                    <button
+                      type="button"
+                      onClick={() => { setPrecisaInstalarTelegram(true); setJaTemTelegram(false); }}
+                      className={styles.opcaoTelegramSecundaria}
+                    >
+                      Não, preciso instalar
+                    </button>
                   ) : null}
                 
-                  {precisaInstalarTelegram ? (
-                    <OrientacoesInstalacaoTelegram
+                  {precisaInstalarTelegram && !jaTemTelegram ? (
+                    <TelegramDownloadSimples
                       plataforma={plataformaTelegram}
                       abrindoTelegram={abrindoTelegram}
                       onContinuar={() => void iniciarInscricao()}
-                      comandoPendente={comandoInscricaoPendente}
-                      comandoCopiado={comandoInscricaoCopiado}
-                      erroCopia={erroCopiaComando}
-                      onCopiar={() => void copiarComandoInscricao()}
                     />
                   ) : null}
               </div>

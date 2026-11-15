@@ -428,3 +428,17 @@
 
 /* Resposta curta após confirmação de que o Telegram já está instalado. */
 .respostaTelegramSim { margin: 0; color: #ffffff; font-weight: 750; font-size: 16px; text-align: center; }
+
+/* Prévia do caminho "Não, preciso instalar": uma ação azul por etapa. */
+.resumoDownloadTelegram { display:flex; flex-direction:column; gap:12px; width:100%; }
+.resumoDownloadTelegram .opcaoTelegramInscrever { display:flex; min-height:52px; width:100%; align-items:center; justify-content:center; border:0; border-radius:9px; padding:12px; color:white; background:#1976d2; text-decoration:none; text-align:center; font-weight:750; font-size:16px; cursor:pointer; }
+.resumoDownloadTelegram .opcaoTelegramInscrever:hover { background:#1265b8; }
+.resumoDownloadTelegram .opcaoTelegramInscrever:focus-visible { outline:2px solid white; outline-offset:2px; }
+.resumoDownloadTelegram .opcaoTelegramInscrever:disabled { opacity:.6; }
+.resumoDownloadTexto { margin:0; color:#f4f4f4; text-align:center; font-size:14px; line-height:1.5; }
+.ajudaDownloadTelegram { color:#fff; font-size:14px; text-align:center; }
+.ajudaDownloadTelegram summary { display:inline-block; padding:6px 8px; text-decoration:underline; text-underline-offset:3px; cursor:pointer; }
+.ajudaDownloadTelegram summary:focus-visible { outline:2px solid #f5c928; outline-offset:2px; }
+.ajudaDownloadConteudo { margin-top:8px; padding:12px; background:#252525; border-radius:8px; text-align:left; line-height:1.6; }
+.ajudaDownloadConteudo p { margin:0 0 10px; }
+.ajudaDownloadConteudo p:last-child { margin-bottom:0; }
