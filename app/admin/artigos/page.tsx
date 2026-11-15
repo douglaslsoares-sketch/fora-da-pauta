@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { administrativeDatabaseWritesAllowed } from "@/lib/interesses/db";
 import { campaigns } from "@/data/campanhas";
 import AdminArticleDrafts from "@/components/AdminArticleDrafts";
+import AdminArticleDiagnostic from "@/components/AdminArticleDiagnostic";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 
 export const dynamic = "force-dynamic";
@@ -25,6 +26,7 @@ export default async function AdminArtigosPage() {
         <h1 className="mt-3 text-3xl font-bold">Artigos</h1>
         <p className="mt-4 leading-7 text-black/65">Crie e salve rascunhos pelo painel. Os artigos do acervo anterior continuam disponíveis para consulta privada. Salvar um rascunho não publica o texto nem envia notificações.</p>
         {process.env.VERCEL_ENV === "preview" && <div role="status" className="mt-6 rounded-lg border border-amber-500 bg-amber-50 p-4 text-sm leading-6 text-amber-950">{administrativeDatabaseWritesAllowed() ? <><strong>Ambiente de testes isolado.</strong> Os artigos criados e publicados aqui ficam apenas no banco de testes e não aparecem no site oficial. Envios pelo Telegram continuam bloqueados.</> : <><strong>Editor em modo de consulta.</strong> Gravações bloqueadas: a conexão ou a ramificação de testes não foi validada.</>}</div>}
+        {process.env.VERCEL_ENV === "preview" && administrativeDatabaseWritesAllowed() && <AdminArticleDiagnostic />}
         <AdminArticleDrafts acervo={campaigns.map((item) => ({
           slug: item.slug,
           titulo: item.title,

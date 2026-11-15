@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export default function NotificationDraft() {
+export default function NotificationDraft({ preview = false }: { preview?: boolean }) {
   const [title, setTitle] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [sending, setSending] = useState(false);
@@ -20,7 +20,7 @@ export default function NotificationDraft() {
     } catch { return ""; }
   })();
   async function sendIndividual() {
-    if (!confirmed || audience !== "individual" || !safeUrl || !title.trim() || !message.trim()) return;
+    if (preview || !confirmed || audience !== "individual" || !safeUrl || !title.trim() || !message.trim()) return;
     setSending(true);
     setResult("");
     try {
@@ -78,10 +78,10 @@ export default function NotificationDraft() {
             <input type="checkbox" checked={confirmed} onChange={e => setConfirmed(e.target.checked)} className="mt-1" />
             Confirmo que estou usando meu navegador vinculado ao Telegram e quero enviar esta mensagem de teste somente para essa conta.
           </label>
-          <button type="button" disabled={!confirmed || !safeUrl || !title.trim() || !message.trim() || sending} onClick={sendIndividual} className="mt-4 min-h-12 rounded-lg bg-black px-6 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">
+          <button type="button" disabled={preview || !confirmed || !safeUrl || !title.trim() || !message.trim() || sending} onClick={sendIndividual} className="mt-4 min-h-12 rounded-lg bg-black px-6 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">
             {sending ? "Enviando…" : "Enviar somente para mim"}
           </button>
-          <p className="mt-2 text-xs leading-5 text-black/55">O envio só funciona para um artigo já publicado e para a inscrição vinculada a este navegador.</p>
+          {preview ? <p className="mt-2 text-xs leading-5 text-amber-800">O teste individual não pode ser enviado nesta prévia. A entrega real dependerá de confirmação em um ambiente habilitado.</p> : <p className="mt-2 text-xs leading-5 text-black/55">O envio só funciona para um artigo já publicado e para a inscrição vinculada a este navegador.</p>}
         </div>
       ) : (
         <p className="mt-5 text-sm font-semibold text-black/55">Envio geral desativado. Nenhuma mensagem será enviada aos inscritos.</p>
