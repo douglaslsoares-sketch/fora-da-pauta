@@ -559,6 +559,40 @@ async function cancelarTudo(
   );
 }
 
+/**
+ * Apaga apenas os registros de inscrição do remetente autenticado
+ * pelo segredo do webhook, em chat privado com o bot.
+ */
+async function reiniciarInscricaoDoProprioChat(chatId: string) {
+  await sql.begin(async tx => {
+    await tx`
+      DELETE FROM public.telegram_fila_avisos
+      WHERE telegram_chat_id = ${chatId}::bigint
+    `;
+
+    await tx`
+      DELETE FROM public.telegram_acompanhamentos
+      WHERE telegram_chat_id = ${chatId}::bigint
+    `;
+
+    await tx`
+      DELETE FROM public.telegram_preferencias
+      WHERE telegram_chat_id = ${chatId}::bigint
+    `;
+
+    await tx`
+      DELETE FROM public.telegram_sessoes_site
+      WHERE telegram_chat_id = ${chatId}::bigint
+    `;
+
+    await tx`
+      DELETE FROM public.telegram_vinculos_pendentes
+      WHERE consumed_by_chat_id = ${chatId}::bigint
+    `;
+
+  });
+}
+
 export async function POST(
   request: Request,
 ) {
@@ -649,6 +683,23 @@ export async function POST(
       });
       return NextResponse.json({ ok: true });
     }
+
+    // Apenas o titular do chat privado pode zerar a própria inscrição.
+    if (/^\/zerar_inscricao(?:@[A-Za-z0-9_]+)?\s*$/i.test(texto)) {
+      await reiniciarInscricaoDoProprioChat(chatId);
+      await enviarMensagemTelegram({
+        chatId,
+        texto:
+          "Sua inscrição de teste no Fora da Pauta foi zerada.\n\n" +
+          "Apagamos seus acompanhamentos, preferências, sessões do site " +
+          "e registros de avisos vinculados a esta conta. Sua conta e " +
+          "suas conversas do Telegram foram preservadas.\n\n" +
+          "Agora abra https://foradapauta.org em uma guia anônima do " +
+          "computador para fazer a inscrição novamente.",
+      });
+      return NextResponse.json({ ok: true });
+    }
+
 
     if (
       /^\/parar(?:@[A-Za-z0-9_]+)?\s*$/i.test(
