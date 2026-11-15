@@ -60,7 +60,7 @@ export default function AdminArticleDrafts({ acervo = [] }: { acervo?: LegacyArt
       setHistory(data.historico || []);
     } catch (error) { setHistoryError(error instanceof Error ? error.message : "Histórico indisponível."); }
   }
-  async function changeStatus(item: Draft, status: "revisao" | "rascunho") {
+  async function changeStatus(item: Draft, status: "revisao" | "rascunho" | "restaurar") {
     if (status === "revisao" && (!item.titulo.trim() || !item.conteudo.trim() || !item.fontes.trim())) {
       setNotice("Para enviar à revisão, o artigo precisa ter título, texto e fontes. Continue a edição e salve as informações.");
       return;
@@ -70,7 +70,7 @@ export default function AdminArticleDrafts({ acervo = [] }: { acervo?: LegacyArt
       const response = await fetch("/api/admin/artigos/status", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: item.id, status }) });
       const data = await response.json() as { ok?: boolean; erro?: string };
       if (!response.ok || !data.ok) throw new Error(data.erro || "Não foi possível alterar a situação.");
-      setNotice(status === "revisao" ? "Artigo encaminhado para revisão. Não foi publicado." : "Artigo devolvido aos rascunhos.");
+      setNotice(status === "restaurar" ? "Artigo restaurado para revisão. Não foi publicado." : status === "revisao" ? "Artigo encaminhado para revisão. Não foi publicado." : "Artigo devolvido aos rascunhos.");
       await reload();
     } catch (error) { setNotice(error instanceof Error ? error.message : "Falha na alteração."); }
   }
@@ -147,6 +147,7 @@ export default function AdminArticleDrafts({ acervo = [] }: { acervo?: LegacyArt
                   <button type="button" onClick={() => changeStatus(item, "rascunho")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Voltar a rascunho</button>
                   <button type="button" onClick={() => changePublication(item, "publicar")} className="min-h-11 rounded-lg bg-green-700 px-5 py-2 font-semibold text-white">Publicar artigo</button>
                 </>}
+                {item.status === "arquivado" && <button type="button" onClick={() => changeStatus(item, "restaurar")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Restaurar para revisão</button>}
                 {item.status === "publicado" && <>
                   <Link href={`/edicoes/${item.id}`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">Abrir artigo público</Link>
                   <button type="button" onClick={() => changePublication(item, "arquivar")} className="min-h-11 rounded-lg bg-red-700 px-5 py-2 font-semibold text-white">Arquivar artigo</button>
