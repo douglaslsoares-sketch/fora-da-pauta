@@ -237,7 +237,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <p className={styles.fraseGratuidade}>É gratuito.</p>
               {mostrarOrientacoesTelegram ? (
                 <div id="orientacao-telegram" className={styles.quadroTelegram}>
-                  <h2 className={styles.perguntaTelegram}>Você já tem Telegram instalado no celular?</h2>
+                  <h2 className={styles.perguntaTelegram}>Você já tem o Telegram instalado?</h2>
                   <button type="button" onClick={() => void iniciarInscricao()} disabled={abrindoTelegram} className={styles.opcaoTelegram}>
                     {abrindoTelegram ? "Abrindo Telegram..." : "Sim, já tenho Telegram"}
                   </button>
@@ -318,7 +318,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 Para acompanhar um político, primeiro você precisa se inscrever no Telegram. É gratuito.
               </p>
               <div className={styles.quadroTelegram}>
-                <h2 className={styles.perguntaTelegram}>Você já tem Telegram instalado no celular?</h2>
+                <h2 className={styles.perguntaTelegram}>Você já tem o Telegram instalado?</h2>
                 <button type="button" onClick={() => void iniciarInscricao()} disabled={abrindoTelegram} className={styles.opcaoTelegram}>
                   {abrindoTelegram ? "Abrindo Telegram..." : "Sim, já tenho Telegram"}
                 </button>
