@@ -382,3 +382,8 @@
 @media (max-width: 600px) {
   .apresentacao:has(.nomeProjeto) { padding-top:clamp(54px,9svh,105px); }
 }
+
+/* Assinatura oficial: branco e amarelo, ambos os traços alinhados à esquerda. */
+.marcaNova { display:inline-flex; flex-direction:column; align-items:stretch; max-width:100%; }
+.tracosMarca { display:block; align-self:flex-start; width:70%; height:auto; margin-top:9px; }
+@media (max-width:600px) { .tracosMarca { margin-top:7px; } }

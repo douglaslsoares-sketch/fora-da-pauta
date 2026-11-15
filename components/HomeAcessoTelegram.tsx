@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { TracosMarca } from "@/components/TracosMarca";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
@@ -214,8 +215,11 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
 
         <header className={styles.cabecalho}>
           <div className={styles.marcaEuVigio}>
-            <h2 className={styles.nomeProjeto}>FORA DA PAUTA</h2>
-            <p className={styles.fraseProjeto}>Decisões que afetam a sua vida.</p>
+            <div className={styles.marcaNova}>
+              <h2 className={styles.nomeProjeto}>FORA DA PAUTA</h2>
+              <TracosMarca className={styles.tracosMarca} />
+            </div>
+            <p className={styles.fraseProjeto}>As decisões que afetam a nossa vida.</p>
           </div>
         </header>
         <div className={styles.intro} id="apresentacao">
