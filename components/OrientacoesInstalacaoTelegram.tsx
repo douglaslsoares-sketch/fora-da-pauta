@@ -28,8 +28,8 @@ export function OrientacoesInstalacaoTelegram({
         {windows ? (
           <>
             <li>Na página do Telegram, clique em <strong>Baixe o Telegram para Windows</strong> e depois em <strong>Salvar</strong>.</li>
-            <li><strong>Atenção: salvar não instala o aplicativo.</strong> No Chrome, clique no ícone de downloads (seta para baixo) no alto à direita. Se não o encontrar, pressione <strong>Ctrl + J</strong>.</li>
-            <li>Abra o arquivo do Telegram que você acabou de baixar e siga as instruções da instalação.</li>
+            <li><strong>Salvar não instala o Telegram.</strong> Pressione as teclas <strong>Windows + E</strong> para abrir as pastas do computador e entre em <strong>Downloads</strong>.</li>
+            <li>Encontre o arquivo do Telegram, dê dois cliques nele e siga as instruções de instalação.</li>
             <li>Abra o Telegram e entre na sua conta. Depois, volte à guia <strong>Fora da Pauta</strong> e escolha <strong>Continuar inscrição</strong>.</li>
           </>
         ) : android || ios ? (
