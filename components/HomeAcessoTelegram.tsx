@@ -311,6 +311,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               {mostrarOrientacoesTelegram ? (
                 <div id="orientacao-telegram" className={styles.quadroTelegram}>
                   <h2 className={styles.perguntaTelegram}>Você já tem o Telegram instalado?</h2>
+                  {jaTemTelegram ? <p className={styles.respostaTelegramSim}>Sim!</p> : null}
                   <button
                     type="button"
                     onClick={() => {
@@ -408,6 +409,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               </p>
               <div className={styles.quadroTelegram}>
                 <h2 className={styles.perguntaTelegram}>Você já tem o Telegram instalado?</h2>
+                  {jaTemTelegram ? <p className={styles.respostaTelegramSim}>Sim!</p> : null}
                 <button
                     type="button"
                     onClick={() => {

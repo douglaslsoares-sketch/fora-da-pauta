@@ -425,3 +425,6 @@
 .opcaoTelegramInscrever { background:#1976d2; color:#fff; }
 .opcaoTelegramInscrever:hover { background:#1265b8; }
 .opcaoTelegramInscrever:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+
+/* Resposta curta após confirmação de que o Telegram já está instalado. */
+.respostaTelegramSim { margin: 0; color: #ffffff; font-weight: 750; font-size: 16px; text-align: center; }
