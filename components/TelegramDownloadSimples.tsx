@@ -13,6 +13,7 @@ type Props = {
 /** Prévia: uma ação azul por etapa e ajuda recolhida. */
 export function TelegramDownloadSimples({ plataforma, abrindoTelegram, onContinuar }: Props) {
   const [downloadAberto, setDownloadAberto] = useState(false);
+  const [conseguiuBaixar, setConseguiuBaixar] = useState<"sim" | "nao" | null>(null);
   const chaveDownload = "fdp.telegram.downloadIniciado.v1";
 
   // A etapa permanece visível ao voltar da loja, mesmo se a página for recarregada.
@@ -38,24 +39,75 @@ export function TelegramDownloadSimples({ plataforma, abrindoTelegram, onContinu
     <div className={styles.resumoDownloadTelegram}>
       {downloadAberto ? (
         <>
-          <p className={styles.resumoDownloadTexto}>
-            <strong>Já instalou e entrou no Telegram?</strong> Volte a esta guia do Fora da Pauta e
-            toque no botão azul para abrir a conversa <strong>Fora da Pauta — Avisos</strong>.
+          <p className={styles.perguntaRetornoTelegram}>
+            Conseguiu baixar o Telegram?
           </p>
-          <button
-            type="button"
-            className={styles.opcaoTelegramInscrever}
-            onClick={onContinuar}
-            disabled={abrindoTelegram}
-          >
-            {abrindoTelegram ? "Abrindo Telegram..." : "Realizar minha inscrição"}
-          </button>
-          <p className={styles.resumoDownloadTexto}>
-            Na conversa, toque em <strong>INICIAR</strong> se aparecer e aguarde a mensagem de confirmação.
-          </p>
-          <a href="/instalar-telegram" target="_blank" rel="noopener noreferrer" className={styles.linkBaixarNovamente}>
-            Ainda não instalou? Baixar novamente
-          </a>
+          {!conseguiuBaixar ? (
+            <>
+              <button type="button" className={styles.opcaoTelegram} onClick={() => setConseguiuBaixar("sim")}>
+                Sim
+              </button>
+              <button type="button" className={styles.opcaoTelegramSecundaria} onClick={() => setConseguiuBaixar("nao")}>
+                Não
+              </button>
+            </>
+          ) : conseguiuBaixar === "sim" ? (
+            <>
+              <p className={styles.resumoDownloadTexto}>
+                Abra o Telegram, entre na sua conta e toque no botão abaixo.
+              </p>
+              <button
+                type="button"
+                className={styles.opcaoTelegramInscrever}
+                onClick={onContinuar}
+                disabled={abrindoTelegram}
+              >
+                {abrindoTelegram ? "Abrindo Telegram..." : "Realizar minha inscrição"}
+              </button>
+              <p className={styles.resumoDownloadTexto}>
+                A conversa <strong>Fora da Pauta — Avisos</strong> será aberta. Se aparecer <strong>INICIAR</strong>, toque nele e aguarde a confirmação.
+              </p>
+              <button type="button" className={styles.linkMudarRespostaTelegram} onClick={() => setConseguiuBaixar(null)}>
+                Voltar
+              </button>
+            </>
+          ) : (
+            <>
+              <a
+                href="/instalar-telegram"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.opcaoTelegramInscrever}
+                onClick={() => setConseguiuBaixar(null)}
+              >
+                Baixar novamente
+              </a>
+              <details className={styles.ajudaDownloadTelegram}>
+                <summary>Precisa de ajuda?</summary>
+                <div className={styles.ajudaDownloadConteudo}>
+                  {plataforma === "windows" ? (
+                              <p>Na página do Telegram, clique em <strong>Baixe o Telegram para Windows</strong>. Salve o arquivo. Quando o download terminar, abra o arquivo com dois cliques e siga as instruções de instalação.</p>
+                            ) : plataforma === "macos" ? (
+                              <p>Escolha a versão para <strong>Mac</strong> ou a <strong>Mac App Store</strong>. Se baixar um arquivo, abra-o com dois cliques e siga as instruções. Na App Store, toque em <strong>Obter</strong>.</p>
+                            ) : plataforma === "linux" ? (
+                              <p>Escolha a versão para <strong>Linux</strong> ou procure Telegram Desktop na loja de aplicativos do seu sistema. Siga as instruções da versão escolhida.</p>
+                            ) : celular ? (
+                              <p>Na {plataforma === "android" ? "Play Store" : "App Store"}, toque em <strong>{plataforma === "android" ? "Instalar" : "Obter"}</strong>, espere terminar e abra o Telegram.</p>
+                            ) : (
+                              <p>Na página oficial, escolha a versão adequada ao seu aparelho, siga as instruções de instalação e abra o Telegram.</p>
+                            )}
+                            {!celular && (
+                              <p>Não encontrou o arquivo? Procure o símbolo de downloads no navegador ou abra a pasta <strong>Downloads</strong> do computador.</p>
+                            )}
+                            <p>Se ainda não tiver uma conta do Telegram, siga as instruções do aplicativo. Depois, volte ao Fora da Pauta.</p>
+                  
+                </div>
+              </details>
+              <button type="button" className={styles.linkMudarRespostaTelegram} onClick={() => setConseguiuBaixar(null)}>
+                Voltar
+              </button>
+            </>
+          )}
         </>
       ) : (
         <>
@@ -69,32 +121,11 @@ export function TelegramDownloadSimples({ plataforma, abrindoTelegram, onContinu
             Baixar o Telegram
           </a>
           <p className={styles.resumoDownloadTexto}>
-            <strong>Deixe esta guia aberta.</strong> Depois de instalar e entrar no Telegram,
-            volte aqui e toque em <strong>Realizar minha inscrição</strong> para abrir a conversa do Fora da Pauta.
+            Deixe esta guia aberta. Depois de instalar o Telegram, volte aqui para concluir a inscrição.
           </p>
         </>
       )}
 
-      <details className={styles.ajudaDownloadTelegram}>
-        <summary>Precisa de ajuda para instalar?</summary>
-        <div className={styles.ajudaDownloadConteudo}>
-          {plataforma === "windows" ? (
-            <p>Na página do Telegram, clique em <strong>Baixe o Telegram para Windows</strong>. Salve o arquivo. Quando o download terminar, abra o arquivo com dois cliques e siga as instruções de instalação.</p>
-          ) : plataforma === "macos" ? (
-            <p>Escolha a versão para <strong>Mac</strong> ou a <strong>Mac App Store</strong>. Se baixar um arquivo, abra-o com dois cliques e siga as instruções. Na App Store, toque em <strong>Obter</strong>.</p>
-          ) : plataforma === "linux" ? (
-            <p>Escolha a versão para <strong>Linux</strong> ou procure Telegram Desktop na loja de aplicativos do seu sistema. Siga as instruções da versão escolhida.</p>
-          ) : celular ? (
-            <p>Na {plataforma === "android" ? "Play Store" : "App Store"}, toque em <strong>{plataforma === "android" ? "Instalar" : "Obter"}</strong>, espere terminar e abra o Telegram.</p>
-          ) : (
-            <p>Na página oficial, escolha a versão adequada ao seu aparelho, siga as instruções de instalação e abra o Telegram.</p>
-          )}
-          {!celular && (
-            <p>Não encontrou o arquivo? Procure o símbolo de downloads no navegador ou abra a pasta <strong>Downloads</strong> do computador.</p>
-          )}
-          <p>Se ainda não tiver uma conta do Telegram, siga as instruções do aplicativo. Depois, volte ao Fora da Pauta.</p>
-        </div>
-      </details>
     </div>
   );
 }

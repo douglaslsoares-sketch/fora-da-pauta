@@ -445,3 +445,9 @@
 
 .linkBaixarNovamente { color:#dedede; font-size:13px; text-align:center; text-decoration:underline; text-underline-offset:3px; }
 .linkBaixarNovamente:hover { color:white; }
+
+/* Pergunta exibida depois do retorno da página de download do Telegram. */
+.perguntaRetornoTelegram { margin:0 0 2px; color:#fff; font-size:19px; font-weight:750; line-height:1.4; text-align:center; }
+.resumoDownloadTelegram .opcaoTelegram, .resumoDownloadTelegram .opcaoTelegramSecundaria { width:100%; }
+.linkMudarRespostaTelegram { align-self:center; padding:6px 12px; border:0; color:#d7d7d7; background:transparent; font-size:14px; text-decoration:underline; cursor:pointer; }
+.linkMudarRespostaTelegram:focus-visible { outline:2px solid #f5c928; outline-offset:2px; }
