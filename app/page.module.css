@@ -398,3 +398,8 @@
 .ajudaInstalacao:hover { background:#303030; }
 .ajudaInstalacao:focus-visible { outline:2px solid #f5c928; outline-offset:2px; }
 .textoAjudaInstalacao { margin:0; padding:12px; border-radius:8px; background:#282828; color:#fff; font-size:14px; line-height:1.55; }
+
+/* Identificação visual da conversa oficial durante o primeiro acesso. */
+.orientacaoDepoisInstalacao { display:flex; flex-direction:column; gap:9px; padding:13px; border:1px solid #555; border-radius:10px; background:#202020; line-height:1.5; }
+.orientacaoDepoisInstalacao p { margin:0; }
+.imagemConversaTelegram { width:238px; max-width:100%; height:auto; border-radius:7px; display:block; }

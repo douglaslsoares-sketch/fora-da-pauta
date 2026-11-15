@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import styles from "@/app/page.module.css";
 
 export type PlataformaTelegram = "android" | "ios" | "windows" | "macos" | "linux" | "chromeos" | "outro";
@@ -89,6 +90,19 @@ export function OrientacoesInstalacaoTelegram({
         </>
       )}
 
+      <div className={styles.orientacaoDepoisInstalacao}>
+        <p className={styles.tituloInstalacao}>Depois, conclua sua inscrição:</p>
+        <p>Volte ao Fora da Pauta e toque em <strong>Continuar inscrição</strong>. O Telegram deverá abrir a conversa <strong>Fora da Pauta — Avisos</strong>.</p>
+        <Image
+          src="/orientacoes/telegram-fora-da-pauta-avisos.png"
+          width={238}
+          height={44}
+          alt="Exemplo da conversa Fora da Pauta — Avisos no Telegram, identificada pelo ícone preto com os traços branco e amarelo."
+          className={styles.imagemConversaTelegram}
+        />
+        <p>Confira o nome e o símbolo dos dois traços. Se aparecer <strong>Iniciar</strong>, toque nele e aguarde a mensagem <strong>Sua inscrição no Fora da Pauta está confirmada!</strong>.</p>
+        <p><strong>Importante:</strong> a inscrição é feita em <strong>Fora da Pauta — Avisos</strong>, e não no canal de notícias.</p>
+      </div>
       <a href="/instalar-telegram" target="_blank" rel="noopener noreferrer" className={styles.opcaoTelegram}>
         Instalar o Telegram
       </a>
