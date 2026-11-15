@@ -14,7 +14,9 @@ export function GET(request: NextRequest) {
     destino = "https://play.google.com/store/apps/details?id=org.telegram.messenger";
   } else if (/iphone|ipad|ipod/i.test(userAgent)) {
     destino = "https://apps.apple.com/br/app/telegram-messenger/id686449807";
-  } else if (/windows|macintosh|mac os x|linux|cros/i.test(userAgent)) {
+  } else if (/cros/i.test(userAgent)) {
+    destino = "https://play.google.com/store/apps/details?id=org.telegram.messenger";
+  } else if (/windows|macintosh|mac os x|linux|x11/i.test(userAgent)) {
     destino = "https://desktop.telegram.org/";
   }
 

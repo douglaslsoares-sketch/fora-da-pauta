@@ -2,7 +2,7 @@
 
 import styles from "@/app/page.module.css";
 
-export type PlataformaTelegram = "android" | "ios" | "windows" | "outro";
+export type PlataformaTelegram = "android" | "ios" | "windows" | "macos" | "linux" | "chromeos" | "outro";
 
 export function OrientacoesInstalacaoTelegram({
   plataforma,
@@ -16,7 +16,10 @@ export function OrientacoesInstalacaoTelegram({
   const windows = plataforma === "windows";
   const android = plataforma === "android";
   const ios = plataforma === "ios";
-  const computador = windows || (!android && !ios);
+  const macos = plataforma === "macos";
+  const linux = plataforma === "linux";
+  const chromeos = plataforma === "chromeos";
+  const computador = !android && !ios;
 
   return (
     <div className={styles.instrucoesTelegram}>
@@ -32,6 +35,26 @@ export function OrientacoesInstalacaoTelegram({
             <li>Encontre o arquivo do Telegram, dê dois cliques nele e siga as instruções de instalação.</li>
             <li>Abra o Telegram e entre na sua conta. Depois, volte à guia <strong>Fora da Pauta</strong> e escolha <strong>Continuar inscrição</strong>.</li>
           </>
+        ) : macos ? (
+          <>
+            <li>Na página oficial, escolha <strong>Baixe o Telegram para macOS</strong> ou a opção <strong>Mac App Store</strong>.</li>
+            <li>Se usar a App Store, clique em <strong>Obter</strong>. Se baixar um arquivo, abra-o e siga as orientações para colocar o Telegram em <strong>Aplicativos</strong>.</li>
+            <li>Abra o Telegram, entre na sua conta e depois volte à guia <strong>Fora da Pauta</strong>.</li>
+            <li>Escolha <strong>Continuar inscrição</strong>.</li>
+          </>
+        ) : linux ? (
+          <>
+            <li>Na página oficial, escolha a opção para <strong>Linux</strong>. Você também pode procurar <strong>Telegram Desktop</strong> na loja de aplicativos do seu sistema.</li>
+            <li>Instale pela loja ou siga as orientações da versão oferecida (<strong>Flatpak, Snap ou download</strong>). O procedimento varia conforme o Linux utilizado.</li>
+            <li>Abra o Telegram, entre na sua conta e volte à guia <strong>Fora da Pauta</strong>.</li>
+            <li>Escolha <strong>Continuar inscrição</strong>.</li>
+          </>
+        ) : chromeos ? (
+          <>
+            <li>Na <strong>Play Store</strong> do Chromebook, toque em <strong>Instalar</strong>, caso essa loja esteja disponível.</li>
+            <li>Abra o Telegram e entre na sua conta. Caso seu Chromebook não ofereça Play Store, consulte as alternativas na <strong>página oficial do Telegram</strong>.</li>
+            <li>Volte ao Fora da Pauta e toque em <strong>Continuar inscrição</strong>.</li>
+          </>
         ) : android || ios ? (
           <>
             <li>Na {android ? "Play Store" : "App Store"}, toque em <strong>{android ? "Instalar" : "Obter"}</strong> e espere terminar.</li>
@@ -40,9 +63,9 @@ export function OrientacoesInstalacaoTelegram({
           </>
         ) : (
           <>
-            <li>Na página de instalação, baixe a versão para seu computador e salve o arquivo.</li>
-            <li><strong>Salvar não instala o aplicativo:</strong> abra o arquivo baixado e siga as instruções de instalação.</li>
-            <li>Abra o Telegram. Depois, volte à guia <strong>Fora da Pauta</strong> e escolha <strong>Continuar inscrição</strong>.</li>
+            <li>Na página oficial, escolha a opção compatível com seu dispositivo.</li>
+            <li>Siga as instruções da loja ou do sistema para instalar o Telegram, se houver uma versão disponível.</li>
+            <li>Depois de abrir o Telegram, volte ao <strong>Fora da Pauta</strong> e escolha <strong>Continuar inscrição</strong>.</li>
           </>
         )}
       </ol>

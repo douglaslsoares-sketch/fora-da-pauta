@@ -82,13 +82,22 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
 
   useEffect(() => {
     const agente = window.navigator.userAgent;
+    // iPadOS pode se identificar como Macintosh no navegador.
+    const dispositivoIOS = /iphone|ipad|ipod/i.test(agente)
+      || (/macintosh/i.test(agente) && window.navigator.maxTouchPoints > 1);
     setPlataformaTelegram(/android/i.test(agente)
       ? "android"
-      : /iphone|ipad|ipod/i.test(agente)
+      : dispositivoIOS
         ? "ios"
-        : /windows/i.test(agente)
-          ? "windows"
-          : "outro");
+        : /cros/i.test(agente)
+          ? "chromeos"
+          : /windows/i.test(agente)
+            ? "windows"
+            : /macintosh|mac os x/i.test(agente)
+              ? "macos"
+              : /linux|x11/i.test(agente)
+                ? "linux"
+                : "outro");
     const simulando = new URLSearchParams(window.location.search).get("simular") === "telegram";
     setSimulacao(simulando);
     let ativo = true;
