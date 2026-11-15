@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { PlataformaTelegram } from "@/components/OrientacoesInstalacaoTelegram";
 import styles from "@/app/page.module.css";
 
@@ -13,6 +13,25 @@ type Props = {
 /** Prévia: uma ação azul por etapa e ajuda recolhida. */
 export function TelegramDownloadSimples({ plataforma, abrindoTelegram, onContinuar }: Props) {
   const [downloadAberto, setDownloadAberto] = useState(false);
+  const chaveDownload = "fdp.telegram.downloadIniciado.v1";
+
+  // A etapa permanece visível ao voltar da loja, mesmo se a página for recarregada.
+  useEffect(() => {
+    try {
+      if (window.sessionStorage.getItem(chaveDownload) === "sim") setDownloadAberto(true);
+    } catch {
+      // A instalação continua possível sem armazenamento do navegador.
+    }
+  }, []);
+
+  function marcarAberturaDoDownload() {
+    setDownloadAberto(true);
+    try {
+      window.sessionStorage.setItem(chaveDownload, "sim");
+    } catch {
+      // O estado permanece na própria página.
+    }
+  }
   const celular = plataforma === "android" || plataforma === "ios";
 
   return (
@@ -20,9 +39,8 @@ export function TelegramDownloadSimples({ plataforma, abrindoTelegram, onContinu
       {downloadAberto ? (
         <>
           <p className={styles.resumoDownloadTexto}>
-            <strong>Agora, conclua sua inscrição.</strong> Depois de instalar e abrir o Telegram,
-            entre na sua conta e <strong>volte a esta guia do Fora da Pauta</strong>.
-            Toque no botão azul abaixo para receber a confirmação da inscrição no Telegram.
+            <strong>Já instalou e entrou no Telegram?</strong> Volte a esta guia do Fora da Pauta e
+            toque no botão azul para abrir a conversa <strong>Fora da Pauta — Avisos</strong>.
           </p>
           <button
             type="button"
@@ -30,10 +48,13 @@ export function TelegramDownloadSimples({ plataforma, abrindoTelegram, onContinu
             onClick={onContinuar}
             disabled={abrindoTelegram}
           >
-            {abrindoTelegram ? "Abrindo Telegram..." : "Continuar inscrição"}
+            {abrindoTelegram ? "Abrindo Telegram..." : "Realizar minha inscrição"}
           </button>
+          <p className={styles.resumoDownloadTexto}>
+            Na conversa, toque em <strong>INICIAR</strong> se aparecer e aguarde a mensagem de confirmação.
+          </p>
           <a href="/instalar-telegram" target="_blank" rel="noopener noreferrer" className={styles.linkBaixarNovamente}>
-            Ainda não instalou? Baixar o Telegram novamente
+            Ainda não instalou? Baixar novamente
           </a>
         </>
       ) : (
@@ -43,13 +64,13 @@ export function TelegramDownloadSimples({ plataforma, abrindoTelegram, onContinu
             target="_blank"
             rel="noopener noreferrer"
             className={styles.opcaoTelegramInscrever}
-            onClick={() => setDownloadAberto(true)}
+            onClick={marcarAberturaDoDownload}
           >
             Baixar o Telegram
           </a>
           <p className={styles.resumoDownloadTexto}>
-            Depois de instalar, <strong>abra o Telegram, entre na sua conta e volte a esta guia do Fora da Pauta</strong>.
-            Aqui aparecerá o botão <strong>Continuar inscrição</strong> para finalizar.
+            <strong>Deixe esta guia aberta.</strong> Depois de instalar e entrar no Telegram,
+            volte aqui e toque em <strong>Realizar minha inscrição</strong> para abrir a conversa do Fora da Pauta.
           </p>
         </>
       )}
