@@ -415,3 +415,8 @@
 .telegramExemploDica { color:#173949; font-size:13px; font-weight:750; text-align:center; }
 .telegramExemploBotao { width:100%; max-width:240px; border-radius:7px; padding:12px 8px; background:#1687d7; color:#fff; font-size:16px; font-weight:800; letter-spacing:.035em; text-align:center; }
 .telegramLegendaExemplo { color:#ccc; font-size:12px; line-height:1.45; }
+
+/* Plano alternativo quando o Telegram abre uma conversa já existente sem INICIAR. */
+.telegramAjudaConversaAntiga { display:flex; flex-direction:column; gap:10px; padding:12px; background:#272727; border:1px solid #666; border-radius:8px; }
+.telegramAjudaConversaAntiga p { margin:0; }
+.telegramComandoFallback { display:block; margin-top:6px; word-break:break-all; font-size:12px; background:#111; padding:8px; color:#f5c928; border-radius:4px; user-select:all; }

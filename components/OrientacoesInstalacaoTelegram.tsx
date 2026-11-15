@@ -10,10 +10,18 @@ export function OrientacoesInstalacaoTelegram({
   plataforma,
   abrindoTelegram,
   onContinuar,
+  comandoPendente,
+  comandoCopiado,
+  erroCopia,
+  onCopiar,
 }: {
   plataforma: PlataformaTelegram;
   abrindoTelegram: boolean;
   onContinuar: () => void;
+  comandoPendente: string;
+  comandoCopiado: boolean;
+  erroCopia: boolean;
+  onCopiar: () => void;
 }) {
   const [mostrarAjuda, setMostrarAjuda] = useState(false);
   const windows = plataforma === "windows";
@@ -96,6 +104,10 @@ export function OrientacoesInstalacaoTelegram({
       <OrientacoesConclusaoTelegram
         abrindoTelegram={abrindoTelegram}
         onContinuar={onContinuar}
+        comandoPendente={comandoPendente}
+        comandoCopiado={comandoCopiado}
+        erroCopia={erroCopia}
+        onCopiar={onCopiar}
       />
     </div>
   );

@@ -70,6 +70,9 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
   const [simulacao, setSimulacao] = useState(false);
   const [simuladoInscrito, setSimuladoInscrito] = useState(false);
   const [abrindoTelegram, setAbrindoTelegram] = useState(false);
+  const [comandoInscricaoPendente, setComandoInscricaoPendente] = useState("");
+  const [comandoInscricaoCopiado, setComandoInscricaoCopiado] = useState(false);
+  const [erroCopiaComando, setErroCopiaComando] = useState(false);
   const [mostrarOrientacoesTelegram, setMostrarOrientacoesTelegram] = useState(false);
   const [precisaInstalarTelegram, setPrecisaInstalarTelegram] = useState(false);
   const [jaTemTelegram, setJaTemTelegram] = useState(false);
@@ -83,6 +86,25 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
   const areaAcompanhamento = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    // Reencontra o comando de inscrição ao voltar do Telegram sem confirmação.
+    try {
+      const salvo = window.sessionStorage.getItem("fdp.inscricaoTelegramPendente.v1");
+      if (salvo) {
+        const dados = JSON.parse(salvo) as { comando?: unknown; expiraEm?: unknown };
+        if (
+          typeof dados.comando === "string" &&
+          /^\/start s_[A-Za-z0-9_-]{32}$/.test(dados.comando) &&
+          typeof dados.expiraEm === "number" &&
+          dados.expiraEm > Date.now()
+        ) {
+          setComandoInscricaoPendente(dados.comando);
+        } else {
+          window.sessionStorage.removeItem("fdp.inscricaoTelegramPendente.v1");
+        }
+      }
+    } catch {
+      // A navegação normal segue disponível mesmo se o armazenamento falhar.
+    }
     const agente = window.navigator.userAgent;
     // iPadOS pode se identificar como Macintosh no navegador.
     const dispositivoIOS = /iphone|ipad|ipod/i.test(agente)
@@ -199,10 +221,40 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
           !/^\?start=s_[A-Za-z0-9_-]{32}$/.test(destino.search)) {
         throw new Error("Endereço do Telegram inválido");
       }
+      // Se o Telegram abrir uma conversa antiga sem INICIAR,
+      // a pessoa pode copiar e enviar o comando que confirma esta sessão.
+      const inicio = destino.searchParams.get("start");
+      if (!inicio || !/^s_[A-Za-z0-9_-]{32}$/.test(inicio)) {
+        throw new Error("Código de inscrição inválido");
+      }
+      const comando = `/start ${inicio}`;
+      setComandoInscricaoPendente(comando);
+      setComandoInscricaoCopiado(false);
+      setErroCopiaComando(false);
+      try {
+        window.sessionStorage.setItem(
+          "fdp.inscricaoTelegramPendente.v1",
+          JSON.stringify({ comando, expiraEm: Date.now() + 14 * 60 * 1000 }),
+        );
+      } catch {
+        // Não impede o encaminhamento convencional.
+      }
       window.location.assign(destino.toString());
     } catch {
       setErroTelegram("Não foi possível abrir o Telegram. Tente novamente.");
       setAbrindoTelegram(false);
+    }
+  }
+
+  async function copiarComandoInscricao() {
+    if (!comandoInscricaoPendente) return;
+    try {
+      await navigator.clipboard.writeText(comandoInscricaoPendente);
+      setComandoInscricaoCopiado(true);
+      setErroCopiaComando(false);
+    } catch {
+      setErroCopiaComando(true);
+      setComandoInscricaoCopiado(false);
     }
   }
 
@@ -269,6 +321,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                     <OrientacoesConclusaoTelegram
                       abrindoTelegram={abrindoTelegram}
                       onContinuar={() => void iniciarInscricao()}
+                      comandoPendente={comandoInscricaoPendente}
+                      comandoCopiado={comandoInscricaoCopiado}
+                      erroCopia={erroCopiaComando}
+                      onCopiar={() => void copiarComandoInscricao()}
                     />
                   ) : null}
                   {precisaInstalarTelegram ? (
@@ -276,6 +332,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                       plataforma={plataformaTelegram}
                       abrindoTelegram={abrindoTelegram}
                       onContinuar={() => void iniciarInscricao()}
+                      comandoPendente={comandoInscricaoPendente}
+                      comandoCopiado={comandoInscricaoCopiado}
+                      erroCopia={erroCopiaComando}
+                      onCopiar={() => void copiarComandoInscricao()}
                     />
                   ) : null}
                 </div>
@@ -352,6 +412,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                     <OrientacoesConclusaoTelegram
                       abrindoTelegram={abrindoTelegram}
                       onContinuar={() => void iniciarInscricao()}
+                      comandoPendente={comandoInscricaoPendente}
+                      comandoCopiado={comandoInscricaoCopiado}
+                      erroCopia={erroCopiaComando}
+                      onCopiar={() => void copiarComandoInscricao()}
                     />
                   ) : null}
                   {precisaInstalarTelegram ? (
@@ -359,6 +423,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                       plataforma={plataformaTelegram}
                       abrindoTelegram={abrindoTelegram}
                       onContinuar={() => void iniciarInscricao()}
+                      comandoPendente={comandoInscricaoPendente}
+                      comandoCopiado={comandoInscricaoCopiado}
+                      erroCopia={erroCopiaComando}
+                      onCopiar={() => void copiarComandoInscricao()}
                     />
                   ) : null}
               </div>
