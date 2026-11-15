@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { TracosMarca } from "@/components/TracosMarca";
+import { OrientacoesInstalacaoTelegram, type PlataformaTelegram } from "@/components/OrientacoesInstalacaoTelegram";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
@@ -70,6 +71,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
   const [abrindoTelegram, setAbrindoTelegram] = useState(false);
   const [mostrarOrientacoesTelegram, setMostrarOrientacoesTelegram] = useState(false);
   const [precisaInstalarTelegram, setPrecisaInstalarTelegram] = useState(false);
+  const [plataformaTelegram, setPlataformaTelegram] = useState<PlataformaTelegram>("outro");
   const [erroTelegram, setErroTelegram] = useState("");
   const [salvandoEscolha, setSalvandoEscolha] = useState(false);
   const [erroEscolha, setErroEscolha] = useState("");
@@ -79,6 +81,14 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
   const areaAcompanhamento = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const agente = window.navigator.userAgent;
+    setPlataformaTelegram(/android/i.test(agente)
+      ? "android"
+      : /iphone|ipad|ipod/i.test(agente)
+        ? "ios"
+        : /windows/i.test(agente)
+          ? "windows"
+          : "outro");
     const simulando = new URLSearchParams(window.location.search).get("simular") === "telegram";
     setSimulacao(simulando);
     let ativo = true;
@@ -245,15 +255,11 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                     Não, preciso instalar
                   </button>
                   {precisaInstalarTelegram ? (
-                    <div className={styles.instrucoesTelegram}>
-                      <p>1. Escolha Instalar o Telegram.</p>
-                      <p>2. Na página que abrir, siga as instruções para instalar o aplicativo.</p>
-                      <p>3. Depois de instalar, volte aqui e escolha Continuar inscrição.</p>
-                      <a href="/instalar-telegram" target="_blank" rel="noopener noreferrer" className={styles.opcaoTelegram}>Instalar o Telegram</a>
-                      <button type="button" onClick={() => void iniciarInscricao()} disabled={abrindoTelegram} className={styles.opcaoTelegramSecundaria}>
-                        {abrindoTelegram ? "Abrindo Telegram..." : "Continuar inscrição"}
-                      </button>
-                    </div>
+                    <OrientacoesInstalacaoTelegram
+                    plataforma={plataformaTelegram}
+                    abrindoTelegram={abrindoTelegram}
+                    onContinuar={() => void iniciarInscricao()}
+                  />
                   ) : null}
                 </div>
               ) : null}
@@ -326,15 +332,11 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                   Não, preciso instalar
                 </button>
                 {precisaInstalarTelegram ? (
-                  <div className={styles.instrucoesTelegram}>
-                    <p>1. Escolha Instalar o Telegram.</p>
-                    <p>2. Na página que abrir, siga as instruções para instalar o aplicativo.</p>
-                    <p>3. Depois de instalar, volte aqui e escolha Continuar inscrição.</p>
-                    <a href="/instalar-telegram" target="_blank" rel="noopener noreferrer" className={styles.opcaoTelegram}>Instalar o Telegram</a>
-                    <button type="button" onClick={() => void iniciarInscricao()} disabled={abrindoTelegram} className={styles.opcaoTelegramSecundaria}>
-                      {abrindoTelegram ? "Abrindo Telegram..." : "Continuar inscrição"}
-                    </button>
-                  </div>
+                  <OrientacoesInstalacaoTelegram
+                    plataforma={plataformaTelegram}
+                    abrindoTelegram={abrindoTelegram}
+                    onContinuar={() => void iniciarInscricao()}
+                  />
                 ) : null}
               </div>
               {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}

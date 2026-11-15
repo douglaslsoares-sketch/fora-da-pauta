@@ -387,3 +387,8 @@
 .marcaNova { display:inline-flex; flex-direction:column; align-items:stretch; max-width:100%; }
 .tracosMarca { display:block; align-self:flex-start; width:70%; height:auto; margin-top:9px; }
 @media (max-width:600px) { .tracosMarca { margin-top:7px; } }
+
+/* Instalação do Telegram: orientar o visitante também após baixar o arquivo. */
+.tituloInstalacao { margin: 2px 0 0; color: #fff; font-size: 16px; font-weight: 750; text-align: left; }
+.passosInstalacao { list-style-type: decimal; display: flex; flex-direction: column; gap: 9px; margin: 0 0 4px; padding-left: 25px; line-height: 1.5; }
+.passosInstalacao li { padding-left: 2px; }
