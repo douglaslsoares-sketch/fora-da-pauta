@@ -9,3 +9,6 @@
 /* Mesmo tamanho do olho da home, em todas as larguras de tela. */
 .olho { width:min(70vw,300px); }
 @media(min-width:768px) { .olho { width:300px; } }
+
+/* Mantém a opção no menu, sem oferecer navegação enquanto não há artigos publicados. */
+.menu .principalDesabilitado{display:flex;align-items:center;justify-content:center;min-height:58px;border-radius:8px;padding:12px 16px;text-align:center;font-size:17px;font-weight:750;background:#777;color:#eee;opacity:.65;cursor:not-allowed;user-select:none}
