@@ -392,3 +392,9 @@
 .tituloInstalacao { margin: 2px 0 0; color: #fff; font-size: 16px; font-weight: 750; text-align: left; }
 .passosInstalacao { list-style-type: decimal; display: flex; flex-direction: column; gap: 9px; margin: 0 0 4px; padding-left: 25px; line-height: 1.5; }
 .passosInstalacao li { padding-left: 2px; }
+
+/* Ajuda opcional para encontrar o instalador, sem poluir os três passos. */
+.ajudaInstalacao { display:block; width:100%; min-height:42px; border:1px solid #666; border-radius:8px; padding:9px 12px; background:#222; color:#fff; text-align:center; font-size:14px; font-weight:650; cursor:pointer; }
+.ajudaInstalacao:hover { background:#303030; }
+.ajudaInstalacao:focus-visible { outline:2px solid #f5c928; outline-offset:2px; }
+.textoAjudaInstalacao { margin:0; padding:12px; border-radius:8px; background:#282828; color:#fff; font-size:14px; line-height:1.55; }
