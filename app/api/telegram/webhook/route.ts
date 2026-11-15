@@ -6,7 +6,7 @@ import { candidaturas } from "@/data/eleicoes/candidaturas";
 import { idsAcompanhaveis } from "@/lib/eleicoes/acompanhamento-politico";
 import { buscarPessoaPoliticaConfirmadaPorCandidatura } from "@/lib/eleicoes/identidade-politica";
 import { sql } from "@/lib/interesses/db";
-import { imagemCompartilhamentoAbsoluta } from "@/lib/compartilhamento";
+import { imagemConfirmacaoTelegram } from "@/lib/compartilhamento";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -888,7 +888,7 @@ export async function POST(
           "Sempre com fontes para você conferir e tirar suas próprias conclusões.\n\n" +
           "Você receberá aqui os avisos das novas publicações.\n\n" +
           "Quer acompanhar algum político também? Toque no botão abaixo e faça sua escolha.",
-        imagemUrl: imagemCompartilhamentoAbsoluta,
+        imagemUrl: imagemConfirmacaoTelegram,
         botoes: [[{
           text: "Escolher político",
           url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=escolher`,
@@ -954,7 +954,7 @@ export async function POST(
           "Sempre com fontes para você conferir e tirar suas próprias conclusões.\n\n" +
           "Você receberá aqui os avisos das novas publicações.\n\n" +
           "Quer acompanhar algum político também? Toque no botão abaixo e faça sua escolha.",
-        imagemUrl: imagemCompartilhamentoAbsoluta,
+        imagemUrl: imagemConfirmacaoTelegram,
         botoes: [
           [{ text: "Escolher político", url: "https://www.foradapauta.org/acompanhar" }],
         ],
