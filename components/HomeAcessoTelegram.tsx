@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { TracosMarca } from "@/components/TracosMarca";
 import { OrientacoesInstalacaoTelegram, type PlataformaTelegram } from "@/components/OrientacoesInstalacaoTelegram";
-import { OrientacoesConclusaoTelegram } from "@/components/OrientacoesConclusaoTelegram";
+
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
@@ -318,14 +318,15 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                     Não, preciso instalar
                   </button>
                   {jaTemTelegram ? (
-                    <OrientacoesConclusaoTelegram
-                      abrindoTelegram={abrindoTelegram}
-                      onContinuar={() => void iniciarInscricao()}
-                      comandoPendente={comandoInscricaoPendente}
-                      comandoCopiado={comandoInscricaoCopiado}
-                      erroCopia={erroCopiaComando}
-                      onCopiar={() => void copiarComandoInscricao()}
-                    />
+                    <button
+                      type="button"
+                      onClick={() => void iniciarInscricao()}
+                      disabled={abrindoTelegram}
+                      className={styles.opcaoTelegramSecundaria}
+                      aria-label="Iniciar inscrição e abrir a conversa Fora da Pauta — Avisos no Telegram"
+                    >
+                      {abrindoTelegram ? "Abrindo Telegram..." : "INICIAR"}
+                    </button>
                   ) : null}
                   {precisaInstalarTelegram ? (
                     <OrientacoesInstalacaoTelegram
@@ -409,14 +410,15 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                   Não, preciso instalar
                 </button>
                 {jaTemTelegram ? (
-                    <OrientacoesConclusaoTelegram
-                      abrindoTelegram={abrindoTelegram}
-                      onContinuar={() => void iniciarInscricao()}
-                      comandoPendente={comandoInscricaoPendente}
-                      comandoCopiado={comandoInscricaoCopiado}
-                      erroCopia={erroCopiaComando}
-                      onCopiar={() => void copiarComandoInscricao()}
-                    />
+                    <button
+                      type="button"
+                      onClick={() => void iniciarInscricao()}
+                      disabled={abrindoTelegram}
+                      className={styles.opcaoTelegramSecundaria}
+                      aria-label="Iniciar inscrição e abrir a conversa Fora da Pauta — Avisos no Telegram"
+                    >
+                      {abrindoTelegram ? "Abrindo Telegram..." : "INICIAR"}
+                    </button>
                   ) : null}
                   {precisaInstalarTelegram ? (
                     <OrientacoesInstalacaoTelegram
