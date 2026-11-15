@@ -50,6 +50,8 @@ export async function GET(request: NextRequest) {
         ? "/acompanhar"
       : destino === "opcoes"
         ? "/#opcoes"
+      : destino === "menu"
+        ? "/central"
         : "/telegram/pronto"
     : "/votou-fique-de-olho?retorno=expirado";
   const resposta = NextResponse.redirect(new URL(caminho, request.url), 303);

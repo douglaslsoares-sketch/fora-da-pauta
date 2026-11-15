@@ -886,12 +886,11 @@ export async function POST(
           "Existe muito mais por trás das notícias.\n\n" +
           "Vamos investigar os acontecimentos, mostrar os interesses em jogo e explicar como tudo isso afeta as nossas vidas.\n\n" +
           "Sempre com fontes para você conferir e tirar suas próprias conclusões.\n\n" +
-          "Você receberá aqui os avisos das novas publicações.\n\n" +
-          "Quer acompanhar algum político também? Toque no botão abaixo e faça sua escolha.",
+          "Você receberá aqui os avisos das novas publicações.",
         imagemUrl: imagemConfirmacaoTelegram,
         botoes: [[{
-          text: "Escolher político",
-          url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=escolher`,
+          text: "Ir para o menu",
+          url: `https://www.foradapauta.org/api/telegram/concluir?codigo=${codigoRetorno}&destino=menu`,
         }]],
       });
       return NextResponse.json({ ok: true });
@@ -952,11 +951,10 @@ export async function POST(
           "Existe muito mais por trás das notícias.\n\n" +
           "Vamos investigar os acontecimentos, mostrar os interesses em jogo e explicar como tudo isso afeta as nossas vidas.\n\n" +
           "Sempre com fontes para você conferir e tirar suas próprias conclusões.\n\n" +
-          "Você receberá aqui os avisos das novas publicações.\n\n" +
-          "Quer acompanhar algum político também? Toque no botão abaixo e faça sua escolha.",
+          "Você receberá aqui os avisos das novas publicações.",
         imagemUrl: imagemConfirmacaoTelegram,
         botoes: [
-          [{ text: "Escolher político", url: "https://www.foradapauta.org/acompanhar" }],
+          [{ text: "Ir para o menu", url: "https://www.foradapauta.org/central" }],
         ],
       });
       return NextResponse.json({ ok: true });
