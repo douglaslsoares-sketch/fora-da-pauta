@@ -246,10 +246,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                   </button>
                   {precisaInstalarTelegram ? (
                     <div className={styles.instrucoesTelegram}>
-                      <p>1. Toque em Instalar o Telegram.</p>
-                      <p>2. Na tela que vai abrir, toque em Instalar e espere terminar.</p>
-                      <p>3. Depois volte aqui e toque em Continuar inscrição.</p>
-                      <a href="https://telegram.org/apps" target="_blank" rel="noopener noreferrer" className={styles.opcaoTelegram}>Instalar o Telegram</a>
+                      <p>1. Escolha Instalar o Telegram.</p>
+                      <p>2. Na página que abrir, siga as instruções para instalar o aplicativo.</p>
+                      <p>3. Depois de instalar, volte aqui e escolha Continuar inscrição.</p>
+                      <a href="/instalar-telegram" target="_blank" rel="noopener noreferrer" className={styles.opcaoTelegram}>Instalar o Telegram</a>
                       <button type="button" onClick={() => void iniciarInscricao()} disabled={abrindoTelegram} className={styles.opcaoTelegramSecundaria}>
                         {abrindoTelegram ? "Abrindo Telegram..." : "Continuar inscrição"}
                       </button>
@@ -327,10 +327,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 </button>
                 {precisaInstalarTelegram ? (
                   <div className={styles.instrucoesTelegram}>
-                    <p>1. Toque em Instalar o Telegram.</p>
-                    <p>2. Na tela que vai abrir, toque em Instalar e espere terminar.</p>
-                    <p>3. Depois volte aqui e toque em Continuar inscrição.</p>
-                    <a href="https://telegram.org/apps" target="_blank" rel="noopener noreferrer" className={styles.opcaoTelegram}>Instalar o Telegram</a>
+                    <p>1. Escolha Instalar o Telegram.</p>
+                    <p>2. Na página que abrir, siga as instruções para instalar o aplicativo.</p>
+                    <p>3. Depois de instalar, volte aqui e escolha Continuar inscrição.</p>
+                    <a href="/instalar-telegram" target="_blank" rel="noopener noreferrer" className={styles.opcaoTelegram}>Instalar o Telegram</a>
                     <button type="button" onClick={() => void iniciarInscricao()} disabled={abrindoTelegram} className={styles.opcaoTelegramSecundaria}>
                       {abrindoTelegram ? "Abrindo Telegram..." : "Continuar inscrição"}
                     </button>
