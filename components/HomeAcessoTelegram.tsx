@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { TracosMarca } from "@/components/TracosMarca";
+import { LogoForaDaPauta } from "@/components/LogoForaDaPauta";
 import { OrientacoesInstalacaoTelegram, type PlataformaTelegram } from "@/components/OrientacoesInstalacaoTelegram";
 
 import Link from "next/link";
@@ -308,10 +308,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
 
         <header className={styles.cabecalho}>
           <div className={styles.marcaEuVigio}>
-            <div className={styles.marcaNova}>
-              <h2 className={styles.nomeProjeto}>FORA DA PAUTA</h2>
-              <TracosMarca className={styles.tracosMarca} />
-            </div>
+            <LogoForaDaPauta className={styles.logoOficial} />
             <p className={styles.fraseProjeto}>Conhecer é importante. Entender é fundamental.</p>
           </div>
         </header>

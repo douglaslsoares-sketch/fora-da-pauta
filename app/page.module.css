@@ -620,3 +620,23 @@
     margin-top: 16px;
   }
 }
+
+
+/* Logomarca oficial: um único arquivo em todas as páginas. */
+.apresentacao:has(.logoOficial) .logoOficial {
+  display: block;
+  width: min(100%, 440px);
+  height: auto;
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .apresentacao:has(.logoOficial) .logoOficial {
+    width: min(100%, 380px);
+    height: auto;
+  }
+  .apresentacao:has(.logoOficial) .cabecalho,
+  .apresentacao:has(.logoOficial) .marcaEuVigio {
+    width: 100%;
+    max-width: 540px;
+  }
+}
