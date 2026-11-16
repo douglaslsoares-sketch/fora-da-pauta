@@ -37,12 +37,12 @@ export default async function Central({ searchParams }: { searchParams: Promise<
       <SiteHeader />
       <nav className={styles.menu} aria-label="Menu central">
         {artigosDisponiveis ? (
-          <Link className={styles.principal} href="/edicoes">Últimas notícias e análises</Link>
+          <Link className={styles.principal} href="/edicoes">Reflexões</Link>
         ) : (
           <span className={styles.principalDesabilitado} aria-disabled="true"
-            title="Ainda não há artigos publicados">Últimas notícias e análises</span>
+            title="Ainda não há artigos publicados">Reflexões</span>
         )}
-        <Link className={styles.principal} href="/acompanhar">Escolher político para acompanhar</Link>
+        <Link className={styles.principal} href="/acompanhar">Escolher um político</Link>
         <MenuLinksRestritos inscrito={inscrito} avisoInicial={!inscrito && parametros.inscricao === "necessaria"} />
         <Link className={styles.botao} href="/loja">Loja</Link>
         <Link className={styles.botao} href="/qr-code">Mostrar QR Code</Link>
