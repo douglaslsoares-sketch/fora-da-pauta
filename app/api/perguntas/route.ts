@@ -6,6 +6,7 @@ import {
 import { NextResponse } from "next/server";
 
 import { sql } from "@/lib/interesses/db";
+import { inscricaoAtiva, tokenSessao } from "@/lib/telegram/sessao-site";
 import {
   consumeRateLimit,
 } from "@/lib/rateLimit";
@@ -230,6 +231,13 @@ export async function POST(
           },
         },
       );
+    }
+
+    // As perguntas podem ser lidas por todos, mas somente inscritos podem enviá-las.
+    if (!(await inscricaoAtiva(await tokenSessao()))) {
+      return NextResponse.json({ error: "Inscrição no Telegram necessária." }, {
+        status: 401, headers: { "Cache-Control": "no-store" },
+      });
     }
 
     /*

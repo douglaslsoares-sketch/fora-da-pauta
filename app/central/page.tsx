@@ -4,21 +4,46 @@ import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import type { Metadata } from "next";
 import styles from "./page.module.css";
 import { linkCompartilhamentoWhatsApp } from "@/lib/compartilhamento";
+import { MenuLinksRestritos } from "@/components/MenuLinksRestritos";
+import { inscricaoAtiva, tokenSessao } from "@/lib/telegram/sessao-site";
+import { sql } from "@/lib/interesses/db";
 
 export const metadata: Metadata = {
   title: "Central | Fora da Pauta",
   description: "Escolha políticos para acompanhar e encontre as opções do Fora da Pauta.",
 };
 
-export default function Central() {
+export const dynamic = "force-dynamic";
+
+export default async function Central({ searchParams }: { searchParams: Promise<{ inscricao?: string }> }) {
+  const parametros = await searchParams;
+  let inscrito = false;
+  let artigosDisponiveis = false;
+  try {
+    inscrito = await inscricaoAtiva(await tokenSessao());
+  } catch (erro) {
+    console.error("Falha ao conferir inscrição do menu:", erro);
+  }
+  try {
+    const resultado = await sql<{ disponivel: boolean }[]>`
+      SELECT EXISTS (SELECT 1 FROM public.admin_artigos WHERE status = 'publicado') AS disponivel
+    `;
+    artigosDisponiveis = resultado[0]?.disponivel === true;
+  } catch (erro) {
+    console.error("Falha ao conferir artigos publicados:", erro);
+  }
   return (
     <main className={styles.pagina}>
       <SiteHeader />
       <nav className={styles.menu} aria-label="Menu central">
-        <Link className={styles.principal} href="/edicoes">Últimas notícias e análises</Link>
+        {artigosDisponiveis ? (
+          <Link className={styles.principal} href="/edicoes">Últimas notícias e análises</Link>
+        ) : (
+          <span className={styles.principalDesabilitado} aria-disabled="true"
+            title="Ainda não há artigos publicados">Últimas notícias e análises</span>
+        )}
         <Link className={styles.principal} href="/acompanhar">Escolher político para acompanhar</Link>
-        <Link className={styles.botao} href="/votou-fique-de-olho?minhas=1">Políticos que eu acompanho</Link>
-        <Link className={styles.botao} href="/fazer-uma-pergunta">O que você gostaria de perguntar?</Link>
+        <MenuLinksRestritos inscrito={inscrito} avisoInicial={!inscrito && parametros.inscricao === "necessaria"} />
         <Link className={styles.botao} href="/camiseta">Camiseta</Link>
         <Link className={styles.botao} href="/qr-code">Mostrar QR Code</Link>
         <a className={styles.compartilhar} href={linkCompartilhamentoWhatsApp} target="_blank" rel="noopener noreferrer">Compartilhar</a>

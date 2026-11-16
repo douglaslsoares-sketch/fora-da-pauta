@@ -7,6 +7,7 @@ import { OrientacoesInstalacaoTelegram, type PlataformaTelegram } from "@/compon
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CandidateSelector } from "@/components/CandidateSelector";
+import { InscricaoNecessariaModal } from "@/components/InscricaoNecessariaModal";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import { SeloTelegram } from "@/components/SeloTelegram";
@@ -79,6 +80,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
   const [plataformaTelegram, setPlataformaTelegram] = useState<PlataformaTelegram>("outro");
   const [erroTelegram, setErroTelegram] = useState("");
   const [salvandoEscolha, setSalvandoEscolha] = useState(false);
+  const [avisoInscricaoAberto, setAvisoInscricaoAberto] = useState(false);
   const [erroEscolha, setErroEscolha] = useState("");
   const [confirmadoAgora, setConfirmadoAgora] = useState<PessoaAcompanhada | null>(null);
   const [busca, setBusca] = useState(0);
@@ -274,10 +276,13 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
   }
 
   async function selecionar(pessoa: { id: string; nomeUrna: string }) {
-    if (!inscrito || salvandoEscolha) return;
+    if (!inscrito) {
+      setAvisoInscricaoAberto(true);
+      return;
+    }
+    if (salvandoEscolha || ids.includes(pessoa.id)) return;
     setErroEscolha("");
     setSalvandoEscolha(true);
-    if (ids.includes(pessoa.id)) return;
     try {
       if (!simulacao) {
         const resposta = await fetch("/api/telegram/sessao", {
@@ -396,9 +401,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
         aria-labelledby="titulo-opcoes"
       >
         <div className={styles.areaInterna}>
+          <h1 id="titulo-opcoes" className="sr-only">Escolher político</h1>
           {conferindo ? (
             <p className={styles.textoArea} role="status">Conferindo sua inscrição...</p>
-          ) : inscrito ? (
+          ) : (
             <>
               {erroEscolha ? <p role="alert" className="mt-4 text-sm text-red-700">{erroEscolha}</p> : null}
               {salvandoEscolha ? <p role="status" className="mt-4 text-sm">Salvando sua escolha...</p> : null}
@@ -423,50 +429,6 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 />
               )}
             </>
-          ) : (
-            <>
-              <p className={styles.textoArea}>
-                Para acompanhar um político, primeiro você precisa se inscrever no Telegram. É gratuito.
-              </p>
-              <div className={styles.quadroTelegram}>
-                <h2 className={styles.perguntaTelegram}>Você já tem o Telegram instalado?</h2>
-                  {jaTemTelegram ? <p className={styles.respostaTelegramSim}>Sim!</p> : null}
-                <button
-                    type="button"
-                    onClick={() => {
-                      if (jaTemTelegram) {
-                        void iniciarInscricao();
-                      } else {
-                        setJaTemTelegram(true);
-                        setPrecisaInstalarTelegram(false);
-                      }
-                    }}
-                    disabled={jaTemTelegram && abrindoTelegram}
-                    className={`${styles.opcaoTelegram} ${jaTemTelegram ? styles.opcaoTelegramInscrever : ""}`}
-                    aria-label={jaTemTelegram ? "Realizar minha inscrição no Fora da Pauta pelo Telegram" : "Sim, já tenho o Telegram"}
-                  >
-                    {jaTemTelegram ? (abrindoTelegram ? "Abrindo Telegram..." : "Realizar minha inscrição") : "Sim, já tenho Telegram"}
-                  </button>
-                {!jaTemTelegram ? (
-                  <button type="button" onClick={() => { setPrecisaInstalarTelegram(anterior => !anterior); setJaTemTelegram(false); }} className={styles.opcaoTelegramSecundaria} aria-expanded={precisaInstalarTelegram}>
-                  Não, preciso instalar
-                </button>
-                  ) : null}
-                
-                  {precisaInstalarTelegram ? (
-                    <OrientacoesInstalacaoTelegram
-                      plataforma={plataformaTelegram}
-                      abrindoTelegram={abrindoTelegram}
-                      onContinuar={() => void iniciarInscricao()}
-                      comandoPendente={comandoInscricaoPendente}
-                      comandoCopiado={comandoInscricaoCopiado}
-                      erroCopia={erroCopiaComando}
-                      onCopiar={() => void copiarComandoInscricao()}
-                    />
-                  ) : null}
-              </div>
-              {erroTelegram ? <p role="alert" className={styles.aviso}>{erroTelegram}</p> : null}
-            </>
           )}
 
           <div className="mt-8 flex justify-center">
@@ -476,6 +438,13 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
           </div>
         </div>
       </section> : null}
+      {pagina === "opcoes" ? (
+        <InscricaoNecessariaModal
+          aberta={avisoInscricaoAberto}
+          onFechar={() => setAvisoInscricaoAberto(false)}
+          contexto="politico"
+        />
+      ) : null}
     </>
   );
 }

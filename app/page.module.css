@@ -440,3 +440,23 @@
 
 /* Explicação objetiva sobre o canal de avisos no início da inscrição. */
 .avisoTelegramIntro { margin:0; color:#f5c928; font-size:clamp(15px,2.2vw,17px); line-height:1.4; font-weight:650; text-align:center; }
+
+/* Exibe o link Ir para o menu integralmente na primeira dobra do celular. */
+@media (max-width: 600px) {
+  .apresentacao:has(.nomeProjeto) .intro {
+    padding-bottom:calc(85px + env(safe-area-inset-bottom));
+  }
+  .apresentacao:has(.nomeProjeto):not(:has(#orientacao-telegram)) .linkSegundaPagina {
+    position:fixed;
+    z-index:30;
+    bottom:0;
+    left:0;
+    width:100%;
+    min-height:52px;
+    margin:0;
+    padding:8px 16px calc(8px + env(safe-area-inset-bottom));
+    background:#050505;
+    border-top:1px solid #333;
+    box-sizing:border-box;
+  }
+}
