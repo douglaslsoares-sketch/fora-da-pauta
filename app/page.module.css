@@ -428,3 +428,12 @@
 
 /* Resposta curta após confirmação de que o Telegram já está instalado. */
 .respostaTelegramSim { margin: 0; color: #ffffff; font-weight: 750; font-size: 16px; text-align: center; }
+
+/* Compactar a home no celular e mostrar o começo do formulário ao abrir. */
+.apresentacao:has(.nomeProjeto) #orientacao-telegram { scroll-margin-top: 14px; }
+@media (max-width: 600px) {
+  .apresentacao:has(.nomeProjeto) { padding-top:clamp(26px,5svh,55px); }
+  .apresentacao:has(.nomeProjeto) .chamada { margin-bottom:14px; }
+  .apresentacao:has(.nomeProjeto) .explicacao + .explicacao { margin-top:9px; }
+  .apresentacao:has(.marcaEuVigio) .botaoInscricao { margin-top:12px; }
+}

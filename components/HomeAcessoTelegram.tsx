@@ -85,6 +85,21 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
   const [novidades, setNovidades] = useState({ edicoes: false, entregas: false });
   const areaAcompanhamento = useRef<HTMLElement>(null);
 
+  const orientacaoTelegramRef = useRef<HTMLDivElement>(null);
+
+  // Ao abrir a inscrição pela home, traz as opções recém-exibidas para a tela.
+  useEffect(() => {
+    if (pagina !== "inicio" || !mostrarOrientacoesTelegram) return;
+    const quadro = orientacaoTelegramRef.current;
+    if (!quadro) return;
+    const animationFrame = window.requestAnimationFrame(() => {
+      const reduzirMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      quadro.scrollIntoView({ behavior: reduzirMovimento ? "instant" : "smooth", block: "start" });
+    });
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, [mostrarOrientacoesTelegram, pagina]);
+
+
   useEffect(() => {
     // Reencontra o comando de inscrição ao voltar do Telegram sem confirmação.
     try {
@@ -310,15 +325,12 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <p className={styles.explicacao}>
                 O Fora da Pauta investiga essas questões e acompanha as decisões dos políticos, inclusive aquelas que não chegam às manchetes.
               </p>
-              <p className={styles.explicacao}>
-                Você pode acompanhar também.
-              </p>
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
-                Quero acompanhar
+                Quero acompanhar também
               </button>
               <p className={styles.fraseGratuidade}>É gratuito.</p>
               {mostrarOrientacoesTelegram ? (
-                <div id="orientacao-telegram" className={styles.quadroTelegram}>
+                <div id="orientacao-telegram" ref={orientacaoTelegramRef} className={styles.quadroTelegram}>
                   <h2 className={styles.perguntaTelegram}>Você já tem o Telegram instalado?</h2>
                   {jaTemTelegram ? <p className={styles.respostaTelegramSim}>Sim!</p> : null}
                   <button
