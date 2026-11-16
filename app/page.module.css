@@ -464,3 +464,6 @@
   .apresentacao:has(.nomeProjeto) .explicacao + .explicacao { margin-top:9px; }
   .apresentacao:has(.marcaEuVigio) .botaoInscricao { margin-top:12px; }
 }
+
+/* Explicação objetiva sobre o canal de avisos no início da inscrição. */
+.avisoTelegramIntro { margin:0; color:#f5c928; font-size:clamp(15px,2.2vw,17px); line-height:1.4; font-weight:650; text-align:center; }
