@@ -455,3 +455,12 @@
 /* Centralização do bloco de inscrição na página de acompanhamento. */
 .areaBranca .textoArea { text-align:center; }
 .areaBranca .quadroTelegram { margin-left:auto; margin-right:auto; }
+
+/* Compactar a home no celular e mostrar o começo do formulário ao abrir. */
+.apresentacao:has(.nomeProjeto) #orientacao-telegram { scroll-margin-top: 14px; }
+@media (max-width: 600px) {
+  .apresentacao:has(.nomeProjeto) { padding-top:clamp(26px,5svh,55px); }
+  .apresentacao:has(.nomeProjeto) .chamada { margin-bottom:14px; }
+  .apresentacao:has(.nomeProjeto) .explicacao + .explicacao { margin-top:9px; }
+  .apresentacao:has(.marcaEuVigio) .botaoInscricao { margin-top:12px; }
+}
