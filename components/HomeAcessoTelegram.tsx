@@ -303,7 +303,16 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 As decisões que afetam a nossa vida.
               </h1>
               <p className={styles.explicacao}>
-                Todos os dias, reunimos informações sobre o jogo político e seu impacto na vida da sociedade. Você também pode acompanhar o mandato dos políticos que escolher.
+                <strong>Nem tudo o que importa vira notícia. E nem toda notícia conta a história inteira.</strong>
+              </p>
+              <p className={styles.explicacao}>
+                Por que alguns acontecimentos ganham destaque e outros não? Que interesses estão por trás? Quem ganha? Quem perde? O que a política tem a ver com isso? O que você tem a ver com isso?
+              </p>
+              <p className={styles.explicacao}>
+                O Fora da Pauta investiga essas questões e acompanha as decisões dos políticos, inclusive aquelas que não chegam às manchetes.
+              </p>
+              <p className={styles.explicacao}>
+                Você pode acompanhar também.
               </p>
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
                 Quero acompanhar
