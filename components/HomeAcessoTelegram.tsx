@@ -308,8 +308,8 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
 
         <header className={styles.cabecalho}>
           <div className={styles.marcaEuVigio}>
-            <div className={styles.marcaNova} style={{ width: "max-content", maxWidth: "100%", alignSelf: "center" }}>
-              <h2 className={styles.nomeProjeto} style={{ textAlign: "left" }}>FORA DA PAUTA</h2>
+            <div className={styles.marcaNova}>
+              <h2 className={styles.nomeProjeto}>FORA DA PAUTA</h2>
               <TracosMarca className={styles.tracosMarca} />
             </div>
             <p className={styles.fraseProjeto}>Conhecer é importante. Entender é fundamental.</p>
@@ -333,7 +333,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
                 Quero acompanhar também
               </button>
-              <p className={styles.fraseGratuidade} style={{ alignSelf: "center", width: "100%", margin: "6px 0 0", fontSize: "14px", fontWeight: 700 }}>É gratuito.</p>
+              <p className={styles.fraseGratuidade}>É gratuito.</p>
               {mostrarOrientacoesTelegram ? (
                 <div id="orientacao-telegram" ref={orientacaoTelegramRef} className={styles.quadroTelegram}>
                   <p className={styles.avisoTelegramIntro}>Os avisos chegam pelo Telegram.</p>
