@@ -580,3 +580,39 @@
     margin-top: 12px;
   }
 }
+
+/* Refinamento final da home em telas pequenas: ritmo e proporções.
+   Não altera a marca, o conteúdo nem o fluxo da inscrição. */
+@media (max-width: 600px) {
+  .apresentacao:has(.nomeProjeto) {
+    gap: clamp(15px, 2.3svh, 23px);
+  }
+  .apresentacao:has(.nomeProjeto) .nomeProjeto {
+    font-size: clamp(25px, 6.9vw, 31px);
+  }
+  .apresentacao:has(.nomeProjeto) .marcaEuVigio {
+    gap: 5px;
+  }
+  .apresentacao:has(.nomeProjeto) .fraseProjeto {
+    margin-top: 2px;
+  }
+  .apresentacao:has(.nomeProjeto) .chamada {
+    margin-bottom: 15px;
+  }
+  .apresentacao:has(.nomeProjeto) .explicacao + .explicacao {
+    margin-top: 12px;
+  }
+  .apresentacao:has(.nomeProjeto) .botaoInscricao {
+    margin-top: 13px;
+  }
+  .apresentacao:has(.nomeProjeto) .linkSegundaPagina {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 360px) and (max-height: 660px) {
+  .apresentacao:has(.nomeProjeto) { gap: 9px; }
+  .apresentacao:has(.nomeProjeto) .chamada { margin-bottom: 9px; }
+  .apresentacao:has(.nomeProjeto) .explicacao + .explicacao { margin-top: 7px; }
+  .apresentacao:has(.nomeProjeto) .botaoInscricao { margin-top: 10px; }
+}
