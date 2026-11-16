@@ -44,7 +44,7 @@ export default async function Central({ searchParams }: { searchParams: Promise<
         )}
         <Link className={styles.principal} href="/acompanhar">Escolher político para acompanhar</Link>
         <MenuLinksRestritos inscrito={inscrito} avisoInicial={!inscrito && parametros.inscricao === "necessaria"} />
-        <Link className={styles.botao} href="/camiseta">Camiseta</Link>
+        <Link className={styles.botao} href="/loja">Loja</Link>
         <Link className={styles.botao} href="/qr-code">Mostrar QR Code</Link>
         <a className={styles.compartilhar} href={linkCompartilhamentoWhatsApp} target="_blank" rel="noopener noreferrer">Compartilhar</a>
         <InstalarAplicativo tema="escuro" />
