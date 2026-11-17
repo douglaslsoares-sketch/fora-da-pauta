@@ -46,6 +46,7 @@ export default async function Central({ searchParams }: { searchParams: Promise<
         <MenuLinksRestritos inscrito={inscrito} avisoInicial={!inscrito && parametros.inscricao === "necessaria"} />
         <Link className={styles.botao} href="/loja">Loja</Link>
         <Link className={styles.botao} href="/qr-code">Mostrar QR Code</Link>
+        <a className={styles.botao} href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13" target="_blank" rel="noopener noreferrer">Seguir no WhatsApp</a>
         <a className={styles.compartilhar} href={linkCompartilhamentoWhatsApp} target="_blank" rel="noopener noreferrer">Compartilhar</a>
         <InstalarAplicativo tema="escuro" />
         <Link className={styles.voltarInicio} href="/">Ir para o início</Link>
