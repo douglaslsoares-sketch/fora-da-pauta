@@ -319,7 +319,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 Quem forma a sua opinião: você ou quem escolhe a informação que chega até você?
               </h1>
               <p className={styles.explicacao}>
-                Acompanhamos o jogo político, investigamos os interesses por trás das notícias e compartilhamos nossa interpretação para você tirar suas próprias conclusões.
+                Investigamos interesses e motivações que possam existir na escolha do que vira ou não notícia. Procuramos desvendar o que está por trás daquilo que é apresentado como notícia e a maneira como a notícia é apresentada, para que você tire suas próprias conclusões.
               </p>
               <a
                 href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13"
