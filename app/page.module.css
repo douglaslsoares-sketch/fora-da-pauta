@@ -786,3 +786,18 @@
   .apresentacao:has(.logoOficial) .intro { padding: 0; }
   .navegacaoHome { margin-top: 20px; }
 }
+
+
+/* Subtítulo centralizado e secundário em relação à pergunta principal. */
+.apresentacao:has(.logoOficial) .fraseProjeto {
+  width: 100%;
+  max-width: 38ch;
+  margin: 8px auto 0;
+  padding-inline: 8px;
+  color: #e9c257;
+  font-size: clamp(13px, 2.1vw, 16px);
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+  text-wrap: balance;
+}
