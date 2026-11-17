@@ -8,9 +8,9 @@ export const imagemConfirmacaoTelegram = "https://www.foradapauta.org/telegram/c
 export const mensagemCompartilhamento = [
   "*FORA DA PAUTA*",
   "",
-  "Quem forma a sua opinião: você ou quem escolhe a informação que chega até você?",
+  "Quem forma sua opinião? Você ou quem escolhe as notícias que chegam e como chegam a você?",
   "",
-  "Investigamos interesses e motivações que possam existir na escolha do que vira ou não notícia. Procuramos desvendar o que está por trás daquilo que é apresentado como notícia e a maneira como a notícia é apresentada, para que você tire suas próprias conclusões.",
+  "Investigamos interesses e motivações que possam existir na escolha do que vira ou não notícia. Procuramos desvendar o que está por trás da notícia e por que ela é apresentada da maneira como chega até você, para que você tire suas próprias conclusões.",
   "",
   "*Conhecer é importante. Entender é fundamental.*",
   "",
