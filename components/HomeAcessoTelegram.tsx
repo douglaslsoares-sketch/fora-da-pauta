@@ -316,10 +316,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.perguntaEditorial}>
-                Quem forma a sua opinião: você ou quem escolhe a informação que chega até você?
+                Quem forma sua opinião? Você ou quem escolhe as notícias que chegam e <span style={{ color: "#FFFFFF", fontWeight: 800 }}>como</span> chegam a você?
               </h1>
               <p className={styles.explicacao}>
-                Investigamos interesses e motivações que possam existir na escolha do que vira ou não notícia. Procuramos desvendar o que está por trás daquilo que é apresentado como notícia e a maneira como a notícia é apresentada, para que você tire suas próprias conclusões.
+                Investigamos interesses e motivações que possam existir na escolha do que vira ou não notícia. Procuramos desvendar o que está por trás da notícia e por que ela é apresentada da maneira como chega até você, para que você tire suas próprias conclusões.
               </p>
               <a
                 href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13"
