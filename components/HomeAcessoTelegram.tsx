@@ -316,13 +316,16 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.perguntaEditorial}>
-                Quem forma sua opinião?
+                Você confia nas informações que chegam até você?
               </h1>
               <p className={styles.explicacao}>
-                Será que, por trás das informações que chegam até você, existe uma intenção deliberada de influenciar seu comportamento?
+                O que querem que você pense, sinta ou faça?
               </p>
-              <p style={{ color: "#FFFFFF", fontWeight: 600 }}>
-                As decisões tomadas sobre grandes temas nacionais prejudicam ou favorecem você?
+              <p style={{ color: "#F5D348", fontWeight: 600, textAlign: "center" }}>
+                Acompanhe o Fora da Pauta.
+              </p>
+              <p style={{ color: "#FFFFFF", textAlign: "center" }}>
+                Receba nossas publicações pelo WhatsApp.
               </p>
               <a
                 href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13"
@@ -330,11 +333,9 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 rel="noopener noreferrer"
                 className={styles.botaoInscricao}
               >
-                Acompanhar o Fora da Pauta
+                Acompanhar
               </a>
-              <p style={{ color: "#FFFFFF", textAlign: "center" }}>Receba nossas publicações pelo WhatsApp.</p>
               <p className={styles.fraseGratuidade}>É gratuito.</p>
-              <Link href="/central" className={styles.linkSegundaPagina}>Ir para o menu</Link>
             </div>
 
             <div className={styles.qrArea}>
