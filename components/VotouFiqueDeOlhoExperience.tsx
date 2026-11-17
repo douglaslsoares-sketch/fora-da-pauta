@@ -426,7 +426,9 @@ export function VotouFiqueDeOlhoExperience() {
       lerSelecaoSerializada(),
     ).filter((item) => item.id !== pessoa.id);
 
-    edicoesLocaisPendentes.current = true;
+    // Remoções confirmadas no Telegram não são alterações locais pendentes.
+    // Permite recuperar a lista oficial ao voltar ao site.
+    edicoesLocaisPendentes.current = !inscricaoAtiva;
     setEscolhasSalvas(false);
     gravar(novaLista);
 
@@ -464,7 +466,9 @@ export function VotouFiqueDeOlhoExperience() {
       if (removidas.length > 0) {
         const novaLista = interpretarSelecao(lerSelecaoSerializada())
           .filter((pessoa) => !removidas.includes(pessoa.id));
-        edicoesLocaisPendentes.current = true;
+        // Se a remoção foi confirmada no Telegram, a lista oficial
+        // pode voltar a sincronizar normalmente.
+        edicoesLocaisPendentes.current = !inscricaoAtiva;
         setEscolhasSalvas(false);
         gravar(novaLista);
         if (novaLista.length === 0) {
