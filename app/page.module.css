@@ -654,5 +654,8 @@
   .apresentacao:has(.logoOficial) .botaoInscricao { margin-top: 19px; }
   .apresentacao:has(.logoOficial) .linkSegundaPagina,
   .apresentacao:has(.logoOficial):not(:has(#orientacao-telegram)) .linkSegundaPagina { margin-top: 9px; }
-  .apresentacao:has(.logoOficial) { min-height: auto; padding-bottom: clamp(28px, 5svh, 48px); }
+  .apresentacao:has(.logoOficial) { min-height: 100svh; padding-bottom: clamp(28px, 5svh, 48px); }
 }
+
+/* A home permanece preta até o rodapé, mesmo com o quadro de inscrição fechado. */
+.page { min-height: 100svh; background: #050505; }
