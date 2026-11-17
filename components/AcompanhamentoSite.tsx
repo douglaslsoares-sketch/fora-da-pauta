@@ -46,7 +46,7 @@ export function AcompanhamentoSite({ modo }: { modo: "escolher" | "lista" }) {
     let ativo = true;
     async function nomes() {
       try {
-        const resposta = await fetch("/api/telegram/sessao", { cache: "no-store" });
+        const resposta = await fetch(`/api/site/candidaturas?ids=${encodeURIComponent(ids.join(","))}`, { cache: "no-store" });
         if (!resposta.ok) return;
         const dados = await resposta.json() as { pessoas?: Pessoa[] };
         if (ativo && Array.isArray(dados.pessoas)) {
