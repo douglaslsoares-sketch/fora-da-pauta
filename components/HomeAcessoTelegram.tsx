@@ -316,16 +316,13 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.perguntaEditorial}>
-                Quem forma sua opinião? Você ou quem escolhe a informação que chega até você?
+                Quem forma sua opinião?
               </h1>
               <p className={styles.explicacao}>
-                Investigamos interesses e motivações que possam existir na escolha dos assuntos que ganham destaque e daqueles que ficam de fora.
+                Será que, por trás da informação que você recebe, existe alguma intenção deliberada de direcionar sua opinião para uma determinada conclusão?
               </p>
-              <p className={styles.explicacao}>
-                Procuramos desvendar o que está por trás das informações e os motivos pelos quais elas são apresentadas de uma determinada maneira e não de outra, para que você tire suas próprias conclusões.
-              </p>
-              <p style={{ color: "#F5D348", fontWeight: 600 }}>
-                Será que, por trás da informação que chega até você, existe alguma intenção de direcionar sua opinião para determinada conclusão?
+              <p style={{ color: "#FFFFFF", fontWeight: 600 }}>
+                As decisões tomadas sobre grandes temas nacionais prejudicam ou favorecem você?
               </p>
               <a
                 href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13"
@@ -333,7 +330,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 rel="noopener noreferrer"
                 className={styles.botaoInscricao}
               >
-                Quero acompanhar
+                Acompanhar o Fora da Pauta
               </a>
               <p style={{ color: "#FFFFFF", textAlign: "center" }}>Receba nossas publicações pelo WhatsApp.</p>
               <p className={styles.fraseGratuidade}>É gratuito.</p>
