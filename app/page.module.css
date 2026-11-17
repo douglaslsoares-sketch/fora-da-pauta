@@ -640,3 +640,8 @@
     max-width: 540px;
   }
 }
+
+/* Hierarquia editorial da home: título branco, pergunta amarela e texto conciso. */
+.apresentacao:has(.logoOficial) .chamada { color:#fff; margin-bottom:12px; }
+.perguntaEditorial { max-width:650px; margin:0 0 20px; color:#f4c542; font-size:clamp(17px,2.8vw,23px); font-weight:700; line-height:1.35; text-wrap:balance; }
+.apresentacao:has(.logoOficial) .heroTexto > .explicacao { max-width:650px; }
