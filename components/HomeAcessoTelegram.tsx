@@ -316,19 +316,16 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.chamada}>
-                As decisões que afetam a nossa vida.
+                A desinformação aliena.
               </h1>
-              <p className={styles.explicacao}>
-                <strong>Nem tudo o que importa vira notícia. E nem toda notícia conta a história inteira.</strong>
+              <p className={styles.perguntaEditorial}>
+                Você pensa por si ou deixa que outros pensem por você?
               </p>
               <p className={styles.explicacao}>
-                Por que alguns acontecimentos ganham destaque e outros não? Que interesses estão por trás? Quem ganha? Quem perde? O que a política tem a ver com isso? O que você tem a ver com isso?
-              </p>
-              <p className={styles.explicacao}>
-                O Fora da Pauta investiga essas questões e acompanha as decisões dos políticos, inclusive aquelas que não chegam às manchetes.
+                Acompanhamos o jogo político, investigamos os interesses por trás das notícias e compartilhamos nossas reflexões para você tirar suas próprias conclusões.
               </p>
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
-                Quero acompanhar também
+                Quero receber as reflexões
               </button>
               <p className={styles.fraseGratuidade}>É gratuito.</p>
               {mostrarOrientacoesTelegram ? (
