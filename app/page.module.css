@@ -755,3 +755,34 @@
   .apresentacao:has(.logoOficial) .botaoInscricao { transition: none; }
   .apresentacao:has(.logoOficial) .botaoInscricao:hover { transform: none; }
 }
+
+
+/* Equilíbrio vertical e links utilitários da home. */
+.navegacaoHome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 22px;
+}
+.navegacaoHome .linkSegundaPagina { margin: 0; }
+.navegacaoHome > div { margin-top: 4px; }
+.navegacaoHome button { font-size: 15px; }
+.apresentacao:has(.logoOficial) {
+  justify-content: center;
+  gap: clamp(25px, 4vh, 55px);
+}
+.apresentacao:has(.logoOficial) .intro { margin: 0 auto; }
+@media (min-width: 601px) {
+  .apresentacao:has(.logoOficial) { padding-block: clamp(36px, 6vh, 90px); }
+}
+@media (max-width: 600px) {
+  .apresentacao:has(.logoOficial) {
+    justify-content: center;
+    gap: clamp(25px, 4svh, 44px);
+    padding-top: 32px;
+    padding-bottom: 38px;
+  }
+  .apresentacao:has(.logoOficial) .intro { padding: 0; }
+  .navegacaoHome { margin-top: 20px; }
+}
