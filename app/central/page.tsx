@@ -4,8 +4,6 @@ import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import type { Metadata } from "next";
 import styles from "./page.module.css";
 import { linkCompartilhamentoWhatsApp } from "@/lib/compartilhamento";
-import { MenuLinksRestritos } from "@/components/MenuLinksRestritos";
-import { inscricaoAtiva, tokenSessao } from "@/lib/telegram/sessao-site";
 import { sql } from "@/lib/interesses/db";
 
 export const metadata: Metadata = {
@@ -16,14 +14,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function Central({ searchParams }: { searchParams: Promise<{ inscricao?: string }> }) {
-  const parametros = await searchParams;
-  let inscrito = false;
   let artigosDisponiveis = false;
-  try {
-    inscrito = await inscricaoAtiva(await tokenSessao());
-  } catch (erro) {
-    console.error("Falha ao conferir inscrição do menu:", erro);
-  }
   try {
     const resultado = await sql<{ disponivel: boolean }[]>`
       SELECT EXISTS (SELECT 1 FROM public.admin_artigos WHERE status = 'publicado') AS disponivel
@@ -43,7 +34,7 @@ export default async function Central({ searchParams }: { searchParams: Promise<
             title="Ainda não há artigos publicados">Reflexões</span>
         )}
         <Link className={styles.principal} href="/acompanhar">Escolher um político</Link>
-        <MenuLinksRestritos inscrito={inscrito} avisoInicial={!inscrito && parametros.inscricao === "necessaria"} />
+        <Link className={styles.botao} href="/meus-acompanhamentos">Políticos que eu acompanho</Link>
         <Link className={styles.botao} href="/loja">Loja</Link>
         <Link className={styles.botao} href="/qr-code">Mostrar QR Code</Link>
         <a className={styles.botao} href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13" target="_blank" rel="noopener noreferrer">Seguir no WhatsApp</a>
