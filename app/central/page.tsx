@@ -33,7 +33,7 @@ export default async function Central({ searchParams }: { searchParams: Promise<
           <span className={styles.principalDesabilitado} aria-disabled="true"
             title="Ainda não há artigos publicados">Reflexões</span>
         )}
-        <Link className={styles.principal} href="/acompanhar">Escolher um político</Link>
+        <Link className={styles.escolherPolitico} href="/acompanhar"><span className={styles.escolherTitulo}>Escolher um político</span><span className={styles.escolherDescricao}>Acompanhe as decisões de quem representa você.</span></Link>
         <Link className={styles.botao} href="/meus-acompanhamentos">Políticos que eu acompanho</Link>
         <Link className={styles.botao} href="/loja">Loja</Link>
         <Link className={styles.botao} href="/qr-code">Mostrar QR Code</Link>
