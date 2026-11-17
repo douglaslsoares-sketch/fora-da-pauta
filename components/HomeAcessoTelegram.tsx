@@ -319,7 +319,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 Quem forma sua opinião?
               </h1>
               <p className={styles.explicacao}>
-                Será que, por trás da informação que você recebe, existe alguma intenção deliberada de direcionar sua opinião para uma determinada conclusão?
+                Será que, por trás das informações que chegam até você, existe uma intenção deliberada de influenciar seu comportamento?
               </p>
               <p style={{ color: "#FFFFFF", fontWeight: 600 }}>
                 As decisões tomadas sobre grandes temas nacionais prejudicam ou favorecem você?
