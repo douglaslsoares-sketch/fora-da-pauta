@@ -10,7 +10,7 @@ export const mensagemCompartilhamento = [
   "",
   "Quem forma a sua opinião: você ou quem escolhe a informação que chega até você?",
   "",
-  "Investigamos os interesses por trás das notícias e ajudamos você a entender como as decisões políticas afetam a nossa vida.",
+  "Investigamos interesses e motivações que possam existir na escolha do que vira ou não notícia. Procuramos desvendar o que está por trás daquilo que é apresentado como notícia e a maneira como a notícia é apresentada, para que você tire suas próprias conclusões.",
   "",
   "*Conhecer é importante. Entender é fundamental.*",
   "",
