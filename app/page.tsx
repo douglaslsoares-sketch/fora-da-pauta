@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "Investiga o que não está sendo explicado, apresenta fontes e ajuda você a compreender os acontecimentos e as decisões que afetam sua vida.",
   openGraph: {
     title: "Fora da Pauta — Conhecer é importante. Entender é fundamental.",
-    description: "Entenda o que acontece, acompanhe os políticos e tire suas próprias conclusões.",
+    description: "Quem forma a sua opinião: você ou quem escolhe a informação que chega até você?",
     url: "https://www.foradapauta.org/",
     type: "website",
     locale: "pt_BR",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: [imagemCompartilhamento],
     title: "Fora da Pauta — Conhecer é importante. Entender é fundamental.",
-    description: "Entenda o que acontece, acompanhe os políticos e tire suas próprias conclusões.",
+    description: "Quem forma a sua opinião: você ou quem escolhe a informação que chega até você?",
   },
 };
 
