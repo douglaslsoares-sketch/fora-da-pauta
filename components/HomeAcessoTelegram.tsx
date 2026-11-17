@@ -321,10 +321,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <p className={styles.explicacao}>
                 O que querem que você pense, sinta ou faça?
               </p>
-              <p style={{ color: "#F5D348", fontWeight: 600, textAlign: "center" }}>
+              <p className={styles.conviteEditorial}>
                 Acompanhe o Fora da Pauta.
               </p>
-              <p style={{ color: "#FFFFFF", textAlign: "center" }}>
+              <p className={styles.descricaoConvite}>
                 Receba nossas publicações pelo WhatsApp.
               </p>
               <a
