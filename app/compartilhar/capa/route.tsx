@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-/** Prévia oficial: símbolo de duas barras, sem palavras, grande e centralizado. */
+/** Identidade oficial enviada: duas barras inclinadas, branca e amarela, sobre preto. */
 export async function GET() {
   return new ImageResponse(
     <div style={{
@@ -11,16 +11,16 @@ export async function GET() {
       alignItems: "center", justifyContent: "center",
       backgroundColor: "#000000",
     }}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 32, width: 940 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 52, width: 820 }}>
         <div style={{
-          display: "flex", width: 940, height: 105,
+          display: "flex", width: 820, height: 112,
           backgroundColor: "#ffffff",
-          clipPath: "polygon(6% 0, 100% 0, 94% 100%, 0 100%)",
+          clipPath: "polygon(5.5% 0, 100% 0, 94.5% 100%, 0 100%)",
         }} />
         <div style={{
-          display: "flex", width: 680, height: 105,
+          display: "flex", width: 662, height: 112,
           backgroundColor: "#ffdf00",
-          clipPath: "polygon(6% 0, 100% 0, 94% 100%, 0 100%)",
+          clipPath: "polygon(6.8% 0, 100% 0, 93.2% 100%, 0 100%)",
         }} />
       </div>
     </div>,
