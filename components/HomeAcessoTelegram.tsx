@@ -336,6 +336,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 Acompanhar
               </a>
               <p className={styles.fraseGratuidade}>É gratuito.</p>
+              <nav className={styles.navegacaoHome} aria-label="Outras opções">
+                <Link href="/central" className={styles.linkSegundaPagina}>Ir para o menu</Link>
+                <InstalarAplicativo tema="escuro" />
+              </nav>
             </div>
 
             <div className={styles.qrArea}>
