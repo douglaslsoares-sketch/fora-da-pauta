@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { sql } from "@/lib/interesses/db";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
+import { CriarTabelasAcompanhamento } from "@/components/CriarTabelasAcompanhamento";
 import { TesteAcompanhamentos } from "@/components/TesteAcompanhamentos";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +30,7 @@ export default async function AdminTesteAcompanhamentos() {
       <p className="mt-3" role="status">
         {erro || (pronto ? "As duas tabelas foram encontradas." : "As tabelas ainda não estão disponíveis. A migração precisa ser executada.")}
       </p>
-      {pronto ? <TesteAcompanhamentos /> : <p className="mt-4">O teste de gravação ficará disponível somente depois da criação das tabelas.</p>}
+      {pronto ? <TesteAcompanhamentos /> : <><p className="mt-4">O teste de gravação ficará disponível somente depois da criação das tabelas.</p><CriarTabelasAcompanhamento /></>}
     </div>
   </main>;
 }
