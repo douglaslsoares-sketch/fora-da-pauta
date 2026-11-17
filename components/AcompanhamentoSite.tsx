@@ -82,7 +82,6 @@ export function AcompanhamentoSite({ modo }: { modo: "escolher" | "lista" }) {
 
   return <section className="mx-auto w-full max-w-3xl px-5 py-8 text-black">
     <h1 className="mb-3 text-2xl font-bold">{modo === "escolher" ? "Escolher um político" : "Políticos que eu acompanho"}</h1>
-    <p className="mb-5 text-sm text-slate-600">Suas escolhas ficam salvas neste navegador. Não é necessário seguir um canal para acompanhar políticos.</p>
     {erro && <p role="alert" className="mb-4 rounded-lg bg-red-50 p-3 text-red-800">{erro}</p>}
     {aviso && <p role="status" className="mb-4 rounded-lg bg-green-50 p-3 text-green-800">{aviso}</p>}
     {carregando ? <p role="status">Carregando acompanhamentos...</p> : modo === "escolher" ? (
