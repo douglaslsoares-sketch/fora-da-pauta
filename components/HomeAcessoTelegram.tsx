@@ -319,7 +319,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 A desinformação aliena.
               </h1>
               <p className={styles.perguntaEditorial}>
-                Você pensa por si ou deixa que outros pensem por você?
+                Você pensa por si mesmo ou deixa que outros pensem por você?
               </p>
               <p className={styles.explicacao}>
                 Acompanhamos o jogo político, investigamos os interesses por trás das notícias e compartilhamos nossa interpretação para você tirar suas próprias conclusões.
