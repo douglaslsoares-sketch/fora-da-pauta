@@ -679,3 +679,79 @@
   outline: 3px solid #fff;
   outline-offset: 3px;
 }
+
+
+/* Home: hierarquia visual editorial e leitura confortável em telas pequenas. */
+.apresentacao:has(.logoOficial) {
+  background: #080a0e;
+  padding-inline: clamp(20px, 5vw, 60px);
+}
+.apresentacao:has(.logoOficial) .cabecalho { max-width: 660px; }
+.apresentacao:has(.logoOficial) .marcaEuVigio { gap: 12px; }
+.apresentacao:has(.logoOficial) .fraseProjeto {
+  max-width: 34ch;
+  line-height: 1.45;
+  letter-spacing: .005em;
+}
+.apresentacao:has(.logoOficial) .heroGrid { max-width: 640px; }
+.apresentacao:has(.logoOficial) .heroTexto { width: 100%; }
+.apresentacao:has(.logoOficial) .perguntaEditorial {
+  max-width: 22ch;
+  margin: 0 auto 18px;
+  font-size: clamp(27px, 4.3vw, 42px);
+  font-weight: 800;
+  line-height: 1.16;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+.apresentacao:has(.logoOficial) .heroTexto > .explicacao {
+  max-width: 33ch;
+  margin: 0 auto;
+  color: #f2f3f5;
+  font-size: clamp(19px, 2.5vw, 25px);
+  line-height: 1.35;
+  font-weight: 500;
+  text-wrap: balance;
+}
+.conviteEditorial {
+  margin: clamp(27px, 4.5vh, 40px) 0 0;
+  color: #f4c542;
+  font-size: clamp(18px, 2.3vw, 22px);
+  font-weight: 750;
+  line-height: 1.35;
+  text-align: center;
+}
+.descricaoConvite {
+  margin: 7px 0 0;
+  color: #e4e6eb;
+  font-size: clamp(15px, 1.8vw, 18px);
+  line-height: 1.5;
+  text-align: center;
+}
+.apresentacao:has(.logoOficial) .botaoInscricao {
+  width: min(100%, 320px);
+  min-height: 56px;
+  margin-top: 22px;
+  padding: 14px 24px;
+  border-radius: 12px;
+  background: #26cb69;
+  color: #07170e;
+  font-size: 18px;
+  font-weight: 800;
+  box-shadow: 0 6px 20px rgba(0,0,0,.22);
+  transition: background-color .15s ease, transform .15s ease;
+}
+.apresentacao:has(.logoOficial) .botaoInscricao:hover { background: #47e186; transform: translateY(-1px); }
+.apresentacao:has(.logoOficial) .botaoInscricao:focus-visible { outline: 3px solid #f4c542; outline-offset: 4px; }
+.apresentacao:has(.logoOficial) .fraseGratuidade { margin-top: 10px; font-size: 15px; }
+@media (max-width: 600px) {
+  .apresentacao:has(.logoOficial) { gap: 16px; padding-top: 24px; padding-bottom: 32px; }
+  .apresentacao:has(.logoOficial) .intro { padding: 10px 0 16px; }
+  .apresentacao:has(.logoOficial) .perguntaEditorial { margin-bottom: 17px; font-size: clamp(27px, 7.4vw, 35px); }
+  .apresentacao:has(.logoOficial) .heroTexto > .explicacao { font-size: clamp(19px, 5.1vw, 23px); }
+  .conviteEditorial { margin-top: 30px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .apresentacao:has(.logoOficial) .botaoInscricao { transition: none; }
+  .apresentacao:has(.logoOficial) .botaoInscricao:hover { transform: none; }
+}
