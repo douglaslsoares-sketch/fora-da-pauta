@@ -12,7 +12,7 @@ const COOKIE = "fdp_visitante_v1";
 const DIAS = 180;
 const HEADERS = { "Cache-Control": "no-store" };
 const TOKEN_VALIDO = /^[A-Za-z0-9_-]{43}$/;
-const ID_VALIDO = /^\\d{8,20}$/;
+const ID_VALIDO = /^[0-9]{8,20}$/;
 
 function hash(token: string) {
   return createHash("sha256").update(token, "utf8").digest("hex");
