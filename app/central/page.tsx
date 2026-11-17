@@ -28,10 +28,10 @@ export default async function Central({ searchParams }: { searchParams: Promise<
       <SiteHeader />
       <nav className={styles.menu} aria-label="Menu central">
         {artigosDisponiveis ? (
-          <Link className={styles.principal} href="/edicoes">Reflexões</Link>
+          <Link className={styles.principal} href="/edicoes"><span className={styles.publicacoesTitulo}>Publicações</span><span className={styles.publicacoesDescricao}>Leia, ouça, compartilhe</span></Link>
         ) : (
           <span className={styles.principalDesabilitado} aria-disabled="true"
-            title="Ainda não há artigos publicados">Reflexões</span>
+            title="Ainda não há artigos publicados"><span className={styles.publicacoesTitulo}>Publicações</span><span className={styles.publicacoesDescricao}>Leia, ouça, compartilhe</span></span>
         )}
         <Link className={styles.escolherPolitico} href="/acompanhar"><span className={styles.escolherTitulo}>Escolher um político</span><span className={styles.escolherDescricao}>Acompanhe as decisões de quem representa você.</span></Link>
         <Link className={styles.botao} href="/meus-acompanhamentos">Políticos que eu acompanho</Link>
