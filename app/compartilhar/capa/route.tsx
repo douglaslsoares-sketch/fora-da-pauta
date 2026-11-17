@@ -16,7 +16,7 @@ export async function GET() {
       width: "100%",
       height: "100%",
       padding: "68px",
-      backgroundColor: "#080808",
+      backgroundColor: "#141C2B",
     }}>
       <div style={{
         display: "flex",
@@ -29,21 +29,21 @@ export async function GET() {
       }}>FORA DA PAUTA</div>
       <div style={{
         display: "flex",
-        width: 84,
-        height: 5,
-        marginTop: 39,
-        marginBottom: 42,
-        backgroundColor: "#F4C533",
+        width: 860,
+        height: 15,
+        marginTop: 28,
+        marginBottom: 28,
+        backgroundColor: "#ffffff",
       }} />
       <div style={{
         display: "flex",
-        maxWidth: 960,
+        maxWidth: 1040,
         color: "#F4C533",
-        fontSize: 56,
+        fontSize: 48,
         fontWeight: 700,
         lineHeight: 1.15,
         textAlign: "center",
-      }}>Existe muito mais por trás das notícias.</div>
+      }}>Conhecer é importante. Entender é fundamental.</div>
     </div>,
     {
       width: 1200,
