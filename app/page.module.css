@@ -645,3 +645,14 @@
 .apresentacao:has(.logoOficial) .chamada { color:#fff; margin-bottom:12px; }
 .perguntaEditorial { max-width:650px; margin:0 0 20px; color:#f4c542; font-size:clamp(17px,2.8vw,23px); font-weight:700; line-height:1.35; text-wrap:balance; }
 .apresentacao:has(.logoOficial) .heroTexto > .explicacao { max-width:650px; }
+
+/* Refinamento de espaçamento da home, preservando a composição aprovada. */
+.apresentacao:has(.logoOficial) .perguntaEditorial { margin-bottom: 14px; }
+.apresentacao:has(.logoOficial) .botaoInscricao { margin-top: 20px; }
+@media (max-width: 600px) {
+  .apresentacao:has(.logoOficial) .perguntaEditorial { margin-bottom: 12px; }
+  .apresentacao:has(.logoOficial) .botaoInscricao { margin-top: 19px; }
+  .apresentacao:has(.logoOficial) .linkSegundaPagina,
+  .apresentacao:has(.logoOficial):not(:has(#orientacao-telegram)) .linkSegundaPagina { margin-top: 9px; }
+  .apresentacao:has(.logoOficial) { min-height: auto; padding-bottom: clamp(28px, 5svh, 48px); }
+}
