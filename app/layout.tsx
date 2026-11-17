@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.foradapauta.org"),
   openGraph: {
     title: "Fora da Pauta — Conhecer é importante. Entender é fundamental.",
-    description: "Quem forma a sua opinião: você ou quem escolhe a informação que chega até você?",
+    description: "Quem forma sua opinião? Você ou quem escolhe as notícias que chegam e como chegam a você?",
     url: "https://www.foradapauta.org/",
     siteName: "Fora da Pauta",
     locale: "pt_BR",
