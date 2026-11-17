@@ -322,7 +322,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 Você pensa por si ou deixa que outros pensem por você?
               </p>
               <p className={styles.explicacao}>
-                Acompanhamos o jogo político, investigamos os interesses por trás das notícias e compartilhamos nossas reflexões para você tirar suas próprias conclusões.
+                Acompanhamos o jogo político, investigamos os interesses por trás das notícias e compartilhamos nossa interpretação para você tirar suas próprias conclusões.
               </p>
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
                 Quero receber as reflexões
