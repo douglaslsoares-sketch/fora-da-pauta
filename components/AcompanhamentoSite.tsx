@@ -94,7 +94,7 @@ export function AcompanhamentoSite({ modo }: { modo: "escolher" | "lista" }) {
       <div className="min-w-0 flex-1"><p className="font-semibold">{pessoas[id] || "Candidatura " + id}</p></div>
       <button type="button" disabled={salvando} onClick={() => void alterar("DELETE", { id, nomeUrna: pessoas[id] || id })}
         className="rounded-lg border border-red-300 px-4 py-3 font-semibold text-red-700 disabled:opacity-50">Remover</button>
-    </li>)}</ul> : <p>Você ainda não acompanha nenhum político.</p>}
+    </li>)}</ul> : <p>Você não acompanha nenhum político.</p>}
     <div className="mt-8 flex justify-center"><Link href="/central" className="rounded-lg bg-red-600 px-8 py-3 font-bold text-white">Fechar</Link></div>
   </section>;
 }
