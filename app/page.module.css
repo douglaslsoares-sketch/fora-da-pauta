@@ -326,7 +326,7 @@
 .quadroTelegram { display:flex; flex-direction:column; gap:12px; width:min(100%,580px); margin-top:22px; padding:22px 16px; border:1px solid #484848; border-radius:14px; background:#141414; }
 .perguntaTelegram { font-size:clamp(17px,3vw,22px); line-height:1.35; font-weight:700; text-align:center; margin:0 0 6px; }
 .opcaoTelegram,.opcaoTelegramSecundaria { display:flex; align-items:center; justify-content:center; min-height:52px; width:100%; border:0; border-radius:9px; padding:12px; text-align:center; text-decoration:none; font-weight:750; font-size:16px; cursor:pointer; }
-.opcaoTelegram { background:#218747; color:#fff; }
+.opcaoTelegram { background:#1976d2; color:#fff; }
 .opcaoTelegramSecundaria { background:#f0c32b; color:#111; }
 .opcaoTelegram:disabled,.opcaoTelegramSecundaria:disabled { opacity:.6; }
 .instrucoesTelegram { display:flex; flex-direction:column; gap:10px; text-align:left; font-size:15px; line-height:1.45; }
