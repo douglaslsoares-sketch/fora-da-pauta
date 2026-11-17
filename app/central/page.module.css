@@ -22,3 +22,9 @@
 .menu a.principal:nth-of-type(2){background:#2563EB;border-color:#3976ef;color:#fff}
 .menu a.compartilhar{background:#24334B;color:#fff;border:1px solid #344760;border-radius:12px}
 .menu .principalDesabilitado{background:#24334B;color:#ddd;border-radius:12px}
+
+/* Destaque editorial aprovado para a escolha de políticos. */
+.menu a.escolherPolitico{display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;min-height:92px;background:#2563eb;color:#fff;border:1px solid #3976ef;border-radius:12px;padding:14px 18px;text-align:center;text-decoration:none}
+.escolherTitulo{font-size:19px;font-weight:800;line-height:1.3}
+.escolherDescricao{font-size:13px;font-weight:500;line-height:1.4;color:#eff6ff}
+.menu a.escolherPolitico:focus-visible{outline:3px solid #ffd740;outline-offset:3px}
