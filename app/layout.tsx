@@ -18,13 +18,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.foradapauta.org"),
   openGraph: {
-    title: "Fora da Pauta — Existe muito mais por trás das notícias.",
+    title: "Fora da Pauta — Conhecer é importante. Entender é fundamental.",
     description: "Um espaço para entender melhor as decisões que afetam a nossa vida e o que está por trás das notícias.",
     url: "https://www.foradapauta.org/",
     siteName: "Fora da Pauta",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: imagemCompartilhamento, width: 1200, height: 630, alt: "Fora da Pauta em branco e chamada editorial em amarelo sobre fundo preto." }],
+    images: [{ url: imagemCompartilhamento, width: 1200, height: 630, alt: "Logomarca Fora da Pauta com dois traços e assinatura editorial em amarelo." }],
   },
   title: {
     default: "Fora da Pauta",
