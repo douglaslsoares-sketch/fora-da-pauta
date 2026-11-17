@@ -665,3 +665,17 @@
 :global(body):has(.page) { background: #050505; }
 .page { min-height: 100vh; min-height: 100dvh; background: #050505; }
 .apresentacao:has(.logoOficial) { min-height: 100vh; min-height: 100dvh; }
+
+/* Botão do canal oficial do WhatsApp na home. */
+.apresentacao:has(.logoOficial) .botaoInscricao {
+  background: #25D366;
+  color: #101810;
+  text-decoration: none;
+}
+.apresentacao:has(.logoOficial) .botaoInscricao:hover {
+  background: #1ebe5b;
+}
+.apresentacao:has(.logoOficial) .botaoInscricao:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
