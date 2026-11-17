@@ -24,6 +24,7 @@ export function OrientacoesInstalacaoTelegram({
   onCopiar: () => void;
 }) {
   const [mostrarAjuda, setMostrarAjuda] = useState(false);
+  const [instalacaoConcluida, setInstalacaoConcluida] = useState(false);
   const windows = plataforma === "windows";
   const macos = plataforma === "macos";
   const linux = plataforma === "linux";
@@ -34,6 +35,7 @@ export function OrientacoesInstalacaoTelegram({
 
   return (
     <div className={styles.instrucoesTelegram}>
+      {!instalacaoConcluida ? <>
       <h3 className={styles.tituloInstalacao}>
         {computador ? "Como instalar no computador" : "Como instalar no celular"}
       </h3>
@@ -101,6 +103,8 @@ export function OrientacoesInstalacaoTelegram({
       <a href="/instalar-telegram" target="_blank" rel="noopener noreferrer" className={styles.opcaoTelegram}>
         Instalar o Telegram
       </a>
+      <button type="button" className={styles.opcaoTelegramSecundaria} onClick={() => setInstalacaoConcluida(true)}>Já instalei. Continuar inscrição</button>
+      </> : <>
       <OrientacoesConclusaoTelegram
         abrindoTelegram={abrindoTelegram}
         onContinuar={onContinuar}
@@ -109,6 +113,8 @@ export function OrientacoesInstalacaoTelegram({
         erroCopia={erroCopia}
         onCopiar={onCopiar}
       />
+      <button type="button" className={styles.ajudaInstalacao} onClick={() => setInstalacaoConcluida(false)}>Voltar às instruções de instalação</button>
+      </>}
     </div>
   );
 }
