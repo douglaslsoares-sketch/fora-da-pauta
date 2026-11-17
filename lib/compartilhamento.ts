@@ -10,15 +10,15 @@ export const mensagemCompartilhamento = [
   "",
   "*Conhecer é importante. Entender é fundamental.*",
   "",
-  "Quem ganha? Quem perde? Quais interesses estão em jogo?",
+  "Quem toma as decisões? Quais interesses estão em jogo? Como essas decisões afetam a nossa vida?",
   "",
-  "O Fora da Pauta investiga o que não está sendo explicado, apresenta fontes e ajuda você a entender como os acontecimentos e as decisões políticas afetam a sua vida.",
+  "O Fora da Pauta investiga o que está por trás das notícias, apresenta fontes e ajuda você a tirar suas próprias conclusões.",
   "",
-  "*Conheça. Questione. Tire suas próprias conclusões.*",
+  "Acompanhe também os políticos que você escolher.",
   "",
-  "É gratuito.",
+  "*É gratuito.*",
   "",
-  "👉 https://www.foradapauta.org/?compartilhar=whatsapp",
+  "https://foradapauta.org",
 ].join("\n");
 
 export const linkCompartilhamentoWhatsApp =
