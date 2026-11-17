@@ -325,7 +325,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 Acompanhamos o jogo político, investigamos os interesses por trás das notícias e compartilhamos nossa interpretação para você tirar suas próprias conclusões.
               </p>
               <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
-                Quero receber as reflexões
+                Quero acompanhar as reflexões
               </button>
               <p className={styles.fraseGratuidade}>É gratuito.</p>
               {mostrarOrientacoesTelegram ? (
