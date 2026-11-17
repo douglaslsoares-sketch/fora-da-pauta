@@ -8,18 +8,18 @@ export const metadata: Metadata = {
   title: "Fora da Pauta",
   description: "Investiga o que não está sendo explicado, apresenta fontes e ajuda você a compreender os acontecimentos e as decisões que afetam sua vida.",
   openGraph: {
-    title: "Fora da Pauta — Existe muito mais por trás das notícias.",
+    title: "Fora da Pauta — Conhecer é importante. Entender é fundamental.",
     description: "Entenda o que acontece, acompanhe os políticos e tire suas próprias conclusões.",
     url: "https://www.foradapauta.org/",
     type: "website",
     locale: "pt_BR",
     siteName: "Fora da Pauta",
-    images: [{ url: imagemCompartilhamento, width: 1200, height: 630, alt: "Fora da Pauta em branco e chamada editorial em amarelo sobre fundo preto." }],
+    images: [{ url: imagemCompartilhamento, width: 1200, height: 630, alt: "Logomarca Fora da Pauta com dois traços e assinatura editorial em amarelo." }],
   },
   twitter: {
     card: "summary_large_image",
     images: [imagemCompartilhamento],
-    title: "Fora da Pauta — Existe muito mais por trás das notícias.",
+    title: "Fora da Pauta — Conhecer é importante. Entender é fundamental.",
     description: "Entenda o que acontece, acompanhe os políticos e tire suas próprias conclusões.",
   },
 };
