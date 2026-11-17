@@ -8,8 +8,6 @@ export const imagemConfirmacaoTelegram = "https://www.foradapauta.org/telegram/c
 export const mensagemCompartilhamento = [
   "*FORA DA PAUTA*",
   "",
-  "*A desinformação aliena.*",
-  "",
   "Quem forma a sua opinião: você ou quem escolhe a informação que chega até você?",
   "",
   "Investigamos os interesses por trás das notícias e ajudamos você a entender como as decisões políticas afetam a nossa vida.",
