@@ -659,3 +659,9 @@
 
 /* A home permanece preta até o rodapé, mesmo com o quadro de inscrição fechado. */
 .page { min-height: 100svh; background: #050505; }
+
+/* Evita que o fundo claro global apareça sob a home ao fechar o formulário ou rolar a tela. */
+:global(html):has(.page),
+:global(body):has(.page) { background: #050505; }
+.page { min-height: 100vh; min-height: 100dvh; background: #050505; }
+.apresentacao:has(.logoOficial) { min-height: 100vh; min-height: 100dvh; }
