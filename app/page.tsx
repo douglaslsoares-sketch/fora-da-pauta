@@ -6,10 +6,10 @@ import { imagemCompartilhamento } from "@/lib/compartilhamento";
 
 export const metadata: Metadata = {
   title: "Fora da Pauta",
-  description: "Investigamos interesses e motivações que possam existir na escolha do que vira ou não notícia. Procuramos desvendar o que está por trás da notícia e por que ela é apresentada da maneira como chega até você, para que você tire suas próprias conclusões.",
+  description: "Investigamos interesses e motivações que possam existir na escolha dos assuntos que ganham destaque e daqueles que ficam de fora. Procuramos desvendar o que está por trás das informações e os motivos pelos quais elas são apresentadas de uma determinada maneira e não de outra, para que você tire suas próprias conclusões. Será que, por trás da informação que chega até você, existe alguma intenção de direcionar sua opinião para determinada conclusão?",
   openGraph: {
     title: "Fora da Pauta — Conhecer é importante. Entender é fundamental.",
-    description: "Quem forma sua opinião? Você ou quem escolhe as notícias que chegam e como chegam a você?",
+    description: "Quem forma sua opinião? Você ou quem escolhe a informação que chega até você?",
     url: "https://www.foradapauta.org/",
     type: "website",
     locale: "pt_BR",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: [imagemCompartilhamento],
     title: "Fora da Pauta — Conhecer é importante. Entender é fundamental.",
-    description: "Quem forma sua opinião? Você ou quem escolhe as notícias que chegam e como chegam a você?",
+    description: "Quem forma sua opinião? Você ou quem escolhe a informação que chega até você?",
   },
 };
 
