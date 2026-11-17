@@ -319,7 +319,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 A desinformação aliena.
               </h1>
               <p className={styles.perguntaEditorial}>
-                Você pensa por si mesmo ou deixa que outros pensem por você?
+                Quem forma a sua opinião: você ou quem escolhe a informação que chega até você?
               </p>
               <p className={styles.explicacao}>
                 Acompanhamos o jogo político, investigamos os interesses por trás das notícias e compartilhamos nossa interpretação para você tirar suas próprias conclusões.
