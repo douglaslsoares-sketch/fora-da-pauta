@@ -316,10 +316,10 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.perguntaEditorial}>
-                Você confia nas informações que chegam até você?
+                Você confia?
               </h1>
               <p className={styles.explicacao}>
-                O que querem que você pense, sinta ou faça?
+                O que querem que você pense, sinta ou faça a partir das informações que chegam até você?
               </p>
               <p className={styles.conviteEditorial}>
                 Acompanhe o Fora da Pauta.
