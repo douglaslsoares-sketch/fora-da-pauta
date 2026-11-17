@@ -28,3 +28,9 @@
 .escolherTitulo{font-size:19px;font-weight:800;line-height:1.3}
 .escolherDescricao{font-size:13px;font-weight:500;line-height:1.4;color:#eff6ff}
 .menu a.escolherPolitico:focus-visible{outline:3px solid #ffd740;outline-offset:3px}
+
+
+/* Botão Publicações: título e convite em duas linhas. */
+.menu a.principal, .menu .principalDesabilitado { flex-direction: column; gap: 4px; }
+.publicacoesTitulo { font-size: 19px; font-weight: 800; line-height: 1.25; }
+.publicacoesDescricao { font-size: 13px; font-weight: 500; line-height: 1.4; }
