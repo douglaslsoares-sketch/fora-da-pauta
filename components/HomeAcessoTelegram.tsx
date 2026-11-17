@@ -324,7 +324,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <p className={styles.explicacao}>
                 Acompanhamos o jogo político, investigamos os interesses por trás das notícias e compartilhamos nossa interpretação para você tirar suas próprias conclusões.
               </p>
-              <button type="button" onClick={() => setMostrarOrientacoesTelegram((anterior) => !anterior)} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
+              <button type="button" onClick={() => { setMostrarOrientacoesTelegram((anterior) => !anterior); setJaTemTelegram(false); setPrecisaInstalarTelegram(false); }} className={styles.botaoInscricao} aria-expanded={mostrarOrientacoesTelegram} aria-controls="orientacao-telegram">
                 Quero acompanhar as reflexões
               </button>
               <p className={styles.fraseGratuidade}>É gratuito.</p>
