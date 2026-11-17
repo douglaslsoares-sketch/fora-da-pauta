@@ -10,7 +10,7 @@ export const mensagemCompartilhamento = [
   "",
   "*A desinformação aliena.*",
   "",
-  "Você pensa por si mesmo ou deixa que outros pensem por você?",
+  "Quem forma a sua opinião: você ou quem escolhe a informação que chega até você?",
   "",
   "Investigamos os interesses por trás das notícias e ajudamos você a entender como as decisões políticas afetam a nossa vida.",
   "",
