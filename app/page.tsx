@@ -6,7 +6,7 @@ import { imagemCompartilhamento } from "@/lib/compartilhamento";
 
 export const metadata: Metadata = {
   title: "Fora da Pauta",
-  description: "Investiga o que não está sendo explicado, apresenta fontes e ajuda você a compreender os acontecimentos e as decisões que afetam sua vida.",
+  description: "Investigamos interesses e motivações que possam existir na escolha do que vira ou não notícia. Procuramos desvendar o que está por trás daquilo que é apresentado como notícia e a maneira como a notícia é apresentada, para que você tire suas próprias conclusões.",
   openGraph: {
     title: "Fora da Pauta — Conhecer é importante. Entender é fundamental.",
     description: "Quem forma a sua opinião: você ou quem escolhe a informação que chega até você?",
