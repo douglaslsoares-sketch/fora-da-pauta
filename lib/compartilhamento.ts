@@ -8,9 +8,11 @@ export const imagemConfirmacaoTelegram = "https://www.foradapauta.org/telegram/c
 export const mensagemCompartilhamento = [
   "*FORA DA PAUTA*",
   "",
-  "Quem forma sua opinião? Você ou quem escolhe a informação que chega até você?",
+  "Você confia?",
   "",
-  "Investigamos interesses e motivações que possam existir na escolha dos assuntos que ganham destaque e daqueles que ficam de fora. Procuramos desvendar o que está por trás das informações e os motivos pelos quais elas são apresentadas de uma determinada maneira e não de outra, para que você tire suas próprias conclusões. Será que, por trás da informação que chega até você, existe alguma intenção de direcionar sua opinião para determinada conclusão?",
+  "O que querem que você pense, sinta ou faça a partir das informações que chegam até você?",
+  "",
+  "Acompanhe o Fora da Pauta e receba nossas publicações pelo WhatsApp.",
   "",
   "*Conhecer é importante. Entender é fundamental.*",
   "",
