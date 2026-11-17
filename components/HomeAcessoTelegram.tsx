@@ -316,10 +316,16 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
           <div className={styles.heroGrid}>
             <div className={styles.heroTexto}>
               <h1 id="mensagem-principal" className={styles.perguntaEditorial}>
-                Quem forma sua opinião? Você ou quem escolhe as notícias que chegam e <span style={{ color: "#FFFFFF", fontWeight: 800 }}>como</span> chegam a você?
+                Quem forma sua opinião? Você ou quem escolhe a informação que chega até você?
               </h1>
               <p className={styles.explicacao}>
-                Investigamos interesses e motivações que possam existir na escolha do que vira ou não notícia. Procuramos desvendar o que está por trás da notícia e por que ela é apresentada da maneira como chega até você, para que você tire suas próprias conclusões.
+                Investigamos interesses e motivações que possam existir na escolha dos assuntos que ganham destaque e daqueles que ficam de fora.
+              </p>
+              <p className={styles.explicacao}>
+                Procuramos desvendar o que está por trás das informações e os motivos pelos quais elas são apresentadas de uma determinada maneira e não de outra, para que você tire suas próprias conclusões.
+              </p>
+              <p style={{ color: "#F5D348", fontWeight: 600 }}>
+                Será que, por trás da informação que chega até você, existe alguma intenção de direcionar sua opinião para determinada conclusão?
               </p>
               <a
                 href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13"
@@ -327,8 +333,9 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
                 rel="noopener noreferrer"
                 className={styles.botaoInscricao}
               >
-                Seguir no WhatsApp
+                Quero acompanhar
               </a>
+              <p style={{ color: "#FFFFFF", textAlign: "center" }}>Receba nossas publicações pelo WhatsApp.</p>
               <p className={styles.fraseGratuidade}>É gratuito.</p>
               <Link href="/central" className={styles.linkSegundaPagina}>Ir para o menu</Link>
             </div>
