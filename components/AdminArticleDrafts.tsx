@@ -1,10 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; status: string; updated_at: string };
 
-export default function AdminArticleDrafts() {
+type LegacyArticle = { slug: string; titulo: string; resumo: string; conteudo: string; fontes: string };
+export default function AdminArticleDrafts({ acervo = [] }: { acervo?: LegacyArticle[] }) {
+  const importedSlug = useRef<string | null>(null);
   const [items, setItems] = useState<Draft[]>([]);
   const [id, setId] = useState<string | null>(null);
   const [titulo, setTitulo] = useState("");
@@ -28,6 +30,20 @@ export default function AdminArticleDrafts() {
     } finally { setLoading(false); }
   }
   useEffect(() => { void reload(); }, []);
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("importar");
+    if (!slug || importedSlug.current === slug) return;
+    const original = acervo.find((item) => item.slug === slug);
+    if (!original) return;
+    importedSlug.current = slug;
+    setId(null);
+    setTitulo(original.titulo);
+    setResumo(original.resumo);
+    setConteudo(original.conteudo);
+    setFontes(original.fontes);
+    setNotice(original.fontes.trim() ? "Cópia do acervo preparada no editor. Confira o texto e as fontes antes de salvar. O original permanece intacto; nada foi publicado." : "Cópia preparada, mas este item do acervo não contém referências cadastradas. Acrescente e confira as fontes antes de enviar para revisão. O original permanece intacto; nada foi publicado.");
+    document.getElementById("editor-rascunho")?.scrollIntoView({ behavior: "smooth" });
+  }, [acervo]);
   function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setNotice(""); }
   function edit(item: Draft) {
     if (item.status !== "rascunho") return;
@@ -44,13 +60,17 @@ export default function AdminArticleDrafts() {
       setHistory(data.historico || []);
     } catch (error) { setHistoryError(error instanceof Error ? error.message : "Histórico indisponível."); }
   }
-  async function changeStatus(item: Draft, status: "revisao" | "rascunho") {
+  async function changeStatus(item: Draft, status: "revisao" | "rascunho" | "restaurar") {
+    if (status === "revisao" && (!item.titulo.trim() || !item.conteudo.trim() || !item.fontes.trim())) {
+      setNotice("Para enviar à revisão, o artigo precisa ter título, texto e fontes. Continue a edição e salve as informações.");
+      return;
+    }
     setNotice("");
     try {
       const response = await fetch("/api/admin/artigos/status", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: item.id, status }) });
       const data = await response.json() as { ok?: boolean; erro?: string };
       if (!response.ok || !data.ok) throw new Error(data.erro || "Não foi possível alterar a situação.");
-      setNotice(status === "revisao" ? "Artigo encaminhado para revisão. Não foi publicado." : "Artigo devolvido aos rascunhos.");
+      setNotice(status === "restaurar" ? "Artigo restaurado para revisão. Não foi publicado." : status === "revisao" ? "Artigo encaminhado para revisão. Não foi publicado." : "Artigo devolvido aos rascunhos.");
       await reload();
     } catch (error) { setNotice(error instanceof Error ? error.message : "Falha na alteração."); }
   }
@@ -86,6 +106,7 @@ export default function AdminArticleDrafts() {
   return (
     <section className="mt-10 border-t border-black/15 pt-8">
       <h2 className="text-2xl font-bold">Rascunhos editoriais</h2>
+      <p className="mt-2 text-sm text-black/60">Ao preparar uma cópia do acervo, o artigo original não é modificado. Confira as fontes antes de enviar para revisão.</p>
       <p className="mt-3 text-sm leading-6 text-black/65">Escreva e salve seus textos. Os rascunhos ficam no banco de dados e não aparecem no site público.</p>
       <div id="editor-rascunho" className="mt-6 rounded-xl border border-black/10 bg-white p-5">
         <h3 className="text-lg font-semibold">{id ? "Editar rascunho" : "Novo artigo"}</h3>
@@ -107,8 +128,8 @@ export default function AdminArticleDrafts() {
         </div>
         {notice && <p role="status" className="mt-4 text-sm font-semibold">{notice}</p>}
       </div>
-      <h3 className="mt-9 text-xl font-bold">Rascunhos salvos</h3>
-      {loading ? <p className="mt-4">Carregando…</p> : items.length === 0 ? <p className="mt-4 text-sm text-black/60">Nenhum rascunho salvo ainda.</p> : (
+      <h3 className="mt-9 text-xl font-bold">Artigos cadastrados</h3>
+      {loading ? <p className="mt-4">Carregando…</p> : items.length === 0 ? <p className="mt-4 text-sm text-black/60">Nenhum artigo cadastrado ainda.</p> : (
         <div className="mt-4 space-y-3">
           {items.map(item => (
             <div key={item.id} className="rounded-lg border border-black/10 bg-white p-5">
@@ -126,6 +147,7 @@ export default function AdminArticleDrafts() {
                   <button type="button" onClick={() => changeStatus(item, "rascunho")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Voltar a rascunho</button>
                   <button type="button" onClick={() => changePublication(item, "publicar")} className="min-h-11 rounded-lg bg-green-700 px-5 py-2 font-semibold text-white">Publicar artigo</button>
                 </>}
+                {item.status === "arquivado" && <button type="button" onClick={() => changeStatus(item, "restaurar")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Restaurar para revisão</button>}
                 {item.status === "publicado" && <>
                   <Link href={`/edicoes/${item.id}`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">Abrir artigo público</Link>
                   <button type="button" onClick={() => changePublication(item, "arquivar")} className="min-h-11 rounded-lg bg-red-700 px-5 py-2 font-semibold text-white">Arquivar artigo</button>

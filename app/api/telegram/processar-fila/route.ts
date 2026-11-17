@@ -6,6 +6,8 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
 export async function GET(request: Request) {
+  // Nunca processe filas nem envie mensagens a partir de implantações de prévia.
+  if (process.env.VERCEL_ENV === "preview") return NextResponse.json({ ok: false, codigo: "ENVIOS_DESATIVADOS_NA_PREVIA" }, { status: 403 });
   const segredo = process.env.CRON_SECRET?.trim();
 
   if (!segredo) {

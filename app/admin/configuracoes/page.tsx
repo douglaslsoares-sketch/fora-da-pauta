@@ -1,9 +1,10 @@
 import Link from "next/link";
 import PrepararEditorial from "@/components/AdminPrepararEditorial";
+import PrepararBancoTestes from "@/components/PrepararBancoTestes";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
-import { sql } from "@/lib/interesses/db";
+import { sql, administrativeDatabaseWritesAllowed } from "@/lib/interesses/db";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 
 export const dynamic = "force-dynamic";
@@ -32,7 +33,24 @@ export default async function AdminConfiguracoes() {
           : "Tabelas editoriais ainda não inicializadas";
     } catch { editorial = "Não foi possível verificar as tabelas editoriais"; }
   }
+  const isPreview = process.env.VERCEL_ENV === "preview";
+  const isolated = isPreview && administrativeDatabaseWritesAllowed();
+  let otherTables = "Não foi possível verificar";
+  if (database === "disponivel") {
+    try {
+      const required = ["public_questions", "public_question_events", "telegram_preferencias", "telegram_acompanhamentos", "telegram_sessoes_site", "interacoes_politicas", "interacoes_politicas_historico"];
+      const present = await sql<{ nome: string }[]>`
+        SELECT table_name AS nome FROM information_schema.tables WHERE table_schema = 'public'
+        AND table_name IN ('public_questions', 'public_question_events', 'telegram_preferencias', 'telegram_acompanhamentos', 'telegram_sessoes_site', 'interacoes_politicas', 'interacoes_politicas_historico')
+      `;
+      const found = new Set(present.map(item => item.nome));
+      const missing = required.filter(name => !found.has(name));
+      otherTables = missing.length ? "Faltam: " + missing.join(", ") : "Tabelas essenciais presentes";
+    } catch { otherTables = "Não foi possível verificar as tabelas essenciais"; }
+  }
   const checks = [
+    ...(isPreview ? [{ nome: "Isolamento da prévia", situacao: isolated ? "Banco de testes separado e branch de revisão confirmada" : "Gravações bloqueadas: isolamento não confirmado", descricao: "As alterações só são permitidas na ramificação de revisão com banco separado." }] : []),
+    { nome: "Estruturas de perguntas, Telegram e interações", situacao: otherTables, descricao: "Verificação somente de tabelas; não lê dados de inscritos." },
     { nome: "Banco de dados", situacao: database === "disponivel" ? "Conexão disponível" : "Não foi possível confirmar a conexão", descricao: "Usado por artigos, inscrições e preferências." },
     { nome: "Estrutura editorial", situacao: editorial, descricao: "Confere a existência das tabelas de artigos e histórico sem alterar dados." },
     { nome: "Bot do Telegram", situacao: process.env.TELEGRAM_BOT_TOKEN ? "Credencial configurada" : "Credencial não configurada", descricao: "A presença da credencial não confirma a entrega de mensagens." },
@@ -46,7 +64,8 @@ export default async function AdminConfiguracoes() {
         <p className="text-xs font-semibold uppercase tracking-widest text-black/50">Área administrativa</p>
         <h1 className="mt-3 text-3xl font-bold">Configurações e serviços</h1>
         <p className="mt-4 leading-7 text-black/65">Visão de diagnóstico. Esta página não modifica configurações, não revela senhas e não executa tarefas automáticas.</p>
-        {editorial !== "Tabelas de artigos e histórico presentes" && database === "disponivel" && <PrepararEditorial />}
+        {isPreview && isolated && database === "disponivel" && otherTables !== "Tabelas essenciais presentes" && <PrepararBancoTestes />}
+        {editorial !== "Tabelas de artigos e histórico presentes" && database === "disponivel" && !isPreview && <PrepararEditorial />}
         <div className="mt-8 space-y-4">
           {checks.map(check => (
             <section key={check.nome} className="rounded-xl border border-black/10 bg-white p-5">

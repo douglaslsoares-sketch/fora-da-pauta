@@ -25,7 +25,7 @@ export default async function AdminNotificacoesPage() {
           <section className="rounded-xl border border-black/10 bg-white p-6">
             <h2 className="text-xl font-bold">Teste individual</h2>
             <p className="mt-3 text-sm leading-6 text-black/65">Enviar somente à conta Telegram vinculada a este navegador, após confirmação explícita.</p>
-            <p className="mt-5 text-xs font-semibold uppercase tracking-wide text-black/45">Envio individual disponível com confirmação e artigo público</p>
+            <p className="mt-5 text-xs font-semibold uppercase tracking-wide text-black/45">Envio individual bloqueado nesta prévia de testes</p>
           </section>
           <section className="rounded-xl border border-black/10 bg-white p-6">
             <h2 className="text-xl font-bold">Aviso aos inscritos</h2>
@@ -34,7 +34,7 @@ export default async function AdminNotificacoesPage() {
           </section>
         </div>
         <AdminTelegramLinkStatus />
-        <AdminNotificationDraft />
+        <AdminNotificationDraft preview={process.env.VERCEL_ENV === "preview"} />
         <p className="mt-7 text-sm leading-6 text-black/60">Publicar um artigo não envia mensagens automaticamente. O teste individual exige confirmação; o envio geral permanece desativado.</p>
         <div className="mt-8 flex justify-center"><Link href="/admin" className="inline-flex min-h-12 items-center rounded-lg bg-red-600 px-7 py-3 font-semibold text-white">× Fechar</Link></div>
       </section>

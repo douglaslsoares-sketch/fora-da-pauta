@@ -596,6 +596,8 @@ async function reiniciarInscricaoDoProprioChat(chatId: string) {
 export async function POST(
   request: Request,
 ) {
+  // O webhook pertence somente ao bot público; prévias não recebem atualizações.
+  if (process.env.VERCEL_ENV === "preview") return NextResponse.json({ ok: false, codigo: "WEBHOOK_DESATIVADO_NA_PREVIA" }, { status: 403 });
   try {
     const webhookSecret =
       obterVariavelObrigatoria(

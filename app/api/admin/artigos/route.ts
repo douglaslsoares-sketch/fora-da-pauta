@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { sql } from "@/lib/interesses/db";
+import { sql, administrativeDatabaseWritesAllowed } from "@/lib/interesses/db";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 import { consumeRateLimit } from "@/lib/rateLimit";
 
@@ -29,7 +29,8 @@ async function ensureTable() {
 export async function GET() {
   if (!(await authorized())) return reply({ erro: "Acesso não autorizado." }, 401);
   try {
-    await ensureTable();
+    // Consultas na prévia não devem criar nem alterar tabelas.
+    if (process.env.VERCEL_ENV !== "preview") await ensureTable();
     const artigos = await sql<{ id: string; titulo: string; resumo: string; conteudo: string; fontes: string; status: string; updated_at: string }[]>`
       SELECT id::text, titulo, resumo, conteudo, fontes, status, updated_at::text
       FROM public.admin_artigos ORDER BY updated_at DESC LIMIT 100
@@ -43,6 +44,7 @@ export async function POST(request: Request) {
   const origin = request.headers.get("origin");
   if (!origin || origin !== new URL(request.url).origin) return reply({ erro: "Origem não autorizada." }, 403);
   if (!(await authorized())) return reply({ erro: "Acesso não autorizado." }, 401);
+  if (!administrativeDatabaseWritesAllowed()) return reply({ erro: "Gravações permitidas apenas na versão de testes com banco isolado." }, 403);
   const limit = await consumeRateLimit({ request, scope: "admin:artigos:rascunhos", limit: 30, windowSeconds: 600 });
   if (!limit.allowed) return reply({ erro: "Muitas alterações. Aguarde." }, 429);
   const body = await request.json().catch(() => null) as { id?: unknown; titulo?: unknown; resumo?: unknown; conteudo?: unknown; fontes?: unknown } | null;

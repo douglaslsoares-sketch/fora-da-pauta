@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export default function NotificationDraft() {
+export default function NotificationDraft({ preview = false }: { preview?: boolean }) {
   const [title, setTitle] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [sending, setSending] = useState(false);
@@ -20,7 +20,7 @@ export default function NotificationDraft() {
     } catch { return ""; }
   })();
   async function sendIndividual() {
-    if (!confirmed || audience !== "individual" || !safeUrl || !title.trim() || !message.trim()) return;
+    if (preview || !confirmed || audience !== "individual" || !safeUrl || !title.trim() || !message.trim()) return;
     setSending(true);
     setResult("");
     try {
@@ -44,16 +44,16 @@ export default function NotificationDraft() {
       <h2 className="text-xl font-bold">Preparar aviso</h2>
       <p className="mt-2 text-sm leading-6 text-black/60">Preencha e confira a mensagem. Confira a prévia. O teste individual exige confirmação e só pode ser enviado para a conta Telegram vinculada a este navegador.</p>
       <label className="mt-5 block text-sm font-semibold">Destinatários
-        <select value={audience} onChange={(e) => setAudience(e.target.value as "individual" | "all")} className="mt-2 block w-full rounded-lg border border-black/20 bg-white p-3">
+        <select value={audience} onChange={(e) => { setAudience(e.target.value as "individual" | "all"); setConfirmed(false); setResult(""); }} className="mt-2 block w-full rounded-lg border border-black/20 bg-white p-3">
           <option value="individual">Somente minha conta — teste</option>
           <option value="all">Inscritos — envio geral</option>
         </select>
       </label>
       <label className="mt-4 block text-sm font-semibold">Título
-        <input value={title} onChange={(e) => setTitle(e.target.value)} maxLength={140} className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="Título do artigo" />
+        <input value={title} onChange={(e) => { setTitle(e.target.value); setConfirmed(false); }} maxLength={140} className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="Título do artigo" />
       </label>
       <label className="mt-4 block text-sm font-semibold">Mensagem
-        <textarea value={message} onChange={(e) => setMessage(e.target.value)} maxLength={1000} rows={4} className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="Texto do aviso" />
+        <textarea value={message} onChange={(e) => { setMessage(e.target.value); setConfirmed(false); }} maxLength={1000} rows={4} className="mt-2 block w-full rounded-lg border border-black/20 p-3" placeholder="Texto do aviso" />
       </label>
       <label className="mt-4 block text-sm font-semibold">Escolher artigo publicado
         <select value={selectedId} onChange={e => { const a = published.find(item => item.id === e.target.value); setSelectedId(a?.id || ""); if (a) { setArticleUrl(`https://foradapauta.org/edicoes/${a.id}`); setTitle(a.titulo); setConfirmed(false); } else { setArticleUrl(""); setConfirmed(false); } }} className="mt-2 block w-full rounded-lg border border-black/20 bg-white p-3">
@@ -78,10 +78,10 @@ export default function NotificationDraft() {
             <input type="checkbox" checked={confirmed} onChange={e => setConfirmed(e.target.checked)} className="mt-1" />
             Confirmo que estou usando meu navegador vinculado ao Telegram e quero enviar esta mensagem de teste somente para essa conta.
           </label>
-          <button type="button" disabled={!confirmed || !safeUrl || !title.trim() || !message.trim() || sending} onClick={sendIndividual} className="mt-4 min-h-12 rounded-lg bg-black px-6 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">
+          <button type="button" disabled={preview || !confirmed || !safeUrl || !title.trim() || !message.trim() || sending} onClick={sendIndividual} className="mt-4 min-h-12 rounded-lg bg-black px-6 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40">
             {sending ? "Enviando…" : "Enviar somente para mim"}
           </button>
-          <p className="mt-2 text-xs leading-5 text-black/55">O envio só funciona para um artigo já publicado e para a inscrição vinculada a este navegador.</p>
+          {preview ? <p className="mt-2 text-xs leading-5 text-amber-800">O teste individual não pode ser enviado nesta prévia. A entrega real dependerá de confirmação em um ambiente habilitado.</p> : <p className="mt-2 text-xs leading-5 text-black/55">O envio só funciona para um artigo já publicado e para a inscrição vinculada a este navegador.</p>}
         </div>
       ) : (
         <p className="mt-5 text-sm font-semibold text-black/55">Envio geral desativado. Nenhuma mensagem será enviada aos inscritos.</p>

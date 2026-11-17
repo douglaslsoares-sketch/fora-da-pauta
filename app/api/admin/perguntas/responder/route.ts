@@ -13,6 +13,7 @@ import {
 
 import {
   sql,
+  administrativeDatabaseWritesAllowed,
 } from "@/lib/interesses/db";
 
 export const dynamic =
@@ -103,6 +104,10 @@ export async function POST(
       },
       401,
     );
+  }
+
+  if (!administrativeDatabaseWritesAllowed()) {
+    return noStoreJson({ ok: false, error: "Gravações bloqueadas fora do banco isolado de testes." }, 403);
   }
 
   const body =
