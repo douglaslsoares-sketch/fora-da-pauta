@@ -1,10 +1,4 @@
-import { HomeAcessoTelegram } from "@/components/HomeAcessoTelegram";
-import { versaoEdicoes, versaoEntregas } from "@/lib/novidades-publicacoes";
 import type { Metadata } from "next";
-import styles from "../page.module.css";
-
-export const metadata: Metadata = { title: "Acompanhar | EU VIGIO" };
-
-export default function Acompanhar() {
-  return <main className={styles.page}><HomeAcessoTelegram pagina="opcoes" versaoEdicoes={versaoEdicoes} versaoEntregas={versaoEntregas} /></main>;
-}
+import { AcompanhamentoSite } from "@/components/AcompanhamentoSite";
+export const metadata: Metadata = { title: "Escolher um político | Fora da Pauta" };
+export default function Page() { return <main className="min-h-screen bg-slate-50"><AcompanhamentoSite modo="escolher" /></main>; }
