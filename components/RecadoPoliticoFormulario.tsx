@@ -43,7 +43,8 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
       if (!resposta.ok || !resultado.text?.trim()) throw Error(resultado.error || "Não foi possível transcrever. Tente novamente.");
       const textoTranscrito = resultado.text.trim();
       if (textoTranscrito.length > 2000) throw Error("A transcrição excedeu 2.000 caracteres. Grave um recado mais curto.");
-      setTexto(anterior => anterior.trim() ? anterior.trim() + "\\n" + textoTranscrito : textoTranscrito);
+      if (texto.length + textoTranscrito.length + (texto.trim() ? 1 : 0) > 2000) throw Error("O recado ultrapassaria 2.000 caracteres. Reduza o texto antes de transcrever.");
+      setTexto(anterior => anterior.trim() ? anterior.trim() + "\n" + textoTranscrito : textoTranscrito);
       setAudioUrl(atual => { if (atual) URL.revokeObjectURL(atual); return null; });
       audioUrlRef.current = null;
       setAudioGravado(null);
