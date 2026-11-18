@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 
-type Recado = { id: string; destinatario: "projeto" | "comunidade"; texto: string; status: string; criado_em: string; resposta_rascunho: string | null };
+type Recado = { id: string; destinatario: "projeto" | "comunidade"; texto: string; status: string; criado_em: string; resposta_rascunho: string | null; resposta_publicada: string | null; resposta_publicada_em: string | null };
 const estados = [
   { value: "recebido", label: "Recebido" },
   { value: "em_analise", label: "Em análise" },
-  { value: "respondido", label: "Respondido" },
   { value: "arquivado", label: "Arquivado" },
 ];
 export function RecadosAdminPanel() {
@@ -49,6 +48,18 @@ export function RecadosAdminPanel() {
     } catch (e) { setErro(e instanceof Error ? e.message : "Falha ao salvar."); }
     finally { setSalvando(null); }
   }
+  async function publicarResposta(id: string) {
+    if (!window.confirm("Publicar a resposta salva para consulta pelo protocolo?")) return;
+    setSalvando(id); setErro(""); setAviso("");
+    try {
+      const res = await fetch("/api/admin/recados", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, publicar_resposta: true }) });
+      const dados = await res.json();
+      if (!res.ok) throw Error(dados.erro || "Falha ao publicar.");
+      await carregar();
+      setAviso("Resposta publicada para consulta pelo protocolo. Nenhuma mensagem foi enviada.");
+    } catch (e) { setErro(e instanceof Error ? e.message : "Falha ao publicar."); }
+    finally { setSalvando(null); }
+  }
   return <section className="mt-7">
     <button onClick={() => void carregar()} className="rounded-lg border border-black/20 bg-white px-4 py-2 font-semibold">Atualizar lista</button>
     {aviso && <p role="status" className="mt-4 rounded-lg bg-green-100 p-3 text-green-900">{aviso}</p>}
@@ -76,8 +87,11 @@ export function RecadosAdminPanel() {
         <p className="mt-1 text-xs text-black/60">Rascunho privado. Não será enviado nem publicado.</p>
         <button type="button" disabled={salvando === item.id || (rascunhos[item.id] || "") === (item.resposta_rascunho || "")}
           onClick={() => void salvarResposta(item.id)} className="mt-3 rounded-lg bg-blue-700 px-5 py-3 font-bold text-white disabled:opacity-50">
-          {salvando === item.id ? "Salvando..." : "Salvar resposta"}
+          {salvando === item.id ? "Salvando..." : "Salvar rascunho"}
         </button>
+        <button type="button" disabled={salvando === item.id || !item.resposta_rascunho?.trim() || (rascunhos[item.id] || "") !== (item.resposta_rascunho || "")}
+          onClick={() => void publicarResposta(item.id)} className="ml-2 mt-3 rounded-lg bg-green-700 px-5 py-3 font-bold text-white disabled:opacity-50">Publicar resposta</button>
+        {item.resposta_publicada_em && <p className="mt-3 text-sm text-black/60">Resposta publicada em {new Date(item.resposta_publicada_em).toLocaleString("pt-BR")}</p>}
       </article>)}
     </div>
   </section>;
