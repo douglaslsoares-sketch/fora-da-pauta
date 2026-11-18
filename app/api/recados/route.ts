@@ -34,6 +34,9 @@ export async function POST(request: Request) {
       status text NOT NULL DEFAULT 'recebido',
       criado_em timestamptz NOT NULL DEFAULT now()
     )`;
+    await sql`ALTER TABLE public.recados_site ADD COLUMN IF NOT EXISTS resposta_rascunho text`;
+    await sql`ALTER TABLE public.recados_site ADD COLUMN IF NOT EXISTS resposta_publicada text`;
+    await sql`ALTER TABLE public.recados_site ADD COLUMN IF NOT EXISTS resposta_publicada_em timestamptz`;
     const id = randomUUID();
     await sql`INSERT INTO public.recados_site (id, destinatario, texto) VALUES (${id}::uuid, ${destino as string}, ${texto})`;
     return NextResponse.json({ ok: true, protocolo: id, estado: "recebido" }, { status: 201, headers: { "Cache-Control": "no-store" } });
