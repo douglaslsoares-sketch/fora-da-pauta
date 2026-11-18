@@ -14,6 +14,13 @@ const semCache = { "Cache-Control": "no-store" };
 export async function GET() {
   if (!(await autorizado())) return NextResponse.json({ erro: "Não autorizado." }, { status: 401, headers: semCache });
   try {
+    await sql`CREATE TABLE IF NOT EXISTS public.recados_site (
+      id uuid PRIMARY KEY,
+      destinatario text NOT NULL CHECK (destinatario IN ('projeto', 'comunidade')),
+      texto text NOT NULL,
+      status text NOT NULL DEFAULT 'recebido',
+      criado_em timestamptz NOT NULL DEFAULT now()
+    )`;
     const rows = await sql`SELECT id, destinatario, texto, status, criado_em FROM public.recados_site ORDER BY criado_em DESC LIMIT 100`;
     return NextResponse.json({ recados: rows }, { headers: semCache });
   } catch (error) {
