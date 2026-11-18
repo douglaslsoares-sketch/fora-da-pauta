@@ -60,8 +60,8 @@ export async function PATCH(request: Request) {
       ? await sql`UPDATE public.recados_site SET resposta_publicada = resposta_rascunho, resposta_publicada_em = now(), status = 'respondido' WHERE id = ${id}::uuid AND length(trim(coalesce(resposta_rascunho, ''))) > 0 RETURNING id, status, resposta_rascunho, resposta_publicada, resposta_publicada_em`
       : temResposta
       ? await sql`UPDATE public.recados_site SET resposta_rascunho = ${data.resposta_rascunho as string} WHERE id = ${id}::uuid RETURNING id, status, resposta_rascunho`
-      : await sql`UPDATE public.recados_site SET status = ${status as string} WHERE id = ${id}::uuid RETURNING id, status, resposta_rascunho`;
-    if (!rows.length) return NextResponse.json({ erro: publicar ? "Salve um rascunho não vazio antes de publicar." : "Recado não encontrado." }, { status: publicar ? 400 : 404 });
+      : await sql`UPDATE public.recados_site SET status = ${status as string} WHERE id = ${id}::uuid AND resposta_publicada_em IS NULL RETURNING id, status, resposta_rascunho`;
+    if (!rows.length) return NextResponse.json({ erro: publicar ? "Salve um rascunho não vazio antes de publicar." : "Recado não encontrado ou situação já finalizada." }, { status: publicar ? 400 : 409, headers: semCache });
     return NextResponse.json({ ok: true, recado: rows[0] }, { headers: semCache });
   } catch (error) {
     console.error("Erro ao atualizar recado:", error);
