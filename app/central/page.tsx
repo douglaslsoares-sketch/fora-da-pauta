@@ -36,7 +36,6 @@ export default async function Central({ searchParams }: { searchParams: Promise<
         <Link className={styles.escolherPolitico} href="/acompanhar"><span className={styles.escolherTitulo}>Escolher um político</span><span className={styles.escolherDescricao}>Acompanhe as decisões de quem representa você.</span></Link>
         <Link className={styles.botao} href="/meus-acompanhamentos">Políticos que eu acompanho</Link>
         <Link className={styles.botao} href="/mandar-recado">Mandar um recado</Link>
-        <Link className={styles.botao} href="/loja">Loja</Link>
         <Link className={styles.botao} href="/qr-code">Mostrar QR Code</Link>
         <a className={styles.botao} href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13" target="_blank" rel="noopener noreferrer">Seguir no WhatsApp</a>
         <a className={styles.compartilhar} href={linkCompartilhamentoWhatsApp} target="_blank" rel="noopener noreferrer">Compartilhar</a>
