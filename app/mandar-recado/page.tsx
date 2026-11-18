@@ -23,6 +23,7 @@ export default function MandarRecado() {
           <span className="mt-1 block text-sm text-slate-300">Perguntas e reflexões para compartilhar.</span>
         </Link>
       </nav>
+      <div className="mt-6 text-center"><Link href="/consultar-recado" className="inline-block rounded-lg border border-[#f4c542] px-5 py-3 font-semibold text-[#f4c542]">Consultar resposta a um recado</Link></div>
       <div className="mt-8 text-center"><Link href="/central" className="inline-block rounded-lg bg-red-600 px-9 py-3 font-bold text-white"><span aria-hidden="true" className="mr-2 text-sm font-normal">x</span>Fechar</Link></div>
     </section>
   </main>;
