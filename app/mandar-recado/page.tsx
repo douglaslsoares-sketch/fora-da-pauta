@@ -12,16 +12,16 @@ export default function MandarRecado() {
       <nav aria-label="Escolher destinatário" className="space-y-3">
         <Link href="/mandar-recado/politico" className={card+" hover:border-[#f4c542] focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400"}>
           <span className="block text-lg font-bold">Com um político</span>
-          <span className="mt-1 block text-sm text-slate-300">Escolha um representante da sua lista de acompanhamentos.</span>
+          <span className="mt-1 block text-sm text-slate-300">Busque qualquer político pelo nome. Não precisa acompanhá-lo.</span>
         </Link>
-        <div className={card+" opacity-70"} aria-disabled="true">
+        <Link href="/mandar-recado/fora-da-pauta" className={card}>
           <span className="block text-lg font-bold">Com o Fora da Pauta</span>
-          <span className="mt-1 block text-sm text-slate-300">Dúvidas, sugestões e comentários. Em preparação.</span>
-        </div>
-        <div className={card+" opacity-70"} aria-disabled="true">
+          <span className="mt-1 block text-sm text-slate-300">Dúvidas, sugestões e comentários.</span>
+        </Link>
+        <Link href="/mandar-recado/comunidade" className={card}>
           <span className="block text-lg font-bold">Com a comunidade</span>
-          <span className="mt-1 block text-sm text-slate-300">Perguntas e reflexões para compartilhar. Em preparação.</span>
-        </div>
+          <span className="mt-1 block text-sm text-slate-300">Perguntas e reflexões para compartilhar.</span>
+        </Link>
       </nav>
       <div className="mt-8 text-center"><Link href="/central" className="inline-block rounded-lg bg-red-600 px-9 py-3 font-bold text-white"><span aria-hidden="true" className="mr-2 text-sm font-normal">x</span>Fechar</Link></div>
     </section>
