@@ -848,3 +848,74 @@
   .apresentacao:has(.logoOficial) .conviteEditorial,
   .apresentacao:has(.logoOficial) .descricaoConvite { text-align:center; }
 }
+
+
+/* Refinamento final de direção de arte: identidade, mensagem e convite. */
+.apresentacao:has(.logoOficial) {
+  min-height:100svh;
+  box-sizing:border-box;
+  background:#101d34;
+  justify-content:center;
+  gap:clamp(12px,2.8vh,28px);
+  padding:clamp(22px,4vh,48px) clamp(20px,5vw,60px);
+}
+.apresentacao:has(.logoOficial) .cabecalho { margin:0 auto; }
+.apresentacao:has(.logoOficial) .logoOficial { width:min(100%,340px); margin:0 auto; }
+.apresentacao:has(.logoOficial) .intro { padding:0; margin:0 auto; }
+.apresentacao:has(.logoOficial) .heroTexto { display:flex; flex-direction:column; align-items:center; text-align:center; }
+.apresentacao:has(.logoOficial) .perguntaEditorial {
+  margin:clamp(14px,3.5vh,42px) auto 12px;
+  font-size:clamp(32px,5.7vw,58px);
+  line-height:1.12;
+  letter-spacing:-.035em;
+  color:#fff;
+}
+.apresentacao:has(.logoOficial) .fraseProjeto {
+  margin:0 auto clamp(32px,5vh,52px);
+  padding:0;
+  max-width:48ch;
+  font-size:clamp(12px,1.6vw,14px);
+  line-height:1.5;
+  font-weight:500;
+  color:#e7b84d;
+  text-align:center;
+}
+.apresentacao:has(.logoOficial) .conviteEditorial {
+  margin:0 0 7px;
+  font-size:clamp(17px,2.2vw,21px);
+  font-weight:650;
+  color:#fff;
+  text-align:center;
+}
+.apresentacao:has(.logoOficial) .descricaoConvite {
+  margin:0;
+  font-size:clamp(14px,1.8vw,17px);
+  color:#d5dfed;
+  text-align:center;
+}
+.apresentacao:has(.logoOficial) .botaoInscricao {
+  width:min(100%,340px);
+  min-height:52px;
+  margin-top:clamp(19px,3vh,28px);
+  padding:12px 20px;
+  background:#168348;
+  color:#fff;
+  font-size:17px;
+  font-weight:750;
+  border-radius:10px;
+  align-self:center;
+}
+.apresentacao:has(.logoOficial) .botaoInscricao:hover { background:#116c3a; }
+.apresentacao:has(.logoOficial) .fraseGratuidade {
+  margin:8px 0 0;
+  font-size:12px;
+  color:#e7b84d;
+}
+.apresentacao:has(.logoOficial) .navegacaoHome { margin-top:14px; }
+@media(max-width:600px) {
+  .apresentacao:has(.logoOficial) { gap:clamp(12px,2.5svh,22px); padding:22px 20px 30px; }
+  .apresentacao:has(.logoOficial) .logoOficial { width:min(100%,290px); }
+  .apresentacao:has(.logoOficial) .perguntaEditorial { margin:clamp(12px,2svh,22px) auto 12px; font-size:clamp(30px,8vw,40px); }
+  .apresentacao:has(.logoOficial) .fraseProjeto { margin:0 auto clamp(27px,4svh,40px); font-size:12px; }
+  .apresentacao:has(.logoOficial) .botaoInscricao { align-self:center; width:min(100%,340px); }
+}
