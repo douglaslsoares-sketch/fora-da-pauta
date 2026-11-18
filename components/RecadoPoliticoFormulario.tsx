@@ -6,6 +6,8 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
   const [texto, setTexto] = useState("");
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [gravando, setGravando] = useState(false);
+  const [transcrevendo, setTranscrevendo] = useState(false);
+  const [audioGravado, setAudioGravado] = useState<Blob | null>(null);
   const [erro, setErro] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [protocolo, setProtocolo] = useState("");
@@ -24,6 +26,32 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
     if (audioUrlRef.current) URL.revokeObjectURL(audioUrlRef.current);
     audioUrlRef.current = null;
     setAudioUrl(null);
+    setAudioGravado(null);
+  }
+
+  async function transcreverAudio(blob: Blob) {
+    setTranscrevendo(true);
+    setErro("");
+    try {
+      if (blob.size > 3 * 1024 * 1024) throw Error("O áudio ficou grande demais. Grave uma mensagem mais curta.");
+      const tipo = blob.type.split(";")[0] || "audio/webm";
+      const extensao = tipo.includes("mp4") ? "mp4" : tipo.includes("ogg") ? "ogg" : "webm";
+      const dados = new FormData();
+      dados.append("audio", blob, "recado." + extensao);
+      const resposta = await fetch("/api/audio/transcrever", { method: "POST", body: dados });
+      const resultado = await resposta.json() as { text?: string; error?: string };
+      if (!resposta.ok || !resultado.text?.trim()) throw Error(resultado.error || "Não foi possível transcrever. Tente novamente.");
+      const textoTranscrito = resultado.text.trim();
+      if (textoTranscrito.length > 2000) throw Error("A transcrição excedeu 2.000 caracteres. Grave um recado mais curto.");
+      setTexto(anterior => anterior.trim() ? anterior.trim() + "\\n" + textoTranscrito : textoTranscrito);
+      setAudioUrl(atual => { if (atual) URL.revokeObjectURL(atual); return null; });
+      audioUrlRef.current = null;
+      setAudioGravado(null);
+    } catch (e) {
+      setErro(e instanceof Error ? e.message : "Não foi possível transcrever. Você pode tentar novamente ou escrever o recado.");
+    } finally {
+      setTranscrevendo(false);
+    }
   }
 
   async function iniciarGravacao() {
@@ -46,6 +74,8 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
           const url = URL.createObjectURL(blob);
           audioUrlRef.current = url;
           setAudioUrl(url);
+          setAudioGravado(blob);
+          void transcreverAudio(blob);
         }
         media.getTracks().forEach(track => track.stop());
         stream.current = null;
@@ -59,7 +89,7 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
   }
 
   async function mandar() {
-    if (destinatario === "politico" || !texto.trim() || enviando || audioUrl || gravando) return;
+    if (destinatario === "politico" || !texto.trim() || enviando || audioUrl || gravando || transcrevendo) return;
     setErro("");
     setEnviando(true);
     try {
@@ -86,16 +116,17 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
       <p className="mb-2 font-semibold">Ou grave um áudio</p>
       {gravando
         ? <button type="button" onClick={pararGravacao} className="rounded-lg bg-yellow-400 px-4 py-3 font-bold text-black">Parar gravação</button>
-        : <button type="button" onClick={() => void iniciarGravacao()} className="rounded-lg bg-slate-100 px-4 py-3 font-bold text-black">Gravar áudio</button>}
+        : <button type="button" onClick={() => void iniciarGravacao()} disabled={transcrevendo} className="rounded-lg bg-slate-100 px-4 py-3 font-bold text-black">Gravar áudio</button>}
+      {transcrevendo && <p role="status" className="mt-3 text-sm text-yellow-200">Transcrevendo seu áudio... Aguarde para conferir o texto.</p>}
       {audioUrl && <div className="mt-3 space-y-2">
         <audio controls src={audioUrl} className="w-full" aria-label="Ouvir gravação" />
-        <button type="button" onClick={limparAudio} className="text-sm underline">Descartar áudio e gravar novamente</button>
+        <div className="flex flex-wrap gap-4"><button type="button" disabled={transcrevendo || !audioGravado} onClick={() => { if (audioGravado) void transcreverAudio(audioGravado); }} className="text-sm font-bold text-yellow-200 underline">Tentar transcrição novamente</button><button type="button" disabled={transcrevendo} onClick={limparAudio} className="text-sm underline">Descartar áudio e gravar novamente</button></div>
       </div>}
       {erro && <p role="alert" className="mt-2 text-sm text-red-200">{erro}</p>}
     </div>
-    <button type="button" onClick={() => void mandar()} disabled={destinatario === "politico" || !texto.trim() || !!audioUrl || gravando || enviando} className="mt-6 w-full rounded-lg bg-green-600 px-5 py-3 font-bold text-white disabled:bg-slate-500 disabled:opacity-70">{enviando ? "Enviando..." : "Mandar"}</button>
+    <button type="button" onClick={() => void mandar()} disabled={destinatario === "politico" || !texto.trim() || !!audioUrl || gravando || enviando || transcrevendo} className="mt-6 w-full rounded-lg bg-green-600 px-5 py-3 font-bold text-white disabled:bg-slate-500 disabled:opacity-70">{enviando ? "Enviando..." : "Mandar"}</button>
     {protocolo && <p role="status" className="mt-3 rounded-lg bg-green-950 p-3 text-sm text-green-100">Recado recebido para análise. Protocolo: <strong className="break-all">{protocolo}</strong>. Isso não significa que tenha sido publicado ou encaminhado.</p>}
-    {audioUrl && destinatario !== "politico" && <p className="mt-2 text-xs text-yellow-200">O envio de áudio ainda não está disponível. Descarte a gravação para enviar somente o texto.</p>}
-    <p className="mt-3 text-xs leading-relaxed text-slate-300">{destinatario === "politico" ? "Envio indisponível até verificarmos o mandato e o contato oficial." : destinatario === "comunidade" ? "Recados escritos são recebidos para moderação, sem publicação automática." : "Recados escritos são registrados para análise do Fora da Pauta."} {destinatario === "politico" ? "Nenhum recado foi enviado." : "O envio de áudio ainda não está disponível."}</p>
+    {audioUrl && destinatario !== "politico" && <p className="mt-2 text-xs text-yellow-200">Confira o texto transcrito antes de enviar. Se a transcrição falhar, tente novamente ou escreva sua mensagem.</p>}
+    <p className="mt-3 text-xs leading-relaxed text-slate-300">{destinatario === "politico" ? "Envio indisponível até verificarmos o mandato e o contato oficial." : destinatario === "comunidade" ? "Recados escritos são recebidos para moderação, sem publicação automática." : "Recados escritos são registrados para análise do Fora da Pauta."} {destinatario === "politico" ? "Nenhum recado foi enviado." : "O áudio é transcrito em texto para revisão antes do envio; a gravação não é enviada."}</p>
   </div>;
 }
