@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import Link from "next/link";
+import { AdminNavigation } from "@/components/AdminNavigation";
 
 export const dynamic = "force-dynamic";
 
@@ -17,5 +18,5 @@ export default async function AdminLayout({ children }: Readonly<{ children: Rea
       </main>
     );
   }
-  return <>{children}</>;
+  return <div className="admin-desktop-shell"><AdminNavigation/><div className="admin-desktop-content">{children}</div></div>;
 }
