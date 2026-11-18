@@ -833,3 +833,18 @@
   .apresentacao:has(.logoOficial) .heroTexto { align-items:stretch; text-align:center; }
   .apresentacao:has(.logoOficial) .botaoInscricao { align-self:stretch; }
 }
+
+/* Duas dobras: home e menu sem cabeçalho. */
+.apresentacao:has(.logoOficial) { min-height:100svh; background:#101d34; }
+.apresentacao:has(.logoOficial) .perguntaEditorial { margin-bottom:14px; }
+.apresentacao:has(.logoOficial) .fraseProjeto { color:#f4c542; margin:0 0 28px; font-size:clamp(15px,2.5vw,19px); text-align:center; }
+.apresentacao:has(.logoOficial) .conviteEditorial { margin:0 0 6px; color:#fff; font-size:clamp(18px,2.5vw,23px); font-weight:700; text-align:center; }
+.apresentacao:has(.logoOficial) .descricaoConvite { margin:0; color:#d5dfed; font-size:clamp(15px,2vw,18px); text-align:center; }
+.apresentacao:has(.logoOficial) .botaoInscricao { background:#168348; color:#fff; margin-top:22px; padding:14px 20px; }
+.apresentacao:has(.logoOficial) .botaoInscricao:hover { background:#116c3a; }
+.apresentacao:has(.logoOficial) .navegacaoHome { margin-top:14px; }
+@media(max-width:600px) {
+  .apresentacao:has(.logoOficial) .fraseProjeto { margin-bottom:20px; text-align:center; }
+  .apresentacao:has(.logoOficial) .conviteEditorial,
+  .apresentacao:has(.logoOficial) .descricaoConvite { text-align:center; }
+}
