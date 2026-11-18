@@ -801,3 +801,35 @@
   text-align: center;
   text-wrap: balance;
 }
+
+/* Home editorial — Quando a (des)informação aliena. */
+.apresentacao:has(.logoOficial) { background:#101d34; }
+.apresentacao:has(.logoOficial) .heroTexto { align-items:center; text-align:center; }
+.apresentacao:has(.logoOficial) .perguntaEditorial {
+  max-width:780px;
+  margin:clamp(32px,7vh,80px) auto 18px;
+  color:#fff;
+  font-size:clamp(34px,6.5vw,66px);
+  font-weight:800;
+  line-height:1.13;
+  letter-spacing:-.035em;
+  text-align:center;
+}
+.tituloDesinformacao { display:block; }
+.apresentacao:has(.logoOficial) .botaoInscricao {
+  background:#2563eb;
+  color:#fff;
+  padding:14px 20px;
+  width:min(100%,405px);
+}
+.apresentacao:has(.logoOficial) .botaoInscricao:hover { background:#1d4ed8; }
+.apresentacao:has(.logoOficial) .navegacaoHome { display:flex; flex-direction:column; align-items:center; }
+@media(max-width:600px) {
+  .apresentacao:has(.logoOficial) .perguntaEditorial {
+    margin:clamp(36px,8svh,76px) auto 22px;
+    font-size:clamp(31px,8vw,43px);
+    text-align:center;
+  }
+  .apresentacao:has(.logoOficial) .heroTexto { align-items:stretch; text-align:center; }
+  .apresentacao:has(.logoOficial) .botaoInscricao { align-self:stretch; }
+}
