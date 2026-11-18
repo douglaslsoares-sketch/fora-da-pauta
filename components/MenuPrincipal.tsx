@@ -28,7 +28,6 @@ export async function MenuPrincipal() {
         <Link className={styles.botao} href="/meus-acompanhamentos"><span className={styles.icone} aria-hidden="true">♟</span><span className={styles.textoBotao}>Políticos que eu acompanho</span><span className={styles.seta} aria-hidden="true">›</span></Link>
         <Link className={styles.botao} href="/mandar-recado"><span className={styles.icone} aria-hidden="true">☏</span><span className={styles.textoBotao}>Mandar um recado</span><span className={styles.seta} aria-hidden="true">›</span></Link>
         <Link className={styles.botao} href="/qr-code"><span className={styles.icone} aria-hidden="true">▦</span><span className={styles.textoBotao}>Mostrar QR Code</span><span className={styles.seta} aria-hidden="true">›</span></Link>
-        <a className={styles.botao} href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13" target="_blank" rel="noopener noreferrer"><span className={styles.icone} aria-hidden="true">◉</span><span className={styles.textoBotao}>Seguir no WhatsApp</span><span className={styles.seta} aria-hidden="true">›</span></a>
         <a className={styles.compartilhar} href={linkCompartilhamentoWhatsApp} target="_blank" rel="noopener noreferrer"><span className={styles.icone} aria-hidden="true">↗</span><span className={styles.textoBotao}>Compartilhar</span><span className={styles.seta} aria-hidden="true">›</span></a>
         <InstalarAplicativo tema="escuro" />
       </nav>
