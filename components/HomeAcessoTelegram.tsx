@@ -320,16 +320,16 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               </h1>
               <p className={styles.fraseProjeto}>Conhecer é importante. Entender é fundamental.</p>
               <p className={styles.conviteEditorial}>Acompanhe o Fora da Pauta.</p>
-              <p className={styles.descricaoConvite}>Receba nossas publicações pelo WhatsApp.</p>
+              <p className={styles.fraseGratuidade}>É gratuito.</p>
+              <p className={styles.descricaoConvite}>Entre no nosso canal do WhatsApp e receba avisos de novas publicações.</p>
               <a
                 href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.botaoInscricao}
               >
-                Acompanhar
+                Entrar no canal
               </a>
-              <p className={styles.fraseGratuidade}>É gratuito.</p>
               <nav className={styles.navegacaoHome} aria-label="Outras opções">
                 <InstalarAplicativo tema="escuro" />
               </nav>
