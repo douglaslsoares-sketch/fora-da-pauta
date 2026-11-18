@@ -34,3 +34,23 @@
 .menu a.principal, .menu .principalDesabilitado { flex-direction: column; gap: 4px; }
 .publicacoesTitulo { font-size: 19px; font-weight: 800; line-height: 1.25; }
 .publicacoesDescricao { font-size: 13px; font-weight: 500; line-height: 1.4; }
+
+/* Menu de cartões com ícones e setas — versão aprovada. */
+.menu{gap:10px}
+.menu a.principal,.menu a.botao,.menu a.compartilhar,.menu a.escolherPolitico,.menu a.voltarInicio{
+  display:flex;flex-direction:row;align-items:center;justify-content:flex-start;
+  gap:12px;text-align:left;min-height:60px;padding:12px 16px;
+  border-radius:13px;background:#243b5a;color:#fff;border:1px solid #3a5272;
+  text-decoration:none;font-weight:750;box-shadow:0 2px 5px #0002
+}
+.menu a.escolherPolitico{background:#075cf0;border-color:#2477ff;min-height:72px}
+.menu a.voltarInicio{margin-top:0;font-size:17px;text-decoration:none;border-radius:13px}
+.icone{width:28px;min-width:28px;text-align:center;color:#f5c629;font-size:26px;line-height:1}
+.textoBotao{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.seta{font-size:32px;line-height:1;color:#fff;font-weight:400;margin-left:auto}
+.menu a.principal .publicacoesDescricao{color:#f5c629;font-weight:650}
+.menu a.principal .publicacoesTitulo{font-size:19px}
+.menu a.escolherPolitico .escolherTitulo{font-size:19px}
+.menu a.escolherPolitico .escolherDescricao{font-size:12px}
+.menu .principalDesabilitado{flex-direction:column}
+@media(max-width:380px){.menu a.principal,.menu a.botao,.menu a.compartilhar,.menu a.escolherPolitico,.menu a.voltarInicio{padding:11px 12px;font-size:15px;gap:9px}.icone{width:24px;min-width:24px;font-size:22px}.seta{font-size:27px}}
