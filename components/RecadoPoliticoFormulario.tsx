@@ -7,6 +7,8 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [gravando, setGravando] = useState(false);
   const [erro, setErro] = useState("");
+  const [enviando, setEnviando] = useState(false);
+  const [protocolo, setProtocolo] = useState("");
   const recorder = useRef<MediaRecorder | null>(null);
   const chunks = useRef<Blob[]>([]);
   const stream = useRef<MediaStream | null>(null);
@@ -56,6 +58,20 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
     }
   }
 
+  async function mandar() {
+    if (destinatario === "politico" || !texto.trim() || enviando || audioUrl || gravando) return;
+    setErro("");
+    setEnviando(true);
+    try {
+      const resposta = await fetch("/api/recados", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ destinatario, texto: texto.trim() }) });
+      const dados = await resposta.json() as { protocolo?: string; erro?: string };
+      if (!resposta.ok || !dados.protocolo) throw Error(dados.erro || "Não foi possível registrar o recado.");
+      setProtocolo(dados.protocolo);
+      setTexto("");
+    } catch (e) { setErro(e instanceof Error ? e.message : "Falha no envio."); }
+    finally { setEnviando(false); }
+  }
+
   function pararGravacao() {
     if (recorder.current?.state === "recording") recorder.current.stop();
   }
@@ -77,7 +93,9 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
       </div>}
       {erro && <p role="alert" className="mt-2 text-sm text-red-200">{erro}</p>}
     </div>
-    <button type="button" disabled className="mt-6 w-full rounded-lg bg-slate-500 px-5 py-3 font-bold text-white opacity-70">Mandar</button>
-    <p className="mt-3 text-xs leading-relaxed text-slate-300">{destinatario === "politico" ? "Envio indisponível até verificarmos o mandato e o contato oficial." : destinatario === "comunidade" ? "Publicação indisponível até implantarmos a moderação." : "Envio indisponível até implantarmos o recebimento seguro."} Nenhum recado foi enviado.</p>
+    <button type="button" onClick={() => void mandar()} disabled={destinatario === "politico" || !texto.trim() || !!audioUrl || gravando || enviando} className="mt-6 w-full rounded-lg bg-green-600 px-5 py-3 font-bold text-white disabled:bg-slate-500 disabled:opacity-70">{enviando ? "Enviando..." : "Mandar"}</button>
+    {protocolo && <p role="status" className="mt-3 rounded-lg bg-green-950 p-3 text-sm text-green-100">Recado recebido para análise. Protocolo: <strong className="break-all">{protocolo}</strong>. Isso não significa que tenha sido publicado ou encaminhado.</p>}
+    {audioUrl && destinatario !== "politico" && <p className="mt-2 text-xs text-yellow-200">O envio de áudio ainda não está disponível. Descarte a gravação para enviar somente o texto.</p>}
+    <p className="mt-3 text-xs leading-relaxed text-slate-300">{destinatario === "politico" ? "Envio indisponível até verificarmos o mandato e o contato oficial." : destinatario === "comunidade" ? "Recados escritos são recebidos para moderação, sem publicação automática." : "Recados escritos são registrados para análise do Fora da Pauta."} {destinatario === "politico" ? "Nenhum recado foi enviado." : "O envio de áudio ainda não está disponível."}</p>
   </div>;
 }
