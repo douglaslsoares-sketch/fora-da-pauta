@@ -933,3 +933,10 @@
 .apresentacao:has(.logoOficial) .botaoInscricao { margin-top:clamp(20px,3vh,28px); }
 .apresentacao:has(.logoOficial) .conviteEditorial { margin:clamp(16px,2.4vh,24px) 0 4px; font-size:clamp(16px,2.2vw,20px); }
 .apresentacao:has(.logoOficial) .fraseGratuidade { margin:0; font-size:13px; }
+
+
+/* Sequência aprovada: convite, explicação, ação e gratuidade. */
+.apresentacao:has(.logoOficial) .conviteEditorial { margin:clamp(22px,3.5vh,36px) 0 7px; font-size:clamp(17px,2.2vw,21px); }
+.apresentacao:has(.logoOficial) .descricaoConvite { margin:0 auto; }
+.apresentacao:has(.logoOficial) .botaoInscricao { margin-top:clamp(20px,3vh,28px); }
+.apresentacao:has(.logoOficial) .fraseGratuidade { margin:9px 0 0; color:#e7b84d; font-size:13px; }
