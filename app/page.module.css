@@ -919,3 +919,10 @@
   .apresentacao:has(.logoOficial) .fraseProjeto { margin:0 auto clamp(27px,4svh,40px); font-size:12px; }
   .apresentacao:has(.logoOficial) .botaoInscricao { align-self:center; width:min(100%,340px); }
 }
+
+
+/* Convite ao canal: título, gratuidade, explicação e ação. */
+.apresentacao:has(.logoOficial) .conviteEditorial { margin:0 0 5px; }
+.apresentacao:has(.logoOficial) .fraseGratuidade { order:0; margin:0 0 clamp(19px,3vh,30px); color:#e7b84d; font-size:13px; font-weight:650; }
+.apresentacao:has(.logoOficial) .descricaoConvite { max-width:37ch; margin:0 auto; line-height:1.5; }
+.apresentacao:has(.logoOficial) .botaoInscricao { margin-top:clamp(18px,3vh,26px); }
