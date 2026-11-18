@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-type Recado = { id: string; destinatario: "projeto" | "comunidade"; texto: string; status: string; criado_em: string };
+type Recado = { id: string; destinatario: "projeto" | "comunidade"; texto: string; status: string; criado_em: string; resposta_rascunho: string | null };
 const estados = [
   { value: "recebido", label: "Recebido" },
   { value: "em_analise", label: "Em análise" },
@@ -13,6 +13,8 @@ export function RecadosAdminPanel() {
   const [erro, setErro] = useState("");
   const [carregando, setCarregando] = useState(true);
   const [salvando, setSalvando] = useState<string | null>(null);
+  const [rascunhos, setRascunhos] = useState<Record<string, string>>({});
+  const [aviso, setAviso] = useState("");
   async function carregar() {
     setCarregando(true); setErro("");
     try {
@@ -20,6 +22,7 @@ export function RecadosAdminPanel() {
       const dados = await res.json();
       if (!res.ok) throw Error(dados.erro || "Falha na consulta.");
       setRecados(dados.recados);
+      setRascunhos(Object.fromEntries((dados.recados as Recado[]).map(item => [item.id, item.resposta_rascunho || ""])));
     } catch (e) { setErro(e instanceof Error ? e.message : "Falha ao carregar."); }
     finally { setCarregando(false); }
   }
@@ -34,8 +37,21 @@ export function RecadosAdminPanel() {
     } catch (e) { setErro(e instanceof Error ? e.message : "Falha ao salvar."); }
     finally { setSalvando(null); }
   }
+  async function salvarResposta(id: string) {
+    setSalvando(id); setErro(""); setAviso("");
+    try {
+      const resposta_rascunho = rascunhos[id] || "";
+      const res = await fetch("/api/admin/recados", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, resposta_rascunho }) });
+      const dados = await res.json();
+      if (!res.ok) throw Error(dados.erro || "Falha ao salvar a resposta.");
+      setRecados(atuais => atuais.map(item => item.id === id ? { ...item, resposta_rascunho } : item));
+      setAviso("Rascunho salvo. Nenhuma resposta foi enviada ou publicada.");
+    } catch (e) { setErro(e instanceof Error ? e.message : "Falha ao salvar."); }
+    finally { setSalvando(null); }
+  }
   return <section className="mt-7">
     <button onClick={() => void carregar()} className="rounded-lg border border-black/20 bg-white px-4 py-2 font-semibold">Atualizar lista</button>
+    {aviso && <p role="status" className="mt-4 rounded-lg bg-green-100 p-3 text-green-900">{aviso}</p>}
     {carregando && <p className="mt-4">Carregando recados...</p>}
     {erro && <p role="alert" className="mt-4 rounded-lg bg-red-100 p-3 text-red-800">{erro}</p>}
     {!carregando && !erro && recados.length === 0 && <p className="mt-4">Nenhum recado recebido.</p>}
@@ -53,6 +69,15 @@ export function RecadosAdminPanel() {
           className="mt-2 w-full rounded-lg border border-black/20 bg-white p-3 sm:w-auto">
           {estados.map(estado => <option key={estado.value} value={estado.value}>{estado.label}</option>)}
         </select>
+        <label className="mt-5 block text-sm font-semibold" htmlFor={`resposta-${item.id}`}>Escrever resposta</label>
+        <textarea id={`resposta-${item.id}`} rows={4} maxLength={5000} value={rascunhos[item.id] || ""}
+          onChange={e => setRascunhos(atuais => ({ ...atuais, [item.id]: e.target.value }))}
+          placeholder="Escreva sua resposta aqui..." className="mt-2 w-full rounded-lg border border-black/20 bg-white p-3 text-base" />
+        <p className="mt-1 text-xs text-black/60">Rascunho privado. Não será enviado nem publicado.</p>
+        <button type="button" disabled={salvando === item.id || (rascunhos[item.id] || "") === (item.resposta_rascunho || "")}
+          onClick={() => void salvarResposta(item.id)} className="mt-3 rounded-lg bg-blue-700 px-5 py-3 font-bold text-white disabled:opacity-50">
+          {salvando === item.id ? "Salvando..." : "Salvar resposta"}
+        </button>
       </article>)}
     </div>
   </section>;
