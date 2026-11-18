@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { EditorialAudioSystem } from "@/components/EditorialAudioSystem";
+import { InterceptarRetornoMenu } from "@/components/InterceptarRetornoMenu";
 import { SiteChromeRouter } from "@/components/SiteChromeRouter";
 import "./globals.css";
 import { imagemCompartilhamento } from "@/lib/compartilhamento";
@@ -56,6 +57,7 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-[#eeeee9] font-sans">
         <SiteChromeRouter />
+        <InterceptarRetornoMenu />
         {children}
         <EditorialAudioSystem />
         <Analytics />
