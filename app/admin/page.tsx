@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { AdminLogin } from "@/components/AdminLogin";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 import type { Metadata } from "next";
 
@@ -26,7 +26,7 @@ export default async function AdminPage() {
   const cookieStore = await cookies();
   const token = cookieStore.get(QUESTIONS_ADMIN_COOKIE)?.value;
   if (!verifyQuestionsAdminSessionToken(token)) {
-    redirect("/admin/perguntas");
+    return <AdminLogin />;
   }
   return (
     <main className="min-h-[calc(100svh-58px)] bg-[#eeeee9] px-5 py-12 text-[#151515] sm:px-8">
