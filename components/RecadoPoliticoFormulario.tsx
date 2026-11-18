@@ -118,7 +118,7 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
       {gravando
         ? <button type="button" onClick={pararGravacao} className="rounded-lg bg-yellow-400 px-4 py-3 font-bold text-black">Parar gravação</button>
         : <button type="button" onClick={() => void iniciarGravacao()} disabled={transcrevendo} className="rounded-lg bg-slate-100 px-4 py-3 font-bold text-black">Gravar áudio</button>}
-      {transcrevendo && <p role="status" className="mt-3 text-sm text-yellow-200">Transcrevendo seu áudio... Aguarde para conferir o texto.</p>}
+      {transcrevendo && <p role="status" className="mt-3 text-sm text-yellow-200">Transcrevendo o áudio...</p>}
       {audioUrl && <div className="mt-3 space-y-2">
         <audio controls src={audioUrl} className="w-full" aria-label="Ouvir gravação" />
         <div className="flex flex-wrap gap-4"><button type="button" disabled={transcrevendo || !audioGravado} onClick={() => { if (audioGravado) void transcreverAudio(audioGravado); }} className="text-sm font-bold text-yellow-200 underline">Tentar transcrição novamente</button><button type="button" disabled={transcrevendo} onClick={limparAudio} className="text-sm underline">Descartar áudio e gravar novamente</button></div>
