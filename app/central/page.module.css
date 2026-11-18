@@ -63,3 +63,14 @@
 .tituloMenu { display:flex; flex-direction:column; align-items:center; gap:12px; margin:0 auto 30px; text-align:center; }
 .tituloMenu h2 { margin:0; color:#fff; font-size:clamp(23px,3vw,29px); line-height:1.2; font-weight:750; letter-spacing:-.025em; }
 .tituloMenu span { display:block; width:48px; height:2px; background:#e7b84d; border-radius:2px; }
+
+
+/* Ícones vetoriais consistentes e instalação secundária. */
+.icone { display:inline-flex; align-items:center; justify-content:center; flex:0 0 30px; width:30px; height:30px; color:#f5c629; }
+.icone svg { width:27px; height:27px; display:block; }
+.menu .instalarRodape { width:100%; margin-top:18px; padding-top:12px; border-top:1px solid #344760; }
+.menu .instalarRodape > div { margin-top:0; }
+.menu .instalarRodape button { display:flex; align-items:center; gap:10px; margin:0 auto; min-height:46px; font-size:15px; font-weight:600; color:#d5dfed; text-decoration:none; }
+.menu .instalarRodape button::before { content:"↓"; display:inline-flex; justify-content:center; align-items:center; width:24px; height:24px; border:1.7px solid #e7b84d; border-radius:6px; color:#e7b84d; font-size:19px; line-height:1; }
+.menu .instalarRodape button:focus-visible { outline:3px solid #e7b84d; outline-offset:3px; }
+@media(max-width:380px){.icone { flex-basis:26px; width:26px; }.icone svg { width:24px; height:24px; }}
