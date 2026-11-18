@@ -1,3 +1,5 @@
+import { MenuPrincipal } from "@/components/MenuPrincipal";
+import { RetornoMenu } from "@/components/RetornoMenu";
 import { HomeAcessoTelegram } from "@/components/HomeAcessoTelegram";
 import { versaoEdicoes, versaoEntregas } from "@/lib/novidades-publicacoes";
 import type { Metadata } from "next";
@@ -33,7 +35,9 @@ export default function Home() {
 
       <div className={styles.watermark} aria-hidden="true" />
 
+      <RetornoMenu />
       <HomeAcessoTelegram versaoEdicoes={versaoEdicoes} versaoEntregas={versaoEntregas} />
+      <MenuPrincipal />
     </main>
   );
 }
