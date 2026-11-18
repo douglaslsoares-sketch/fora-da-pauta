@@ -640,6 +640,7 @@ function CandidateBrowseSelector() {
 type CandidateSelectorProps =
   | { mode?: "browse" }
   | { mode: "ficha" }
+  | { mode: "recado" }
   | {
       mode: "follow";
       selectedIds: readonly string[];
@@ -650,6 +651,7 @@ type CandidateSelectorProps =
 // Sem props, renderiza exatamente a experiÃªncia original de consulta.
 export function CandidateSelector(props: CandidateSelectorProps = {}) {
   if (props.mode === "ficha") return <CandidateFollowSelector selectedIds={[]} apenasFicha />;
+  if (props.mode === "recado") return <CandidateFollowSelector selectedIds={[]} modoRecado />;
   if (props.mode === "follow") return <CandidateFollowSelector {...props} />;
   return <CandidateBrowseSelector />;
 }
@@ -658,11 +660,13 @@ function CandidateFollowSelector({
   selectedIds,
   onSelect,
   apenasFicha = false,
+  modoRecado = false,
 }: {
   selectedIds: readonly string[];
   selectedPeople?: readonly { id: string; nomeUrna: string; cargoLabel?: string; uf?: string; siglaPartido?: string }[];
   onSelect?: (candidate: CandidateResult) => void;
   apenasFicha?: boolean;
+  modoRecado?: boolean;
 }) {
   const [query, setQuery] = useState("");
   const [buscaAtiva, setBuscaAtiva] = useState("");
@@ -902,6 +906,7 @@ function CandidateFollowSelector({
               </div>
 
               <div className="flex shrink-0 flex-col gap-2">
+              {modoRecado ? <Link href={`/mandar-recado/politico/${encodeURIComponent(candidate.id)}`} className="rounded-xl bg-[#FFC400] px-3 py-3 text-xs font-bold text-black">Escolher</Link> : null}
               {!apenasFicha && onSelect ? <button
                 type="button"
                 onClick={() => { if (!selecionado) onSelect(candidate); }}
