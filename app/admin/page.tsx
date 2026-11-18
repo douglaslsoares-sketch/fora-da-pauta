@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 const modulos = [
+  { nome: "Recados recebidos", descricao: "Ler e classificar mensagens para o projeto e a comunidade.", href: "/admin/recados", ativo: true },
   { nome: "Perguntas recebidas", descricao: "Responder perguntas e decidir quais respostas serão públicas.", href: "/admin/perguntas", ativo: true },
   { nome: "Artigos", descricao: "Criar, revisar, publicar e arquivar artigos; consultar o acervo.", href: "/admin/artigos", ativo: true },
   { nome: "Notificações", descricao: "Preparar testes individuais; envio geral aos inscritos ainda desativado.", href: "/admin/notificacoes", ativo: true },
