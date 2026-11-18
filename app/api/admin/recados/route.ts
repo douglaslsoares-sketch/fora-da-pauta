@@ -22,7 +22,9 @@ export async function GET() {
       criado_em timestamptz NOT NULL DEFAULT now()
     )`;
     await sql`ALTER TABLE public.recados_site ADD COLUMN IF NOT EXISTS resposta_rascunho text`;
-    const rows = await sql`SELECT id, destinatario, texto, status, criado_em, resposta_rascunho FROM public.recados_site ORDER BY criado_em DESC LIMIT 100`;
+    await sql`ALTER TABLE public.recados_site ADD COLUMN IF NOT EXISTS resposta_publicada text`;
+    await sql`ALTER TABLE public.recados_site ADD COLUMN IF NOT EXISTS resposta_publicada_em timestamptz`;
+    const rows = await sql`SELECT id, destinatario, texto, status, criado_em, resposta_rascunho, resposta_publicada, resposta_publicada_em FROM public.recados_site ORDER BY criado_em DESC LIMIT 100`;
     return NextResponse.json({ recados: rows }, { headers: semCache });
   } catch (error) {
     console.error("Erro ao consultar recados:", error);
@@ -36,24 +38,30 @@ export async function PATCH(request: Request) {
   if (!origin || (() => { try { return new URL(origin).origin !== new URL(request.url).origin; } catch { return true; } })()) {
     return NextResponse.json({ erro: "Origem inválida." }, { status: 403, headers: semCache });
   }
-  let data: { id?: unknown; status?: unknown; resposta_rascunho?: unknown };
+  let data: { id?: unknown; status?: unknown; resposta_rascunho?: unknown; publicar_resposta?: unknown };
   try { data = await request.json(); } catch { return NextResponse.json({ erro: "Dados inválidos." }, { status: 400 }); }
   const id = typeof data.id === "string" ? data.id : "";
   const status = data.status;
   const temResposta = Object.prototype.hasOwnProperty.call(data, "resposta_rascunho");
   const temStatus = Object.prototype.hasOwnProperty.call(data, "status");
+  const publicar = data.publicar_resposta === true;
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id) ||
-    (!temStatus && !temResposta) ||
-    (temStatus && !["recebido", "em_analise", "respondido", "arquivado"].includes(String(status))) ||
+    (!temStatus && !temResposta && !publicar) ||
+    (publicar && (temStatus || temResposta)) ||
+    (temStatus && !["recebido", "em_analise", "arquivado"].includes(String(status))) ||
     (temResposta && (typeof data.resposta_rascunho !== "string" || data.resposta_rascunho.length > 5000))) {
     return NextResponse.json({ erro: "Dados inválidos." }, { status: 400 });
   }
   try {
     await sql`ALTER TABLE public.recados_site ADD COLUMN IF NOT EXISTS resposta_rascunho text`;
-    const rows = temResposta
+    await sql`ALTER TABLE public.recados_site ADD COLUMN IF NOT EXISTS resposta_publicada text`;
+    await sql`ALTER TABLE public.recados_site ADD COLUMN IF NOT EXISTS resposta_publicada_em timestamptz`;
+    const rows = publicar
+      ? await sql`UPDATE public.recados_site SET resposta_publicada = resposta_rascunho, resposta_publicada_em = now(), status = 'respondido' WHERE id = ${id}::uuid AND length(trim(coalesce(resposta_rascunho, ''))) > 0 RETURNING id, status, resposta_rascunho, resposta_publicada, resposta_publicada_em`
+      : temResposta
       ? await sql`UPDATE public.recados_site SET resposta_rascunho = ${data.resposta_rascunho as string} WHERE id = ${id}::uuid RETURNING id, status, resposta_rascunho`
       : await sql`UPDATE public.recados_site SET status = ${status as string} WHERE id = ${id}::uuid RETURNING id, status, resposta_rascunho`;
-    if (!rows.length) return NextResponse.json({ erro: "Recado não encontrado." }, { status: 404 });
+    if (!rows.length) return NextResponse.json({ erro: publicar ? "Salve um rascunho não vazio antes de publicar." : "Recado não encontrado." }, { status: publicar ? 400 : 404 });
     return NextResponse.json({ ok: true, recado: rows[0] }, { headers: semCache });
   } catch (error) {
     console.error("Erro ao atualizar recado:", error);
