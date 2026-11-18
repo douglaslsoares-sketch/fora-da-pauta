@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-type Recado = { id: string; destinatario: "projeto" | "comunidade"; texto: string; status: string; criado_em: string };
+type Recado = { id: string; destinatario: "projeto" | "comunidade"; texto: string; status: string; criado_em: string; resposta_publicada: string | null; resposta_publicada_em: string | null };
 const estados: Record<string, string> = { recebido: "Recebido", em_analise: "Em análise", respondido: "Marcado como respondido", arquivado: "Arquivado" };
 
 export function HistoricoRecados() {
@@ -26,6 +26,6 @@ export function HistoricoRecados() {
     <p className="mt-2 text-xs text-slate-300">{new Date(recado.criado_em).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</p>
     <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-6">{recado.texto}</p>
     <p className="mt-3 text-xs text-slate-300">Protocolo: <span className="break-all">{recado.id}</span></p>
-    {recado.status === "respondido" && <p className="mt-3 text-xs text-yellow-200">Este estado é administrativo e não significa que uma resposta tenha sido enviada.</p>}
+    {recado.resposta_publicada ? <div className="mt-4 rounded-lg border border-yellow-400/30 bg-[#1b2a42] p-4"><p className="font-bold text-yellow-200">Resposta do Fora da Pauta</p><p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6">{recado.resposta_publicada}</p>{recado.resposta_publicada_em && <p className="mt-3 text-xs text-slate-300">Disponibilizada em {new Date(recado.resposta_publicada_em).toLocaleString("pt-BR")}</p>}</div> : recado.status === "respondido" ? <p className="mt-3 text-xs text-yellow-200">Recado marcado como respondido. Nenhuma resposta foi disponibilizada aqui.</p> : null}
   </article>)}</div>;
 }
