@@ -1,11 +1,8 @@
 import Link from "next/link";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
-import type { Metadata } from "next";
 import styles from "@/app/central/page.module.css";
 import { linkCompartilhamentoWhatsApp } from "@/lib/compartilhamento";
 import { sql } from "@/lib/interesses/db";
-
-export const dynamic = "force-dynamic";
 
 export async function MenuPrincipal() {
   let artigosDisponiveis = false;
@@ -19,6 +16,7 @@ export async function MenuPrincipal() {
   }
   return (
     <section id="menu" className={styles.pagina} aria-label="Menu do Fora da Pauta">
+      <header className={styles.tituloMenu}><h2>Menu</h2><span aria-hidden="true" /></header>
       <nav className={styles.menu} aria-label="Menu central">
         {artigosDisponiveis ? (
           <Link className={styles.principal} href="/edicoes"><span className={styles.icone} aria-hidden="true">▣</span><span className={styles.textoBotao}><span className={styles.publicacoesTitulo}>Publicações</span><span className={styles.publicacoesDescricao}>Leia, ouça, compartilhe</span></span><span className={styles.seta} aria-hidden="true">›</span></Link>
