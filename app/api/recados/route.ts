@@ -18,7 +18,9 @@ export async function GET() {
   if (!tokenValido(token)) return NextResponse.json({ recados: [] }, { headers: { "Cache-Control": "no-store" } });
   try {
     await prepararColuna();
-    const rows = await sql`SELECT id, destinatario, texto, status, criado_em FROM public.recados_site WHERE autor_hash = ${identificador(token!)} ORDER BY criado_em DESC LIMIT 100`;
+    await sql`ALTER TABLE public.recados_site ADD COLUMN IF NOT EXISTS resposta_publicada text`;
+    await sql`ALTER TABLE public.recados_site ADD COLUMN IF NOT EXISTS resposta_publicada_em timestamptz`;
+    const rows = await sql`SELECT id, destinatario, texto, status, criado_em, resposta_publicada, resposta_publicada_em FROM public.recados_site WHERE autor_hash = ${identificador(token!)} ORDER BY criado_em DESC LIMIT 100`;
     return NextResponse.json({ recados: rows }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     console.error("Falha ao consultar histórico:", error);
