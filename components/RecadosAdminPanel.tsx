@@ -6,6 +6,7 @@ const estados = [
   { value: "recebido", label: "Recebido" },
   { value: "em_analise", label: "Em análise" },
   { value: "arquivado", label: "Arquivado" },
+  { value: "respondido", label: "Respondido", somenteLeitura: true },
 ];
 export function RecadosAdminPanel() {
   const [recados, setRecados] = useState<Recado[]>([]);
@@ -78,7 +79,7 @@ export function RecadosAdminPanel() {
         <select id={`estado-${item.id}`} value={item.status} disabled={salvando === item.id}
           onChange={e => void atualizar(item.id, e.target.value)}
           className="mt-2 w-full rounded-lg border border-black/20 bg-white p-3 sm:w-auto">
-          {estados.map(estado => <option key={estado.value} value={estado.value}>{estado.label}</option>)}
+          {estados.map(estado => <option key={estado.value} value={estado.value} disabled={estado.somenteLeitura && item.status !== "respondido"}>{estado.label}</option>)}
         </select>
         <label className="mt-5 block text-sm font-semibold" htmlFor={`resposta-${item.id}`}>Escrever resposta</label>
         <textarea id={`resposta-${item.id}`} rows={4} maxLength={5000} value={rascunhos[item.id] || ""}
