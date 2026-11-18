@@ -1,7 +1,7 @@
-import type { SVGProps } from "react";
+import type { ReactNode, SVGProps } from "react";
 
 type NomeIcone = "publicacoes" | "escolher" | "acompanhando" | "recado" | "qr" | "compartilhar";
-const caminhos: Record<NomeIcone, React.ReactNode> = {
+const caminhos: Record<NomeIcone, ReactNode> = {
   publicacoes: <><path d="M12 6.5c-2.6-1.7-5.3-1.9-9-1.4v13c3.7-.5 6.4-.3 9 1.4 2.6-1.7 5.3-1.9 9-1.4v-13c-3.7-.5-6.4-.3-9 1.4Z"/><path d="M12 6.5v13"/></>,
   escolher: <><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="10" cy="9" r="2"/><path d="M7 16c0-2 1.2-3 3-3s3 1 3 3M16 9h2M16 13h2"/></>,
   acompanhando: <><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2H3Z"/><path d="m16 11 2 2 4-4"/></>,
