@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export function RecadoPoliticoFormulario() {
+export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destinatario?: "politico" | "projeto" | "comunidade" }) {
   const [texto, setTexto] = useState("");
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [gravando, setGravando] = useState(false);
@@ -78,6 +78,6 @@ export function RecadoPoliticoFormulario() {
       {erro && <p role="alert" className="mt-2 text-sm text-red-200">{erro}</p>}
     </div>
     <button type="button" disabled className="mt-6 w-full rounded-lg bg-slate-500 px-5 py-3 font-bold text-white opacity-70">Mandar</button>
-    <p className="mt-3 text-sm text-slate-200">Envio ainda indisponível: precisamos confirmar o mandato em exercício e o contato oficial. O texto e o áudio permanecem somente nesta tela e não foram enviados.</p>
+    <p className="mt-3 text-sm text-slate-200">{destinatario === "politico" ? "Envio ainda indisponível: precisamos confirmar o mandato em exercício e o contato oficial." : destinatario === "comunidade" ? "Publicação ainda indisponível: será necessária moderação antes de compartilhar com a comunidade." : "Envio ainda indisponível: estamos preparando o recebimento seguro pelo Fora da Pauta."} O texto e o áudio permanecem somente nesta tela e não foram enviados.</p>
   </div>;
 }
