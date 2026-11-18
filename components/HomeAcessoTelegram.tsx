@@ -309,7 +309,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
         <header className={styles.cabecalho}>
           <div className={styles.marcaEuVigio}>
             <LogoForaDaPauta className={styles.logoOficial} />
-            <p className={styles.fraseProjeto}>Conhecer é importante. Entender é fundamental.</p>
+            
           </div>
         </header>
         <div className={styles.intro} id="apresentacao">
@@ -318,17 +318,19 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
               <h1 id="mensagem-principal" className={styles.perguntaEditorial}>
                 Quando a <span className={styles.tituloDesinformacao}>(des)informação</span> aliena.
               </h1>
+              <p className={styles.fraseProjeto}>Conhecer é importante. Entender é fundamental.</p>
+              <p className={styles.conviteEditorial}>Acompanhe o Fora da Pauta.</p>
+              <p className={styles.descricaoConvite}>Receba nossas publicações pelo WhatsApp.</p>
               <a
                 href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.botaoInscricao}
               >
-                Quero receber as notícias
+                Acompanhar
               </a>
               <p className={styles.fraseGratuidade}>É gratuito.</p>
               <nav className={styles.navegacaoHome} aria-label="Outras opções">
-                <Link href="/central" className={styles.linkSegundaPagina}>Ir para o menu</Link>
                 <InstalarAplicativo tema="escuro" />
               </nav>
             </div>
