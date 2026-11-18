@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-type Recado = { id: string; destinatario: "projeto" | "comunidade"; texto: string; status: string; criado_em: string; resposta_rascunho: string | null };
+type Recado = { id: string; destinatario: "projeto" | "comunidade"; texto: string; status: string; criado_em: string; resposta_rascunho: string | null; resposta_publicada: string | null; resposta_publicada_em: string | null };
 const estados = [
   { value: "recebido", label: "Recebido" },
   { value: "em_analise", label: "Em análise" },
@@ -49,6 +49,23 @@ export function RecadosAdminPanel() {
     } catch (e) { setErro(e instanceof Error ? e.message : "Falha ao salvar."); }
     finally { setSalvando(null); }
   }
+  async function publicarResposta(item: Recado) {
+    if (salvando || !item.resposta_rascunho?.trim()) return;
+    if ((rascunhos[item.id] || "") !== (item.resposta_rascunho || "")) {
+      setErro("Salve as alterações do rascunho antes de disponibilizar a resposta.");
+      return;
+    }
+    if (!window.confirm("Disponibilizar esta resposta em Meus recados? O participante poderá ler o texto. Esta ação não envia aviso pelo WhatsApp.")) return;
+    setSalvando(item.id); setErro(""); setAviso("");
+    try {
+      const res = await fetch("/api/admin/recados", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: item.id, publicar_resposta: true }) });
+      const dados = await res.json();
+      if (!res.ok) throw Error(dados.erro || "Falha ao disponibilizar resposta.");
+      setRecados(atuais => atuais.map(atual => atual.id === item.id ? { ...atual, ...dados.recado } : atual));
+      setAviso("Resposta disponibilizada em Meus recados. Nenhum aviso foi enviado.");
+    } catch (e) { setErro(e instanceof Error ? e.message : "Falha ao disponibilizar resposta."); }
+    finally { setSalvando(null); }
+  }
   return <section className="mt-7">
     <button onClick={() => void carregar()} className="rounded-lg border border-black/20 bg-white px-4 py-2 font-semibold">Atualizar lista</button>
     {aviso && <p role="status" className="mt-4 rounded-lg bg-green-100 p-3 text-green-900">{aviso}</p>}
@@ -73,11 +90,13 @@ export function RecadosAdminPanel() {
         <textarea id={`resposta-${item.id}`} rows={4} maxLength={5000} value={rascunhos[item.id] || ""}
           onChange={e => setRascunhos(atuais => ({ ...atuais, [item.id]: e.target.value }))}
           placeholder="Escreva sua resposta aqui..." className="mt-2 w-full rounded-lg border border-black/20 bg-white p-3 text-base" />
-        <p className="mt-1 text-xs text-black/60">Rascunho privado. Não será enviado nem publicado.</p>
+        <p className="mt-1 text-xs text-black/60">Rascunho privado até você confirmar a disponibilização.</p>
         <button type="button" disabled={salvando === item.id || (rascunhos[item.id] || "") === (item.resposta_rascunho || "")}
           onClick={() => void salvarResposta(item.id)} className="mt-3 rounded-lg bg-blue-700 px-5 py-3 font-bold text-white disabled:opacity-50">
-          {salvando === item.id ? "Salvando..." : "Salvar resposta"}
+          {salvando === item.id ? "Salvando..." : "Salvar rascunho"}
         </button>
+        <button type="button" disabled={salvando === item.id || !item.resposta_rascunho?.trim() || (rascunhos[item.id] || "") !== (item.resposta_rascunho || "")} onClick={() => void publicarResposta(item)} className="ml-3 mt-3 rounded-lg bg-green-700 px-5 py-3 font-bold text-white disabled:opacity-50">Disponibilizar resposta</button>
+        {item.resposta_publicada && <div className="mt-4 rounded-lg border border-green-200 bg-green-50 p-3"><p className="text-sm font-semibold text-green-900">Resposta disponível ao participante</p><p className="mt-2 whitespace-pre-wrap break-words text-sm">{item.resposta_publicada}</p></div>}
       </article>)}
     </div>
   </section>;
