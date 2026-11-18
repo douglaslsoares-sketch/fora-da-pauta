@@ -54,3 +54,7 @@
 .menu a.escolherPolitico .escolherDescricao{font-size:12px}
 .menu .principalDesabilitado{flex-direction:column}
 @media(max-width:380px){.menu a.principal,.menu a.botao,.menu a.compartilhar,.menu a.escolherPolitico,.menu a.voltarInicio{padding:11px 12px;font-size:15px;gap:9px}.icone{width:24px;min-width:24px;font-size:22px}.seta{font-size:27px}}
+
+/* Segunda dobra sem cabeçalho */
+.pagina { min-height:100svh; padding:clamp(28px,5vh,54px) 0 60px; scroll-margin-top:0; }
+.menu { margin-top:0; }
