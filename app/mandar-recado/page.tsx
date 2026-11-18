@@ -10,7 +10,7 @@ export default function MandarRecado() {
       <h1 className="text-center text-2xl font-extrabold">Mandar um recado</h1>
       <p className="mb-7 mt-2 text-center text-slate-300">Com quem você quer conversar?</p>
       <nav aria-label="Escolher destinatário" className="space-y-3">
-        <Link href="/meus-acompanhamentos" className={card+" hover:border-[#f4c542] focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400"}>
+        <Link href="/mandar-recado/politico" className={card+" hover:border-[#f4c542] focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400"}>
           <span className="block text-lg font-bold">Com um político</span>
           <span className="mt-1 block text-sm text-slate-300">Escolha um representante da sua lista de acompanhamentos.</span>
         </Link>
