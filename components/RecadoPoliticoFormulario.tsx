@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destinatario?: "politico" | "projeto" | "comunidade" }) {
   const [texto, setTexto] = useState("");
@@ -94,7 +95,7 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
       {erro && <p role="alert" className="mt-2 text-sm text-red-200">{erro}</p>}
     </div>
     <button type="button" onClick={() => void mandar()} disabled={destinatario === "politico" || !texto.trim() || !!audioUrl || gravando || enviando} className="mt-6 w-full rounded-lg bg-green-600 px-5 py-3 font-bold text-white disabled:bg-slate-500 disabled:opacity-70">{enviando ? "Enviando..." : "Mandar"}</button>
-    {protocolo && <p role="status" className="mt-3 rounded-lg bg-green-950 p-3 text-sm text-green-100">Recado recebido para análise. Protocolo: <strong className="break-all">{protocolo}</strong>. Isso não significa que tenha sido publicado ou encaminhado.</p>}
+    {protocolo && <p role="status" className="mt-3 rounded-lg bg-green-950 p-3 text-sm text-green-100">Recado recebido para análise. Protocolo: <strong className="break-all">{protocolo}</strong>. Isso não significa que tenha sido publicado ou encaminhado. <Link href="/consultar-recado" className="mt-2 block font-bold underline">Consultar resposta pelo protocolo</Link> Guarde o protocolo: qualquer pessoa que o conhecer poderá consultar a resposta.</p>}
     {audioUrl && destinatario !== "politico" && <p className="mt-2 text-xs text-yellow-200">O envio de áudio ainda não está disponível. Descarte a gravação para enviar somente o texto.</p>}
     <p className="mt-3 text-xs leading-relaxed text-slate-300">{destinatario === "politico" ? "Envio indisponível até verificarmos o mandato e o contato oficial." : destinatario === "comunidade" ? "Recados escritos são recebidos para moderação, sem publicação automática." : "Recados escritos são registrados para análise do Fora da Pauta."} {destinatario === "politico" ? "Nenhum recado foi enviado." : "O envio de áudio ainda não está disponível."}</p>
   </div>;
