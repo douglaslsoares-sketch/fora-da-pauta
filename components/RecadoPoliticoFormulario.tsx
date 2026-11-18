@@ -63,8 +63,8 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
   return <div className="mt-7 rounded-xl border border-[#344760] bg-[#24334b] p-5">
     <label htmlFor="texto-recado" className="block font-semibold">Seu recado</label>
     <textarea id="texto-recado" value={texto} onChange={e => setTexto(e.target.value)}
-      maxLength={2000} rows={5} placeholder="Escreva aqui sua mensagem..."
-      className="mt-3 w-full rounded-lg border border-slate-500 bg-white p-3 text-base text-black" />
+      maxLength={2000} rows={4} placeholder="Escreva aqui sua mensagem..."
+      className="mt-3 min-h-[112px] w-full resize-y rounded-lg border border-slate-500 bg-white p-3 text-base text-black" />
     <p className="mt-1 text-right text-xs text-slate-300">{texto.length}/2000</p>
     <div className="mt-4">
       <p className="mb-2 font-semibold">Ou grave um áudio</p>
@@ -78,6 +78,6 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
       {erro && <p role="alert" className="mt-2 text-sm text-red-200">{erro}</p>}
     </div>
     <button type="button" disabled className="mt-6 w-full rounded-lg bg-slate-500 px-5 py-3 font-bold text-white opacity-70">Mandar</button>
-    <p className="mt-3 text-sm text-slate-200">{destinatario === "politico" ? "Envio ainda indisponível: precisamos confirmar o mandato em exercício e o contato oficial." : destinatario === "comunidade" ? "Publicação ainda indisponível: será necessária moderação antes de compartilhar com a comunidade." : "Envio ainda indisponível: estamos preparando o recebimento seguro pelo Fora da Pauta."} O texto e o áudio permanecem somente nesta tela e não foram enviados.</p>
+    <p className="mt-3 text-xs leading-relaxed text-slate-300">{destinatario === "politico" ? "Envio indisponível até verificarmos o mandato e o contato oficial." : destinatario === "comunidade" ? "Publicação indisponível até implantarmos a moderação." : "Envio indisponível até implantarmos o recebimento seguro."} Nenhum recado foi enviado.</p>
   </div>;
 }
