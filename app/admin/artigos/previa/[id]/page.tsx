@@ -8,7 +8,7 @@ import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Prévia editorial | Fora da Pauta", robots: { index: false, follow: false } };
 
-type Article = { titulo: string; resumo: string; conteudo: string; fontes: string; status: string };
+type Article = { titulo: string; resumo: string; conteudo: string; fontes: string; audio_url: string; status: string };
 export default async function PreviewArticle({ params }: { params: Promise<{ id: string }> }) {
   const store = await cookies();
   if (!verifyQuestionsAdminSessionToken(store.get(QUESTIONS_ADMIN_COOKIE)?.value)) redirect("/admin/perguntas");
@@ -17,7 +17,7 @@ export default async function PreviewArticle({ params }: { params: Promise<{ id:
   let article: Article | undefined;
   try {
     const rows = await sql<Article[]>`
-      SELECT titulo, resumo, conteudo, fontes, status FROM public.admin_artigos WHERE id = ${id}::uuid LIMIT 1
+      SELECT titulo, resumo, conteudo, fontes, audio_url, status FROM public.admin_artigos WHERE id = ${id}::uuid LIMIT 1
     `;
     article = rows[0];
   } catch {
@@ -33,6 +33,13 @@ export default async function PreviewArticle({ params }: { params: Promise<{ id:
         <p className="mt-9 text-sm font-bold uppercase tracking-widest">Fora da Pauta</p>
         <h1 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">{article.titulo}</h1>
         {article.resumo && <p className="mt-5 text-lg leading-8 text-black/70">{article.resumo}</p>}
+        {article.audio_url && <section className="mt-8 rounded-xl border border-[#d5dce4] bg-[#f3f6f9] p-5">
+          <h2 className="text-base font-bold text-[#183352]">Ouvir gravação — teste privado</h2>
+          <p className="mt-1 text-sm text-black/65">A reprodução nesta prévia não publica o áudio nem o artigo.</p>
+          <audio controls preload="none" src={article.audio_url} className="mt-4 w-full" aria-label="Testar áudio do artigo">
+            Seu navegador não oferece reprodução de áudio.
+          </audio>
+        </section>}
         <div className="mt-10 space-y-6 text-base leading-8">
           {paragraphs.map((paragraph, i) => <p key={i} className="whitespace-pre-line">{paragraph}</p>)}
         </div>
