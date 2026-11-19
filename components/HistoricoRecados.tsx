@@ -78,7 +78,7 @@ export function HistoricoRecados() {
       setMensagemRecuperacao(erro instanceof Error ? erro.message : "Falha na recuperação.");
     } finally { setRecuperando(false); }
   }
-  const painelRecuperacao = <details className="mt-4 rounded-xl border border-[#344760] bg-[#24334b] p-5">
+  const painelRecuperacao = <details className="mt-4 rounded-xl border border-[#344760] bg-[#24334b] p-5 lg:p-7 lg:p-7">
     <summary className="cursor-pointer font-semibold text-yellow-200">Recuperar meus recados (opcional)</summary>
     <p className="mt-3 text-sm leading-6 text-slate-300">Se perder o acesso aos aparelhos, uma chave privada permite recuperar seus recados. Quem tiver essa chave poderá ler suas mensagens. Guarde-a com segurança e não a compartilhe.</p>
     {recados.length > 0 && <div className="mt-4">
@@ -104,9 +104,9 @@ export function HistoricoRecados() {
   if (!recados.length) return <><div className="mt-8 rounded-xl border border-[#344760] bg-[#24334b] p-6 text-center"><p>Você ainda não tem recados neste aparelho.</p><a href="/mandar-recado" className="mt-4 inline-block font-semibold text-yellow-300 underline">Mandar um recado</a></div>{atualizar}{painelVinculo}{painelRecuperacao}</>;
   return <div className="mt-8 space-y-3">{recados.map(recado => <article key={recado.id} className="rounded-xl border border-[#344760] bg-[#24334b] p-5">
     <div className="flex flex-wrap items-start justify-between gap-2"><h2 className="font-bold">{recado.destinatario === "projeto" ? "Para o Fora da Pauta" : "Para a comunidade"}</h2><span className="rounded-md bg-[#334e71] px-2 py-1 text-xs text-yellow-200">{estados[recado.status] ?? recado.status}</span></div>
-    <p className="mt-2 text-xs text-slate-300">{new Date(recado.criado_em).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</p>
-    <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-6">{recado.texto}</p>
-    <p className="mt-3 text-xs text-slate-300">Protocolo: <span className="break-all">{recado.id}</span></p>
-    {recado.resposta_publicada ? <div className="mt-4 rounded-lg border border-yellow-400/30 bg-[#1b2a42] p-4"><p className="font-bold text-yellow-200">Resposta do Fora da Pauta</p><p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6">{recado.resposta_publicada}</p>{recado.resposta_publicada_em && <p className="mt-3 text-xs text-slate-300">Disponibilizada em {new Date(recado.resposta_publicada_em).toLocaleString("pt-BR")}</p>}</div> : recado.status === "respondido" ? <p className="mt-3 text-xs text-yellow-200">Recado marcado como respondido. Nenhuma resposta foi disponibilizada aqui.</p> : null}
+    <p className="mt-2 text-xs text-slate-300 lg:text-sm">{new Date(recado.criado_em).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</p>
+    <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-6 lg:text-base lg:leading-7">{recado.texto}</p>
+    <p className="mt-3 text-xs text-slate-300 lg:text-sm">Protocolo: <span className="break-all">{recado.id}</span></p>
+    {recado.resposta_publicada ? <div className="mt-4 rounded-lg border border-yellow-400/30 bg-[#1b2a42] p-4"><p className="font-bold text-yellow-200">Resposta do Fora da Pauta</p><p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6 lg:text-base lg:leading-7">{recado.resposta_publicada}</p>{recado.resposta_publicada_em && <p className="mt-3 text-xs text-slate-300">Disponibilizada em {new Date(recado.resposta_publicada_em).toLocaleString("pt-BR")}</p>}</div> : recado.status === "respondido" ? <p className="mt-3 text-xs text-yellow-200">Recado marcado como respondido. Nenhuma resposta foi disponibilizada aqui.</p> : null}
   </article>)}{atualizar}{painelVinculo}{painelRecuperacao}</div>;
 }
