@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { createHash, randomBytes } from "node:crypto";
 import { sql } from "@/lib/interesses/db";
 import { consumeRateLimit } from "@/lib/rateLimit";
+import { protegerToken, lerToken } from "@/lib/recadosTokenSeguro";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,7 +33,7 @@ export async function POST(request: Request) {
   try {
     await preparar();
     const codigo = randomBytes(12).toString("hex").toUpperCase();
-    await sql`INSERT INTO public.recados_vinculos (codigo_hash, autor_token, expira_em) VALUES (${hash(codigo)}, ${token}, now() + interval '10 minutes')`;
+    await sql`INSERT INTO public.recados_vinculos (codigo_hash, autor_token, expira_em) VALUES (${hash(codigo)}, ${protegerToken(token)}, now() + interval '10 minutes')`;
     return NextResponse.json({ codigo, validade_minutos: 10 }, { headers: semCache });
   } catch (error) {
     console.error("Falha ao gerar vínculo de recados:", error);
@@ -51,7 +52,7 @@ export async function PUT(request: Request) {
   try {
     await preparar();
     const rows = await sql`UPDATE public.recados_vinculos SET usado_em = now() WHERE codigo_hash = ${hash(codigo)} AND usado_em IS NULL AND expira_em > now() RETURNING autor_token`;
-    const token = rows[0]?.autor_token;
+    const token = lerToken(rows[0]?.autor_token);
     if (!valido(token)) return NextResponse.json({ erro: "Código expirado, inválido ou já utilizado." }, { status: 400, headers: semCache });
     const response = NextResponse.json({ ok: true }, { headers: semCache });
     response.cookies.set({ name: COOKIE, value: token, httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 365 });
