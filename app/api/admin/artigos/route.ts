@@ -57,7 +57,7 @@ export async function POST(request: Request) {
   if (audio_url && audio_url.length <= 2048) {
     try {
       const u = new URL(audio_url);
-      audioValido = u.protocol === "https:" && !u.username && !u.password && /\\.(mp3|m4a|ogg|wav)$/i.test(u.pathname);
+      audioValido = u.protocol === "https:" && !u.username && !u.password && /\.(mp3|m4a|ogg|wav)$/i.test(u.pathname);
     } catch { audioValido = false; }
   }
   if (!audioValido) return reply({ erro: "O áudio deve ser um link HTTPS direto para arquivo MP3, M4A, OGG ou WAV." }, 400);
