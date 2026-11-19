@@ -47,8 +47,9 @@ export async function PUT(request: Request) {
   if (!mesmaOrigem(request)) return NextResponse.json({ erro: "Origem não autorizada." }, { status: 403, headers: noStore });
   const limite = await consumeRateLimit({ request, scope: "recados:recuperacao:usar", limit: 5, windowSeconds: 3600 });
   if (!limite.allowed) return NextResponse.json({ erro: "Muitas tentativas. Aguarde antes de tentar novamente." }, { status: 429, headers: noStore });
+  if (Number(request.headers.get("content-length") || 0) > 2048) return NextResponse.json({ erro: "Solicitação muito grande." }, { status: 413, headers: noStore });
   let dados: { chave?: unknown };
-  try { dados = await request.json(); } catch { return NextResponse.json({ erro: "Dados inválidos." }, { status: 400, headers: noStore }); }
+  try { const corpo = await request.text(); if (corpo.length > 2048) return NextResponse.json({ erro: "Solicitação muito grande." }, { status: 413, headers: noStore }); dados = JSON.parse(corpo); } catch { return NextResponse.json({ erro: "Dados inválidos." }, { status: 400, headers: noStore }); }
   const chave = typeof dados.chave === "string" ? dados.chave.replace(/[\s-]/g, "").toUpperCase() : "";
   if (!/^[A-F0-9]{64}$/.test(chave)) return NextResponse.json({ erro: "Informe a chave completa de recuperação." }, { status: 400, headers: noStore });
   try {
