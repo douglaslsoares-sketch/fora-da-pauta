@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; status: string; updated_at: string };
+type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; audio_url?: string; status: string; updated_at: string };
 
 export default function AdminArticleDrafts() {
   const [items, setItems] = useState<Draft[]>([]);
@@ -14,6 +14,7 @@ export default function AdminArticleDrafts() {
   const [resumo, setResumo] = useState("");
   const [conteudo, setConteudo] = useState("");
   const [fontes, setFontes] = useState("");
+  const [audioUrl, setAudioUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
@@ -31,10 +32,10 @@ export default function AdminArticleDrafts() {
     } finally { setLoading(false); }
   }
   useEffect(() => { void reload(); }, []);
-  function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setNotice(""); }
+  function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setAudioUrl(""); setNotice(""); }
   function edit(item: Draft) {
     if (item.status !== "rascunho") return;
-    setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setNotice("");
+    setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setAudioUrl(item.audio_url || ""); setNotice("");
     document.getElementById("editor-rascunho")?.scrollIntoView({ behavior: "smooth" });
   }
   async function showHistory(item: Draft) {
@@ -84,7 +85,7 @@ export default function AdminArticleDrafts() {
       const response = await fetch("/api/admin/artigos", {
         method: "POST", credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, titulo, resumo, conteudo, fontes }),
+        body: JSON.stringify({ id, titulo, resumo, conteudo, fontes, audio_url: audioUrl }),
       });
       const data = await response.json() as { ok?: boolean; id?: string; erro?: string };
       if (!response.ok || !data.ok) throw new Error(data.erro || "Não foi possível salvar.");
@@ -112,6 +113,10 @@ export default function AdminArticleDrafts() {
         <label className="mt-4 block text-sm font-semibold">Fontes e referências (uma por linha)
           <textarea value={fontes} onChange={e => setFontes(e.target.value)} rows={5} maxLength={20000} placeholder="Endereço da fonte e descrição do documento" className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
         </label>
+        <label className="mt-4 block text-sm font-semibold">Áudio completo do artigo (opcional)
+          <input type="url" value={audioUrl} onChange={e => setAudioUrl(e.target.value)} placeholder="https://.../artigo.mp3" className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
+        </label>
+        <p className="mt-2 text-xs leading-5 text-black/60">Informe um endereço HTTPS direto para um único arquivo MP3, M4A, OGG ou WAV, já gravado e revisado. O sistema não gera voz automaticamente.</p>
         <div className="mt-5 flex flex-wrap gap-3">
           <button type="button" onClick={save} disabled={!titulo.trim() || saving} className="min-h-12 rounded-lg bg-black px-6 py-3 font-semibold text-white disabled:opacity-40">{saving ? "Salvando…" : "Salvar rascunho"}</button>
           <button type="button" onClick={reset} className="min-h-12 rounded-lg border border-black/20 px-6 py-3 font-semibold">Novo rascunho</button>
