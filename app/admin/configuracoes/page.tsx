@@ -35,7 +35,7 @@ export default async function AdminConfiguracoes() {
   const checks = [
     { nome: "Banco de dados", situacao: database === "disponivel" ? "Conexão disponível" : "Não foi possível confirmar a conexão", descricao: "Usado por artigos, inscrições e preferências." },
     { nome: "Estrutura editorial", situacao: editorial, descricao: "Confere a existência das tabelas de artigos e histórico sem alterar dados." },
-    { nome: "Bot do Telegram", situacao: process.env.TELEGRAM_BOT_TOKEN ? "Credencial configurada" : "Credencial não configurada", descricao: "A presença da credencial não confirma a entrega de mensagens." },
+    { nome: "Integração legada do Telegram", situacao: process.env.TELEGRAM_BOT_TOKEN ? "Credencial antiga presente" : "Sem credencial antiga", descricao: "Canal anterior do projeto; esta verificação não mede o funcionamento do WhatsApp." },
     { nome: "Acesso administrativo", situacao: "Sessão autenticada", descricao: "Acesso restrito à área administrativa." },
     { nome: "Notificações gerais", situacao: "Envio pelo painel desativado", descricao: "Nenhuma mensagem geral pode ser disparada por este painel nesta etapa." },
     { nome: "Publicação de artigos", situacao: "Controles implementados — testes pendentes", descricao: "Publicação e arquivamento exigem confirmação no painel." },
@@ -56,7 +56,7 @@ export default async function AdminConfiguracoes() {
             </section>
           ))}
         </div>
-        <p className="mt-7 text-sm leading-6 text-black/55">A verificação de uma credencial ou conexão não substitui os testes reais de publicação, navegação e entrega pelo Telegram.</p>
+        <p className="mt-7 text-sm leading-6 text-black/55">A verificação de credenciais ou conexões não substitui os testes reais de publicação e navegação. Esta página não comprova a entrega de avisos pelo WhatsApp.</p>
         <div className="mt-8 flex justify-center"><Link href="/admin" className="inline-flex min-h-12 items-center rounded-lg bg-red-600 px-7 py-3 font-semibold text-white">× Fechar</Link></div>
       </section>
     </main>
