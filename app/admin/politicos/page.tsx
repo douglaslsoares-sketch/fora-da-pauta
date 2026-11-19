@@ -33,7 +33,7 @@ export default async function AdminPoliticosPage() {
       <section className="mx-auto max-w-4xl">
         <p className="text-xs font-semibold uppercase tracking-widest text-black/50">Área administrativa</p>
         <h1 className="mt-3 text-3xl font-bold">Políticos acompanhados</h1>
-        <p className="mt-4 leading-7 text-black/65">Quantidade de contas que acompanham cada político, calculada a partir dos registros ativos. Os nomes vêm da base eleitoral do projeto.</p>
+        <p className="mt-4 leading-7 text-black/65">Consulta histórica dos acompanhamentos registrados no Telegram. Estes totais não medem os participantes atuais do WhatsApp. Os nomes vêm da base eleitoral do projeto.</p>
         {rows === null ? (
           <p className="mt-8 rounded-lg bg-white p-5">Não foi possível consultar os acompanhamentos agora.</p>
         ) : rows.length === 0 ? (
@@ -57,7 +57,7 @@ export default async function AdminPoliticosPage() {
             })}
           </div>
         )}
-        <p className="mt-7 text-sm leading-6 text-black/55">Esta consulta não mostra dados dos leitores, não modifica suas escolhas e não envia notificações.</p>
+        <p className="mt-7 text-sm leading-6 text-black/55">Esta consulta apresenta registros legados do Telegram, sem identificar leitores, modificar escolhas ou enviar notificações.</p>
         <div className="mt-8 flex justify-center"><Link href="/admin" className="inline-flex min-h-12 items-center rounded-lg bg-red-600 px-7 py-3 font-semibold text-white">× Fechar</Link></div>
       </section>
     </main>
