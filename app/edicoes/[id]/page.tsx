@@ -4,14 +4,14 @@ import type { Metadata } from "next";
 import { sql } from "@/lib/interesses/db";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Artigo | Fora da Pauta" };
-type Article = { titulo: string; resumo: string; conteudo: string; fontes: string };
+type Article = { titulo: string; resumo: string; conteudo: string; fontes: string; audio_url: string };
 export default async function PublicArticle({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!/^[a-f0-9-]{36}$/i.test(id)) notFound();
   let artigo: Article | undefined;
   try {
     const rows = await sql<Article[]>`
-      SELECT titulo, resumo, conteudo, fontes FROM public.admin_artigos
+      SELECT titulo, resumo, conteudo, fontes, audio_url FROM public.admin_artigos
       WHERE id = ${id}::uuid AND status = 'publicado' LIMIT 1
     `;
     artigo = rows[0];
@@ -27,6 +27,13 @@ export default async function PublicArticle({ params }: { params: Promise<{ id: 
         <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#183352]">Fora da Pauta</p>
         <h1 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl">{artigo.titulo}</h1>
         {artigo.resumo && <p className="mt-5 text-lg leading-8 text-black/70">{artigo.resumo}</p>}
+        {artigo.audio_url && <section className="mt-8 rounded-xl border border-[#d5dce4] bg-[#f3f6f9] p-5">
+          <h2 className="text-base font-bold text-[#183352]">Ouvir este artigo</h2>
+          <p className="mt-1 text-sm text-black/65">Áudio completo, com controles para pausar e retomar.</p>
+          <audio controls preload="none" src={artigo.audio_url} className="mt-4 w-full" aria-label="Ouvir o artigo completo">
+            Seu navegador não oferece reprodução de áudio.
+          </audio>
+        </section>}
         <div className="mt-10 space-y-6 leading-8">{artigo.conteudo.split(/\n\s*\n/).filter(Boolean).map((p,i) => <p key={i} className="whitespace-pre-line">{p}</p>)}</div>
         <section className="mt-12 border-t border-black/20 pt-7">
           <h2 className="text-xl font-bold">Fontes e referências</h2>
