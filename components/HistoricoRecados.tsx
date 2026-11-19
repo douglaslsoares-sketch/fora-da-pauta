@@ -3,25 +3,43 @@
 import { useEffect, useState } from "react";
 
 type Recado = { id: string; destinatario: "projeto" | "comunidade"; texto: string; status: string; criado_em: string; resposta_publicada: string | null; resposta_publicada_em: string | null };
-const estados: Record<string, string> = { recebido: "Recebido", em_analise: "Em análise", respondido: "Marcado como respondido", arquivado: "Arquivado" };
+const estados: Record<string, string> = { recebido: "Recebido", em_analise: "Em análise", respondido: "Respondido", arquivado: "Arquivado" };
 
 export function HistoricoRecados() {
   const [recados, setRecados] = useState<Recado[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
+  const [atualizando, setAtualizando] = useState(false);
+  const [avisoAtualizacao, setAvisoAtualizacao] = useState("");
   const [codigoGerado, setCodigoGerado] = useState("");
   const [codigoInformado, setCodigoInformado] = useState("");
   const [vinculando, setVinculando] = useState(false);
   const [mensagemVinculo, setMensagemVinculo] = useState("");
+  async function consultarRecados(silencioso = false) {
+    if (!silencioso) setAtualizando(true);
+    try {
+      const resposta = await fetch("/api/recados", { credentials: "same-origin", cache: "no-store" });
+      if (!resposta.ok) throw Error("Não foi possível consultar seus recados.");
+      const dados = await resposta.json() as { recados?: Recado[] };
+      const lista = Array.isArray(dados.recados) ? dados.recados : [];
+      setRecados(lista);
+      setErro("");
+      if (!silencioso) setAvisoAtualizacao("Histórico atualizado. " + (lista.filter(item => item.resposta_publicada).length || "Nenhuma") + " resposta(s) disponível(is).");
+    } catch {
+      if (!silencioso) setAvisoAtualizacao("");
+      setErro("Não foi possível atualizar o histórico. Tente novamente.");
+    } finally {
+      setCarregando(false);
+      setAtualizando(false);
+    }
+  }
   useEffect(() => {
-    let ativo = true;
-    fetch("/api/recados", { credentials: "same-origin", cache: "no-store" })
-      .then(async resposta => { if (!resposta.ok) throw Error("Não foi possível consultar seus recados."); return resposta.json(); })
-      .then((dados: { recados?: Recado[] }) => { if (ativo) setRecados(Array.isArray(dados.recados) ? dados.recados : []); })
-      .catch(() => { if (ativo) setErro("Não foi possível carregar o histórico. Tente novamente mais tarde."); })
-      .finally(() => { if (ativo) setCarregando(false); });
-    return () => { ativo = false; };
+    void consultarRecados(true);
+    const aoRetornar = () => { if (document.visibilityState === "visible") void consultarRecados(true); };
+    document.addEventListener("visibilitychange", aoRetornar);
+    return () => document.removeEventListener("visibilitychange", aoRetornar);
   }, []);
+  const atualizar = <div className="mt-5 flex flex-wrap items-center justify-center gap-3"><button type="button" disabled={atualizando} onClick={() => void consultarRecados()} className="rounded-lg border border-yellow-400 px-4 py-2 text-sm font-semibold text-yellow-200 disabled:opacity-50">{atualizando ? "Atualizando..." : "Verificar novas respostas"}</button>{avisoAtualizacao && <p role="status" className="text-sm text-slate-200">{avisoAtualizacao}</p>}</div>;
   async function vincular(modo: "criar" | "usar") {
     setVinculando(true); setMensagemVinculo("");
     try {
@@ -43,13 +61,13 @@ export function HistoricoRecados() {
     {mensagemVinculo && <p role="status" className="mt-3 text-sm text-slate-200">{mensagemVinculo}</p>}
   </div></details>;
   if (carregando) return <p role="status" className="mt-8 text-center text-slate-300">Carregando recados...</p>;
-  if (erro) return <p role="alert" className="mt-8 text-center text-red-200">{erro}</p>;
-  if (!recados.length) return <><div className="mt-8 rounded-xl border border-[#344760] bg-[#24334b] p-6 text-center"><p>Nenhum recado encontrado neste aparelho. Se você enviou mensagens em outro dispositivo, poderá acessar aquele histórico pela opção abaixo.</p><a href="/mandar-recado" className="mt-4 inline-block font-semibold text-yellow-300 underline">Mandar um recado</a></div>{painelVinculo}</>;
+  if (erro) return <div><p role="alert" className="mt-8 text-center text-red-200">{erro}</p>{atualizar}</div>;
+  if (!recados.length) return <><div className="mt-8 rounded-xl border border-[#344760] bg-[#24334b] p-6 text-center"><p>Nenhum recado encontrado neste aparelho. Se você enviou mensagens em outro dispositivo, poderá acessar aquele histórico pela opção abaixo.</p><a href="/mandar-recado" className="mt-4 inline-block font-semibold text-yellow-300 underline">Mandar um recado</a></div>{atualizar}{painelVinculo}</>;
   return <div className="mt-8 space-y-3">{recados.map(recado => <article key={recado.id} className="rounded-xl border border-[#344760] bg-[#24334b] p-5">
     <div className="flex flex-wrap items-start justify-between gap-2"><h2 className="font-bold">{recado.destinatario === "projeto" ? "Para o Fora da Pauta" : "Para a comunidade"}</h2><span className="rounded-md bg-[#334e71] px-2 py-1 text-xs text-yellow-200">{estados[recado.status] ?? recado.status}</span></div>
     <p className="mt-2 text-xs text-slate-300">{new Date(recado.criado_em).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</p>
     <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-6">{recado.texto}</p>
     <p className="mt-3 text-xs text-slate-300">Protocolo: <span className="break-all">{recado.id}</span></p>
     {recado.resposta_publicada ? <div className="mt-4 rounded-lg border border-yellow-400/30 bg-[#1b2a42] p-4"><p className="font-bold text-yellow-200">Resposta do Fora da Pauta</p><p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6">{recado.resposta_publicada}</p>{recado.resposta_publicada_em && <p className="mt-3 text-xs text-slate-300">Disponibilizada em {new Date(recado.resposta_publicada_em).toLocaleString("pt-BR")}</p>}</div> : recado.status === "respondido" ? <p className="mt-3 text-xs text-yellow-200">Recado marcado como respondido. Nenhuma resposta foi disponibilizada aqui.</p> : null}
-  </article>)}{painelVinculo}</div>;
+  </article>)}{atualizar}{painelVinculo}</div>;
 }
