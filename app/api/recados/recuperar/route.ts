@@ -58,6 +58,11 @@ export async function PUT(request: Request) {
     const rows = await sql`SELECT autor_token FROM public.recados_recuperacao WHERE chave_hash = ${hash(chave)} LIMIT 1`;
     const token = lerToken(rows[0]?.autor_token);
     if (!valido(token)) return NextResponse.json({ erro: "Chave de recuperação inválida." }, { status: 400, headers: noStore });
+
+    // Migração gradual: protege registros antigos quando a chave válida é utilizada.
+    if (typeof rows[0]?.autor_token === "string" && !rows[0].autor_token.startsWith("enc:v1:")) {
+      await sql`UPDATE public.recados_recuperacao SET autor_token = ${protegerToken(token)} WHERE chave_hash = ${hash(chave)} AND autor_token = ${rows[0].autor_token}`;
+    }
     const response = NextResponse.json({ ok: true }, { headers: noStore });
     response.cookies.set({ name: COOKIE, value: token, httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 365 });
     return response;
