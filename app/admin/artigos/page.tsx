@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default async function AdminArtigosPage() {
   const cookieStore = await cookies();
   if (!verifyQuestionsAdminSessionToken(cookieStore.get(QUESTIONS_ADMIN_COOKIE)?.value)) {
-    redirect("/admin/perguntas");
+    redirect("/admin");
   }
   return (
     <main className="min-h-[calc(100svh-58px)] bg-[#eeeee9] px-5 py-12 text-[#151515]">
