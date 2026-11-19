@@ -12,7 +12,7 @@ export const metadata: Metadata = { title: "Prévia editorial | Fora da Pauta", 
 type Article = { titulo: string; resumo: string; conteudo: string; fontes: string; audio_url: string; status: string };
 export default async function PreviewArticle({ params }: { params: Promise<{ id: string }> }) {
   const store = await cookies();
-  if (!verifyQuestionsAdminSessionToken(store.get(QUESTIONS_ADMIN_COOKIE)?.value)) redirect("/admin/perguntas");
+  if (!verifyQuestionsAdminSessionToken(store.get(QUESTIONS_ADMIN_COOKIE)?.value)) redirect("/admin");
   const { id } = await params;
   if (!/^[a-f0-9-]{36}$/i.test(id)) notFound();
   let article: Article | undefined;
