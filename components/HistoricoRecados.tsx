@@ -62,7 +62,7 @@ export function HistoricoRecados() {
   </div></details>;
   if (carregando) return <p role="status" className="mt-8 text-center text-slate-300">Carregando recados...</p>;
   if (erro) return <div><p role="alert" className="mt-8 text-center text-red-200">{erro}</p>{atualizar}</div>;
-  if (!recados.length) return <><div className="mt-8 rounded-xl border border-[#344760] bg-[#24334b] p-6 text-center"><p>Nenhum recado encontrado neste aparelho. Se você enviou mensagens em outro dispositivo, poderá acessar aquele histórico pela opção abaixo.</p><a href="/mandar-recado" className="mt-4 inline-block font-semibold text-yellow-300 underline">Mandar um recado</a></div>{atualizar}{painelVinculo}</>;
+  if (!recados.length) return <><div className="mt-8 rounded-xl border border-[#344760] bg-[#24334b] p-6 text-center"><p>Você ainda não tem recados neste aparelho.</p><a href="/mandar-recado" className="mt-4 inline-block font-semibold text-yellow-300 underline">Mandar um recado</a></div>{atualizar}{painelVinculo}</>;
   return <div className="mt-8 space-y-3">{recados.map(recado => <article key={recado.id} className="rounded-xl border border-[#344760] bg-[#24334b] p-5">
     <div className="flex flex-wrap items-start justify-between gap-2"><h2 className="font-bold">{recado.destinatario === "projeto" ? "Para o Fora da Pauta" : "Para a comunidade"}</h2><span className="rounded-md bg-[#334e71] px-2 py-1 text-xs text-yellow-200">{estados[recado.status] ?? recado.status}</span></div>
     <p className="mt-2 text-xs text-slate-300">{new Date(recado.criado_em).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</p>
