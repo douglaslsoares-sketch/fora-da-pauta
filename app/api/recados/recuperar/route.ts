@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { createHash, randomBytes } from "node:crypto";
 import { sql } from "@/lib/interesses/db";
 import { consumeRateLimit } from "@/lib/rateLimit";
+import { protegerToken, lerToken } from "@/lib/recadosTokenSeguro";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
     if (!existente.length) return NextResponse.json({ erro: "Envie um recado antes de criar uma chave de recuperação." }, { status: 400, headers: noStore });
     const chave = randomBytes(32).toString("hex").toUpperCase();
     await sql`INSERT INTO public.recados_recuperacao (autor_hash, chave_hash, autor_token)
-      VALUES (${autorHash}, ${hash(chave)}, ${token})
+      VALUES (${autorHash}, ${hash(chave)}, ${protegerToken(token)})
       ON CONFLICT (autor_hash) DO UPDATE SET chave_hash = EXCLUDED.chave_hash, autor_token = EXCLUDED.autor_token, criado_em = now()`;
     return NextResponse.json({ chave }, { headers: noStore });
   } catch (error) {
@@ -55,7 +56,7 @@ export async function PUT(request: Request) {
   try {
     await preparar();
     const rows = await sql`SELECT autor_token FROM public.recados_recuperacao WHERE chave_hash = ${hash(chave)} LIMIT 1`;
-    const token = rows[0]?.autor_token;
+    const token = lerToken(rows[0]?.autor_token);
     if (!valido(token)) return NextResponse.json({ erro: "Chave de recuperação inválida." }, { status: 400, headers: noStore });
     const response = NextResponse.json({ ok: true }, { headers: noStore });
     response.cookies.set({ name: COOKIE, value: token, httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 365 });
