@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 const COOKIE = "fdp_recados_autor";
 const semCache = { "Cache-Control": "no-store" };
 const hash = (v: string) => createHash("sha256").update(v).digest("hex");
-const valido = (v: string | undefined): v is string => !!v && /^[a-f0-9]{64}$/.test(v);
+const valido = (v: string | null | undefined): v is string => !!v && /^[a-f0-9]{64}$/.test(v);
 async function preparar() {
   await sql`CREATE TABLE IF NOT EXISTS public.recados_vinculos (
     codigo_hash text PRIMARY KEY,
