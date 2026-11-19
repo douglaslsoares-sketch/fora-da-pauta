@@ -6,6 +6,9 @@ type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fon
 
 export default function AdminArticleDrafts() {
   const [items, setItems] = useState<Draft[]>([]);
+  const [filtro, setFiltro] = useState("todos");
+  const visiveis = items.filter(item => filtro === "todos" || item.status === filtro);
+  const quantidade = (status: string) => items.filter(item => item.status === status).length;
   const [id, setId] = useState<string | null>(null);
   const [titulo, setTitulo] = useState("");
   const [resumo, setResumo] = useState("");
@@ -107,10 +110,21 @@ export default function AdminArticleDrafts() {
         </div>
         {notice && <p role="status" className="mt-4 text-sm font-semibold">{notice}</p>}
       </div>
-      <h3 className="mt-9 text-xl font-bold">Rascunhos salvos</h3>
-      {loading ? <p className="mt-4">Carregando…</p> : items.length === 0 ? <p className="mt-4 text-sm text-black/60">Nenhum rascunho salvo ainda.</p> : (
+      <div className="mt-9 flex flex-wrap items-end justify-between gap-4">
+        <h3 className="text-xl font-bold">Artigos cadastrados</h3>
+        <label className="text-sm font-semibold">Mostrar
+          <select value={filtro} onChange={e => setFiltro(e.target.value)} className="mt-2 block rounded-lg border border-black/20 bg-white px-4 py-3">
+            <option value="todos">Todos ({items.length})</option>
+            <option value="rascunho">Rascunhos ({quantidade("rascunho")})</option>
+            <option value="revisao">Em revisão ({quantidade("revisao")})</option>
+            <option value="publicado">Publicados ({quantidade("publicado")})</option>
+            <option value="arquivado">Arquivados ({quantidade("arquivado")})</option>
+          </select>
+        </label>
+      </div>
+      {loading ? <p className="mt-4">Carregando…</p> : items.length === 0 ? <p className="mt-4 text-sm text-black/60">Nenhum artigo cadastrado ainda.</p> : visiveis.length === 0 ? <p className="mt-4 text-sm text-black/60">Nenhum artigo nesta situação.</p> : (
         <div className="mt-4 space-y-3">
-          {items.map(item => (
+          {visiveis.map(item => (
             <div key={item.id} className="rounded-lg border border-black/10 bg-white p-5">
               <p className="font-semibold">{item.titulo}</p>
               <p className="mt-1 text-sm text-black/60">{item.resumo}</p>
