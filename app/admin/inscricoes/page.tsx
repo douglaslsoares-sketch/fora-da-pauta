@@ -43,13 +43,13 @@ export default async function AdminInscricoesPage() {
       <section className="mx-auto max-w-4xl">
         <p className="text-xs font-semibold uppercase tracking-widest text-black/50">Área administrativa</p>
         <h1 className="mt-3 text-3xl font-bold">Inscrições</h1>
-        <p className="mt-4 leading-7 text-black/65">Indicadores obtidos diretamente do banco de dados. Os números incluem contas de teste que ainda estejam ativas; não representam necessariamente pessoas distintas.</p>
+        <p className="mt-4 leading-7 text-black/65">Dados históricos do Telegram, mantidos para consulta. Estes números não representam inscritos no canal atual do WhatsApp e podem incluir contas de teste.</p>
         {totals ? (
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             {[
-              { label: "Contas com preferências ativas", value: totals.inscritos },
-              { label: "Contas inscritas em novas edições", value: totals.novasEdicoes },
-              { label: "Acompanhamentos ativos", value: totals.acompanhamentos },
+              { label: "Contas com preferências ativas (Telegram)", value: totals.inscritos },
+              { label: "Contas de novas edições (Telegram)", value: totals.novasEdicoes },
+              { label: "Acompanhamentos registrados (Telegram)", value: totals.acompanhamentos },
             ].map(item => (
               <div key={item.label} className="rounded-xl border border-black/10 bg-white p-6">
                 <p className="text-3xl font-bold tabular-nums">{item.value.toLocaleString("pt-BR")}</p>
@@ -60,7 +60,7 @@ export default async function AdminInscricoesPage() {
         ) : (
           <p className="mt-8 rounded-lg border border-black/15 bg-white p-5">Não foi possível consultar os indicadores agora. Tente novamente mais tarde.</p>
         )}
-        <p className="mt-7 text-sm leading-6 text-black/55">Esta página não exibe nomes, números de telefone ou identificadores do Telegram. Não altera inscrições nem envia mensagens.</p>
+        <p className="mt-7 text-sm leading-6 text-black/55">Esta página consulta somente dados legados do Telegram. Não exibe nomes, telefones ou identificadores individuais, não altera inscrições e não envia mensagens. A quantidade de seguidores do canal do WhatsApp não é obtida por esta consulta.</p>
         <div className="mt-8 flex justify-center"><Link href="/admin" className="inline-flex min-h-12 items-center rounded-lg bg-red-600 px-7 py-3 font-semibold text-white">× Fechar</Link></div>
       </section>
     </main>
