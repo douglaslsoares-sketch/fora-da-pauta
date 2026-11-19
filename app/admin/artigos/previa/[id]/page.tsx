@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PrivateVoiceTest from "@/components/PrivateVoiceTest";
 import { cookies } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -33,6 +34,7 @@ export default async function PreviewArticle({ params }: { params: Promise<{ id:
         <p className="mt-9 text-sm font-bold uppercase tracking-widest">Fora da Pauta</p>
         <h1 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">{article.titulo}</h1>
         {article.resumo && <p className="mt-5 text-lg leading-8 text-black/70">{article.resumo}</p>}
+        <PrivateVoiceTest articleId={id} />
         {article.audio_url && <section className="mt-8 rounded-xl border border-[#d5dce4] bg-[#f3f6f9] p-5">
           <h2 className="text-base font-bold text-[#183352]">Ouvir gravação — teste privado</h2>
           <p className="mt-1 text-sm text-black/65">A reprodução nesta prévia não publica o áudio nem o artigo.</p>
