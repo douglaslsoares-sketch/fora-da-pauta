@@ -43,8 +43,9 @@ export async function PUT(request: Request) {
   if (!mesmaOrigem(request)) return NextResponse.json({ erro: "Origem inválida." }, { status: 403, headers: semCache });
   const limite = await consumeRateLimit({ request, scope: "recados:vincular:usar", limit: 5, windowSeconds: 3600 });
   if (!limite.allowed) return NextResponse.json({ erro: "Muitas tentativas. Tente novamente mais tarde." }, { status: 429, headers: semCache });
+  if (Number(request.headers.get("content-length") || 0) > 2048) return NextResponse.json({ erro: "Solicitação muito grande." }, { status: 413, headers: semCache });
   let dados: { codigo?: unknown };
-  try { dados = await request.json(); } catch { return NextResponse.json({ erro: "Código inválido." }, { status: 400, headers: semCache }); }
+  try { const corpo = await request.text(); if (corpo.length > 2048) return NextResponse.json({ erro: "Solicitação muito grande." }, { status: 413, headers: semCache }); dados = JSON.parse(corpo); } catch { return NextResponse.json({ erro: "Código inválido." }, { status: 400, headers: semCache }); }
   const codigo = typeof dados.codigo === "string" ? dados.codigo.replace(/[\s-]/g, "").toUpperCase() : "";
   if (!/^[A-F0-9]{24}$/.test(codigo)) return NextResponse.json({ erro: "Informe o código de 24 caracteres." }, { status: 400, headers: semCache });
   try {
