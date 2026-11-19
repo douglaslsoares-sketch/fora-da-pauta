@@ -33,18 +33,18 @@ export function HistoricoRecados() {
     } catch (erro) { setMensagemVinculo(erro instanceof Error ? erro.message : "Falha ao vincular."); }
     finally { setVinculando(false); }
   }
-  const painelVinculo = <section className="mt-8 rounded-xl border border-[#344760] bg-[#24334b] p-5">
-    <h2 className="font-bold">Consultar em outro aparelho</h2>
-    <p className="mt-2 text-sm leading-6 text-slate-300">Para acessar este histórico no celular ou computador, gere um código no navegador onde seus recados aparecem. Depois informe esse código no outro aparelho. Não compartilhe o código com terceiros.</p>
+  const painelVinculo = <details className="mt-8 rounded-xl border border-[#344760] bg-[#24334b] p-5"><summary className="cursor-pointer font-semibold text-yellow-200">Usar meus recados em outro aparelho (opcional)</summary><div className="mt-4">
+    <h2 className="font-bold">Acessar o histórico em outro aparelho</h2>
+    <p className="mt-2 text-sm leading-6 text-slate-300">Para acessar este histórico no celular ou computador, gere um código no navegador onde seus recados aparecem. Depois informe esse código no outro aparelho. Esse procedimento é opcional e não tem relação com o canal do WhatsApp. Não compartilhe o código com terceiros.</p>
     {recados.length > 0 && <div className="mt-4"><button type="button" disabled={vinculando} onClick={() => void vincular("criar")} className="rounded-lg bg-yellow-400 px-4 py-2 font-bold text-[#152238] disabled:opacity-50">Gerar código de vínculo</button>{codigoGerado && <p className="mt-3 break-all rounded-lg bg-[#152238] p-3 font-mono text-lg tracking-wider text-yellow-200" aria-label="Código de vínculo">{codigoGerado}</p>}</div>}
     <label htmlFor="codigo-vinculo" className="mt-5 block text-sm font-semibold">Código gerado no outro aparelho</label>
     <input id="codigo-vinculo" value={codigoInformado} onChange={evento => setCodigoInformado(evento.target.value)} autoComplete="off" spellCheck={false} maxLength={32} placeholder="Cole o código aqui" className="mt-2 w-full rounded-lg border border-[#536784] bg-[#152238] px-3 py-3 font-mono text-white" />
     <button type="button" disabled={vinculando || !codigoInformado.trim()} onClick={() => { if (recados.length && !window.confirm("Este navegador já possui recados. Vincular outro histórico substituirá o acesso atual neste navegador. Continuar?")) return; void vincular("usar"); }} className="mt-3 rounded-lg border border-yellow-400 px-4 py-2 font-semibold text-yellow-200 disabled:opacity-50">Vincular histórico</button>
     {mensagemVinculo && <p role="status" className="mt-3 text-sm text-slate-200">{mensagemVinculo}</p>}
-  </section>;
+  </div></details>;
   if (carregando) return <p role="status" className="mt-8 text-center text-slate-300">Carregando recados...</p>;
   if (erro) return <p role="alert" className="mt-8 text-center text-red-200">{erro}</p>;
-  if (!recados.length) return <><div className="mt-8 rounded-xl border border-[#344760] bg-[#24334b] p-6 text-center"><p>Você ainda não tem recados registrados neste navegador.</p><a href="/mandar-recado" className="mt-4 inline-block font-semibold text-yellow-300 underline">Mandar um recado</a></div>{painelVinculo}</>;
+  if (!recados.length) return <><div className="mt-8 rounded-xl border border-[#344760] bg-[#24334b] p-6 text-center"><p>Nenhum recado encontrado neste aparelho. Se você enviou mensagens em outro dispositivo, poderá acessar aquele histórico pela opção abaixo.</p><a href="/mandar-recado" className="mt-4 inline-block font-semibold text-yellow-300 underline">Mandar um recado</a></div>{painelVinculo}</>;
   return <div className="mt-8 space-y-3">{recados.map(recado => <article key={recado.id} className="rounded-xl border border-[#344760] bg-[#24334b] p-5">
     <div className="flex flex-wrap items-start justify-between gap-2"><h2 className="font-bold">{recado.destinatario === "projeto" ? "Para o Fora da Pauta" : "Para a comunidade"}</h2><span className="rounded-md bg-[#334e71] px-2 py-1 text-xs text-yellow-200">{estados[recado.status] ?? recado.status}</span></div>
     <p className="mt-2 text-xs text-slate-300">{new Date(recado.criado_em).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</p>
