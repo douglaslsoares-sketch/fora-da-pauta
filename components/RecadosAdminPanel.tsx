@@ -15,6 +15,9 @@ export function RecadosAdminPanel() {
   const [salvando, setSalvando] = useState<string | null>(null);
   const [rascunhos, setRascunhos] = useState<Record<string, string>>({});
   const [aviso, setAviso] = useState("");
+  const [filtro, setFiltro] = useState("pendentes");
+  const pendentes = recados.filter(item => item.status === "recebido" || item.status === "em_analise").length;
+  const visiveis = recados.filter(item => filtro === "todos" || (filtro === "pendentes" ? item.status === "recebido" || item.status === "em_analise" : item.status === filtro));
   async function carregar() {
     setCarregando(true); setErro("");
     try {
@@ -67,13 +70,17 @@ export function RecadosAdminPanel() {
     finally { setSalvando(null); }
   }
   return <section className="mt-7">
-    <button onClick={() => void carregar()} className="rounded-lg border border-black/20 bg-white px-4 py-2 font-semibold">Atualizar lista</button>
+    <div className="flex flex-wrap items-end justify-between gap-4">
+      <div><label htmlFor="filtro-recados" className="block text-sm font-semibold">Mostrar recados</label><select id="filtro-recados" value={filtro} onChange={e => setFiltro(e.target.value)} className="mt-2 rounded-lg border border-black/20 bg-white px-4 py-3"><option value="pendentes">Pendentes ({pendentes})</option><option value="todos">Todos ({recados.length})</option><option value="respondido">Respondidos</option><option value="arquivado">Arquivados</option></select></div>
+      <button type="button" onClick={() => void carregar()} disabled={carregando || !!salvando} className="rounded-lg border border-black/20 bg-white px-4 py-3 font-semibold disabled:opacity-50">Atualizar lista</button>
+    </div>
     {aviso && <p role="status" className="mt-4 rounded-lg bg-green-100 p-3 text-green-900">{aviso}</p>}
     {carregando && <p className="mt-4">Carregando recados...</p>}
     {erro && <p role="alert" className="mt-4 rounded-lg bg-red-100 p-3 text-red-800">{erro}</p>}
     {!carregando && !erro && recados.length === 0 && <p className="mt-4">Nenhum recado recebido.</p>}
+    {!carregando && !erro && recados.length > 0 && visiveis.length === 0 && <p className="mt-5 text-black/60">Nenhum recado nesta situação.</p>}
     <div className="mt-5 space-y-4">
-      {recados.map(item => <article key={item.id} className="rounded-xl border border-black/10 bg-white p-5">
+      {visiveis.map(item => <article key={item.id} className="rounded-xl border border-black/10 bg-white p-5">
         <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-black/60">
           <span className="font-bold">{item.destinatario === "projeto" ? "Para o Fora da Pauta" : "Para a comunidade"}</span>
           <time>{new Date(item.criado_em).toLocaleString("pt-BR")}</time>
