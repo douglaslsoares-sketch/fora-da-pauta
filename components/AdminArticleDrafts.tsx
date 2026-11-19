@@ -59,7 +59,15 @@ export default function AdminArticleDrafts() {
   }
   async function changePublication(item: Draft, action: "publicar" | "arquivar") {
     const confirmation = action === "publicar" ? "PUBLICAR ARTIGO" : "ARQUIVAR ARTIGO";
-    if (!window.confirm(action === "publicar" ? `Publicar "${item.titulo}" no site público? Nenhuma notificação será enviada.` : `Retirar "${item.titulo}" da área pública?`)) return;
+    if (action === "publicar") {
+      const digitado = window.prompt(
+        'Você está prestes a publicar "' + item.titulo + '" no site público. Confira a prévia e as fontes antes de continuar. Nenhuma notificação será enviada. Para confirmar, digite PUBLICAR ARTIGO:'
+      );
+      if (digitado !== "PUBLICAR ARTIGO") {
+        setNotice("Publicação cancelada. O artigo permanece em revisão.");
+        return;
+      }
+    } else if (!window.confirm('Retirar "' + item.titulo + '" da área pública?')) return;
     setNotice("");
     try {
       const response = await fetch("/api/admin/artigos/publicacao", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: item.id, action, confirmation }) });
@@ -138,6 +146,7 @@ export default function AdminArticleDrafts() {
                 </>}
                 {item.status === "revisao" && <>
                   <button type="button" onClick={() => changeStatus(item, "rascunho")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Voltar a rascunho</button>
+                  <p className="w-full text-xs leading-5 text-black/60">Antes de publicar, confira a prévia e as fontes. A publicação exige confirmação por escrito.</p>
                   <button type="button" onClick={() => changePublication(item, "publicar")} className="min-h-11 rounded-lg bg-green-700 px-5 py-2 font-semibold text-white">Publicar artigo</button>
                 </>}
                 {item.status === "publicado" && <>
