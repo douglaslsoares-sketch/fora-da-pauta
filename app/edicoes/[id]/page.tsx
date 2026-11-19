@@ -19,11 +19,13 @@ export default async function PublicArticle({ params }: { params: Promise<{ id: 
     return <main className="mx-auto max-w-3xl p-8">Não foi possível abrir o artigo agora.</main>;
   }
   if (!artigo) notFound();
+  const paragrafos = artigo.conteudo.split(/\\n\\s*\\n/).filter(Boolean);
+  const fontes = artigo.fontes.split("\\n").map(s => s.trim()).filter(Boolean);
   return (
-    <main className="min-h-screen bg-white px-5 py-10 text-[#171717]">
-      <article className="mx-auto max-w-3xl">
-        <p className="text-sm font-bold uppercase tracking-widest">Fora da Pauta</p>
-        <h1 className="mt-4 text-3xl font-bold leading-tight sm:text-4xl">{artigo.titulo}</h1>
+    <main className="min-h-screen bg-[#f7f7f3] px-5 py-10 text-[#171717] sm:py-14">
+      <article className="mx-auto max-w-3xl rounded-xl bg-white px-5 py-8 sm:px-10 sm:py-12">
+        <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#183352]">Fora da Pauta</p>
+        <h1 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl">{artigo.titulo}</h1>
         {artigo.resumo && <p className="mt-5 text-lg leading-8 text-black/70">{artigo.resumo}</p>}
         <div className="mt-10 space-y-6 leading-8">{artigo.conteudo.split(/\n\s*\n/).filter(Boolean).map((p,i) => <p key={i} className="whitespace-pre-line">{p}</p>)}</div>
         <section className="mt-12 border-t border-black/20 pt-7">
