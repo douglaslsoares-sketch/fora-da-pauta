@@ -64,12 +64,12 @@ async function consultarCamara(pessoa: Candidatura): Promise<ResultadoContato> {
       envioHabilitado: false
     });
   });
-  if (correspondencias.length === 1) return correspondencias[0];
   if (detalhes.some(item => item.status === "rejected")) return {
     situacao: "indisponivel",
     motivo: "A consulta à Câmara foi interrompida parcialmente. Não é seguro concluir que não existe um contato correspondente.",
     fonteUrl: fonte, envioHabilitado: false
   };
+  if (correspondencias.length === 1) return correspondencias[0];
   return {
     situacao: "pendente",
     motivo: correspondencias.length > 1 ? "Identificação ambígua entre registros oficiais." : "Não foi possível confirmar, ao mesmo tempo, nome civil, UF, exercício do mandato e e-mail institucional.",
