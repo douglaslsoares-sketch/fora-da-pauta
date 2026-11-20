@@ -29,6 +29,7 @@ export async function POST(request: Request) {
           SET status = 'publicado', updated_at = now()
           WHERE id = ${id}::uuid AND status = 'revisao'
             AND length(trim(titulo)) > 0 AND length(trim(conteudo)) > 0 AND length(trim(fontes)) > 0
+            AND length(trim(audio_url)) > 0
           RETURNING id
           )
           INSERT INTO public.admin_artigos_historico (artigo_id, acao)
@@ -44,7 +45,7 @@ export async function POST(request: Request) {
           INSERT INTO public.admin_artigos_historico (artigo_id, acao)
           SELECT id, 'arquivado' FROM updated RETURNING artigo_id::text AS id
         `;
-    if (!rows.length) return NextResponse.json({ erro: "Situação do artigo não permite esta operação." }, { status: 409 });
+    if (!rows.length) return NextResponse.json({ erro: "Publicação não autorizada: o artigo deve estar em revisão, com título, texto, fontes e áudio completo informado." }, { status: 409 });
     return NextResponse.json({ ok: true, status: action === "publicar" ? "publicado" : "arquivado" });
   } catch {
     return NextResponse.json({ erro: "Não foi possível alterar a publicação." }, { status: 503 });
