@@ -22,7 +22,9 @@ export default function ArticleAudioApproval({ articleId }: { articleId: string 
     setBusy(true); setMessage("");
     try {
       const r = await fetch("/api/admin/artigos/audio-completo", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: articleId, acao }) });
-      const d = await r.json();
+      const raw = await r.text();
+      let d: { erro?: string } = {};
+      try { d = JSON.parse(raw); } catch { if (!r.ok) throw new Error(r.status === 504 ? "A geração excedeu o tempo permitido pelo servidor. O artigo permanece salvo; tente novamente após a correção." : "O servidor interrompeu a geração. Nenhum áudio novo foi confirmado."); }
       if (!r.ok) throw new Error(d.erro || "Não foi possível concluir.");
       setExists(true); setApproved(acao === "aprovar"); setRevision(v => v + 1);
       setMessage(acao === "aprovar" ? "Áudio aprovado. O artigo continua privado." : "Narração salva para revisão. Ouça antes de aprovar.");
