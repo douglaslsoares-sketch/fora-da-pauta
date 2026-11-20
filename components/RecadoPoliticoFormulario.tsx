@@ -117,7 +117,7 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
       <p className="mb-2 font-semibold">Ou grave um áudio</p>
       {gravando
         ? <button type="button" onClick={pararGravacao} className="rounded-lg bg-yellow-400 px-4 py-3 font-bold text-black">Parar gravação</button>
-        : <button type="button" onClick={() => void iniciarGravacao()} disabled={transcrevendo} className="rounded-lg bg-slate-100 px-4 py-3 font-bold text-black">Gravar áudio</button>}
+        : <button type="button" onClick={() => void iniciarGravacao()} disabled={transcrevendo} className="rounded-lg bg-[#075cf0] px-4 py-3 font-bold text-white hover:bg-[#0050d8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400 disabled:opacity-60">Gravar áudio</button>}
       {transcrevendo && <p role="status" className="mt-3 text-sm text-yellow-200">Transcrevendo o áudio...</p>}
       {audioUrl && <div className="mt-3 space-y-2">
         <audio controls src={audioUrl} className="w-full" aria-label="Ouvir gravação" />
@@ -125,9 +125,9 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
       </div>}
       {erro && <p role="alert" className="mt-2 text-sm text-red-200">{erro}</p>}
     </div>
-    <button type="button" onClick={() => void mandar()} disabled={destinatario === "politico" || !texto.trim() || !!audioUrl || gravando || enviando || transcrevendo} className="mt-6 w-full rounded-lg bg-green-600 px-5 py-3 font-bold text-white disabled:bg-slate-500 disabled:opacity-70">{enviando ? "Enviando..." : "Mandar"}</button>
+    <button type="button" onClick={() => void mandar()} disabled={destinatario === "politico" || !texto.trim() || !!audioUrl || gravando || enviando || transcrevendo} className="mt-6 w-full rounded-lg bg-[#075cf0] px-5 py-3 font-bold text-white hover:bg-[#0050d8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400 disabled:cursor-not-allowed disabled:bg-slate-500 disabled:opacity-70">{enviando ? "Enviando..." : "Mandar"}</button>
     {protocolo && <p role="status" className="mt-3 rounded-lg bg-green-950 p-3 text-sm text-green-100">Recado recebido para análise. Protocolo: <strong className="break-all">{protocolo}</strong>. Isso não significa que tenha sido publicado ou encaminhado.</p>}
     {audioUrl && destinatario !== "politico" && <p className="mt-2 text-xs text-yellow-200">Confira o texto transcrito antes de enviar. Se a transcrição falhar, tente novamente ou escreva sua mensagem.</p>}
-    <p className="mt-3 text-xs leading-relaxed text-slate-300">{destinatario === "politico" ? "Envio indisponível até verificarmos o mandato e o contato oficial." : destinatario === "comunidade" ? "Recados escritos são recebidos para moderação, sem publicação automática." : "Recados escritos são registrados para análise do Fora da Pauta."} {destinatario === "politico" ? "Nenhum recado foi enviado." : "O áudio é transcrito em texto para revisão antes do envio; a gravação não é enviada."}</p>
+    <p className="mt-3 text-sm leading-relaxed text-slate-200">{destinatario === "politico" ? "Envio indisponível até verificarmos o mandato e o contato oficial." : destinatario === "comunidade" ? "Recados escritos são recebidos para moderação, sem publicação automática." : "Recados escritos são registrados para análise do Fora da Pauta."} {destinatario === "politico" ? "Nenhum recado foi enviado." : "O áudio é transcrito em texto para revisão antes do envio; a gravação não é enviada."}</p>
   </div>;
 }
