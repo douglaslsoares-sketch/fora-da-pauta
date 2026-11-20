@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 35;
 
-type Fonte = { nome: string; ok: boolean; mensagem: string; consultadaEm: string; tipo?: "api" | "pagina"; canais?: { titulo: string; url: string }[] };
+type Fonte = { nome: string; ok: boolean; mensagem: string; consultadaEm: string; tipo?: "api" | "pagina"; verificacaoManual?: boolean; canais?: { titulo: string; url: string }[] };
 
 async function camara(): Promise<Fonte> {
   const url = "https://dadosabertos.camara.leg.br/api/v2/deputados?itens=1";
@@ -67,18 +67,18 @@ async function presidencia(): Promise<Fonte> {
     });
     if (!response.ok) throw new Error("Página institucional indisponível");
     const html = await response.text();
-    if (!/Fale com o Presidente/i.test(html)) {
+    if (!/Peticionamento Eletr[oô]nico|Fale com o Presidente/i.test(html) || !/Presid[eê]ncia da Rep[uú]blica/i.test(html)) {
       throw new Error("Conteúdo institucional não reconhecido");
     }
     return {
-      nome: "Presidência da República", tipo: "pagina", ok: true, consultadaEm,
+      nome: "Presidência da República", tipo: "pagina", verificacaoManual: true, ok: true, consultadaEm,
       mensagem: "Página de orientações acessível. O serviço Fale com o Presidente pode estar indisponível ou exigir verificação humana; a disponibilidade para envio NÃO foi testada. A Ouvidoria pelo Fala.BR é um canal diferente.",
       canais
     };
   } catch {
     return {
-      nome: "Presidência da República", tipo: "pagina", ok: false, consultadaEm,
-      mensagem: "Não foi possível verificar automaticamente a página de orientações. Isso não significa que o canal esteja fora do ar. A disponibilidade para envio não foi testada.",
+      nome: "Presidência da República", tipo: "pagina", verificacaoManual: true, ok: false, consultadaEm,
+      mensagem: "O servidor não conseguiu confirmar o conteúdo da página de orientações. Isso não indica falha do canal de atendimento. Consulte os links oficiais para verificar manualmente a disponibilidade do Fale com o Presidente ou da Ouvidoria. O envio não foi testado.",
       canais
     };
   }
