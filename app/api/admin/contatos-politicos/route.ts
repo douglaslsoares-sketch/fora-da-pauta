@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
   // O resultado eleitoral de 2026 não comprova exercício de mandato
   // na legislatura atual. Contextualizar apenas enquanto a posse não ocorreu
   // e quando não foi localizado contato federal em exercício.
-  const aguardaNovaLegislatura = (pessoa.cargo === "deputado-federal" || pessoa.cargo === "senador")
+  const aguardaNovaLegislatura = pessoa.cargo === "deputado-federal"
     && idsEleitosEm2026.has(pessoa.id)
     && Date.now() < new Date("2027-02-01T00:00:00-03:00").getTime()
     && resultado.situacao !== "encontrado";
