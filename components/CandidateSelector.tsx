@@ -842,7 +842,7 @@ function CandidateFollowSelector({
         Resultado da busca
       </h2>
 
-      <p className="mt-2 text-base leading-6 text-black/70">
+      <p className="mt-2 text-base leading-6 text-slate-200">
         {carregando
           ? `Buscando resultados para “${buscaAtiva}”...`
           : `Encontramos ${total} ${
@@ -894,7 +894,7 @@ function CandidateFollowSelector({
               />
 
               <div className="min-w-0 flex-1">
-                <p className="break-normal text-[15px] font-semibold leading-[1.2] [overflow-wrap:normal] [word-break:normal]">
+                <p className="break-normal text-[15px] font-semibold leading-[1.2] text-slate-950 [overflow-wrap:normal] [word-break:normal]">
                   {candidate.nomeUrna}
                 </p>
 
