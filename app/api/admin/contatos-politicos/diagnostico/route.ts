@@ -53,11 +53,11 @@ async function presidencia(): Promise<Fonte> {
   // A Presidência não disponibiliza nesta funcionalidade uma API pública
   // equivalente à lista de deputados/senadores. O diagnóstico verifica
   // apenas a página oficial de orientação — nunca um envio de mensagens.
-  const orientacoes = "https://falepr.presidencia.gov.br/index.php?idioma=br";
+  const orientacoes = "https://www.gov.br/casacivil/pt-br/peticionamento-eletronico/peticionamento-eletronico-2013-usuario-externo-da-presidencia-da-republica";
   const canais = [
-    { titulo: "Fale com o Presidente (consultar disponibilidade)", url: orientacoes },
+    { titulo: "Fale com o Presidente (consultar disponibilidade)", url: "https://falepr.presidencia.gov.br/index.php?idioma=br" },
     { titulo: "Ouvidoria da Presidência — Fala.BR", url: "https://falabr.cgu.gov.br/" },
-    { titulo: "Informações da Ouvidoria da Presidência", url: "https://www.gov.br/casacivil/pt-br/acesso-a-informacao/participacao-social/participacao-social" }
+    { titulo: "Orientações institucionais da Presidência", url: orientacoes }
   ];
   const consultadaEm = new Date().toISOString();
   try {
@@ -72,13 +72,13 @@ async function presidencia(): Promise<Fonte> {
     }
     return {
       nome: "Presidência da República", tipo: "pagina", ok: true, consultadaEm,
-      mensagem: "Orientações oficiais acessíveis. O canal Fale com o Presidente pode estar temporariamente indisponível; confira a página. A Ouvidoria é um canal diferente. Esta verificação não testa o envio.",
+      mensagem: "Página de orientações acessível. O serviço Fale com o Presidente pode estar indisponível ou exigir verificação humana; a disponibilidade para envio NÃO foi testada. A Ouvidoria pelo Fala.BR é um canal diferente.",
       canais
     };
   } catch {
     return {
       nome: "Presidência da República", tipo: "pagina", ok: false, consultadaEm,
-      mensagem: "Não foi possível verificar a página institucional a partir do servidor. Os canais são referências oficiais, mas a disponibilidade para envio não foi confirmada.",
+      mensagem: "Não foi possível verificar automaticamente a página de orientações. Isso não significa que o canal esteja fora do ar. A disponibilidade para envio não foi testada.",
       canais
     };
   }
