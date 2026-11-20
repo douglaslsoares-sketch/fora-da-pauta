@@ -1060,3 +1060,28 @@
   .apresentacao:has(.logoOficial) { gap:30px; }
   .apresentacao:has(.logoOficial) .fraseProjeto { margin-bottom:25px; }
 }
+
+
+/* Quatro dobras editoriais: apresentação, contexto, canal e menu. */
+.dobraEditorial {
+  position: relative; min-height: 100svh; min-height: 100dvh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: clamp(35px, 6vw, 90px) 24px 95px;
+  background: #080a0e; color: #fff; text-align: center;
+  scroll-margin-top: 0;
+}
+.dobraEditorial:nth-of-type(2) { background: #101a2b; }
+.dobraEditorial:nth-of-type(3) { background: #0b1420; }
+.dobraCentro { width: min(100%, 780px); margin: auto; display:flex; flex-direction:column; align-items:center; gap:clamp(18px,3vh,28px); }
+.logoQuatroDobras { width: min(100%, 460px); height: auto; }
+.lemaQuatroDobras { color: #f4c542; font-size: clamp(24px,4vw,42px); font-weight: 750; line-height:1.28; margin:0; text-wrap:balance; }
+.tituloDobra { color:#f4c542; font-size:clamp(26px,4.3vw,45px); font-weight:800; line-height:1.18; margin:0; text-wrap:balance; }
+.textoDobra { font-size:clamp(17px,2.1vw,22px); line-height:1.6; max-width:680px; margin:0; }
+.botaoCanalDobra { display:inline-flex; align-items:center; justify-content:center; min-height:56px; width:min(100%,340px); padding:12px 28px; background:#25d366; color:#102018; border-radius:12px; text-decoration:none; font-weight:800; font-size:20px; }
+.botaoCanalDobra:hover { background:#1ebd59; }
+.gratuitoDobra { color:#f4c542; font-size:18px; font-weight:750; margin:-12px 0 0; }
+.setaDobra { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); display:flex; align-items:center; justify-content:center; width:58px; height:58px; color:#f4c542; font-size:42px; text-decoration:none; animation:setaDescer 1.8s ease-in-out infinite; }
+.setaDobra:focus-visible,.botaoCanalDobra:focus-visible { outline:3px solid #fff; outline-offset:4px; }
+@keyframes setaDescer { 0%,100% { transform:translate(-50%,0); } 50% { transform:translate(-50%,9px); } }
+@media (prefers-reduced-motion:reduce) { .setaDobra { animation:none; } }
+@media(max-width:600px) { .dobraEditorial { padding:30px 22px 85px; } .dobraCentro { gap:18px; } .logoQuatroDobras { width:min(100%,360px); } }
