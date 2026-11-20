@@ -69,7 +69,7 @@ export async function POST(request: Request) {
       SELECT titulo, resumo, conteudo, status FROM public.admin_artigos WHERE id = ${id}::uuid LIMIT 1
     `;
     const latest = current[0];
-    if (!latest || latest.status !== "rascunho" || [latest.titulo, latest.resumo, latest.conteudo].filter(Boolean).join("\\n\\n") !== script)
+    if (!latest || latest.status !== "rascunho" || [latest.titulo, latest.resumo, latest.conteudo].filter(Boolean).join("\n\n") !== script)
       return reply("O artigo mudou durante a geração. Salve e gere novamente.", 409);
     await sql`
       INSERT INTO public.admin_artigos_audio (artigo_id, audio, aprovado, aprovado_em)
