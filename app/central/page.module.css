@@ -79,3 +79,7 @@
 .menu a.adminDiscreto { display:flex; align-items:center; justify-content:center; gap:9px; margin-top:0; padding:8px 12px; min-height:42px; background:transparent; border:0; box-shadow:none; color:#b9c5d6; font-size:14px; font-weight:600; text-decoration:none; }
 .menu a.adminDiscreto span { color:#e7b84d; font-size:19px; }
 .menu a.adminDiscreto:focus-visible { outline:3px solid #e7b84d; outline-offset:3px; }
+
+/* Quarta dobra: logomarca oficial no cabeçalho, acima do título Menu. */
+.logoMenuOficial { display:block; width:min(78vw,320px); height:auto; max-width:100%; margin:0 auto 4px; }
+@media(max-width:600px) { .logoMenuOficial { width:min(72vw,260px); } }
