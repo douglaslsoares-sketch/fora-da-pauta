@@ -13,7 +13,7 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
   if (!/^[a-f0-9-]{36}$/i.test(id)) return new Response("Não encontrado", { status: 404 });
   try {
     const rows = await sql<{ audio: Buffer; status: string; aprovado: boolean }[]>`
-      SELECT audio, status, aprovado FROM public.admin_artigos_audio WHERE artigo_id = ${id}::uuid LIMIT 1
+      SELECT a.audio, p.status, a.aprovado FROM public.admin_artigos_audio a JOIN public.admin_artigos p ON p.id = a.artigo_id WHERE a.artigo_id = ${id}::uuid LIMIT 1
     `;
     const record = rows[0];
     if (!record || (!admin && (record.status !== "publicado" || !record.aprovado)))
