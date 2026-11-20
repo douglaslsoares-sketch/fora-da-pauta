@@ -12,8 +12,8 @@ export default async function Page() {
   return <main className="min-h-screen bg-[#eeeee9] px-5 py-10 text-[#151515]">
     <section className="mx-auto max-w-4xl">
       <p className="text-xs font-semibold uppercase tracking-widest text-black/50">Área administrativa</p>
-      <h1 className="mt-3 text-3xl font-bold">Verificar contatos de parlamentares</h1>
-      <p className="mt-3 text-sm leading-6 text-black/70">Consulta preliminar à Câmara e ao Senado, sem envio de mensagens nem aprovação automática de destinatários.</p>
+      <h1 className="mt-3 text-3xl font-bold">Verificar contatos oficiais</h1>
+      <p className="mt-3 text-sm leading-6 text-black/70">Consulta a fontes da Câmara, do Senado e da Presidência da República. A verificação de contatos e canais não envia mensagens nem aprova destinatários automaticamente.</p>
       <VerificarContatosPoliticos />
       <p className="mt-8 text-center"><Link href="/admin/politicos" className="font-semibold text-blue-800 underline">Voltar a Políticos</Link></p>
     </section>
