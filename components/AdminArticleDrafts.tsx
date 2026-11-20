@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import PrivateVoiceTest from "@/components/PrivateVoiceTest";
+import ArticleAudioApproval from "@/components/ArticleAudioApproval";
 
 type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; audio_url?: string; status: string; updated_at: string };
 
@@ -127,6 +128,7 @@ export default function AdminArticleDrafts() {
           <h4 className="text-base font-bold">Narração do artigo — revisão privada</h4>
           <p className="mt-2 text-sm leading-6 text-black/65">A voz Marim lê a última versão salva do rascunho, não as alterações ainda não salvas. Ouça e aprove antes de associar um arquivo definitivo ao artigo. A geração de teste não salva nem publica áudio.</p>
           <PrivateVoiceTest key={id} articleId={id} />
+          <ArticleAudioApproval key={`definitivo-${id}`} articleId={id} />
           <Link href={`/admin/artigos/previa/${id}`} className="mt-3 inline-flex min-h-11 items-center rounded-lg border border-black/20 px-4 py-2 font-semibold">Ver prévia completa</Link>
         </div>}
       </div>
