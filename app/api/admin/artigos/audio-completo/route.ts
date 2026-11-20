@@ -65,6 +65,12 @@ export async function POST(request: Request) {
     const bytes = new Uint8Array(await response.arrayBuffer());
     if (!bytes.length || bytes.length > 8_000_000) return reply("Arquivo de áudio excedeu o limite permitido.", 502);
     const hex = Buffer.from(bytes).toString("hex");
+    const current = await sql<{ titulo: string; resumo: string; conteudo: string; status: string }[]>`
+      SELECT titulo, resumo, conteudo, status FROM public.admin_artigos WHERE id = ${id}::uuid LIMIT 1
+    `;
+    const latest = current[0];
+    if (!latest || latest.status !== "rascunho" || [latest.titulo, latest.resumo, latest.conteudo].filter(Boolean).join("\\n\\n") !== script)
+      return reply("O artigo mudou durante a geração. Salve e gere novamente.", 409);
     await sql`
       INSERT INTO public.admin_artigos_audio (artigo_id, audio, aprovado, aprovado_em)
       VALUES (${id}::uuid, decode(${hex}, 'hex'), false, null)
