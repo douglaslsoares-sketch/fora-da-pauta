@@ -11,6 +11,7 @@ type Resultado = {
 };
 type Diagnostico = { fontes: { nome: string; ok: boolean; mensagem: string; consultadaEm: string; tipo?: "api" | "pagina"; verificacaoManual?: boolean; canais?: { titulo: string; url: string }[] }[]; observacao: string };
 type Revisao = { registro: { candidatura_id: string; nome_civil: string; instituicao: string; email_institucional: string; fonte_url: string; status: "revisado" | "revogado"; revisado_em: string; expira_em: string; revogado_em: string | null } | null; vigente: boolean; envioHabilitado: false; mensagem?: string };
+type Prontidao = { revisaoVigente: boolean; consultaFonteConcluida: boolean; contatoIgualAoAtual: boolean; credenciaisEnvioPresentes: boolean; prontoParaTesteDeTransporte: boolean; envioHabilitado: false; mensagem: string; consultadoEm: string };
 type Consulta = { contextoMandato?: { titulo: string; explicacao: string; fontePosse: string; cargoAtual?: string; fonteCargoAtual?: string } | null; candidatura: { id: string; nomeUrna: string; nomeCompleto: string; uf: string; cargo: string }; resultado: Resultado; consultadoEm: string };
 
 export default function VerificarContatosPoliticos() {
@@ -27,10 +28,13 @@ export default function VerificarContatosPoliticos() {
   const [revisao, setRevisao] = useState<Revisao | null>(null);
   const [processandoRevisao, setProcessandoRevisao] = useState(false);
   const [avisoRevisao, setAvisoRevisao] = useState("");
+  const [prontidao, setProntidao] = useState<Prontidao | null>(null);
+  const [testandoProntidao, setTestandoProntidao] = useState(false);
+  const [erroProntidao, setErroProntidao] = useState("");
   async function buscar(e: React.FormEvent) {
     e.preventDefault();
     if (nome.trim().length < 2 || buscando) return;
-    setBuscando(true); setErro(""); setErroContato(null); setCandidatos([]); setConsulta(null); setRevisao(null); setAvisoRevisao("");
+    setBuscando(true); setErro(""); setErroContato(null); setCandidatos([]); setConsulta(null); setRevisao(null); setAvisoRevisao(""); setProntidao(null); setErroProntidao("");
     try {
       const r = await fetch("/api/candidatos/buscar?" + new URLSearchParams({ q: nome.trim(), pagina: "1" }), { cache: "no-store" });
       const data = await r.json() as { resultados?: Candidato[]; erro?: string };
@@ -81,9 +85,21 @@ export default function VerificarContatosPoliticos() {
       const dados = await resposta.json() as Revisao & { erro?: string };
       if (!resposta.ok) throw new Error(dados.erro || "Não foi possível registrar a revisão.");
       setRevisao(dados);
+      setProntidao(null);
       setAvisoRevisao(dados.mensagem || "Registro atualizado.");
     } catch (e) { setAvisoRevisao(e instanceof Error ? e.message : "Falha na revisão."); }
     finally { setProcessandoRevisao(false); }
+  }
+  async function testarProntidao(id: string) {
+    if (testandoProntidao) return;
+    setTestandoProntidao(true); setErroProntidao(""); setProntidao(null);
+    try {
+      const resposta = await fetch("/api/admin/contatos-politicos/prontidao?id=" + encodeURIComponent(id), { cache: "no-store" });
+      const dados = await resposta.json() as Prontidao & { erro?: string };
+      if (!resposta.ok) throw new Error(dados.erro || "Não foi possível testar a prontidão.");
+      setProntidao(dados);
+    } catch(e) { setErroProntidao(e instanceof Error ? e.message : "Falha no teste."); }
+    finally { setTestandoProntidao(false); }
   }
   async function verificarFontes() {
     if (diagnosticando) return;
@@ -161,6 +177,23 @@ export default function VerificarContatosPoliticos() {
           {revisao?.registro?.status === "revisado" && <button type="button" disabled={processandoRevisao} onClick={() => void registrarRevisao(p.id, true)} className="rounded-lg border border-red-700 px-4 py-3 font-semibold text-red-800 disabled:opacity-50">Revogar revisão</button>}
         </div>
         {avisoRevisao && <p role="status" className="mt-3 font-medium">{avisoRevisao}</p>}
+        {revisao?.vigente && <div className="mt-4 border-t border-slate-300 pt-4">
+          <p className="font-bold">Teste de prontidão (sem envio)</p>
+          <p className="mt-1 text-slate-700">Confere validade da revisão, dados atuais da fonte e presença de configurações de transporte. Não cria nem transmite recados.</p>
+          <button type="button" disabled={testandoProntidao || processandoRevisao}
+            onClick={() => void testarProntidao(p.id)}
+            className="mt-3 rounded-lg border border-blue-700 px-4 py-3 font-semibold text-blue-800 disabled:opacity-50">
+            {testandoProntidao ? "Verificando..." : "Testar prontidão sem enviar"}
+          </button>
+          {erroProntidao && <p role="alert" className="mt-2 text-red-800">{erroProntidao}</p>}
+          {prontidao && <div role="status" className="mt-3 rounded-lg border border-slate-300 bg-white p-3">
+            <p>Revisão vigente: <strong>{prontidao.revisaoVigente ? "Sim" : "Não"}</strong></p>
+            <p>Consulta oficial concluída: <strong>{prontidao.consultaFonteConcluida ? "Sim" : "Não"}</strong></p>
+            <p>Contato ainda corresponde à fonte: <strong>{prontidao.contatoIgualAoAtual ? "Sim" : "Não"}</strong></p>
+            <p>Configurações básicas de e-mail presentes: <strong>{prontidao.credenciaisEnvioPresentes ? "Sim" : "Não"}</strong></p>
+            <p className="mt-2 font-bold text-red-700">Envio bloqueado. Nenhuma mensagem foi enviada.</p>
+          </div>}
+        </div>}
       </div>}
       {consulta.resultado.fonteUrl && <a href={consulta.resultado.fonteUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block font-semibold text-blue-700 underline">Consultar fonte institucional</a>}
       <p className="mt-4 border-t pt-3 text-sm font-bold text-red-700">Envio bloqueado. Nenhuma mensagem foi enviada.</p>
