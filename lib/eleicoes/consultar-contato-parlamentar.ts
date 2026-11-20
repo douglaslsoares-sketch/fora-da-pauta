@@ -37,13 +37,44 @@ type DeputadoDetalhe = {
 async function consultarCamara(pessoa: Candidatura): Promise<ResultadoContato> {
   const base = "https://dadosabertos.camara.leg.br/api/v2/deputados";
   const fonte = "https://www.camara.leg.br/deputados/quem-sao";
-  const query = new URLSearchParams({ nome: pessoa.nomeUrna, itens: "100" });
-  const resposta = await obterJson<{ dados?: DeputadoResumo[] }>(base + "?" + query.toString());
-  if (!Array.isArray(resposta.dados)) throw new Error("Formato inesperado na API da Câmara");
-  const resumos = resposta.dados
-    .filter(item => item.siglaUf === pessoa.uf && Number.isInteger(item.id) && item.id > 0)
-    .slice(0, 25);
-  if (!resumos.length) return { situacao: "pendente", motivo: "Nenhum parlamentar do mesmo estado foi localizado na consulta oficial pelo nome eleitoral.", fonteUrl: fonte, envioHabilitado: false };
+  // O nome eleitoral pode ser diferente do nome parlamentar. Consultar também
+  // o nome civil e, quando disponível, um nome próprio distintivo.
+  const nomeCivilDistintivo = pessoa.nomeCompleto.split(/\s+/)
+    .find(parte => normalizar(parte).length >= 5 &&
+      !["JOSE", "MARIA", "SILVA", "SOUZA", "SANTOS", "OLIVEIRA", "PEREIRA", "COSTA", "FILHO", "JUNIOR", "JUNIORA"].includes(normalizar(parte))) || "";
+  const termos = [...new Set([pessoa.nomeUrna.trim(), pessoa.nomeCompleto.trim(), nomeCivilDistintivo].filter(Boolean))];
+  const retornos = await Promise.allSettled(termos.map(async nome => {
+    const query = new URLSearchParams({ nome, itens: "100" });
+    const resposta = await obterJson<{ dados?: DeputadoResumo[]; links?: { rel?: string }[] }>(base + "?" + query.toString());
+    if (!Array.isArray(resposta.dados)) throw new Error("Formato inesperado na API da Câmara");
+    if (Array.isArray(resposta.links) && resposta.links.some(link => link.rel === "next")) {
+      throw new Error("Consulta com mais de uma página");
+    }
+    return resposta.dados;
+  }));
+  if (retornos.some(item => item.status === "rejected")) return {
+    situacao: "indisponivel",
+    motivo: "Uma das consultas oficiais por nome eleitoral ou civil falhou ou teve resultados demais. Não foi possível conferir todos os possíveis registros.",
+    fonteUrl: fonte, envioHabilitado: false
+  };
+  const ids = new Map<number, DeputadoResumo>();
+  for (const retorno of retornos) {
+    if (retorno.status !== "fulfilled") continue;
+    for (const item of retorno.value) {
+      if (item.siglaUf === pessoa.uf && Number.isInteger(item.id) && item.id > 0) ids.set(item.id, item);
+    }
+  }
+  const resumos = [...ids.values()];
+  if (resumos.length > 40) return {
+    situacao: "pendente",
+    motivo: "Há muitos possíveis parlamentares com nomes semelhantes neste estado. A conferência precisa ser refinada manualmente.",
+    fonteUrl: fonte, envioHabilitado: false
+  };
+  if (!resumos.length) return {
+    situacao: "pendente",
+    motivo: "Não foram localizados parlamentares do mesmo estado nas pesquisas pelo nome eleitoral e pelo nome civil. Isso não prova ausência de mandato.",
+    fonteUrl: fonte, envioHabilitado: false
+  };
   const detalhes = await Promise.allSettled(resumos.map(item => obterJson<{ dados?: DeputadoDetalhe }>(base + "/" + item.id)));
   const correspondencias: Localizado[] = [];
   detalhes.forEach((resultado, index) => {
