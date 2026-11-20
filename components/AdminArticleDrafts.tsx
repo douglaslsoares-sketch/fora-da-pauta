@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import PrivateVoiceTest from "@/components/PrivateVoiceTest";
 
 type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; audio_url?: string; status: string; updated_at: string };
 
@@ -122,6 +123,12 @@ export default function AdminArticleDrafts() {
           <button type="button" onClick={reset} className="min-h-12 rounded-lg border border-black/20 px-6 py-3 font-semibold">Novo rascunho</button>
         </div>
         {notice && <p role="status" className="mt-4 text-sm font-semibold">{notice}</p>}
+        {id && <div className="mt-6 border-t border-black/10 pt-5">
+          <h4 className="text-base font-bold">Narração do artigo — revisão privada</h4>
+          <p className="mt-2 text-sm leading-6 text-black/65">A voz Marim lê a última versão salva do rascunho, não as alterações ainda não salvas. Ouça e aprove antes de associar um arquivo definitivo ao artigo. A geração de teste não salva nem publica áudio.</p>
+          <PrivateVoiceTest key={id} articleId={id} />
+          <Link href={`/admin/artigos/previa/${id}`} className="mt-3 inline-flex min-h-11 items-center rounded-lg border border-black/20 px-4 py-2 font-semibold">Ver prévia completa</Link>
+        </div>}
       </div>
       <div className="mt-9 flex flex-wrap items-end justify-between gap-4">
         <h3 className="text-xl font-bold">Artigos cadastrados</h3>
