@@ -37,7 +37,9 @@ export async function POST(request: Request) {
     if (body.acao === "aprovar") {
       const rows = await sql`
         UPDATE public.admin_artigos_audio SET aprovado = true, aprovado_em = now()
-        WHERE artigo_id = ${id}::uuid AND NOT aprovado RETURNING artigo_id
+        WHERE artigo_id = ${id}::uuid AND NOT aprovado
+          AND EXISTS (SELECT 1 FROM public.admin_artigos p WHERE p.id = artigo_id AND p.status = 'rascunho')
+        RETURNING artigo_id
       `;
       return rows.length ? NextResponse.json({ ok: true, aprovado: true }) : reply("Nenhum áudio pendente de aprovação.", 409);
     }
