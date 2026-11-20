@@ -53,11 +53,11 @@ async function presidencia(): Promise<Fonte> {
   // A Presidência não disponibiliza nesta funcionalidade uma API pública
   // equivalente à lista de deputados/senadores. O diagnóstico verifica
   // apenas a página oficial de orientação — nunca um envio de mensagens.
-  const orientacoes = "https://www.gov.br/casacivil/pt-br/peticionamento-eletronico/peticionamento-eletronico-2013-usuario-externo-da-presidencia-da-republica";
+  const orientacoes = "https://falepr.presidencia.gov.br/index.php?idioma=br";
   const canais = [
-    { titulo: "Fale com o Presidente (consultar disponibilidade)", url: "https://falepr.presidencia.gov.br/index.php?idioma=br" },
+    { titulo: "Fale com o Presidente (consultar disponibilidade)", url: orientacoes },
     { titulo: "Ouvidoria da Presidência — Fala.BR", url: "https://falabr.cgu.gov.br/" },
-    { titulo: "Orientações oficiais da Presidência", url: orientacoes }
+    { titulo: "Informações da Ouvidoria da Presidência", url: "https://www.gov.br/casacivil/pt-br/acesso-a-informacao/participacao-social/participacao-social" }
   ];
   const consultadaEm = new Date().toISOString();
   try {
@@ -67,7 +67,7 @@ async function presidencia(): Promise<Fonte> {
     });
     if (!response.ok) throw new Error("Página institucional indisponível");
     const html = await response.text();
-    if (!/Fale com o Presidente/i.test(html) || !/presidencia\.gov\.br/i.test(html)) {
+    if (!/Fale com o Presidente/i.test(html)) {
       throw new Error("Conteúdo institucional não reconhecido");
     }
     return {
