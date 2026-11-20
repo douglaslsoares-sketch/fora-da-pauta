@@ -18,10 +18,11 @@ export default function VerificarContatosPoliticos() {
   const [consultando, setConsultando] = useState("");
   const [consulta, setConsulta] = useState<Consulta | null>(null);
   const [erro, setErro] = useState("");
+  const [erroContato, setErroContato] = useState<{ id: string; mensagem: string } | null>(null);
   async function buscar(e: React.FormEvent) {
     e.preventDefault();
     if (nome.trim().length < 2 || buscando) return;
-    setBuscando(true); setErro(""); setCandidatos([]); setConsulta(null);
+    setBuscando(true); setErro(""); setErroContato(null); setCandidatos([]); setConsulta(null);
     try {
       const r = await fetch("/api/candidatos/buscar?" + new URLSearchParams({ q: nome.trim(), pagina: "1" }), { cache: "no-store" });
       const data = await r.json() as { resultados?: Candidato[]; erro?: string };
@@ -32,13 +33,13 @@ export default function VerificarContatosPoliticos() {
   }
   async function consultar(id: string) {
     if (consultando) return;
-    setConsultando(id); setConsulta(null); setErro("");
+    setConsultando(id); setConsulta(null); setErroContato(null); setErro("");
     try {
       const r = await fetch("/api/admin/contatos-politicos?id=" + encodeURIComponent(id), { cache: "no-store" });
       const d = await r.json() as Consulta & { erro?: string };
       if (!r.ok) throw new Error(d.erro || "Consulta indisponível.");
       setConsulta(d);
-    } catch (e) { setErro(e instanceof Error ? e.message : "Não foi possível consultar."); }
+    } catch (e) { setErroContato({ id, mensagem: e instanceof Error ? e.message : "Não foi possível consultar." }); }
     finally { setConsultando(""); }
   }
   return <section className="mt-6">
@@ -55,8 +56,16 @@ export default function VerificarContatosPoliticos() {
       {candidatos.map(p => <div key={p.id} className="space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[#344760] bg-[#24334b] p-4 text-white">
           <div><p className="font-bold">{p.nomeUrna}</p><p className="text-sm text-slate-200">{p.nomeCompleto} · {p.cargoLabel} · {p.uf} · {p.siglaPartido}</p></div>
-          <button type="button" disabled={!!consultando} aria-expanded={consulta?.candidatura.id === p.id} aria-controls={"resultado-contato-" + p.id} onClick={() => void consultar(p.id)} className="rounded-lg bg-[#f4c542] px-4 py-2 font-semibold text-black disabled:opacity-50">{consultando === p.id ? "Consultando..." : "Conferir contato"}</button>
+          <button type="button" disabled={!!consultando} aria-expanded={consulta?.candidatura.id === p.id || consultando === p.id || erroContato?.id === p.id} aria-controls={"resultado-contato-" + p.id} onClick={() => void consultar(p.id)} className="rounded-lg bg-[#f4c542] px-4 py-2 font-semibold text-black disabled:opacity-50">{consultando === p.id ? "Consultando..." : "Conferir contato"}</button>
         </div>
+        {consultando === p.id && <div id={"resultado-contato-" + p.id} role="status" aria-live="polite" className="mt-2 rounded-xl border border-[#344760] bg-white p-5 text-sm text-slate-700">
+          Consultando o cadastro oficial de {p.nomeUrna}...
+        </div>}
+        {erroContato?.id === p.id && <div id={"resultado-contato-" + p.id} role="alert" className="mt-2 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-900">
+          <p className="font-semibold">Não foi possível concluir a conferência.</p>
+          <p className="mt-2">{erroContato.mensagem}</p>
+          <p className="mt-2">Nenhum contato foi aprovado e nenhuma mensagem foi enviada.</p>
+        </div>}
         {consulta?.candidatura.id === p.id && <div role="status" id={"resultado-contato-" + p.id} className="mt-2 rounded-xl border border-[#344760] bg-white p-5">
       <h2 className="text-xl font-bold">Resultado da conferência</h2>
       <p className="mt-2 font-semibold">{consulta.candidatura.nomeUrna} — {consulta.candidatura.uf}</p>
