@@ -4,10 +4,12 @@ import { CandidatePhoto } from "@/components/CandidatePhoto";
 import type { Metadata } from "next";
 import { RecadoPoliticoFormulario } from "@/components/RecadoPoliticoFormulario";
 import { candidaturas } from "@/data/eleicoes/candidaturas";
+import { situacaoRecadoPolitico } from "@/lib/eleicoes/situacao-recado";
 export const metadata: Metadata = { title: "Recado para político | Fora da Pauta" };
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const pessoa = candidaturas.find(p => p.id === id);
+  const situacao = pessoa ? situacaoRecadoPolitico(pessoa) : null;
   // Links institucionais: não são contatos pessoais validados.
   const canalInstitucional = pessoa?.cargo === "deputado-federal"
     ? { href: "https://www.camara.leg.br/fale-conosco", titulo: "Consultar os canais da Câmara dos Deputados" }
@@ -28,9 +30,14 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
               <p className="mt-1 text-sm text-slate-300">{pessoa.siglaPartido} · {pessoa.uf}</p>
             </div>
           </div>
-          <p role="status" className="mx-auto mt-5 max-w-md rounded-lg border border-amber-400/40 bg-amber-400/10 px-4 py-3 text-sm leading-relaxed text-amber-100">
-            O envio de recados a políticos ainda não está disponível. Estamos verificando os contatos oficiais; nenhuma mensagem será encaminhada nesta etapa.
-          </p>
+          {situacao ? (
+            <aside className="mx-auto mt-5 max-w-md rounded-xl border border-amber-400/40 bg-amber-400/10 px-4 py-4 text-sm leading-relaxed text-amber-100">
+              <p className="font-bold">{situacao.titulo}</p>
+              <p className="mt-2">{situacao.detalhe}</p>
+              {situacao.fonteUrl && situacao.fonteRotulo ? <a className="mt-2 inline-block font-semibold underline underline-offset-4" href={situacao.fonteUrl} target="_blank" rel="noopener noreferrer">{situacao.fonteRotulo}</a> : null}
+              <p className="mt-3 font-semibold">Contato individual não verificado. O envio pelo Fora da Pauta está desabilitado.</p>
+            </aside>
+          ) : null}
           {canalInstitucional ? (
             <aside className="mx-auto mt-4 max-w-md rounded-xl border border-[#344760] bg-[#24334b] p-4">
               <h2 className="text-base font-bold text-[#f4c542]">Consulta a canais oficiais</h2>
