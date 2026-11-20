@@ -10,6 +10,7 @@ type Resultado = {
   envioHabilitado: false;
 };
 type Diagnostico = { fontes: { nome: string; ok: boolean; mensagem: string; consultadaEm: string; tipo?: "api" | "pagina"; verificacaoManual?: boolean; canais?: { titulo: string; url: string }[] }[]; observacao: string };
+type Revisao = { registro: { candidatura_id: string; nome_civil: string; instituicao: string; email_institucional: string; fonte_url: string; status: "revisado" | "revogado"; revisado_em: string; expira_em: string; revogado_em: string | null } | null; vigente: boolean; envioHabilitado: false; mensagem?: string };
 type Consulta = { candidatura: { id: string; nomeUrna: string; nomeCompleto: string; uf: string; cargo: string }; resultado: Resultado; consultadoEm: string };
 
 export default function VerificarContatosPoliticos() {
@@ -23,10 +24,13 @@ export default function VerificarContatosPoliticos() {
   const [diagnostico, setDiagnostico] = useState<Diagnostico | null>(null);
   const [diagnosticando, setDiagnosticando] = useState(false);
   const [erroDiagnostico, setErroDiagnostico] = useState("");
+  const [revisao, setRevisao] = useState<Revisao | null>(null);
+  const [processandoRevisao, setProcessandoRevisao] = useState(false);
+  const [avisoRevisao, setAvisoRevisao] = useState("");
   async function buscar(e: React.FormEvent) {
     e.preventDefault();
     if (nome.trim().length < 2 || buscando) return;
-    setBuscando(true); setErro(""); setErroContato(null); setCandidatos([]); setConsulta(null);
+    setBuscando(true); setErro(""); setErroContato(null); setCandidatos([]); setConsulta(null); setRevisao(null); setAvisoRevisao("");
     try {
       const r = await fetch("/api/candidatos/buscar?" + new URLSearchParams({ q: nome.trim(), pagina: "1" }), { cache: "no-store" });
       const data = await r.json() as { resultados?: Candidato[]; erro?: string };
@@ -37,14 +41,49 @@ export default function VerificarContatosPoliticos() {
   }
   async function consultar(id: string) {
     if (consultando) return;
-    setConsultando(id); setConsulta(null); setErroContato(null); setErro("");
+    setConsultando(id); setConsulta(null); setErroContato(null); setErro(""); setRevisao(null); setAvisoRevisao("");
     try {
       const r = await fetch("/api/admin/contatos-politicos?id=" + encodeURIComponent(id), { cache: "no-store" });
       const d = await r.json() as Consulta & { erro?: string };
       if (!r.ok) throw new Error(d.erro || "Consulta indisponível.");
       setConsulta(d);
+      if (d.resultado.situacao === "encontrado") {
+        try {
+          const registro = await fetch("/api/admin/contatos-politicos/revisao?id=" + encodeURIComponent(id), { cache: "no-store" });
+          if (registro.ok) setRevisao(await registro.json() as Revisao);
+          else setAvisoRevisao("Não foi possível consultar as revisões anteriores. A aprovação ficará indisponível nesta consulta.");
+        } catch { setAvisoRevisao("Histórico de revisões indisponível. Faça nova consulta antes de registrar uma aprovação."); }
+      }
     } catch (e) { setErroContato({ id, mensagem: e instanceof Error ? e.message : "Não foi possível consultar." }); }
     finally { setConsultando(""); }
+  }
+  async function registrarRevisao(id: string, revogar: boolean) {
+    if (processandoRevisao || !consulta || consulta.candidatura.id !== id) return;
+    if (!revogar && (consulta.resultado.situacao !== "encontrado" ||
+      !revisao)) return;
+    if (revogar) {
+      if (!window.confirm("Revogar esta revisão de contato? O histórico será preservado.")) return;
+    } else {
+      if (!window.confirm("Você conferiu pessoalmente o nome, o mandato em exercício e o e-mail na fonte oficial? Registrar a revisão não enviará mensagens.")) return;
+    }
+    setProcessandoRevisao(true); setAvisoRevisao("");
+    try {
+      const url = "/api/admin/contatos-politicos/revisao?id=" + encodeURIComponent(id);
+      const resposta = await fetch(url, {
+        method: revogar ? "DELETE" : "POST",
+        headers: revogar ? undefined : { "Content-Type": "application/json" },
+        body: revogar ? undefined : JSON.stringify({
+          confirmacao: "REVISEI_NA_FONTE_OFICIAL",
+          emailEsperado: consulta.resultado.situacao === "encontrado" ? consulta.resultado.emailInstitucional : "",
+          fonteEsperada: consulta.resultado.fonteUrl
+        })
+      });
+      const dados = await resposta.json() as Revisao & { erro?: string };
+      if (!resposta.ok) throw new Error(dados.erro || "Não foi possível registrar a revisão.");
+      setRevisao(dados);
+      setAvisoRevisao(dados.mensagem || "Registro atualizado.");
+    } catch (e) { setAvisoRevisao(e instanceof Error ? e.message : "Falha na revisão."); }
+    finally { setProcessandoRevisao(false); }
   }
   async function verificarFontes() {
     if (diagnosticando) return;
@@ -105,6 +144,17 @@ export default function VerificarContatosPoliticos() {
         <p className="mt-2 break-all text-sm"><strong>E-mail institucional:</strong> {consulta.resultado.emailInstitucional}</p>
         <p className="mt-3 text-sm">{consulta.resultado.conferencia}</p>
       </> : <p className="mt-3 text-sm">{consulta.resultado.motivo}</p>}
+      {consulta.resultado.situacao === "encontrado" && <div className="mt-4 rounded-lg border border-slate-300 bg-slate-50 p-4 text-sm">
+        <p className="font-bold">Revisão administrativa</p>
+        {revisao?.registro && <p className="mt-2">Situação: {revisao.registro.status === "revogado" ? "Revogada" : revisao.vigente ? "Revisada — válida até " + new Date(revisao.registro.expira_em).toLocaleString("pt-BR") : "Revisão expirada"}</p>}
+        {!revisao?.registro && <p className="mt-2">Contato ainda não revisado.</p>}
+        <p className="mt-2 text-slate-700">Antes de registrar, confirme pessoalmente o nome civil, mandato e e-mail diretamente no site oficial. A validade é de sete dias. Nenhuma aprovação libera o envio de recados.</p>
+        <div className="mt-3 flex flex-wrap gap-3">
+          <button type="button" disabled={processandoRevisao || !revisao} onClick={() => void registrarRevisao(p.id, false)} className="rounded-lg bg-[#075cf0] px-4 py-3 font-semibold text-white disabled:opacity-50">{processandoRevisao ? "Registrando..." : "Registrar revisão"}</button>
+          {revisao?.registro?.status === "revisado" && <button type="button" disabled={processandoRevisao} onClick={() => void registrarRevisao(p.id, true)} className="rounded-lg border border-red-700 px-4 py-3 font-semibold text-red-800 disabled:opacity-50">Revogar revisão</button>}
+        </div>
+        {avisoRevisao && <p role="status" className="mt-3 font-medium">{avisoRevisao}</p>}
+      </div>}
       {consulta.resultado.fonteUrl && <a href={consulta.resultado.fonteUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block font-semibold text-blue-700 underline">Consultar fonte institucional</a>}
       <p className="mt-4 border-t pt-3 text-sm font-bold text-red-700">Envio bloqueado. Nenhuma mensagem foi enviada.</p>
       <p className="mt-2 text-xs text-black/60">Consulta realizada em {new Date(consulta.consultadoEm).toLocaleString("pt-BR")}.</p>
