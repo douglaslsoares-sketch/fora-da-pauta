@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 35;
 
-type Fonte = { nome: string; ok: boolean; mensagem: string; consultadaEm: string };
+type Fonte = { nome: string; ok: boolean; mensagem: string; consultadaEm: string; tipo?: "api" | "pagina"; canais?: { titulo: string; url: string }[] };
 
 async function camara(): Promise<Fonte> {
   const url = "https://dadosabertos.camara.leg.br/api/v2/deputados?itens=1";
@@ -49,15 +49,49 @@ async function senado(): Promise<Fonte> {
     return { nome: "Senado Federal", ok: false, mensagem: "Falha na conexão ou no formato dos dados oficiais.", consultadaEm };
   }
 }
+async function presidencia(): Promise<Fonte> {
+  // A Presidência não disponibiliza nesta funcionalidade uma API pública
+  // equivalente à lista de deputados/senadores. O diagnóstico verifica
+  // apenas a página oficial de orientação — nunca um envio de mensagens.
+  const orientacoes = "https://www.gov.br/casacivil/pt-br/peticionamento-eletronico/peticionamento-eletronico-2013-usuario-externo-da-presidencia-da-republica";
+  const canais = [
+    { titulo: "Fale com o Presidente (consultar disponibilidade)", url: "https://falepr.presidencia.gov.br/index.php?idioma=br" },
+    { titulo: "Ouvidoria da Presidência — Fala.BR", url: "https://falabr.cgu.gov.br/" },
+    { titulo: "Orientações oficiais da Presidência", url: orientacoes }
+  ];
+  const consultadaEm = new Date().toISOString();
+  try {
+    const response = await fetch(orientacoes, {
+      cache: "no-store", headers: { Accept: "text/html" },
+      signal: AbortSignal.timeout(11000)
+    });
+    if (!response.ok) throw new Error("Página institucional indisponível");
+    const html = await response.text();
+    if (!/Fale com o Presidente/i.test(html) || !/presidencia\.gov\.br/i.test(html)) {
+      throw new Error("Conteúdo institucional não reconhecido");
+    }
+    return {
+      nome: "Presidência da República", tipo: "pagina", ok: true, consultadaEm,
+      mensagem: "Orientações oficiais acessíveis. O canal Fale com o Presidente pode estar temporariamente indisponível; confira a página. A Ouvidoria é um canal diferente. Esta verificação não testa o envio.",
+      canais
+    };
+  } catch {
+    return {
+      nome: "Presidência da República", tipo: "pagina", ok: false, consultadaEm,
+      mensagem: "Não foi possível verificar a página institucional a partir do servidor. Os canais são referências oficiais, mas a disponibilidade para envio não foi confirmada.",
+      canais
+    };
+  }
+}
 export async function GET(request: Request) {
   const store = await cookies();
   if (!verifyQuestionsAdminSessionToken(store.get(QUESTIONS_ADMIN_COOKIE)?.value))
     return NextResponse.json({ erro: "Não autorizado." }, { status: 401, headers: { "Cache-Control": "no-store" } });
   const limite = await consumeRateLimit({ request, scope: "admin:contatos-politicos:diagnostico", limit: 8, windowSeconds: 3600 });
   if (!limite.allowed) return NextResponse.json({ erro: "Limite de verificações atingido." }, { status: 429, headers: { "Cache-Control": "no-store" } });
-  const fontes = await Promise.all([camara(), senado()]);
+  const fontes = await Promise.all([camara(), senado(), presidencia()]);
   return NextResponse.json({
     fontes,
-    observacao: "O teste verifica somente acesso e formato das fontes. Não valida o contato individual de nenhum político, não habilita envio e não transmite mensagens."
+    observacao: "Câmara e Senado: teste de API e formato. Presidência: apenas disponibilidade das orientações institucionais, não do formulário de envio. Nenhum contato individual é aprovado e nenhuma mensagem é transmitida."
   }, { headers: { "Cache-Control": "private, no-store" } });
 }
