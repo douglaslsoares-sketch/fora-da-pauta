@@ -31,7 +31,7 @@ export default function ArticleAudioApproval({ articleId }: { articleId: string 
   }
   return <section className="mt-5 rounded-xl border border-[#d5dce4] bg-white p-5">
     <h4 className="font-bold text-[#183352]">Áudio definitivo — revisão e aprovação</h4>
-    <p className="mt-2 text-sm leading-6 text-black/65">Gera um MP3 único com a voz Marim para textos de até 4.000 caracteres. A gravação é privada até a aprovação e a publicação do artigo. A geração pode ter custo.</p>
+    <p className="mt-2 text-sm leading-6 text-black/65">Gera um arquivo de áudio contínuo com a voz Marim para textos de até 14.000 caracteres. A gravação é privada até a aprovação e a publicação do artigo. A geração pode ter custo.</p>
     <div className="mt-4 flex flex-wrap gap-3">
       <button type="button" disabled={busy} onClick={() => action("gerar")} className="min-h-11 rounded-lg bg-[#183352] px-4 py-2 font-semibold text-white disabled:opacity-50">{busy ? "Processando…" : exists ? "Gerar novamente" : "Gerar áudio definitivo"}</button>
       {exists && !approved && <button type="button" disabled={busy} onClick={() => action("aprovar")} className="min-h-11 rounded-lg bg-green-700 px-4 py-2 font-semibold text-white disabled:opacity-50">Aprovar áudio</button>}
