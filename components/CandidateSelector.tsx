@@ -792,6 +792,7 @@ function CandidateFollowSelector({
   if (tela === "busca") {
     return (
       <div className="mt-5">
+      {modoRecado ? <p className="mb-4 text-center text-sm text-slate-300">Digite o nome do político para mandar um recado. Não é necessário acompanhá-lo.</p> : null}
       <form
         onSubmit={executarBusca}
         className="mt-5"
@@ -838,6 +839,7 @@ function CandidateFollowSelector({
 
   return (
     <div className="mt-1" data-follow-results="true">
+      {modoRecado ? <p className="mb-4 text-center text-sm text-slate-300">Escolha o político para quem deseja mandar um recado. Não é necessário acompanhá-lo.</p> : null}
       <h2 className="w-full min-w-0 break-words text-2xl font-bold leading-tight tracking-normal sm:text-3xl">
         Resultado da busca
       </h2>
