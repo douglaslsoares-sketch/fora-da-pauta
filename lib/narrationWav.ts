@@ -17,7 +17,7 @@ export function splitNarration(text: string, max = 3500): string[] {
 export function combinePcmToWav(chunks: Uint8Array[], silenceMs = 350): Uint8Array {
   const silence = new Uint8Array(Math.floor(24000 * 2 * silenceMs / 1000));
   const total = chunks.reduce((n, chunk) => n + chunk.length, 0) + Math.max(0, chunks.length - 1) * silence.length;
-  if (total > 12_000_000 || total % 2 !== 0) throw new Error("Áudio PCM excedeu limite ou está inválido");
+  if (total > 30_000_000 || total % 2 !== 0) throw new Error("Áudio PCM excedeu limite ou está inválido");
   const wav = new Uint8Array(total + 44);
   const view = new DataView(wav.buffer);
   const ascii = (offset: number, value: string) => { for (let i = 0; i < value.length; i++) wav[offset + i] = value.charCodeAt(i); };
