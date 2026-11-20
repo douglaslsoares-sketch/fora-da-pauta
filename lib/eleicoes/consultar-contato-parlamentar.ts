@@ -39,7 +39,8 @@ async function consultarCamara(pessoa: Candidatura): Promise<ResultadoContato> {
   const fonte = "https://www.camara.leg.br/deputados/quem-sao";
   const query = new URLSearchParams({ nome: pessoa.nomeUrna, itens: "100" });
   const resposta = await obterJson<{ dados?: DeputadoResumo[] }>(base + "?" + query.toString());
-  const resumos = (Array.isArray(resposta.dados) ? resposta.dados : [])
+  if (!Array.isArray(resposta.dados)) throw new Error("Formato inesperado na API da Câmara");
+  const resumos = resposta.dados
     .filter(item => item.siglaUf === pessoa.uf && Number.isInteger(item.id) && item.id > 0)
     .slice(0, 25);
   if (!resumos.length) return { situacao: "pendente", motivo: "Nenhum parlamentar do mesmo estado foi localizado na consulta oficial pelo nome eleitoral.", fonteUrl: fonte, envioHabilitado: false };
@@ -63,7 +64,13 @@ async function consultarCamara(pessoa: Candidatura): Promise<ResultadoContato> {
       envioHabilitado: false
     });
   });
-  return correspondencias.length === 1 ? correspondencias[0] : {
+  if (correspondencias.length === 1) return correspondencias[0];
+  if (detalhes.some(item => item.status === "rejected")) return {
+    situacao: "indisponivel",
+    motivo: "A consulta à Câmara foi interrompida parcialmente. Não é seguro concluir que não existe um contato correspondente.",
+    fonteUrl: fonte, envioHabilitado: false
+  };
+  return {
     situacao: "pendente",
     motivo: correspondencias.length > 1 ? "Identificação ambígua entre registros oficiais." : "Não foi possível confirmar, ao mesmo tempo, nome civil, UF, exercício do mandato e e-mail institucional.",
     fonteUrl: fonte, envioHabilitado: false
@@ -78,7 +85,8 @@ async function consultarSenado(pessoa: Candidatura): Promise<ResultadoContato> {
   const fonte = "https://www25.senado.leg.br/web/senadores/em-exercicio/";
   const resposta = await obterJson<{ ListaParlamentarEmExercicio?: { Parlamentares?: { Parlamentar?: Senador[] | Senador } } }>(api);
   const base = resposta.ListaParlamentarEmExercicio?.Parlamentares?.Parlamentar;
-  const pessoas = Array.isArray(base) ? base : base ? [base] : [];
+  if (!base) throw new Error("Formato inesperado na API do Senado");
+  const pessoas = Array.isArray(base) ? base : [base];
   const correspondencias = pessoas.filter(p => {
     const dados = p.IdentificacaoParlamentar;
     return normalizar(dados?.NomeCompletoParlamentar || "") === normalizar(pessoa.nomeCompleto) &&
