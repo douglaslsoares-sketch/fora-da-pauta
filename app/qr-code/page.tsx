@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { CabecalhoInterno } from "@/components/CabecalhoInterno";
 
 export const metadata = {
   title: "QR Code | Fora da Pauta",
@@ -8,9 +9,9 @@ export const metadata = {
 
 export default function PaginaQRCode() {
   return (
-    <main className="min-h-screen bg-white text-black">
-      <section className="mx-auto max-w-2xl px-5 pb-14 pt-10 text-center">
-        <p className="mx-auto max-w-lg text-base leading-relaxed text-black/70">
+    <main className="min-h-screen bg-[#141c2b] text-white">
+      <section className="mx-auto max-w-2xl px-5 pb-14 pt-3 text-center"><CabecalhoInterno titulo="Mostrar QR Code" />
+        <p className="mx-auto max-w-lg text-base leading-relaxed text-slate-300">
           Aponte a câmera do celular.
         </p>
         <div className="mx-auto mt-8 w-full max-w-[340px] rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
