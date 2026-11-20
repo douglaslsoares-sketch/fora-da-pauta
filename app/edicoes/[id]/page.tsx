@@ -27,10 +27,10 @@ export default async function PublicArticle({ params }: { params: Promise<{ id: 
         <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#183352]">Fora da Pauta</p>
         <h1 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl">{artigo.titulo}</h1>
         {artigo.resumo && <p className="mt-5 text-lg leading-8 text-black/70">{artigo.resumo}</p>}
-        {artigo.audio_url && <section className="mt-8 rounded-xl border border-[#d5dce4] bg-[#f3f6f9] p-5">
+        {<section className="mt-8 rounded-xl border border-[#d5dce4] bg-[#f3f6f9] p-5">
           <h2 className="text-base font-bold text-[#183352]">Ouvir este artigo</h2>
           <p className="mt-1 text-sm text-black/65">Áudio completo, com controles para pausar e retomar.</p>
-          <audio controls preload="none" src={artigo.audio_url} className="mt-4 w-full" aria-label="Ouvir o artigo completo">
+          <audio controls preload="none" src={`/api/artigos/audio/${id}`} className="mt-4 w-full" aria-label="Ouvir o artigo completo">
             Seu navegador não oferece reprodução de áudio.
           </audio>
         </section>}
