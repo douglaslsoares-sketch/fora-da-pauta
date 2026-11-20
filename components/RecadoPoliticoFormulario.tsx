@@ -110,14 +110,14 @@ export function RecadoPoliticoFormulario({ destinatario = "politico" }: { destin
   return <div className="mt-7 rounded-xl border border-[#344760] bg-[#24334b] p-5">
     <label htmlFor="texto-recado" className="block font-semibold">Seu recado</label>
     <textarea id="texto-recado" value={texto} onChange={e => setTexto(e.target.value)}
-      maxLength={2000} rows={4} placeholder="Escreva aqui sua mensagem..."
-      className="mt-3 min-h-[112px] w-full resize-y rounded-lg border border-slate-500 bg-white p-3 text-base text-black" />
+      maxLength={2000} rows={4} disabled={destinatario === "politico"} placeholder={destinatario === "politico" ? "Disponível após verificação do contato oficial" : "Escreva aqui sua mensagem..."}
+      className="mt-3 min-h-[112px] w-full resize-y rounded-lg border border-slate-500 bg-white p-3 text-base text-black disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-600" />
     <p className="mt-1 text-right text-xs text-slate-300">{texto.length}/2000</p>
     <div className="mt-4">
       <p className="mb-2 font-semibold">Ou grave um áudio</p>
       {gravando
         ? <button type="button" onClick={pararGravacao} className="rounded-lg bg-yellow-400 px-4 py-3 font-bold text-black">Parar gravação</button>
-        : <button type="button" onClick={() => void iniciarGravacao()} disabled={transcrevendo} className="rounded-lg bg-[#075cf0] px-4 py-3 font-bold text-white hover:bg-[#0050d8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400 disabled:opacity-60">Gravar áudio</button>}
+        : <button type="button" onClick={() => void iniciarGravacao()} disabled={transcrevendo || destinatario === "politico"} className="rounded-lg bg-[#075cf0] px-4 py-3 font-bold text-white hover:bg-[#0050d8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400 disabled:opacity-60">Gravar áudio</button>}
       {transcrevendo && <p role="status" className="mt-3 text-sm text-yellow-200">Transcrevendo o áudio...</p>}
       {audioUrl && <div className="mt-3 space-y-2">
         <audio controls src={audioUrl} className="w-full" aria-label="Ouvir gravação" />
