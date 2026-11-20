@@ -52,12 +52,12 @@ export default function VerificarContatosPoliticos() {
     {erro && <p role="alert" className="mt-4 rounded-lg bg-red-100 p-3 text-red-900">{erro}</p>}
     {candidatos.length > 0 && <div className="mt-5 space-y-2">
       <h2 className="text-lg font-bold">Candidaturas encontradas</h2>
-      {candidatos.map(p => <div key={p.id} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[#344760] bg-[#24334b] p-4 text-white">
-        <div><p className="font-bold">{p.nomeUrna}</p><p className="text-sm text-slate-200">{p.nomeCompleto} · {p.cargoLabel} · {p.uf} · {p.siglaPartido}</p></div>
-        <button disabled={!!consultando} onClick={() => void consultar(p.id)} className="rounded-lg bg-[#f4c542] px-4 py-2 font-semibold text-black disabled:opacity-50">{consultando === p.id ? "Consultando..." : "Conferir contato"}</button>
-      </div>)}
-    </div>}
-    {consulta && <div role="status" className="mt-6 rounded-xl border border-[#344760] bg-white p-5">
+      {candidatos.map(p => <div key={p.id} className="space-y-2">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[#344760] bg-[#24334b] p-4 text-white">
+          <div><p className="font-bold">{p.nomeUrna}</p><p className="text-sm text-slate-200">{p.nomeCompleto} · {p.cargoLabel} · {p.uf} · {p.siglaPartido}</p></div>
+          <button type="button" disabled={!!consultando} aria-expanded={consulta?.candidatura.id === p.id} aria-controls={"resultado-contato-" + p.id} onClick={() => void consultar(p.id)} className="rounded-lg bg-[#f4c542] px-4 py-2 font-semibold text-black disabled:opacity-50">{consultando === p.id ? "Consultando..." : "Conferir contato"}</button>
+        </div>
+        {consulta?.candidatura.id === p.id && <div role="status" id={"resultado-contato-" + p.id} className="mt-2 rounded-xl border border-[#344760] bg-white p-5">
       <h2 className="text-xl font-bold">Resultado da conferência</h2>
       <p className="mt-2 font-semibold">{consulta.candidatura.nomeUrna} — {consulta.candidatura.uf}</p>
       <p className="mt-3 text-sm">{consulta.resultado.situacao === "encontrado" ? "Possível contato institucional identificado, sujeito a revisão humana." : "Contato ainda não confirmado."}</p>
@@ -70,6 +70,8 @@ export default function VerificarContatosPoliticos() {
       {consulta.resultado.fonteUrl && <a href={consulta.resultado.fonteUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block font-semibold text-blue-700 underline">Consultar fonte institucional</a>}
       <p className="mt-4 border-t pt-3 text-sm font-bold text-red-700">Envio bloqueado. Nenhuma mensagem foi enviada.</p>
       <p className="mt-2 text-xs text-black/60">Consulta realizada em {new Date(consulta.consultadoEm).toLocaleString("pt-BR")}.</p>
+    </div>}
+      </div>)}
     </div>}
   </section>;
 }
