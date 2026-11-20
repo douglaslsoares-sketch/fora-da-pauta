@@ -7,7 +7,7 @@ export default function PrivateVoiceTest({ articleId }: { articleId: string }) {
   const [message, setMessage] = useState("");
   const urlRef = useRef("");
   useEffect(() => () => { if (urlRef.current) URL.revokeObjectURL(urlRef.current); }, []);
-  async function generate() {
+  async function generate(modo: "artigo" | "leitura-longa" = "artigo") {
     if (loading) return;
     setLoading(true);
     setMessage("");
@@ -18,7 +18,7 @@ export default function PrivateVoiceTest({ articleId }: { articleId: string }) {
       const response = await fetch("/api/admin/artigos/audio-teste", {
         method: "POST", credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: articleId })
+        body: JSON.stringify({ id: articleId, modo })
       });
       if (!response.ok) {
         const data = await response.json().catch(() => ({})) as { erro?: string };
@@ -35,7 +35,9 @@ export default function PrivateVoiceTest({ articleId }: { articleId: string }) {
   return <section className="mt-8 rounded-xl border border-[#d5dce4] bg-[#f3f6f9] p-5">
     <h2 className="text-base font-bold text-[#183352]">Teste privado da voz Marim</h2>
     <p className="mt-2 text-sm leading-6 text-black/70">Gere e ouça uma amostra do texto salvo. Limite de 3.000 caracteres e três testes por hora. A geração utiliza o serviço de voz e pode ter custo. Nenhum áudio será publicado.</p>
-    <button type="button" disabled={loading} onClick={generate} className="mt-4 min-h-11 rounded-lg bg-[#183352] px-5 py-2 font-semibold text-white disabled:opacity-50">{loading ? "Preparando áudio…" : "Gerar áudio de teste"}</button>
+    <button type="button" disabled={loading} onClick={() => generate("artigo")} className="mt-4 min-h-11 rounded-lg bg-[#183352] px-5 py-2 font-semibold text-white disabled:opacity-50">{loading ? "Preparando áudio…" : "Gerar áudio de teste"}</button>
+    <button type="button" disabled={loading} onClick={() => generate("leitura-longa")} className="ml-0 mt-3 min-h-11 rounded-lg border border-[#183352] px-5 py-2 font-semibold text-[#183352] disabled:opacity-50 sm:ml-3">Testar leitura longa</button>
+    <p className="mt-2 text-xs text-black/60">A leitura longa usa um texto editorial de demonstração e não altera o artigo salvo.</p>
     {message && <p role="status" className="mt-3 text-sm">{message}</p>}
     {url && <audio controls src={url} className="mt-4 w-full" aria-label="Ouvir teste de voz Marim" />}
   </section>;
