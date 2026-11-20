@@ -7,6 +7,24 @@ import { consumeRateLimit } from "@/lib/rateLimit";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const LONG_SAMPLE = `Uma ponte entre a informação e o entendimento
+
+Imagine duas pessoas conversando. Uma delas encontrou informações que a outra ainda não teve oportunidade de conhecer. Em vez de impor sua opinião, compartilha as fontes, explica o que entendeu, escuta dúvidas e abre espaço para novas perguntas.
+
+É essa relação que queremos construir. Sem falar de cima para baixo. Sem tratar ninguém como incapaz. E sem pedir que você aceite uma conclusão só porque alguém a afirmou.
+
+O Fora da Pauta não existe para pensar por você. Existe para ajudar você a encontrar elementos para pensar por si mesmo.
+
+Todos os dias, decisões são tomadas e notícias circulam. Mas quem escolheu os assuntos que ganharam destaque? Quais interesses estão envolvidos? E o que ficou de fora da conversa?
+
+Nosso trabalho é investigar essas perguntas, comparar informações e explicar como os acontecimentos afetam a vida das pessoas. Quando houver divergência entre fontes, vamos mostrá-la. Quando houver uma alegação sem comprovação, vamos deixar isso claro.
+
+Não queremos uma comunicação em que alguém fala e os demais apenas escutam. Queremos construir uma conversa: você lê, ouve, questiona e participa. Suas dúvidas também ajudam a orientar o que devemos investigar.
+
+Conhecer é importante. Entender é fundamental.
+
+É por isso que o Fora da Pauta existe: para aproximar a informação do entendimento, sem substituir o julgamento de ninguém.`;
+
 const error = (message: string, status: number) =>
   NextResponse.json({ erro: message }, { status, headers: { "Cache-Control": "no-store" } });
 
@@ -16,7 +34,7 @@ export async function POST(request: Request) {
   if (!verifyQuestionsAdminSessionToken(store.get(QUESTIONS_ADMIN_COOKIE)?.value)) return error("Acesso não autorizado.", 401);
   const limit = await consumeRateLimit({ request, scope: "admin:artigos:audio-teste", limit: 3, windowSeconds: 3600 });
   if (!limit.allowed) return error("Limite de testes de voz atingido. Tente mais tarde.", 429);
-  const body = await request.json().catch(() => null) as { id?: unknown } | null;
+  const body = await request.json().catch(() => null) as { id?: unknown; modo?: unknown } | null;
   if (typeof body?.id !== "string" || !/^[a-f0-9-]{36}$/i.test(body.id)) return error("Artigo inválido.", 400);
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return error("Serviço de narração não configurado.", 503);
@@ -26,7 +44,7 @@ export async function POST(request: Request) {
     `;
     const article = rows[0];
     if (!article) return error("Artigo não encontrado.", 404);
-    const script = [article.titulo, article.resumo, article.conteudo].filter(Boolean).join("\n\n");
+    const script = body?.modo === "leitura-longa" ? LONG_SAMPLE : [article.titulo, article.resumo, article.conteudo].filter(Boolean).join("\n\n");
     if (!script.trim() || script.length > 3000) return error("O teste de voz aceita até 3.000 caracteres. O artigo completo exigirá geração em etapas.", 400);
     const response = await fetch("https://api.openai.com/v1/audio/speech", {
       method: "POST",
