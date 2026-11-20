@@ -11,7 +11,7 @@ type Resultado = {
 };
 type Diagnostico = { fontes: { nome: string; ok: boolean; mensagem: string; consultadaEm: string; tipo?: "api" | "pagina"; verificacaoManual?: boolean; canais?: { titulo: string; url: string }[] }[]; observacao: string };
 type Revisao = { registro: { candidatura_id: string; nome_civil: string; instituicao: string; email_institucional: string; fonte_url: string; status: "revisado" | "revogado"; revisado_em: string; expira_em: string; revogado_em: string | null } | null; vigente: boolean; envioHabilitado: false; mensagem?: string };
-type Consulta = { candidatura: { id: string; nomeUrna: string; nomeCompleto: string; uf: string; cargo: string }; resultado: Resultado; consultadoEm: string };
+type Consulta = { contextoMandato?: { titulo: string; explicacao: string; fontePosse: string; cargoAtual?: string; fonteCargoAtual?: string } | null; candidatura: { id: string; nomeUrna: string; nomeCompleto: string; uf: string; cargo: string }; resultado: Resultado; consultadoEm: string };
 
 export default function VerificarContatosPoliticos() {
   const [nome, setNome] = useState("");
@@ -138,6 +138,13 @@ export default function VerificarContatosPoliticos() {
       <h2 className="text-xl font-bold">Resultado da conferência</h2>
       <p className="mt-2 font-semibold">{consulta.candidatura.nomeUrna} — {consulta.candidatura.uf}</p>
       <p className="mt-3 text-sm">{consulta.resultado.situacao === "encontrado" ? "Possível contato institucional identificado, sujeito a revisão humana." : "Contato ainda não confirmado."}</p>
+      {consulta.contextoMandato && <div className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm">
+        <h3 className="font-bold text-amber-950">{consulta.contextoMandato.titulo}</h3>
+        <p className="mt-2 leading-6 text-amber-950">{consulta.contextoMandato.explicacao}</p>
+        <a href={consulta.contextoMandato.fontePosse} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block font-semibold text-blue-800 underline">Fonte oficial sobre a posse</a>
+        {consulta.contextoMandato.cargoAtual && <p className="mt-3 leading-6 text-amber-950">{consulta.contextoMandato.cargoAtual}</p>}
+        {consulta.contextoMandato.fonteCargoAtual && <a href={consulta.contextoMandato.fonteCargoAtual} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block font-semibold text-blue-800 underline">Consultar mandato estadual atual</a>}
+      </div>}
       {consulta.resultado.situacao === "encontrado" ? <>
         <p className="mt-3 text-sm"><strong>Instituição:</strong> {consulta.resultado.casa}</p>
         <p className="mt-2 text-sm"><strong>Nome oficial:</strong> {consulta.resultado.nomeOficial}</p>
