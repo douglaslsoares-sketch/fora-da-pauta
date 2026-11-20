@@ -32,7 +32,15 @@ async function obterJson<T>(url: string): Promise<T> {
 type DeputadoResumo = { id: number; nome: string; siglaUf: string };
 type DeputadoDetalhe = {
   nomeCivil?: string;
-  ultimoStatus?: { situacao?: string; siglaUf?: string; email?: string; gabinete?: { email?: string } };
+  ultimoStatus?: {
+    nome?: string;
+    nomeEleitoral?: string;
+    situacao?: string;
+    siglaUf?: string;
+    siglaPartido?: string;
+    email?: string;
+    gabinete?: { email?: string };
+  };
 };
 async function consultarCamara(pessoa: Candidatura): Promise<ResultadoContato> {
   const base = "https://dadosabertos.camara.leg.br/api/v2/deputados";
@@ -83,15 +91,30 @@ async function consultarCamara(pessoa: Candidatura): Promise<ResultadoContato> {
     const status = info?.ultimoStatus;
     if (!info || !status) return;
     const email = status.email || status.gabinete?.email;
-    if (normalizar(info.nomeCivil || "") !== normalizar(pessoa.nomeCompleto) ||
+    const nomeParlamentar = status.nomeEleitoral || status.nome || resumos[index].nome || "";
+    const mesmoNomeCivil = !!info.nomeCivil &&
+      normalizar(info.nomeCivil) === normalizar(pessoa.nomeCompleto);
+    const mesmoNomeParlamentar = !!nomeParlamentar &&
+      normalizar(nomeParlamentar) === normalizar(pessoa.nomeUrna);
+    // Nomes civis podem não coincidir quando a pessoa usa nome social
+    // ou parlamentar. Nesse caso, exige-se coincidência do nome público
+    // completo, do estado, do partido e do exercício atual do mandato.
+    const nomeConfirmado = mesmoNomeCivil || (
+      mesmoNomeParlamentar &&
+      !!status.siglaPartido &&
+      normalizar(status.siglaPartido) === normalizar(pessoa.siglaPartido)
+    );
+    if (!nomeConfirmado ||
         status.siglaUf !== pessoa.uf ||
         normalizar(status.situacao || "") !== "EXERCICIO" ||
         !emailOficial(email, "camara.leg.br")) return;
     correspondencias.push({
       situacao: "encontrado", casa: "Câmara dos Deputados",
-      nomeOficial: info.nomeCivil || "", emailInstitucional: email,
+      nomeOficial: nomeParlamentar || pessoa.nomeUrna, emailInstitucional: email,
       fonteUrl: "https://www.camara.leg.br/deputados/" + resumos[index].id,
-      conferencia: "Nome civil e UF coincidem exatamente; a API oficial informa exercício do mandato e e-mail institucional. Exige revisão final antes de qualquer envio.",
+      conferencia: mesmoNomeCivil
+        ? "Nome civil, estado, mandato em exercício e e-mail institucional conferidos na API oficial. Exige revisão final antes de qualquer envio."
+        : "Nome parlamentar, estado, partido, mandato em exercício e e-mail institucional coincidem na API oficial. A diferença de cadastro exige revisão humana antes de qualquer envio.",
       envioHabilitado: false
     });
   });
@@ -103,7 +126,7 @@ async function consultarCamara(pessoa: Candidatura): Promise<ResultadoContato> {
   if (correspondencias.length === 1) return correspondencias[0];
   return {
     situacao: "pendente",
-    motivo: correspondencias.length > 1 ? "Identificação ambígua entre registros oficiais." : "Não foi possível confirmar, ao mesmo tempo, nome civil, UF, exercício do mandato e e-mail institucional.",
+    motivo: correspondencias.length > 1 ? "Identificação ambígua entre registros oficiais." : "Não foi possível confirmar, ao mesmo tempo, nome civil ou parlamentar, estado, exercício do mandato e e-mail institucional.",
     fonteUrl: fonte, envioHabilitado: false
   };
 }
