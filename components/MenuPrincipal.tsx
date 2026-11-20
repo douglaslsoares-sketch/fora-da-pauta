@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cookies, headers } from "next/headers";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 import { IconeMenu } from "@/components/IconeMenu";
+import { LogoForaDaPauta } from "@/components/LogoForaDaPauta";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import styles from "@/app/central/page.module.css";
 import { linkCompartilhamentoWhatsApp } from "@/lib/compartilhamento";
@@ -23,7 +24,7 @@ export async function MenuPrincipal() {
   }
   return (
     <section id="menu" className={styles.pagina} aria-label="Menu do Fora da Pauta">
-      <header className={styles.tituloMenu}><h2>Menu</h2><span aria-hidden="true" /></header>
+      <header className={styles.tituloMenu}><LogoForaDaPauta className={styles.logoMenuOficial} /><h2>Menu</h2><span aria-hidden="true" /></header>
       <nav className={styles.menu} aria-label="Menu central">
         {artigosDisponiveis ? (
           <Link className={styles.principal} href="/edicoes"><span className={styles.icone} aria-hidden="true"><IconeMenu nome="publicacoes" /></span><span className={styles.textoBotao}><span className={styles.publicacoesTitulo}>Publicações</span><span className={styles.publicacoesDescricao}>Leia, ouça, compartilhe</span></span><span className={styles.seta} aria-hidden="true">›</span></Link>
