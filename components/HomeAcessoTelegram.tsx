@@ -304,53 +304,35 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
 
   return (
     <>
-      {pagina === "inicio" ? <section className={styles.apresentacao} id="conteudo" aria-labelledby="mensagem-principal">
-
-        <header className={styles.cabecalho}>
-          <div className={styles.marcaEuVigio}>
-            <LogoForaDaPauta className={styles.logoOficial} />
-            
-          </div>
-        </header>
-        <div className={styles.intro} id="apresentacao">
-          <div className={styles.heroGrid}>
-            <div className={styles.heroTexto}>
-              <h1 id="mensagem-principal" className={styles.perguntaEditorial}>
-                Quando a <span className={styles.tituloDesinformacao}>(des)informação</span> aliena.
-              </h1>
-              <p className={styles.fraseProjeto}>Conhecer é importante. Entender é fundamental.</p>
-              <p className={styles.conviteEditorial}>Acompanhe o Fora da Pauta.</p>
-              <p className={styles.descricaoConvite}>Entre no nosso canal do WhatsApp e receba avisos de novas publicações.</p>
-              <a
-                href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.botaoInscricao}
-              >
-                Entrar no canal
-              </a>
-              <p className={styles.fraseGratuidade}>É gratuito.</p>
-              <nav className={styles.navegacaoHome} aria-label="Outras opções">
-                <InstalarAplicativo tema="escuro" />
-              </nav>
+      {pagina === "inicio" ? (
+        <>
+          <section className={styles.dobraEditorial} id="conteudo" aria-labelledby="mensagem-principal">
+            <div className={styles.dobraCentro}>
+              <LogoForaDaPauta className={styles.logoQuatroDobras} />
+              <h1 id="mensagem-principal" className={styles.lemaQuatroDobras}>Conhecer é importante.<br />Entender é fundamental.</h1>
             </div>
-
-            <div className={styles.qrArea}>
-              <div className={styles.qrCartao}>
-                <Image
-                  src="/qr/fora-da-pauta.svg"
-                  alt="QR Code para abrir o Fora da Pauta no celular"
-                  width={224}
-                  height={224}
-                  className={styles.qrImagem}
-                />
-              </div>
-              <p className={styles.qrInstrucao}>Aponte a câmera do celular para abrir o Fora da Pauta.</p>
+            <a href="#contextualizacao" className={styles.setaDobra} aria-label="Conheça nossa proposta">↓</a>
+          </section>
+          <section className={styles.dobraEditorial} id="contextualizacao" aria-labelledby="titulo-contextualizacao">
+            <div className={styles.dobraCentro}>
+              <h2 id="titulo-contextualizacao" className={styles.tituloDobra}>Uma ponte entre a informação e o entendimento.</h2>
+              <p className={styles.textoDobra}>Todos os dias recebemos notícias sobre decisões que afetam a sociedade. Mas conhecer os fatos é apenas o começo.</p>
+              <p className={styles.textoDobra}>O Fora da Pauta investiga os interesses econômicos e políticos por trás dos acontecimentos, compara fontes e explica seus possíveis impactos na vida da população.</p>
+              <p className={styles.textoDobra}>Sem impor conclusões. Com evidências, contraditório e espaço para você pensar por si mesmo.</p>
             </div>
-          </div>
-        </div>
-
-      </section> : null}
+            <a href="#acompanhe" className={styles.setaDobra} aria-label="Veja como acompanhar">↓</a>
+          </section>
+          <section className={styles.dobraEditorial} id="acompanhe" aria-labelledby="titulo-acompanhe">
+            <div className={styles.dobraCentro}>
+              <h2 id="titulo-acompanhe" className={styles.tituloDobra}>Acompanhe o Fora da Pauta</h2>
+              <p className={styles.textoDobra}>Receba os avisos no nosso canal do WhatsApp.</p>
+              <a className={styles.botaoCanalDobra} href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13" target="_blank" rel="noopener noreferrer">Acompanhar</a>
+              <p className={styles.gratuitoDobra}>É gratuito.</p>
+            </div>
+            <a href="#menu" className={styles.setaDobra} aria-label="Ir para o menu">↓</a>
+          </section>
+        </>
+      ) : null}
 
       {pagina === "opcoes" ? <section
         id="opcoes"
