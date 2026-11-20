@@ -140,6 +140,14 @@ async function consultarSenado(pessoa: Candidatura): Promise<ResultadoContato> {
   };
 }
 export async function consultarContatoParlamentar(pessoa: Candidatura): Promise<ResultadoContato> {
+  if (pessoa.cargo === "presidente") {
+    return {
+      situacao: "pendente",
+      motivo: "Para a Presidência, o canal oficial Fale com o Presidente informa estar temporariamente fora do ar e oferece formulário alternativo. Consulte a página para verificar a disponibilidade atual. A Ouvidoria pelo Fala.BR atende manifestações a órgãos públicos, não equivale a contato pessoal com o presidente. Nenhuma dessas opções valida automaticamente o mandato ou habilita envio pelo Fora da Pauta.",
+      fonteUrl: "https://falepr.presidencia.gov.br/index.php?idioma=br",
+      envioHabilitado: false
+    };
+  }
   if (pessoa.cargo !== "deputado-federal" && pessoa.cargo !== "senador") {
     return { situacao: "nao_aplicavel", motivo: "Esta primeira etapa consulta deputados federais e senadores. Não há encaminhamento ativo para este cargo.", fonteUrl: null, envioHabilitado: false };
   }
