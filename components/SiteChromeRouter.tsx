@@ -11,6 +11,9 @@ export function SiteChromeRouter() {
   const isHome =
     pathname === "/" || pathname === "/central" || pathname === "/simulacao/confirmacao-fique-de-olho";
 
+  // Estas páginas já exibem a logomarca no próprio cabeçalho interno.
+  const hasInternalHeader = ["/acompanhar", "/meus-acompanhamentos", "/mandar-recado", "/meus-recados", "/qr-code", "/edicoes"].some(route => pathname === route || pathname.startsWith(route + "/"));
+
   const isCandidateIndex =
     pathname ===
     "/conheca-seu-candidato";
@@ -35,7 +38,7 @@ export function SiteChromeRouter() {
 
   return (
     <>
-      {!isHome ? <SiteHeader /> : null}
+      {!isHome && !hasInternalHeader ? <SiteHeader /> : null}
 
       {isCandidateRoute && !isCandidateProfile ? (
         <>
