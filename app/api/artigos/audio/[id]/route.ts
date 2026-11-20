@@ -12,15 +12,15 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
   const { id } = await context.params;
   if (!/^[a-f0-9-]{36}$/i.test(id)) return new Response("Não encontrado", { status: 404 });
   try {
-    const rows = await sql<{ audio: Buffer; status: string; aprovado: boolean }[]>`
-      SELECT a.audio, p.status, a.aprovado FROM public.admin_artigos_audio a JOIN public.admin_artigos p ON p.id = a.artigo_id WHERE a.artigo_id = ${id}::uuid LIMIT 1
+    const rows = await sql<{ audio: Buffer; status: string; aprovado: boolean; formato: string }[]>`
+      SELECT a.audio, p.status, a.aprovado, a.formato FROM public.admin_artigos_audio a JOIN public.admin_artigos p ON p.id = a.artigo_id WHERE a.artigo_id = ${id}::uuid LIMIT 1
     `;
     const record = rows[0];
     if (!record || (!admin && (record.status !== "publicado" || !record.aprovado)))
       return new Response("Não encontrado", { status: 404 });
     const audio = record.audio;
     return new Response(new Uint8Array(audio), {
-      headers: { "Content-Type": "audio/mpeg", "Content-Length": String(audio.length),
+      headers: { "Content-Type": record.formato === "audio/wav" ? "audio/wav" : "audio/mpeg", "Content-Length": String(audio.length),
         "Cache-Control": admin ? "private, no-store" : "public, max-age=300",
         "X-Content-Type-Options": "nosniff" }
     });
