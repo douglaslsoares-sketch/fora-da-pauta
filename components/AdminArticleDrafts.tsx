@@ -16,7 +16,6 @@ export default function AdminArticleDrafts() {
   const [resumo, setResumo] = useState("");
   const [conteudo, setConteudo] = useState("");
   const [fontes, setFontes] = useState("");
-  const [audioUrl, setAudioUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
@@ -34,10 +33,10 @@ export default function AdminArticleDrafts() {
     } finally { setLoading(false); }
   }
   useEffect(() => { void reload(); }, []);
-  function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setAudioUrl(""); setNotice(""); }
+  function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setNotice(""); }
   function edit(item: Draft) {
     if (item.status !== "rascunho") return;
-    setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setAudioUrl(item.audio_url || ""); setNotice("");
+    setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setNotice("");
     document.getElementById("editor-rascunho")?.scrollIntoView({ behavior: "smooth" });
   }
   async function showHistory(item: Draft) {
@@ -87,7 +86,7 @@ export default function AdminArticleDrafts() {
       const response = await fetch("/api/admin/artigos", {
         method: "POST", credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, titulo, resumo, conteudo, fontes, audio_url: audioUrl }),
+        body: JSON.stringify({ id, titulo, resumo, conteudo, fontes }),
       });
       const data = await response.json() as { ok?: boolean; id?: string; erro?: string };
       if (!response.ok || !data.ok) throw new Error(data.erro || "Não foi possível salvar.");
@@ -115,10 +114,6 @@ export default function AdminArticleDrafts() {
         <label className="mt-4 block text-sm font-semibold">Fontes e referências (uma por linha)
           <textarea value={fontes} onChange={e => setFontes(e.target.value)} rows={5} maxLength={20000} placeholder="Endereço da fonte e descrição do documento" className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
         </label>
-        <label className="mt-4 block text-sm font-semibold">Áudio completo do artigo (opcional)
-          <input type="url" value={audioUrl} onChange={e => setAudioUrl(e.target.value)} placeholder="https://.../artigo.mp3" className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
-        </label>
-        <p className="mt-2 text-xs leading-5 text-black/60">Informe um endereço HTTPS direto para um único arquivo MP3, M4A, OGG ou WAV, já gravado e revisado. O sistema não gera voz automaticamente.</p>
         <div className="mt-5 flex flex-wrap gap-3">
           <button type="button" onClick={save} disabled={!titulo.trim() || saving} className="min-h-12 rounded-lg bg-black px-6 py-3 font-semibold text-white disabled:opacity-40">{saving ? "Salvando…" : "Salvar rascunho"}</button>
           <button type="button" onClick={reset} className="min-h-12 rounded-lg border border-black/20 px-6 py-3 font-semibold">Novo rascunho</button>
@@ -126,7 +121,7 @@ export default function AdminArticleDrafts() {
         {notice && <p role="status" className="mt-4 text-sm font-semibold">{notice}</p>}
         {id && <div className="mt-6 border-t border-black/10 pt-5">
           <h4 className="text-base font-bold">Narração do artigo — revisão privada</h4>
-          <p className="mt-2 text-sm leading-6 text-black/65">A voz Marim lê a última versão salva do rascunho, não as alterações ainda não salvas. Ouça e aprove antes de associar um arquivo definitivo ao artigo. A geração de teste não salva nem publica áudio.</p>
+          <p className="mt-2 text-sm leading-6 text-black/65">A voz Marim lê a última versão salva do rascunho, não as alterações ainda não salvas. Gere, ouça e aprove o arquivo definitivo antes de encaminhar o artigo para revisão. A geração de teste não salva nem publica áudio.</p>
           <PrivateVoiceTest key={id} articleId={id} />
           <ArticleAudioApproval key={`definitivo-${id}`} articleId={id} />
           <Link href={`/admin/artigos/previa/${id}`} className="mt-3 inline-flex min-h-11 items-center rounded-lg border border-black/20 px-4 py-2 font-semibold">Ver prévia completa</Link>
