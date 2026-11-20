@@ -61,7 +61,7 @@ export default function VerificarContatosPoliticos() {
     <div className="mb-6 rounded-xl border border-black/10 bg-white p-5">
       <h2 className="text-lg font-bold">Verificar acesso às fontes oficiais</h2>
       <p className="mt-2 text-sm text-black/70">O diagnóstico consulta as bases da Câmara e do Senado e as orientações institucionais da Presidência da República. Não envia recados.</p>
-      <button type="button" onClick={() => void verificarFontes()} disabled={diagnosticando} className="mt-3 rounded-lg bg-[#075cf0] px-5 py-3 font-semibold text-white disabled:opacity-50">{diagnosticando ? "Verificando fontes..." : "Testar conexões oficiais"}</button>
+      <button type="button" onClick={() => void verificarFontes()} disabled={diagnosticando} className="mt-3 rounded-lg bg-[#075cf0] px-5 py-3 font-semibold text-white disabled:opacity-50">{diagnosticando ? "Verificando fontes..." : "Verificar fontes oficiais"}</button>
       {erroDiagnostico && <p role="alert" className="mt-3 text-sm text-red-700">{erroDiagnostico}</p>}
       {diagnostico && <div role="status" className="mt-4 space-y-2">
         {diagnostico.fontes.map(fonte => <div key={fonte.nome} className="rounded-lg border border-slate-200 p-3 text-sm">
@@ -72,7 +72,7 @@ export default function VerificarContatosPoliticos() {
         <p className="text-xs leading-5 text-black/60">{diagnostico.observacao}</p>
       </div>}
     </div>
-    <p className="text-sm leading-6 text-black/70">Busque uma candidatura e confronte os dados com os cadastros oficiais. A busca de candidatos presidenciais não confirma, por si só, quem está exercendo a Presidência. A consulta é somente informativa: nenhum contato é aprovado ou mensagem enviada automaticamente.</p>
+    <p className="text-sm leading-6 text-black/70">Busque um político e consulte as informações institucionais disponíveis. Para deputados e senadores, o sistema confronta dados com o cadastro de parlamentares em exercício. Para a Presidência, apresenta os canais oficiais de atendimento, que exigem conferência manual. A consulta é somente informativa: nenhum contato é aprovado ou mensagem enviada automaticamente.</p>
     <form onSubmit={e => void buscar(e)} className="mt-5 flex flex-wrap gap-3">
       <label className="min-w-56 flex-1 text-sm font-semibold">Nome do político
         <input value={nome} onChange={e => setNome(e.target.value)} className="mt-2 block w-full rounded-lg border border-slate-400 bg-white px-4 py-3 text-base text-black" placeholder="Digite o nome" minLength={2} required />
