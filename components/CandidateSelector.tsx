@@ -298,7 +298,7 @@ function CandidateBrowseSelector() {
             }}
             placeholder="Nome do candidato"
             autoComplete="off"
-            className="min-h-12 w-full border border-black/20 bg-white px-3 text-sm outline-none transition placeholder:text-black/50 focus:border-black"
+            className="min-h-12 w-full border border-black/20 bg-white px-3 text-sm text-black caret-black outline-none transition placeholder:text-black/50 focus:border-black"
           />
         </div>
 
@@ -320,7 +320,7 @@ function CandidateBrowseSelector() {
             }}
             placeholder="Partido"
             autoComplete="off"
-            className="min-h-12 w-full border border-black/20 bg-white px-3 text-sm outline-none transition placeholder:text-black/50 focus:border-black"
+            className="min-h-12 w-full border border-black/20 bg-white px-3 text-sm text-black caret-black outline-none transition placeholder:text-black/50 focus:border-black"
           />
         </div>
 
@@ -343,7 +343,7 @@ function CandidateBrowseSelector() {
             }}
             placeholder="Número"
             autoComplete="off"
-            className="min-h-12 w-full border border-black/20 bg-white px-3 text-sm outline-none transition placeholder:text-black/50 focus:border-black"
+            className="min-h-12 w-full border border-black/20 bg-white px-3 text-sm text-black caret-black outline-none transition placeholder:text-black/50 focus:border-black"
           />
         </div>
       </div>
@@ -820,7 +820,7 @@ function CandidateFollowSelector({
             }
             placeholder="Digite um nome"
             autoComplete="off"
-            className="min-h-14 w-full rounded-2xl border border-black/20 bg-white py-3 pl-12 pr-4 text-base outline-none placeholder:text-black/40 focus:border-black focus:ring-2 focus:ring-[#FFC400]"
+            className="min-h-14 w-full rounded-2xl border border-black/20 bg-white py-3 pl-12 pr-4 text-base text-black caret-black outline-none placeholder:text-black/40 focus:border-black focus:ring-2 focus:ring-[#FFC400]"
           />
         </div>
 
