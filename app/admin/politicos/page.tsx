@@ -34,6 +34,7 @@ export default async function AdminPoliticosPage() {
         <p className="text-xs font-semibold uppercase tracking-widest text-black/50">Área administrativa</p>
         <h1 className="mt-3 text-3xl font-bold">Políticos acompanhados</h1>
         <p className="mt-4 leading-7 text-black/65">Consulta histórica dos acompanhamentos registrados no Telegram. Estes totais não medem os participantes atuais do WhatsApp. Os nomes vêm da base eleitoral do projeto.</p>
+        <Link href="/admin/politicos/contatos" className="mt-6 inline-flex min-h-12 items-center rounded-lg bg-[#075cf0] px-5 py-3 font-semibold text-white">Verificar contatos oficiais de parlamentares</Link>
         {rows === null ? (
           <p className="mt-8 rounded-lg bg-white p-5">Não foi possível consultar os acompanhamentos agora.</p>
         ) : rows.length === 0 ? (
