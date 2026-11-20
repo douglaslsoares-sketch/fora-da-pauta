@@ -9,7 +9,7 @@ type Resultado = {
   fonteUrl?: string | null; conferencia?: string; motivo?: string;
   envioHabilitado: false;
 };
-type Diagnostico = { fontes: { nome: string; ok: boolean; mensagem: string; consultadaEm: string }[]; observacao: string };
+type Diagnostico = { fontes: { nome: string; ok: boolean; mensagem: string; consultadaEm: string; tipo?: "api" | "pagina"; canais?: { titulo: string; url: string }[] }[]; observacao: string };
 type Consulta = { candidatura: { id: string; nomeUrna: string; nomeCompleto: string; uf: string; cargo: string }; resultado: Resultado; consultadoEm: string };
 
 export default function VerificarContatosPoliticos() {
@@ -31,7 +31,7 @@ export default function VerificarContatosPoliticos() {
       const r = await fetch("/api/candidatos/buscar?" + new URLSearchParams({ q: nome.trim(), pagina: "1" }), { cache: "no-store" });
       const data = await r.json() as { resultados?: Candidato[]; erro?: string };
       if (!r.ok) throw new Error(data.erro || "Busca indisponível.");
-      setCandidatos((data.resultados || []).filter(p => p.cargo === "deputado-federal" || p.cargo === "senador").slice(0, 30));
+      setCandidatos((data.resultados || []).filter(p => p.cargo === "deputado-federal" || p.cargo === "senador" || p.cargo === "presidente").slice(0, 30));
     } catch (e) { setErro(e instanceof Error ? e.message : "Não foi possível buscar."); }
     finally { setBuscando(false); }
   }
@@ -60,18 +60,19 @@ export default function VerificarContatosPoliticos() {
   return <section className="mt-6">
     <div className="mb-6 rounded-xl border border-black/10 bg-white p-5">
       <h2 className="text-lg font-bold">Verificar acesso às fontes oficiais</h2>
-      <p className="mt-2 text-sm text-black/70">Este diagnóstico consulta apenas o funcionamento das bases da Câmara e do Senado. Não envia recados.</p>
+      <p className="mt-2 text-sm text-black/70">O diagnóstico consulta as bases da Câmara e do Senado e as orientações institucionais da Presidência da República. Não envia recados.</p>
       <button type="button" onClick={() => void verificarFontes()} disabled={diagnosticando} className="mt-3 rounded-lg bg-[#075cf0] px-5 py-3 font-semibold text-white disabled:opacity-50">{diagnosticando ? "Verificando fontes..." : "Testar conexões oficiais"}</button>
       {erroDiagnostico && <p role="alert" className="mt-3 text-sm text-red-700">{erroDiagnostico}</p>}
       {diagnostico && <div role="status" className="mt-4 space-y-2">
         {diagnostico.fontes.map(fonte => <div key={fonte.nome} className="rounded-lg border border-slate-200 p-3 text-sm">
-          <p className="font-semibold">{fonte.nome}: {fonte.ok ? "Conexão confirmada" : "Verificação falhou"}</p>
+          <p className="font-semibold">{fonte.nome}: {fonte.ok ? (fonte.tipo === "pagina" ? "Orientações acessíveis" : "Conexão confirmada") : "Verificação não concluída"}</p>
           <p className="mt-1 text-black/70">{fonte.mensagem}</p>
+          {fonte.canais && <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">{fonte.canais.map(canal => <a key={canal.url} href={canal.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-700 underline underline-offset-4">{canal.titulo}</a>)}</div>}
         </div>)}
         <p className="text-xs leading-5 text-black/60">{diagnostico.observacao}</p>
       </div>}
     </div>
-    <p className="text-sm leading-6 text-black/70">Busque uma candidatura e confronte os dados com os cadastros oficiais de parlamentares em exercício. A consulta é somente informativa: nenhum contato é aprovado ou mensagem enviada automaticamente.</p>
+    <p className="text-sm leading-6 text-black/70">Busque uma candidatura e confronte os dados com os cadastros oficiais. A busca de candidatos presidenciais não confirma, por si só, quem está exercendo a Presidência. A consulta é somente informativa: nenhum contato é aprovado ou mensagem enviada automaticamente.</p>
     <form onSubmit={e => void buscar(e)} className="mt-5 flex flex-wrap gap-3">
       <label className="min-w-56 flex-1 text-sm font-semibold">Nome do político
         <input value={nome} onChange={e => setNome(e.target.value)} className="mt-2 block w-full rounded-lg border border-slate-400 bg-white px-4 py-3 text-base text-black" placeholder="Digite o nome" minLength={2} required />
