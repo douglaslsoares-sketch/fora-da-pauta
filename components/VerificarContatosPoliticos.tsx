@@ -9,7 +9,7 @@ type Resultado = {
   fonteUrl?: string | null; conferencia?: string; motivo?: string;
   envioHabilitado: false;
 };
-type Diagnostico = { fontes: { nome: string; ok: boolean; mensagem: string; consultadaEm: string; tipo?: "api" | "pagina"; canais?: { titulo: string; url: string }[] }[]; observacao: string };
+type Diagnostico = { fontes: { nome: string; ok: boolean; mensagem: string; consultadaEm: string; tipo?: "api" | "pagina"; verificacaoManual?: boolean; canais?: { titulo: string; url: string }[] }[]; observacao: string };
 type Consulta = { candidatura: { id: string; nomeUrna: string; nomeCompleto: string; uf: string; cargo: string }; resultado: Resultado; consultadoEm: string };
 
 export default function VerificarContatosPoliticos() {
@@ -65,7 +65,7 @@ export default function VerificarContatosPoliticos() {
       {erroDiagnostico && <p role="alert" className="mt-3 text-sm text-red-700">{erroDiagnostico}</p>}
       {diagnostico && <div role="status" className="mt-4 space-y-2">
         {diagnostico.fontes.map(fonte => <div key={fonte.nome} className="rounded-lg border border-slate-200 p-3 text-sm">
-          <p className="font-semibold">{fonte.nome}: {fonte.ok ? (fonte.tipo === "pagina" ? "Orientações acessíveis" : "Conexão confirmada") : "Verificação não concluída"}</p>
+          <p className="font-semibold">{fonte.nome}: {fonte.verificacaoManual ? (fonte.ok ? "Orientações acessíveis — canal exige conferência manual" : "Conferência manual necessária") : fonte.ok ? "Conexão confirmada" : "Verificação não concluída"}</p>
           <p className="mt-1 text-black/70">{fonte.mensagem}</p>
           {fonte.canais && <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">{fonte.canais.map(canal => <a key={canal.url} href={canal.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-700 underline underline-offset-4">{canal.titulo}</a>)}</div>}
         </div>)}
