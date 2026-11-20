@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CabecalhoInterno } from "@/components/CabecalhoInterno";
 import type { Metadata } from "next";
 import { sql } from "@/lib/interesses/db";
 export const dynamic = "force-dynamic";
@@ -14,15 +15,15 @@ export default async function EdicoesPublicadas() {
     error = true;
   }
   return (
-    <main className="min-h-[calc(100svh-58px)] bg-white px-6 py-10 text-black">
+    <main className="min-h-[calc(100svh-58px)] bg-[#141c2b] px-6 py-8 text-white">
       <section className="mx-auto max-w-[720px]">
-        <h1 className="text-2xl font-bold">Edições publicadas</h1>
+        <CabecalhoInterno titulo="Publicações" />
         {error ? <p className="mt-5 leading-7">Não foi possível consultar as edições agora. Tente novamente mais tarde.</p> : artigos.length === 0 ? <p className="mt-5 leading-7">Novas análises em preparação. O Fora da Pauta investiga acontecimentos, apresenta fontes e explica seus impactos na vida das pessoas.</p> : (
           <div className="mt-7 space-y-4">{artigos.map(artigo => (
-            <article key={artigo.id} className="rounded-lg border border-black/15 p-5">
+            <article key={artigo.id} className="rounded-xl border border-[#344760] bg-[#24334b] p-5">
               <h2 className="text-xl font-bold">{artigo.titulo}</h2>
               {artigo.resumo && <p className="mt-2 leading-7">{artigo.resumo}</p>}
-              <Link className="mt-4 inline-flex min-h-11 items-center rounded-lg bg-black px-5 py-2 font-semibold text-white" href={`/edicoes/${artigo.id}`}>Ler artigo</Link>
+              <Link className="mt-4 inline-flex min-h-11 items-center rounded-lg bg-[#075cf0] px-5 py-2 font-semibold text-white" href={`/edicoes/${artigo.id}`}>Ler artigo</Link>
             </article>
           ))}</div>
         )}
