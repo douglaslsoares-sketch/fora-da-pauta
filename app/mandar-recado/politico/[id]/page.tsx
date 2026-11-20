@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     : pessoa?.cargo === "senador"
       ? { href: "https://www25.senado.leg.br/web/senadores/em-exercicio/", titulo: "Consultar senadores em exercício e seus contatos" }
       : pessoa?.cargo === "presidente"
-        ? { href: "https://falabr.cgu.gov.br/v2/", titulo: "Consultar o Fala.BR — ouvidoria federal" }
+        ? { href: "https://falepr.presidencia.gov.br/index.php?idioma=br", titulo: "Fale com o Presidente — consultar canal oficial" }
         : null;
   return <main className="min-h-screen bg-[#141c2b] px-5 pb-24 pt-4 text-white">
     <section className="mx-auto max-w-xl">
@@ -48,7 +48,12 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                 className="mt-3 inline-flex min-h-11 items-center rounded-lg border border-[#f4c542] px-4 py-2 text-sm font-semibold text-white underline underline-offset-4 hover:bg-[#344760] focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">
                 {canalInstitucional.titulo}
               </a>
-              {pessoa.cargo === "presidente" ? <p className="mt-2 text-xs leading-relaxed text-slate-300">O Fala.BR recebe manifestações para órgãos federais; não é contato direto com o Presidente.</p> : null}
+              {pessoa.cargo === "presidente" ? (
+                <div className="mt-3 text-xs leading-relaxed text-slate-300">
+                  <p>O portal Fale com o Presidente informa indisponibilidade temporária e oferece um formulário alternativo. Consulte o aviso oficial antes de utilizar o canal.</p>
+                  <p className="mt-2">Para manifestações aos órgãos da Presidência, existe também a <a href="https://falabr.cgu.gov.br/" target="_blank" rel="noopener noreferrer" className="font-semibold text-yellow-200 underline">Ouvidoria pelo Fala.BR</a>, que não equivale ao contato direto com o presidente.</p>
+                </div>
+              ) : null}
             </aside>
           ) : null}
           <RecadoPoliticoFormulario />
