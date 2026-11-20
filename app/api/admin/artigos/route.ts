@@ -74,6 +74,8 @@ export async function POST(request: Request) {
         RETURNING id::text
       `;
       if (!rows.length) return reply({ erro: "Rascunho não encontrado ou indisponível para edição." }, 404);
+      await sql`CREATE TABLE IF NOT EXISTS public.admin_artigos_audio (artigo_id uuid PRIMARY KEY REFERENCES public.admin_artigos(id) ON DELETE CASCADE, audio bytea NOT NULL, aprovado boolean NOT NULL DEFAULT false, gerado_em timestamptz NOT NULL DEFAULT now(), aprovado_em timestamptz)`;
+      await sql`UPDATE public.admin_artigos_audio SET aprovado = false, aprovado_em = null WHERE artigo_id = ${id}::uuid`;
       return reply({ ok: true, id: rows[0].id });
     }
     const rows = await sql<{ id: string }[]>`
