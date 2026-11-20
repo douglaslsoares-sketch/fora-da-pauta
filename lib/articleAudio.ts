@@ -10,4 +10,5 @@ export async function ensureArticleAudioTable() {
       aprovado_em timestamptz
     )
   `;
+  await sql`ALTER TABLE public.admin_artigos_audio ADD COLUMN IF NOT EXISTS formato text NOT NULL DEFAULT 'audio/mpeg'`;
 }
