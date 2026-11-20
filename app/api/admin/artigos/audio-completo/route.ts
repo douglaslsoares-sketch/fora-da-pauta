@@ -8,7 +8,7 @@ import { consumeRateLimit } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-export const maxDuration = 60;
+export const maxDuration = 300;
 const reply = (erro: string, status: number) => NextResponse.json({ erro }, { status, headers: { "Cache-Control": "no-store" } });
 async function authorized() {
   const store = await cookies();
