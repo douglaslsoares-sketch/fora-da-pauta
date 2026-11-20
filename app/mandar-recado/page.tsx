@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CabecalhoInterno } from "@/components/CabecalhoInterno";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Mandar um recado | Fora da Pauta" };
@@ -7,7 +8,7 @@ export default function MandarRecado() {
   const card = "block rounded-xl border border-[#344760] bg-[#24334b] p-5 text-left text-white";
   return <main className="min-h-screen bg-[#141c2b] pb-20 text-white">
     <section className="mx-auto w-full max-w-xl px-5 pt-3">
-      <h1 className="text-center text-2xl font-extrabold">Mandar um recado</h1>
+      <CabecalhoInterno titulo="Mandar um recado" />
       <p className="mb-7 mt-2 text-center text-slate-300">Com quem você quer conversar?</p>
       <nav aria-label="Escolher destinatário" className="space-y-3">
         <Link href="/mandar-recado/politico" className={card+" hover:border-[#f4c542] focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400"}>
