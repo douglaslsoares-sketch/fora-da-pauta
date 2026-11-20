@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { sql } from "@/lib/interesses/db";
 import { ensureArticleAudioTable } from "@/lib/articleAudio";
+import { splitNarration, combinePcmToWav } from "@/lib/narrationWav";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 import { consumeRateLimit } from "@/lib/rateLimit";
 
@@ -51,19 +52,26 @@ export async function POST(request: Request) {
     const article = rows[0];
     if (!article || article.status !== "rascunho") return reply("Somente rascunhos podem gerar narração.", 409);
     const script = [article.titulo, article.resumo, article.conteudo].filter(Boolean).join("\n\n");
-    if (!script.trim() || script.length > 4000) return reply("A geração definitiva nesta etapa aceita até 4.000 caracteres. Para textos maiores, será necessário processamento em partes.", 400);
+    if (!script.trim() || script.length > 14000) return reply("A geração aceita textos de até 14.000 caracteres nesta etapa.", 400);
+    const chunks = splitNarration(script);
+    if (chunks.length > 4) return reply("O texto exige muitas partes para esta geração. Reduza-o.", 400);
     const key = process.env.OPENAI_API_KEY;
     if (!key) return reply("Serviço de voz não configurado.", 503);
-    const response = await fetch("https://api.openai.com/v1/audio/speech", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ model: "gpt-4o-mini-tts", voice: "marin", input: script, response_format: "mp3",
-        instructions: "Leia em português brasileiro, com voz feminina natural e conversacional, respeitando a entonação de perguntas e pausas suaves entre parágrafos. Mantenha um timbre uniforme." }),
-      signal: AbortSignal.timeout(50000)
-    });
-    if (!response.ok) return reply("O serviço não conseguiu gerar o áudio.", 502);
-    const bytes = new Uint8Array(await response.arrayBuffer());
-    if (!bytes.length || bytes.length > 8_000_000) return reply("Arquivo de áudio excedeu o limite permitido.", 502);
+    const pcmChunks: Uint8Array[] = [];
+    for (const part of chunks) {
+      const response = await fetch("https://api.openai.com/v1/audio/speech", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ model: "gpt-4o-mini-tts", voice: "marin", input: part, response_format: "pcm",
+          instructions: "Leia em português brasileiro, com voz feminina natural e conversacional, respeitando a entonação de perguntas e pausas suaves entre parágrafos. Mantenha um timbre uniforme." }),
+        signal: AbortSignal.timeout(45000)
+      });
+      if (!response.ok) return reply("Falha ao gerar um trecho do áudio. Nenhuma gravação foi substituída.", 502);
+      const pcm = new Uint8Array(await response.arrayBuffer());
+      if (!pcm.length || pcm.length % 2 !== 0) return reply("Trecho de áudio inválido.", 502);
+      pcmChunks.push(pcm);
+    }
+    const bytes = combinePcmToWav(pcmChunks);
     const hex = Buffer.from(bytes).toString("hex");
     const current = await sql<{ titulo: string; resumo: string; conteudo: string; status: string }[]>`
       SELECT titulo, resumo, conteudo, status FROM public.admin_artigos WHERE id = ${id}::uuid LIMIT 1
@@ -72,9 +80,9 @@ export async function POST(request: Request) {
     if (!latest || latest.status !== "rascunho" || [latest.titulo, latest.resumo, latest.conteudo].filter(Boolean).join("\n\n") !== script)
       return reply("O artigo mudou durante a geração. Salve e gere novamente.", 409);
     await sql`
-      INSERT INTO public.admin_artigos_audio (artigo_id, audio, aprovado, aprovado_em)
-      VALUES (${id}::uuid, decode(${hex}, 'hex'), false, null)
-      ON CONFLICT (artigo_id) DO UPDATE SET audio = EXCLUDED.audio, aprovado = false, aprovado_em = null, gerado_em = now()
+      INSERT INTO public.admin_artigos_audio (artigo_id, audio, aprovado, aprovado_em, formato)
+      VALUES (${id}::uuid, decode(${hex}, 'hex'), false, null, 'audio/wav')
+      ON CONFLICT (artigo_id) DO UPDATE SET audio = EXCLUDED.audio, formato = EXCLUDED.formato, aprovado = false, aprovado_em = null, gerado_em = now()
     `;
     return NextResponse.json({ ok: true, aprovado: false }, { headers: { "Cache-Control": "no-store" } });
   } catch { return reply("Falha ao processar a narração.", 503); }
