@@ -9,6 +9,7 @@ type Resultado = {
   fonteUrl?: string | null; conferencia?: string; motivo?: string;
   envioHabilitado: false;
 };
+type Diagnostico = { fontes: { nome: string; ok: boolean; mensagem: string; consultadaEm: string }[]; observacao: string };
 type Consulta = { candidatura: { id: string; nomeUrna: string; nomeCompleto: string; uf: string; cargo: string }; resultado: Resultado; consultadoEm: string };
 
 export default function VerificarContatosPoliticos() {
@@ -19,6 +20,9 @@ export default function VerificarContatosPoliticos() {
   const [consulta, setConsulta] = useState<Consulta | null>(null);
   const [erro, setErro] = useState("");
   const [erroContato, setErroContato] = useState<{ id: string; mensagem: string } | null>(null);
+  const [diagnostico, setDiagnostico] = useState<Diagnostico | null>(null);
+  const [diagnosticando, setDiagnosticando] = useState(false);
+  const [erroDiagnostico, setErroDiagnostico] = useState("");
   async function buscar(e: React.FormEvent) {
     e.preventDefault();
     if (nome.trim().length < 2 || buscando) return;
@@ -42,7 +46,31 @@ export default function VerificarContatosPoliticos() {
     } catch (e) { setErroContato({ id, mensagem: e instanceof Error ? e.message : "Não foi possível consultar." }); }
     finally { setConsultando(""); }
   }
+  async function verificarFontes() {
+    if (diagnosticando) return;
+    setDiagnosticando(true); setErroDiagnostico(""); setDiagnostico(null);
+    try {
+      const resposta = await fetch("/api/admin/contatos-politicos/diagnostico", { cache: "no-store" });
+      const dados = await resposta.json() as Diagnostico & { erro?: string };
+      if (!resposta.ok) throw new Error(dados.erro || "Não foi possível verificar as fontes.");
+      setDiagnostico(dados);
+    } catch (e) { setErroDiagnostico(e instanceof Error ? e.message : "Falha na verificação."); }
+    finally { setDiagnosticando(false); }
+  }
   return <section className="mt-6">
+    <div className="mb-6 rounded-xl border border-black/10 bg-white p-5">
+      <h2 className="text-lg font-bold">Verificar acesso às fontes oficiais</h2>
+      <p className="mt-2 text-sm text-black/70">Este diagnóstico consulta apenas o funcionamento das bases da Câmara e do Senado. Não envia recados.</p>
+      <button type="button" onClick={() => void verificarFontes()} disabled={diagnosticando} className="mt-3 rounded-lg bg-[#075cf0] px-5 py-3 font-semibold text-white disabled:opacity-50">{diagnosticando ? "Verificando fontes..." : "Testar conexões oficiais"}</button>
+      {erroDiagnostico && <p role="alert" className="mt-3 text-sm text-red-700">{erroDiagnostico}</p>}
+      {diagnostico && <div role="status" className="mt-4 space-y-2">
+        {diagnostico.fontes.map(fonte => <div key={fonte.nome} className="rounded-lg border border-slate-200 p-3 text-sm">
+          <p className="font-semibold">{fonte.nome}: {fonte.ok ? "Conexão confirmada" : "Verificação falhou"}</p>
+          <p className="mt-1 text-black/70">{fonte.mensagem}</p>
+        </div>)}
+        <p className="text-xs leading-5 text-black/60">{diagnostico.observacao}</p>
+      </div>}
+    </div>
     <p className="text-sm leading-6 text-black/70">Busque uma candidatura e confronte os dados com os cadastros oficiais de parlamentares em exercício. A consulta é somente informativa: nenhum contato é aprovado ou mensagem enviada automaticamente.</p>
     <form onSubmit={e => void buscar(e)} className="mt-5 flex flex-wrap gap-3">
       <label className="min-w-56 flex-1 text-sm font-semibold">Nome do político
