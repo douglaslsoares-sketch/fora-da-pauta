@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-type Candidato = { id: string; nomeUrna: string; nomeCompleto: string; cargoLabel: string; uf: string; siglaPartido: string };
+type Candidato = { id: string; nomeUrna: string; nomeCompleto: string; cargo: string; cargoLabel: string; uf: string; siglaPartido: string };
 type Resultado = {
   situacao: "encontrado" | "pendente" | "indisponivel" | "nao_aplicavel";
   casa?: string; nomeOficial?: string; emailInstitucional?: string;
@@ -26,7 +26,7 @@ export default function VerificarContatosPoliticos() {
       const r = await fetch("/api/candidatos/buscar?" + new URLSearchParams({ q: nome.trim(), pagina: "1" }), { cache: "no-store" });
       const data = await r.json() as { resultados?: Candidato[]; erro?: string };
       if (!r.ok) throw new Error(data.erro || "Busca indisponível.");
-      setCandidatos((data.resultados || []).filter(p => ["deputado-federal", "senador"].includes(p.cargoLabel === "Senador" ? "senador" : p.cargoLabel === "Deputado federal" ? "deputado-federal" : "")).slice(0, 30));
+      setCandidatos((data.resultados || []).filter(p => p.cargo === "deputado-federal" || p.cargo === "senador").slice(0, 30));
     } catch (e) { setErro(e instanceof Error ? e.message : "Não foi possível buscar."); }
     finally { setBuscando(false); }
   }
