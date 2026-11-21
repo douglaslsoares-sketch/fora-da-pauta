@@ -11,6 +11,7 @@ type Resultado = {
 };
 type Diagnostico = { fontes: { nome: string; ok: boolean; mensagem: string; consultadaEm: string; tipo?: "api" | "pagina"; verificacaoManual?: boolean; canais?: { titulo: string; url: string }[] }[]; observacao: string };
 type Revisao = { registro: { candidatura_id: string; nome_civil: string; instituicao: string; email_institucional: string; fonte_url: string; status: "revisado" | "revogado"; revisado_em: string; expira_em: string; revogado_em: string | null } | null; vigente: boolean; envioHabilitado: false; mensagem?: string };
+type DominioResend = { dominio: string; situacao: string; statusResend?: string; dominioVerificadoNoResend?: boolean; mensagem: string; consultadoEm: string; envioHabilitado: false };
 type Prontidao = { configuracaoTransporte?: { chaveResendConfigurada: boolean; remetenteConfigurado: boolean }; revisaoVigente: boolean; consultaFonteConcluida: boolean; contatoIgualAoAtual: boolean; credenciaisEnvioPresentes: boolean; prontoParaTesteDeTransporte: boolean; envioHabilitado: false; mensagem: string; consultadoEm: string };
 type Consulta = { contextoMandato?: { titulo: string; explicacao: string; fontePosse: string; cargoAtual?: string; fonteCargoAtual?: string } | null; candidatura: { id: string; nomeUrna: string; nomeCompleto: string; uf: string; cargo: string }; resultado: Resultado; consultadoEm: string };
 
@@ -31,6 +32,9 @@ export default function VerificarContatosPoliticos() {
   const [prontidao, setProntidao] = useState<Prontidao | null>(null);
   const [testandoProntidao, setTestandoProntidao] = useState(false);
   const [erroProntidao, setErroProntidao] = useState("");
+  const [dominioResend, setDominioResend] = useState<DominioResend | null>(null);
+  const [consultandoDominio, setConsultandoDominio] = useState(false);
+  const [erroDominio, setErroDominio] = useState("");
   async function buscar(e: React.FormEvent) {
     e.preventDefault();
     if (nome.trim().length < 2 || buscando) return;
@@ -101,6 +105,18 @@ export default function VerificarContatosPoliticos() {
     } catch(e) { setErroProntidao(e instanceof Error ? e.message : "Falha no teste."); }
     finally { setTestandoProntidao(false); }
   }
+  async function verificarDominioResend() {
+    if (consultandoDominio) return;
+    setConsultandoDominio(true); setDominioResend(null); setErroDominio("");
+    try {
+      const resposta = await fetch("/api/admin/contatos-politicos/dominio-resend", { cache: "no-store" });
+      const dados = await resposta.json() as DominioResend & { erro?: string };
+      if (!resposta.ok) throw new Error(dados.erro || dados.mensagem || "Não foi possível consultar o Resend.");
+      setDominioResend(dados);
+    } catch (erro) {
+      setErroDominio(erro instanceof Error ? erro.message : "Não foi possível consultar o domínio.");
+    } finally { setConsultandoDominio(false); }
+  }
   async function verificarFontes() {
     if (diagnosticando) return;
     setDiagnosticando(true); setErroDiagnostico(""); setDiagnostico(null);
@@ -125,6 +141,25 @@ export default function VerificarContatosPoliticos() {
           {fonte.canais && <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">{fonte.canais.map(canal => <a key={canal.url} href={canal.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-700 underline underline-offset-4">{canal.titulo}</a>)}</div>}
         </div>)}
         <p className="text-xs leading-5 text-black/60">{diagnostico.observacao}</p>
+      </div>}
+    </div>
+    <div className="mb-6 rounded-xl border border-black/10 bg-white p-5">
+      <h2 className="text-lg font-bold">Domínio de e-mail no Resend</h2>
+      <p className="mt-2 text-sm text-black/70">Consulta o status de foradapauta.org diretamente no provedor, sem revelar chaves e sem enviar e-mails. Esta verificação é diferente da validação do domínio na Vercel.</p>
+      <button type="button" onClick={() => void verificarDominioResend()} disabled={consultandoDominio}
+        className="mt-3 rounded-lg border border-blue-700 px-5 py-3 font-semibold text-blue-800 disabled:opacity-50">
+        {consultandoDominio ? "Consultando Resend..." : "Consultar domínio no Resend"}
+      </button>
+      {erroDominio && <p role="alert" className="mt-3 text-sm text-red-700">{erroDominio}</p>}
+      {dominioResend && <div role="status" aria-live="polite" className="mt-4 rounded-lg border border-slate-200 p-4 text-sm">
+        <p><strong>Domínio:</strong> {dominioResend.dominio}</p>
+        <p className="mt-1"><strong>Situação:</strong> {dominioResend.situacao === "nao_configurado" ? "Chave Resend ausente neste ambiente" :
+          dominioResend.situacao === "dominio_nao_encontrado" ? "Domínio não encontrado na conta consultada" :
+          dominioResend.situacao === "encontrado" ? (dominioResend.statusResend === "verified" ? "Verificado no Resend" : "Resend: " + (dominioResend.statusResend || "status desconhecido")) :
+          "Consulta inconclusiva (" + dominioResend.situacao + ")"}</p>
+        <p className="mt-2 text-black/70">{dominioResend.mensagem}</p>
+        <p className="mt-2 font-bold text-red-700">Envio bloqueado, mesmo que o domínio esteja verificado.</p>
+        <p className="mt-1 text-xs text-black/55">Conferido em {new Date(dominioResend.consultadoEm).toLocaleString("pt-BR")}.</p>
       </div>}
     </div>
     <p className="text-sm leading-6 text-black/70">Busque um político e consulte as informações institucionais disponíveis. Para deputados e senadores, o sistema confronta dados com o cadastro de parlamentares em exercício. Para a Presidência, apresenta os canais oficiais de atendimento, que exigem conferência manual. A consulta é somente informativa: nenhum contato é aprovado ou mensagem enviada automaticamente.</p>
