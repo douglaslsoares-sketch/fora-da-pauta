@@ -194,7 +194,7 @@ export default function VerificarContatosPoliticos() {
             <p>Configurações básicas de e-mail presentes: <strong>{prontidao.credenciaisEnvioPresentes ? "Sim" : "Não"}</strong></p>
             <p className="mt-2 font-bold text-red-700">Envio bloqueado. Nenhuma mensagem foi enviada.</p>
           </div>}
-        </div>}
+        </div>
       </div>}
       {consulta.resultado.fonteUrl && <a href={consulta.resultado.fonteUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block font-semibold text-blue-700 underline">Consultar fonte institucional</a>}
       <p className="mt-4 border-t pt-3 text-sm font-bold text-red-700">Envio bloqueado. Nenhuma mensagem foi enviada.</p>
