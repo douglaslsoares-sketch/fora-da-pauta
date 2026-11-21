@@ -11,7 +11,7 @@ type Resultado = {
 };
 type Diagnostico = { fontes: { nome: string; ok: boolean; mensagem: string; consultadaEm: string; tipo?: "api" | "pagina"; verificacaoManual?: boolean; canais?: { titulo: string; url: string }[] }[]; observacao: string };
 type Revisao = { registro: { candidatura_id: string; nome_civil: string; instituicao: string; email_institucional: string; fonte_url: string; status: "revisado" | "revogado"; revisado_em: string; expira_em: string; revogado_em: string | null } | null; vigente: boolean; envioHabilitado: false; mensagem?: string };
-type Prontidao = { revisaoVigente: boolean; consultaFonteConcluida: boolean; contatoIgualAoAtual: boolean; credenciaisEnvioPresentes: boolean; prontoParaTesteDeTransporte: boolean; envioHabilitado: false; mensagem: string; consultadoEm: string };
+type Prontidao = { configuracaoTransporte?: { chaveResendConfigurada: boolean; remetenteConfigurado: boolean }; revisaoVigente: boolean; consultaFonteConcluida: boolean; contatoIgualAoAtual: boolean; credenciaisEnvioPresentes: boolean; prontoParaTesteDeTransporte: boolean; envioHabilitado: false; mensagem: string; consultadoEm: string };
 type Consulta = { contextoMandato?: { titulo: string; explicacao: string; fontePosse: string; cargoAtual?: string; fonteCargoAtual?: string } | null; candidatura: { id: string; nomeUrna: string; nomeCompleto: string; uf: string; cargo: string }; resultado: Resultado; consultadoEm: string };
 
 export default function VerificarContatosPoliticos() {
@@ -192,6 +192,11 @@ export default function VerificarContatosPoliticos() {
             <p>Consulta oficial concluída: <strong>{prontidao.consultaFonteConcluida ? "Sim" : "Não"}</strong></p>
             <p>Contato ainda corresponde à fonte: <strong>{prontidao.contatoIgualAoAtual ? "Sim" : "Não"}</strong></p>
             <p>Configurações básicas de e-mail presentes: <strong>{prontidao.credenciaisEnvioPresentes ? "Sim" : "Não"}</strong></p>
+            {prontidao.configuracaoTransporte && <>
+              <p className="ml-3 text-sm">Chave do provedor configurada: <strong>{prontidao.configuracaoTransporte.chaveResendConfigurada ? "Sim" : "Não"}</strong></p>
+              <p className="ml-3 text-sm">Endereço remetente configurado: <strong>{prontidao.configuracaoTransporte.remetenteConfigurado ? "Sim" : "Não"}</strong></p>
+            </>}
+            <p className="mt-2 text-xs text-slate-700">Este diagnóstico verifica apenas a presença das configurações. Não confirma a autorização do domínio ou a entrega de mensagens.</p>
             <p className="mt-2 font-bold text-red-700">Envio bloqueado. Nenhuma mensagem foi enviada.</p>
           </div>}
         </div>
