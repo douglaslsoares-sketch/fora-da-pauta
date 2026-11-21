@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PrepararEditorial from "@/components/AdminPrepararEditorial";
+import AdminResendDomainStatus from "@/components/AdminResendDomainStatus";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
@@ -36,6 +37,7 @@ export default async function AdminConfiguracoes() {
     { nome: "Banco de dados", situacao: database === "disponivel" ? "Conexão disponível" : "Não foi possível confirmar a conexão", descricao: "Usado por artigos, inscrições e preferências." },
     { nome: "Estrutura editorial", situacao: editorial, descricao: "Confere a existência das tabelas de artigos e histórico sem alterar dados." },
     { nome: "Integração legada do Telegram", situacao: process.env.TELEGRAM_BOT_TOKEN ? "Credencial antiga presente" : "Sem credencial antiga", descricao: "Canal anterior do projeto; esta verificação não mede o funcionamento do WhatsApp." },
+    { nome: "Resend — transporte de e-mail", situacao: process.env.RESEND_API_KEY?.trim() ? "Chave presente neste ambiente" : "Chave ausente neste ambiente", descricao: "A presença da chave não comprova que o domínio esteja verificado no Resend." },
     { nome: "Acesso administrativo", situacao: "Sessão autenticada", descricao: "Acesso restrito à área administrativa." },
     { nome: "Notificações gerais", situacao: "Envio pelo painel desativado", descricao: "Nenhuma mensagem geral pode ser disparada por este painel nesta etapa." },
     { nome: "Publicação de artigos", situacao: "Controles implementados — testes pendentes", descricao: "Publicação e arquivamento exigem confirmação no painel." },
@@ -53,6 +55,7 @@ export default async function AdminConfiguracoes() {
               <h2 className="text-lg font-semibold">{check.nome}</h2>
               <p className="mt-2 font-medium">{check.situacao}</p>
               <p className="mt-2 text-sm leading-6 text-black/60">{check.descricao}</p>
+              {check.nome === "Resend — transporte de e-mail" && <AdminResendDomainStatus />}
             </section>
           ))}
         </div>
