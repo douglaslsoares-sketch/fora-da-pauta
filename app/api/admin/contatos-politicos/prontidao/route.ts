@@ -54,15 +54,16 @@ export async function GET(request: NextRequest) {
     }
     // Presença de configurações não comprova autorização do domínio no provedor.
     // Esta checagem não cria mensagens, não chama serviços de e-mail e nunca envia.
-    const credenciaisEnvioPresentes = !!(
-      process.env.RESEND_API_KEY && process.env.FDP_RECADOS_EMAIL_REMETENTE
-    );
+    const chaveResendConfigurada = !!process.env.RESEND_API_KEY?.trim();
+    const remetenteConfigurado = !!process.env.FDP_RECADOS_EMAIL_REMETENTE?.trim();
+    const credenciaisEnvioPresentes = chaveResendConfigurada && remetenteConfigurado;
     return NextResponse.json({
       pessoa: { nomeUrna: pessoa.nomeUrna, uf: pessoa.uf },
       revisaoVigente,
       consultaFonteConcluida,
       contatoIgualAoAtual,
       credenciaisEnvioPresentes,
+      configuracaoTransporte: { chaveResendConfigurada, remetenteConfigurado },
       prontoParaTesteDeTransporte: revisaoVigente && contatoIgualAoAtual && credenciaisEnvioPresentes,
       envioHabilitado: false,
       mensagem: "Simulação de prontidão: nenhuma mensagem foi criada, registrada para envio ou transmitida.",
