@@ -177,10 +177,11 @@ export default function VerificarContatosPoliticos() {
           {revisao?.registro?.status === "revisado" && <button type="button" disabled={processandoRevisao} onClick={() => void registrarRevisao(p.id, true)} className="rounded-lg border border-red-700 px-4 py-3 font-semibold text-red-800 disabled:opacity-50">Revogar revisão</button>}
         </div>
         {avisoRevisao && <p role="status" className="mt-3 font-medium">{avisoRevisao}</p>}
-        {revisao?.vigente && <div className="mt-4 border-t border-slate-300 pt-4">
+        <div className="mt-4 border-t border-slate-300 pt-4">
           <p className="font-bold">Teste de prontidão (sem envio)</p>
           <p className="mt-1 text-slate-700">Confere validade da revisão, dados atuais da fonte e presença de configurações de transporte. Não cria nem transmite recados.</p>
-          <button type="button" disabled={testandoProntidao || processandoRevisao}
+          {!revisao?.vigente && <p className="mt-2 text-amber-900">O teste fica disponível quando uma revisão válida for recuperada do cadastro.</p>}
+          <button type="button" disabled={!revisao?.vigente || testandoProntidao || processandoRevisao}
             onClick={() => void testarProntidao(p.id)}
             className="mt-3 rounded-lg border border-blue-700 px-4 py-3 font-semibold text-blue-800 disabled:opacity-50">
             {testandoProntidao ? "Verificando..." : "Testar prontidão sem enviar"}
