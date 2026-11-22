@@ -309,7 +309,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
           <section className={styles.dobraEditorial} id="conteudo" aria-labelledby="mensagem-principal">
             <div className={styles.dobraCentro}>
               <LogoForaDaPauta className={styles.logoQuatroDobras} />
-              <h1 id="mensagem-principal" className={styles.lemaQuatroDobras}>Há mais para entender.</h1>
+              <h1 id="mensagem-principal" className="sr-only">Fora da Pauta</h1>
             </div>
             <a href="#contextualizacao" className={styles.setaDobra} aria-label="Conheça nossa proposta">↓</a>
           </section>
