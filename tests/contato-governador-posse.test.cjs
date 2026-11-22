@@ -18,6 +18,7 @@ function criar(opts = {}) {
   const mod = { exports: {} };
   const urls = [];
   const deps = {
+    "server-only": {},
     "@/lib/eleicoes/acompanhamento-politico": {
       idsEleitosEm2026: new Set(opts.eleito === false ? [] : [pessoa.id]),
     },
