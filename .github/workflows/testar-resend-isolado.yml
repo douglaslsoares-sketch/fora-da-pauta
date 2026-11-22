@@ -8,6 +8,7 @@ on:
       - 'app/api/admin/contatos-politicos/prontidao/route.ts'
       - 'app/api/candidatos/buscar/route.ts'
       - 'components/VerificarContatosPoliticos.tsx'
+      - 'app/api/admin/contatos-politicos/mandato-senado/route.ts'
       - '.github/workflows/testar-resend-isolado.yml'
 permissions:
   contents: read
