@@ -8,7 +8,7 @@ export const imagemConfirmacaoTelegram = "https://www.foradapauta.org/telegram/c
 export const mensagemCompartilhamento = [
   "*FORA DA PAUTA*",
   "",
-  "O que existe por trás das notícias que chegam até nós?",
+  "O que há por trás de certas notícias?",
   "",
   "Leia, ouça e compartilhe nossas publicações.",
   "",
