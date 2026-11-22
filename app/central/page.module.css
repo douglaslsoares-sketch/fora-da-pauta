@@ -83,3 +83,29 @@
 /* Quarta dobra: logomarca oficial no cabeçalho, acima do título Menu. */
 .logoMenuOficial { display:block; width:min(78vw,320px); height:auto; max-width:100%; margin:0 auto 4px; }
 @media(max-width:600px) { .logoMenuOficial { width:min(72vw,260px); } }
+
+/* Home direta no menu: conteúdo editorial em primeiro lugar. */
+.tituloMenu { gap:0; margin-bottom:clamp(24px, 4vh, 38px); }
+.logoMenuOficial { width:min(80vw, 365px); margin:0 auto; }
+.menu a.principal { background:#075cf0; border-color:#2477ff; min-height:72px; }
+.menu a.principal .publicacoesDescricao { color:#f8e18d; }
+.menu a.seguirForaDaPauta {
+  display:flex; flex-direction:row; align-items:center; justify-content:flex-start;
+  gap:12px; min-height:72px; padding:12px 16px;
+  border-radius:13px; border:1px solid #27985a;
+  background:#168348; color:#fff; text-align:left;
+  text-decoration:none; font-weight:750; box-shadow:0 2px 5px #0002;
+}
+.menu a.seguirForaDaPauta:hover { background:#197b46; }
+.menu a.seguirForaDaPauta:focus-visible { outline:3px solid #ffd740; outline-offset:3px; }
+.menu a.seguirForaDaPauta .icone { color:#fff; }
+.seguirTitulo { font-size:19px; font-weight:800; line-height:1.3; }
+.seguirDescricao { color:#eefcf2; font-size:13px; font-weight:500; line-height:1.4; }
+.menu a.botao .escolherTitulo { font-size:18px; font-weight:750; line-height:1.3; }
+.menu a.botao .escolherDescricao { color:#d5dfed; font-size:12px; font-weight:500; line-height:1.4; }
+@media(max-width:600px) { .logoMenuOficial { width:min(78vw, 305px); } }
+@media(max-width:380px) {
+  .menu a.seguirForaDaPauta { padding:11px 12px; gap:9px; }
+  .seguirTitulo { font-size:17px; }
+  .seguirDescricao { font-size:12px; }
+}

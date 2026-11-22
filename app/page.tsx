@@ -1,7 +1,4 @@
 import { MenuPrincipal } from "@/components/MenuPrincipal";
-import { RetornoMenu } from "@/components/RetornoMenu";
-import { HomeAcessoTelegram } from "@/components/HomeAcessoTelegram";
-import { versaoEdicoes, versaoEntregas } from "@/lib/novidades-publicacoes";
 import type { Metadata } from "next";
 import styles from "./page.module.css";
 import { imagemCompartilhamento } from "@/lib/compartilhamento";
@@ -29,14 +26,10 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className={styles.page}>
-      <a className={styles.skipLink} href="#conteudo">
+      <a className={styles.skipLink} href="#menu">
         Ir para o conteúdo
       </a>
 
-      <div className={styles.watermark} aria-hidden="true" />
-
-      <RetornoMenu />
-      <HomeAcessoTelegram versaoEdicoes={versaoEdicoes} versaoEntregas={versaoEntregas} />
       <MenuPrincipal />
     </main>
   );
