@@ -1,0 +1,30 @@
+name: Validar participação no nome
+on:
+  pull_request:
+    paths:
+      - 'lib/participacaoNome.ts'
+      - 'app/api/participacao/nome/route.ts'
+      - 'app/api/admin/participacao-nome/route.ts'
+      - 'app/admin/participacao/page.tsx'
+      - 'app/sugira-um-nome/page.tsx'
+      - 'components/AdminParticipacaoNome.tsx'
+      - 'components/FormularioSugestaoNome.tsx'
+      - 'components/MenuPrincipal.tsx'
+      - 'components/AdminNavigation.tsx'
+      - 'components/SiteChromeRouter.tsx'
+      - 'tests/participacao-nome.test.cjs'
+      - '.github/workflows/validar-participacao-nome.yml'
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/participacao-nome.test.cjs
+      - run: npx tsc --noEmit

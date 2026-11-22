@@ -34,6 +34,7 @@ async function contarPerguntas(): Promise<Indicador> {
 
 const modulos = [
   { nome: "Artigos", descricao: "Criar, revisar, publicar e arquivar artigos.", href: "/admin/artigos" },
+  { nome: "Participação", descricao: "Gerenciar sugestões de nome e abrir a consulta quando for oportuno.", href: "/admin/participacao" },
   { nome: "Notificações", descricao: "Preparar avisos e testar envios individuais.", href: "/admin/notificacoes" },
   { nome: "Inscrições", descricao: "Consultar os indicadores de inscrições.", href: "/admin/inscricoes" },
   { nome: "Políticos acompanhados", descricao: "Consultar os acompanhamentos.", href: "/admin/politicos" },
