@@ -23,10 +23,14 @@ type MandatosAtuais = {
   verificacoes: MandatoAtual[]; consultadoEm: string; aviso: string;
   contatoAprovado: false; envioHabilitado: false;
 };
+type Monitoramento = { registro: null | { candidatura_id: string; nome_civil: string; uf: string; situacao: string; nome_oficial: string | null; email_institucional: string | null; fonte_url: string | null; verificado_em: string }; envioHabilitado: false; contatoAprovado: false; observacao: string };
 type Consulta = { contextoMandato?: { titulo: string; explicacao: string; fontePosse: string; cargoAtual?: string; fonteCargoAtual?: string } | null; candidatura: { id: string; nomeUrna: string; nomeCompleto: string; uf: string; cargo: string }; resultado: Resultado; consultadoEm: string };
 
 export default function VerificarContatosPoliticos() {
   const [nome, setNome] = useState("");
+  const [monitoramento, setMonitoramento] = useState<Monitoramento | null>(null);
+  const [consultandoMonitoramento, setConsultandoMonitoramento] = useState(false);
+  const [erroMonitoramento, setErroMonitoramento] = useState("");
   const [buscando, setBuscando] = useState(false);
   const [buscaRealizada, setBuscaRealizada] = useState(false);
   const [candidatos, setCandidatos] = useState<Candidato[]>([]);
@@ -159,7 +163,35 @@ export default function VerificarContatosPoliticos() {
     } catch (e) { setErroDiagnostico(e instanceof Error ? e.message : "Falha na verificação."); }
     finally { setDiagnosticando(false); }
   }
+  async function consultarMonitoramento() {
+    if (consultandoMonitoramento) return;
+    setConsultandoMonitoramento(true);
+    setErroMonitoramento("");
+    try {
+      const r = await fetch("/api/admin/contatos-politicos/monitoramento-governador", { cache: "no-store" });
+      const dados = await r.json() as Monitoramento & { erro?: string };
+      if (!r.ok) throw new Error(dados.erro || "Monitoramento indisponível.");
+      setMonitoramento(dados);
+    } catch (e) { setErroMonitoramento(e instanceof Error ? e.message : "Não foi possível consultar o monitoramento."); }
+    finally { setConsultandoMonitoramento(false); }
+  }
   return <section className="mt-6">
+    <div className="mb-6 rounded-xl border border-black/10 bg-white p-5">
+      <h2 className="text-lg font-bold">Monitoramento diário — Governo do Paraná</h2>
+      <p className="mt-2 text-sm text-black/70">Conferência programada diariamente às 12h UTC (9h de Brasília), com reconhecimento de novo contato somente após a posse e confirmação nas duas fontes oficiais. Nenhuma mensagem é enviada.</p>
+      <button type="button" className="mt-3 rounded-lg border border-blue-700 px-5 py-3 font-semibold text-blue-800 disabled:opacity-50" onClick={() => void consultarMonitoramento()} disabled={consultandoMonitoramento}>{consultandoMonitoramento ? "Consultando..." : "Ver último resultado"}</button>
+      {erroMonitoramento && <p role="alert" className="mt-3 text-sm text-red-800">{erroMonitoramento}</p>}
+      {monitoramento && <div role="status" className="mt-3 space-y-2 text-sm">
+        {monitoramento.registro ? <>
+          <p><strong>Última verificação:</strong> {new Date(monitoramento.registro.verificado_em).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}</p>
+          <p><strong>Situação:</strong> {monitoramento.registro.situacao}</p>
+          {monitoramento.registro.nome_oficial && <p><strong>Nome confirmado:</strong> {monitoramento.registro.nome_oficial}</p>}
+          {monitoramento.registro.email_institucional && <p><strong>Endereço institucional:</strong> {monitoramento.registro.email_institucional}</p>}
+          {monitoramento.registro.fonte_url && <a href={monitoramento.registro.fonte_url} rel="noopener noreferrer" target="_blank" className="text-blue-800 underline">Consultar fonte oficial</a>}
+        </> : <p>Nenhuma conferência programada registrada até agora.</p>}
+        <p className="font-semibold text-red-800">Contato não aprovado; envio desabilitado.</p>
+      </div>}
+    </div>
     <div className="mb-6 rounded-xl border border-black/10 bg-white p-5">
       <h2 className="text-lg font-bold">Verificar acesso às fontes oficiais</h2>
       <p className="mt-2 text-sm text-black/70">O diagnóstico consulta as bases da Câmara e do Senado e as orientações institucionais da Presidência da República. Não envia recados.</p>
