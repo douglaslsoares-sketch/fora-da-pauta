@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.foradapauta.org"),
   openGraph: {
-    title: "Fora da Pauta — Conhecer é importante. Entender é fundamental.",
+    title: "Fora da Pauta — Há mais para entender.",
     description: "Quem forma sua opinião? Você ou quem escolhe a informação que chega até você?",
     url: "https://www.foradapauta.org/",
     siteName: "Fora da Pauta",

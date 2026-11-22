@@ -309,23 +309,21 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
           <section className={styles.dobraEditorial} id="conteudo" aria-labelledby="mensagem-principal">
             <div className={styles.dobraCentro}>
               <LogoForaDaPauta className={styles.logoQuatroDobras} />
-              <h1 id="mensagem-principal" className={styles.lemaQuatroDobras}>Conhecer é importante.<br />Entender é fundamental.</h1>
+              <h1 id="mensagem-principal" className={styles.lemaQuatroDobras}>Há mais para entender.</h1>
             </div>
             <a href="#contextualizacao" className={styles.setaDobra} aria-label="Conheça nossa proposta">↓</a>
           </section>
-          <section className={styles.dobraEditorial} id="contextualizacao" aria-labelledby="titulo-contextualizacao">
+          <section className={styles.dobraEditorial} id="contextualizacao" aria-label="Por que olhar além das notícias">
             <div className={styles.dobraCentro}>
-              <h2 id="titulo-contextualizacao" className={styles.tituloDobra}>Uma ponte entre a informação e o entendimento.</h2>
-              <p className={styles.textoDobra}>Todos os dias recebemos notícias sobre decisões que afetam a sociedade. Mas conhecer os fatos é apenas o começo.</p>
-              <p className={styles.textoDobra}>O Fora da Pauta investiga os interesses econômicos e políticos por trás dos acontecimentos, compara fontes e explica seus possíveis impactos na vida da população.</p>
-              <p className={styles.textoDobra}>Sem impor conclusões. Com evidências, contraditório e espaço para você pensar por si mesmo.</p>
+              <p className={styles.textoDobra}>Todos os dias recebemos notícias sobre decisões que afetam nossa vida.</p>
+              <p className={styles.perguntasDobra}>Mas o que ficou de fora? O que não foi explicado? Quais interesses estão envolvidos?</p>
             </div>
             <a href="#acompanhe" className={styles.setaDobra} aria-label="Veja como acompanhar">↓</a>
           </section>
           <section className={styles.dobraEditorial} id="acompanhe" aria-labelledby="titulo-acompanhe">
             <div className={styles.dobraCentro}>
-              <h2 id="titulo-acompanhe" className={styles.tituloDobra}>Acompanhe o Fora da Pauta</h2>
-              <p className={styles.textoDobra}>Receba os avisos no nosso canal do WhatsApp.</p>
+              <h2 id="titulo-acompanhe" className={styles.tituloDobra}>Acompanhe o Fora da Pauta.</h2>
+              <p className={styles.textoDobra}>Receba avisos de novas publicações.</p>
               <a className={styles.botaoCanalDobra} href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13" target="_blank" rel="noopener noreferrer">Acompanhar</a>
               <p className={styles.gratuitoDobra}>É gratuito.</p>
             </div>

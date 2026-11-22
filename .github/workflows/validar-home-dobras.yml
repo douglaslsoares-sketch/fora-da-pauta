@@ -1,0 +1,24 @@
+name: Validar textos das dobras da home
+on:
+  pull_request:
+    paths:
+      - 'components/HomeAcessoTelegram.tsx'
+      - 'app/page.module.css'
+      - 'app/page.tsx'
+      - 'app/layout.tsx'
+      - 'tests/home-dobras-assinatura-20261122.test.cjs'
+      - '.github/workflows/validar-home-dobras.yml'
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/home-dobras-assinatura-20261122.test.cjs
+      - run: npx tsc --noEmit
