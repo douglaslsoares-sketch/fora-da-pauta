@@ -6,7 +6,6 @@ import { LogoForaDaPauta } from "@/components/LogoForaDaPauta";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import styles from "@/app/central/page.module.css";
 import { linkCompartilhamentoWhatsApp } from "@/lib/compartilhamento";
-import { sql } from "@/lib/interesses/db";
 import { participacaoNomeAberta } from "@/lib/participacaoNome";
 
 export async function MenuPrincipal() {
@@ -15,20 +14,11 @@ export async function MenuPrincipal() {
   const acessoDesktop = !/Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(agente);
   const adminAutenticado = acessoDesktop && verifyQuestionsAdminSessionToken(cookieStore.get(QUESTIONS_ADMIN_COOKIE)?.value);
   const sugestoesAbertas = await participacaoNomeAberta();
-  let artigosDisponiveis = false;
-  try {
-    const resultado = await sql<{ disponivel: boolean }[]>`
-      SELECT EXISTS (SELECT 1 FROM public.admin_artigos WHERE status = 'publicado') AS disponivel
-    `;
-    artigosDisponiveis = resultado[0]?.disponivel === true;
-  } catch (erro) {
-    console.error("Falha ao conferir artigos publicados:", erro);
-  }
   return (
     <section id="menu" className={styles.pagina} aria-label="Menu do Fora da Pauta">
       <header className={styles.tituloMenu}><LogoForaDaPauta className={styles.logoMenuOficial} /><h1 className="sr-only">Fora da Pauta</h1></header>
       <nav className={styles.menu} aria-label="Menu central">
-        <Link className={styles.principal} href="/edicoes"><span className={styles.icone} aria-hidden="true"><IconeMenu nome="publicacoes" /></span><span className={styles.textoBotao}><span className={styles.publicacoesTitulo}>Publicações</span><span className={styles.publicacoesDescricao}>{artigosDisponiveis ? "Leia, ouça, compartilhe" : "Novas análises em preparação"}</span></span><span className={styles.seta} aria-hidden="true">›</span></Link>
+        <Link className={styles.principal} href="/edicoes"><span className={styles.icone} aria-hidden="true"><IconeMenu nome="publicacoes" /></span><span className={styles.textoBotao}><span className={styles.publicacoesTitulo}>Publicações</span><span className={styles.publicacoesDescricao}>Leia, ouça e compartilhe</span></span><span className={styles.seta} aria-hidden="true">›</span></Link>
         <a className={styles.seguirForaDaPauta} href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13" target="_blank" rel="noopener noreferrer" aria-label="Siga o Fora da Pauta no WhatsApp"><span className={styles.icone} aria-hidden="true"><IconeMenu nome="recado" /></span><span className={styles.textoBotao}><span className={styles.seguirTitulo}>Siga o Fora da Pauta</span><span className={styles.seguirDescricao}>Receba avisos de novas publicações</span></span><span className={styles.seta} aria-hidden="true">›</span></a>
         <Link className={styles.botao} href="/acompanhar"><span className={styles.icone} aria-hidden="true"><IconeMenu nome="escolher" /></span><span className={styles.textoBotao}><span className={styles.escolherTitulo}>Acompanhe um político</span><span className={styles.escolherDescricao}>Escolha quem você quer acompanhar</span></span><span className={styles.seta} aria-hidden="true">›</span></Link>
         <Link className={styles.botao} href="/meus-acompanhamentos"><span className={styles.icone} aria-hidden="true"><IconeMenu nome="acompanhando" /></span><span className={styles.textoBotao}>Políticos que eu acompanho</span><span className={styles.seta} aria-hidden="true">›</span></Link>
