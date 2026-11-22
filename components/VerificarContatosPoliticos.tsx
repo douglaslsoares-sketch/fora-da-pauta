@@ -14,10 +14,10 @@ type Revisao = { registro: { candidatura_id: string; nome_civil: string; institu
 type DominioResend = { dominio: string; situacao: string; statusResend?: string; dominioVerificadoNoResend?: boolean; mensagem: string; consultadoEm: string; envioHabilitado: false };
 type Prontidao = { configuracaoTransporte?: { chaveResendConfigurada: boolean; remetenteConfigurado: boolean }; revisaoVigente: boolean; consultaFonteConcluida: boolean; contatoIgualAoAtual: boolean; credenciaisEnvioPresentes: boolean; prontoParaTesteDeTransporte: boolean; envioHabilitado: false; mensagem: string; consultadoEm: string };
 type MandatoAtual = {
-  cargo: "senador" | "deputado-federal" | "deputado-estadual";
-  situacao: "confirmado" | "nao_confirmado" | "indisponivel" | "manual";
+  cargo: "senador" | "deputado-federal" | "deputado-estadual" | "governador";
+  situacao: "confirmado" | "aguardando_posse" | "nao_aplicavel" | "nao_confirmado" | "indisponivel" | "manual";
   instituicao: string; nomeOficial: string | null;
-  emailInstitucional: string | null; fonteUrl: string | null; explicacao: string;
+  emailInstitucional: string | null; fonteUrl: string | null; fontesConferidas?: string[]; explicacao: string;
 };
 type MandatosAtuais = {
   verificacoes: MandatoAtual[]; consultadoEm: string; aviso: string;
@@ -225,7 +225,7 @@ export default function VerificarContatosPoliticos() {
           {erroMandatosAtuais?.id === p.id && <p role="alert" className="mt-3 text-red-800">{erroMandatosAtuais.mensagem} Nenhum contato foi autorizado.</p>}
           {mandatosAtuais?.id === p.id && <div role="status" className="mt-3 space-y-3">
             {mandatosAtuais.dados.verificacoes.map(item => <div key={item.cargo} className="rounded-lg border border-slate-200 p-3">
-              <p className="font-bold">{item.instituicao} — {item.situacao === "confirmado" ? "mandato em exercício confirmado" : item.situacao === "manual" ? "conferência manual necessária" : item.situacao === "indisponivel" ? "fonte indisponível" : "não confirmado na consulta"}</p>
+              <p className="font-bold">{item.instituicao} — {item.situacao === "confirmado" ? "mandato em exercício confirmado" : item.situacao === "manual" ? "conferência manual necessária" : item.situacao === "indisponivel" ? "fonte indisponível" : item.situacao === "aguardando_posse" ? "aguardando a posse" : item.situacao === "nao_aplicavel" ? "não aplicável à candidatura" : "não confirmado na consulta"}</p>
               {item.nomeOficial && <p className="mt-1">Nome oficial: {item.nomeOficial}</p>}
               {item.emailInstitucional && <p className="mt-1 break-all">E-mail institucional: {item.emailInstitucional}</p>}
               <p className="mt-1">{item.explicacao}</p>
