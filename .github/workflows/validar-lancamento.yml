@@ -1,0 +1,23 @@
+name: Validar menu de lançamento
+on:
+  pull_request:
+    paths:
+      - 'components/MenuPrincipal.tsx'
+      - 'components/HomeAcessoTelegram.tsx'
+      - 'app/edicoes/page.tsx'
+      - 'tests/lancamento-enxuto-menu.test.cjs'
+      - '.github/workflows/validar-lancamento.yml'
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/lancamento-enxuto-menu.test.cjs
+      - run: npx tsc --noEmit
