@@ -5,9 +5,12 @@ const home = fs.readFileSync("components/HomeAcessoTelegram.tsx","utf8");
 const css = fs.readFileSync("app/page.module.css","utf8");
 const page = fs.readFileSync("app/page.tsx","utf8");
 
-test("assinatura aparece só na primeira dobra", () => {
-  assert.match(home, /<h1 id="mensagem-principal"[^>]+>Há mais para entender\.<\/h1>/);
-  assert.doesNotMatch(home, /Conhecer é importante\./);
+test("primeira dobra mostra só a logomarca e preserva um título acessível", () => {
+  const primeira = home.split('id="conteudo"')[1].split('id="contextualizacao"')[0];
+  assert.match(primeira, /<LogoForaDaPauta className=\{styles\.logoQuatroDobras\} \/>/);
+  assert.match(primeira, /<h1 id="mensagem-principal" className="sr-only">Fora da Pauta<\/h1>/);
+  assert.doesNotMatch(primeira, /Há mais para entender\./);
+  assert.doesNotMatch(primeira, /Conhecer é importante\./);
   assert.doesNotMatch(home, /Uma ponte entre a informação e o entendimento\./);
 });
 test("segunda dobra mantém só as duas frases aprovadas", () => {
