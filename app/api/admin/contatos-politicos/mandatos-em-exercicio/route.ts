@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { candidaturas } from "@/data/eleicoes/candidaturas";
 import { consultarContatoParlamentar } from "@/lib/eleicoes/consultar-contato-parlamentar";
+import { consultarContatoGovernadorEmExercicio } from "@/lib/eleicoes/contato-governador";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 import { consumeRateLimit } from "@/lib/rateLimit";
 import type { Candidatura } from "@/data/eleicoes/tipos";
@@ -12,8 +13,8 @@ export const maxDuration = 45;
 const headers = { "Cache-Control": "private, no-store" };
 const cargosAcompanhados = new Set(["governador", "senador", "deputado-federal", "deputado-estadual", "deputado-distrital"]);
 
-type CargoExercicio = "senador" | "deputado-federal" | "deputado-estadual";
-type Situacao = "confirmado" | "nao_confirmado" | "indisponivel" | "manual";
+type CargoExercicio = "senador" | "deputado-federal" | "deputado-estadual" | "governador";
+type Situacao = "confirmado" | "aguardando_posse" | "nao_confirmado" | "nao_aplicavel" | "indisponivel" | "manual";
 type Verificacao = {
   cargo: CargoExercicio;
   situacao: Situacao;
@@ -86,9 +87,10 @@ export async function GET(request: NextRequest) {
   // O cargo da candidatura de 2026 NÃO determina o exercício de cargo atual.
   // Fornecer o mesmo nome civil/UF às fontes de cada casa é apenas uma busca informativa.
   // A rotina existente confirma email e EXERCÍCIO, nunca aprova contato automaticamente.
-  const [senado, camara] = await Promise.allSettled([
+  const [senado, camara, governo] = await Promise.allSettled([
     consultarContatoParlamentar({ ...pessoa, cargo: "senador" }),
     consultarContatoParlamentar({ ...pessoa, cargo: "deputado-federal" }),
+    consultarContatoGovernadorEmExercicio(pessoa),
   ]);
 
   function seguro(cargo: "senador" | "deputado-federal", resposta: PromiseSettledResult<Awaited<ReturnType<typeof consultarContatoParlamentar>>>): Verificacao {
@@ -107,6 +109,18 @@ export async function GET(request: NextRequest) {
     seguro("senador", senado),
     seguro("deputado-federal", camara),
     estado(pessoa),
+    ...(pessoa.cargo === "governador" ? [governo.status === "fulfilled" ? governo.value : {
+      cargo: "governador" as const,
+      situacao: "indisponivel" as const,
+      instituicao: "Governo estadual — " + pessoa.uf,
+      nomeOficial: null,
+      emailInstitucional: null,
+      fonteUrl: null,
+      fontesConferidas: [],
+      explicacao: "Não foi possível consultar o cadastro oficial do governador. Nenhum novo contato reconhecido.",
+      envioHabilitado: false as const,
+      contatoAprovado: false as const,
+    }] : []),
   ];
   return NextResponse.json({
     candidatura: { id: pessoa.id, nome: pessoa.nomeCompleto, cargoEleito: pessoa.cargo, uf: pessoa.uf },
