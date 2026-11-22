@@ -33,11 +33,17 @@ export default async function AdminConfiguracoes() {
           : "Tabelas editoriais ainda não inicializadas";
     } catch { editorial = "Não foi possível verificar as tabelas editoriais"; }
   }
+  // Verificação passiva: não chama o Resend nem autoriza qualquer envio.
+  const remetenteRecadosCorreto =
+    process.env.FDP_RECADOS_EMAIL_REMETENTE?.trim().toLowerCase() === "recados@foradapauta.org";
+  const chaveResendPresente = Boolean(process.env.RESEND_API_KEY?.trim());
   const checks = [
     { nome: "Banco de dados", situacao: database === "disponivel" ? "Conexão disponível" : "Não foi possível confirmar a conexão", descricao: "Usado por artigos, inscrições e preferências." },
     { nome: "Estrutura editorial", situacao: editorial, descricao: "Confere a existência das tabelas de artigos e histórico sem alterar dados." },
     { nome: "Integração legada do Telegram", situacao: process.env.TELEGRAM_BOT_TOKEN ? "Credencial antiga presente" : "Sem credencial antiga", descricao: "Canal anterior do projeto; esta verificação não mede o funcionamento do WhatsApp." },
-    { nome: "Resend — transporte de e-mail", situacao: process.env.RESEND_API_KEY?.trim() ? "Chave presente neste ambiente" : "Chave ausente neste ambiente", descricao: "A presença da chave não comprova que o domínio esteja verificado no Resend." },
+    { nome: "Resend — transporte de e-mail", situacao: chaveResendPresente ? "Chave presente neste ambiente" : "Chave ausente neste ambiente", descricao: "A presença da chave não comprova que o domínio esteja verificado no Resend." },
+    { nome: "Remetente de recados aos políticos", situacao: remetenteRecadosCorreto ? "recados@foradapauta.org — configurado" : "Endereço remetente não configurado como esperado", descricao: "Somente confere a configuração. Não cria e não envia e-mails." },
+    { nome: "Prontidão técnica do transporte", situacao: chaveResendPresente && remetenteRecadosCorreto ? "Configurações básicas presentes; envio desabilitado" : "Configuração incompleta; envio desabilitado", descricao: "A chave é restrita ao envio, e esta tela não a utiliza. A validação de domínio e a entrega exigem verificações separadas. Nenhuma mensagem é enviada." },
     { nome: "Acesso administrativo", situacao: "Sessão autenticada", descricao: "Acesso restrito à área administrativa." },
     { nome: "Notificações gerais", situacao: "Envio pelo painel desativado", descricao: "Nenhuma mensagem geral pode ser disparada por este painel nesta etapa." },
     { nome: "Publicação de artigos", situacao: "Controles implementados — testes pendentes", descricao: "Publicação e arquivamento exigem confirmação no painel." },
