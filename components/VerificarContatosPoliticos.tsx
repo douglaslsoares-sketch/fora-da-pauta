@@ -52,7 +52,7 @@ export default function VerificarContatosPoliticos() {
   async function buscar(e: React.FormEvent) {
     e.preventDefault();
     if (nome.trim().length < 2 || buscando) return;
-    setBuscando(true); setBuscaRealizada(false); setErro(""); setErroContato(null); setMandatoSenado(null); setErroMandatoSenado(null); setCandidatos([]); setConsulta(null); setRevisao(null); setAvisoRevisao(""); setProntidao(null); setErroProntidao("");
+    setBuscando(true); setBuscaRealizada(false); setErro(""); setErroContato(null); setMandatosAtuais(null); setErroMandatosAtuais(null); setCandidatos([]); setConsulta(null); setRevisao(null); setAvisoRevisao(""); setProntidao(null); setErroProntidao("");
     try {
       const r = await fetch("/api/candidatos/buscar?" + new URLSearchParams({ q: nome.trim(), pagina: "1", cargos: "deputado-federal,deputado-estadual,deputado-distrital,senador,presidente,governador" }), { cache: "no-store" });
       const data = await r.json() as { resultados?: Candidato[]; erro?: string };
@@ -80,20 +80,20 @@ export default function VerificarContatosPoliticos() {
     finally { setConsultando(""); }
   }
   async function conferirMandatosAtuais(id: string) {
-    if (consultandoMandatoSenado) return;
-    setConsultandoMandatoSenado(id);
-    setMandatoSenado(null);
-    setErroMandatoSenado(null);
+    if (consultandoMandatos) return;
+    setConsultandoMandatos(id);
+    setMandatosAtuais(null);
+    setErroMandatosAtuais(null);
     try {
       const r = await fetch("/api/admin/contatos-politicos/mandatos-em-exercicio?id=" + encodeURIComponent(id),
         { cache: "no-store" });
-      const dados = await r.json() as MandatoSenado & { erro?: string };
+      const dados = await r.json() as MandatosAtuais & { erro?: string };
       if (!r.ok) throw new Error(dados.erro || "Consulta aos mandatos atuais indisponível.");
-      setMandatoSenado({ id, dados });
+      setMandatosAtuais({ id, dados });
     } catch (e) {
-      setErroMandatoSenado({ id, mensagem: e instanceof Error ? e.message : "Não foi possível consultar os mandatos atuais." });
+      setErroMandatosAtuais({ id, mensagem: e instanceof Error ? e.message : "Não foi possível consultar os mandatos atuais." });
     } finally {
-      setConsultandoMandatoSenado("");
+      setConsultandoMandatos("");
     }
   }
   async function registrarRevisao(id: string, revogar: boolean) {
