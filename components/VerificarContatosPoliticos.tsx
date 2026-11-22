@@ -13,6 +13,7 @@ type Diagnostico = { fontes: { nome: string; ok: boolean; mensagem: string; cons
 type Revisao = { registro: { candidatura_id: string; nome_civil: string; instituicao: string; email_institucional: string; fonte_url: string; status: "revisado" | "revogado"; revisado_em: string; expira_em: string; revogado_em: string | null } | null; vigente: boolean; envioHabilitado: false; mensagem?: string };
 type DominioResend = { dominio: string; situacao: string; statusResend?: string; dominioVerificadoNoResend?: boolean; mensagem: string; consultadoEm: string; envioHabilitado: false };
 type Prontidao = { configuracaoTransporte?: { chaveResendConfigurada: boolean; remetenteConfigurado: boolean }; revisaoVigente: boolean; consultaFonteConcluida: boolean; contatoIgualAoAtual: boolean; credenciaisEnvioPresentes: boolean; prontoParaTesteDeTransporte: boolean; envioHabilitado: false; mensagem: string; consultadoEm: string };
+type MandatoSenado = { mandatoSenadoEmExercicio: boolean; nomeOficial: string | null; uf: string | null; emailInstitucional: string | null; fonteUrl: string; consultadoEm: string; aviso: string; envioHabilitado: false; contatoAprovado: false };
 type Consulta = { contextoMandato?: { titulo: string; explicacao: string; fontePosse: string; cargoAtual?: string; fonteCargoAtual?: string } | null; candidatura: { id: string; nomeUrna: string; nomeCompleto: string; uf: string; cargo: string }; resultado: Resultado; consultadoEm: string };
 
 export default function VerificarContatosPoliticos() {
@@ -24,6 +25,9 @@ export default function VerificarContatosPoliticos() {
   const [consulta, setConsulta] = useState<Consulta | null>(null);
   const [erro, setErro] = useState("");
   const [erroContato, setErroContato] = useState<{ id: string; mensagem: string } | null>(null);
+  const [consultandoMandatoSenado, setConsultandoMandatoSenado] = useState("");
+  const [mandatoSenado, setMandatoSenado] = useState<{ id: string; dados: MandatoSenado } | null>(null);
+  const [erroMandatoSenado, setErroMandatoSenado] = useState<{ id: string; mensagem: string } | null>(null);
   const [diagnostico, setDiagnostico] = useState<Diagnostico | null>(null);
   const [diagnosticando, setDiagnosticando] = useState(false);
   const [erroDiagnostico, setErroDiagnostico] = useState("");
@@ -39,7 +43,7 @@ export default function VerificarContatosPoliticos() {
   async function buscar(e: React.FormEvent) {
     e.preventDefault();
     if (nome.trim().length < 2 || buscando) return;
-    setBuscando(true); setBuscaRealizada(false); setErro(""); setErroContato(null); setCandidatos([]); setConsulta(null); setRevisao(null); setAvisoRevisao(""); setProntidao(null); setErroProntidao("");
+    setBuscando(true); setBuscaRealizada(false); setErro(""); setErroContato(null); setMandatoSenado(null); setErroMandatoSenado(null); setCandidatos([]); setConsulta(null); setRevisao(null); setAvisoRevisao(""); setProntidao(null); setErroProntidao("");
     try {
       const r = await fetch("/api/candidatos/buscar?" + new URLSearchParams({ q: nome.trim(), pagina: "1", cargos: "deputado-federal,senador,presidente,governador" }), { cache: "no-store" });
       const data = await r.json() as { resultados?: Candidato[]; erro?: string };
@@ -65,6 +69,23 @@ export default function VerificarContatosPoliticos() {
       }
     } catch (e) { setErroContato({ id, mensagem: e instanceof Error ? e.message : "Não foi possível consultar." }); }
     finally { setConsultando(""); }
+  }
+  async function conferirMandatoSenado(id: string) {
+    if (consultandoMandatoSenado) return;
+    setConsultandoMandatoSenado(id);
+    setMandatoSenado(null);
+    setErroMandatoSenado(null);
+    try {
+      const r = await fetch("/api/admin/contatos-politicos/mandato-senado?id=" + encodeURIComponent(id),
+        { cache: "no-store" });
+      const dados = await r.json() as MandatoSenado & { erro?: string };
+      if (!r.ok) throw new Error(dados.erro || "Consulta ao Senado indisponível.");
+      setMandatoSenado({ id, dados });
+    } catch (e) {
+      setErroMandatoSenado({ id, mensagem: e instanceof Error ? e.message : "Não foi possível consultar o Senado." });
+    } finally {
+      setConsultandoMandatoSenado("");
+    }
   }
   async function registrarRevisao(id: string, revogar: boolean) {
     if (processandoRevisao || !consulta || consulta.candidatura.id !== id) return;
@@ -184,7 +205,21 @@ export default function VerificarContatosPoliticos() {
         {p.cargo === "governador" && <div role="status" className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950">
           <p className="font-bold">{p.situacaoEleitoral || "Situação eleitoral de 2026 ainda não confirmada"}</p>
           <p className="mt-2">A eleição ao governo estadual não comprova posse nem exercício do novo mandato. A posse de governadores eleitos em 2026 está prevista para 6 de janeiro de 2027. Este painel não aprova nem envia recados para o governo estadual.</p>
-          <p className="mt-2">Se a pessoa exerce outro mandato, como o de senador, a verificação desse cargo precisa ser feita separadamente na fonte institucional correspondente.</p>
+          <p className="mt-2">Se a pessoa exerce outro mandato, como o de senador, esse cargo deve ser conferido separadamente na fonte oficial.</p>
+          <button type="button" onClick={() => void conferirMandatoSenado(p.id)} disabled={!!consultandoMandatoSenado}
+            className="mt-3 rounded-lg border border-amber-900 bg-white px-4 py-2 font-semibold text-amber-950 disabled:opacity-50">
+            {consultandoMandatoSenado === p.id ? "Consultando o Senado..." : "Verificar mandato no Senado"}
+          </button>
+          {erroMandatoSenado?.id === p.id && <p role="alert" className="mt-3">{erroMandatoSenado.mensagem} Nenhum contato foi autorizado.</p>}
+          {mandatoSenado?.id === p.id && <div role="status" className="mt-3 rounded-lg border border-slate-300 bg-white p-4 text-slate-900">
+            <p className="font-bold">{mandatoSenado.dados.mandatoSenadoEmExercicio ? "Senador em exercício — confirmado na fonte oficial" : "Mandato no Senado não localizado"}</p>
+            {mandatoSenado.dados.nomeOficial && <p className="mt-2"><strong>Nome oficial:</strong> {mandatoSenado.dados.nomeOficial}</p>}
+            {mandatoSenado.dados.emailInstitucional && <p className="mt-2 break-all"><strong>E-mail institucional do Senado:</strong> {mandatoSenado.dados.emailInstitucional}</p>}
+            <p className="mt-2">{mandatoSenado.dados.aviso}</p>
+            <a href={mandatoSenado.dados.fonteUrl} target="_blank" rel="noopener noreferrer"
+              className="mt-2 inline-block font-semibold text-blue-800 underline">Conferir no Senado Federal</a>
+            <p className="mt-2 text-xs">Consulta: {new Date(mandatoSenado.dados.consultadoEm).toLocaleString("pt-BR")}</p>
+          </div>}
           <p className="mt-2 font-semibold">Nenhum contato foi autorizado e nenhuma mensagem foi enviada.</p>
         </div>}
         {consultando === p.id && <div id={"resultado-contato-" + p.id} role="status" aria-live="polite" className="mt-2 rounded-xl border border-[#344760] bg-white p-5 text-sm text-slate-700">
