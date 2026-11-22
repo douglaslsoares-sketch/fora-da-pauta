@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Fora da Pauta",
   description: "Investigamos interesses e motivações que possam existir na escolha dos assuntos que ganham destaque e daqueles que ficam de fora. Procuramos desvendar o que está por trás das informações e os motivos pelos quais elas são apresentadas de uma determinada maneira e não de outra, para que você tire suas próprias conclusões. Será que, por trás da informação que chega até você, existe alguma intenção de direcionar sua opinião para determinada conclusão?",
   openGraph: {
-    title: "Fora da Pauta — Conhecer é importante. Entender é fundamental.",
+    title: "Fora da Pauta — Há mais para entender.",
     description: "Quem forma sua opinião? Você ou quem escolhe a informação que chega até você?",
     url: "https://www.foradapauta.org/",
     type: "website",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     images: [imagemCompartilhamento],
-    title: "Fora da Pauta — Conhecer é importante. Entender é fundamental.",
+    title: "Fora da Pauta — Há mais para entender.",
     description: "Quem forma sua opinião? Você ou quem escolhe a informação que chega até você?",
   },
 };
