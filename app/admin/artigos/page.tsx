@@ -23,6 +23,12 @@ export default async function AdminArtigosPage() {
         <p className="text-xs font-semibold uppercase tracking-widest text-black/50">Área administrativa</p>
         <h1 className="mt-3 text-3xl font-bold">Artigos</h1>
         <p className="mt-4 leading-7 text-black/65">Crie e salve rascunhos pelo painel. Os artigos do acervo anterior continuam disponíveis para consulta privada. Salvar um rascunho não publica o texto nem envia notificações.</p>
+        <div className="mt-8 rounded-xl border border-[#d8b350] bg-[#fff9e7] p-5">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#806020]">Edição nº 1 · prévia não publicada</p>
+          <h2 className="mt-2 text-xl font-bold">Por que pagamos tantos juros?</h2>
+          <p className="mt-2 text-sm leading-6 text-black/70">Veja como a primeira publicação ficará no site e, depois, crie o rascunho para gerar e aprovar o áudio Marim. Nenhuma notificação será enviada.</p>
+          <Link href="/admin/artigos/previa-primeira-edicao" className="mt-4 inline-flex min-h-12 items-center rounded-lg bg-[#183352] px-5 py-3 font-bold text-white">Ver prévia da primeira edição</Link>
+        </div>
         <AdminArticleDrafts />
         <h2 className="mt-12 text-2xl font-bold">Acervo anterior</h2>
         <div className="mt-8 space-y-3">
