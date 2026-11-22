@@ -10,6 +10,8 @@ on:
       - 'components/VerificarContatosPoliticos.tsx'
       - 'app/api/admin/contatos-politicos/mandatos-em-exercicio/route.ts'
       - 'tests/mandatos-atuais-sem-envio.test.cjs'
+      - 'tests/contato-governador-posse.test.cjs'
+      - 'lib/eleicoes/contato-governador.ts'
       - 'lib/eleicoes/consultar-contato-parlamentar.ts'
       - '.github/workflows/testar-resend-isolado.yml'
 permissions:
