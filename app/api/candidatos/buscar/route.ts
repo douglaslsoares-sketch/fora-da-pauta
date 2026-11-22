@@ -78,7 +78,7 @@ export async function GET(
     .split(",")
     .map(valor => valor.trim())
     .filter(Boolean);
-  const cargosPermitidos = new Set(["presidente", "governador", "senador", "deputado-federal"]);
+  const cargosPermitidos = new Set(["presidente", "governador", "senador", "deputado-federal", "deputado-estadual", "deputado-distrital"]);
   const cargosSelecionados = new Set(cargosSolicitados.filter(valor => cargosPermitidos.has(valor)));
 
   const uf =
