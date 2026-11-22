@@ -3,29 +3,34 @@ import { ImageResponse } from "next/og";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-/** Identidade oficial enviada: duas barras inclinadas, branca e amarela, sobre preto. */
+/**
+ * Imagem para o WhatsApp e redes sociais. A marca completa cabe no
+ * recorte quadrado central normalmente usado pelas miniaturas.
+ */
 export async function GET() {
   return new ImageResponse(
     <div style={{
-      display: "flex", width: "100%", height: "100%",
-      alignItems: "center", justifyContent: "center",
-      backgroundColor: "#000000",
+      display: "flex",
+      width: "100%",
+      height: "100%",
+      backgroundColor: "#141c2b",
+      alignItems: "center",
+      justifyContent: "center",
     }}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 52, width: 820 }}>
-        <div style={{
-          display: "flex", width: 820, height: 112,
-          backgroundColor: "#ffffff",
-          clipPath: "polygon(5.5% 0, 100% 0, 94.5% 100%, 0 100%)",
-        }} />
-        <div style={{
-          display: "flex", width: 662, height: 112,
-          backgroundColor: "#ffdf00",
-          clipPath: "polygon(6.8% 0, 100% 0, 93.2% 100%, 0 100%)",
-        }} />
-      </div>
+      <svg
+        aria-label="Fora da Pauta"
+        viewBox="0 0 1090 270"
+        width="570"
+        height="141"
+        style={{ display: "block" }}
+      >
+          <path fill="#fff" fillRule="evenodd" d="M3,198 1044,198 1069,156 26,155Z M1033,39 1043,67 1043,74 1022,73Z M772,39 783,71 782,74 761,73Z M567,39 569,40 577,66 577,74 558,74 556,72Z M336,39 338,41 346,67 346,74 327,74 325,72Z M453,30 464,30 477,34 485,42 489,51 490,69 485,82 478,89 469,93 452,93 451,52Z M678,29 692,29 701,35 703,39 703,48 696,57 689,59 679,59 677,57Z M225,29 242,30 250,36 251,47 246,54 236,57 225,57 223,55 223,31Z M128,29 138,29 145,32 153,40 158,53 158,70 153,83 147,90 136,95 130,95 120,91 113,84 107,67 107,57 111,43 117,35Z M1021,6 1019,8 981,117 1007,118 1015,97 1051,97 1053,99 1059,118 1085,118 1086,117 1046,6Z M921,6 921,30 942,30 944,32 944,117 969,118 970,31 993,30 993,6Z M827,6 826,82 832,102 841,112 847,116 859,120 878,120 894,114 905,103 911,87 912,7 886,6 886,79 884,86 879,92 872,95 865,95 857,90 852,77 852,7Z M760,6 720,117 746,118 754,97 790,97 798,118 824,118 824,113 785,6Z M652,6 652,118 676,118 677,83 679,81 703,80 718,72 724,65 729,53 729,34 724,22 720,17 708,9 696,6Z M555,6 523,94 516,118 542,118 548,99 550,97 585,97 587,99 593,118 619,118 620,116 581,7Z M426,6 426,118 470,118 486,114 498,107 511,92 518,70 517,48 514,38 508,27 497,16 480,8 471,6Z M197,7 198,118 223,118 223,82 225,79 229,80 252,118 310,118 312,116 318,97 354,97 356,99 362,118 389,117 349,6 323,7 284,116 257,76 271,66 278,53 279,35 277,27 272,19 264,12 246,6Z M73,6 6,7 7,118 33,117 34,75 69,74 69,52 34,51 33,31 74,30Z M124,4 105,11 98,16 88,28 80,50 80,75 87,95 100,110 110,116 123,120 141,120 159,114 165,110 177,97 182,87 186,72 186,51 183,38 177,26 166,14 156,8 143,4Z" />
+          <path fill="#ffe000" fillRule="evenodd" d="M0,265 529,265 552,226 23,226Z" />
+      </svg>
     </div>,
     {
-      width: 1200, height: 630,
+      width: 1200,
+      height: 630,
       headers: { "Cache-Control": "public, max-age=3600" },
     },
   );

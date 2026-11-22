@@ -7,19 +7,19 @@ export const metadata: Metadata = {
   title: "Fora da Pauta",
   description: "Investigamos interesses e motivações que possam existir na escolha dos assuntos que ganham destaque e daqueles que ficam de fora. Procuramos desvendar o que está por trás das informações e os motivos pelos quais elas são apresentadas de uma determinada maneira e não de outra, para que você tire suas próprias conclusões. Será que, por trás da informação que chega até você, existe alguma intenção de direcionar sua opinião para determinada conclusão?",
   openGraph: {
-    title: "Fora da Pauta — Há mais para entender.",
-    description: "Quem forma sua opinião? Você ou quem escolhe a informação que chega até você?",
+    title: "Fora da Pauta",
+    description: "Leia, ouça e compartilhe as publicações do Fora da Pauta.",
     url: "https://www.foradapauta.org/",
     type: "website",
     locale: "pt_BR",
     siteName: "Fora da Pauta",
-    images: [{ url: imagemCompartilhamento, width: 1200, height: 630, alt: "Logomarca Fora da Pauta com dois traços e assinatura editorial em amarelo." }],
+    images: [{ url: imagemCompartilhamento, width: 1200, height: 630, alt: "Logomarca oficial Fora da Pauta em branco e amarelo sobre fundo azul-marinho." }],
   },
   twitter: {
     card: "summary_large_image",
     images: [imagemCompartilhamento],
-    title: "Fora da Pauta — Há mais para entender.",
-    description: "Quem forma sua opinião? Você ou quem escolhe a informação que chega até você?",
+    title: "Fora da Pauta",
+    description: "Leia, ouça e compartilhe as publicações do Fora da Pauta.",
   },
 };
 
