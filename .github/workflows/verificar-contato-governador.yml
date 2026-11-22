@@ -1,0 +1,24 @@
+name: Verificar monitoramento de contato institucional
+on:
+  pull_request:
+    paths:
+      - 'app/api/cron/contato-governador-pr/route.ts'
+      - 'app/api/admin/contatos-politicos/monitoramento-governador/route.ts'
+      - 'components/VerificarContatosPoliticos.tsx'
+      - 'tests/cron-governador-pr-sem-envio.test.cjs'
+      - 'vercel.json'
+      - '.github/workflows/verificar-contato-governador.yml'
+permissions:
+  contents: read
+jobs:
+  testar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/cron-governador-pr-sem-envio.test.cjs tests/contato-governador-posse.test.cjs
+      - run: npx tsc --noEmit

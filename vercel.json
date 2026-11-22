@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/contato-governador-pr",
+      "schedule": "0 12 * * *"
+    }
+  ]
+}
