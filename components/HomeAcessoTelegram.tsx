@@ -315,8 +315,7 @@ export function HomeAcessoTelegram({ versaoEdicoes, versaoEntregas, pagina = "in
           </section>
           <section className={styles.dobraEditorial} id="contextualizacao" aria-label="Por que olhar além das notícias">
             <div className={styles.dobraCentro}>
-              <p className={styles.textoDobra}>Todos os dias recebemos notícias sobre decisões que afetam nossa vida.</p>
-              <p className={styles.perguntasDobra}>Mas o que ficou de fora? O que não foi explicado? Quais interesses estão envolvidos?</p>
+              <h2 className={styles.tituloDobra}>O que existe por trás das notícias que chegam até nós?</h2>
             </div>
             <a href="#acompanhe" className={styles.setaDobra} aria-label="Veja como acompanhar">↓</a>
           </section>
