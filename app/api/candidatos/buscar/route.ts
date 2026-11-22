@@ -72,6 +72,15 @@ export async function GET(
   const cargo =
     searchParams.get("cargo") ?? "";
 
+  // Um conjunto de cargos é útil para buscas administrativas: filtrar antes
+  // de paginar impede que resultados de outros cargos ocupem a primeira página.
+  const cargosSolicitados = (searchParams.get("cargos") ?? "")
+    .split(",")
+    .map(valor => valor.trim())
+    .filter(Boolean);
+  const cargosPermitidos = new Set(["presidente", "governador", "senador", "deputado-federal"]);
+  const cargosSelecionados = new Set(cargosSolicitados.filter(valor => cargosPermitidos.has(valor)));
+
   const uf =
     (
       searchParams.get("uf") ?? ""
@@ -114,8 +123,9 @@ export async function GET(
     base
       .filter((candidate) => {
         if (
-          cargo &&
-          candidate.cargo !== cargo
+          (cargo && candidate.cargo !== cargo) ||
+          (cargosSolicitados.length > 0 &&
+            !cargosSelecionados.has(candidate.cargo))
         ) {
           return false;
         }
