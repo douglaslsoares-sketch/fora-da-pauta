@@ -8,17 +8,11 @@ export const imagemConfirmacaoTelegram = "https://www.foradapauta.org/telegram/c
 export const mensagemCompartilhamento = [
   "*FORA DA PAUTA*",
   "",
-  "Você confia?",
+  "O que existe por trás das notícias que chegam até nós?",
   "",
-  "O que querem que você pense, sinta ou faça a partir das informações que chegam até você?",
+  "Leia, ouça e compartilhe nossas publicações.",
   "",
-  "Acompanhe o Fora da Pauta e receba nossas publicações pelo WhatsApp.",
-  "",
-  "*Conhecer é importante. Entender é fundamental.*",
-  "",
-  "É gratuito.",
-  "",
-  "https://foradapauta.org/?compartilhar=6",
+  "https://foradapauta.org",
 ].join("\n");
 
 export const linkCompartilhamentoWhatsApp =
