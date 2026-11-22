@@ -41,7 +41,7 @@ export default function VerificarContatosPoliticos() {
     if (nome.trim().length < 2 || buscando) return;
     setBuscando(true); setBuscaRealizada(false); setErro(""); setErroContato(null); setCandidatos([]); setConsulta(null); setRevisao(null); setAvisoRevisao(""); setProntidao(null); setErroProntidao("");
     try {
-      const r = await fetch("/api/candidatos/buscar?" + new URLSearchParams({ q: nome.trim(), pagina: "1" }), { cache: "no-store" });
+      const r = await fetch("/api/candidatos/buscar?" + new URLSearchParams({ q: nome.trim(), pagina: "1", cargos: "deputado-federal,senador,presidente,governador" }), { cache: "no-store" });
       const data = await r.json() as { resultados?: Candidato[]; erro?: string };
       if (!r.ok) throw new Error(data.erro || "Busca indisponível.");
       setCandidatos((data.resultados || []).filter(p => p.cargo === "deputado-federal" || p.cargo === "senador" || p.cargo === "presidente" || p.cargo === "governador").slice(0, 30));
