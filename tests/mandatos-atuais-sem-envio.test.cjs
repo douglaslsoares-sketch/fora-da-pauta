@@ -25,6 +25,15 @@ function preparar(opcoes = {}) {
         return { situacao: "pendente", motivo: "não encontrado", fonteUrl: "https://fonte.exemplo", envioHabilitado: false };
       },
     },
+    "@/lib/eleicoes/contato-governador": {
+      consultarContatoGovernadorEmExercicio: async () => ({
+        cargo: "governador", situacao: "aguardando_posse",
+        instituicao: "Governo do Estado do Paraná",
+        nomeOficial: null, emailInstitucional: null,
+        fonteUrl: null, fontesConferidas: [],
+        explicacao: "Aguardando posse", contatoAprovado: false, envioHabilitado: false,
+      }),
+    },
     "@/lib/questionsAdminAuth": { QUESTIONS_ADMIN_COOKIE: "admin", verifyQuestionsAdminSessionToken: Boolean },
     "@/lib/rateLimit": { consumeRateLimit: async () => ({ allowed: opcoes.limite !== false }) },
   };
@@ -70,7 +79,7 @@ test("governador eleito pode ter mandato no Senado confirmado sem liberar envio"
   } });
   const r = await s.executar();
   assert.equal(r.status, 200);
-  assert.equal(r.body.verificacoes.length, 3);
+  assert.equal(r.body.verificacoes.length, 4);
   assert.equal(r.body.verificacoes[0].situacao, "confirmado");
   assert.equal(r.body.verificacoes[0].cargo, "senador");
   assert.equal(r.body.verificacoes[2].situacao, "manual");
