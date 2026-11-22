@@ -8,6 +8,11 @@ on:
       - 'app/api/admin/contatos-politicos/prontidao/route.ts'
       - 'app/api/candidatos/buscar/route.ts'
       - 'components/VerificarContatosPoliticos.tsx'
+      - 'app/api/admin/contatos-politicos/mandatos-em-exercicio/route.ts'
+      - 'tests/mandatos-atuais-sem-envio.test.cjs'
+      - 'tests/contato-governador-posse.test.cjs'
+      - 'lib/eleicoes/contato-governador.ts'
+      - 'lib/eleicoes/consultar-contato-parlamentar.ts'
       - '.github/workflows/testar-resend-isolado.yml'
 permissions:
   contents: read
@@ -21,5 +26,5 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: node --test tests/interacoes-resend-isolado.test.cjs tests/prontidao-recados-sem-envio.test.cjs
+      - run: node --test tests/interacoes-resend-isolado.test.cjs tests/prontidao-recados-sem-envio.test.cjs tests/mandatos-atuais-sem-envio.test.cjs tests/contato-governador-posse.test.cjs
       - run: npx tsc --noEmit

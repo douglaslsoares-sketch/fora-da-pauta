@@ -13,6 +13,16 @@ type Diagnostico = { fontes: { nome: string; ok: boolean; mensagem: string; cons
 type Revisao = { registro: { candidatura_id: string; nome_civil: string; instituicao: string; email_institucional: string; fonte_url: string; status: "revisado" | "revogado"; revisado_em: string; expira_em: string; revogado_em: string | null } | null; vigente: boolean; envioHabilitado: false; mensagem?: string };
 type DominioResend = { dominio: string; situacao: string; statusResend?: string; dominioVerificadoNoResend?: boolean; mensagem: string; consultadoEm: string; envioHabilitado: false };
 type Prontidao = { configuracaoTransporte?: { chaveResendConfigurada: boolean; remetenteConfigurado: boolean }; revisaoVigente: boolean; consultaFonteConcluida: boolean; contatoIgualAoAtual: boolean; credenciaisEnvioPresentes: boolean; prontoParaTesteDeTransporte: boolean; envioHabilitado: false; mensagem: string; consultadoEm: string };
+type MandatoAtual = {
+  cargo: "senador" | "deputado-federal" | "deputado-estadual" | "governador";
+  situacao: "confirmado" | "aguardando_posse" | "nao_aplicavel" | "nao_confirmado" | "indisponivel" | "manual";
+  instituicao: string; nomeOficial: string | null;
+  emailInstitucional: string | null; fonteUrl: string | null; fontesConferidas?: string[]; explicacao: string;
+};
+type MandatosAtuais = {
+  verificacoes: MandatoAtual[]; consultadoEm: string; aviso: string;
+  contatoAprovado: false; envioHabilitado: false;
+};
 type Consulta = { contextoMandato?: { titulo: string; explicacao: string; fontePosse: string; cargoAtual?: string; fonteCargoAtual?: string } | null; candidatura: { id: string; nomeUrna: string; nomeCompleto: string; uf: string; cargo: string }; resultado: Resultado; consultadoEm: string };
 
 export default function VerificarContatosPoliticos() {
@@ -24,6 +34,9 @@ export default function VerificarContatosPoliticos() {
   const [consulta, setConsulta] = useState<Consulta | null>(null);
   const [erro, setErro] = useState("");
   const [erroContato, setErroContato] = useState<{ id: string; mensagem: string } | null>(null);
+  const [consultandoMandatos, setConsultandoMandatos] = useState("");
+  const [mandatosAtuais, setMandatosAtuais] = useState<{ id: string; dados: MandatosAtuais } | null>(null);
+  const [erroMandatosAtuais, setErroMandatosAtuais] = useState<{ id: string; mensagem: string } | null>(null);
   const [diagnostico, setDiagnostico] = useState<Diagnostico | null>(null);
   const [diagnosticando, setDiagnosticando] = useState(false);
   const [erroDiagnostico, setErroDiagnostico] = useState("");
@@ -39,12 +52,12 @@ export default function VerificarContatosPoliticos() {
   async function buscar(e: React.FormEvent) {
     e.preventDefault();
     if (nome.trim().length < 2 || buscando) return;
-    setBuscando(true); setBuscaRealizada(false); setErro(""); setErroContato(null); setCandidatos([]); setConsulta(null); setRevisao(null); setAvisoRevisao(""); setProntidao(null); setErroProntidao("");
+    setBuscando(true); setBuscaRealizada(false); setErro(""); setErroContato(null); setMandatosAtuais(null); setErroMandatosAtuais(null); setCandidatos([]); setConsulta(null); setRevisao(null); setAvisoRevisao(""); setProntidao(null); setErroProntidao("");
     try {
-      const r = await fetch("/api/candidatos/buscar?" + new URLSearchParams({ q: nome.trim(), pagina: "1", cargos: "deputado-federal,senador,presidente,governador" }), { cache: "no-store" });
+      const r = await fetch("/api/candidatos/buscar?" + new URLSearchParams({ q: nome.trim(), pagina: "1", cargos: "deputado-federal,deputado-estadual,deputado-distrital,senador,presidente,governador" }), { cache: "no-store" });
       const data = await r.json() as { resultados?: Candidato[]; erro?: string };
       if (!r.ok) throw new Error(data.erro || "Busca indisponível.");
-      setCandidatos((data.resultados || []).filter(p => p.cargo === "deputado-federal" || p.cargo === "senador" || p.cargo === "presidente" || p.cargo === "governador").slice(0, 30));
+      setCandidatos((data.resultados || []).filter(p => p.cargo === "deputado-federal" || p.cargo === "deputado-estadual" || p.cargo === "deputado-distrital" || p.cargo === "senador" || p.cargo === "presidente" || p.cargo === "governador").slice(0, 30));
     } catch (e) { setErro(e instanceof Error ? e.message : "Não foi possível buscar."); }
     finally { setBuscando(false); setBuscaRealizada(true); }
   }
@@ -65,6 +78,23 @@ export default function VerificarContatosPoliticos() {
       }
     } catch (e) { setErroContato({ id, mensagem: e instanceof Error ? e.message : "Não foi possível consultar." }); }
     finally { setConsultando(""); }
+  }
+  async function conferirMandatosAtuais(id: string) {
+    if (consultandoMandatos) return;
+    setConsultandoMandatos(id);
+    setMandatosAtuais(null);
+    setErroMandatosAtuais(null);
+    try {
+      const r = await fetch("/api/admin/contatos-politicos/mandatos-em-exercicio?id=" + encodeURIComponent(id),
+        { cache: "no-store" });
+      const dados = await r.json() as MandatosAtuais & { erro?: string };
+      if (!r.ok) throw new Error(dados.erro || "Consulta aos mandatos atuais indisponível.");
+      setMandatosAtuais({ id, dados });
+    } catch (e) {
+      setErroMandatosAtuais({ id, mensagem: e instanceof Error ? e.message : "Não foi possível consultar os mandatos atuais." });
+    } finally {
+      setConsultandoMandatos("");
+    }
   }
   async function registrarRevisao(id: string, revogar: boolean) {
     if (processandoRevisao || !consulta || consulta.candidatura.id !== id) return;
@@ -184,8 +214,26 @@ export default function VerificarContatosPoliticos() {
         {p.cargo === "governador" && <div role="status" className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950">
           <p className="font-bold">{p.situacaoEleitoral || "Situação eleitoral de 2026 ainda não confirmada"}</p>
           <p className="mt-2">A eleição ao governo estadual não comprova posse nem exercício do novo mandato. A posse de governadores eleitos em 2026 está prevista para 6 de janeiro de 2027. Este painel não aprova nem envia recados para o governo estadual.</p>
-          <p className="mt-2">Se a pessoa exerce outro mandato, como o de senador, a verificação desse cargo precisa ser feita separadamente na fonte institucional correspondente.</p>
+          <p className="mt-2">O mandato anterior ou atual será verificado separadamente nas fontes institucionais; o novo cargo não é usado como prova de exercício.</p>
           <p className="mt-2 font-semibold">Nenhum contato foi autorizado e nenhuma mensagem foi enviada.</p>
+        </div>}
+        {p.cargo !== "presidente" && <div className="rounded-lg border border-slate-300 bg-white p-4 text-sm text-slate-900">
+          <button type="button" onClick={() => void conferirMandatosAtuais(p.id)} disabled={!!consultandoMandatos}
+            className="rounded-lg border border-blue-800 px-4 py-2 font-semibold text-blue-900 disabled:opacity-50">
+            {consultandoMandatos === p.id ? "Verificando mandatos..." : "Verificar mandatos em exercício"}
+          </button>
+          {erroMandatosAtuais?.id === p.id && <p role="alert" className="mt-3 text-red-800">{erroMandatosAtuais.mensagem} Nenhum contato foi autorizado.</p>}
+          {mandatosAtuais?.id === p.id && <div role="status" className="mt-3 space-y-3">
+            {mandatosAtuais.dados.verificacoes.map(item => <div key={item.cargo} className="rounded-lg border border-slate-200 p-3">
+              <p className="font-bold">{item.instituicao} — {item.situacao === "confirmado" ? "mandato em exercício confirmado" : item.situacao === "manual" ? "conferência manual necessária" : item.situacao === "indisponivel" ? "fonte indisponível" : item.situacao === "aguardando_posse" ? "aguardando a posse" : item.situacao === "nao_aplicavel" ? "não aplicável à candidatura" : "não confirmado na consulta"}</p>
+              {item.nomeOficial && <p className="mt-1">Nome oficial: {item.nomeOficial}</p>}
+              {item.emailInstitucional && <p className="mt-1 break-all">E-mail institucional: {item.emailInstitucional}</p>}
+              <p className="mt-1">{item.explicacao}</p>
+              {item.fonteUrl && <a href={item.fonteUrl} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block font-semibold text-blue-800 underline">Consultar fonte oficial</a>}
+            </div>)}
+            <p className="text-xs">{mandatosAtuais.dados.aviso}</p>
+            <p className="font-bold text-red-700">Nenhum contato foi autorizado; envio bloqueado.</p>
+          </div>}
         </div>}
         {consultando === p.id && <div id={"resultado-contato-" + p.id} role="status" aria-live="polite" className="mt-2 rounded-xl border border-[#344760] bg-white p-5 text-sm text-slate-700">
           Consultando o cadastro oficial de {p.nomeUrna}...
