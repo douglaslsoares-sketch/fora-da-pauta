@@ -1077,6 +1077,7 @@
 .lemaQuatroDobras { color: #f4c542; font-size: clamp(24px,4vw,42px); font-weight: 750; line-height:1.28; margin:0; text-wrap:balance; }
 .tituloDobra { color:#f4c542; font-size:clamp(26px,4.3vw,45px); font-weight:800; line-height:1.18; margin:0; text-wrap:balance; }
 .textoDobra { font-size:clamp(17px,2.1vw,22px); line-height:1.6; max-width:680px; margin:0; }
+.perguntasDobra { color:#f4c542; font-size:clamp(19px,2.5vw,27px); line-height:1.5; max-width:680px; margin:0; font-weight:650; text-wrap:balance; }
 .botaoCanalDobra { display:inline-flex; align-items:center; justify-content:center; min-height:56px; width:min(100%,340px); padding:12px 28px; background:#25d366; color:#102018; border-radius:12px; text-decoration:none; font-weight:800; font-size:20px; }
 .botaoCanalDobra:hover { background:#1ebd59; }
 .gratuitoDobra { color:#f4c542; font-size:18px; font-weight:750; margin:-12px 0 0; }
