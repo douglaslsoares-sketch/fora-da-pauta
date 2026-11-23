@@ -8,96 +8,82 @@ type CandidateFollowCardProps = {
 
 type Situacao = "conferindo" | "acompanhando" | "disponivel" | "erro";
 
-function normalizarBotUsername(valor: string | undefined) {
-  return valor?.trim().replace(/^@/, "") || "ForaDaPautaAcompanhaBot";
-}
-
 export function CandidateFollowCard({
   candidaturaId,
 }: CandidateFollowCardProps) {
   const [situacao, setSituacao] = useState<Situacao>("conferindo");
   const [tentativa, setTentativa] = useState(0);
+  const [salvando, setSalvando] = useState(false);
+  const [mensagem, setMensagem] = useState("");
 
-  const botUsername = normalizarBotUsername(
-    process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME,
-  );
-  const telegramHref =
-    `https://t.me/${botUsername}?start=${encodeURIComponent(`seguir_${candidaturaId}`)}`;
 
   useEffect(() => {
     const controller = new AbortController();
-
-    async function conferirAcompanhamento() {
+    async function consultar() {
       try {
-        const resposta = await fetch("/api/telegram/sessao", {
-          cache: "no-store",
-          signal: controller.signal,
-        });
-        if (!resposta.ok) throw new Error("Falha ao consultar o Telegram");
-        const dados = (await resposta.json()) as {
-          ativo?: boolean;
-          ids?: unknown;
-        };
-
-        if (controller.signal.aborted) return;
-
-        const confirmado =
-          dados.ativo === true &&
-          Array.isArray(dados.ids) &&
-          dados.ids.includes(candidaturaId);
-
-        setSituacao(confirmado ? "acompanhando" : "disponivel");
+        const resposta = await fetch("/api/site/acompanhamentos", { cache: "no-store", signal: controller.signal });
+        const dados = await resposta.json() as { ids?: string[]; erro?: string };
+        if (!resposta.ok) throw Error(dados.erro || "Falha na consulta");
+        if (!controller.signal.aborted) {
+          setSituacao(Array.isArray(dados.ids) && dados.ids.includes(candidaturaId) ? "acompanhando" : "disponivel");
+        }
       } catch {
         if (!controller.signal.aborted) setSituacao("erro");
       }
     }
-
-    void conferirAcompanhamento();
-    // Reconfere ao voltar do aplicativo Telegram para a ficha.
-    window.addEventListener("focus", conferirAcompanhamento);
+    void consultar();
+    window.addEventListener("focus", consultar);
     return () => {
       controller.abort();
-      window.removeEventListener("focus", conferirAcompanhamento);
+      window.removeEventListener("focus", consultar);
     };
   }, [candidaturaId, tentativa]);
 
-  // A ficha é para conhecer a pessoa. Quem já acompanha não recebe outro convite.
-  // Durante a verificação também não exibimos um convite prematuro.
-  if (situacao === "acompanhando" || situacao === "conferindo") {
-    return null;
-  }
-
-  if (situacao === "erro") {
-    return (
-      <p className="border-t border-black/10 py-3 text-xs leading-5 text-black/50">
-        Não foi possível conferir o acompanhamento neste navegador.
-        <button
-          type="button"
-          onClick={() => {
-            setSituacao("conferindo");
-            setTentativa((atual) => atual + 1);
-          }}
-          className="ml-2 font-semibold underline underline-offset-4"
-        >
-          Conferir novamente
-        </button>
-      </p>
-    );
+  async function alternar() {
+    if (salvando || situacao === "erro" || situacao === "conferindo") return;
+    const remover = situacao === "acompanhando";
+    setSalvando(true);
+    setMensagem("");
+    try {
+      const resposta = await fetch("/api/site/acompanhamentos", {
+        method: remover ? "DELETE" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: candidaturaId }),
+      });
+      const dados = await resposta.json() as { erro?: string };
+      if (!resposta.ok) throw Error(dados.erro || "Não foi possível salvar.");
+      setSituacao(remover ? "disponivel" : "acompanhando");
+      setMensagem(remover ? "Você deixou de acompanhar este político." : "Político selecionado.");
+    } catch (erro) {
+      setMensagem(erro instanceof Error ? erro.message : "Não foi possível salvar.");
+    } finally {
+      setSalvando(false);
+    }
   }
 
   return (
-    <aside className="border-t border-black/10 py-4">
-      <p className="text-sm leading-6 text-black/65">
-        Ainda não acompanha esta pessoa neste navegador?{" "}
-        <a
-          href={telegramHref}
-          target="_blank"
-          rel="noreferrer"
-          className="font-semibold text-black underline decoration-[#bd8c00] underline-offset-4"
-        >
-          Acompanhar pelo Telegram ↗
-        </a>
-      </p>
+    <aside className="border-y border-black/10 py-5" aria-label="Acompanhamento deste político">
+      {situacao === "erro" ? (
+        <p className="text-sm text-black/65">
+          Não foi possível consultar seu acompanhamento neste navegador.
+          <button type="button" onClick={() => { setSituacao("conferindo"); setTentativa(valor => valor + 1); }}
+            className="ml-2 font-semibold underline underline-offset-4">Tentar novamente</button>
+        </p>
+      ) : situacao === "conferindo" ? (
+        <p role="status" className="text-sm text-black/60">Conferindo acompanhamento...</p>
+      ) : (
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm leading-6 text-black/65">
+            {situacao === "acompanhando" ? "Você acompanha este político." : "Quer acompanhar este político?"}
+          </p>
+          <button type="button" disabled={salvando} aria-pressed={situacao === "acompanhando"}
+            onClick={() => void alternar()}
+            className={`min-h-11 rounded-xl px-5 py-3 text-sm font-bold disabled:opacity-60 ${situacao === "acompanhando" ? "bg-green-600 text-white" : "bg-[#FFC400] text-black"}`}>
+            {salvando ? "Salvando..." : situacao === "acompanhando" ? "Selecionado" : "Acompanhar"}
+          </button>
+        </div>
+      )}
+      {mensagem ? <p role="status" className="mt-3 text-sm text-black/70">{mensagem}</p> : null}
     </aside>
   );
 }
