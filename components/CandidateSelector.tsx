@@ -646,6 +646,8 @@ type CandidateSelectorProps =
       selectedIds: readonly string[];
       selectedPeople?: readonly { id: string; nomeUrna: string; cargoLabel?: string; uf?: string; siglaPartido?: string }[];
       onSelect: (candidate: CandidateResult) => void;
+      onDeselect?: (candidate: CandidateResult) => void;
+      busy?: boolean;
     };
 
 // Sem props, renderiza exatamente a experiÃªncia original de consulta.
@@ -659,12 +661,16 @@ export function CandidateSelector(props: CandidateSelectorProps = {}) {
 function CandidateFollowSelector({
   selectedIds,
   onSelect,
+  onDeselect,
+  busy = false,
   apenasFicha = false,
   modoRecado = false,
 }: {
   selectedIds: readonly string[];
   selectedPeople?: readonly { id: string; nomeUrna: string; cargoLabel?: string; uf?: string; siglaPartido?: string }[];
   onSelect?: (candidate: CandidateResult) => void;
+  onDeselect?: (candidate: CandidateResult) => void;
+  busy?: boolean;
   apenasFicha?: boolean;
   modoRecado?: boolean;
 }) {
@@ -911,8 +917,9 @@ function CandidateFollowSelector({
               {modoRecado ? <Link href={`/mandar-recado/politico/${encodeURIComponent(candidate.id)}`} className="rounded-xl bg-[#FFC400] px-3 py-3 text-xs font-bold text-black">Escolher</Link> : null}
               {!apenasFicha && onSelect ? <button
                 type="button"
-                onClick={() => { if (!selecionado) onSelect(candidate); }}
-                disabled={selecionado}
+                onClick={() => { if (selecionado) onDeselect?.(candidate); else onSelect(candidate); }}
+                disabled={busy || (selecionado && !onDeselect)}
+                aria-pressed={selecionado}
                 className={`shrink-0 rounded-xl px-2.5 py-3 text-xs font-bold ${
                   selecionado
                     ? "bg-green-600 text-white hover:bg-green-700"
