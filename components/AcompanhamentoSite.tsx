@@ -16,6 +16,7 @@ export function AcompanhamentoSite({ modo }: { modo: "escolher" | "lista" | "rec
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState("");
   const [aviso, setAviso] = useState("");
+  const [ultimoSelecionado, setUltimoSelecionado] = useState<Pessoa | null>(null);
 
   async function consultar() {
     const resposta = await fetch("/api/site/acompanhamentos", { cache: "no-store" });
@@ -73,6 +74,8 @@ export function AcompanhamentoSite({ modo }: { modo: "escolher" | "lista" | "rec
       if (!resposta.ok) throw Error(dados.erro || "Não foi possível salvar.");
       setPessoas(atuais => ({ ...atuais, [pessoa.id]: pessoa.nomeUrna }));
       await consultar();
+      if (method === "POST") setUltimoSelecionado(pessoa);
+      else setUltimoSelecionado(atual => atual?.id === pessoa.id ? null : atual);
       setAviso(method === "POST" ? "Político selecionado." : "Político removido.");
     } catch (e) {
       setErro(e instanceof Error ? e.message : "Não foi possível salvar.");
@@ -87,7 +90,19 @@ export function AcompanhamentoSite({ modo }: { modo: "escolher" | "lista" | "rec
     {aviso && <p role="status" className="mb-4 rounded-lg bg-green-50 p-3 text-green-800">{aviso}</p>}
     {carregando ? <p role="status">Carregando acompanhamentos...</p> : modo === "escolher" ? (
       <div aria-busy={salvando}>
-        <CandidateSelector mode="follow" selectedIds={ids} onSelect={pessoa => alterar("POST", pessoa)} />
+        {ultimoSelecionado && ids.includes(ultimoSelecionado.id) ? (
+          <div className="mb-5 flex items-center gap-3 rounded-2xl border border-green-500/50 bg-[#24334b] p-4" aria-label="Último político selecionado">
+            <CandidatePhoto id={ultimoSelecionado.id} name={ultimoSelecionado.nomeUrna} />
+            <p className="min-w-0 flex-1 font-semibold">{ultimoSelecionado.nomeUrna}</p>
+            <button type="button" disabled={salvando} onClick={() => void alterar("DELETE", ultimoSelecionado)}
+              className="rounded-xl bg-green-600 px-3 py-3 text-sm font-bold text-white disabled:opacity-60" aria-label={`Deixar de acompanhar ${ultimoSelecionado.nomeUrna}`}>
+              Selecionado
+            </button>
+          </div>
+        ) : null}
+        <CandidateSelector mode="follow" selectedIds={ids} busy={salvando}
+          onSelect={pessoa => void alterar("POST", pessoa)}
+          onDeselect={pessoa => void alterar("DELETE", pessoa)} />
         {salvando && <p role="status" className="mt-3">Salvando escolha...</p>}
       </div>
     ) : ids.length ? <ul className="space-y-3">{ids.map(id => <li key={id} className="flex items-center gap-3 rounded-xl border border-[#344760] bg-[#24334b] p-4">
