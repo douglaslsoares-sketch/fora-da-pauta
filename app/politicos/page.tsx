@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "Acompanhe quem nos representa. Escolha políticos, consulte suas escolhas e conheça o aplicativo Políticos.",
 };
 
-type TipoIcone = "buscar" | "pessoas" | "sino" | "qr" | "compartilhar" | "sacola" | "recado";
+type TipoIcone = "buscar" | "pessoas" | "sino" | "qr" | "compartilhar" | "sacola" | "recado" | "historico";
 function Icone({ tipo }: { tipo: TipoIcone }) {
   const desenho = {
     buscar: <><circle cx="11" cy="11" r="7"/><path d="m16 16 6 6"/></>,
@@ -20,12 +20,14 @@ function Icone({ tipo }: { tipo: TipoIcone }) {
     compartilhar: <><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.3 10.8 7.3-4.3M8.3 13.2l7.3 4.3"/></>,
     sacola: <><path d="M4 8h16l1.5 13h-19L4 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></>,
     recado: <><path d="M4 5h16v12H8l-4 4V5Z"/><path d="M7 9h10M7 13h7"/></>,
+    historico: <><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/><path d="M12 7v5l3.5 2"/></>,
   }[tipo];
   return <svg viewBox="0 0 24 24" className={styles.iconeSvg} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{desenho}</svg>;
 }
 const opcoes: Array<{ titulo: string; descricao: string; href: string; tipo: TipoIcone; destaque?: boolean }> = [
   { titulo: "Escolher um político", descricao: "Pesquise e acompanhe quem você quer.", href: "/politicos/escolher", tipo: "buscar", destaque: true },
   { titulo: "Políticos que eu acompanho", descricao: "Veja e gerencie suas escolhas.", href: "/politicos/acompanhados", tipo: "pessoas" },
+  { titulo: "Histórico de um político", descricao: "Veja a trajetória e os registros do passado.", href: "/politicos/historico", tipo: "historico" },
   { titulo: "Mandar um recado", descricao: "Consulte os canais oficiais de contato com um político.", href: "/politicos/recados", tipo: "recado" },
   { titulo: "Receber avisos", descricao: "Saiba o que fazem os políticos que você acompanha.", href: "/politicos/avisos", tipo: "sino" },
   { titulo: "Mostrar QR Code", descricao: "Acesse pelo celular.", href: "/politicos/qr-code", tipo: "qr" },

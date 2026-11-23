@@ -90,7 +90,7 @@ const ufs = [
   "TO",
 ];
 
-function CandidateBrowseSelector() {
+function CandidateBrowseSelector({ resultBasePath = "/conheca-seu-candidato" }: { resultBasePath?: string }) {
   const [nome, setNome] =
     useState("");
 
@@ -514,7 +514,7 @@ function CandidateBrowseSelector() {
                       key={
                         candidate.id
                       }
-                      href={`/conheca-seu-candidato/${candidate.id}`}
+                      href={`${resultBasePath}/${candidate.id}`}
                       className="
                         group
                         block
@@ -638,7 +638,7 @@ function CandidateBrowseSelector() {
 }
 
 type CandidateSelectorProps =
-  | { mode?: "browse" }
+  | { mode?: "browse"; resultBasePath?: string }
   | { mode: "ficha" }
   | { mode: "recado"; recadoBasePath?: "/mandar-recado/politico" | "/politicos/recados" }
   | {
@@ -655,7 +655,7 @@ export function CandidateSelector(props: CandidateSelectorProps = {}) {
   if (props.mode === "ficha") return <CandidateFollowSelector selectedIds={[]} apenasFicha />;
   if (props.mode === "recado") return <CandidateFollowSelector selectedIds={[]} modoRecado recadoBasePath={props.recadoBasePath} />;
   if (props.mode === "follow") return <CandidateFollowSelector {...props} />;
-  return <CandidateBrowseSelector />;
+  return <CandidateBrowseSelector resultBasePath={props.resultBasePath} />;
 }
 
 function CandidateFollowSelector({
