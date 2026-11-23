@@ -89,6 +89,7 @@ export function FormularioAvaliacaoPoliticos() {
 
       <p className="text-sm leading-6 text-slate-300">
         Gravação de até 5 minutos. Você não precisa informar seu nome ou telefone.
+        Sua voz faz parte do arquivo e o áudio ficará disponível apenas à administração para melhorar o aplicativo.
         Nada é enviado até tocar em <strong>Enviar feedback em áudio</strong>.
         Evite citar informações pessoais. Não saia do site nem abra outro aplicativo durante a gravação, pois o navegador pode interromper o microfone.
       </p>

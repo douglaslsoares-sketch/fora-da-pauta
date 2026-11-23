@@ -49,6 +49,7 @@ export function AvaliacaoVozProvider({ children }: { children: ReactNode }) {
   const descartarRef = useRef(false);
 
   useEffect(() => {
+    ativoRef.current = true;
     return () => {
       ativoRef.current = false;
       const gravador = gravadorRef.current;

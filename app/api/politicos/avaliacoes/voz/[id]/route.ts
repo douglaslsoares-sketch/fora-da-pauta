@@ -15,7 +15,7 @@ type RegistroAudio = {
 };
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const token = (await cookies()).get(QUESTIONS_ADMIN_COOKIE)?.value;
@@ -40,15 +40,43 @@ export async function GET(
       return NextResponse.json({ erro: "Formato inválido." }, { status: 500 });
     }
     const buffer = Buffer.from(audio.audio);
+    const tamanho = buffer.length;
+    const range = request.headers.get("range");
+    const cabecalhos = {
+      "Content-Type": tipo,
+      "Cache-Control": "private, no-store",
+      "X-Content-Type-Options": "nosniff",
+      "Accept-Ranges": "bytes",
+    };
+    if (range) {
+      const trechos = /^bytes=(\d+)-(\d*)$/.exec(range);
+      if (!trechos) {
+        return new Response(null, {
+          status: 416,
+          headers: { ...cabecalhos, "Content-Range": `bytes */${tamanho}` },
+        });
+      }
+      const inicio = Number(trechos[1]);
+      const fim = trechos[2] ? Number(trechos[2]) : tamanho - 1;
+      if (!Number.isSafeInteger(inicio) || !Number.isSafeInteger(fim) ||
+          inicio >= tamanho || inicio > fim || fim >= tamanho) {
+        return new Response(null, {
+          status: 416,
+          headers: { ...cabecalhos, "Content-Range": `bytes */${tamanho}` },
+        });
+      }
+      return new Response(new Uint8Array(buffer.subarray(inicio, fim + 1)), {
+        status: 206,
+        headers: {
+          ...cabecalhos,
+          "Content-Range": `bytes ${inicio}-${fim}/${tamanho}`,
+          "Content-Length": String(fim - inicio + 1),
+        },
+      });
+    }
     return new Response(new Uint8Array(buffer), {
       status: 200,
-      headers: {
-        "Content-Type": tipo,
-        "Content-Length": String(buffer.length),
-        "Cache-Control": "private, no-store",
-        "X-Content-Type-Options": "nosniff",
-        "Accept-Ranges": "none",
-      },
+      headers: { ...cabecalhos, "Content-Length": String(tamanho) },
     });
   } catch (error) {
     console.error("Falha ao consultar áudio da avaliação:", error);

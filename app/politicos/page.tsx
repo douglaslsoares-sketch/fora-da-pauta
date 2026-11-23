@@ -32,7 +32,7 @@ const opcoes: Array<{ titulo: string; descricao: string; href: string; tipo: Tip
   { titulo: "Receber avisos", descricao: "Saiba o que fazem os políticos que você acompanha.", href: "/politicos/avisos", tipo: "sino" },
   { titulo: "Mostrar QR Code", descricao: "Acesse pelo celular.", href: "/politicos/qr-code", tipo: "qr" },
   { titulo: "Compartilhar", descricao: "Indique o aplicativo para outras pessoas.", href: "/politicos/compartilhar", tipo: "compartilhar" },
-  { titulo: "Avaliar o aplicativo", descricao: "Conte como podemos melhorar sua experiência.", href: "/politicos/avaliar", tipo: "avaliar" },
+  { titulo: "Avaliar o aplicativo", descricao: "Grave sua opinião enquanto usa o aplicativo.", href: "/politicos/avaliar", tipo: "avaliar" },
   { titulo: "Loja", descricao: "Produtos que ajudam a manter o projeto.", href: "/politicos/loja", tipo: "sacola" },
 ];
 
