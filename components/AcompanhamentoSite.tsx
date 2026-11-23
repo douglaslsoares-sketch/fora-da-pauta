@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CandidateSelector } from "@/components/CandidateSelector";
+import { CandidateFollowLiveSearch } from "@/components/CandidateFollowLiveSearch";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { CabecalhoInterno } from "@/components/CabecalhoInterno";
 import { CabecalhoPoliticos } from "@/components/CabecalhoPoliticos";
@@ -103,9 +104,18 @@ export function AcompanhamentoSite({ modo, voltarPara = "/central" }: { modo: "e
             </button>
           </div>
         ) : null}
-        <CandidateSelector mode="follow" selectedIds={ids} busy={salvando}
-          onSelect={pessoa => void alterar("POST", pessoa)}
-          onDeselect={pessoa => void alterar("DELETE", pessoa)} />
+        {voltarPara === "/politicos" ? (
+          <CandidateFollowLiveSearch
+            selectedIds={ids}
+            busy={salvando}
+            onSelect={pessoa => void alterar("POST", pessoa)}
+            onDeselect={pessoa => void alterar("DELETE", pessoa)}
+          />
+        ) : (
+          <CandidateSelector mode="follow" selectedIds={ids} busy={salvando}
+            onSelect={pessoa => void alterar("POST", pessoa)}
+            onDeselect={pessoa => void alterar("DELETE", pessoa)} />
+        )}
         {salvando && <p role="status" className="mt-3">Salvando escolha...</p>}
         {voltarPara === "/politicos" && <Link href="/politicos/pesquisar" className="mt-5 inline-block text-sm font-semibold text-[#ffd02a] underline underline-offset-4">Pesquisar fichas de políticos sem acompanhar</Link>}
       </div>
