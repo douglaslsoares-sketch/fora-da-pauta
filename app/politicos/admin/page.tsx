@@ -49,7 +49,10 @@ export default async function AdministracaoPoliticos() {
       <p className="mt-3 text-sm leading-6 text-slate-200">Pesquisa e escolhas: usam a base eleitoral e o registro de acompanhamentos do site.</p>
       <p className="mt-3 text-sm leading-6 text-slate-200">Envio de recados individuais: bloqueado até a verificação do contato institucional.</p>
       <p className="mt-3 text-sm leading-6 text-slate-200">Avisos individuais automáticos: ainda em preparação. Não há disparo de notificações nesta página.</p>
-      <Link href="/admin/politicos/contatos" className="mt-5 inline-flex rounded-lg border border-[#ffd02a] px-4 py-3 text-sm font-semibold text-white">Conferir contatos institucionais</Link>
+      <div className="mt-5 flex flex-wrap gap-3">
+        <Link href="/politicos/admin/avaliacoes" className="inline-flex rounded-lg bg-[#ffd02a] px-4 py-3 text-sm font-bold text-[#071827]">Ver avaliações do aplicativo</Link>
+        <Link href="/admin/politicos/contatos" className="inline-flex rounded-lg border border-[#ffd02a] px-4 py-3 text-sm font-semibold text-white">Conferir contatos institucionais</Link>
+      </div>
     </section>
   </PaginaPoliticos>;
 }

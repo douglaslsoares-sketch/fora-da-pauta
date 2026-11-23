@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "Acompanhe quem nos representa. Escolha políticos, consulte suas escolhas e conheça o aplicativo Políticos.",
 };
 
-type TipoIcone = "buscar" | "pessoas" | "sino" | "qr" | "compartilhar" | "sacola" | "recado" | "historico";
+type TipoIcone = "buscar" | "pessoas" | "sino" | "qr" | "compartilhar" | "sacola" | "recado" | "historico" | "avaliar";
 function Icone({ tipo }: { tipo: TipoIcone }) {
   const desenho = {
     buscar: <><circle cx="11" cy="11" r="7"/><path d="m16 16 6 6"/></>,
@@ -21,6 +21,7 @@ function Icone({ tipo }: { tipo: TipoIcone }) {
     sacola: <><path d="M4 8h16l1.5 13h-19L4 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></>,
     recado: <><path d="M4 5h16v12H8l-4 4V5Z"/><path d="M7 9h10M7 13h7"/></>,
     historico: <><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/><path d="M12 7v5l3.5 2"/></>,
+    avaliar: <><path d="m12 2.8 3 6.1 6.8 1-4.9 4.8 1.2 6.7-6.1-3.2-6.1 3.2 1.2-6.7-4.9-4.8 6.8-1z"/></>,
   }[tipo];
   return <svg viewBox="0 0 24 24" className={styles.iconeSvg} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{desenho}</svg>;
 }
@@ -31,6 +32,7 @@ const opcoes: Array<{ titulo: string; descricao: string; href: string; tipo: Tip
   { titulo: "Receber avisos", descricao: "Saiba o que fazem os políticos que você acompanha.", href: "/politicos/avisos", tipo: "sino" },
   { titulo: "Mostrar QR Code", descricao: "Acesse pelo celular.", href: "/politicos/qr-code", tipo: "qr" },
   { titulo: "Compartilhar", descricao: "Indique o aplicativo para outras pessoas.", href: "/politicos/compartilhar", tipo: "compartilhar" },
+  { titulo: "Avaliar o aplicativo", descricao: "Conte como podemos melhorar sua experiência.", href: "/politicos/avaliar", tipo: "avaliar" },
   { titulo: "Loja", descricao: "Produtos que ajudam a manter o projeto.", href: "/politicos/loja", tipo: "sacola" },
 ];
 
