@@ -4,113 +4,71 @@ import { cookies } from "next/headers";
 import { PaginaPoliticos } from "@/components/PaginaPoliticos";
 import { LoginAdministracaoPoliticos } from "@/components/politicos/LoginAdministracaoPoliticos";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
-import { garantirTabelaAvaliacoesPoliticos } from "@/lib/politicos/avaliacoes";
+import { garantirTabelaFeedbackVozPoliticos } from "@/lib/politicos/feedbackVoz";
 import { sql } from "@/lib/interesses/db";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
-  title: "Avaliações recebidas | Administração | Políticos",
+  title: "Feedbacks de voz | Administração | Políticos",
   robots: { index: false, follow: false },
 };
-
-type Avaliacao = {
+type FeedbackVoz = {
   id: string;
-  nota: number;
-  comentario: string | null;
   data: string;
+  duracao_segundos: number | null;
 };
-type Estatistica = {
-  nota: number;
-  quantidade: string;
-};
+function duracao(segundos: number | null) {
+  if (segundos === null) return "Duração não informada";
+  return \`\${Math.floor(segundos / 60)}min \${String(segundos % 60).padStart(2, "0")}s\`;
+}
 
-export default async function AvaliacoesAdministracao() {
-  const sessao = (await cookies()).get(QUESTIONS_ADMIN_COOKIE)?.value;
-  if (!verifyQuestionsAdminSessionToken(sessao)) return <LoginAdministracaoPoliticos />;
+export default async function FeedbacksVozAdministracao() {
+  const token = (await cookies()).get(QUESTIONS_ADMIN_COOKIE)?.value;
+  if (!verifyQuestionsAdminSessionToken(token)) return <LoginAdministracaoPoliticos />;
 
-  let avaliacoes: Avaliacao[] = [];
-  let totais: Estatistica[] = [];
+  let feedbacks: FeedbackVoz[] = [];
+  let total = 0;
   let falha = false;
   try {
-    await garantirTabelaAvaliacoesPoliticos();
-    [avaliacoes, totais] = await Promise.all([
-      sql<Avaliacao[]>`
-        SELECT id::text AS id, nota, comentario,
+    await garantirTabelaFeedbackVozPoliticos();
+    const [registros, contagem] = await Promise.all([
+      sql<FeedbackVoz[]>\`
+        SELECT id::text AS id, duracao_segundos,
           to_char(criado_em AT TIME ZONE 'America/Sao_Paulo', 'DD/MM/YYYY HH24:MI') AS data
-        FROM public.politicos_avaliacoes
-        ORDER BY criado_em DESC LIMIT 100
-      `,
-      sql<Estatistica[]>`
-        SELECT nota, count(*)::text AS quantidade
-        FROM public.politicos_avaliacoes
-        GROUP BY nota ORDER BY nota DESC
-      `,
+        FROM public.politicos_feedback_voz ORDER BY criado_em DESC LIMIT 100
+      \`,
+      sql<{ total: string }[]>\`SELECT COUNT(*)::text AS total FROM public.politicos_feedback_voz\`,
     ]);
+    feedbacks = registros;
+    total = Number(contagem[0]?.total ?? 0);
   } catch (e) {
-    console.error("Falha ao consultar avaliações do Políticos:", e);
+    console.error("Falha ao consultar feedbacks de voz:", e);
     falha = true;
   }
 
-  const quantidade = totais.reduce((soma, registro) => soma + Number(registro.quantidade), 0);
-  const media = quantidade
-    ? totais.reduce((soma, registro) => soma + Number(registro.nota) * Number(registro.quantidade), 0) / quantidade
-    : null;
-
   return (
-    <PaginaPoliticos titulo="Avaliações do aplicativo">
-      <Link href="/politicos/admin" className="mb-5 inline-block text-sm font-semibold text-[#ffd333] underline underline-offset-4">← Voltar à administração</Link>
-      {falha ? (
-        <p role="alert" className="rounded-xl border border-red-500/50 p-5 text-white">
-          Não foi possível consultar as avaliações. Consulte os registros do servidor.
-        </p>
-      ) : (
+    <PaginaPoliticos titulo="Feedbacks de voz">
+      <Link href="/politicos/admin" className="mb-5 inline-block font-semibold text-[#ffd333] underline underline-offset-4">← Administração</Link>
+      {falha ? <p role="alert" className="rounded-xl border border-red-500/50 p-5 text-white">Não foi possível consultar os áudios. Verifique os registros do servidor.</p> : (
         <>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl border border-[#38556f] bg-[#162d44] p-5">
-              <p className="text-3xl font-extrabold text-[#ffd333]">{quantidade.toLocaleString("pt-BR")}</p>
-              <p className="mt-2 text-sm text-slate-200">Avaliações recebidas</p>
-            </div>
-            <div className="rounded-xl border border-[#38556f] bg-[#162d44] p-5">
-              <p className="text-3xl font-extrabold text-[#ffd333]">{media === null ? "—" : media.toFixed(1).replace(".", ",") + " / 5"}</p>
-              <p className="mt-2 text-sm text-slate-200">Média das notas</p>
-            </div>
+          <div className="rounded-xl border border-[#38556f] bg-[#162d44] p-5">
+            <p className="text-3xl font-extrabold text-[#ffd333]">{total.toLocaleString("pt-BR")}</p>
+            <p className="mt-2 text-sm text-slate-200">Feedbacks em áudio recebidos</p>
           </div>
-          <section className="mt-5 rounded-xl border border-[#38556f] bg-[#162d44] p-5">
-            <h2 className="text-lg font-bold">Distribuição das notas</h2>
-            <div className="mt-4 space-y-3">
-              {[5, 4, 3, 2, 1].map(nota => {
-                const quantidadeNota = Number(totais.find(registro => Number(registro.nota) === nota)?.quantidade ?? 0);
-                return <div key={nota} className="flex items-center gap-3">
-                  <span className="w-7 text-sm font-bold text-[#ffd333]">{nota}</span>
-                  <div className="h-3 flex-1 overflow-hidden rounded-full bg-[#394e64]">
-                    <div className="h-full bg-[#ffd333]" style={{ width: `${quantidade ? (100 * quantidadeNota / quantidade) : 0}%` }} />
-                  </div>
-                  <span className="w-12 text-right text-sm text-slate-200">{quantidadeNota}</span>
-                </div>;
-              })}
-            </div>
-          </section>
-          <section className="mt-8">
-            <h2 className="text-xl font-bold">Avaliações mais recentes</h2>
-            <p className="mt-1 text-sm text-slate-300">Últimas 100 avaliações, com comentários quando enviados. Os dados não são publicados no aplicativo.</p>
-            {avaliacoes.length === 0 ? (
-              <p className="mt-5 rounded-xl bg-[#162d44] p-5 text-slate-200">Nenhuma avaliação recebida até agora.</p>
-            ) : (
-              <ul className="mt-5 space-y-3">
-                {avaliacoes.map(avaliacao => (
-                  <li key={avaliacao.id} className="rounded-xl border border-[#38556f] bg-[#162d44] p-5">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="font-bold text-[#ffd333]">{avaliacao.nota} / 5</span>
-                      <time className="text-xs text-slate-300">{avaliacao.data} (Brasília)</time>
-                    </div>
-                    <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-slate-100">
-                      {avaliacao.comentario?.trim() || "Sem comentário."}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
+          <p className="mt-5 text-sm leading-7 text-slate-300">As gravações ficam disponíveis apenas na área administrativa. Os dados de voz não são divulgados no aplicativo.</p>
+          {feedbacks.length === 0 ? (
+            <p className="mt-6 rounded-xl bg-[#162d44] p-5 text-slate-200">Nenhum áudio recebido até agora.</p>
+          ) : (
+            <ol className="mt-6 space-y-4">
+              {feedbacks.map(item => (
+                <li key={item.id} className="rounded-xl border border-[#38556f] bg-[#162d44] p-5">
+                  <p className="font-semibold text-[#ffd333]">{item.data} (Brasília)</p>
+                  <p className="mt-1 text-sm text-slate-300">{duracao(item.duracao_segundos)}</p>
+                  <audio controls preload="none" className="mt-4 w-full" src={\`/api/politicos/avaliacoes/voz/\${item.id}\`} aria-label={\`Feedback recebido em \${item.data}\`} />
+                </li>
+              ))}
+            </ol>
+          )}
         </>
       )}
     </PaginaPoliticos>
