@@ -42,8 +42,16 @@ function rotuloData(data: string) {
   return /^\d{4}-\d{2}-\d{2}$/.test(data) ? dataPortugues(data) : data;
 }
 
-export default async function HistoricoDeUmPolitico({ params }: { params: Promise<{ id: string }> }) {
+export default async function HistoricoDeUmPolitico({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ ordem?: string | string[] }>;
+}) {
   const { id } = await params;
+  const { ordem: ordemSolicitada } = await searchParams;
+  const ordem = ordemSolicitada === "asc" ? "asc" : "desc";
   if (!/^\d{8,20}$/.test(id)) notFound();
 
   const politico = candidaturas.find(candidato => candidato.id === id);
@@ -116,7 +124,11 @@ export default async function HistoricoDeUmPolitico({ params }: { params: Promis
     });
   }
 
-  registros.sort((a, b) => b.data.localeCompare(a.data) || a.chave.localeCompare(b.chave));
+  registros.sort((a, b) => (
+    (ordem === "asc"
+      ? a.data.localeCompare(b.data)
+      : b.data.localeCompare(a.data)) || a.chave.localeCompare(b.chave)
+  ));
 
   return (
     <PaginaPoliticos titulo="Histórico de um político">
@@ -131,12 +143,28 @@ export default async function HistoricoDeUmPolitico({ params }: { params: Promis
       <Link href="/politicos/historico" className="mt-5 inline-flex min-h-11 items-center text-sm font-semibold text-[#ffd333] underline underline-offset-4">← Pesquisar outro político</Link>
 
       <div className="mt-5 rounded-xl border border-[#30455d] p-4 text-sm leading-6 text-slate-300">
-        Os registros abaixo são apresentados em ordem decrescente de data e mantêm as respectivas fontes. Alegações, respostas e decisões não são equivalentes: cada informação deve ser interpretada conforme sua natureza. Este histórico não pretende ser completo.
+        Os registros abaixo são apresentados {ordem === "asc" ? "dos mais antigos para os mais recentes" : "dos mais recentes para os mais antigos"} e mantêm as respectivas fontes. Alegações, respostas e decisões não são equivalentes: cada informação deve ser interpretada conforme sua natureza. Este histórico não pretende ser completo.
       </div>
 
       <section aria-labelledby="cronologia-titulo" className="mt-8">
         <h2 id="cronologia-titulo" className="text-2xl font-extrabold text-white">Trajetória e acontecimentos</h2>
         <p className="mt-2 text-sm text-slate-300">{registros.length} {registros.length === 1 ? "registro encontrado" : "registros encontrados"} na base consultada.</p>
+        <nav aria-label="Ordenar histórico por data" className="mt-6 flex flex-wrap gap-3">
+          <Link
+            href={`?ordem=desc#cronologia-titulo`}
+            aria-current={ordem === "desc" ? "page" : undefined}
+            className={`inline-flex min-h-11 flex-1 items-center justify-center rounded-xl border px-4 py-3 text-center text-sm font-semibold transition-colors sm:flex-none ${ordem === "desc" ? "border-[#ffd333] bg-[#ffd333] text-[#071827]" : "border-[#4a6178] bg-[#152d45] text-white hover:border-[#ffd333]"}`}
+          >
+            ↓ Mais recentes primeiro
+          </Link>
+          <Link
+            href={`?ordem=asc#cronologia-titulo`}
+            aria-current={ordem === "asc" ? "page" : undefined}
+            className={`inline-flex min-h-11 flex-1 items-center justify-center rounded-xl border px-4 py-3 text-center text-sm font-semibold transition-colors sm:flex-none ${ordem === "asc" ? "border-[#ffd333] bg-[#ffd333] text-[#071827]" : "border-[#4a6178] bg-[#152d45] text-white hover:border-[#ffd333]"}`}
+          >
+            ↑ Mais antigos primeiro
+          </Link>
+        </nav>
         {registros.length === 0 ? (
           <p className="mt-5 rounded-xl bg-[#152d45] p-5 leading-7 text-slate-200">Ainda não há registros históricos suficientes para apresentar uma cronologia deste político.</p>
         ) : (
