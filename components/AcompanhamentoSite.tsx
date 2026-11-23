@@ -107,6 +107,7 @@ export function AcompanhamentoSite({ modo, voltarPara = "/central" }: { modo: "e
           onSelect={pessoa => void alterar("POST", pessoa)}
           onDeselect={pessoa => void alterar("DELETE", pessoa)} />
         {salvando && <p role="status" className="mt-3">Salvando escolha...</p>}
+        {voltarPara === "/politicos" && <Link href="/politicos/pesquisar" className="mt-5 inline-block text-sm font-semibold text-[#ffd02a] underline underline-offset-4">Pesquisar fichas de políticos sem acompanhar</Link>}
       </div>
     ) : ids.length ? <ul className="space-y-3">{ids.map(id => <li key={id} className="flex items-center gap-3 rounded-xl border border-[#344760] bg-[#24334b] p-4">
       <CandidatePhoto id={id} name={pessoas[id] || "Político acompanhado"} />

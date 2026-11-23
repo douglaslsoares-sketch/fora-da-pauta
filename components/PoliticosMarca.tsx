@@ -1,19 +1,20 @@
 import type { SVGProps } from "react";
 
-/** Marca do aplicativo Políticos, reconstruída a partir da referência visual aprovada. */
+/** Símbolo do aplicativo Políticos, recuperado do protótipo original. */
 export function PoliticosMarca(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 128 105" fill="none" role="img" aria-label="Olho com pessoas e arco amarelo" {...props}>
-      <path d="M10 31C44 8 83 7 118 30" stroke="#d4b431" strokeWidth="9" strokeLinecap="round"/>
-      <path d="M10 66C39 33 87 33 118 66C88 99 39 99 10 66Z" fill="#dfe5eb" stroke="#cdd8e2" strokeWidth="2"/>
-      <path d="M23 66C46 44 82 44 105 66C82 88 45 88 23 66Z" fill="#0c2235"/>
-      <circle cx="40" cy="61" r="9.5" fill="#dce4eb"/>
-      <circle cx="64" cy="52" r="12" fill="#dce4eb"/>
-      <circle cx="88" cy="61" r="9.5" fill="#dce4eb"/>
-      <path d="M21 79C22 69 29 66 39 67C49 66 55 70 57 79" fill="#dce4eb"/>
-      <path d="M70 79C72 69 79 66 89 67C98 67 105 72 107 79" fill="#dce4eb"/>
-      <path d="M39 89C42 74 51 72 64 72C77 72 87 79 89 89C72 99 55 99 39 89Z" fill="#ffd333"/>
-      <path d="M10 66C39 33 87 33 118 66C88 99 39 99 10 66Z" stroke="#dce3eb" strokeWidth="6" strokeLinejoin="round"/>
+    <svg viewBox="0 0 120 94" fill="none" role="img" aria-label="Olho com três pessoas" {...props}>
+      <path d="M10 26 Q60 -5 110 26" stroke="#ffd02a" strokeWidth="8" strokeLinecap="round" />
+      <defs><clipPath id="politicos-olho-interior"><path d="M8 57 Q60 5 112 57 Q60 107 8 57Z" /></clipPath></defs>
+      <g clipPath="url(#politicos-olho-interior)">
+        <circle cx="60" cy="43" r="11" fill="#f5f8fc" />
+        <circle cx="34" cy="53" r="8" fill="#f5f8fc" />
+        <circle cx="86" cy="53" r="8" fill="#f5f8fc" />
+        <path d="M19 79 Q19 61 34 61 Q47 61 47 79Z" fill="#f5f8fc" />
+        <path d="M73 79 Q73 61 86 61 Q101 61 101 79Z" fill="#f5f8fc" />
+        <path d="M37 86 Q37 58 60 58 Q83 58 83 86Z" fill="#ffd02a" />
+      </g>
+      <path d="M8 57 Q60 5 112 57 Q60 107 8 57Z" stroke="#f5f8fc" strokeWidth="7" strokeLinejoin="round" />
     </svg>
   );
 }

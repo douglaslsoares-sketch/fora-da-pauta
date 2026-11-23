@@ -640,7 +640,7 @@ function CandidateBrowseSelector() {
 type CandidateSelectorProps =
   | { mode?: "browse" }
   | { mode: "ficha" }
-  | { mode: "recado" }
+  | { mode: "recado"; recadoBasePath?: "/mandar-recado/politico" | "/politicos/recados" }
   | {
       mode: "follow";
       selectedIds: readonly string[];
@@ -653,7 +653,7 @@ type CandidateSelectorProps =
 // Sem props, renderiza exatamente a experiÃªncia original de consulta.
 export function CandidateSelector(props: CandidateSelectorProps = {}) {
   if (props.mode === "ficha") return <CandidateFollowSelector selectedIds={[]} apenasFicha />;
-  if (props.mode === "recado") return <CandidateFollowSelector selectedIds={[]} modoRecado />;
+  if (props.mode === "recado") return <CandidateFollowSelector selectedIds={[]} modoRecado recadoBasePath={props.recadoBasePath} />;
   if (props.mode === "follow") return <CandidateFollowSelector {...props} />;
   return <CandidateBrowseSelector />;
 }
@@ -665,6 +665,7 @@ function CandidateFollowSelector({
   busy = false,
   apenasFicha = false,
   modoRecado = false,
+  recadoBasePath = "/mandar-recado/politico",
 }: {
   selectedIds: readonly string[];
   selectedPeople?: readonly { id: string; nomeUrna: string; cargoLabel?: string; uf?: string; siglaPartido?: string }[];
@@ -673,6 +674,7 @@ function CandidateFollowSelector({
   busy?: boolean;
   apenasFicha?: boolean;
   modoRecado?: boolean;
+  recadoBasePath?: string;
 }) {
   const [query, setQuery] = useState("");
   const [buscaAtiva, setBuscaAtiva] = useState("");
@@ -914,7 +916,7 @@ function CandidateFollowSelector({
               </div>
 
               <div className="flex shrink-0 flex-col gap-2">
-              {modoRecado ? <Link href={`/mandar-recado/politico/${encodeURIComponent(candidate.id)}`} className="rounded-xl bg-[#FFC400] px-3 py-3 text-xs font-bold text-black">Escolher</Link> : null}
+              {modoRecado ? <Link href={`${recadoBasePath}/${encodeURIComponent(candidate.id)}`} className="rounded-xl bg-[#FFC400] px-3 py-3 text-xs font-bold text-black">Escolher</Link> : null}
               {!apenasFicha && onSelect ? <button
                 type="button"
                 onClick={() => { if (selecionado) onDeselect?.(candidate); else onSelect(candidate); }}

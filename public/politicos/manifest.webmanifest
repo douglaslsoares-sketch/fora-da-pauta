@@ -1,0 +1,19 @@
+{
+  "id": "/politicos/",
+  "name": "Políticos",
+  "short_name": "Políticos",
+  "description": "Acompanhe quem nos representa.",
+  "start_url": "/politicos",
+  "scope": "/politicos/",
+  "display": "standalone",
+  "background_color": "#07182b",
+  "theme_color": "#07182b",
+  "icons": [
+    {
+      "src": "/politicos/icone.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
