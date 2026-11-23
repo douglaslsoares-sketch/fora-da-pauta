@@ -133,7 +133,7 @@ export default async function HistoricoDeUmPolitico({
   ));
 
   return (
-    <PaginaPoliticos titulo="Histórico de um político" fecharHref={veioDosAcompanhados ? "/politicos/acompanhados" : "/politicos"}>
+    <PaginaPoliticos titulo="Histórico de um político" voltarHref={veioDosAcompanhados ? "/politicos/acompanhados" : "/politicos/historico"}>
       <div className="flex items-center gap-4 rounded-2xl border border-[#30455d] bg-[#152d45] p-4">
         <CandidatePhoto id={politico.id} name={politico.nomeUrna} />
         <div className="min-w-0">

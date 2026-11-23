@@ -172,6 +172,12 @@ export function AcompanhamentoSite({ modo, voltarPara = "/central" }: { modo: "e
         })}
       </ul>
     ) : <p>Você não acompanha nenhum político.</p>}
-    <div className="mt-8 flex justify-center"><Link href={voltarPara} className="rounded-lg bg-red-600 px-8 py-3 font-bold text-white"><span aria-hidden="true">x </span>Fechar</Link></div>
+    <div className="mt-8 flex justify-center">
+      {voltarPara === "/politicos" ? (
+        <Link href="/politicos" className="inline-flex min-h-11 items-center gap-2 px-4 py-2 text-sm font-semibold text-[#ffd333] underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd333]"><span aria-hidden="true">←</span> Voltar</Link>
+      ) : (
+        <Link href={voltarPara} className="rounded-lg bg-red-600 px-8 py-3 font-bold text-white"><span aria-hidden="true">x </span>Fechar</Link>
+      )}
+    </div>
   </section>;
 }
