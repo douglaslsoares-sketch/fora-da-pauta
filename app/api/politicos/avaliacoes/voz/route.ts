@@ -69,13 +69,13 @@ export async function POST(request: Request) {
       return falha("Arquivo não reconhecido como áudio gravado.", 415);
     }
     await garantirTabelaFeedbackVozPoliticos();
-    await sql\`
+    await sql`
       INSERT INTO public.politicos_feedback_voz
         (id, audio, mime_type, duracao_segundos)
       VALUES
-        (\${randomUUID()}::uuid, decode(\${buffer.toString("hex")}, 'hex'),
-          \${tipoReal}, \${duracao})
-    \`;
+        (${randomUUID()}::uuid, decode(${buffer.toString("hex")}, 'hex'),
+          ${tipoReal}, ${duracao})
+    `;
     return NextResponse.json({ recebido: true }, { status: 201, headers });
   } catch (error) {
     console.error("Falha ao receber feedback de voz do Políticos:", error);

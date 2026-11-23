@@ -27,10 +27,10 @@ export async function GET(
     return NextResponse.json({ erro: "Identificador inválido." }, { status: 400 });
   }
   try {
-    const registros = await sql<RegistroAudio[]>\`
+    const registros = await sql<RegistroAudio[]>`
       SELECT audio, mime_type FROM public.politicos_feedback_voz
-      WHERE id = \${id}::uuid LIMIT 1
-    \`;
+      WHERE id = ${id}::uuid LIMIT 1
+    `;
     const audio = registros[0];
     if (!audio) {
       return NextResponse.json({ erro: "Áudio não encontrado." }, { status: 404 });

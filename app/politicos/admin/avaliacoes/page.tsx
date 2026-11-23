@@ -19,7 +19,7 @@ type FeedbackVoz = {
 };
 function duracao(segundos: number | null) {
   if (segundos === null) return "Duração não informada";
-  return \`\${Math.floor(segundos / 60)}min \${String(segundos % 60).padStart(2, "0")}s\`;
+  return `${Math.floor(segundos / 60)}min ${String(segundos % 60).padStart(2, "0")}s`;
 }
 
 export default async function FeedbacksVozAdministracao() {
@@ -32,12 +32,12 @@ export default async function FeedbacksVozAdministracao() {
   try {
     await garantirTabelaFeedbackVozPoliticos();
     const [registros, contagem] = await Promise.all([
-      sql<FeedbackVoz[]>\`
+      sql<FeedbackVoz[]>`
         SELECT id::text AS id, duracao_segundos,
           to_char(criado_em AT TIME ZONE 'America/Sao_Paulo', 'DD/MM/YYYY HH24:MI') AS data
         FROM public.politicos_feedback_voz ORDER BY criado_em DESC LIMIT 100
-      \`,
-      sql<{ total: string }[]>\`SELECT COUNT(*)::text AS total FROM public.politicos_feedback_voz\`,
+      `,
+      sql<{ total: string }[]>`SELECT COUNT(*)::text AS total FROM public.politicos_feedback_voz`,
     ]);
     feedbacks = registros;
     total = Number(contagem[0]?.total ?? 0);
@@ -64,7 +64,7 @@ export default async function FeedbacksVozAdministracao() {
                 <li key={item.id} className="rounded-xl border border-[#38556f] bg-[#162d44] p-5">
                   <p className="font-semibold text-[#ffd333]">{item.data} (Brasília)</p>
                   <p className="mt-1 text-sm text-slate-300">{duracao(item.duracao_segundos)}</p>
-                  <audio controls preload="none" className="mt-4 w-full" src={\`/api/politicos/avaliacoes/voz/\${item.id}\`} aria-label={\`Feedback recebido em \${item.data}\`} />
+                  <audio controls preload="none" className="mt-4 w-full" src={`/api/politicos/avaliacoes/voz/${item.id}`} aria-label={`Feedback recebido em ${item.data}`} />
                 </li>
               ))}
             </ol>
