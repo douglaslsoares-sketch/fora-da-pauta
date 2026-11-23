@@ -14,7 +14,7 @@ export default function PaginaHistoricoPolitico() {
         Digite o nome de um político para conhecer sua trajetória, as candidaturas e os registros disponíveis de sua atuação. Não é necessário acompanhá-lo.
       </p>
       <div className="rounded-2xl bg-white p-4 text-slate-900 sm:p-6">
-        <CandidateSelector mode="browse" resultBasePath="/politicos/historico" />
+        <CandidateSelector mode="browse" resultBasePath="/politicos/historico" apenasNome />
       </div>
       <p className="mt-5 text-sm leading-6 text-slate-400">
         A consulta apresenta informações documentadas existentes na base. A ausência de registros não significa que uma atividade não tenha ocorrido.

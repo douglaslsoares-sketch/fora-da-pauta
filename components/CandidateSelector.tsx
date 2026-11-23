@@ -90,7 +90,7 @@ const ufs = [
   "TO",
 ];
 
-function CandidateBrowseSelector({ resultBasePath = "/conheca-seu-candidato" }: { resultBasePath?: string }) {
+function CandidateBrowseSelector({ resultBasePath = "/conheca-seu-candidato", apenasNome = false }: { resultBasePath?: string; apenasNome?: boolean }) {
   const [nome, setNome] =
     useState("");
 
@@ -279,13 +279,13 @@ function CandidateBrowseSelector({ resultBasePath = "/conheca-seu-candidato" }: 
 
   return (
     <div className="mt-0 sm:mt-8">
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        <div className="col-span-2 sm:col-span-1">
+      <div className={apenasNome ? "grid grid-cols-1" : "grid grid-cols-2 gap-3 sm:grid-cols-3"}>
+        <div className={apenasNome ? "w-full" : "col-span-2 sm:col-span-1"}>
           <label
             htmlFor="busca-nome"
             className="sr-only sm:not-sr-only sm:mb-2 sm:block sm:text-xs sm:font-semibold sm:uppercase sm:tracking-[0.16em] sm:text-black/45"
           >
-            Nome
+            {apenasNome ? "Nome do político" : "Nome"}
           </label>
 
           <input
@@ -296,12 +296,13 @@ function CandidateBrowseSelector({ resultBasePath = "/conheca-seu-candidato" }: 
               setNome(event.target.value);
               setPagina(1);
             }}
-            placeholder="Nome do candidato"
+            placeholder={apenasNome ? "Nome do político" : "Nome do candidato"}
             autoComplete="off"
             className="min-h-12 w-full border border-black/20 bg-white px-3 text-sm text-black caret-black outline-none transition placeholder:text-black/50 focus:border-black"
           />
         </div>
 
+        {!apenasNome && <>
         <div>
           <label
             htmlFor="busca-partido"
@@ -346,8 +347,9 @@ function CandidateBrowseSelector({ resultBasePath = "/conheca-seu-candidato" }: 
             className="min-h-12 w-full border border-black/20 bg-white px-3 text-sm text-black caret-black outline-none transition placeholder:text-black/50 focus:border-black"
           />
         </div>
+        </>}
       </div>
-      <div className="mt-3 grid grid-cols-2 gap-3 sm:mt-4">
+      {!apenasNome && <div className="mt-3 grid grid-cols-2 gap-3 sm:mt-4">
         <div>
           <label
             htmlFor="filtro-cargo"
@@ -440,7 +442,7 @@ function CandidateBrowseSelector({ resultBasePath = "/conheca-seu-candidato" }: 
             )}
           </select>
         </div>
-      </div>
+      </div>}
 
       {(nome ||
         partido ||
@@ -462,7 +464,7 @@ function CandidateBrowseSelector({ resultBasePath = "/conheca-seu-candidato" }: 
       >
         {!podeBuscar && (
           <p className="hidden text-sm leading-6 text-black/50 sm:block">
-            {"Informe nome, partido ou n\u00famero, ou escolha um cargo ou estado."}
+            {apenasNome ? "Digite pelo menos duas letras do nome." : "Informe nome, partido ou número, ou escolha um cargo ou estado."}
           </p>
         )}
 
@@ -483,9 +485,7 @@ function CandidateBrowseSelector({ resultBasePath = "/conheca-seu-candidato" }: 
           podeBuscar &&
           total === 0 && (
             <p className="border-l-4 border-[#FFC400] pl-4 text-sm leading-6">
-              Nenhum candidato foi
-              encontrado com esses
-              critérios.
+              {apenasNome ? "Nenhum político encontrado com esse nome." : "Nenhum candidato foi encontrado com esses critérios."}
             </p>
           )}
 
@@ -494,7 +494,7 @@ function CandidateBrowseSelector({ resultBasePath = "/conheca-seu-candidato" }: 
             <>
               <div className="flex items-end justify-between gap-4 border-b border-black/15 pb-3">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-black/45">
-                  Candidatos encontrados
+                  {apenasNome ? "Políticos encontrados" : "Candidatos encontrados"}
                 </p>
 
                 <p className="text-xs text-black/40">
@@ -638,7 +638,7 @@ function CandidateBrowseSelector({ resultBasePath = "/conheca-seu-candidato" }: 
 }
 
 type CandidateSelectorProps =
-  | { mode?: "browse"; resultBasePath?: string }
+  | { mode?: "browse"; resultBasePath?: string; apenasNome?: boolean }
   | { mode: "ficha" }
   | { mode: "recado"; recadoBasePath?: "/mandar-recado/politico" | "/politicos/recados" }
   | {
@@ -655,7 +655,7 @@ export function CandidateSelector(props: CandidateSelectorProps = {}) {
   if (props.mode === "ficha") return <CandidateFollowSelector selectedIds={[]} apenasFicha />;
   if (props.mode === "recado") return <CandidateFollowSelector selectedIds={[]} modoRecado recadoBasePath={props.recadoBasePath} />;
   if (props.mode === "follow") return <CandidateFollowSelector {...props} />;
-  return <CandidateBrowseSelector resultBasePath={props.resultBasePath} />;
+  return <CandidateBrowseSelector resultBasePath={props.resultBasePath} apenasNome={props.apenasNome} />;
 }
 
 function CandidateFollowSelector({
