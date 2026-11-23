@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { AvaliacaoVozProvider } from "@/components/politicos/AvaliacaoVozProvider";
+import { AssinaturaEcossistema } from "@/components/AssinaturaEcossistema";
 
 export const metadata: Metadata = {
   applicationName: "Políticos",
@@ -13,5 +14,8 @@ export const metadata: Metadata = {
 
 export default function LayoutPoliticos({ children }: { children: ReactNode }) {
   // O layout permanece montado ao navegar entre rotas internas do Políticos.
-  return <AvaliacaoVozProvider>{children}</AvaliacaoVozProvider>;
+  return <AvaliacaoVozProvider>
+    {children}
+    <AssinaturaEcossistema />
+  </AvaliacaoVozProvider>;
 }
