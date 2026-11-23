@@ -43,6 +43,7 @@ export function CandidateFollowLiveSearch({
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
   const [tentativa, setTentativa] = useState(0);
+  const [confirmarRemocao, setConfirmarRemocao] = useState<string | null>(null);
 
   const termo = nome.trim();
   const podeBuscar = termo.length >= 2;
@@ -113,6 +114,7 @@ export function CandidateFollowLiveSearch({
 
   function digitar(valor: string) {
     setNome(valor);
+    setConfirmarRemocao(null);
     setResultados([]);
     setPagina(1);
     setTotal(0);
@@ -193,10 +195,10 @@ export function CandidateFollowLiveSearch({
                 return (
                   <div
                     key={politico.id}
-                    className="flex items-center gap-3 rounded-2xl border border-[#344760] bg-white p-3 text-black shadow-sm"
+                    className="flex flex-wrap items-center gap-3 rounded-2xl border border-[#344760] bg-white p-3 text-black shadow-sm"
                   >
                     <CandidatePhoto id={politico.id} name={politico.nomeUrna} />
-                    <div className="min-w-0 flex-1">
+                    <div className="min-w-[100px] flex-[1_1_125px]">
                       <p className="text-[15px] font-bold leading-5 text-slate-950">
                         {politico.nomeUrna}
                       </p>
@@ -207,18 +209,57 @@ export function CandidateFollowLiveSearch({
                         </span>
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      disabled={busy}
-                      aria-pressed={selecionado}
-                      onClick={() => {
-                        if (selecionado) onDeselect(politico);
-                        else onSelect(politico);
-                      }}
-                      className={`shrink-0 rounded-xl px-3 py-3 text-xs font-bold disabled:opacity-60 ${selecionado ? "bg-green-600 text-white" : "bg-[#FFC400] text-black"}`}
-                    >
-                      {selecionado ? "Selecionado" : "Acompanhar"}
-                    </button>
+                    {selecionado ? (
+                      <div className="flex shrink-0 flex-col items-end gap-2">
+                        <span className="inline-flex min-h-10 items-center rounded-xl bg-green-600 px-3 py-2 text-xs font-bold text-white" aria-label={`Você está acompanhando ${politico.nomeUrna}`}>
+                          ✓ Acompanhando
+                        </span>
+                        {confirmarRemocao === politico.id ? (
+                          <div className="flex max-w-[190px] flex-col items-end gap-2">
+                            <span className="text-right text-xs font-semibold text-slate-700">Deixar de acompanhar?</span>
+                            <div className="flex flex-wrap justify-end gap-2">
+                              <button
+                                type="button"
+                                disabled={busy}
+                                onClick={() => {
+                                  setConfirmarRemocao(null);
+                                  onDeselect(politico);
+                                }}
+                                className="rounded-lg border border-red-700 bg-red-700 px-2 py-2 text-xs font-semibold text-white disabled:opacity-50"
+                              >
+                                Sim, remover
+                              </button>
+                              <button
+                                type="button"
+                                disabled={busy}
+                                onClick={() => setConfirmarRemocao(null)}
+                                className="rounded-lg border border-slate-400 px-2 py-2 text-xs font-semibold text-slate-700 disabled:opacity-50"
+                              >
+                                Cancelar
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            disabled={busy}
+                            onClick={() => setConfirmarRemocao(politico.id)}
+                            className="min-h-9 rounded-lg px-1 py-2 text-right text-xs font-semibold text-slate-600 underline underline-offset-2 disabled:opacity-50"
+                          >
+                            Deixar de acompanhar
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled={busy}
+                        onClick={() => onSelect(politico)}
+                        className="min-h-11 shrink-0 rounded-xl bg-[#FFC400] px-3 py-3 text-xs font-bold text-black disabled:opacity-50"
+                      >
+                        Acompanhar
+                      </button>
+                    )}
                   </div>
                 );
               })}
