@@ -36,7 +36,7 @@ export async function GET(
       return NextResponse.json({ erro: "Áudio não encontrado." }, { status: 404 });
     }
     const tipo = audio.mime_type;
-    if (!["audio/webm", "audio/mp4", "audio/ogg"].includes(tipo)) {
+    if (!["audio/webm", "audio/mp4", "audio/ogg", "video/webm", "video/mp4"].includes(tipo)) {
       return NextResponse.json({ erro: "Formato inválido." }, { status: 500 });
     }
     const buffer = Buffer.from(audio.audio);

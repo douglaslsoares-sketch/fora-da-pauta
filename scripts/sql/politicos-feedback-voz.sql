@@ -9,3 +9,13 @@ CREATE TABLE IF NOT EXISTS public.politicos_feedback_voz (
 );
 CREATE INDEX IF NOT EXISTS politicos_feedback_voz_criado_idx
   ON public.politicos_feedback_voz(criado_em DESC);
+
+-- Ampliação compatível com feedbacks anteriores; gravação do percurso sem campos digitados.
+ALTER TABLE public.politicos_feedback_voz ADD COLUMN IF NOT EXISTS percurso jsonb NOT NULL DEFAULT '[]'::jsonb;
+ALTER TABLE public.politicos_feedback_voz ADD COLUMN IF NOT EXISTS tipo_midia text NOT NULL DEFAULT 'audio';
+ALTER TABLE public.politicos_feedback_voz DROP CONSTRAINT IF EXISTS politicos_feedback_voz_audio_check;
+ALTER TABLE public.politicos_feedback_voz DROP CONSTRAINT IF EXISTS politicos_feedback_voz_mime_type_check;
+ALTER TABLE public.politicos_feedback_voz ADD CONSTRAINT politicos_feedback_voz_audio_check
+  CHECK (octet_length(audio) BETWEEN 800 AND 3400000);
+ALTER TABLE public.politicos_feedback_voz ADD CONSTRAINT politicos_feedback_voz_mime_type_check
+  CHECK (mime_type IN ('audio/webm', 'audio/mp4', 'audio/ogg', 'video/webm', 'video/mp4'));
