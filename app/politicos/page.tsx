@@ -28,7 +28,6 @@ const opcoes: Array<{ titulo: string; descricao: string; href: string; tipo: Tip
   { titulo: "Escolher um político", descricao: "Pesquise e acompanhe quem você quer.", href: "/politicos/escolher", tipo: "buscar", destaque: true },
   { titulo: "Políticos que eu acompanho", descricao: "Veja e gerencie suas escolhas.", href: "/politicos/acompanhados", tipo: "pessoas" },
   { titulo: "Histórico de um político", descricao: "Veja a trajetória e os registros do passado.", href: "/politicos/historico", tipo: "historico" },
-  { titulo: "Mandar um recado", descricao: "Consulte os canais oficiais de contato com um político.", href: "/politicos/recados", tipo: "recado" },
   { titulo: "Receber avisos", descricao: "Saiba o que fazem os políticos que você acompanha.", href: "/politicos/avisos", tipo: "sino" },
   { titulo: "Mostrar QR Code", descricao: "Acesse pelo celular.", href: "/politicos/qr-code", tipo: "qr" },
   { titulo: "Compartilhar", descricao: "Indique o aplicativo para outras pessoas.", href: "/politicos/compartilhar", tipo: "compartilhar" },
