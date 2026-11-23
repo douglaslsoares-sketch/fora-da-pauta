@@ -5,6 +5,19 @@ const nextConfig: NextConfig = {
     root: process.cwd(),
   },
 
+  // Endereços curtos das áreas do Fora da Pauta, sem mover as páginas existentes.
+  async rewrites() {
+    return [
+      { source: "/publicacoes", destination: "/edicoes" },
+      { source: "/publicacoes/:path*", destination: "/edicoes/:path*" },
+      { source: "/politicos", destination: "/acompanhar" },
+      { source: "/politicos/escolher", destination: "/acompanhar" },
+      { source: "/politicos/acompanhados", destination: "/meus-acompanhamentos" },
+      { source: "/recados", destination: "/mandar-recado" },
+      { source: "/recados/:path*", destination: "/mandar-recado/:path*" },
+    ];
+  },
+
   outputFileTracingIncludes: {
     "/api/candidatos/*": [
       "./data/eleicoes/gerado/candidaturas-2026.json",

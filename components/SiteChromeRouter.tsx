@@ -12,7 +12,7 @@ export function SiteChromeRouter() {
     pathname === "/" || pathname === "/central" || pathname === "/simulacao/confirmacao-fique-de-olho";
 
   // Estas páginas já exibem a logomarca no próprio cabeçalho interno.
-  const hasInternalHeader = ["/admin", "/acompanhar", "/meus-acompanhamentos", "/mandar-recado", "/meus-recados", "/qr-code", "/edicoes", "/sugira-um-nome"].some(route => pathname === route || pathname.startsWith(route + "/"));
+  const hasInternalHeader = ["/admin", "/acompanhar", "/meus-acompanhamentos", "/mandar-recado", "/meus-recados", "/qr-code", "/edicoes", "/sugira-um-nome", "/publicacoes", "/politicos", "/recados"].some(route => pathname === route || pathname.startsWith(route + "/"));
 
   const isCandidateIndex =
     pathname ===
