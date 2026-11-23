@@ -1,0 +1,25 @@
+.pagina{min-height:100svh;min-height:100dvh;background:#061827;color:#fff;padding:30px 20px 45px}
+.conteudo{width:min(100%,660px);margin:0 auto}
+.cabecalho{display:flex;align-items:center;gap:12px;min-height:104px}
+.voltar{width:23px;flex-shrink:0;color:#f7fafc;font-size:53px;text-decoration:none;line-height:1;font-weight:200;margin-right:-7px}
+.marca{width:clamp(76px,16vw,113px);height:auto;flex-shrink:0}
+.titulo{color:#e6bf35;font-size:clamp(39px,8.4vw,66px);font-weight:850;letter-spacing:-.055em;line-height:1.08;margin:0}
+.subtitulo{margin:20px 0 28px;color:#adbfcf;font-size:clamp(18px,3.4vw,25px);line-height:1.45}
+.menu{display:flex;flex-direction:column;gap:11px}
+.cartao,.principal{min-height:105px;display:grid;grid-template-columns:55px minmax(0,1fr) 22px;align-items:center;gap:13px;border-radius:21px;padding:19px 17px;border:1px solid #29455c;background:#142b43;color:#f9fafb;text-decoration:none}
+.principal{background:#ffd432;border-color:#ffd432;color:#0b2232;min-height:110px}
+.icone{display:flex;align-items:center;justify-content:center;color:#f8d039}
+.principal .icone{color:#092737}
+.iconeSvg{width:39px;height:39px}
+.textos{min-width:0;display:flex;flex-direction:column;gap:6px}
+.textos strong{font-size:clamp(17px,3.5vw,23px);font-weight:780;line-height:1.2;letter-spacing:-.025em}
+.textos span{font-size:clamp(14px,2.7vw,18px);color:#adc0d2;line-height:1.45}
+.principal .textos span{color:#53616b}
+.seta{justify-self:end;font-size:35px;color:#c2d0dc;line-height:1}
+.principal .seta{color:#3c4d53}
+.cartao:hover{background:#1b3751}.principal:hover{background:#ffe05b}
+.rodape{display:flex;flex-direction:column;align-items:center;gap:7px;margin:22px auto 0}
+.fonte{display:inline-flex;align-items:center;justify-content:center;border:1px solid #314459;border-radius:22px;padding:9px 20px;text-decoration:none;color:#fff;font-size:14px}
+.sobre{font-size:14px;color:#b9c6d4;text-decoration:none}
+.rodape a:focus-visible,.menu a:focus-visible,.voltar:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media(max-width:440px){.pagina{padding:17px 18px 38px}.cabecalho{gap:7px;min-height:110px}.voltar{font-size:47px}.marca{width:84px}.titulo{font-size:43px}.subtitulo{margin:21px 0 28px;font-size:18px}.cartao,.principal{grid-template-columns:43px minmax(0,1fr) 18px;gap:12px;min-height:95px;padding:17px 12px;border-radius:17px}.principal{min-height:102px}.iconeSvg{width:33px;height:33px}.textos strong{font-size:17px}.textos span{font-size:14px}.seta{font-size:28px}}

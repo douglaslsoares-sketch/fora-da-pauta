@@ -10,9 +10,6 @@ const nextConfig: NextConfig = {
     return [
       { source: "/publicacoes", destination: "/edicoes" },
       { source: "/publicacoes/:path*", destination: "/edicoes/:path*" },
-      { source: "/politicos", destination: "/acompanhar" },
-      { source: "/politicos/escolher", destination: "/acompanhar" },
-      { source: "/politicos/acompanhados", destination: "/meus-acompanhamentos" },
       { source: "/recados", destination: "/mandar-recado" },
       { source: "/recados/:path*", destination: "/mandar-recado/:path*" },
     ];

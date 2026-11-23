@@ -5,11 +5,12 @@ import Link from "next/link";
 import { CandidateSelector } from "@/components/CandidateSelector";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 import { CabecalhoInterno } from "@/components/CabecalhoInterno";
+import { CabecalhoPoliticos } from "@/components/CabecalhoPoliticos";
 
 type Pessoa = { id: string; nomeUrna: string };
 type Resultado = { ids?: string[]; erro?: string };
 
-export function AcompanhamentoSite({ modo }: { modo: "escolher" | "lista" | "recado" }) {
+export function AcompanhamentoSite({ modo, voltarPara = "/central" }: { modo: "escolher" | "lista" | "recado"; voltarPara?: "/central" | "/politicos" }) {
   const [ids, setIds] = useState<string[]>([]);
   const [pessoas, setPessoas] = useState<Record<string, string>>({});
   const [carregando, setCarregando] = useState(true);
@@ -85,7 +86,9 @@ export function AcompanhamentoSite({ modo }: { modo: "escolher" | "lista" | "rec
   }
 
   return <section className="mx-auto w-full max-w-3xl px-5 py-5 text-white">
-    <CabecalhoInterno titulo={modo === "escolher" ? "Escolher um político" : modo === "recado" ? "Escolha o destinatário" : "Políticos que eu acompanho"} />
+    {voltarPara === "/politicos"
+      ? <CabecalhoPoliticos titulo={modo === "escolher" ? "Escolher um político" : modo === "recado" ? "Escolha o destinatário" : "Políticos que eu acompanho"} />
+      : <CabecalhoInterno titulo={modo === "escolher" ? "Escolher um político" : modo === "recado" ? "Escolha o destinatário" : "Políticos que eu acompanho"} />}
     {erro && <p role="alert" className="mb-4 rounded-lg bg-red-50 p-3 text-red-800">{erro}</p>}
     {aviso && <p role="status" className="mb-4 rounded-lg bg-green-50 p-3 text-green-800">{aviso}</p>}
     {carregando ? <p role="status">Carregando acompanhamentos...</p> : modo === "escolher" ? (
@@ -111,6 +114,6 @@ export function AcompanhamentoSite({ modo }: { modo: "escolher" | "lista" | "rec
       {modo === "recado" ? <Link href={`/mandar-recado/politico/${encodeURIComponent(id)}`} className="rounded-lg bg-blue-700 px-4 py-3 font-semibold text-white">Escolher</Link> : <button type="button" disabled={salvando} onClick={() => void alterar("DELETE", { id, nomeUrna: pessoas[id] || id })}
         className="rounded-lg border border-red-400 px-4 py-3 font-semibold text-red-200 disabled:opacity-50">Remover</button>}
     </li>)}</ul> : <p>Você não acompanha nenhum político.</p>}
-    <div className="mt-8 flex justify-center"><Link href="/central" className="rounded-lg bg-red-600 px-8 py-3 font-bold text-white"><span aria-hidden="true">x </span>Fechar</Link></div>
+    <div className="mt-8 flex justify-center"><Link href={voltarPara} className="rounded-lg bg-red-600 px-8 py-3 font-bold text-white"><span aria-hidden="true">x </span>Fechar</Link></div>
   </section>;
 }
