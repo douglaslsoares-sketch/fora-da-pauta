@@ -47,11 +47,13 @@ export default async function HistoricoDeUmPolitico({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ ordem?: string | string[] }>;
+  searchParams: Promise<{ ordem?: string | string[]; origem?: string | string[] }>;
 }) {
   const { id } = await params;
-  const { ordem: ordemSolicitada } = await searchParams;
+  const { ordem: ordemSolicitada, origem } = await searchParams;
   const ordem = ordemSolicitada === "asc" ? "asc" : "desc";
+  const veioDosAcompanhados = origem === "acompanhados";
+  const contextoOrigem = veioDosAcompanhados ? "&origem=acompanhados" : "";
   if (!/^\d{8,20}$/.test(id)) notFound();
 
   const politico = candidaturas.find(candidato => candidato.id === id);
@@ -131,7 +133,7 @@ export default async function HistoricoDeUmPolitico({
   ));
 
   return (
-    <PaginaPoliticos titulo="Histórico de um político">
+    <PaginaPoliticos titulo="Histórico de um político" fecharHref={veioDosAcompanhados ? "/politicos/acompanhados" : "/politicos"}>
       <div className="flex items-center gap-4 rounded-2xl border border-[#30455d] bg-[#152d45] p-4">
         <CandidatePhoto id={politico.id} name={politico.nomeUrna} />
         <div className="min-w-0">
@@ -140,7 +142,12 @@ export default async function HistoricoDeUmPolitico({
         </div>
       </div>
 
-      <Link href="/politicos/historico" className="mt-5 inline-flex min-h-11 items-center text-sm font-semibold text-[#ffd333] underline underline-offset-4">← Pesquisar outro político</Link>
+      <Link
+        href={veioDosAcompanhados ? "/politicos/acompanhados" : "/politicos/historico"}
+        className="mt-5 inline-flex min-h-11 items-center text-sm font-semibold text-[#ffd333] underline underline-offset-4"
+      >
+        {veioDosAcompanhados ? "← Voltar aos políticos que eu acompanho" : "← Pesquisar outro político"}
+      </Link>
 
       <div className="mt-5 rounded-xl border border-[#30455d] p-4 text-sm leading-6 text-slate-300">
         Os registros abaixo são apresentados {ordem === "asc" ? "dos mais antigos para os mais recentes" : "dos mais recentes para os mais antigos"} e mantêm as respectivas fontes. Alegações, respostas e decisões não são equivalentes: cada informação deve ser interpretada conforme sua natureza. Este histórico não pretende ser completo.
@@ -151,14 +158,14 @@ export default async function HistoricoDeUmPolitico({
         <p className="mt-2 text-sm text-slate-300">{registros.length} {registros.length === 1 ? "registro encontrado" : "registros encontrados"} na base consultada.</p>
         <nav aria-label="Ordenar histórico por data" className="mt-6 flex flex-wrap gap-3">
           <Link
-            href={`?ordem=desc#cronologia-titulo`}
+            href={`?ordem=desc${contextoOrigem}#cronologia-titulo`}
             aria-current={ordem === "desc" ? "page" : undefined}
             className={`inline-flex min-h-11 flex-1 items-center justify-center rounded-xl border px-4 py-3 text-center text-sm font-semibold transition-colors sm:flex-none ${ordem === "desc" ? "border-[#ffd333] bg-[#ffd333] text-[#071827]" : "border-[#4a6178] bg-[#152d45] text-white hover:border-[#ffd333]"}`}
           >
             ↓ Mais recentes primeiro
           </Link>
           <Link
-            href={`?ordem=asc#cronologia-titulo`}
+            href={`?ordem=asc${contextoOrigem}#cronologia-titulo`}
             aria-current={ordem === "asc" ? "page" : undefined}
             className={`inline-flex min-h-11 flex-1 items-center justify-center rounded-xl border px-4 py-3 text-center text-sm font-semibold transition-colors sm:flex-none ${ordem === "asc" ? "border-[#ffd333] bg-[#ffd333] text-[#071827]" : "border-[#4a6178] bg-[#152d45] text-white hover:border-[#ffd333]"}`}
           >
