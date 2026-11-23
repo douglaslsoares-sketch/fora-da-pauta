@@ -40,7 +40,6 @@ export default async function Politicos() {
     <main className={styles.pagina}>
       <div className={styles.conteudo}>
         <header className={styles.cabecalho}>
-          <Link href="/#menu" className={styles.voltar} aria-label="Voltar ao Fora da Pauta">‹</Link>
           <PoliticosMarca className={styles.marca} />
           <h1 className={styles.titulo}>Políticos</h1>
         </header>
@@ -55,7 +54,6 @@ export default async function Politicos() {
           ))}
         </nav>
         <footer className={styles.rodape}>
-          <Link href="/#menu" className={styles.fonte}>◎ Ir para a fonte</Link>
           <Link href="/politicos/sobre" className={styles.sobre}>ⓘ Sobre o projeto</Link>
           {acessoAdministrativo ? <Link href="/politicos/admin" className={styles.sobre}>⚙ Administração do Políticos</Link> : null}
         </footer>
