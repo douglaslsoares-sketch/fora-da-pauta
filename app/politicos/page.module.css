@@ -1,13 +1,11 @@
 .pagina{min-height:100svh;min-height:100dvh;background:#061827;color:#fff;padding:30px 20px 45px}
 .conteudo{width:min(100%,660px);margin:0 auto}
-.cabecalho{display:flex;align-items:center;justify-content:center;gap:12px;min-height:96px}
-.marca{width:clamp(76px,16vw,113px);height:auto;flex-shrink:0}
-.titulo{color:#e6bf35;font-size:clamp(39px,8.4vw,66px);font-weight:850;letter-spacing:-.055em;line-height:1.08;margin:0}
-.subtitulo{margin:12px 0 34px;color:#adbfcf;font-size:clamp(18px,3.4vw,25px);line-height:1.45;text-align:center}
+.cabecalho{display:flex;align-items:center;justify-content:center;gap:12px;min-height:96px;margin-bottom:24px}
+.cabecalho h1{width:min(100%,418px)!important}
 .menu{display:flex;flex-direction:column;gap:11px}
-.cartao,.principal{min-height:105px;display:grid;grid-template-columns:55px minmax(0,1fr) 22px;align-items:center;gap:13px;border-radius:21px;padding:19px 17px;border:1px solid #29455c;background:#142b43;color:#f9fafb;text-decoration:none}
-.principal{background:#ffd432;border-color:#ffd432;color:#0b2232;min-height:110px}
-.icone{display:flex;align-items:center;justify-content:center;color:#f8d039}
+.cartao,.principal{min-height:96px;display:grid;grid-template-columns:55px minmax(0,1fr) 22px;align-items:center;gap:13px;border-radius:21px;padding:15px 17px;border:1px solid #29455c;background:#142b43;color:#f9fafb;text-decoration:none}
+.principal{background:#F4C64D;border-color:#F4C64D;color:#0b2232;min-height:100px}
+.icone{display:flex;align-items:center;justify-content:center;color:#F4C64D}
 .principal .icone{color:#092737}
 .iconeSvg{width:39px;height:39px}
 .textos{min-width:0;display:flex;flex-direction:column;gap:6px}
@@ -20,4 +18,4 @@
 .rodape{display:flex;flex-direction:column;align-items:center;gap:7px;margin:22px auto 0}
 .sobre{font-size:14px;color:#b9c6d4;text-decoration:none}
 .rodape a:focus-visible,.menu a:focus-visible{outline:3px solid #fff;outline-offset:3px}
-@media(max-width:440px){.pagina{padding:17px 18px 38px}.cabecalho{gap:7px;min-height:90px}.marca{width:84px}.titulo{font-size:43px}.subtitulo{margin:10px 0 32px;font-size:18px}.cartao,.principal{grid-template-columns:43px minmax(0,1fr) 18px;gap:12px;min-height:95px;padding:17px 12px;border-radius:17px}.principal{min-height:102px}.iconeSvg{width:33px;height:33px}.textos strong{font-size:17px}.textos span{font-size:14px}.seta{font-size:28px}}
+@media(max-width:440px){.pagina{padding:17px 18px 38px}.cabecalho{gap:7px;min-height:90px;margin-bottom:20px}.cartao,.principal{grid-template-columns:43px minmax(0,1fr) 18px;gap:12px;min-height:88px;padding:14px 12px;border-radius:17px}.principal{min-height:94px}.iconeSvg{width:33px;height:33px}.textos strong{font-size:17px}.textos span{font-size:14px}.seta{font-size:28px}}
