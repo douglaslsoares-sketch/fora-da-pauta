@@ -19,18 +19,19 @@ type RespostaBusca = {
   totalPaginas: number;
 };
 
-type Props = { mode?: "follow";
+type Props = { compacto?: boolean } & ({ mode?: "follow";
   selectedIds: readonly string[];
   busy?: boolean;
   onSelect: (politico: Politico) => void;
   onDeselect: (politico: Politico) => void;
-} | { mode: "history"; selectedIds?: never; busy?: never; onSelect?: never; onDeselect?: never };
+} | { mode: "history"; selectedIds?: never; busy?: never; onSelect?: never; onDeselect?: never });
 
 /**
  * Pesquisa ao digitar, específica do aplicativo Políticos.
  * Conserva a API e as regras de elegibilidade da seleção já existente.
  */
 export function CandidateFollowLiveSearch({
+  compacto = false,
   mode = "follow",
   selectedIds = [],
   busy = false,
@@ -123,7 +124,7 @@ export function CandidateFollowLiveSearch({
   }
 
   return (
-    <div className="mt-5">
+    <div className={compacto ? "mt-2" : "mt-5"}>
       <label htmlFor="busca-politico-ao-digitar" className="sr-only">
         Nome do político
       </label>
@@ -146,7 +147,7 @@ export function CandidateFollowLiveSearch({
 
       <div
         id="resultados-politicos-ao-digitar"
-        className="mt-5"
+        className={compacto && !podeBuscar ? "hidden" : "mt-5"}
         aria-live="polite"
         aria-busy={carregando}
       >
