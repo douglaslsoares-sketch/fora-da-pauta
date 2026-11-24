@@ -1,9 +1,10 @@
-import { bancoEditoriais } from "./db";
-export type Publicacao = { slug:string; titulo:string; resumo:string; categoria:string; corpo:string; imagem_url:string|null; audio_url:string|null; publicado_em:Date; fontes:{titulo:string;url:string}[] };
+import { sql } from "@/lib/interesses/db";
+export type Publicacao = { id:string; titulo:string; resumo:string; conteudo:string; fontes:string; audio_url:string; updated_at:string };
 export async function listarPublicacoes() {
- return bancoEditoriais()<Publicacao[]>`SELECT slug,titulo,resumo,categoria,corpo,imagem_url,audio_url,publicado_em,fontes FROM editoriais.publicacoes WHERE estado='publicado' AND publicado_em <= now() ORDER BY publicado_em DESC,id DESC`;
+ return sql<Publicacao[]>`SELECT id::text,titulo,resumo,conteudo,fontes,audio_url,updated_at::text FROM public.admin_artigos WHERE status='publicado' ORDER BY updated_at DESC,id DESC`;
 }
-export async function buscarPublicacao(slug:string) {
- const rows = await bancoEditoriais()<Publicacao[]>`SELECT slug,titulo,resumo,categoria,corpo,imagem_url,audio_url,publicado_em,fontes FROM editoriais.publicacoes WHERE slug=${slug} AND estado='publicado' AND publicado_em <= now()`;
+export async function buscarPublicacao(id:string) {
+ if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) return null;
+ const rows = await sql<Publicacao[]>`SELECT id::text,titulo,resumo,conteudo,fontes,audio_url,updated_at::text FROM public.admin_artigos WHERE id=${id}::uuid AND status='publicado'`;
  return rows[0] ?? null;
 }
