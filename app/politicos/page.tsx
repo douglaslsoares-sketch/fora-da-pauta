@@ -11,7 +11,7 @@ export default function Politicos() {
   return <main className="bg-[#0C192B] px-5 pt-5 pb-2 text-white">
     <div className="mx-auto w-full max-w-xl">
       <header hidden={perfilAberto} className={perfilAberto ? "hidden" : "flex flex-col items-center justify-center pb-5"}>
-        <h1 className="w-full max-w-[380px]"><img src="/marca/politicos-gabarito.png" alt="Políticos" className="block h-auto w-full" /></h1><p className="mt-3 text-center text-sm font-medium text-white">Seguir <span className="text-red-500">•</span> Fiscalizar <span className="text-red-500">•</span> Cobrar</p>
+        <h1 className="w-full max-w-[380px]"><img src="/marca/politicos-gabarito.png" alt="Políticos" className="block h-auto w-full" /></h1><p className="mt-1 text-center text-sm font-medium text-white">Seguir <span className="text-red-500">•</span> Fiscalizar <span className="text-red-500">•</span> Cobrar</p>
       </header>
       <h2 hidden={perfilAberto} className="text-base font-semibold">Escolher um político</h2>
       <AcompanhamentoSite modo="escolher" voltarPara="/politicos" incorporado onPerfilChange={setPerfilAberto} />
