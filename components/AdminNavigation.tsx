@@ -7,7 +7,7 @@ const itens: { href: string; nome: string; icone: IconName }[] = [
   { href: "/admin", nome: "Visão geral", icone: "overview" },
   { href: "/admin/recados", nome: "Recados", icone: "mail" },
   { href: "/admin/perguntas", nome: "Perguntas", icone: "help" },
-  { href: "/admin/artigos", nome: "Artigos", icone: "file" },
+  { href: "/admin/editoriais", nome: "Editoriais", icone: "file" },
   { href: "/admin/participacao", nome: "Participação", icone: "users" },
   { href: "/admin/notificacoes", nome: "Notificações", icone: "bell" },
   { href: "/admin/inscricoes", nome: "Inscrições", icone: "users" },
@@ -29,7 +29,7 @@ export function AdminNavigation() {
   return <aside className="admin-desktop-nav" aria-label="Navegação administrativa">
     <div className="admin-desktop-brand"><span className="admin-desktop-eyebrow">FORA DA PAUTA</span><strong>Administração</strong><small>Central de trabalho</small></div>
     <nav aria-label="Módulos do painel">
-      {itens.map(item => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined} className={"admin-desktop-navlink" + (pathname === item.href ? " is-active" : "")}><span aria-hidden="true" className="admin-desktop-symbol"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{desenhos[item.icone]}</svg></span>{item.nome}</Link>)}
+      {itens.map(item => <Link key={item.href} href={item.href} aria-current={(pathname === item.href || (item.href === "/admin/editoriais" && pathname.startsWith("/admin/artigos"))) ? "page" : undefined} className={"admin-desktop-navlink" + (pathname === item.href ? " is-active" : "")}><span aria-hidden="true" className="admin-desktop-symbol"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{desenhos[item.icone]}</svg></span>{item.nome}</Link>)}
     </nav>
     <Link href="/" className="admin-desktop-back">← Voltar ao site</Link>
   </aside>;
