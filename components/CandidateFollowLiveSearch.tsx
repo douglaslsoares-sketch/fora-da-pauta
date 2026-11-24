@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 
 type Politico = {
@@ -18,24 +19,26 @@ type RespostaBusca = {
   totalPaginas: number;
 };
 
-type Props = {
+type Props = { mode?: "follow";
   selectedIds: readonly string[];
   busy?: boolean;
   onSelect: (politico: Politico) => void;
   onDeselect: (politico: Politico) => void;
-};
+} | { mode: "history"; selectedIds?: never; busy?: never; onSelect?: never; onDeselect?: never };
 
 /**
  * Pesquisa ao digitar, específica do aplicativo Políticos.
  * Conserva a API e as regras de elegibilidade da seleção já existente.
  */
 export function CandidateFollowLiveSearch({
-  selectedIds,
+  mode = "follow",
+  selectedIds = [],
   busy = false,
   onSelect,
   onDeselect,
 }: Props) {
   const [nome, setNome] = useState("");
+  const campo = useRef<HTMLInputElement>(null);
   const [resultados, setResultados] = useState<Politico[]>([]);
   const [total, setTotal] = useState(0);
   const [pagina, setPagina] = useState(1);
@@ -63,11 +66,9 @@ export function CandidateFollowLiveSearch({
       setErro("");
 
       try {
-        const parametros = new URLSearchParams({
-          q: termo,
-          pagina: String(pagina),
-          escopo: "acompanhamento",
-        });
+        const parametros = new URLSearchParams(mode === "history"
+          ? { nome: termo, pagina: String(pagina) }
+          : { q: termo, pagina: String(pagina), escopo: "acompanhamento" });
         const resposta = await fetch(
           `/api/candidatos/buscar?${parametros.toString()}`,
           { signal: controller.signal, cache: "no-store" },
@@ -109,7 +110,7 @@ export function CandidateFollowLiveSearch({
       window.clearTimeout(timer);
       controller.abort();
     };
-  }, [termo, pagina, tentativa, podeBuscar]);
+  }, [termo, pagina, tentativa, podeBuscar, mode]);
 
   function digitar(valor: string) {
     setNome(valor);
@@ -127,22 +128,20 @@ export function CandidateFollowLiveSearch({
         Nome do político
       </label>
       <div className="relative">
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-xl text-black/60"
-        >
-          ⌕
-        </span>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-500"><circle cx="11" cy="11" r="7" /><path d="m16 16 5 5" /></svg>
         <input
           id="busca-politico-ao-digitar"
-          type="search"
+          ref={campo}
+          type="text"
+          inputMode="search"
           value={nome}
           onChange={evento => digitar(evento.target.value)}
-          placeholder="Digite um nome"
+          placeholder="Digite o nome do político"
           autoComplete="off"
           aria-controls="resultados-politicos-ao-digitar"
-          className="min-h-14 w-full rounded-2xl border border-black/20 bg-white py-3 pl-12 pr-4 text-base text-black caret-black outline-none placeholder:text-black/40 focus:border-[#FFC400] focus:ring-2 focus:ring-[#FFC400]"
+          className="min-h-14 w-full rounded-2xl border-2 border-[#FFC400] bg-white py-3 pl-12 pr-14 text-base text-slate-950 caret-slate-950 outline-none placeholder:text-slate-500 focus-visible:ring-2 focus-visible:ring-[#FFC400] focus-visible:ring-offset-2 focus-visible:ring-offset-[#071827]"
         />
+        {nome && <button type="button" aria-label="Limpar pesquisa" onClick={() => { digitar(""); campo.current?.focus(); }} className="absolute right-1.5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-xl text-slate-600 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-[#B38600]"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="h-5 w-5"><path d="m6 6 12 12M18 6 6 18" /></svg></button>}
       </div>
 
       <div
@@ -153,7 +152,7 @@ export function CandidateFollowLiveSearch({
       >
         {!podeBuscar && (
           <p className="text-sm leading-6 text-slate-300">
-            Digite pelo menos duas letras para ver os políticos.
+            Digite pelo menos duas letras do nome.
           </p>
         )}
 
@@ -207,7 +206,9 @@ export function CandidateFollowLiveSearch({
                         </span>
                       </p>
                     </div>
-                    {selecionado ? (
+                    {mode === "history" ? (
+                      <Link href={`/politicos/historico/${encodeURIComponent(politico.id)}`} className="inline-flex min-h-11 shrink-0 items-center rounded-xl bg-[#FFC400] px-3 py-3 text-xs font-bold text-black hover:bg-[#e9b300] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-950">Ver histórico</Link>
+                    ) : selecionado ? (
                       <div className="flex shrink-0 flex-col items-end gap-2">
                         <span className="inline-flex min-h-10 items-center rounded-xl bg-green-600 px-3 py-2 text-xs font-bold text-white" aria-label={`Você está acompanhando ${politico.nomeUrna}`}>
                           ✓ Acompanhando
@@ -215,7 +216,7 @@ export function CandidateFollowLiveSearch({
                         <button
                           type="button"
                           disabled={busy}
-                          onClick={() => onDeselect(politico)}
+                          onClick={() => onDeselect?.(politico)}
                           className="min-h-9 rounded-lg px-1 py-2 text-right text-xs font-semibold text-slate-600 underline underline-offset-2 disabled:opacity-50"
                         >
                           Deixar de acompanhar
@@ -225,7 +226,7 @@ export function CandidateFollowLiveSearch({
                       <button
                         type="button"
                         disabled={busy}
-                        onClick={() => onSelect(politico)}
+                        onClick={() => onSelect?.(politico)}
                         className="min-h-11 shrink-0 rounded-xl bg-[#FFC400] px-3 py-3 text-xs font-bold text-black disabled:opacity-50"
                       >
                         Acompanhar
