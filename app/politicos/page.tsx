@@ -45,7 +45,7 @@ export default async function Politicos() {
         <header className={styles.cabecalho}>
           <h1 style={{ margin: 0, width: "min(100%, 380px)" }}><Image src="/marca/politicos-oficial.png" alt="Políticos — Acompanhar, Fiscalizar, Cobrar" width={1536} height={1024} style={{ width: "100%", height: "auto", display: "block" }} /></h1>
         </header>
-        <p className={styles.subtitulo}>Acompanhe quem nos representa.</p>
+
         <nav aria-label="Menu do aplicativo Políticos" className={styles.menu}>
           {opcoes.map(opcao => (
             <Link key={opcao.href} href={opcao.href} className={opcao.destaque ? styles.principal : styles.cartao}>
