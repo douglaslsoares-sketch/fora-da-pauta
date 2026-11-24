@@ -7,9 +7,9 @@ import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 export const metadata: Metadata = { title: "Políticos", description: "Acompanhar, fiscalizar e cobrar." };
 
 export default function Politicos() {
-  return <main className="min-h-[100dvh] bg-[#0C192B] px-5 py-6 text-white">
+  return <main className="bg-[#0C192B] px-5 pt-5 pb-2 text-white">
     <div className="mx-auto w-full max-w-xl">
-      <header className="flex flex-col items-center justify-center pb-6">
+      <header className="flex flex-col items-center justify-center pb-5">
         <h1 className="w-full max-w-[380px]"><img src="/marca/politicos-gabarito.png" alt="Políticos" className="block h-auto w-full" /></h1><p className="mt-3 text-center text-sm font-medium text-white">Seguir <span className="text-red-500">•</span> Fiscalizar <span className="text-red-500">•</span> Cobrar</p>
       </header>
       <h2 className="text-base font-semibold">Escolher um político</h2>
@@ -18,7 +18,7 @@ export default function Politicos() {
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M17 4a3 3 0 0 1 0 6M18 14a5 5 0 0 1 4 5v2"/></svg>
         <span className="flex-1">Políticos que sigo</span><span aria-hidden="true">›</span>
       </Link>
-      <nav aria-label="Recursos adicionais" className="mt-10 grid grid-cols-3 gap-2 text-center text-xs">
+      <nav aria-label="Recursos adicionais" className="mt-8 grid grid-cols-3 gap-2 text-center text-xs">
         <a href={"https://wa.me/?text="+encodeURIComponent("Políticos — Acompanhar, fiscalizar e cobrar. https://foradapauta.org/politicos")} target="_blank" rel="noopener noreferrer" className="flex min-h-14 flex-col items-center gap-2">
           <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#F4C64D" strokeWidth="1.8" aria-hidden="true"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8 11 8-5M8 13l8 5"/></svg>Compartilhar
         </a>
