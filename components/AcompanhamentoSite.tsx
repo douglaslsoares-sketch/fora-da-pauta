@@ -17,7 +17,7 @@ type Pessoa = {
 };
 type Resultado = { ids?: string[]; erro?: string };
 
-export function AcompanhamentoSite({ modo, voltarPara = "/central" }: { modo: "escolher" | "lista" | "recado"; voltarPara?: "/central" | "/politicos" }) {
+export function AcompanhamentoSite({ modo, voltarPara = "/central", incorporado = false }: { modo: "escolher" | "lista" | "recado"; voltarPara?: "/central" | "/politicos"; incorporado?: boolean }) {
   const [ids, setIds] = useState<string[]>([]);
   const [pessoas, setPessoas] = useState<Record<string, Pessoa>>({});
   const [carregando, setCarregando] = useState(true);
@@ -98,18 +98,19 @@ export function AcompanhamentoSite({ modo, voltarPara = "/central" }: { modo: "e
     }
   }
 
-  return <section className="mx-auto w-full max-w-3xl px-5 py-5 text-white">
-    {voltarPara === "/politicos"
+  return <section className={incorporado ? "w-full text-white" : "mx-auto w-full max-w-3xl px-5 py-5 text-white"}>
+    {!incorporado && (voltarPara === "/politicos"
       ? <CabecalhoPoliticos titulo={modo === "escolher" ? "Escolher um político" : modo === "recado" ? "Escolha o destinatário" : "Políticos que eu acompanho"} />
-      : <CabecalhoInterno titulo={modo === "escolher" ? "Escolher um político" : modo === "recado" ? "Escolha o destinatário" : "Políticos que eu acompanho"} />}
+      : <CabecalhoInterno titulo={modo === "escolher" ? "Escolher um político" : modo === "recado" ? "Escolha o destinatário" : "Políticos que eu acompanho"} />)}
     {erro && <p role="alert" className="mb-4 rounded-lg bg-red-50 p-3 text-red-800">{erro}</p>}
     {aviso && <p role="status" className="mb-4 rounded-lg bg-green-50 p-3 text-green-800">{aviso}</p>}
-    {carregando ? <p role="status">Carregando acompanhamentos...</p> : modo === "escolher" ? (
+    {carregando && !incorporado ? <p role="status">Carregando acompanhamentos...</p> : modo === "escolher" ? (
       <div aria-busy={salvando}>
         {voltarPara === "/politicos" ? (
           <CandidateFollowLiveSearch
             selectedIds={ids}
-            busy={salvando}
+            compacto={incorporado}
+            busy={salvando || carregando}
             onSelect={pessoa => void alterar("POST", pessoa)}
             onDeselect={pessoa => void alterar("DELETE", pessoa)}
           />
@@ -172,12 +173,12 @@ export function AcompanhamentoSite({ modo, voltarPara = "/central" }: { modo: "e
         })}
       </ul>
     ) : <p>Você não acompanha nenhum político.</p>}
-    <div className="mt-8 flex justify-center">
+    {!incorporado && <div className="mt-8 flex justify-center">
       {voltarPara === "/politicos" ? (
         <Link href="/politicos" className="inline-flex min-h-11 items-center gap-2 px-4 py-2 text-sm font-semibold text-[#ffd333] underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd333]"><span aria-hidden="true">←</span> Voltar</Link>
       ) : (
         <Link href={voltarPara} className="rounded-lg bg-red-600 px-8 py-3 font-bold text-white"><span aria-hidden="true">x </span>Fechar</Link>
       )}
-    </div>
+    </div>}
   </section>;
 }
