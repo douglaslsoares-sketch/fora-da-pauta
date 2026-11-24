@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import Image from "next/image";
+
 import { AcompanhamentoSite } from "@/components/AcompanhamentoSite";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 
@@ -9,8 +9,8 @@ export const metadata: Metadata = { title: "Políticos", description: "Acompanha
 export default function Politicos() {
   return <main className="min-h-[100dvh] bg-[#0C192B] px-5 py-6 text-white">
     <div className="mx-auto w-full max-w-xl">
-      <header className="flex justify-center">
-        <h1 className="w-full max-w-[380px]"><Image src="/marca/politicos-oficial.png" alt="Políticos — Acompanhar, Fiscalizar, Cobrar" width={1536} height={1024} className="h-auto w-full" /></h1>
+      <header className="flex flex-col items-center justify-center pb-6">
+        <h1 className="w-full max-w-[380px]"><img src="/marca/politicos-gabarito.png" alt="Políticos" className="block h-auto w-full" /></h1><p className="mt-3 text-center text-sm font-medium text-white">Seguir <span className="text-red-500">•</span> Fiscalizar <span className="text-red-500">•</span> Cobrar</p>
       </header>
       <h2 className="text-base font-semibold">Escolher um político</h2>
       <AcompanhamentoSite modo="escolher" voltarPara="/politicos" incorporado />
@@ -30,7 +30,6 @@ export default function Politicos() {
         </Link>
       </nav>
       <InstalarAplicativo tema="escuro" />
-      <footer className="mt-8 text-center text-xl font-bold tracking-tight"><Link href="/">ForaDaPauta<span className="text-red-500">.</span><span className="text-[#F4C64D]">org</span></Link></footer>
     </div>
   </main>;
 }
