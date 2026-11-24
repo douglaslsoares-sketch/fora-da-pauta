@@ -1,0 +1,19 @@
+{
+  "id": "/editoriais/",
+  "name": "Editoriais",
+  "short_name": "Editoriais",
+  "description": "Análises, contexto e bastidores",
+  "start_url": "/editoriais",
+  "scope": "/editoriais",
+  "display": "standalone",
+  "background_color": "#0C192B",
+  "theme_color": "#0C192B",
+  "icons": [
+    {
+      "src": "/editoriais/icone.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -21,7 +21,7 @@ export default function Politicos() {
         <span className="flex-1">Políticos que sigo</span><span aria-hidden="true">›</span>
       </Link>
       
-      <InstalarAplicativo tema="escuro" />
+      <InstalarAplicativo nome="Políticos" tema="escuro" />
       </>}
     </div>
   </main>;

@@ -7,7 +7,7 @@ type EventoInstalacao = Event & {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 };
 
-export function InstalarAplicativo({ tema = "escuro", oculto = false }: { tema?: "escuro" | "claro"; oculto?: boolean }) {
+export function InstalarAplicativo({ tema = "escuro", oculto = false, nome = "Fora da Pauta" }: { tema?: "escuro" | "claro"; oculto?: boolean; nome?: string }) {
   const [evento, setEvento] = useState<EventoInstalacao | null>(null);
   const [instalado, setInstalado] = useState(false);
   const [instrucoes, setInstrucoes] = useState(false);
@@ -45,11 +45,11 @@ export function InstalarAplicativo({ tema = "escuro", oculto = false }: { tema?:
     <div className="mt-7 w-full">
       <button type="button" onClick={() => void instalar()}
         className={`mx-auto flex min-h-12 items-center justify-center px-3 py-2 text-center font-semibold underline underline-offset-4 ${tema === "claro" ? "text-black" : "text-white"}`}>
-        Instalar o Fora da Pauta
+        Instalar o {nome}
       </button>
       {instrucoes ? (
         <p className={`mt-3 text-sm leading-6 ${tema === "claro" ? "text-black/70" : "text-white/80"}`} role="status">
-          Para colocar o Fora da Pauta na tela inicial, abra o menu do navegador e escolha
+          Para colocar o {nome} na tela inicial, abra o menu do navegador e escolha
           “Instalar aplicativo” ou “Adicionar à tela inicial”.
           No iPhone, use Compartilhar e depois “Adicionar à Tela de Início”.
         </p>
