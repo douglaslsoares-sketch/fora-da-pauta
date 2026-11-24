@@ -1,0 +1,1 @@
+import Link from "next/link";export default function Page(){return <main className="mx-auto max-w-xl p-5 text-center"><h1 className="text-xl font-bold">QR Code</h1><img src="/qr/editoriais.svg" alt="QR Code de Editoriais" className="mx-auto my-5 w-full max-w-[330px]"/><p>foradapauta.org/editoriais</p><Link href="/editoriais">← Voltar</Link></main>}
