@@ -16,7 +16,7 @@ export default function Politicos() {
       <AcompanhamentoSite modo="escolher" voltarPara="/politicos" incorporado />
       <Link href="/politicos/acompanhados" className="mt-3 flex min-h-14 items-center gap-3 rounded-2xl bg-[#F4C64D] px-4 py-3 font-bold text-[#0C192B]">
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M17 4a3 3 0 0 1 0 6M18 14a5 5 0 0 1 4 5v2"/></svg>
-        <span className="flex-1">Políticos acompanhados</span><span aria-hidden="true">›</span>
+        <span className="flex-1">Políticos que sigo</span><span aria-hidden="true">›</span>
       </Link>
       <nav aria-label="Recursos adicionais" className="mt-10 grid grid-cols-3 gap-2 text-center text-xs">
         <a href={"https://wa.me/?text="+encodeURIComponent("Políticos — Acompanhar, fiscalizar e cobrar. https://foradapauta.org/politicos")} target="_blank" rel="noopener noreferrer" className="flex min-h-14 flex-col items-center gap-2">
