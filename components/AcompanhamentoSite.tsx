@@ -17,7 +17,7 @@ type Pessoa = {
 };
 type Resultado = { ids?: string[]; erro?: string };
 
-export function AcompanhamentoSite({ modo, voltarPara = "/central", incorporado = false }: { modo: "escolher" | "lista" | "recado"; voltarPara?: "/central" | "/politicos"; incorporado?: boolean }) {
+export function AcompanhamentoSite({ modo, voltarPara = "/central", incorporado = false, onPerfilChange }: { modo: "escolher" | "lista" | "recado"; voltarPara?: "/central" | "/politicos"; incorporado?: boolean; onPerfilChange?: (aberto: boolean) => void }) {
   const [aberto, setAberto] = useState<Pessoa | null>(null);
   const [listaInicial, setListaInicial] = useState<string[]>([]);
   const [ids, setIds] = useState<string[]>([]);
@@ -113,13 +113,13 @@ export function AcompanhamentoSite({ modo, voltarPara = "/central", incorporado 
     {aviso && <p role="status" className="mb-4 rounded-lg bg-green-50 p-3 text-green-800">{aviso}</p>}
     {carregando && !incorporado ? <p role="status">Carregando acompanhamentos...</p> : modo === "escolher" ? (
       <div aria-busy={salvando}>
-        {aberto && voltarPara === "/politicos" && <>{cartao(aberto)}<button type="button" className="mx-auto mt-5 block min-h-11 text-[#F4C64D]" onClick={() => setAberto(null)}>← Voltar</button></>}
+        {aberto && voltarPara === "/politicos" && <>{cartao(aberto)}<button type="button" className="mx-auto mt-5 block min-h-11 text-[#F4C64D]" onClick={() => { setAberto(null); onPerfilChange?.(false); }}>← Voltar</button></>}
         <div hidden={!!aberto}>
         {voltarPara === "/politicos" ? (
           <CandidateFollowLiveSearch
             selectedIds={ids}
             compacto={incorporado}
-            onOpen={setAberto}
+            onOpen={pessoa => { setAberto(pessoa); onPerfilChange?.(true); window.scrollTo(0, 0); }}
             busy={salvando || carregando}
             onSelect={pessoa => void alterar("POST", pessoa)}
             onDeselect={pessoa => void alterar("DELETE", pessoa)}
