@@ -26,7 +26,7 @@ function Icone({ tipo }: { tipo: TipoIcone }) {
   return <svg viewBox="0 0 24 24" className={styles.iconeSvg} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{desenho}</svg>;
 }
 const opcoes: Array<{ titulo: string; descricao: string; href: string; tipo: TipoIcone; destaque?: boolean }> = [
-  { titulo: "Escolher um político", descricao: "Pesquise e acompanhe quem você quer.", href: "/politicos/escolher", tipo: "buscar", destaque: true },
+  { titulo: "Escolher um político", descricao: "Pesquise quem você quer acompanhar.", href: "/politicos/escolher", tipo: "buscar", destaque: true },
   { titulo: "Políticos que eu acompanho", descricao: "Veja e gerencie suas escolhas.", href: "/politicos/acompanhados", tipo: "pessoas" },
   { titulo: "Histórico de um político", descricao: "Veja a trajetória e os registros do passado.", href: "/politicos/historico", tipo: "historico" },
   { titulo: "Receber avisos", descricao: "Saiba o que fazem os políticos que você acompanha.", href: "/politicos/avisos", tipo: "sino" },
