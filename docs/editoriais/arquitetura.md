@@ -1,7 +1,7 @@
 # Editoriais — isolamento
 - Rotas públicas: /editoriais; administração: /admin/editoriais; APIs: /api/editoriais.
 - Componentes, dados e bibliotecas exclusivos nos diretórios editoriais.
-- Banco configurado exclusivamente por EDITORIAIS_DATABASE_URL; schema editoriais.
+- Publicações reutilizam as tabelas editoriais existentes public.admin_artigos e relacionadas; inscrições PWA usam schema editoriais e conexão EDITORIAIS_DATABASE_URL. Não duplicar artigos.
 - Nenhuma dependência das tabelas, inscrições ou rotas de Políticos.
 - Autenticação central do ecossistema; autorização verificada em cada operação administrativa.
 - Manifesto, ícone e escopo de service worker próprios.
