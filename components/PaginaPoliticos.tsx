@@ -3,11 +3,11 @@ import Link from "next/link";
 import { CabecalhoPoliticos } from "@/components/CabecalhoPoliticos";
 
 export function PaginaPoliticos({
-  titulo, children, voltarHref = "/politicos",
-}: { titulo: string; children: ReactNode; voltarHref?: string }) {
+  titulo, children, voltarHref = "/politicos", largura = "normal",
+}: { titulo: string; children: ReactNode; voltarHref?: string; largura?: "normal" | "ampla" }) {
   return (
     <main className="min-h-screen bg-[#071827] px-5 pb-14 pt-4 text-white">
-      <section className="mx-auto w-full max-w-2xl">
+      <section className={`mx-auto w-full ${largura === "ampla" ? "max-w-[728px]" : "max-w-2xl"}`}>
         <CabecalhoPoliticos titulo={titulo} />
         {children}
         <div className="mt-9 flex justify-center">
