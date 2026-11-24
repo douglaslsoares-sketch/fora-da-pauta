@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { PoliticosMarca } from "@/components/PoliticosMarca";
+import Image from "next/image";
 import styles from "./page.module.css";
 import { cookies } from "next/headers";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
@@ -43,8 +43,7 @@ export default async function Politicos() {
     <main className={styles.pagina}>
       <div className={styles.conteudo}>
         <header className={styles.cabecalho}>
-          <PoliticosMarca className={styles.marca} />
-          <h1 className={styles.titulo}>Políticos</h1>
+          <h1 style={{ margin: 0, width: "min(100%, 380px)" }}><Image src="/marca/politicos-oficial.png" alt="Políticos — Acompanhar, Fiscalizar, Cobrar" width={1536} height={1024} style={{ width: "100%", height: "auto", display: "block" }} /></h1>
         </header>
         <p className={styles.subtitulo}>Acompanhe quem nos representa.</p>
         <nav aria-label="Menu do aplicativo Políticos" className={styles.menu}>
