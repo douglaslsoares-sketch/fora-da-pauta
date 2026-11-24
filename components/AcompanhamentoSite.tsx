@@ -28,6 +28,8 @@ export function AcompanhamentoSite({ modo, voltarPara = "/central", incorporado 
   const [erro, setErro] = useState("");
   const [aviso, setAviso] = useState("");
 
+  useEffect(() => { if (modo !== "escolher" || voltarPara !== "/politicos") return; const u = new URL(window.location.href); if (aberto) u.searchParams.set("perfil", aberto.id); else if (!u.searchParams.has("perfil")) return; else return; window.history.replaceState(null,"",u); window.dispatchEvent(new Event("contexto-publico")); }, [aberto, modo, voltarPara]);
+  useEffect(() => { if (modo !== "escolher" || voltarPara !== "/politicos") return; const id = new URLSearchParams(window.location.search).get("perfil"); if (!id) return; let ativo=true; fetch("/api/site/candidaturas?ids="+encodeURIComponent(id)).then(r=>r.ok?r.json():null).then(d=>{if(ativo&&d?.pessoas?.[0]){setAberto(d.pessoas[0]);onPerfilChange?.(true)}}).catch(()=>{}); return()=>{ativo=false}; }, [modo, voltarPara]);
   // A confirmação é temporária; o estado permanente permanece no cartão do resultado.
   useEffect(() => {
     if (!aviso) return;
@@ -114,7 +116,7 @@ export function AcompanhamentoSite({ modo, voltarPara = "/central", incorporado 
     {aviso && <p role="status" className="mb-4 rounded-lg bg-green-50 p-3 text-green-800">{aviso}</p>}
     {carregando && !incorporado ? <p role="status">Carregando acompanhamentos...</p> : modo === "escolher" ? (
       <div aria-busy={salvando}>
-        {aberto && voltarPara === "/politicos" && <>{cartao(aberto)}<button type="button" className="mx-auto mt-5 block min-h-11 text-[#F4C64D]" onClick={() => { setAberto(null); setPesquisaVersao(v => v + 1); setAviso(""); setErro(""); onPerfilChange?.(false); window.scrollTo(0, 0); }}>← Voltar</button></>}
+        {aberto && voltarPara === "/politicos" && <>{cartao(aberto)}<button type="button" className="mx-auto mt-5 block min-h-11 text-[#F4C64D]" onClick={() => { const u = new URL(window.location.href); u.searchParams.delete("perfil"); window.history.replaceState(null,"",u); window.dispatchEvent(new Event("contexto-publico")); setAberto(null); setPesquisaVersao(v => v + 1); setAviso(""); setErro(""); onPerfilChange?.(false); window.scrollTo(0, 0); }}>← Voltar</button></>}
         <div hidden={!!aberto}>
         {voltarPara === "/politicos" ? (
           <CandidateFollowLiveSearch

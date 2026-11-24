@@ -20,17 +20,7 @@ export default function Politicos() {
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M17 4a3 3 0 0 1 0 6M18 14a5 5 0 0 1 4 5v2"/></svg>
         <span className="flex-1">Políticos que sigo</span><span aria-hidden="true">›</span>
       </Link>
-      <nav aria-label="Recursos adicionais" className="mt-8 grid grid-cols-3 gap-2 text-center text-xs">
-        <a href={"https://wa.me/?text="+encodeURIComponent("Políticos — Acompanhar, fiscalizar e cobrar. https://foradapauta.org/politicos")} target="_blank" rel="noopener noreferrer" className="flex min-h-14 flex-col items-center gap-2">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#F4C64D" strokeWidth="1.8" aria-hidden="true"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8 11 8-5M8 13l8 5"/></svg>Compartilhar
-        </a>
-        <Link href="/politicos/qr-code" className="flex min-h-14 flex-col items-center gap-2">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#F4C64D" strokeWidth="1.8" aria-hidden="true"><rect x="2" y="2" width="8" height="8"/><rect x="14" y="2" width="8" height="8"/><rect x="2" y="14" width="8" height="8"/><path d="M5 5h2v2H5zM17 5h2v2h-2zM5 17h2v2H5zM14 14h4v4h-4zM22 14v4M14 22h4M22 22h-1"/></svg>QR Code
-        </Link>
-        <Link href="/politicos/loja" className="flex min-h-14 flex-col items-center gap-2">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#F4C64D" strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true"><path d="m8 3-6 4 3 6 3-2v10h8V11l3 2 3-6-6-4a4 4 0 0 1-8 0Z"/></svg>Loja
-        </Link>
-      </nav>
+      
       <InstalarAplicativo tema="escuro" />
       </>}
     </div>
