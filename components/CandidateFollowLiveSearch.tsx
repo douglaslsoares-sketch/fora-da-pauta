@@ -19,7 +19,7 @@ type RespostaBusca = {
   totalPaginas: number;
 };
 
-type Props = { compacto?: boolean } & ({ mode?: "follow";
+type Props = { compacto?: boolean; onOpen?: (politico: Politico) => void } & ({ mode?: "follow";
   selectedIds: readonly string[];
   busy?: boolean;
   onSelect: (politico: Politico) => void;
@@ -32,6 +32,7 @@ type Props = { compacto?: boolean } & ({ mode?: "follow";
  */
 export function CandidateFollowLiveSearch({
   compacto = false,
+  onOpen,
   mode = "follow",
   selectedIds = [],
   busy = false,
@@ -190,6 +191,7 @@ export function CandidateFollowLiveSearch({
             <div className="space-y-3" aria-label="Resultados da pesquisa">
               {resultados.map(politico => {
                 const selecionado = selectedIds.includes(politico.id);
+                if (onOpen) return <button key={politico.id} type="button" onClick={() => onOpen(politico)} className="flex w-full items-center gap-3 rounded-2xl bg-white p-3 text-left text-slate-950"><CandidatePhoto id={politico.id} name={politico.nomeUrna}/><span className="min-w-0 flex-1"><strong className="block">{politico.nomeUrna}</strong><span className="text-sm text-slate-600">{politico.cargoLabel} · {politico.siglaPartido} · {politico.uf}</span></span><span aria-hidden="true">›</span></button>;
                 return (
                   <div
                     key={politico.id}
