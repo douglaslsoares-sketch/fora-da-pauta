@@ -1,1 +1,15 @@
-import Link from "next/link";import {notFound} from "next/navigation";import {publicados} from "../acervo";export default async function Page({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const a=publicados.find(x=>x.slug===slug);if(!a)notFound();return <main className="mx-auto max-w-xl p-5"><img src="/marca/editoriais-gabarito.png" alt="Editoriais" className="mx-auto w-full max-w-[380px]"/><h1 className="my-5 text-2xl font-bold">{a.titulo}</h1><img src={a.capa} alt={a.titulo} className="w-full rounded-xl"/><nav className="my-4 flex flex-wrap gap-3"><a href="#texto">Ler</a>{a.audio&&<a href="#audio">Ouvir</a>}</nav>{a.audio&&<audio id="audio" controls src={a.audio} className="w-full"/>}<article id="texto">{a.texto.map((p,i)=><p key={i} className="my-4 leading-relaxed">{p}</p>)}</article><Link href="/editoriais" className="mt-8 block text-center text-[#F4C64D]">← Voltar</Link></main>}
+import Link from "next/link";
+import {notFound} from "next/navigation";
+import {publicados} from "../acervo";
+export default async function Page({params}:{params:Promise<{slug:string}>}){
+ const {slug}=await params;const a=publicados.find(x=>x.slug===slug);if(!a)notFound();
+ const minutos=Math.max(1,Math.ceil(a.texto.join(" ").trim().split(/\s+/).length/200));
+ return <main className="mx-auto max-w-xl p-5">
+ <header className="relative mb-5 border-b border-slate-600 pb-4"><Link href="/editoriais" aria-label="Voltar para Editoriais" className="absolute left-0 top-2 text-2xl">←</Link><img src="/marca/editoriais-gabarito.png" alt="Editoriais" className="mx-auto w-4/5 max-w-[300px]"/></header>
+ <img src={a.capa} alt={a.titulo} className="w-full rounded-xl"/><h1 className="mt-5 text-3xl font-bold leading-tight">{a.titulo}</h1>
+ <nav className="my-5 flex flex-wrap gap-3">{a.audio&&<a href="#audio" className="flex-1 rounded-xl bg-[#F4C64D] p-3 text-center font-bold text-[#0C192B]">▶ Ouvir o editorial</a>}<a href="#texto" className="flex-1 rounded-xl border border-slate-400 p-3 text-center font-semibold">Ler no texto</a></nav>
+ <p className="mb-4 border-b border-slate-600 pb-4 text-sm text-slate-300"><time dateTime={a.publicadoEm}>{new Date(a.publicadoEm.slice(0,10)+"T12:00:00Z").toLocaleDateString("pt-BR",{dateStyle:"long",timeZone:"America/Sao_Paulo"})}</time> · Leitura: {minutos} min</p>
+ {a.audio&&<audio id="audio" controls preload="none" src={a.audio} className="w-full"/>}
+ <article id="texto" className="scroll-mt-4 text-lg leading-relaxed">{a.texto.map((p,i)=><p key={i} className="my-5">{p}</p>)}</article>
+ <Link href="/editoriais" className="mt-8 block text-center text-[#F4C64D]">← Voltar</Link></main>
+}
