@@ -132,7 +132,8 @@ export function CandidateFollowLiveSearch({
         Nome do político
       </label>
       <div className="relative">
-        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"><circle cx="11" cy="11" r="7" /><path d="m16 16 5 5" /></svg>
+        <div aria-hidden="true" className={`pointer-events-none absolute inset-0 flex items-center justify-center gap-3 px-3 text-slate-400 ${nome ? "hidden" : ""}`}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="h-5 w-5 shrink-0"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg><span className="text-sm sm:text-base">Digite o nome do político</span></div>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className={`pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 ${nome ? "" : "hidden"}`}><circle cx="11" cy="11" r="7" /><path d="m16 16 5 5" /></svg>
         <input
           id="busca-politico-ao-digitar"
           ref={campo}
@@ -140,10 +141,10 @@ export function CandidateFollowLiveSearch({
           inputMode="search"
           value={nome}
           onChange={evento => digitar(evento.target.value)}
-          placeholder="Digite o nome do político"
+          placeholder=""
           autoComplete="off"
           aria-controls="resultados-politicos-ao-digitar"
-          className="min-h-14 w-full rounded-2xl border border-[#42536A] bg-[#0E1A29] py-3 pl-12 pr-14 text-base text-white caret-white outline-none placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-[#FFC400] focus-visible:ring-offset-2 focus-visible:ring-offset-[#071827]"
+          className="min-h-14 w-full rounded-2xl border border-[#42536A] bg-[#0E1A29] py-3 px-12 text-center text-base text-white caret-white outline-none placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-[#FFC400] focus-visible:ring-offset-2 focus-visible:ring-offset-[#071827]"
         />
         {nome && <button type="button" aria-label="Limpar pesquisa" onClick={() => { digitar(""); campo.current?.focus(); }} className="absolute right-1.5 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-xl text-slate-300 hover:bg-slate-700 focus-visible:outline-2 focus-visible:outline-[#B38600]"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="h-5 w-5"><path d="m6 6 12 12M18 6 6 18" /></svg></button>}
       </div>
