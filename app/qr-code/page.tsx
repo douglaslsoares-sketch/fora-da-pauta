@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CabecalhoInterno } from "@/components/CabecalhoInterno";
 
 export const metadata = {
   title: "QR Code | Fora da Pauta",
@@ -9,20 +8,18 @@ export const metadata = {
 
 export default function PaginaQRCode() {
   return (
-    <main className="min-h-screen bg-[#141c2b] text-white">
-      <section className="mx-auto max-w-2xl px-5 pb-14 pt-3 text-center"><CabecalhoInterno titulo="Mostrar QR Code" />
-        <p className="mx-auto max-w-lg text-base leading-relaxed text-slate-300">
-          Aponte a câmera do celular.
+    <main className="min-h-[100dvh] bg-[#0E1A29] text-white">
+      <section className="mx-auto max-w-xl px-5 pt-5 pb-10 text-center">
+        <header className="flex flex-col items-center pb-5">
+          <h1 className="text-center text-5xl font-extrabold tracking-tight sm:text-6xl">QR Code</h1>
+        </header>
+        <p className="mx-auto max-w-sm text-sm leading-relaxed text-slate-300">
+          Aponte a câmera do celular para acessar o Fora da Pauta.
         </p>
-        <div className="mx-auto mt-8 w-full max-w-[340px] rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+        <div className="mx-auto mt-6 w-full max-w-[300px] rounded-2xl bg-white p-4">
           <Image src="/qr/fora-da-pauta.svg" alt="QR Code para acessar foradapauta.org" width={370} height={370} className="h-auto w-full" unoptimized priority />
         </div>
-        <p className="mt-5 text-lg font-semibold">foradapauta.org</p>
-        <div className="mt-10 flex justify-center">
-          <Link href="/central" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-red-600 px-7 py-3 text-center font-semibold text-white hover:bg-red-700">
-            <span aria-hidden="true" className="text-xl leading-none">×</span> Fechar
-          </Link>
-        </div>
+        <Link href="/" className="mx-auto mt-7 block min-h-12 text-center font-semibold text-[#F4C64D] hover:underline underline-offset-4">← Fora da Pauta</Link>
       </section>
     </main>
   );
