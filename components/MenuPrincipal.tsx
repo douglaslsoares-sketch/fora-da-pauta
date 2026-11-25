@@ -2,7 +2,7 @@ import Link from "next/link";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import { LogoForaDaPauta } from "@/components/LogoForaDaPauta";
 import { IconeMenu } from "@/components/IconeMenu";
-import { linkCompartilhamentoWhatsApp } from "@/lib/compartilhamento";
+
 
 const iniciativas = [
   { nome: "Políticos", href: "/politicos", desenho: <><path d="M2 12s3.6-8 10-8 10 8 10 8-3.6 8-10 8S2 12 2 12Z"/><circle cx="12" cy="12" r="3.5"/></> },
@@ -29,7 +29,7 @@ export function MenuPrincipal() {
       </div>
       <footer className="fixed inset-x-0 bottom-0 z-40 border-t border-[#344457] bg-[#0E1A29] pb-[env(safe-area-inset-bottom)]">
         <nav className="mx-auto grid max-w-xl grid-cols-3" aria-label="Ações">
-          <a className={rodape} href={linkCompartilhamentoWhatsApp} target="_blank" rel="noopener noreferrer"><IconeMenu nome="compartilhar" className="text-[#F4C64D]"/>Compartilhar</a>
+          <Link className={rodape} href="/compartilhar"><IconeMenu nome="compartilhar" className="text-[#F4C64D]"/>Compartilhar</Link>
           <Link className={rodape} href="/qr-code"><IconeMenu nome="qr" className="text-[#F4C64D]"/>QR Code</Link>
           <Link className={rodape} href="/loja"><svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="#F4C64D" strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true"><path d="m8 3-5 3 2 6 3-1v10h8V11l3 1 2-6-5-3c0 4-8 4-8 0Z"/></svg>Loja</Link>
         </nav>
