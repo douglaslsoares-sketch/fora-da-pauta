@@ -31,7 +31,7 @@ export function MenuPrincipal() {
         <nav className="mx-auto grid max-w-xl grid-cols-3" aria-label="Ações">
           <Link className={rodape} href="/compartilhar"><IconeMenu nome="compartilhar" className="text-[#F4C64D]"/>Compartilhar</Link>
           <Link className={rodape} href="/qr-code"><IconeMenu nome="qr" className="text-[#F4C64D]"/>QR Code</Link>
-          <Link className={rodape} href="/loja"><svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="#F4C64D" strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true"><path d="m8 3-5 3 2 6 3-1v10h8V11l3 1 2-6-5-3c0 4-8 4-8 0Z"/></svg>Loja</Link>
+          <Link className={rodape} href="/loja"><svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="#F4C64D" strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>Apoie</Link>
         </nav>
       </footer>
     </section>
