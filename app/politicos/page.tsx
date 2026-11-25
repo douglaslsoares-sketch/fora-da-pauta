@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { AcompanhamentoSite } from "@/components/AcompanhamentoSite";
-import { InstalarAplicativo } from "@/components/InstalarAplicativo";
+
 
 
 export default function Politicos() {
@@ -11,7 +11,7 @@ export default function Politicos() {
   return <main className="bg-[#0C192B] px-5 pt-5 pb-2 text-white">
     <div className="mx-auto w-full max-w-xl">
       <header className="flex flex-col items-center justify-center pb-5">
-        <h1 className="w-full max-w-[380px]"><img src="/marca/politicos-gabarito.png" alt="Políticos" className="block h-auto w-full" /></h1>{!perfilAberto && <p className="mt-1 text-center text-sm font-medium text-white">Seguir <span className="text-red-500">•</span> Fiscalizar <span className="text-red-500">•</span> Cobrar</p>}
+        <h1 className="text-center text-5xl font-extrabold tracking-tight sm:text-6xl">Políticos</h1>{!perfilAberto && <p className="mt-1 text-center text-sm font-medium text-white">Seguir <span className="text-red-500">•</span> Fiscalizar <span className="text-red-500">•</span> Cobrar</p>}
       </header>
       <h2 hidden={perfilAberto} className="text-base font-semibold">Escolher um político</h2>
       <AcompanhamentoSite modo="escolher" voltarPara="/politicos" incorporado onPerfilChange={setPerfilAberto} />
@@ -21,7 +21,7 @@ export default function Politicos() {
         <span className="flex-1">Políticos que sigo</span><span aria-hidden="true">›</span>
       </Link>
       
-      <InstalarAplicativo nome="Políticos" tema="escuro" />
+      <Link href="/" className="mx-auto mt-7 block min-h-12 text-center font-semibold text-[#F4C64D] underline underline-offset-4">← Voltar ao Fora da Pauta</Link>
       </>}
     </div>
   </main>;
