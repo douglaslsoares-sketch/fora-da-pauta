@@ -19,8 +19,8 @@ export function MenuPrincipal() {
         <header className="flex justify-center pt-5 pb-8 sm:pt-8 sm:pb-10">
           <h1 className="w-full max-w-[340px]"><LogoForaDaPauta className="block w-full h-auto"/></h1>
         </header>
-        <nav className="grid grid-cols-2 gap-3" aria-label="Iniciativas">
-          {iniciativas.filter(item => item.href !== null).map(({nome,href,desenho}) => {
+        <nav className="grid grid-cols-2 gap-3 [&>*:only-child]:col-span-2" aria-label="Iniciativas">
+          {iniciativas.filter(item => item.href !== null && item.nome !== "Políticos").map(({nome,href,desenho}) => {
             const conteudo = <><svg viewBox="0 0 24 24" className="h-8 w-8 sm:h-10 sm:w-10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{desenho}</svg><span className="text-lg font-bold sm:text-2xl">{nome}</span></>;
             return href ? <Link key={nome} href={href} className={cartao+" hover:bg-[#22364C] focus-visible:outline focus-visible:outline-[#F4C64D]"}>{conteudo}</Link> : <div key={nome} className={cartao} aria-disabled="true" title="Em preparação">{conteudo}</div>;
           })}
