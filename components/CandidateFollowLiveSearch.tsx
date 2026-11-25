@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { PesquisaPorVoz } from "@/components/PesquisaPorVoz";
 import { CandidatePhoto } from "@/components/CandidatePhoto";
 
 type Politico = {
@@ -126,6 +127,7 @@ export function CandidateFollowLiveSearch({
 
   return (
     <div className={compacto ? "mt-2" : "mt-5"}>
+      <PesquisaPorVoz onTexto={digitar} />
       <label htmlFor="busca-politico-ao-digitar" className="sr-only">
         Nome do político
       </label>
