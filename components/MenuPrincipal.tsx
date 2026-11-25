@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import { LogoForaDaPauta } from "@/components/LogoForaDaPauta";
 import { IconeMenu } from "@/components/IconeMenu";
 import { linkCompartilhamentoWhatsApp } from "@/lib/compartilhamento";
@@ -24,6 +25,7 @@ export function MenuPrincipal() {
             return href ? <Link key={nome} href={href} className={cartao+" hover:bg-[#22364C] focus-visible:outline focus-visible:outline-[#F4C64D]"}>{conteudo}</Link> : <div key={nome} className={cartao} aria-disabled="true" title="Em preparação">{conteudo}</div>;
           })}
         </nav>
+        <div className="text-center [&_button]:!text-[#F4C64D]"><InstalarAplicativo tema="escuro" /></div>
       </div>
       <footer className="fixed inset-x-0 bottom-0 z-40 border-t border-[#344457] bg-[#0E1A29] pb-[env(safe-area-inset-bottom)]">
         <nav className="mx-auto grid max-w-xl grid-cols-3" aria-label="Ações">
