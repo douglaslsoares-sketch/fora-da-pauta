@@ -21,7 +21,7 @@ export default function Politicos() {
         <span className="flex-1">Políticos que sigo</span><span aria-hidden="true">›</span>
       </Link>
       
-      <Link href="/" className="mx-auto mt-7 block min-h-12 text-center font-semibold text-[#F4C64D] underline underline-offset-4">← Voltar ao Fora da Pauta</Link>
+      <Link href="/" className="mx-auto mt-7 block min-h-12 text-center font-semibold text-[#F4C64D] hover:underline underline-offset-4">← Fora da Pauta</Link>
       </>}
     </div>
   </main>;
