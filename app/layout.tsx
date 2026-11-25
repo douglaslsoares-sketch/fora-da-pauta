@@ -20,12 +20,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.foradapauta.org"),
   openGraph: {
     title: "Fora da Pauta",
-    description: "Leia, ouça e compartilhe as publicações do Fora da Pauta.",
+    description: "",
     url: "https://www.foradapauta.org/",
     siteName: "Fora da Pauta",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: imagemCompartilhamento, width: 1200, height: 630, alt: "Logomarca oficial Fora da Pauta em branco e amarelo sobre fundo azul-marinho." }],
+    images: [{ url: imagemCompartilhamento, width: 1200, height: 630, alt: "Botão ForaDaPauta.org sobre fundo branco." }],
   },
   title: {
     default: "Fora da Pauta",
