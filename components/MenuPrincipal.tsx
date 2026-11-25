@@ -1,34 +1,37 @@
 import Link from "next/link";
-import { cookies, headers } from "next/headers";
-import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
-import { IconeMenu } from "@/components/IconeMenu";
 import { LogoForaDaPauta } from "@/components/LogoForaDaPauta";
-import { InstalarAplicativo } from "@/components/InstalarAplicativo";
-import styles from "@/app/central/page.module.css";
+import { IconeMenu } from "@/components/IconeMenu";
 import { linkCompartilhamentoWhatsApp } from "@/lib/compartilhamento";
-import { participacaoNomeAberta } from "@/lib/participacaoNome";
 
-export async function MenuPrincipal() {
-  const [cookieStore, headerStore] = await Promise.all([cookies(), headers()]);
-  const agente = headerStore.get("user-agent") ?? "";
-  const acessoDesktop = !/Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(agente);
-  const adminAutenticado = acessoDesktop && verifyQuestionsAdminSessionToken(cookieStore.get(QUESTIONS_ADMIN_COOKIE)?.value);
-  const sugestoesAbertas = await participacaoNomeAberta();
+const iniciativas = [
+  { nome: "Políticos", href: "/politicos", desenho: <><path d="M2 12s3.6-8 10-8 10 8 10 8-3.6 8-10 8S2 12 2 12Z"/><circle cx="12" cy="12" r="3.5"/></> },
+  { nome: "Editoriais", href: "/editoriais", desenho: <><path d="m3 3 14 4 4 10-4 4-10-4L3 3Zm0 0 9 9m3 5 5-5"/><circle cx="12" cy="12" r="2"/></> },
+  { nome: "Curtas", href: null, desenho: <><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4Z" fill="currentColor"/></> },
+  { nome: "Enquetes", href: null, desenho: <><rect x="3" y="11" width="4" height="10" rx="1" fill="currentColor"/><rect x="10" y="3" width="4" height="18" rx="1" fill="currentColor"/><rect x="17" y="7" width="4" height="14" rx="1" fill="currentColor"/></> },
+];
+const cartao = "flex min-h-[100px] flex-col items-center justify-center gap-3 rounded-2xl bg-[#18283A] px-2 py-5 text-center text-white sm:min-h-[140px]";
+const rodape = "flex min-w-0 flex-col items-center justify-center gap-2 py-3 text-center text-xs text-white sm:text-sm";
+export function MenuPrincipal() {
   return (
-    <section id="menu" className={styles.pagina} aria-label="Menu do Fora da Pauta">
-      <header className={styles.tituloMenu}><LogoForaDaPauta className={styles.logoMenuOficial} /><h1 className="sr-only">Fora da Pauta</h1></header>
-      <nav className={styles.menu} aria-label="Menu central">
-        <Link className={styles.principal} href="/publicacoes"><span className={styles.icone} aria-hidden="true"><IconeMenu nome="publicacoes" /></span><span className={styles.textoBotao}><span className={styles.publicacoesTitulo}>Publicações</span><span className={styles.publicacoesDescricao}>Leia, ouça e compartilhe</span></span><span className={styles.seta} aria-hidden="true">›</span></Link>
-        <a className={styles.seguirForaDaPauta} href="https://whatsapp.com/channel/0029VbDnV1V8aKvH9yaMRY13" target="_blank" rel="noopener noreferrer" aria-label="Siga o Fora da Pauta no WhatsApp"><span className={styles.icone} aria-hidden="true"><IconeMenu nome="recado" /></span><span className={styles.textoBotao}><span className={styles.seguirTitulo}>Siga o Fora da Pauta</span><span className={styles.seguirDescricao}>Receba avisos de novas publicações</span></span><span className={styles.seta} aria-hidden="true">›</span></a>
-        <Link className={styles.botao} href="/politicos"><span className={styles.icone} aria-hidden="true"><IconeMenu nome="acompanhando" /></span><span className={styles.textoBotao}><span className={styles.escolherTitulo}>Políticos</span><span className={styles.escolherDescricao}>Acompanhe quem nos representa</span></span><span className={styles.seta} aria-hidden="true">›</span></Link>
-        {/* Lançamento: recados ainda em validação. Mantemos as páginas e dados,
-            mas não as promovemos no menu público até o envio ser homologado. */}
-        <Link className={styles.botao} href="/qr-code"><span className={styles.icone} aria-hidden="true"><IconeMenu nome="qr" /></span><span className={styles.textoBotao}>Mostrar QR Code</span><span className={styles.seta} aria-hidden="true">›</span></Link>
-        <a className={styles.compartilhar} href={linkCompartilhamentoWhatsApp} target="_blank" rel="noopener noreferrer"><span className={styles.icone} aria-hidden="true"><IconeMenu nome="compartilhar" /></span><span className={styles.textoBotao}>Compartilhar</span><span className={styles.seta} aria-hidden="true">›</span></a>
-        {sugestoesAbertas && <Link className={styles.botao} href="/sugira-um-nome"><span className={styles.icone} aria-hidden="true">?</span><span className={styles.textoBotao}>Ajude a escolher nosso nome</span><span className={styles.seta} aria-hidden="true">›</span></Link>}
-        <div className={styles.instalarRodape}><InstalarAplicativo tema="escuro" /></div>
-        {adminAutenticado ? <Link className={styles.adminDiscreto} href="/admin"><span aria-hidden="true">⚙</span> Administração</Link> : null}
-      </nav>
+    <section id="menu" className="min-h-screen min-h-[100dvh] bg-[#0E1A29] text-white pb-28" aria-label="Menu do Fora da Pauta">
+      <div className="mx-auto max-w-xl px-4 sm:px-6">
+        <header className="flex justify-center pt-5 pb-8 sm:pt-8 sm:pb-10">
+          <h1 className="w-full max-w-[340px]"><LogoForaDaPauta className="block w-full h-auto"/></h1>
+        </header>
+        <nav className="grid grid-cols-2 gap-3" aria-label="Iniciativas">
+          {iniciativas.map(({nome,href,desenho}) => {
+            const conteudo = <><svg viewBox="0 0 24 24" className="h-8 w-8 sm:h-10 sm:w-10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{desenho}</svg><span className="text-lg font-bold sm:text-2xl">{nome}</span></>;
+            return href ? <Link key={nome} href={href} className={cartao+" hover:bg-[#22364C] focus-visible:outline focus-visible:outline-[#F4C64D]"}>{conteudo}</Link> : <div key={nome} className={cartao} aria-disabled="true" title="Em preparação">{conteudo}</div>;
+          })}
+        </nav>
+      </div>
+      <footer className="fixed inset-x-0 bottom-0 z-40 border-t border-[#344457] bg-[#0E1A29] pb-[env(safe-area-inset-bottom)]">
+        <nav className="mx-auto grid max-w-xl grid-cols-3" aria-label="Ações">
+          <a className={rodape} href={linkCompartilhamentoWhatsApp} target="_blank" rel="noopener noreferrer"><IconeMenu nome="compartilhar" className="text-[#F4C64D]"/>Compartilhar</a>
+          <Link className={rodape} href="/qr-code"><IconeMenu nome="qr" className="text-[#F4C64D]"/>QR Code</Link>
+          <Link className={rodape} href="/loja"><svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="#F4C64D" strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true"><path d="m8 3-5 3 2 6 3-1v10h8V11l3 1 2-6-5-3c0 4-8 4-8 0Z"/></svg>Loja</Link>
+        </nav>
+      </footer>
     </section>
   );
 }
