@@ -17,14 +17,12 @@ export async function POST(r:Request){try{
  if(!await validar(r))return json({erro:"Envio não permitido. Tente mais tarde."},429);
  const d=await r.json().catch(()=>null);
  const t=typeof d?.texto==="string"?d.texto.trim():"";
- const p=d?.resposta_a??null;
- if(!t||t.length>2000||t.includes("\u0000")||(p!==null&&!uuid(p)))return json({erro:"Confira o comentário."},400);
+ if(!t||t.length>2000||t.includes("\u0000"))return json({erro:"Confira o comentário."},400);
  await prepararComentarios();
- if(p){const a=await listarComentarios(s);if(!a.some(x=>x.id===p&&Number(x.nivel)<5))return json({erro:"Comentário não encontrado."},400)}
  const store=await cookies();let token=store.get(COOKIE_COMENTARIOS)?.value;
  if(!hashAutor(token))token=randomBytes(32).toString("hex");
  const hash=hashAutor(token)!;
- await sql`INSERT INTO public.editoriais_comentarios(id,editorial_slug,nome,texto,resposta_a,autor_hash) VALUES(${randomUUID()}::uuid,${s},'Anônimo',${t},${p}::uuid,${hash})`;
+ await sql`INSERT INTO public.editoriais_comentarios(id,editorial_slug,nome,texto,autor_hash) VALUES(${randomUUID()}::uuid,${s},'Anônimo',${t},${hash})`;
  const response=json({salvo:true},201);
  response.cookies.set(COOKIE_COMENTARIOS,token!,{httpOnly:true,secure:true,sameSite:"lax",path:"/",maxAge:31536000});
  return response;
