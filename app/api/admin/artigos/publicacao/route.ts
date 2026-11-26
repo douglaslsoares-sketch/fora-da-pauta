@@ -23,6 +23,7 @@ export async function POST(request: Request) {
       )
     `;
     if (action === "publicar") {
+      await sql`ALTER TABLE public.admin_artigos ADD COLUMN IF NOT EXISTS capa_url text NOT NULL DEFAULT ''`;
       await sql`CREATE TABLE IF NOT EXISTS public.admin_artigos_audio (artigo_id uuid PRIMARY KEY REFERENCES public.admin_artigos(id) ON DELETE CASCADE, audio bytea NOT NULL, aprovado boolean NOT NULL DEFAULT false, gerado_em timestamptz NOT NULL DEFAULT now(), aprovado_em timestamptz)`;
     }
     const rows = action === "publicar"
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
           UPDATE public.admin_artigos
           SET status = 'publicado', updated_at = now()
           WHERE id = ${id}::uuid AND status = 'revisao'
-            AND length(trim(titulo)) > 0 AND length(trim(conteudo)) > 0 AND length(trim(fontes)) > 0
+            AND length(trim(titulo)) > 0 AND length(trim(conteudo)) > 0 AND length(trim(fontes)) > 0 AND length(trim(capa_url)) > 0
             AND EXISTS (SELECT 1 FROM public.admin_artigos_audio aa WHERE aa.artigo_id = public.admin_artigos.id AND aa.aprovado = true)
           RETURNING id
           )
@@ -48,7 +49,7 @@ export async function POST(request: Request) {
           INSERT INTO public.admin_artigos_historico (artigo_id, acao)
           SELECT id, 'arquivado' FROM updated RETURNING artigo_id::text AS id
         `;
-    if (!rows.length) return NextResponse.json({ erro: "Publicação não autorizada: o artigo deve estar em revisão, com título, texto, fontes e áudio definitivo aprovado." }, { status: 409 });
+    if (!rows.length) return NextResponse.json({ erro: "Publicação não autorizada: o artigo deve estar em revisão, com título, texto, fontes, capa e áudio definitivo aprovado." }, { status: 409 });
     return NextResponse.json({ ok: true, status: action === "publicar" ? "publicado" : "arquivado" });
   } catch {
     return NextResponse.json({ erro: "Não foi possível alterar a publicação." }, { status: 503 });
