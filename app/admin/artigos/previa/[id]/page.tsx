@@ -9,7 +9,7 @@ import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Prévia editorial | Fora da Pauta", robots: { index: false, follow: false } };
 
-type Article = { titulo: string; resumo: string; conteudo: string; fontes: string; audio_url: string; status: string };
+type Article = { titulo: string; resumo: string; conteudo: string; fontes: string; audio_url: string; capa_url: string; status: string };
 export default async function PreviewArticle({ params }: { params: Promise<{ id: string }> }) {
   const store = await cookies();
   if (!verifyQuestionsAdminSessionToken(store.get(QUESTIONS_ADMIN_COOKIE)?.value)) redirect("/admin");
@@ -18,11 +18,11 @@ export default async function PreviewArticle({ params }: { params: Promise<{ id:
   let article: Article | undefined;
   try {
     const rows = await sql<Article[]>`
-      SELECT titulo, resumo, conteudo, fontes, audio_url, status FROM public.admin_artigos WHERE id = ${id}::uuid LIMIT 1
+      SELECT titulo, resumo, conteudo, fontes, audio_url, COALESCE(to_jsonb(admin_artigos)->>'capa_url','') AS capa_url, status FROM public.admin_artigos WHERE id = ${id}::uuid LIMIT 1
     `;
     article = rows[0];
   } catch {
-    return <main className="mx-auto max-w-3xl p-8"><p>Não foi possível carregar a prévia neste momento.</p><Link href="/admin/artigos" className="underline">Voltar aos artigos</Link></main>;
+    return <main className="mx-auto max-w-3xl p-8"><p>Não foi possível carregar a prévia neste momento.</p><Link href="/admin/editoriais" className="underline">Voltar aos artigos</Link></main>;
   }
   if (!article) notFound();
   const paragraphs = article.conteudo.split(/\n\s*\n/).filter(Boolean);
@@ -32,7 +32,7 @@ export default async function PreviewArticle({ params }: { params: Promise<{ id:
       <article className="mx-auto max-w-3xl">
         <div className="rounded-lg border-2 border-yellow-500 bg-yellow-50 p-4 text-sm font-semibold">PRÉVIA PRIVADA — NÃO PUBLICADO · Situação: {article.status}</div>
         <p className="mt-9 text-sm font-bold uppercase tracking-widest">Fora da Pauta</p>
-        <h1 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">{article.titulo}</h1>
+        {article.capa_url && <img src={article.capa_url} alt={article.titulo} referrerPolicy="no-referrer" className="mt-5 w-full rounded-xl"/>}<h1 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">{article.titulo}</h1>
         {article.resumo && <p className="mt-5 text-lg leading-8 text-black/70">{article.resumo}</p>}
         <PrivateVoiceTest articleId={id} />
         {article.audio_url && <section className="mt-8 rounded-xl border border-[#d5dce4] bg-[#f3f6f9] p-5">
@@ -49,7 +49,7 @@ export default async function PreviewArticle({ params }: { params: Promise<{ id:
           <h2 className="text-xl font-bold">Fontes e referências</h2>
           {sources.length ? <ul className="mt-4 list-disc space-y-3 pl-6">{sources.map((source, i) => <li key={i} className="break-words">{source}</li>)}</ul> : <p className="mt-4 text-black/60">Nenhuma fonte informada.</p>}
         </section>
-        <div className="mt-12 flex justify-center"><Link href="/admin/artigos" className="rounded-lg bg-red-600 px-7 py-3 font-semibold text-white">× Fechar prévia</Link></div>
+        <div className="mt-12 flex justify-center"><Link href="/admin/editoriais" className="rounded-lg bg-red-600 px-7 py-3 font-semibold text-white">× Fechar prévia</Link></div>
       </article>
     </main>
   );
