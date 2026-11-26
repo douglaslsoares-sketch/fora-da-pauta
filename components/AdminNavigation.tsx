@@ -7,7 +7,7 @@ const itens: { href: string; nome: string; icone: IconName }[] = [
   { href: "/admin", nome: "Visão geral", icone: "overview" },
   { href: "/admin/recados", nome: "Recados", icone: "mail" },
   { href: "/admin/perguntas", nome: "Perguntas", icone: "help" },
-  { href: "/admin/artigos", nome: "Artigos", icone: "file" },
+  { href: "/admin/editoriais", nome: "Editoriais", icone: "file" },
   { href: "/admin/participacao", nome: "Participação", icone: "users" },
   { href: "/admin/notificacoes", nome: "Notificações", icone: "bell" },
   { href: "/admin/inscricoes", nome: "Inscrições", icone: "users" },
