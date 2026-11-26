@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { EditorialAudioSystem } from "@/components/EditorialAudioSystem";
 import { InterceptarRetornoMenu } from "@/components/InterceptarRetornoMenu";
 import { SiteChromeRouter } from "@/components/SiteChromeRouter";
+import EditorialAvisos from "@/components/EditorialAvisos";
 import "./globals.css";
 import { imagemCompartilhamento } from "@/lib/compartilhamento";
 const geistSans = Geist({
@@ -57,6 +58,7 @@ export default function RootLayout({
         <InterceptarRetornoMenu />
         {children}
         <EditorialAudioSystem />
+        <EditorialAvisos />
         <Analytics />
       </body>
     </html>
