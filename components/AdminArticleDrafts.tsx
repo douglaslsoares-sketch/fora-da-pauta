@@ -6,10 +6,11 @@ import ArticleAudioApproval from "@/components/ArticleAudioApproval";
 
 type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; audio_url?: string; capa_url?: string; status: string; updated_at: string };
 
-export default function AdminArticleDrafts() {
+export default function AdminArticleDrafts({modo="todos"}:{modo?:"todos"|"novo"|"rascunhos"|"publicados"}) {
   const [items, setItems] = useState<Draft[]>([]);
-  const [filtro, setFiltro] = useState("todos");
-  const visiveis = items.filter(item => filtro === "todos" || item.status === filtro);
+  const [filtro, setFiltro] = useState(modo==="publicados"?"publicado":"todos");
+  const grupo = items.filter(item => modo==="rascunhos" ? ["rascunho","revisao"].includes(item.status) : modo==="publicados" ? ["publicado","arquivado"].includes(item.status) : true);
+  const visiveis = grupo.filter(item => filtro === "todos" || item.status === filtro);
   const quantidade = (status: string) => items.filter(item => item.status === status).length;
   const [id, setId] = useState<string | null>(null);
   const [titulo, setTitulo] = useState("");
@@ -38,8 +39,9 @@ export default function AdminArticleDrafts() {
   function edit(item: Draft) {
     if (item.status !== "rascunho") return;
     setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setCapa(item.capa_url || ""); setNotice("");
-    document.getElementById("editor-rascunho")?.scrollIntoView({ behavior: "smooth" });
+
   }
+  useEffect(()=>{if(id&&modo==="rascunhos")document.getElementById("editor-rascunho")?.scrollIntoView({behavior:"smooth"})},[id,modo]);
   async function showHistory(item: Draft) {
     if (historyId === item.id) { setHistoryId(null); return; }
     setHistoryId(item.id); setHistory([]); setHistoryError("");
@@ -57,6 +59,7 @@ export default function AdminArticleDrafts() {
       const data = await response.json() as { ok?: boolean; erro?: string };
       if (!response.ok || !data.ok) throw new Error(data.erro || "Não foi possível alterar a situação.");
       setNotice(status === "revisao" ? "Artigo encaminhado para revisão. Não foi publicado." : "Artigo devolvido aos rascunhos.");
+      if (status==="revisao" && id===item.id) setId(null);
       await reload();
     } catch (error) { setNotice(error instanceof Error ? error.message : "Falha na alteração."); }
   }
@@ -99,9 +102,8 @@ export default function AdminArticleDrafts() {
   }
   return (
     <section className="mt-10 border-t border-black/15 pt-8">
-      <h2 className="text-2xl font-bold">Rascunhos editoriais</h2>
-      <p className="mt-3 text-sm leading-6 text-black/65">Escreva e salve seus textos. Os rascunhos ficam no banco de dados e não aparecem no site público.</p>
-      <div id="editor-rascunho" className="mt-6 rounded-xl border border-black/10 bg-white p-5">
+      {modo==="todos"&&<><h2 className="text-2xl font-bold">Rascunhos editoriais</h2><p className="mt-3 text-sm leading-6 text-black/65">Escreva e salve seus textos. Os rascunhos ficam no banco de dados e não aparecem no site público.</p></>}
+      {(modo==="todos"||modo==="novo"||modo==="rascunhos"&&id)&&<div id="editor-rascunho" className="mt-6 rounded-xl border border-black/10 bg-white p-5">
         <h3 className="text-lg font-semibold">{id ? "Editar rascunho" : "Novo artigo"}</h3>
         <label className="mt-4 block text-sm font-semibold">Título
           <input value={titulo} onChange={e => setTitulo(e.target.value)} maxLength={200} className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
@@ -121,7 +123,7 @@ export default function AdminArticleDrafts() {
         </label>
         <div className="mt-5 flex flex-wrap gap-3">
           <button type="button" onClick={save} disabled={!titulo.trim() || saving} className="min-h-12 rounded-lg bg-black px-6 py-3 font-semibold text-white disabled:opacity-40">{saving ? "Salvando…" : "Salvar rascunho"}</button>
-          <button type="button" onClick={reset} className="min-h-12 rounded-lg border border-black/20 px-6 py-3 font-semibold">Novo rascunho</button>
+          <button type="button" onClick={reset} className="min-h-12 rounded-lg border border-black/20 px-6 py-3 font-semibold">{modo==="rascunhos"?"Fechar edição":"Novo rascunho"}</button>
         </div>
         {notice && <p role="status" className="mt-4 text-sm font-semibold">{notice}</p>}
         {id && <div className="mt-6 border-t border-black/10 pt-5">
@@ -131,19 +133,21 @@ export default function AdminArticleDrafts() {
           <ArticleAudioApproval key={`definitivo-${id}`} articleId={id} />
           <Link href={`/admin/artigos/previa/${id}`} className="mt-3 inline-flex min-h-11 items-center rounded-lg border border-black/20 px-4 py-2 font-semibold">Ver prévia completa</Link>
         </div>}
-      </div>
+      </div>}
+      {modo!=="novo"&&<>
       <div className="mt-9 flex flex-wrap items-end justify-between gap-4">
-        <h3 className="text-xl font-bold">Artigos cadastrados</h3>
+        <h3 className="text-xl font-bold">{modo==="rascunhos"?"Artigos em preparação":modo==="publicados"?"Acervo de artigos":"Artigos cadastrados"}</h3>
         <label className="text-sm font-semibold">Mostrar
           <select value={filtro} onChange={e => setFiltro(e.target.value)} className="mt-2 block rounded-lg border border-black/20 bg-white px-4 py-3">
-            <option value="todos">Todos ({items.length})</option>
-            <option value="rascunho">Rascunhos ({quantidade("rascunho")})</option>
-            <option value="revisao">Em revisão ({quantidade("revisao")})</option>
-            <option value="publicado">Publicados ({quantidade("publicado")})</option>
-            <option value="arquivado">Arquivados ({quantidade("arquivado")})</option>
+            <option value="todos">Todos ({grupo.length})</option>
+            {modo!=="publicados"&&<option value="rascunho">Rascunhos ({quantidade("rascunho")})</option>}
+            {modo!=="publicados"&&<option value="revisao">Em revisão ({quantidade("revisao")})</option>}
+            {modo!=="rascunhos"&&<option value="publicado">Publicados ({quantidade("publicado")})</option>}
+            {modo!=="rascunhos"&&<option value="arquivado">Arquivados ({quantidade("arquivado")})</option>}
           </select>
         </label>
       </div>
+      {notice&&modo!=="todos"&&!(modo==="rascunhos"&&id)&&<p role="status" className="mt-4 text-sm font-semibold">{notice}</p>}
       {loading ? <p className="mt-4">Carregando…</p> : items.length === 0 ? <p className="mt-4 text-sm text-black/60">Nenhum artigo cadastrado ainda.</p> : visiveis.length === 0 ? <p className="mt-4 text-sm text-black/60">Nenhum artigo nesta situação.</p> : (
         <div className="mt-4 space-y-3">
           {visiveis.map(item => (
@@ -177,6 +181,7 @@ export default function AdminArticleDrafts() {
           ))}
         </div>
       )}
+      </>}
     </section>
   );
 }
