@@ -20,6 +20,7 @@ async function ensureTable() {
       conteudo text NOT NULL DEFAULT '',
       fontes text NOT NULL DEFAULT '',
       audio_url text NOT NULL DEFAULT '',
+      capa_url text NOT NULL DEFAULT '',
       status text NOT NULL DEFAULT 'rascunho' CHECK (status IN ('rascunho', 'revisao', 'publicado', 'arquivado')),
       created_at timestamptz NOT NULL DEFAULT now(),
       updated_at timestamptz NOT NULL DEFAULT now()
@@ -27,13 +28,14 @@ async function ensureTable() {
   `;
   await sql`ALTER TABLE public.admin_artigos ADD COLUMN IF NOT EXISTS fontes text NOT NULL DEFAULT ''`;
   await sql`ALTER TABLE public.admin_artigos ADD COLUMN IF NOT EXISTS audio_url text NOT NULL DEFAULT ''`;
+  await sql`ALTER TABLE public.admin_artigos ADD COLUMN IF NOT EXISTS capa_url text NOT NULL DEFAULT ''`;
 }
 export async function GET() {
   if (!(await authorized())) return reply({ erro: "Acesso não autorizado." }, 401);
   try {
     await ensureTable();
-    const artigos = await sql<{ id: string; titulo: string; resumo: string; conteudo: string; fontes: string; audio_url: string; status: string; updated_at: string }[]>`
-      SELECT id::text, titulo, resumo, conteudo, fontes, audio_url, status, updated_at::text
+    const artigos = await sql<{ id: string; titulo: string; resumo: string; conteudo: string; fontes: string; audio_url: string; capa_url: string; status: string; updated_at: string }[]>`
+      SELECT id::text, titulo, resumo, conteudo, fontes, audio_url, capa_url, status, updated_at::text
       FROM public.admin_artigos ORDER BY updated_at DESC LIMIT 100
     `;
     return reply({ artigos });
@@ -47,12 +49,18 @@ export async function POST(request: Request) {
   if (!(await authorized())) return reply({ erro: "Acesso não autorizado." }, 401);
   const limit = await consumeRateLimit({ request, scope: "admin:artigos:rascunhos", limit: 30, windowSeconds: 600 });
   if (!limit.allowed) return reply({ erro: "Muitas alterações. Aguarde." }, 429);
-  const body = await request.json().catch(() => null) as { id?: unknown; titulo?: unknown; resumo?: unknown; conteudo?: unknown; fontes?: unknown; audio_url?: unknown } | null;
+  const body = await request.json().catch(() => null) as { id?: unknown; titulo?: unknown; resumo?: unknown; conteudo?: unknown; fontes?: unknown; audio_url?: unknown; capa_url?: unknown } | null;
   const titulo = typeof body?.titulo === "string" ? body.titulo.trim() : "";
   const resumo = typeof body?.resumo === "string" ? body.resumo.trim() : "";
   const conteudo = typeof body?.conteudo === "string" ? body.conteudo.trim() : "";
   const fontes = typeof body?.fontes === "string" ? body.fontes.trim() : "";
   const audio_url = typeof body?.audio_url === "string" ? body.audio_url.trim() : "";
+  const capa_url = typeof body?.capa_url === "string" ? body.capa_url.trim() : "";
+  let capaValida = !capa_url;
+  if (capa_url && capa_url.length <= 2048) {
+    try { const u = new URL(capa_url); capaValida = u.protocol === "https:" && !u.username && !u.password; } catch { capaValida = false; }
+  }
+  if (!capaValida) return reply({ erro: "Informe um endereço HTTPS válido da imagem de capa." }, 400);
   let audioValido = !audio_url;
   if (audio_url && audio_url.length <= 2048) {
     try {
@@ -69,7 +77,7 @@ export async function POST(request: Request) {
     if (id) {
       const rows = await sql<{ id: string }[]>`
         UPDATE public.admin_artigos
-        SET titulo = ${titulo}, resumo = ${resumo}, conteudo = ${conteudo}, fontes = ${fontes}, audio_url = ${audio_url}, updated_at = now()
+        SET titulo = ${titulo}, resumo = ${resumo}, conteudo = ${conteudo}, fontes = ${fontes}, audio_url = ${audio_url}, capa_url = ${capa_url}, updated_at = now()
         WHERE id = ${id}::uuid AND status = 'rascunho'
         RETURNING id::text
       `;
@@ -79,8 +87,8 @@ export async function POST(request: Request) {
       return reply({ ok: true, id: rows[0].id });
     }
     const rows = await sql<{ id: string }[]>`
-      INSERT INTO public.admin_artigos (titulo, resumo, conteudo, fontes, audio_url, status)
-      VALUES (${titulo}, ${resumo}, ${conteudo}, ${fontes}, ${audio_url}, 'rascunho')
+      INSERT INTO public.admin_artigos (titulo, resumo, conteudo, fontes, audio_url, capa_url, status)
+      VALUES (${titulo}, ${resumo}, ${conteudo}, ${fontes}, ${audio_url}, ${capa_url}, 'rascunho')
       RETURNING id::text
     `;
     return reply({ ok: true, id: rows[0].id });
