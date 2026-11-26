@@ -34,14 +34,11 @@ export const metadata: Metadata = {
   description:
     "Informação, documentos, evidências e fontes verificáveis para ajudar cada pessoa a formar sua própria avaliação.",
   icons: {
-    icon: [
-      { url: "/marca/fora-da-pauta-icone.svg?v=dois-tracos-1", type: "image/svg+xml" },
-      { url: "/favicon.ico?v=dois-tracos-1", sizes: "any", type: "image/x-icon" },
-    ],
-    shortcut: "/favicon.ico?v=dois-tracos-1",
-    apple: [{ url: "/marca/fora-da-pauta-apple-180.png?v=dois-tracos-1", sizes: "180x180", type: "image/png" }],
+    icon: [{ url: "/marca/fp-20261126?size=16", sizes: "16x16", type: "image/png" }, { url: "/marca/fp-20261126?size=32", sizes: "32x32", type: "image/png" }, { url: "/marca/fp-20261126?size=48", sizes: "48x48", type: "image/png" }],
+    shortcut: "/marca/fp-20261126?size=32",
+    apple: [{ url: "/marca/fp-20261126?size=180", sizes: "180x180", type: "image/png" }],
   },
-  manifest: "/manifest.webmanifest?v=dois-tracos-1",
+  manifest: "/manifest.webmanifest?v=fp-20261126",
   appleWebApp: { capable: true, title: "Fora da Pauta", statusBarStyle: "black-translucent" },
 };
 
