@@ -1,1 +1,47 @@
-import Link from "next/link";export type Editorial={slug:string;titulo:string;capa:string;publicadoEm:string;texto:string[];audio?:string};const artigos:Editorial[]=[];export const publicados=[...artigos].sort((a,b)=>b.publicadoEm.localeCompare(a.publicadoEm));export function Capa({artigo}:{artigo:Editorial}){return <Link href={"/editoriais/"+artigo.slug} aria-label={artigo.titulo} className="block overflow-hidden rounded-xl border border-slate-600"><img src={artigo.capa} alt={artigo.titulo} className="block aspect-video w-full object-contain"/></Link>}
+import Link from "next/link";
+import { sql } from "@/lib/interesses/db";
+
+export type CapaEditorial = {slug:string; titulo:string; capa:string; publicadoEm:string};
+export type Editorial = CapaEditorial & {texto:string[]; fontes:string[]; resumo:string; audio:string};
+type Row = {slug:string; titulo:string; capa:string; publicadoEm:string};
+type DetailRow = Row & {conteudo:string; fontes:string; resumo:string};
+
+// Apenas artigos efetivamente publicados e com capa integram a nova seção.
+export async function listarPublicados(): Promise<CapaEditorial[]> {
+  try {
+    return await sql<Row[]>`
+      SELECT a.id::text AS slug, a.titulo, to_jsonb(a)->>'capa_url' AS capa,
+        a.updated_at::text AS "publicadoEm"
+      FROM public.admin_artigos a
+      WHERE a.status = 'publicado' AND COALESCE(to_jsonb(a)->>'capa_url','') LIKE 'https://%'
+      ORDER BY a.updated_at DESC, a.id DESC
+    `;
+  } catch (e) {
+    if ((e as {code?:string}).code === "42P01") return [];
+    throw e;
+  }
+}
+export async function buscarPublicado(slug:string): Promise<Editorial|null> {
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug)) return null;
+  try {
+    const rows = await sql<DetailRow[]>`
+      SELECT a.id::text AS slug, a.titulo, to_jsonb(a)->>'capa_url' AS capa,
+        a.updated_at::text AS "publicadoEm", a.conteudo, a.fontes, a.resumo
+      FROM public.admin_artigos a
+      WHERE a.id = ${slug}::uuid AND a.status = 'publicado'
+        AND COALESCE(to_jsonb(a)->>'capa_url','') LIKE 'https://%'
+      LIMIT 1
+    `;
+    const a=rows[0];
+    if (!a) return null;
+    return {...a, texto:a.conteudo.split(/\n\s*\n/).filter(Boolean),
+      fontes:a.fontes.split("\n").map(s=>s.trim()).filter(Boolean),
+      audio:"/api/artigos/audio/"+a.slug};
+  } catch(e) {
+    if ((e as {code?:string}).code === "42P01") return null;
+    throw e;
+  }
+}
+export function Capa({artigo}:{artigo:CapaEditorial}){
+  return <Link href={"/editoriais/"+artigo.slug} aria-label={artigo.titulo} className="block overflow-hidden rounded-xl border border-slate-600"><img src={artigo.capa} alt={artigo.titulo} referrerPolicy="no-referrer" className="block aspect-video w-full object-contain"/></Link>
+}
