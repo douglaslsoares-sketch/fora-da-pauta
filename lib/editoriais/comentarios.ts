@@ -1,3 +1,4 @@
+import {createHash} from "node:crypto";
 import {sql} from "@/lib/interesses/db";
 export async function prepararComentarios(){
  await sql`CREATE TABLE IF NOT EXISTS public.editoriais_comentarios (
@@ -11,14 +12,20 @@ export async function prepararComentarios(){
  denuncias integer NOT NULL DEFAULT 0
  )`;
  await sql`ALTER TABLE public.editoriais_comentarios ADD COLUMN IF NOT EXISTS oficial boolean NOT NULL DEFAULT false`;
+ await sql`ALTER TABLE public.editoriais_comentarios ADD COLUMN IF NOT EXISTS autor_hash text`;
+ await sql`CREATE INDEX IF NOT EXISTS editoriais_comentarios_autor_idx ON public.editoriais_comentarios(autor_hash)`;
+ await sql`CREATE TABLE IF NOT EXISTS public.editoriais_avisos_lidos (autor_hash text NOT NULL, resposta_id uuid NOT NULL REFERENCES public.editoriais_comentarios(id) ON DELETE CASCADE, PRIMARY KEY(autor_hash,resposta_id))`;
  await sql`CREATE INDEX IF NOT EXISTS editoriais_comentarios_slug_idx ON public.editoriais_comentarios(editorial_slug,estado,criado_em)`;
 }
 export async function listarComentarios(slug:string){
  await prepararComentarios();
  return sql`WITH RECURSIVE visiveis AS (
- SELECT id,nome,texto,criado_em,resposta_a,oficial,1 AS nivel FROM public.editoriais_comentarios WHERE editorial_slug=${slug} AND estado='aprovado' AND resposta_a IS NULL
+ SELECT id,texto,criado_em,resposta_a,oficial,1 AS nivel FROM public.editoriais_comentarios WHERE editorial_slug=${slug} AND estado='aprovado' AND resposta_a IS NULL
  UNION ALL
- SELECT c.id,c.nome,c.texto,c.criado_em,c.resposta_a,c.oficial,v.nivel+1 FROM public.editoriais_comentarios c JOIN visiveis v ON c.resposta_a=v.id
+ SELECT c.id,c.texto,c.criado_em,c.resposta_a,c.oficial,v.nivel+1 FROM public.editoriais_comentarios c JOIN visiveis v ON c.resposta_a=v.id
  WHERE c.editorial_slug=${slug} AND c.estado='aprovado' AND v.nivel<5
  ) SELECT * FROM visiveis ORDER BY criado_em ASC,id ASC LIMIT 500`;
 }
+
+export const COOKIE_COMENTARIOS = "fdp_comentarios_anon";
+export function hashAutor(token:string|undefined){return token && /^[a-f0-9]{64}$/.test(token)?createHash("sha256").update(token).digest("hex"):null}
