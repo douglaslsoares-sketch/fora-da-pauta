@@ -4,7 +4,7 @@ import Link from "next/link";
 import PrivateVoiceTest from "@/components/PrivateVoiceTest";
 import ArticleAudioApproval from "@/components/ArticleAudioApproval";
 
-type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; audio_url?: string; status: string; updated_at: string };
+type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; audio_url?: string; capa_url?: string; status: string; updated_at: string };
 
 export default function AdminArticleDrafts() {
   const [items, setItems] = useState<Draft[]>([]);
@@ -16,6 +16,7 @@ export default function AdminArticleDrafts() {
   const [resumo, setResumo] = useState("");
   const [conteudo, setConteudo] = useState("");
   const [fontes, setFontes] = useState("");
+  const [capa, setCapa] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
@@ -33,10 +34,10 @@ export default function AdminArticleDrafts() {
     } finally { setLoading(false); }
   }
   useEffect(() => { void reload(); }, []);
-  function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setNotice(""); }
+  function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setCapa(""); setNotice(""); }
   function edit(item: Draft) {
     if (item.status !== "rascunho") return;
-    setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setNotice("");
+    setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setCapa(item.capa_url || ""); setNotice("");
     document.getElementById("editor-rascunho")?.scrollIntoView({ behavior: "smooth" });
   }
   async function showHistory(item: Draft) {
@@ -86,7 +87,7 @@ export default function AdminArticleDrafts() {
       const response = await fetch("/api/admin/artigos", {
         method: "POST", credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, titulo, resumo, conteudo, fontes }),
+        body: JSON.stringify({ id, titulo, resumo, conteudo, fontes, capa_url: capa }),
       });
       const data = await response.json() as { ok?: boolean; id?: string; erro?: string };
       if (!response.ok || !data.ok) throw new Error(data.erro || "Não foi possível salvar.");
@@ -105,6 +106,10 @@ export default function AdminArticleDrafts() {
         <label className="mt-4 block text-sm font-semibold">Título
           <input value={titulo} onChange={e => setTitulo(e.target.value)} maxLength={200} className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
         </label>
+        <label className="mt-4 block text-sm font-semibold">Imagem de capa (endereço HTTPS)
+          <input type="url" value={capa} onChange={e => setCapa(e.target.value)} placeholder="https://..." className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
+        </label>
+        {capa.startsWith("https://") && <img src={capa} alt="Prévia da capa" referrerPolicy="no-referrer" className="mt-3 max-h-64 max-w-full rounded-lg object-contain" />}
         <label className="mt-4 block text-sm font-semibold">Resumo
           <textarea value={resumo} onChange={e => setResumo(e.target.value)} maxLength={1000} rows={3} className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
         </label>
@@ -159,7 +164,7 @@ export default function AdminArticleDrafts() {
                   <button type="button" onClick={() => changePublication(item, "publicar")} className="min-h-11 rounded-lg bg-green-700 px-5 py-2 font-semibold text-white">Publicar artigo</button>
                 </>}
                 {item.status === "publicado" && <>
-                  <Link href={`/edicoes/${item.id}`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">Abrir artigo público</Link>
+                  <Link href={`/editoriais/${item.id}`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">Abrir artigo público</Link>
                   <button type="button" onClick={() => changePublication(item, "arquivar")} className="min-h-11 rounded-lg bg-red-700 px-5 py-2 font-semibold text-white">Arquivar artigo</button>
                 </>}
               </div>
