@@ -12,5 +12,6 @@ export async function ensureArticleAudioTable() {
     )
   `;
   await sql`ALTER TABLE public.admin_artigos_audio ADD COLUMN IF NOT EXISTS formato text NOT NULL DEFAULT 'audio/mpeg'`;
+  await sql`ALTER TABLE public.admin_artigos_audio ADD COLUMN IF NOT EXISTS texto_hash text`;
   await protegerArtigos();
 }
