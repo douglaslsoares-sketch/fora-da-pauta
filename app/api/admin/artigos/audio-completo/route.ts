@@ -20,10 +20,10 @@ export async function GET(request: Request) {
   if (!id || !/^[a-f0-9-]{36}$/i.test(id)) return reply("Artigo inválido.", 400);
   try {
     await ensureArticleAudioTable();
-    const rows = await sql<{ aprovado: boolean; gerado_em: string }[]>`
-      SELECT aprovado, gerado_em::text FROM public.admin_artigos_audio WHERE artigo_id = ${id}::uuid LIMIT 1
+    const rows = await sql<{ aprovado: boolean; gerado_em: string; atual:boolean }[]>`
+      SELECT a.aprovado, a.gerado_em::text, COALESCE(a.texto_hash=md5(jsonb_build_array(p.titulo,p.resumo,p.conteudo)::text),false) AS atual FROM public.admin_artigos_audio a JOIN public.admin_artigos p ON p.id=a.artigo_id WHERE a.artigo_id = ${id}::uuid LIMIT 1
     `;
-    return NextResponse.json({ existe: rows.length > 0, aprovado: rows[0]?.aprovado ?? false, gerado_em: rows[0]?.gerado_em ?? null }, { headers: { "Cache-Control": "no-store" } });
+    return NextResponse.json({ existe: rows.length > 0, atual:rows[0]?.atual??false, aprovado: rows[0]?.aprovado ?? false, gerado_em: rows[0]?.gerado_em ?? null }, { headers: { "Cache-Control": "no-store" } });
   } catch { return reply("Não foi possível consultar o áudio.", 503); }
 }
 export async function POST(request: Request) {
@@ -32,26 +32,17 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null) as { id?: unknown; acao?: unknown } | null;
   const id = body?.id;
   if (typeof id !== "string" || !/^[a-f0-9-]{36}$/i.test(id)) return reply("Artigo inválido.", 400);
-  if (body?.acao !== "gerar" && body?.acao !== "aprovar") return reply("Operação inválida.", 400);
+  if (body?.acao !== "gerar") return reply("Operação inválida.", 400);
   try {
     await ensureArticleAudioTable();
-    if (body.acao === "aprovar") {
-      const rows = await sql`
-        UPDATE public.admin_artigos_audio SET aprovado = true, aprovado_em = now()
-        WHERE artigo_id = ${id}::uuid AND NOT aprovado
-          AND EXISTS (SELECT 1 FROM public.admin_artigos p WHERE p.id = artigo_id AND p.status = 'rascunho')
-        RETURNING artigo_id
-      `;
-      return rows.length ? NextResponse.json({ ok: true, aprovado: true }) : reply("Nenhum áudio pendente de aprovação.", 409);
-    }
     const limit = await consumeRateLimit({ request, scope: "admin:artigos:audio-completo", limit: 3, windowSeconds: 3600 });
     if (!limit.allowed) return reply("Limite de gerações atingido. Aguarde.", 429);
-    const rows = await sql<{ titulo: string; resumo: string; conteudo: string; status: string }[]>`
-      SELECT titulo, resumo, conteudo, status FROM public.admin_artigos WHERE id = ${id}::uuid LIMIT 1
+    const rows = await sql<{ titulo: string; resumo: string; conteudo: string; status: string; texto_hash:string }[]>`
+      SELECT titulo, resumo, conteudo, status, md5(jsonb_build_array(titulo,resumo,conteudo)::text) AS texto_hash FROM public.admin_artigos WHERE id = ${id}::uuid LIMIT 1
     `;
     const article = rows[0];
-    if (!article || article.status !== "rascunho") return reply("Somente rascunhos podem gerar narração.", 409);
-    const script = [article.titulo, article.resumo, article.conteudo].filter(Boolean).join("\n\n");
+    if (!article || !["rascunho","revisao"].includes(article.status)) return reply("Somente rascunhos podem gerar narração.", 409);
+    const script = [article.titulo, article.resumo, article.conteudo].filter(Boolean).join("\n\n").replace(/^#{1,3} +/gm,"").replace(/\*\*([^*\n]+)\*\*/g,"$1").replace(/\*([^*\n]+)\*/g,"$1");
     if (!script.trim() || script.length > 14000) return reply("A geração aceita textos de até 14.000 caracteres nesta etapa.", 400);
     const chunks = splitNarration(script);
     if (chunks.length > 4) return reply("O texto exige muitas partes para esta geração. Reduza-o.", 400);
@@ -73,17 +64,17 @@ export async function POST(request: Request) {
     }
     const bytes = combinePcmToWav(pcmChunks);
     const hex = Buffer.from(bytes).toString("hex");
-    const current = await sql<{ titulo: string; resumo: string; conteudo: string; status: string }[]>`
-      SELECT titulo, resumo, conteudo, status FROM public.admin_artigos WHERE id = ${id}::uuid LIMIT 1
-    `;
-    const latest = current[0];
-    if (!latest || latest.status !== "rascunho" || [latest.titulo, latest.resumo, latest.conteudo].filter(Boolean).join("\n\n") !== script)
-      return reply("O artigo mudou durante a geração. Salve e gere novamente.", 409);
-    await sql`
-      INSERT INTO public.admin_artigos_audio (artigo_id, audio, aprovado, aprovado_em, formato)
-      VALUES (${id}::uuid, decode(${hex}, 'hex'), false, null, 'audio/wav')
-      ON CONFLICT (artigo_id) DO UPDATE SET audio = EXCLUDED.audio, formato = EXCLUDED.formato, aprovado = false, aprovado_em = null, gerado_em = now()
-    `;
-    return NextResponse.json({ ok: true, aprovado: false }, { headers: { "Cache-Control": "no-store" } });
+    const salvo=await sql.begin(async tx=>{
+      const [latest]=await tx<{status:string;texto_hash:string}[]>`SELECT status,md5(jsonb_build_array(titulo,resumo,conteudo)::text) AS texto_hash FROM public.admin_artigos WHERE id=${id}::uuid FOR UPDATE`;
+      if(!latest||!["rascunho","revisao"].includes(latest.status)||latest.texto_hash!==article.texto_hash)return false;
+      await tx`
+        INSERT INTO public.admin_artigos_audio (artigo_id,audio,aprovado,aprovado_em,formato,texto_hash)
+        VALUES (${id}::uuid,decode(${hex},'hex'),false,null,'audio/wav',${article.texto_hash})
+        ON CONFLICT (artigo_id) DO UPDATE SET audio=EXCLUDED.audio,formato=EXCLUDED.formato,texto_hash=EXCLUDED.texto_hash,aprovado=false,aprovado_em=null,gerado_em=now()
+      `;
+      return true;
+    });
+    if(!salvo)return reply("O editorial mudou durante a geração. Salve e gere novamente.",409);
+    return NextResponse.json({ ok: true, atual:true, aprovado: false }, { headers: { "Cache-Control": "no-store" } });
   } catch { return reply("Falha ao processar a narração.", 503); }
 }
