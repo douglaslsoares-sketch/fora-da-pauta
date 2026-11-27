@@ -28,8 +28,8 @@ export async function POST(r:Request){
  }else if(d?.acao==="aprovar"||d?.acao==="rejeitar"){
  if(!uuid(d.id))return reply({erro:"Comentário inválido."},400);
  const estado=d.acao==="aprovar"?"aprovado":"rejeitado";
- const rows=await sql`UPDATE public.editoriais_comentarios SET estado=${estado},aprovado_em=CASE WHEN ${estado}='aprovado' THEN COALESCE(aprovado_em,now()) ELSE aprovado_em END WHERE id=${d.id}::uuid AND editorial_slug=${d.slug} AND estado<>${estado} RETURNING id`;
- if(!rows.length){const atual=await sql`SELECT id FROM public.editoriais_comentarios WHERE id=${d.id}::uuid AND editorial_slug=${d.slug} AND estado=${estado}`;if(atual.length)return reply({ok:true});return reply({erro:"Comentário não encontrado."},404)}
+ const rows=await sql`UPDATE public.editoriais_comentarios SET estado=${estado},aprovado_em=CASE WHEN ${estado}='aprovado' THEN COALESCE(aprovado_em,now()) ELSE aprovado_em END WHERE id=${d.id}::uuid AND editorial_slug=${d.slug} AND estado='pendente' AND NOT oficial RETURNING id`;
+ if(!rows.length){const atual=await sql`SELECT id FROM public.editoriais_comentarios WHERE id=${d.id}::uuid AND editorial_slug=${d.slug} AND estado=${estado}`;if(atual.length)return reply({ok:true});return reply({erro:"Comentário já decidido ou indisponível. O acervo é permanente."},409)}
  if(estado==="aprovado")enviarAviso(String(rows[0].id));
  }else return reply({erro:"Ação inválida."},400);
  return reply({ok:true});
