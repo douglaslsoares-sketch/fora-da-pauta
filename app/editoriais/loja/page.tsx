@@ -1,1 +1,1 @@
-import Link from "next/link";export default function Page(){return <main className="mx-auto max-w-xl p-5 text-center"><h1 className="text-xl font-bold">Loja de Editoriais</h1><p className="my-5">Em breve.</p><Link href="/editoriais">← Voltar</Link></main>}
+import Link from "next/link";export default function Page(){return <main className="mx-auto max-w-xl p-5 text-center"><h1 className="text-xl font-bold">Apoio</h1><p className="my-5">Em breve.</p><Link href="/editoriais">← Voltar</Link></main>}
