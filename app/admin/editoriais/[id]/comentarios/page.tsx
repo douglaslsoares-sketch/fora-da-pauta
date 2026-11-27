@@ -1,3 +1,4 @@
+import EditorialTexto from "@/components/EditorialTexto";
 import Link from "next/link";
 import {cookies} from "next/headers";
 import {notFound,redirect} from "next/navigation";
@@ -22,7 +23,7 @@ export default async function Page({params}:{params:Promise<{id:string}>}){
  {artigo.capa_url&&<img src={artigo.capa_url} alt={artigo.titulo} referrerPolicy="no-referrer" className="mt-5 max-h-96 w-full rounded-lg object-contain"/>}
  {artigo.resumo&&<p className="mt-5 text-lg text-black/75">{artigo.resumo}</p>}
  <audio controls preload="none" src={`/api/artigos/audio/${id}`} className="mt-5 w-full"/>
- <div className="mt-8 space-y-5 text-base leading-7">{artigo.conteudo.split(/\n\s*\n/).filter(Boolean).map((p,i)=><p key={i} className="whitespace-pre-line">{p}</p>)}</div>
+ <div className="mt-8 space-y-5 text-base leading-7"><EditorialTexto texto={artigo.conteudo}/></div>
  <section className="mt-8 border-t pt-5"><h2 className="text-lg font-bold">Fontes e referências</h2><ul className="mt-3 list-disc space-y-2 pl-5">{artigo.fontes.split("\n").filter(Boolean).map((s,i)=><li className="break-words" key={i}>{s}</li>)}</ul></section>
  </article>
  <AdminEditorialComentarios slug={id} status={artigo.status}/>
