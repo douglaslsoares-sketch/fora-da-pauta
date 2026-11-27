@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import EditorialTexto from "@/components/EditorialTexto";
 
 type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; audio_url?: string; capa_url?: string; slug?: string|null; status: string; updated_at: string };
 
@@ -15,6 +16,38 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
   const [titulo, setTitulo] = useState(textoInicial?.titulo ?? "");
   const [resumo, setResumo] = useState(textoInicial?.resumo ?? "");
   const [conteudo, setConteudo] = useState(textoInicial?.conteudo ?? "");
+  const textoRef=useRef<HTMLTextAreaElement>(null);
+  const [mostrarFormatado,setMostrarFormatado]=useState(false);
+  const [historico,setHistorico]=useState<string[]>([]);
+  const [refazer,setRefazer]=useState<string[]>([]);
+  function alterarTexto(novo:string){
+    if(novo===conteudo)return;
+    setHistorico(h=>[...h.slice(-59),conteudo]);setRefazer([]);setConteudo(novo);
+  }
+  function desfazerTexto(){if(!historico.length)return;setRefazer(h=>[conteudo,...h]);setConteudo(historico[historico.length-1]);setHistorico(h=>h.slice(0,-1));}
+  function refazerTexto(){if(!refazer.length)return;setHistorico(h=>[...h,conteudo]);setConteudo(refazer[0]);setRefazer(h=>h.slice(1));}
+  function formatar(tipo:"negrito"|"italico"|"sublinhado"|"subtitulo"|"lista"|"numerada"|"link"){
+    const el=textoRef.current;if(!el)return;
+    const ini=el.selectionStart,fim=el.selectionEnd;
+    const selecao=conteudo.slice(ini,fim);
+    let a=ini,b=fim,novo=selecao;
+    if(tipo==="subtitulo"||tipo==="lista"||tipo==="numerada"){
+      a=conteudo.lastIndexOf("\n",ini-1)+1;
+      const proximo=conteudo.indexOf("\n",fim);b=proximo<0?conteudo.length:proximo;
+      const linhas=conteudo.slice(a,b).split("\n");
+      novo=linhas.map((l,i)=>{const limpa=l.replace(/^(?:#{1,3}|[-•]|\d+\.) +/,"");return tipo==="subtitulo"?"## "+limpa:tipo==="lista"?"- "+limpa:(i+1)+". "+limpa;}).join("\n");
+    }else if(tipo==="link"){
+      const url=window.prompt("Endereço do link (https:// ou http://):","https://");
+      if(!url)return;
+      try{const u=new URL(url);if(!["http:","https:"].includes(u.protocol)||/[\s)]/.test(url))throw Error();}catch{window.alert("Informe um endereço HTTP ou HTTPS válido.");return;}
+      novo="["+(selecao||"Texto do link")+"]("+url+")";
+    }else{
+      const marca=tipo==="negrito"?"**":tipo==="italico"?"*":"++";
+      novo=selecao.startsWith(marca)&&selecao.endsWith(marca)&&selecao.length>2*marca.length?selecao.slice(marca.length,-marca.length):marca+(selecao||"texto")+marca;
+    }
+    alterarTexto(conteudo.slice(0,a)+novo+conteudo.slice(b));
+    requestAnimationFrame(()=>{el.focus();el.setSelectionRange(a,a+novo.length);});
+  }
   const [fontes, setFontes] = useState(textoInicial?.fontes ?? "");
   const [capa, setCapa] = useState("");
   const [slug,setSlug]=useState("");
@@ -49,13 +82,13 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
     } finally { setLoading(false); }
   }
   useEffect(() => { void reload(); }, []);
-  function reset() { setAudio(null);setOuvindo(false); setAberto(false); setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setCapa("");setSlug("");setSlugManual(false);setCapaData(null);setCapaNome(""); setNotice(""); }
+  function reset() { setMostrarFormatado(false);setHistorico([]);setRefazer([]);setAudio(null);setOuvindo(false); setAberto(false); setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setCapa("");setSlug("");setSlugManual(false);setCapaData(null);setCapaNome(""); setNotice(""); }
   function temAlteracoes(){const anterior=items.find(i=>i.id===id);return aberto&&(capaData!==null||[titulo,resumo,conteudo,fontes,capa,endereco].some((v,i)=>v!==([anterior?.titulo,anterior?.resumo,anterior?.conteudo,anterior?.fontes,anterior?.capa_url,anterior?.slug][i]??"")));}
   function confirmarTroca(){return !temAlteracoes()||window.confirm("Há alterações não salvas. Descartá-las?");}
   function novo(){if(saving||gerando||publicando||lendoCapa||!confirmarTroca())return;reset();setAberto(true);setListaAberta(false);}
   function edit(item: Draft) {
     if (!["rascunho","revisao"].includes(item.status) || saving || gerando || publicando || lendoCapa || !confirmarTroca()) return;
-    setAudio(null);setOuvindo(false);setAberto(true);setListaAberta(false);
+    setMostrarFormatado(false);setHistorico([]);setRefazer([]);setAudio(null);setOuvindo(false);setAberto(true);setListaAberta(false);
     setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setCapa(item.capa_url || "");setSlug(item.slug||"");setSlugManual(Boolean(item.slug));setCapaData(null);setCapaNome(""); setNotice("");
 
   }
@@ -168,9 +201,19 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
         <label className="mt-4 block text-sm font-semibold">Resumo
           <textarea value={resumo} onChange={e => setResumo(e.target.value)} maxLength={1000} rows={3} className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
         </label>
-        <label className="mt-4 block text-sm font-semibold">Texto
-          <textarea value={conteudo} onChange={e => setConteudo(e.target.value)} rows={12} className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
-        </label>
+        <div className="mt-4">
+          <label htmlFor="texto-editorial" className="block text-sm font-semibold">Texto</label>
+          <div className="mt-2 overflow-hidden rounded-lg border border-black/20">
+            <div className="flex flex-wrap items-center gap-1 border-b border-black/15 bg-[#f3f4f5] p-2" role="toolbar" aria-label="Formatação do texto">
+              {([["negrito","B","Negrito"],["italico","I","Itálico"],["sublinhado","U","Sublinhado"],["subtitulo","H2","Subtítulo"],["lista","• Lista","Lista com marcadores"],["numerada","1. Lista","Lista numerada"],["link","Link","Inserir link"]] as const).map(([tipo,rotulo,dica])=><button key={tipo} type="button" title={dica} aria-label={dica} disabled={mostrarFormatado} onMouseDown={e=>e.preventDefault()} onClick={()=>formatar(tipo)} className={"rounded border border-black/15 bg-white px-3 py-2 text-sm disabled:opacity-40 "+(tipo==="negrito"?"font-bold":tipo==="italico"?"italic":tipo==="sublinhado"?"underline":"font-medium")}>{rotulo}</button>)}
+              <button type="button" title="Desfazer" disabled={mostrarFormatado||!historico.length} onClick={desfazerTexto} className="rounded border bg-white px-3 py-2 text-sm disabled:opacity-40">↶</button>
+              <button type="button" title="Refazer" disabled={mostrarFormatado||!refazer.length} onClick={refazerTexto} className="rounded border bg-white px-3 py-2 text-sm disabled:opacity-40">↷</button>
+              <button type="button" aria-pressed={mostrarFormatado} onClick={()=>setMostrarFormatado(v=>!v)} className="ml-auto rounded bg-[#0E1A29] px-3 py-2 text-sm font-semibold text-white">{mostrarFormatado?"Editar texto":"Ver formatado"}</button>
+            </div>
+            {mostrarFormatado?<div className="min-h-64 p-4 text-base leading-7">{conteudo.trim()?<EditorialTexto texto={conteudo}/>:<p className="text-black/50">Nenhum texto inserido.</p>}</div>:<textarea id="texto-editorial" ref={textoRef} value={conteudo} onChange={e=>alterarTexto(e.target.value)} rows={16} className="block w-full resize-y p-4 text-base leading-7 outline-none"/>}
+          </div>
+          <p className="mt-1 text-xs text-black/60">Selecione o trecho e aplique a formatação. Use Ver formatado para conferir a apresentação.</p>
+        </div>
         <label className="mt-4 block text-sm font-semibold">Fontes e referências (uma por linha)
           <textarea value={fontes} onChange={e => setFontes(e.target.value)} rows={5} maxLength={20000} placeholder="Endereço da fonte e descrição do documento" className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
         </label>
