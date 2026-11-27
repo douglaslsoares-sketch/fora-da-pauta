@@ -13,5 +13,5 @@ export default async function Page({params}:{params:Promise<{slug:string}>}){
  <p className="mb-4 border-b border-slate-600 pb-4 text-sm text-slate-300"><time dateTime={a.publicadoEm}>{new Date(a.publicadoEm.slice(0,10)+"T12:00:00Z").toLocaleDateString("pt-BR",{dateStyle:"long",timeZone:"America/Sao_Paulo"})}</time> · Leitura: {minutos} min</p>
  {a.audio&&<audio id="audio" controls preload="none" src={a.audio} className="w-full"/>}
  <article id="texto" className="scroll-mt-4 text-lg leading-relaxed">{a.texto.map((p,i)=><p key={i} className="my-5">{p}</p>)}</article>
- {a.fontes.length>0&&<section className="mt-8 border-t border-slate-600 pt-5"><h2 className="font-bold">Fontes e referências</h2><ul className="mt-3 space-y-2">{a.fontes.map((s,i)=><li key={i} className="break-words">{s}</li>)}</ul></section>}<EditorialComentarios slug={a.slug}/><Link href="/editoriais" className="mt-8 block text-center text-[#F4C64D]">← Voltar</Link></main>
+ {a.fontes.length>0&&<section className="mt-8 border-t border-slate-600 pt-5"><h2 className="font-bold">Fontes e referências</h2><ul className="mt-3 space-y-2">{a.fontes.map((s,i)=><li key={i} className="break-words">{s}</li>)}</ul></section>}<EditorialComentarios slug={a.id}/><Link href="/editoriais" className="mt-8 block text-center text-[#F4C64D]">← Voltar</Link></main>
 }
