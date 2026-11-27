@@ -1,5 +1,5 @@
 import Link from "next/link";
-import PrivateVoiceTest from "@/components/PrivateVoiceTest";
+import EditorialTexto from "@/components/EditorialTexto";
 import { cookies } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -18,14 +18,14 @@ export default async function PreviewArticle({ params }: { params: Promise<{ id:
   let article: Article | undefined;
   try {
     const rows = await sql<Article[]>`
-      SELECT titulo, resumo, conteudo, fontes, audio_url, COALESCE(to_jsonb(admin_artigos)->>'capa_url','') AS capa_url, status FROM public.admin_artigos WHERE id = ${id}::uuid LIMIT 1
+      SELECT titulo, resumo, conteudo, fontes, CASE WHEN EXISTS (SELECT 1 FROM public.admin_artigos_audio a WHERE a.artigo_id=admin_artigos.id AND a.texto_hash=md5(jsonb_build_array(titulo,resumo,conteudo)::text)) THEN '/api/artigos/audio/'||id::text ELSE '' END AS audio_url, COALESCE(to_jsonb(admin_artigos)->>'capa_url','') AS capa_url, status FROM public.admin_artigos WHERE id = ${id}::uuid LIMIT 1
     `;
     article = rows[0];
   } catch {
     return <main className="mx-auto max-w-3xl p-8"><p>Não foi possível carregar a prévia neste momento.</p><Link href="/admin/editoriais" className="underline">Voltar aos artigos</Link></main>;
   }
   if (!article) notFound();
-  const paragraphs = article.conteudo.split(/\n\s*\n/).filter(Boolean);
+
   const sources = article.fontes.split("\n").map(s => s.trim()).filter(Boolean);
   return (
     <main className="min-h-screen bg-white px-5 py-10 text-[#171717]">
@@ -34,16 +34,16 @@ export default async function PreviewArticle({ params }: { params: Promise<{ id:
         <p className="mt-9 text-sm font-bold uppercase tracking-widest">Fora da Pauta</p>
         {article.capa_url && <img src={article.capa_url} alt={article.titulo} referrerPolicy="no-referrer" className="mt-5 w-full rounded-xl"/>}<h1 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">{article.titulo}</h1>
         {article.resumo && <p className="mt-5 text-lg leading-8 text-black/70">{article.resumo}</p>}
-        <PrivateVoiceTest articleId={id} />
+
         {article.audio_url && <section className="mt-8 rounded-xl border border-[#d5dce4] bg-[#f3f6f9] p-5">
-          <h2 className="text-base font-bold text-[#183352]">Ouvir gravação — teste privado</h2>
+          <h2 className="text-base font-bold text-[#183352]">Ouvir narração</h2>
           <p className="mt-1 text-sm text-black/65">A reprodução nesta prévia não publica o áudio nem o artigo.</p>
           <audio controls preload="none" src={article.audio_url} className="mt-4 w-full" aria-label="Testar áudio do artigo">
             Seu navegador não oferece reprodução de áudio.
           </audio>
         </section>}
         <div className="mt-10 space-y-6 text-base leading-8">
-          {paragraphs.map((paragraph, i) => <p key={i} className="whitespace-pre-line">{paragraph}</p>)}
+          <EditorialTexto texto={article.conteudo}/>
         </div>
         <section className="mt-12 border-t border-black/20 pt-7">
           <h2 className="text-xl font-bold">Fontes e referências</h2>
