@@ -1,3 +1,4 @@
+import EditorialTexto from "@/components/EditorialTexto";
 import EditorialComentarios from "@/components/EditorialComentarios";
 import Link from "next/link";
 import {notFound} from "next/navigation";
@@ -12,6 +13,6 @@ export default async function Page({params}:{params:Promise<{slug:string}>}){
  {a.resumo&&<p className="mt-3 text-slate-300">{a.resumo}</p>}<nav className="my-5 flex flex-wrap gap-3">{a.audio&&<a href="#audio" className="flex-1 rounded-xl bg-[#F4C64D] p-3 text-center font-bold text-[#0C192B]">▶ Ouvir o editorial</a>}<a href="#texto" className="flex-1 rounded-xl border border-slate-400 p-3 text-center font-semibold">Ler no texto</a></nav>
  <p className="mb-4 border-b border-slate-600 pb-4 text-sm text-slate-300"><time dateTime={a.publicadoEm}>{new Date(a.publicadoEm.slice(0,10)+"T12:00:00Z").toLocaleDateString("pt-BR",{dateStyle:"long",timeZone:"America/Sao_Paulo"})}</time> · Leitura: {minutos} min</p>
  {a.audio&&<audio id="audio" controls preload="none" src={a.audio} className="w-full"/>}
- <article id="texto" className="scroll-mt-4 text-lg leading-relaxed">{a.texto.map((p,i)=><p key={i} className="my-5">{p}</p>)}</article>
+ <article id="texto" className="scroll-mt-4 text-lg leading-relaxed"><EditorialTexto texto={a.texto.join("\n\n")}/></article>
  {a.fontes.length>0&&<section className="mt-8 border-t border-slate-600 pt-5"><h2 className="font-bold">Fontes e referências</h2><ul className="mt-3 space-y-2">{a.fontes.map((s,i)=><li key={i} className="break-words">{s}</li>)}</ul></section>}<EditorialComentarios slug={a.id}/><Link href="/editoriais" className="mt-8 block text-center text-[#F4C64D]">← Voltar</Link></main>
 }
