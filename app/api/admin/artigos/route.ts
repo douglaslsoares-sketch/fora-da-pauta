@@ -97,11 +97,11 @@ export async function POST(request: Request) {
       const rows = await sql.begin(async tx => {
       const alterados = await tx<{ id: string }[]>`
         UPDATE public.admin_artigos
-        SET titulo = ${titulo}, resumo = ${resumo}, conteudo = ${conteudo}, fontes = ${fontes}, audio_url = ${audio_url}, capa_url = ${capa_url}, slug=${slug}, capa_bytes=CASE WHEN ${Boolean(imagem)} THEN ${imagem}::bytea WHEN ${capa_url} = capa_url THEN capa_bytes ELSE NULL END, capa_tipo=CASE WHEN ${Boolean(imagem)} THEN ${tipo}::text WHEN ${capa_url} = capa_url THEN capa_tipo ELSE NULL END, updated_at = now()
-        WHERE id = ${id}::uuid AND status = 'rascunho'
+        SET titulo = ${titulo}, resumo = ${resumo}, conteudo = ${conteudo}, fontes = ${fontes}, audio_url = ${audio_url}, capa_url = ${capa_url}, slug=${slug}, status='rascunho', capa_bytes=CASE WHEN ${Boolean(imagem)} THEN ${imagem}::bytea WHEN ${capa_url} = capa_url THEN capa_bytes ELSE NULL END, capa_tipo=CASE WHEN ${Boolean(imagem)} THEN ${tipo}::text WHEN ${capa_url} = capa_url THEN capa_tipo ELSE NULL END, updated_at = now()
+        WHERE id = ${id}::uuid AND status IN ('rascunho','revisao')
         RETURNING id::text
       `;
-      if (alterados.length) await tx`UPDATE public.admin_artigos_audio SET aprovado = false, aprovado_em = null WHERE artigo_id = ${id}::uuid`;
+      if (alterados.length) await tx`UPDATE public.admin_artigos_audio SET aprovado = false, aprovado_em = null WHERE artigo_id = ${id}::uuid AND aprovado`;
       return alterados;
       });
       if (!rows.length) return reply({ erro: "Rascunho não encontrado ou indisponível para edição." }, 404);
