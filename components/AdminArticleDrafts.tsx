@@ -15,6 +15,8 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
   const visiveis = grupo.filter(item => filtro === "todos" || item.status === filtro);
   const quantidade = (status: string) => grupo.filter(item => item.status === status).length;
   const [id, setId] = useState<string | null>(null);
+  const [aberto,setAberto]=useState(modo==="novo"||Boolean(textoInicial));
+  const [listaAberta,setListaAberta]=useState(false);
   const [titulo, setTitulo] = useState(textoInicial?.titulo ?? "");
   const [resumo, setResumo] = useState(textoInicial?.resumo ?? "");
   const [conteudo, setConteudo] = useState(textoInicial?.conteudo ?? "");
@@ -37,9 +39,13 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
     } finally { setLoading(false); }
   }
   useEffect(() => { void reload(); }, []);
-  function reset() { setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setCapa(""); setNotice(""); }
+  function reset() { setAberto(false); setId(null); setTitulo(""); setResumo(""); setConteudo(""); setFontes(""); setCapa(""); setNotice(""); }
+  function temAlteracoes(){const anterior=items.find(i=>i.id===id);return aberto&&[titulo,resumo,conteudo,fontes,capa].some((v,i)=>v!==([anterior?.titulo,anterior?.resumo,anterior?.conteudo,anterior?.fontes,anterior?.capa_url][i]??""));}
+  function confirmarTroca(){return !temAlteracoes()||window.confirm("Há alterações não salvas. Descartá-las?");}
+  function novo(){if(saving||!confirmarTroca())return;reset();setAberto(true);setListaAberta(false);}
   function edit(item: Draft) {
-    if (item.status !== "rascunho") return;
+    if (item.status !== "rascunho" || saving || !confirmarTroca()) return;
+    setAberto(true);setListaAberta(false);
     setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setCapa(item.capa_url || ""); setNotice("");
 
   }
@@ -117,7 +123,10 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
   return (
     <section className="mt-10 border-t border-black/15 pt-8">
       {modo==="todos"&&<><h2 className="text-2xl font-bold">Redação e preparação</h2><p className="mt-3 text-sm leading-6 text-black/65">Escreva e salve seus textos. Os rascunhos ficam no banco de dados e não aparecem no site público.</p></>}
-      {(modo==="todos"||modo==="novo"||modo==="rascunhos"&&id)&&<div id="editor-rascunho" className="mt-6 rounded-xl border border-black/10 bg-white p-5">
+      {modo!=="publicados"&&<div className="mt-4 flex flex-wrap gap-2"><button type="button" onClick={novo} disabled={saving} className="rounded-lg bg-[#0E1A29] px-5 py-3 font-semibold text-white">Novo</button><button type="button" onClick={()=>setListaAberta(v=>!v)} disabled={saving} className="rounded-lg border border-black/25 bg-white px-5 py-3 font-semibold">Abrir</button><button type="button" onClick={save} disabled={!aberto||!titulo.trim()||saving} className="rounded-lg border border-black/25 bg-white px-5 py-3 font-semibold disabled:opacity-40">Salvar</button><button type="button" onClick={()=>{const item=items.find(i=>i.id===id);if(item)void excluir(item)}} disabled={!aberto||!id||saving} className="rounded-lg border border-black/25 bg-white px-5 py-3 font-semibold disabled:opacity-40">Excluir</button></div>}
+      {modo!=="publicados"&&!aberto&&!listaAberta&&<p className="mt-6 rounded-lg border border-black/10 bg-white p-5">Clique em Novo para iniciar um editorial ou em Abrir para continuar um documento salvo.</p>}
+      {notice&& !aberto&&<p role="status" className="mt-4 text-sm">{notice}</p>}
+      {modo!=="publicados"&&aberto&&<div id="editor-rascunho" className="mt-6 rounded-xl border border-black/10 bg-white p-5">
         <h3 className="text-lg font-semibold">{id ? "Editar rascunho" : "Novo artigo"}</h3>
         {textoInicial && !id && titulo===textoInicial.titulo && <p className="mt-3 text-sm text-black/65">Texto preparado para o lançamento, ainda não salvo. Confira os campos e clique em Salvar rascunho para continuar.</p>}
         <label className="mt-4 block text-sm font-semibold">Título
@@ -136,20 +145,17 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
         <label className="mt-4 block text-sm font-semibold">Fontes e referências (uma por linha)
           <textarea value={fontes} onChange={e => setFontes(e.target.value)} rows={5} maxLength={20000} placeholder="Endereço da fonte e descrição do documento" className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
         </label>
-        <div className="mt-5 flex flex-wrap gap-3">
-          <button type="button" onClick={save} disabled={!titulo.trim() || saving} className="min-h-12 rounded-lg bg-black px-6 py-3 font-semibold text-white disabled:opacity-40">{saving ? "Salvando…" : "Salvar rascunho"}</button>
-          <button type="button" onClick={reset} className="min-h-12 rounded-lg border border-black/20 px-6 py-3 font-semibold">{modo==="rascunhos"?"Fechar edição":"Novo rascunho"}</button>
-        </div>
         {notice && <p role="status" className="mt-4 text-sm font-semibold">{notice}</p>}
         {id && <div className="mt-6 border-t border-black/10 pt-5">
           <h4 className="text-base font-bold">Narração do artigo — revisão privada</h4>
           <p className="mt-2 text-sm leading-6 text-black/65">A voz Marim lê a última versão salva do rascunho, não as alterações ainda não salvas. Gere, ouça e aprove o arquivo definitivo antes de encaminhar o artigo para revisão. A geração de teste não salva nem publica áudio.</p>
           <PrivateVoiceTest key={id} articleId={id} />
           <ArticleAudioApproval key={`definitivo-${id}`} articleId={id} />
+          {items.find(i=>i.id===id)?.status==="rascunho"&&<button type="button" onClick={()=>{const item=items.find(i=>i.id===id);if(item&&!temAlteracoes())void changeStatus(item,"revisao");else setNotice("Salve as alterações antes de continuar.")}} className="mt-3 inline-flex min-h-11 items-center rounded-lg border border-black/20 px-4 py-2 font-semibold">Enviar para revisão</button>}
           <Link href={`/admin/artigos/previa/${id}`} className="mt-3 inline-flex min-h-11 items-center rounded-lg border border-black/20 px-4 py-2 font-semibold">Ver prévia completa</Link>
         </div>}
       </div>}
-      {modo!=="novo"&&<>
+      {(modo==="publicados"||listaAberta)&&<>
       <div className="mt-9 flex flex-wrap items-end justify-between gap-4">
         <h3 className="text-xl font-bold">{(modo==="rascunhos"||modo==="todos")?"Artigos em preparação":modo==="publicados"?"Acervo de artigos":"Artigos cadastrados"}</h3>
         <label className="text-sm font-semibold">Mostrar
@@ -173,10 +179,8 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
               <div className="mt-3 flex flex-wrap gap-2">
                 <button type="button" onClick={() => showHistory(item)} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">{historyId === item.id ? "Ocultar histórico" : "Ver histórico"}</button>
                 <Link href={item.status==="publicado"||item.status==="arquivado"?`/admin/editoriais/${item.id}/comentarios`:`/admin/artigos/previa/${item.id}`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">{item.status==="publicado"||item.status==="arquivado"?"Abrir editorial e comentários":"Visualizar prévia"}</Link>
-                {["rascunho","revisao"].includes(item.status)&&<button type="button" disabled={saving} onClick={()=>excluir(item)} className="min-h-11 rounded-lg border border-red-700 px-5 py-2 font-semibold text-red-700">Excluir rascunho</button>}
                 {item.status === "rascunho" && <>
-                  <button type="button" onClick={() => edit(item)} className="min-h-11 rounded-lg bg-black px-5 py-2 font-semibold text-white">Continuar edição</button>
-                  <button type="button" onClick={() => changeStatus(item, "revisao")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Enviar para revisão</button>
+                  <button type="button" onClick={() => edit(item)} className="min-h-11 rounded-lg bg-black px-5 py-2 font-semibold text-white">Abrir</button>
                 </>}
                 {item.status === "revisao" && <>
                   <button type="button" onClick={() => changeStatus(item, "rascunho")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Voltar a rascunho</button>
