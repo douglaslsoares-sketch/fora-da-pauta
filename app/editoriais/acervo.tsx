@@ -2,15 +2,15 @@ import Link from "next/link";
 import { sql } from "@/lib/interesses/db";
 
 export type CapaEditorial = {slug:string; titulo:string; capa:string; publicadoEm:string};
-export type Editorial = CapaEditorial & {texto:string[]; fontes:string[]; resumo:string; audio:string};
+export type Editorial = CapaEditorial & {id:string;texto:string[]; fontes:string[]; resumo:string; audio:string};
 type Row = {slug:string; titulo:string; capa:string; publicadoEm:string};
-type DetailRow = Row & {conteudo:string; fontes:string; resumo:string};
+type DetailRow = Row & {id:string;conteudo:string; fontes:string; resumo:string};
 
 // Apenas artigos efetivamente publicados e com capa integram a nova seção.
 export async function listarPublicados(): Promise<CapaEditorial[]> {
   try {
     return await sql<Row[]>`
-      SELECT a.id::text AS slug, a.titulo, to_jsonb(a)->>'capa_url' AS capa,
+      SELECT COALESCE(NULLIF(to_jsonb(a)->>'slug',''),a.id::text) AS slug, a.titulo, to_jsonb(a)->>'capa_url' AS capa,
         a.updated_at::text AS "publicadoEm"
       FROM public.admin_artigos a
       WHERE a.status = 'publicado' AND COALESCE(to_jsonb(a)->>'capa_url','') LIKE 'https://%'
@@ -22,13 +22,13 @@ export async function listarPublicados(): Promise<CapaEditorial[]> {
   }
 }
 export async function buscarPublicado(slug:string): Promise<Editorial|null> {
-  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug)) return null;
+  if (slug.length>100||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(slug)) return null;
   try {
     const rows = await sql<DetailRow[]>`
-      SELECT a.id::text AS slug, a.titulo, to_jsonb(a)->>'capa_url' AS capa,
-        a.updated_at::text AS "publicadoEm", a.conteudo, a.fontes, a.resumo
+      SELECT COALESCE(NULLIF(to_jsonb(a)->>'slug',''),a.id::text) AS slug, a.titulo, to_jsonb(a)->>'capa_url' AS capa,
+        a.updated_at::text AS "publicadoEm", a.id::text AS id, a.conteudo, a.fontes, a.resumo
       FROM public.admin_artigos a
-      WHERE a.id = ${slug}::uuid AND a.status = 'publicado'
+      WHERE (a.id::text = ${slug} OR to_jsonb(a)->>'slug' = ${slug}) AND a.status = 'publicado'
         AND COALESCE(to_jsonb(a)->>'capa_url','') LIKE 'https://%'
       LIMIT 1
     `;
@@ -36,7 +36,7 @@ export async function buscarPublicado(slug:string): Promise<Editorial|null> {
     if (!a) return null;
     return {...a, texto:a.conteudo.split(/\n\s*\n/).filter(Boolean),
       fontes:a.fontes.split("\n").map(s=>s.trim()).filter(Boolean),
-      audio:"/api/artigos/audio/"+a.slug};
+      audio:"/api/artigos/audio/"+a.id};
   } catch(e) {
     if ((e as {code?:string}).code === "42P01") return null;
     throw e;
