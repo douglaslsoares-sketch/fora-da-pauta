@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { sql } from "@/lib/interesses/db";
+import { ensureArticleAudioTable } from "@/lib/articleAudio";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 import { consumeRateLimit } from "@/lib/rateLimit";
 
@@ -29,6 +30,7 @@ async function ensureTable() {
   await sql`ALTER TABLE public.admin_artigos ADD COLUMN IF NOT EXISTS fontes text NOT NULL DEFAULT ''`;
   await sql`ALTER TABLE public.admin_artigos ADD COLUMN IF NOT EXISTS audio_url text NOT NULL DEFAULT ''`;
   await sql`ALTER TABLE public.admin_artigos ADD COLUMN IF NOT EXISTS capa_url text NOT NULL DEFAULT ''`;
+  await ensureArticleAudioTable();
 }
 export async function GET() {
   if (!(await authorized())) return reply({ erro: "Acesso não autorizado." }, 401);
@@ -75,15 +77,17 @@ export async function POST(request: Request) {
   try {
     await ensureTable();
     if (id) {
-      const rows = await sql<{ id: string }[]>`
+      const rows = await sql.begin(async tx => {
+      const alterados = await tx<{ id: string }[]>`
         UPDATE public.admin_artigos
         SET titulo = ${titulo}, resumo = ${resumo}, conteudo = ${conteudo}, fontes = ${fontes}, audio_url = ${audio_url}, capa_url = ${capa_url}, updated_at = now()
         WHERE id = ${id}::uuid AND status = 'rascunho'
         RETURNING id::text
       `;
+      if (alterados.length) await tx`UPDATE public.admin_artigos_audio SET aprovado = false, aprovado_em = null WHERE artigo_id = ${id}::uuid`;
+      return alterados;
+      });
       if (!rows.length) return reply({ erro: "Rascunho não encontrado ou indisponível para edição." }, 404);
-      await sql`CREATE TABLE IF NOT EXISTS public.admin_artigos_audio (artigo_id uuid PRIMARY KEY REFERENCES public.admin_artigos(id) ON DELETE CASCADE, audio bytea NOT NULL, aprovado boolean NOT NULL DEFAULT false, gerado_em timestamptz NOT NULL DEFAULT now(), aprovado_em timestamptz)`;
-      await sql`UPDATE public.admin_artigos_audio SET aprovado = false, aprovado_em = null WHERE artigo_id = ${id}::uuid`;
       return reply({ ok: true, id: rows[0].id });
     }
     const rows = await sql<{ id: string }[]>`
@@ -104,6 +108,7 @@ export async function DELETE(request: Request) {
   const id = body?.id;
   if(typeof id!=="string"||!(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id))||body?.confirmacao!=="EXCLUIR RASCUNHO")return reply({erro:"Confirmação inválida."},400);
   try{
+    await ensureTable();
     const rows=await sql`DELETE FROM public.admin_artigos WHERE id=${id}::uuid AND status IN ('rascunho','revisao') RETURNING id`;
     return rows.length?reply({ok:true}):reply({erro:"Editorial publicado ou indisponível: exclusão proibida."},409);
   }catch{return reply({erro:"Não foi possível excluir o rascunho."},503)}
