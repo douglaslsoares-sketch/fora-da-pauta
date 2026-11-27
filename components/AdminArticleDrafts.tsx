@@ -209,7 +209,7 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
                   <button type="button" onClick={() => changePublication(item)} className="min-h-11 rounded-lg bg-green-700 px-5 py-2 font-semibold text-white">Publicar artigo</button>
                 </>}
                 {item.status === "publicado" && <>
-                  <Link href={`/editoriais/${item.id}`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">Abrir artigo público</Link>
+                  <Link href={`/editoriais/${item.slug||item.id}`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">Abrir artigo público</Link>
                 </>}
               </div>
               {historyId === item.id && <div className="mt-4 border-t border-black/10 pt-4 text-sm">
