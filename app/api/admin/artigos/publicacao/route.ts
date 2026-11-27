@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   if (request.headers.get("origin") !== new URL(request.url).origin) return NextResponse.json({ erro: "Origem inválida." }, { status: 403 });
   const store = await cookies();
   if (!verifyQuestionsAdminSessionToken(store.get(QUESTIONS_ADMIN_COOKIE)?.value)) return NextResponse.json({ erro: "Acesso negado." }, { status: 401 });
-  const body = await request.json().catch(() => null) as { id?: unknown; action?: unknown; confirmation?: unknown } | null;
+  const body = await request.json().catch(() => null) as { id?: unknown; action?: unknown; confirmation?: unknown; versao?:unknown } | null;
   const id = typeof body?.id === "string" && /^[a-f0-9-]{36}$/i.test(body.id) ? body.id : null;
   const action = body?.action;
   const confirmation = "PUBLICAR ARTIGO";
@@ -27,19 +27,21 @@ export async function POST(request: Request) {
       await sql`ALTER TABLE public.admin_artigos ADD COLUMN IF NOT EXISTS capa_url text NOT NULL DEFAULT ''`;
       await ensureArticleAudioTable();
     }
-    const rows = await sql<{ id: string }[]>`
-          WITH updated AS (
-          UPDATE public.admin_artigos
-          SET status = 'publicado', updated_at = now()
-          WHERE id = ${id}::uuid AND status = 'revisao'
-            AND length(trim(titulo)) > 0 AND length(trim(conteudo)) > 0 AND length(trim(fontes)) > 0 AND length(trim(capa_url)) > 0
-            AND EXISTS (SELECT 1 FROM public.admin_artigos_audio aa WHERE aa.artigo_id = public.admin_artigos.id AND aa.aprovado = true)
-          RETURNING id
-          )
-          INSERT INTO public.admin_artigos_historico (artigo_id, acao)
-          SELECT id, 'publicado' FROM updated RETURNING artigo_id::text AS id
-        `;
-    if (!rows.length) return NextResponse.json({ erro: "Publicação não autorizada: o artigo deve estar em revisão, com título, texto, fontes, capa e áudio definitivo aprovado." }, { status: 409 });
+    const resultado=await sql.begin(async tx=>{
+      const [artigo]=await tx<{status:string;slug:string|null;titulo:string;conteudo:string;fontes:string;capa_url:string;updated_at:string;texto_hash:string}[]>`
+        SELECT status,slug,titulo,conteudo,fontes,capa_url,updated_at::text,md5(jsonb_build_array(titulo,resumo,conteudo)::text) AS texto_hash
+        FROM public.admin_artigos WHERE id=${id}::uuid FOR UPDATE
+      `;
+      if(!artigo||!["rascunho","revisao"].includes(artigo.status))return "Editorial indisponível para publicação.";
+      if(body?.versao!==artigo.updated_at)return "O editorial foi alterado. Abra novamente a versão salva.";
+      if(!artigo.slug||!artigo.titulo.trim()||!artigo.conteudo.trim()||!artigo.fontes.trim()||!artigo.capa_url.startsWith("https://"))return "Preencha título, URL, texto, fontes e capa.";
+      const audio=await tx`UPDATE public.admin_artigos_audio SET aprovado=true,aprovado_em=now() WHERE artigo_id=${id}::uuid AND texto_hash=${artigo.texto_hash} RETURNING artigo_id`;
+      if(!audio.length)return "Gere o áudio correspondente à versão salva do editorial.";
+      await tx`UPDATE public.admin_artigos SET status='publicado',updated_at=now() WHERE id=${id}::uuid`;
+      await tx`INSERT INTO public.admin_artigos_historico(artigo_id,acao) VALUES(${id}::uuid,'publicado')`;
+      return null;
+    });
+    if(resultado)return NextResponse.json({erro:resultado},{status:409});
     return NextResponse.json({ ok: true, status: "publicado" });
   } catch {
     return NextResponse.json({ erro: "Não foi possível alterar a publicação." }, { status: 503 });
