@@ -11,9 +11,9 @@ type TextoInicial = Pick<Draft,"titulo"|"resumo"|"conteudo"|"fontes">;
 export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"todos"|"novo"|"rascunhos"|"publicados";textoInicial?:TextoInicial}) {
   const [items, setItems] = useState<Draft[]>([]);
   const [filtro, setFiltro] = useState(modo==="publicados"?"publicado":"todos");
-  const grupo = items.filter(item => modo==="rascunhos" ? ["rascunho","revisao"].includes(item.status) : modo==="publicados" ? ["publicado","arquivado"].includes(item.status) : true);
+  const grupo = items.filter(item => (modo==="rascunhos"||modo==="todos") ? ["rascunho","revisao"].includes(item.status) : modo==="publicados" ? ["publicado","arquivado"].includes(item.status) : true);
   const visiveis = grupo.filter(item => filtro === "todos" || item.status === filtro);
-  const quantidade = (status: string) => items.filter(item => item.status === status).length;
+  const quantidade = (status: string) => grupo.filter(item => item.status === status).length;
   const [id, setId] = useState<string | null>(null);
   const [titulo, setTitulo] = useState(textoInicial?.titulo ?? "");
   const [resumo, setResumo] = useState(textoInicial?.resumo ?? "");
@@ -43,7 +43,7 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
     setId(item.id); setTitulo(item.titulo); setResumo(item.resumo); setConteudo(item.conteudo); setFontes(item.fontes || ""); setCapa(item.capa_url || ""); setNotice("");
 
   }
-  useEffect(()=>{if(id&&modo==="rascunhos")document.getElementById("editor-rascunho")?.scrollIntoView({behavior:"smooth"})},[id,modo]);
+  useEffect(()=>{if(id&&(modo==="rascunhos"||modo==="todos"))document.getElementById("editor-rascunho")?.scrollIntoView({behavior:"smooth"})},[id,modo]);
   async function showHistory(item: Draft) {
     if (historyId === item.id) { setHistoryId(null); return; }
     setHistoryId(item.id); setHistory([]); setHistoryError("");
@@ -61,29 +61,41 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
       const data = await response.json() as { ok?: boolean; erro?: string };
       if (!response.ok || !data.ok) throw new Error(data.erro || "Não foi possível alterar a situação.");
       setNotice(status === "revisao" ? "Artigo encaminhado para revisão. Não foi publicado." : "Artigo devolvido aos rascunhos.");
-      if (status==="revisao" && id===item.id) setId(null);
+      if (status==="revisao" && id===item.id) { reset(); setNotice("Artigo encaminhado para revisão. Não foi publicado."); }
       await reload();
     } catch (error) { setNotice(error instanceof Error ? error.message : "Falha na alteração."); }
   }
-  async function changePublication(item: Draft, action: "publicar" | "arquivar") {
-    const confirmation = action === "publicar" ? "PUBLICAR ARTIGO" : "ARQUIVAR ARTIGO";
-    if (action === "publicar") {
+  async function changePublication(item: Draft) {
+    const action = "publicar";
+    const confirmation = "PUBLICAR ARTIGO";
+    {
       const digitado = window.prompt(
-        'Você está prestes a publicar "' + item.titulo + '" no site público. Confira a prévia e as fontes antes de continuar. Nenhuma notificação será enviada. Para confirmar, digite PUBLICAR ARTIGO:'
+        'Você está prestes a publicar "' + item.titulo + '" no site público. Após publicar, o conteúdo não poderá ser editado, excluído ou arquivado. Confira a prévia e as fontes. Nenhuma notificação será enviada. Para confirmar, digite PUBLICAR ARTIGO:'
       );
       if (digitado !== "PUBLICAR ARTIGO") {
         setNotice("Publicação cancelada. O artigo permanece em revisão.");
         return;
       }
-    } else if (!window.confirm('Retirar "' + item.titulo + '" da área pública?')) return;
+    }
     setNotice("");
     try {
       const response = await fetch("/api/admin/artigos/publicacao", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: item.id, action, confirmation }) });
       const data = await response.json() as { ok?: boolean; erro?: string };
       if (!response.ok || !data.ok) throw new Error(data.erro || "Operação não concluída.");
-      setNotice(action === "publicar" ? "Artigo publicado. Nenhuma notificação foi enviada." : "Artigo arquivado e retirado da lista pública.");
+      if(id===item.id)reset();
+      setNotice("Artigo publicado. Nenhuma notificação foi enviada.");
       await reload();
     } catch (error) { setNotice(error instanceof Error ? error.message : "Falha na operação."); }
+  }
+  async function excluir(item: Draft) {
+    if (saving || window.prompt('Excluir definitivamente o rascunho "'+item.titulo+'"? Digite EXCLUIR RASCUNHO:')!=="EXCLUIR RASCUNHO") return;
+    setSaving(true);
+    try {
+      const r=await fetch("/api/admin/artigos",{method:"DELETE",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:item.id,confirmacao:"EXCLUIR RASCUNHO"})});
+      const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.erro||"Falha na exclusão.");
+      if(id===item.id)reset();
+      setNotice("Rascunho excluído.");await reload();
+    }catch(e){setNotice(e instanceof Error?e.message:"Falha na exclusão.");}finally{setSaving(false);}
   }
   async function save() {
     if (!titulo.trim() || saving) return;
@@ -104,7 +116,7 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
   }
   return (
     <section className="mt-10 border-t border-black/15 pt-8">
-      {modo==="todos"&&<><h2 className="text-2xl font-bold">Rascunhos editoriais</h2><p className="mt-3 text-sm leading-6 text-black/65">Escreva e salve seus textos. Os rascunhos ficam no banco de dados e não aparecem no site público.</p></>}
+      {modo==="todos"&&<><h2 className="text-2xl font-bold">Redação e preparação</h2><p className="mt-3 text-sm leading-6 text-black/65">Escreva e salve seus textos. Os rascunhos ficam no banco de dados e não aparecem no site público.</p></>}
       {(modo==="todos"||modo==="novo"||modo==="rascunhos"&&id)&&<div id="editor-rascunho" className="mt-6 rounded-xl border border-black/10 bg-white p-5">
         <h3 className="text-lg font-semibold">{id ? "Editar rascunho" : "Novo artigo"}</h3>
         {textoInicial && !id && titulo===textoInicial.titulo && <p className="mt-3 text-sm text-black/65">Texto preparado para o lançamento, ainda não salvo. Confira os campos e clique em Salvar rascunho para continuar.</p>}
@@ -139,14 +151,14 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
       </div>}
       {modo!=="novo"&&<>
       <div className="mt-9 flex flex-wrap items-end justify-between gap-4">
-        <h3 className="text-xl font-bold">{modo==="rascunhos"?"Artigos em preparação":modo==="publicados"?"Acervo de artigos":"Artigos cadastrados"}</h3>
+        <h3 className="text-xl font-bold">{(modo==="rascunhos"||modo==="todos")?"Artigos em preparação":modo==="publicados"?"Acervo de artigos":"Artigos cadastrados"}</h3>
         <label className="text-sm font-semibold">Mostrar
           <select value={filtro} onChange={e => setFiltro(e.target.value)} className="mt-2 block rounded-lg border border-black/20 bg-white px-4 py-3">
             <option value="todos">Todos ({grupo.length})</option>
             {modo!=="publicados"&&<option value="rascunho">Rascunhos ({quantidade("rascunho")})</option>}
             {modo!=="publicados"&&<option value="revisao">Em revisão ({quantidade("revisao")})</option>}
-            {modo!=="rascunhos"&&<option value="publicado">Publicados ({quantidade("publicado")})</option>}
-            {modo!=="rascunhos"&&<option value="arquivado">Arquivados ({quantidade("arquivado")})</option>}
+            {modo==="publicados"&&<option value="publicado">Publicados ({quantidade("publicado")})</option>}
+            {modo==="publicados"&&<option value="arquivado">Arquivados ({quantidade("arquivado")})</option>}
           </select>
         </label>
       </div>
@@ -160,8 +172,8 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
               <p className="mt-2 text-xs text-black/50">Situação: {item.status}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <button type="button" onClick={() => showHistory(item)} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">{historyId === item.id ? "Ocultar histórico" : "Ver histórico"}</button>
-                <Link href={`/admin/artigos/previa/${item.id}`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">Visualizar prévia</Link>
-                <Link href={`/admin/editoriais/${item.id}/comentarios`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">Comentários</Link>
+                <Link href={item.status==="publicado"||item.status==="arquivado"?`/admin/editoriais/${item.id}/comentarios`:`/admin/artigos/previa/${item.id}`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">{item.status==="publicado"||item.status==="arquivado"?"Abrir editorial e comentários":"Visualizar prévia"}</Link>
+                {["rascunho","revisao"].includes(item.status)&&<button type="button" disabled={saving} onClick={()=>excluir(item)} className="min-h-11 rounded-lg border border-red-700 px-5 py-2 font-semibold text-red-700">Excluir rascunho</button>}
                 {item.status === "rascunho" && <>
                   <button type="button" onClick={() => edit(item)} className="min-h-11 rounded-lg bg-black px-5 py-2 font-semibold text-white">Continuar edição</button>
                   <button type="button" onClick={() => changeStatus(item, "revisao")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Enviar para revisão</button>
@@ -169,11 +181,10 @@ export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"t
                 {item.status === "revisao" && <>
                   <button type="button" onClick={() => changeStatus(item, "rascunho")} className="min-h-11 rounded-lg border border-black/25 px-5 py-2 font-semibold">Voltar a rascunho</button>
                   <p className="w-full text-xs leading-5 text-black/60">Antes de publicar, confira a prévia e as fontes. A publicação exige confirmação por escrito.</p>
-                  <button type="button" onClick={() => changePublication(item, "publicar")} className="min-h-11 rounded-lg bg-green-700 px-5 py-2 font-semibold text-white">Publicar artigo</button>
+                  <button type="button" onClick={() => changePublication(item)} className="min-h-11 rounded-lg bg-green-700 px-5 py-2 font-semibold text-white">Publicar artigo</button>
                 </>}
                 {item.status === "publicado" && <>
                   <Link href={`/editoriais/${item.id}`} className="inline-flex min-h-11 items-center rounded-lg border border-black/25 px-5 py-2 font-semibold">Abrir artigo público</Link>
-                  <button type="button" onClick={() => changePublication(item, "arquivar")} className="min-h-11 rounded-lg bg-red-700 px-5 py-2 font-semibold text-white">Arquivar artigo</button>
                 </>}
               </div>
               {historyId === item.id && <div className="mt-4 border-t border-black/10 pt-4 text-sm">
