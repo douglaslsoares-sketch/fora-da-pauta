@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { sql } from "@/lib/interesses/db";
+import { ensureArticleAudioTable } from "@/lib/articleAudio";
 import { QUESTIONS_ADMIN_COOKIE, verifyQuestionsAdminSessionToken } from "@/lib/questionsAdminAuth";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -24,7 +25,7 @@ export async function POST(request: Request) {
     `;
     if (action === "publicar") {
       await sql`ALTER TABLE public.admin_artigos ADD COLUMN IF NOT EXISTS capa_url text NOT NULL DEFAULT ''`;
-      await sql`CREATE TABLE IF NOT EXISTS public.admin_artigos_audio (artigo_id uuid PRIMARY KEY REFERENCES public.admin_artigos(id) ON DELETE CASCADE, audio bytea NOT NULL, aprovado boolean NOT NULL DEFAULT false, gerado_em timestamptz NOT NULL DEFAULT now(), aprovado_em timestamptz)`;
+      await ensureArticleAudioTable();
     }
     const rows = await sql<{ id: string }[]>`
           WITH updated AS (
