@@ -1,5 +1,6 @@
 import {createHash} from "node:crypto";
 import {sql} from "@/lib/interesses/db";
+import {protegerComentarios} from "@/lib/editoriais/acervoProtegido";
 export async function prepararComentarios(){
  await sql`CREATE TABLE IF NOT EXISTS public.editoriais_comentarios (
  id uuid PRIMARY KEY,
@@ -17,6 +18,7 @@ export async function prepararComentarios(){
  await sql`CREATE INDEX IF NOT EXISTS editoriais_comentarios_autor_idx ON public.editoriais_comentarios(autor_hash)`;
  await sql`CREATE TABLE IF NOT EXISTS public.editoriais_avisos_lidos (autor_hash text NOT NULL, resposta_id uuid NOT NULL REFERENCES public.editoriais_comentarios(id) ON DELETE CASCADE, PRIMARY KEY(autor_hash,resposta_id))`;
  await sql`CREATE INDEX IF NOT EXISTS editoriais_comentarios_slug_idx ON public.editoriais_comentarios(editorial_slug,estado,criado_em)`;
+ await protegerComentarios();
 }
 export async function listarComentarios(slug:string){
  await prepararComentarios();
