@@ -2,11 +2,33 @@ import EditorialLeitura from "@/components/EditorialLeitura";
 import EditorialTexto from "@/components/EditorialTexto";
 import EditorialComentarios from "@/components/EditorialComentarios";
 import Link from "next/link";
+import type {Metadata} from "next";
+import {cache} from "react";
 import {notFound} from "next/navigation";
 import {buscarPublicado} from "../acervo";
 export const dynamic = 'force-dynamic';
+const carregarEditorial=cache(buscarPublicado);
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{
+ const {slug}=await params;
+ const artigo=await carregarEditorial(slug);
+ if(!artigo)return {title:"Editorial não encontrado",robots:{index:false,follow:false}};
+ const url="https://foradapauta.org/editoriais/"+encodeURIComponent(artigo.slug);
+ const description=artigo.resumo.trim();
+ return {
+   title:{absolute:artigo.titulo+" | ForaDaPauta.org"},
+   description,
+   alternates:{canonical:url},
+   openGraph:{
+     type:"article",title:artigo.titulo,description,url,
+     siteName:"Fora da Pauta",locale:"pt_BR",
+     publishedTime:new Date(artigo.publicadoEm).toISOString(),
+     images:[{url:artigo.capa,alt:artigo.titulo}]
+   },
+   twitter:{card:"summary_large_image",title:artigo.titulo,description,images:[artigo.capa]}
+ };
+}
 export default async function Page({params}:{params:Promise<{slug:string}>}){
- const {slug}=await params;const a=await buscarPublicado(slug);if(!a)notFound();
+ const {slug}=await params;const a=await carregarEditorial(slug);if(!a)notFound();
  const minutos=Math.max(1,Math.ceil(a.texto.join(" ").trim().split(/\s+/).length/200));
  return <main className="mx-auto max-w-xl p-5">
  <header className="relative mb-5 border-b border-slate-600 pb-4"><Link href="/editoriais" aria-label="Voltar para Editoriais" className="absolute left-0 top-2 text-2xl">←</Link><h1 className="text-center text-5xl font-extrabold tracking-tight">Editorial</h1></header>
