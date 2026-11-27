@@ -6,17 +6,19 @@ import ArticleAudioApproval from "@/components/ArticleAudioApproval";
 
 type Draft = { id: string; titulo: string; resumo: string; conteudo: string; fontes: string; audio_url?: string; capa_url?: string; status: string; updated_at: string };
 
-export default function AdminArticleDrafts({modo="todos"}:{modo?:"todos"|"novo"|"rascunhos"|"publicados"}) {
+type TextoInicial = Pick<Draft,"titulo"|"resumo"|"conteudo"|"fontes">;
+
+export default function AdminArticleDrafts({modo="todos",textoInicial}:{modo?:"todos"|"novo"|"rascunhos"|"publicados";textoInicial?:TextoInicial}) {
   const [items, setItems] = useState<Draft[]>([]);
   const [filtro, setFiltro] = useState(modo==="publicados"?"publicado":"todos");
   const grupo = items.filter(item => modo==="rascunhos" ? ["rascunho","revisao"].includes(item.status) : modo==="publicados" ? ["publicado","arquivado"].includes(item.status) : true);
   const visiveis = grupo.filter(item => filtro === "todos" || item.status === filtro);
   const quantidade = (status: string) => items.filter(item => item.status === status).length;
   const [id, setId] = useState<string | null>(null);
-  const [titulo, setTitulo] = useState("");
-  const [resumo, setResumo] = useState("");
-  const [conteudo, setConteudo] = useState("");
-  const [fontes, setFontes] = useState("");
+  const [titulo, setTitulo] = useState(textoInicial?.titulo ?? "");
+  const [resumo, setResumo] = useState(textoInicial?.resumo ?? "");
+  const [conteudo, setConteudo] = useState(textoInicial?.conteudo ?? "");
+  const [fontes, setFontes] = useState(textoInicial?.fontes ?? "");
   const [capa, setCapa] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -105,6 +107,7 @@ export default function AdminArticleDrafts({modo="todos"}:{modo?:"todos"|"novo"|
       {modo==="todos"&&<><h2 className="text-2xl font-bold">Rascunhos editoriais</h2><p className="mt-3 text-sm leading-6 text-black/65">Escreva e salve seus textos. Os rascunhos ficam no banco de dados e não aparecem no site público.</p></>}
       {(modo==="todos"||modo==="novo"||modo==="rascunhos"&&id)&&<div id="editor-rascunho" className="mt-6 rounded-xl border border-black/10 bg-white p-5">
         <h3 className="text-lg font-semibold">{id ? "Editar rascunho" : "Novo artigo"}</h3>
+        {textoInicial && !id && titulo===textoInicial.titulo && <p className="mt-3 text-sm text-black/65">Texto preparado para o lançamento, ainda não salvo. Confira os campos e clique em Salvar rascunho para continuar.</p>}
         <label className="mt-4 block text-sm font-semibold">Título
           <input value={titulo} onChange={e => setTitulo(e.target.value)} maxLength={200} className="mt-2 block w-full rounded-lg border border-black/20 p-3" />
         </label>
