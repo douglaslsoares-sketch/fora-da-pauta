@@ -11,8 +11,8 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null) as { id?: unknown; action?: unknown; confirmation?: unknown } | null;
   const id = typeof body?.id === "string" && /^[a-f0-9-]{36}$/i.test(body.id) ? body.id : null;
   const action = body?.action;
-  const confirmation = action === "publicar" ? "PUBLICAR ARTIGO" : "ARQUIVAR ARTIGO";
-  if (!id || (action !== "publicar" && action !== "arquivar") || body?.confirmation !== confirmation) return NextResponse.json({ erro: "Confirmação inválida." }, { status: 400 });
+  const confirmation = "PUBLICAR ARTIGO";
+  if (!id || action !== "publicar" || body?.confirmation !== confirmation) return NextResponse.json({ erro: "Confirmação inválida." }, { status: 400 });
   try {
     await sql`
       CREATE TABLE IF NOT EXISTS public.admin_artigos_historico (
@@ -26,8 +26,7 @@ export async function POST(request: Request) {
       await sql`ALTER TABLE public.admin_artigos ADD COLUMN IF NOT EXISTS capa_url text NOT NULL DEFAULT ''`;
       await sql`CREATE TABLE IF NOT EXISTS public.admin_artigos_audio (artigo_id uuid PRIMARY KEY REFERENCES public.admin_artigos(id) ON DELETE CASCADE, audio bytea NOT NULL, aprovado boolean NOT NULL DEFAULT false, gerado_em timestamptz NOT NULL DEFAULT now(), aprovado_em timestamptz)`;
     }
-    const rows = action === "publicar"
-      ? await sql<{ id: string }[]>`
+    const rows = await sql<{ id: string }[]>`
           WITH updated AS (
           UPDATE public.admin_artigos
           SET status = 'publicado', updated_at = now()
@@ -38,19 +37,9 @@ export async function POST(request: Request) {
           )
           INSERT INTO public.admin_artigos_historico (artigo_id, acao)
           SELECT id, 'publicado' FROM updated RETURNING artigo_id::text AS id
-        `
-      : await sql<{ id: string }[]>`
-          WITH updated AS (
-          UPDATE public.admin_artigos
-          SET status = 'arquivado', updated_at = now()
-          WHERE id = ${id}::uuid AND status = 'publicado'
-          RETURNING id
-          )
-          INSERT INTO public.admin_artigos_historico (artigo_id, acao)
-          SELECT id, 'arquivado' FROM updated RETURNING artigo_id::text AS id
         `;
     if (!rows.length) return NextResponse.json({ erro: "Publicação não autorizada: o artigo deve estar em revisão, com título, texto, fontes, capa e áudio definitivo aprovado." }, { status: 409 });
-    return NextResponse.json({ ok: true, status: action === "publicar" ? "publicado" : "arquivado" });
+    return NextResponse.json({ ok: true, status: "publicado" });
   } catch {
     return NextResponse.json({ erro: "Não foi possível alterar a publicação." }, { status: 503 });
   }
