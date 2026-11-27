@@ -1,4 +1,5 @@
 import { sql } from "@/lib/interesses/db";
+import { protegerArtigos } from "@/lib/editoriais/acervoProtegido";
 
 export async function ensureArticleAudioTable() {
   await sql`
@@ -11,4 +12,5 @@ export async function ensureArticleAudioTable() {
     )
   `;
   await sql`ALTER TABLE public.admin_artigos_audio ADD COLUMN IF NOT EXISTS formato text NOT NULL DEFAULT 'audio/mpeg'`;
+  await protegerArtigos();
 }
