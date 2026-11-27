@@ -96,3 +96,15 @@ export async function POST(request: Request) {
     return reply({ erro: "Não foi possível salvar. Nenhum artigo foi publicado." }, 503);
   }
 }
+
+export async function DELETE(request: Request) {
+  if (request.headers.get("origin") !== new URL(request.url).origin) return reply({erro:"Origem não autorizada."},403);
+  if (!(await authorized())) return reply({erro:"Acesso não autorizado."},401);
+  const body = await request.json().catch(()=>null) as {id?:unknown;confirmacao?:unknown}|null;
+  const id = body?.id;
+  if(typeof id!=="string"||!(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id))||body?.confirmacao!=="EXCLUIR RASCUNHO")return reply({erro:"Confirmação inválida."},400);
+  try{
+    const rows=await sql`DELETE FROM public.admin_artigos WHERE id=${id}::uuid AND status IN ('rascunho','revisao') RETURNING id`;
+    return rows.length?reply({ok:true}):reply({erro:"Editorial publicado ou indisponível: exclusão proibida."},409);
+  }catch{return reply({erro:"Não foi possível excluir o rascunho."},503)}
+}
