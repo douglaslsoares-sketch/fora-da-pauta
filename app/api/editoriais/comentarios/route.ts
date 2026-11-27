@@ -9,7 +9,7 @@ export const runtime="nodejs";
 export const dynamic="force-dynamic";
 const json=(d:unknown,status=200)=>NextResponse.json(d,{status,headers:{"Cache-Control":"no-store"}});
 const uuid=(v:unknown):v is string=>typeof v==="string"&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v);
-async function slug(r:Request){const s=new URL(r.url).searchParams.get("slug");return s && await buscarPublicado(s)?s:null}
+async function slug(r:Request){const s=new URL(r.url).searchParams.get("slug");return s?(await buscarPublicado(s))?.id??null:null}
 export async function GET(r:Request){try{const s=await slug(r);if(!s)return json({erro:"Editorial não encontrado."},404);return json({comentarios:await listarComentarios(s)})}catch{return json({erro:"Comentários indisponíveis."},503)}}
 async function validar(r:Request){if(r.headers.get("origin")!==new URL(r.url).origin)return false;const l=await consumeRateLimit({request:r,scope:"editoriais:comentarios",limit:8,windowSeconds:600});return l.allowed}
 export async function POST(r:Request){try{
