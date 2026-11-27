@@ -1,4 +1,5 @@
 import Link from "next/link";
+import {sql} from "@/lib/interesses/db";
 import {cookies} from "next/headers";
 import {notFound,redirect} from "next/navigation";
 import AdminArticleDrafts from "@/components/AdminArticleDrafts";
@@ -14,7 +15,10 @@ export const metadata={title:"Editoriais | Administração",robots:{index:false,
 export default async function Page({params}:{params:Promise<{id:string}>}){
  if(!verifyQuestionsAdminSessionToken((await cookies()).get(QUESTIONS_ADMIN_COOKIE)?.value))redirect("/admin");
  const {id:secao}=await params;
- if(secao!=="novo"&&secao!=="rascunhos"&&secao!=="publicados")notFound();
- const titulo=secao==="novo"?"Novo editorial":secao==="rascunhos"?"Rascunhos":"Publicados";
- return <main className="min-h-screen bg-[#eeeee9] px-8 py-10 text-[#151515]"><section className="mx-auto max-w-5xl"><Link href="/admin/editoriais" className="text-sm font-semibold underline">← Editoriais</Link><h1 className="mt-5 text-3xl font-bold">{titulo}</h1><AdminArticleDrafts key={secao} modo={secao} textoInicial={secao==="novo"?editorialLancamento:undefined}/><Link href="/admin/editoriais" className="mt-8 inline-flex rounded-lg bg-[#0E1A29] px-5 py-3 font-semibold text-white">× Fechar</Link></section></main>;
+ if(secao==="novo"||secao==="rascunhos")redirect("/admin/editoriais/producao");
+ if(secao!=="producao"&&secao!=="publicados")notFound();
+ let inicial:typeof editorialLancamento|undefined;
+ if(secao==="producao"){try{const rows=await sql`SELECT id FROM public.admin_artigos WHERE lower(trim(titulo))=lower(${editorialLancamento.titulo}) LIMIT 1`;if(!rows.length)inicial=editorialLancamento;}catch{inicial=editorialLancamento;}}
+ const titulo=secao==="producao"?"Produção":"Publicados";
+ return <main className="min-h-screen bg-[#eeeee9] px-8 py-10 text-[#151515]"><section className="mx-auto max-w-5xl"><Link href="/admin/editoriais" className="text-sm font-semibold underline">← Editoriais</Link><h1 className="mt-5 text-3xl font-bold">{titulo}</h1><AdminArticleDrafts key={secao} modo={secao==="producao"?"todos":"publicados"} textoInicial={inicial}/><Link href="/admin/editoriais" className="mt-8 inline-flex rounded-lg bg-[#0E1A29] px-5 py-3 font-semibold text-white">× Fechar</Link></section></main>;
 }
