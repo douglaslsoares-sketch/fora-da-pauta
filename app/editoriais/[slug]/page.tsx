@@ -31,8 +31,8 @@ export default async function Page({params}:{params:Promise<{slug:string}>}){
  const {slug}=await params;const a=await carregarEditorial(slug);if(!a)notFound();
  const minutos=Math.max(1,Math.ceil(a.texto.join(" ").trim().split(/\s+/).length/200));
  return <main className="mx-auto max-w-xl p-5">
- <header className="relative mb-5 border-b border-slate-600 pb-4"><Link href="/editoriais" aria-label="Voltar para Editoriais" className="absolute left-0 top-2 text-2xl">←</Link><h1 className="text-center text-5xl font-extrabold tracking-tight">Editorial</h1></header>
- <img src={a.capa} referrerPolicy="no-referrer" alt={a.titulo} className="w-full rounded-xl"/><h2 className="mt-5 text-3xl font-bold leading-tight">{a.titulo}</h2>
+ <header className="mb-3 flex items-center"><Link href="/editoriais" aria-label="Voltar para Editoriais" className="inline-flex min-h-11 min-w-11 items-center text-2xl">←</Link><h1 className="sr-only">{a.titulo}</h1></header>
+ <img src={a.capa} referrerPolicy="no-referrer" alt={a.titulo} className="w-full rounded-xl"/>
  {a.resumo&&<p className="mt-3 text-slate-300">{a.resumo}</p>}<EditorialLeitura audio={a.audio}>
  <p className="mb-4 border-b border-slate-600 pb-4 text-sm text-slate-300"><time dateTime={a.publicadoEm}>{new Date(a.publicadoEm.slice(0,10)+"T12:00:00Z").toLocaleDateString("pt-BR",{dateStyle:"long",timeZone:"America/Sao_Paulo"})}</time> · Leitura: {minutos} min</p>
  </EditorialLeitura>
