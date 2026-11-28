@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { InstalarAplicativo } from "@/components/InstalarAplicativo";
 import { LogoForaDaPauta } from "@/components/LogoForaDaPauta";
-import { IconeMenu } from "@/components/IconeMenu";
 
 
 const iniciativas = [
@@ -11,10 +10,9 @@ const iniciativas = [
   { nome: "Enquetes", href: null, desenho: <><rect x="3" y="11" width="4" height="10" rx="1" fill="currentColor"/><rect x="10" y="3" width="4" height="18" rx="1" fill="currentColor"/><rect x="17" y="7" width="4" height="14" rx="1" fill="currentColor"/></> },
 ];
 const cartao = "flex min-h-[100px] flex-col items-center justify-center gap-3 rounded-2xl bg-[#18283A] px-2 py-5 text-center text-white sm:min-h-[140px]";
-const rodape = "flex min-w-0 flex-col items-center justify-center gap-2 py-3 text-center text-xs text-white sm:text-sm";
 export function MenuPrincipal() {
   return (
-    <section id="menu" className="min-h-screen min-h-[100dvh] bg-[#0E1A29] text-white pb-28" aria-label="Menu do Fora da Pauta">
+    <section id="menu" className="min-h-screen min-h-[100dvh] bg-[#0E1A29] text-white pb-[calc(1.5rem+env(safe-area-inset-bottom))]" aria-label="Menu do Fora da Pauta">
       <div className="mx-auto max-w-xl px-4 sm:px-6">
         <header className="flex justify-center pt-5 pb-8 sm:pt-8 sm:pb-10">
           <h1 className="w-full max-w-[340px]"><LogoForaDaPauta className="block w-full h-auto"/></h1>
@@ -27,13 +25,6 @@ export function MenuPrincipal() {
         </nav>
         <div className="text-center [&_button]:!text-[#F4C64D]"><InstalarAplicativo tema="escuro" /></div>
       </div>
-      <footer className="fixed inset-x-0 bottom-0 z-40 border-t border-[#344457] bg-[#0E1A29] pb-[env(safe-area-inset-bottom)]">
-        <nav className="mx-auto grid max-w-xl grid-cols-3" aria-label="Ações">
-          <Link className={rodape} href="/compartilhar"><IconeMenu nome="compartilhar" className="text-[#F4C64D]"/>Compartilhar</Link>
-          <Link className={rodape} href="/qr-code"><IconeMenu nome="qr" className="text-[#F4C64D]"/>QR Code</Link>
-          <Link className={rodape} href="/loja"><svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="#F4C64D" strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>Apoie</Link>
-        </nav>
-      </footer>
     </section>
   );
 }
